@@ -1,0 +1,1127 @@
+[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all/surelog.log".
+AST_DEBUG_BEGIN
+Count: 399
+LIB: work
+FILE: ${SURELOG_DIR}/tests/UtdSV/sparc_exu_aluspr.v
+n<${SURELOG_DIR}/tests/UtdSV/sparc_exu_aluspr.v> u<398> t<Top_level_rule> c<1> l<29:1> el<52:1>
+  n<> u<1> t<Null_rule> p<398> s<2> l<29:1> el<29:1>
+  n<// ========== Copyright Header Begin ==========================================> u<2> t<LINE_COMMENT> p<398> s<3> l<1:1> el<1:80>
+  n<// > u<3> t<LINE_COMMENT> p<398> s<4> l<2:1> el<2:4>
+  n<// OpenSPARC T1 Processor File: sparc_exu_aluspr.v> u<4> t<LINE_COMMENT> p<398> s<5> l<3:1> el<3:51>
+  n<// Copyright (c) 2006 Sun Microsystems, Inc.  All Rights Reserved.> u<5> t<LINE_COMMENT> p<398> s<6> l<4:1> el<4:67>
+  n<// DO NOT ALTER OR REMOVE COPYRIGHT NOTICES.> u<6> t<LINE_COMMENT> p<398> s<7> l<5:1> el<5:45>
+  n<// > u<7> t<LINE_COMMENT> p<398> s<8> l<6:1> el<6:4>
+  n<// The above named program is free software; you can redistribute it and/or> u<8> t<LINE_COMMENT> p<398> s<9> l<7:1> el<7:76>
+  n<// modify it under the terms of the GNU General Public> u<9> t<LINE_COMMENT> p<398> s<10> l<8:1> el<8:55>
+  n<// License version 2 as published by the Free Software Foundation.> u<10> t<LINE_COMMENT> p<398> s<11> l<9:1> el<9:67>
+  n<// > u<11> t<LINE_COMMENT> p<398> s<12> l<10:1> el<10:4>
+  n<// The above named program is distributed in the hope that it will be > u<12> t<LINE_COMMENT> p<398> s<13> l<11:1> el<11:71>
+  n<// useful, but WITHOUT ANY WARRANTY; without even the implied warranty of> u<13> t<LINE_COMMENT> p<398> s<14> l<12:1> el<12:74>
+  n<// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU> u<14> t<LINE_COMMENT> p<398> s<15> l<13:1> el<13:69>
+  n<// General Public License for more details.> u<15> t<LINE_COMMENT> p<398> s<16> l<14:1> el<14:44>
+  n<// > u<16> t<LINE_COMMENT> p<398> s<17> l<15:1> el<15:4>
+  n<// You should have received a copy of the GNU General Public> u<17> t<LINE_COMMENT> p<398> s<18> l<16:1> el<16:61>
+  n<// License along with this work; if not, write to the Free Software> u<18> t<LINE_COMMENT> p<398> s<19> l<17:1> el<17:68>
+  n<// Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.> u<19> t<LINE_COMMENT> p<398> s<20> l<18:1> el<18:78>
+  n<// > u<20> t<LINE_COMMENT> p<398> s<21> l<19:1> el<19:4>
+  n<// ========== Copyright Header End ============================================> u<21> t<LINE_COMMENT> p<398> s<22> l<20:1> el<20:80>
+  n<////////////////////////////////////////////////////////////////////////> u<22> t<LINE_COMMENT> p<398> s<23> l<21:1> el<21:73>
+  n</*\n//  Module Name: sparc_exu_aluspr\n//	Description:		This block implements the sum predict for the sparc alu.\n//            It takes two operands and produces the correct result if the\n//            sum is zero.  If not, the output is undefined, but non-zero.\n*/> u<23> t<BLOCK_COMMENT> p<398> s<396> l<29:1> el<51:10>
+  n<> u<396> t<Source_text> p<398> c<395> s<397> l<29:1> el<51:10>
+    n<> u<395> t<Description> p<396> c<394> l<29:1> el<51:10>
+      n<> u<394> t<Module_declaration> p<395> c<55> l<29:1> el<51:10>
+        n<> u<55> t<Module_nonansi_header> p<394> c<24> s<72> l<29:1> el<34:6>
+          n<module> u<24> t<Module_keyword> p<55> s<25> l<29:1> el<29:7>
+          n<sparc_exu_aluspr> u<25> t<SIMPLE_IDENTIFIER> p<55> s<26> l<29:8> el<29:24>
+          n<> u<26> t<Package_import_declaration_list> p<55> s<27> l<29:24> el<29:24>
+          n</*AUTOARG*/> u<27> t<BLOCK_COMMENT> p<55> s<28> l<29:24> el<34:5>
+          n<// Outputs> u<28> t<LINE_COMMENT> p<55> s<54> l<30:4> el<30:14>
+          n<> u<54> t<Port_list> p<55> c<34> l<29:24> el<34:5>
+            n<> u<34> t<Port> p<54> c<33> s<35> l<31:4> el<31:11>
+              n<> u<33> t<Port_expression> p<34> c<32> l<31:4> el<31:11>
+                n<> u<32> t<Port_reference> p<33> c<29> l<31:4> el<31:11>
+                  n<spr_out> u<29> t<SIMPLE_IDENTIFIER> p<32> s<31> l<31:4> el<31:11>
+                  n<> u<31> t<Constant_select> p<32> c<30> l<31:11> el<31:11>
+                    n<> u<30> t<Constant_bit_select> p<31> l<31:11> el<31:11>
+            n<// Inputs> u<35> t<LINE_COMMENT> p<54> s<41> l<32:4> el<32:13>
+            n<> u<41> t<Port> p<54> c<40> s<47> l<33:4> el<33:12>
+              n<> u<40> t<Port_expression> p<41> c<39> l<33:4> el<33:12>
+                n<> u<39> t<Port_reference> p<40> c<36> l<33:4> el<33:12>
+                  n<rs1_data> u<36> t<SIMPLE_IDENTIFIER> p<39> s<38> l<33:4> el<33:12>
+                  n<> u<38> t<Constant_select> p<39> c<37> l<33:12> el<33:12>
+                    n<> u<37> t<Constant_bit_select> p<38> l<33:12> el<33:12>
+            n<> u<47> t<Port> p<54> c<46> s<53> l<33:14> el<33:22>
+              n<> u<46> t<Port_expression> p<47> c<45> l<33:14> el<33:22>
+                n<> u<45> t<Port_reference> p<46> c<42> l<33:14> el<33:22>
+                  n<rs2_data> u<42> t<SIMPLE_IDENTIFIER> p<45> s<44> l<33:14> el<33:22>
+                  n<> u<44> t<Constant_select> p<45> c<43> l<33:22> el<33:22>
+                    n<> u<43> t<Constant_bit_select> p<44> l<33:22> el<33:22>
+            n<> u<53> t<Port> p<54> c<52> l<33:24> el<33:27>
+              n<> u<52> t<Port_expression> p<53> c<51> l<33:24> el<33:27>
+                n<> u<51> t<Port_reference> p<52> c<48> l<33:24> el<33:27>
+                  n<cin> u<48> t<SIMPLE_IDENTIFIER> p<51> s<50> l<33:24> el<33:27>
+                  n<> u<50> t<Constant_select> p<51> c<49> l<34:4> el<34:4>
+                    n<> u<49> t<Constant_bit_select> p<50> l<34:4> el<34:4>
+        n<> u<72> t<Module_item> p<394> c<71> s<89> l<36:1> el<36:23>
+          n<> u<71> t<Port_declaration> p<72> c<70> l<36:1> el<36:22>
+            n<> u<70> t<Input_declaration> p<71> c<67> l<36:1> el<36:22>
+              n<> u<67> t<Net_port_type> p<70> c<66> s<69> l<36:7> el<36:13>
+                n<> u<66> t<Data_type_or_implicit> p<67> c<65> l<36:7> el<36:13>
+                  n<> u<65> t<Packed_dimension> p<66> c<64> l<36:7> el<36:13>
+                    n<> u<64> t<Constant_range> p<65> c<59> l<36:8> el<36:12>
+                      n<> u<59> t<Constant_expression> p<64> c<58> s<63> l<36:8> el<36:10>
+                        n<> u<58> t<Constant_primary> p<59> c<57> l<36:8> el<36:10>
+                          n<> u<57> t<Primary_literal> p<58> c<56> l<36:8> el<36:10>
+                            n<63> u<56> t<INTEGRAL_NUMBER> p<57> l<36:8> el<36:10>
+                      n<> u<63> t<Constant_expression> p<64> c<62> l<36:11> el<36:12>
+                        n<> u<62> t<Constant_primary> p<63> c<61> l<36:11> el<36:12>
+                          n<> u<61> t<Primary_literal> p<62> c<60> l<36:11> el<36:12>
+                            n<0> u<60> t<INTEGRAL_NUMBER> p<61> l<36:11> el<36:12>
+              n<> u<69> t<Port_identifier_list> p<70> c<68> l<36:14> el<36:22>
+                n<rs1_data> u<68> t<SIMPLE_IDENTIFIER> p<69> l<36:14> el<36:22>
+        n<> u<89> t<Module_item> p<394> c<88> s<96> l<37:1> el<37:23>
+          n<> u<88> t<Port_declaration> p<89> c<87> l<37:1> el<37:22>
+            n<> u<87> t<Input_declaration> p<88> c<84> l<37:1> el<37:22>
+              n<> u<84> t<Net_port_type> p<87> c<83> s<86> l<37:7> el<37:13>
+                n<> u<83> t<Data_type_or_implicit> p<84> c<82> l<37:7> el<37:13>
+                  n<> u<82> t<Packed_dimension> p<83> c<81> l<37:7> el<37:13>
+                    n<> u<81> t<Constant_range> p<82> c<76> l<37:8> el<37:12>
+                      n<> u<76> t<Constant_expression> p<81> c<75> s<80> l<37:8> el<37:10>
+                        n<> u<75> t<Constant_primary> p<76> c<74> l<37:8> el<37:10>
+                          n<> u<74> t<Primary_literal> p<75> c<73> l<37:8> el<37:10>
+                            n<63> u<73> t<INTEGRAL_NUMBER> p<74> l<37:8> el<37:10>
+                      n<> u<80> t<Constant_expression> p<81> c<79> l<37:11> el<37:12>
+                        n<> u<79> t<Constant_primary> p<80> c<78> l<37:11> el<37:12>
+                          n<> u<78> t<Primary_literal> p<79> c<77> l<37:11> el<37:12>
+                            n<0> u<77> t<INTEGRAL_NUMBER> p<78> l<37:11> el<37:12>
+              n<> u<86> t<Port_identifier_list> p<87> c<85> l<37:14> el<37:22>
+                n<rs2_data> u<85> t<SIMPLE_IDENTIFIER> p<86> l<37:14> el<37:22>
+        n<> u<96> t<Module_item> p<394> c<95> s<113> l<38:4> el<38:18>
+          n<> u<95> t<Port_declaration> p<96> c<94> l<38:4> el<38:17>
+            n<> u<94> t<Input_declaration> p<95> c<91> l<38:4> el<38:17>
+              n<> u<91> t<Net_port_type> p<94> c<90> s<93> l<38:14> el<38:14>
+                n<> u<90> t<Data_type_or_implicit> p<91> l<38:14> el<38:14>
+              n<> u<93> t<Port_identifier_list> p<94> c<92> l<38:14> el<38:17>
+                n<cin> u<92> t<SIMPLE_IDENTIFIER> p<93> l<38:14> el<38:17>
+        n<> u<113> t<Module_item> p<394> c<112> s<135> l<39:1> el<39:23>
+          n<> u<112> t<Port_declaration> p<113> c<111> l<39:1> el<39:22>
+            n<> u<111> t<Output_declaration> p<112> c<108> l<39:1> el<39:22>
+              n<> u<108> t<Net_port_type> p<111> c<107> s<110> l<39:8> el<39:14>
+                n<> u<107> t<Data_type_or_implicit> p<108> c<106> l<39:8> el<39:14>
+                  n<> u<106> t<Packed_dimension> p<107> c<105> l<39:8> el<39:14>
+                    n<> u<105> t<Constant_range> p<106> c<100> l<39:9> el<39:13>
+                      n<> u<100> t<Constant_expression> p<105> c<99> s<104> l<39:9> el<39:11>
+                        n<> u<99> t<Constant_primary> p<100> c<98> l<39:9> el<39:11>
+                          n<> u<98> t<Primary_literal> p<99> c<97> l<39:9> el<39:11>
+                            n<63> u<97> t<INTEGRAL_NUMBER> p<98> l<39:9> el<39:11>
+                      n<> u<104> t<Constant_expression> p<105> c<103> l<39:12> el<39:13>
+                        n<> u<103> t<Constant_primary> p<104> c<102> l<39:12> el<39:13>
+                          n<> u<102> t<Primary_literal> p<103> c<101> l<39:12> el<39:13>
+                            n<0> u<101> t<INTEGRAL_NUMBER> p<102> l<39:12> el<39:13>
+              n<> u<110> t<Port_identifier_list> p<111> c<109> l<39:15> el<39:22>
+                n<spr_out> u<109> t<SIMPLE_IDENTIFIER> p<110> l<39:15> el<39:22>
+        n<> u<135> t<Module_item> p<394> c<134> s<157> l<41:1> el<41:35>
+          n<> u<134> t<Non_port_module_item> p<135> c<133> l<41:1> el<41:35>
+            n<> u<133> t<Module_or_generate_item> p<134> c<132> l<41:1> el<41:35>
+              n<> u<132> t<Module_common_item> p<133> c<131> l<41:1> el<41:35>
+                n<> u<131> t<Module_or_generate_item_declaration> p<132> c<130> l<41:1> el<41:35>
+                  n<> u<130> t<Package_or_generate_item_declaration> p<131> c<129> l<41:1> el<41:35>
+                    n<> u<129> t<Net_declaration> p<130> c<114> l<41:1> el<41:35>
+                      n<> u<114> t<WIRE> p<129> s<125> l<41:1> el<41:5>
+                      n<> u<125> t<Data_type_or_implicit> p<129> c<124> s<128> l<41:6> el<41:12>
+                        n<> u<124> t<Packed_dimension> p<125> c<123> l<41:6> el<41:12>
+                          n<> u<123> t<Constant_range> p<124> c<118> l<41:7> el<41:11>
+                            n<> u<118> t<Constant_expression> p<123> c<117> s<122> l<41:7> el<41:9>
+                              n<> u<117> t<Constant_primary> p<118> c<116> l<41:7> el<41:9>
+                                n<> u<116> t<Primary_literal> p<117> c<115> l<41:7> el<41:9>
+                                  n<63> u<115> t<INTEGRAL_NUMBER> p<116> l<41:7> el<41:9>
+                            n<> u<122> t<Constant_expression> p<123> c<121> l<41:10> el<41:11>
+                              n<> u<121> t<Constant_primary> p<122> c<120> l<41:10> el<41:11>
+                                n<> u<120> t<Primary_literal> p<121> c<119> l<41:10> el<41:11>
+                                  n<0> u<119> t<INTEGRAL_NUMBER> p<120> l<41:10> el<41:11>
+                      n<> u<128> t<Net_decl_assignment_list> p<129> c<127> l<41:13> el<41:34>
+                        n<> u<127> t<Net_decl_assignment> p<128> c<126> l<41:13> el<41:34>
+                          n<rs1_data_xor_rs2_data> u<126> t<SIMPLE_IDENTIFIER> p<127> l<41:13> el<41:34>
+        n<> u<157> t<Module_item> p<394> c<156> s<179> l<42:1> el<42:34>
+          n<> u<156> t<Non_port_module_item> p<157> c<155> l<42:1> el<42:34>
+            n<> u<155> t<Module_or_generate_item> p<156> c<154> l<42:1> el<42:34>
+              n<> u<154> t<Module_common_item> p<155> c<153> l<42:1> el<42:34>
+                n<> u<153> t<Module_or_generate_item_declaration> p<154> c<152> l<42:1> el<42:34>
+                  n<> u<152> t<Package_or_generate_item_declaration> p<153> c<151> l<42:1> el<42:34>
+                    n<> u<151> t<Net_declaration> p<152> c<136> l<42:1> el<42:34>
+                      n<> u<136> t<WIRE> p<151> s<147> l<42:1> el<42:5>
+                      n<> u<147> t<Data_type_or_implicit> p<151> c<146> s<150> l<42:6> el<42:12>
+                        n<> u<146> t<Packed_dimension> p<147> c<145> l<42:6> el<42:12>
+                          n<> u<145> t<Constant_range> p<146> c<140> l<42:7> el<42:11>
+                            n<> u<140> t<Constant_expression> p<145> c<139> s<144> l<42:7> el<42:9>
+                              n<> u<139> t<Constant_primary> p<140> c<138> l<42:7> el<42:9>
+                                n<> u<138> t<Primary_literal> p<139> c<137> l<42:7> el<42:9>
+                                  n<62> u<137> t<INTEGRAL_NUMBER> p<138> l<42:7> el<42:9>
+                            n<> u<144> t<Constant_expression> p<145> c<143> l<42:10> el<42:11>
+                              n<> u<143> t<Constant_primary> p<144> c<142> l<42:10> el<42:11>
+                                n<> u<142> t<Primary_literal> p<143> c<141> l<42:10> el<42:11>
+                                  n<0> u<141> t<INTEGRAL_NUMBER> p<142> l<42:10> el<42:11>
+                      n<> u<150> t<Net_decl_assignment_list> p<151> c<149> l<42:13> el<42:33>
+                        n<> u<149> t<Net_decl_assignment> p<150> c<148> l<42:13> el<42:33>
+                          n<rs1_data_or_rs2_data> u<148> t<SIMPLE_IDENTIFIER> p<149> l<42:13> el<42:33>
+        n<> u<179> t<Module_item> p<394> c<178> s<235> l<43:1> el<43:22>
+          n<> u<178> t<Non_port_module_item> p<179> c<177> l<43:1> el<43:22>
+            n<> u<177> t<Module_or_generate_item> p<178> c<176> l<43:1> el<43:22>
+              n<> u<176> t<Module_common_item> p<177> c<175> l<43:1> el<43:22>
+                n<> u<175> t<Module_or_generate_item_declaration> p<176> c<174> l<43:1> el<43:22>
+                  n<> u<174> t<Package_or_generate_item_declaration> p<175> c<173> l<43:1> el<43:22>
+                    n<> u<173> t<Net_declaration> p<174> c<158> l<43:1> el<43:22>
+                      n<> u<158> t<WIRE> p<173> s<169> l<43:1> el<43:5>
+                      n<> u<169> t<Data_type_or_implicit> p<173> c<168> s<172> l<43:6> el<43:12>
+                        n<> u<168> t<Packed_dimension> p<169> c<167> l<43:6> el<43:12>
+                          n<> u<167> t<Constant_range> p<168> c<162> l<43:7> el<43:11>
+                            n<> u<162> t<Constant_expression> p<167> c<161> s<166> l<43:7> el<43:9>
+                              n<> u<161> t<Constant_primary> p<162> c<160> l<43:7> el<43:9>
+                                n<> u<160> t<Primary_literal> p<161> c<159> l<43:7> el<43:9>
+                                  n<63> u<159> t<INTEGRAL_NUMBER> p<160> l<43:7> el<43:9>
+                            n<> u<166> t<Constant_expression> p<167> c<165> l<43:10> el<43:11>
+                              n<> u<165> t<Constant_primary> p<166> c<164> l<43:10> el<43:11>
+                                n<> u<164> t<Primary_literal> p<165> c<163> l<43:10> el<43:11>
+                                  n<0> u<163> t<INTEGRAL_NUMBER> p<164> l<43:10> el<43:11>
+                      n<> u<172> t<Net_decl_assignment_list> p<173> c<171> l<43:13> el<43:21>
+                        n<> u<171> t<Net_decl_assignment> p<172> c<170> l<43:13> el<43:21>
+                          n<shift_or> u<170> t<SIMPLE_IDENTIFIER> p<171> l<43:13> el<43:21>
+        n<> u<235> t<Module_item> p<394> c<234> s<291> l<45:1> el<45:70>
+          n<> u<234> t<Non_port_module_item> p<235> c<233> l<45:1> el<45:70>
+            n<> u<233> t<Module_or_generate_item> p<234> c<232> l<45:1> el<45:70>
+              n<> u<232> t<Module_common_item> p<233> c<231> l<45:1> el<45:70>
+                n<> u<231> t<Continuous_assign> p<232> c<230> l<45:1> el<45:70>
+                  n<> u<230> t<Net_assignment_list> p<231> c<229> l<45:8> el<45:69>
+                    n<> u<229> t<Net_assignment> p<230> c<194> l<45:8> el<45:69>
+                      n<> u<194> t<Net_lvalue> p<229> c<181> s<228> l<45:8> el<45:35>
+                        n<> u<181> t<Ps_or_hierarchical_identifier> p<194> c<180> s<193> l<45:8> el<45:29>
+                          n<rs1_data_xor_rs2_data> u<180> t<SIMPLE_IDENTIFIER> p<181> l<45:8> el<45:29>
+                        n<> u<193> t<Constant_select> p<194> c<182> l<45:29> el<45:35>
+                          n<> u<182> t<Constant_bit_select> p<193> s<192> l<45:29> el<45:29>
+                          n<> u<192> t<Constant_part_select_range> p<193> c<191> l<45:29> el<45:35>
+                            n<> u<191> t<Constant_range> p<192> c<186> l<45:30> el<45:34>
+                              n<> u<186> t<Constant_expression> p<191> c<185> s<190> l<45:30> el<45:32>
+                                n<> u<185> t<Constant_primary> p<186> c<184> l<45:30> el<45:32>
+                                  n<> u<184> t<Primary_literal> p<185> c<183> l<45:30> el<45:32>
+                                    n<63> u<183> t<INTEGRAL_NUMBER> p<184> l<45:30> el<45:32>
+                              n<> u<190> t<Constant_expression> p<191> c<189> l<45:33> el<45:34>
+                                n<> u<189> t<Constant_primary> p<190> c<188> l<45:33> el<45:34>
+                                  n<> u<188> t<Primary_literal> p<189> c<187> l<45:33> el<45:34>
+                                    n<0> u<187> t<INTEGRAL_NUMBER> p<188> l<45:33> el<45:34>
+                      n<> u<228> t<Expression> p<229> c<210> l<45:38> el<45:69>
+                        n<> u<210> t<Expression> p<228> c<209> s<227> l<45:38> el<45:52>
+                          n<> u<209> t<Primary> p<210> c<208> l<45:38> el<45:52>
+                            n<> u<208> t<Subroutine_call> p<209> c<195> l<45:38> el<45:52>
+                              n<rs1_data> u<195> t<SIMPLE_IDENTIFIER> p<208> s<207> l<45:38> el<45:46>
+                              n<> u<207> t<Select> p<208> c<196> l<45:46> el<45:52>
+                                n<> u<196> t<Bit_select> p<207> s<206> l<45:46> el<45:46>
+                                n<> u<206> t<Part_select_range> p<207> c<205> l<45:47> el<45:51>
+                                  n<> u<205> t<Constant_range> p<206> c<200> l<45:47> el<45:51>
+                                    n<> u<200> t<Constant_expression> p<205> c<199> s<204> l<45:47> el<45:49>
+                                      n<> u<199> t<Constant_primary> p<200> c<198> l<45:47> el<45:49>
+                                        n<> u<198> t<Primary_literal> p<199> c<197> l<45:47> el<45:49>
+                                          n<63> u<197> t<INTEGRAL_NUMBER> p<198> l<45:47> el<45:49>
+                                    n<> u<204> t<Constant_expression> p<205> c<203> l<45:50> el<45:51>
+                                      n<> u<203> t<Constant_primary> p<204> c<202> l<45:50> el<45:51>
+                                        n<> u<202> t<Primary_literal> p<203> c<201> l<45:50> el<45:51>
+                                          n<0> u<201> t<INTEGRAL_NUMBER> p<202> l<45:50> el<45:51>
+                        n<> u<227> t<BinaryOp_BitwXor> p<228> s<226> l<45:53> el<45:54>
+                        n<> u<226> t<Expression> p<228> c<225> l<45:55> el<45:69>
+                          n<> u<225> t<Primary> p<226> c<224> l<45:55> el<45:69>
+                            n<> u<224> t<Subroutine_call> p<225> c<211> l<45:55> el<45:69>
+                              n<rs2_data> u<211> t<SIMPLE_IDENTIFIER> p<224> s<223> l<45:55> el<45:63>
+                              n<> u<223> t<Select> p<224> c<212> l<45:63> el<45:69>
+                                n<> u<212> t<Bit_select> p<223> s<222> l<45:63> el<45:63>
+                                n<> u<222> t<Part_select_range> p<223> c<221> l<45:64> el<45:68>
+                                  n<> u<221> t<Constant_range> p<222> c<216> l<45:64> el<45:68>
+                                    n<> u<216> t<Constant_expression> p<221> c<215> s<220> l<45:64> el<45:66>
+                                      n<> u<215> t<Constant_primary> p<216> c<214> l<45:64> el<45:66>
+                                        n<> u<214> t<Primary_literal> p<215> c<213> l<45:64> el<45:66>
+                                          n<63> u<213> t<INTEGRAL_NUMBER> p<214> l<45:64> el<45:66>
+                                    n<> u<220> t<Constant_expression> p<221> c<219> l<45:67> el<45:68>
+                                      n<> u<219> t<Constant_primary> p<220> c<218> l<45:67> el<45:68>
+                                        n<> u<218> t<Primary_literal> p<219> c<217> l<45:67> el<45:68>
+                                          n<0> u<217> t<INTEGRAL_NUMBER> p<218> l<45:67> el<45:68>
+        n<> u<291> t<Module_item> p<394> c<290> s<336> l<46:1> el<46:69>
+          n<> u<290> t<Non_port_module_item> p<291> c<289> l<46:1> el<46:69>
+            n<> u<289> t<Module_or_generate_item> p<290> c<288> l<46:1> el<46:69>
+              n<> u<288> t<Module_common_item> p<289> c<287> l<46:1> el<46:69>
+                n<> u<287> t<Continuous_assign> p<288> c<286> l<46:1> el<46:69>
+                  n<> u<286> t<Net_assignment_list> p<287> c<285> l<46:8> el<46:68>
+                    n<> u<285> t<Net_assignment> p<286> c<250> l<46:8> el<46:68>
+                      n<> u<250> t<Net_lvalue> p<285> c<237> s<284> l<46:8> el<46:34>
+                        n<> u<237> t<Ps_or_hierarchical_identifier> p<250> c<236> s<249> l<46:8> el<46:28>
+                          n<rs1_data_or_rs2_data> u<236> t<SIMPLE_IDENTIFIER> p<237> l<46:8> el<46:28>
+                        n<> u<249> t<Constant_select> p<250> c<238> l<46:28> el<46:34>
+                          n<> u<238> t<Constant_bit_select> p<249> s<248> l<46:28> el<46:28>
+                          n<> u<248> t<Constant_part_select_range> p<249> c<247> l<46:28> el<46:34>
+                            n<> u<247> t<Constant_range> p<248> c<242> l<46:29> el<46:33>
+                              n<> u<242> t<Constant_expression> p<247> c<241> s<246> l<46:29> el<46:31>
+                                n<> u<241> t<Constant_primary> p<242> c<240> l<46:29> el<46:31>
+                                  n<> u<240> t<Primary_literal> p<241> c<239> l<46:29> el<46:31>
+                                    n<62> u<239> t<INTEGRAL_NUMBER> p<240> l<46:29> el<46:31>
+                              n<> u<246> t<Constant_expression> p<247> c<245> l<46:32> el<46:33>
+                                n<> u<245> t<Constant_primary> p<246> c<244> l<46:32> el<46:33>
+                                  n<> u<244> t<Primary_literal> p<245> c<243> l<46:32> el<46:33>
+                                    n<0> u<243> t<INTEGRAL_NUMBER> p<244> l<46:32> el<46:33>
+                      n<> u<284> t<Expression> p<285> c<266> l<46:37> el<46:68>
+                        n<> u<266> t<Expression> p<284> c<265> s<283> l<46:37> el<46:51>
+                          n<> u<265> t<Primary> p<266> c<264> l<46:37> el<46:51>
+                            n<> u<264> t<Subroutine_call> p<265> c<251> l<46:37> el<46:51>
+                              n<rs1_data> u<251> t<SIMPLE_IDENTIFIER> p<264> s<263> l<46:37> el<46:45>
+                              n<> u<263> t<Select> p<264> c<252> l<46:45> el<46:51>
+                                n<> u<252> t<Bit_select> p<263> s<262> l<46:45> el<46:45>
+                                n<> u<262> t<Part_select_range> p<263> c<261> l<46:46> el<46:50>
+                                  n<> u<261> t<Constant_range> p<262> c<256> l<46:46> el<46:50>
+                                    n<> u<256> t<Constant_expression> p<261> c<255> s<260> l<46:46> el<46:48>
+                                      n<> u<255> t<Constant_primary> p<256> c<254> l<46:46> el<46:48>
+                                        n<> u<254> t<Primary_literal> p<255> c<253> l<46:46> el<46:48>
+                                          n<62> u<253> t<INTEGRAL_NUMBER> p<254> l<46:46> el<46:48>
+                                    n<> u<260> t<Constant_expression> p<261> c<259> l<46:49> el<46:50>
+                                      n<> u<259> t<Constant_primary> p<260> c<258> l<46:49> el<46:50>
+                                        n<> u<258> t<Primary_literal> p<259> c<257> l<46:49> el<46:50>
+                                          n<0> u<257> t<INTEGRAL_NUMBER> p<258> l<46:49> el<46:50>
+                        n<> u<283> t<BinaryOp_BitwOr> p<284> s<282> l<46:52> el<46:53>
+                        n<> u<282> t<Expression> p<284> c<281> l<46:54> el<46:68>
+                          n<> u<281> t<Primary> p<282> c<280> l<46:54> el<46:68>
+                            n<> u<280> t<Subroutine_call> p<281> c<267> l<46:54> el<46:68>
+                              n<rs2_data> u<267> t<SIMPLE_IDENTIFIER> p<280> s<279> l<46:54> el<46:62>
+                              n<> u<279> t<Select> p<280> c<268> l<46:62> el<46:68>
+                                n<> u<268> t<Bit_select> p<279> s<278> l<46:62> el<46:62>
+                                n<> u<278> t<Part_select_range> p<279> c<277> l<46:63> el<46:67>
+                                  n<> u<277> t<Constant_range> p<278> c<272> l<46:63> el<46:67>
+                                    n<> u<272> t<Constant_expression> p<277> c<271> s<276> l<46:63> el<46:65>
+                                      n<> u<271> t<Constant_primary> p<272> c<270> l<46:63> el<46:65>
+                                        n<> u<270> t<Primary_literal> p<271> c<269> l<46:63> el<46:65>
+                                          n<62> u<269> t<INTEGRAL_NUMBER> p<270> l<46:63> el<46:65>
+                                    n<> u<276> t<Constant_expression> p<277> c<275> l<46:66> el<46:67>
+                                      n<> u<275> t<Constant_primary> p<276> c<274> l<46:66> el<46:67>
+                                        n<> u<274> t<Primary_literal> p<275> c<273> l<46:66> el<46:67>
+                                          n<0> u<273> t<INTEGRAL_NUMBER> p<274> l<46:66> el<46:67>
+        n<> u<336> t<Module_item> p<394> c<335> s<392> l<47:1> el<47:58>
+          n<> u<335> t<Non_port_module_item> p<336> c<334> l<47:1> el<47:58>
+            n<> u<334> t<Module_or_generate_item> p<335> c<333> l<47:1> el<47:58>
+              n<> u<333> t<Module_common_item> p<334> c<332> l<47:1> el<47:58>
+                n<> u<332> t<Continuous_assign> p<333> c<331> l<47:1> el<47:58>
+                  n<> u<331> t<Net_assignment_list> p<332> c<330> l<47:8> el<47:57>
+                    n<> u<330> t<Net_assignment> p<331> c<306> l<47:8> el<47:57>
+                      n<> u<306> t<Net_lvalue> p<330> c<293> s<329> l<47:8> el<47:22>
+                        n<> u<293> t<Ps_or_hierarchical_identifier> p<306> c<292> s<305> l<47:8> el<47:16>
+                          n<shift_or> u<292> t<SIMPLE_IDENTIFIER> p<293> l<47:8> el<47:16>
+                        n<> u<305> t<Constant_select> p<306> c<294> l<47:16> el<47:22>
+                          n<> u<294> t<Constant_bit_select> p<305> s<304> l<47:16> el<47:16>
+                          n<> u<304> t<Constant_part_select_range> p<305> c<303> l<47:16> el<47:22>
+                            n<> u<303> t<Constant_range> p<304> c<298> l<47:17> el<47:21>
+                              n<> u<298> t<Constant_expression> p<303> c<297> s<302> l<47:17> el<47:19>
+                                n<> u<297> t<Constant_primary> p<298> c<296> l<47:17> el<47:19>
+                                  n<> u<296> t<Primary_literal> p<297> c<295> l<47:17> el<47:19>
+                                    n<63> u<295> t<INTEGRAL_NUMBER> p<296> l<47:17> el<47:19>
+                              n<> u<302> t<Constant_expression> p<303> c<301> l<47:20> el<47:21>
+                                n<> u<301> t<Constant_primary> p<302> c<300> l<47:20> el<47:21>
+                                  n<> u<300> t<Primary_literal> p<301> c<299> l<47:20> el<47:21>
+                                    n<0> u<299> t<INTEGRAL_NUMBER> p<300> l<47:20> el<47:21>
+                      n<> u<329> t<Expression> p<330> c<328> l<47:25> el<47:57>
+                        n<> u<328> t<Primary> p<329> c<327> l<47:25> el<47:57>
+                          n<> u<327> t<Concatenation> p<328> c<322> l<47:25> el<47:57>
+                            n<> u<322> t<Expression> p<327> c<321> s<326> l<47:26> el<47:52>
+                              n<> u<321> t<Primary> p<322> c<320> l<47:26> el<47:52>
+                                n<> u<320> t<Subroutine_call> p<321> c<307> l<47:26> el<47:52>
+                                  n<rs1_data_or_rs2_data> u<307> t<SIMPLE_IDENTIFIER> p<320> s<319> l<47:26> el<47:46>
+                                  n<> u<319> t<Select> p<320> c<308> l<47:46> el<47:52>
+                                    n<> u<308> t<Bit_select> p<319> s<318> l<47:46> el<47:46>
+                                    n<> u<318> t<Part_select_range> p<319> c<317> l<47:47> el<47:51>
+                                      n<> u<317> t<Constant_range> p<318> c<312> l<47:47> el<47:51>
+                                        n<> u<312> t<Constant_expression> p<317> c<311> s<316> l<47:47> el<47:49>
+                                          n<> u<311> t<Constant_primary> p<312> c<310> l<47:47> el<47:49>
+                                            n<> u<310> t<Primary_literal> p<311> c<309> l<47:47> el<47:49>
+                                              n<62> u<309> t<INTEGRAL_NUMBER> p<310> l<47:47> el<47:49>
+                                        n<> u<316> t<Constant_expression> p<317> c<315> l<47:50> el<47:51>
+                                          n<> u<315> t<Constant_primary> p<316> c<314> l<47:50> el<47:51>
+                                            n<> u<314> t<Primary_literal> p<315> c<313> l<47:50> el<47:51>
+                                              n<0> u<313> t<INTEGRAL_NUMBER> p<314> l<47:50> el<47:51>
+                            n<> u<326> t<Expression> p<327> c<325> l<47:53> el<47:56>
+                              n<> u<325> t<Primary> p<326> c<324> l<47:53> el<47:56>
+                                n<> u<324> t<Primary_literal> p<325> c<323> l<47:53> el<47:56>
+                                  n<cin> u<323> t<SIMPLE_IDENTIFIER> p<324> l<47:53> el<47:56>
+        n<> u<392> t<Module_item> p<394> c<391> s<393> l<49:1> el<49:69>
+          n<> u<391> t<Non_port_module_item> p<392> c<390> l<49:1> el<49:69>
+            n<> u<390> t<Module_or_generate_item> p<391> c<389> l<49:1> el<49:69>
+              n<> u<389> t<Module_common_item> p<390> c<388> l<49:1> el<49:69>
+                n<> u<388> t<Continuous_assign> p<389> c<387> l<49:1> el<49:69>
+                  n<> u<387> t<Net_assignment_list> p<388> c<386> l<49:8> el<49:68>
+                    n<> u<386> t<Net_assignment> p<387> c<351> l<49:8> el<49:68>
+                      n<> u<351> t<Net_lvalue> p<386> c<338> s<385> l<49:8> el<49:21>
+                        n<> u<338> t<Ps_or_hierarchical_identifier> p<351> c<337> s<350> l<49:8> el<49:15>
+                          n<spr_out> u<337> t<SIMPLE_IDENTIFIER> p<338> l<49:8> el<49:15>
+                        n<> u<350> t<Constant_select> p<351> c<339> l<49:15> el<49:21>
+                          n<> u<339> t<Constant_bit_select> p<350> s<349> l<49:15> el<49:15>
+                          n<> u<349> t<Constant_part_select_range> p<350> c<348> l<49:15> el<49:21>
+                            n<> u<348> t<Constant_range> p<349> c<343> l<49:16> el<49:20>
+                              n<> u<343> t<Constant_expression> p<348> c<342> s<347> l<49:16> el<49:18>
+                                n<> u<342> t<Constant_primary> p<343> c<341> l<49:16> el<49:18>
+                                  n<> u<341> t<Primary_literal> p<342> c<340> l<49:16> el<49:18>
+                                    n<63> u<340> t<INTEGRAL_NUMBER> p<341> l<49:16> el<49:18>
+                              n<> u<347> t<Constant_expression> p<348> c<346> l<49:19> el<49:20>
+                                n<> u<346> t<Constant_primary> p<347> c<345> l<49:19> el<49:20>
+                                  n<> u<345> t<Primary_literal> p<346> c<344> l<49:19> el<49:20>
+                                    n<0> u<344> t<INTEGRAL_NUMBER> p<345> l<49:19> el<49:20>
+                      n<> u<385> t<Expression> p<386> c<367> l<49:24> el<49:68>
+                        n<> u<367> t<Expression> p<385> c<366> s<384> l<49:24> el<49:51>
+                          n<> u<366> t<Primary> p<367> c<365> l<49:24> el<49:51>
+                            n<> u<365> t<Subroutine_call> p<366> c<352> l<49:24> el<49:51>
+                              n<rs1_data_xor_rs2_data> u<352> t<SIMPLE_IDENTIFIER> p<365> s<364> l<49:24> el<49:45>
+                              n<> u<364> t<Select> p<365> c<353> l<49:45> el<49:51>
+                                n<> u<353> t<Bit_select> p<364> s<363> l<49:45> el<49:45>
+                                n<> u<363> t<Part_select_range> p<364> c<362> l<49:46> el<49:50>
+                                  n<> u<362> t<Constant_range> p<363> c<357> l<49:46> el<49:50>
+                                    n<> u<357> t<Constant_expression> p<362> c<356> s<361> l<49:46> el<49:48>
+                                      n<> u<356> t<Constant_primary> p<357> c<355> l<49:46> el<49:48>
+                                        n<> u<355> t<Primary_literal> p<356> c<354> l<49:46> el<49:48>
+                                          n<63> u<354> t<INTEGRAL_NUMBER> p<355> l<49:46> el<49:48>
+                                    n<> u<361> t<Constant_expression> p<362> c<360> l<49:49> el<49:50>
+                                      n<> u<360> t<Constant_primary> p<361> c<359> l<49:49> el<49:50>
+                                        n<> u<359> t<Primary_literal> p<360> c<358> l<49:49> el<49:50>
+                                          n<0> u<358> t<INTEGRAL_NUMBER> p<359> l<49:49> el<49:50>
+                        n<> u<384> t<BinaryOp_BitwXor> p<385> s<383> l<49:52> el<49:53>
+                        n<> u<383> t<Expression> p<385> c<382> l<49:54> el<49:68>
+                          n<> u<382> t<Primary> p<383> c<381> l<49:54> el<49:68>
+                            n<> u<381> t<Subroutine_call> p<382> c<368> l<49:54> el<49:68>
+                              n<shift_or> u<368> t<SIMPLE_IDENTIFIER> p<381> s<380> l<49:54> el<49:62>
+                              n<> u<380> t<Select> p<381> c<369> l<49:62> el<49:68>
+                                n<> u<369> t<Bit_select> p<380> s<379> l<49:62> el<49:62>
+                                n<> u<379> t<Part_select_range> p<380> c<378> l<49:63> el<49:67>
+                                  n<> u<378> t<Constant_range> p<379> c<373> l<49:63> el<49:67>
+                                    n<> u<373> t<Constant_expression> p<378> c<372> s<377> l<49:63> el<49:65>
+                                      n<> u<372> t<Constant_primary> p<373> c<371> l<49:63> el<49:65>
+                                        n<> u<371> t<Primary_literal> p<372> c<370> l<49:63> el<49:65>
+                                          n<63> u<370> t<INTEGRAL_NUMBER> p<371> l<49:63> el<49:65>
+                                    n<> u<377> t<Constant_expression> p<378> c<376> l<49:66> el<49:67>
+                                      n<> u<376> t<Constant_primary> p<377> c<375> l<49:66> el<49:67>
+                                        n<> u<375> t<Primary_literal> p<376> c<374> l<49:66> el<49:67>
+                                          n<0> u<374> t<INTEGRAL_NUMBER> p<375> l<49:66> el<49:67>
+        n<> u<393> t<ENDMODULE> p<394> l<51:1> el<51:10>
+  n<// sparc_exu_aluspr> u<397> t<LINE_COMMENT> p<398> l<51:12> el<51:31>
+AST_DEBUG_END
+[INF:CP0303] ${SURELOG_DIR}/tests/UtdSV/sparc_exu_aluspr.v:29:1: Compile module "work@sparc_exu_aluspr".
+[INF:CM0029] Using global timescale: "1ns/1ns".
+====== UHDM =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFiles (1 items):
+    SourceFile name:sparc_exu_aluspr.v file:${SURELOG_DIR}/tests/UtdSV/sparc_exu_aluspr.v:
+      vpiParent: Design name:unnamed
+      vpiName: sparc_exu_aluspr.v
+      vpiPreprocFile: "${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all/lib/work/sparc_exu_aluspr.v"
+      vpiDefNetType: none (12)
+  vpiAllModules (1 items):
+    Module name:work@sparc_exu_aluspr file:${SURELOG_DIR}/tests/UtdSV/sparc_exu_aluspr.v start:29:1 end:51:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@sparc_exu_aluspr start:29:8 end:29:24:
+        vpiParent: Module name:work@sparc_exu_aluspr
+        vpiName: work@sparc_exu_aluspr
+      vpiFullName: work@sparc_exu_aluspr
+      vpiTypespec (7 items):
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiRange (1 items):
+            Range start:36:7 end:36:13:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:36:8 end:36:10:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:36:11 end:36:12:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiRange (1 items):
+            Range start:37:7 end:37:13:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:37:8 end:37:10:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:37:11 end:37:12:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiRange (1 items):
+            Range start:39:8 end:39:14:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:39:9 end:39:11:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:39:12 end:39:13:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiRange (1 items):
+            Range start:41:6 end:41:12:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:41:7 end:41:9:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:41:10 end:41:11:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiRange (1 items):
+            Range start:42:6 end:42:12:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:42:7 end:42:9:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "62"
+                vpiValue: 62
+              vpiRightRange Constant start:42:10 end:42:11:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiRange (1 items):
+            Range start:43:6 end:43:12:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:43:7 end:43:9:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:43:10 end:43:11:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+      vpiDefName: work@sparc_exu_aluspr
+      vpiDefNetType: none (12)
+      vpiNet (7 items):
+        Net name:spr_out start:39:15 end:39:22:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:39:8 end:39:14:
+            vpiParent: Net name:spr_out
+            vpiFullName: work@sparc_exu_aluspr.spr_out
+            vpiActual: LogicTypespec
+          vpiName: spr_out
+          vpiFullName: work@sparc_exu_aluspr.spr_out
+        Net name:rs1_data start:36:14 end:36:22:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:36:7 end:36:13:
+            vpiParent: Net name:rs1_data
+            vpiFullName: work@sparc_exu_aluspr.rs1_data
+            vpiActual: LogicTypespec
+          vpiName: rs1_data
+          vpiFullName: work@sparc_exu_aluspr.rs1_data
+        Net name:rs2_data start:37:14 end:37:22:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:37:7 end:37:13:
+            vpiParent: Net name:rs2_data
+            vpiFullName: work@sparc_exu_aluspr.rs2_data
+            vpiActual: LogicTypespec
+          vpiName: rs2_data
+          vpiFullName: work@sparc_exu_aluspr.rs2_data
+        Net name:cin start:38:14 end:38:17:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:38:14 end:38:14:
+            vpiParent: Net name:cin
+            vpiFullName: work@sparc_exu_aluspr.cin
+            vpiActual: LogicTypespec
+          vpiName: cin
+          vpiFullName: work@sparc_exu_aluspr.cin
+        Net name:rs1_data_xor_rs2_data start:41:13 end:41:34:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:41:6 end:41:12:
+            vpiParent: Net name:rs1_data_xor_rs2_data
+            vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data
+            vpiActual: LogicTypespec
+          vpiName: rs1_data_xor_rs2_data
+          vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data
+          vpiNetType: wire (1)
+        Net name:rs1_data_or_rs2_data start:42:13 end:42:33:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:42:6 end:42:12:
+            vpiParent: Net name:rs1_data_or_rs2_data
+            vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data
+            vpiActual: LogicTypespec
+          vpiName: rs1_data_or_rs2_data
+          vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data
+          vpiNetType: wire (1)
+        Net name:shift_or start:43:13 end:43:21:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiTypespec RefTypespec start:43:6 end:43:12:
+            vpiParent: Net name:shift_or
+            vpiFullName: work@sparc_exu_aluspr.shift_or
+            vpiActual: LogicTypespec
+          vpiName: shift_or
+          vpiFullName: work@sparc_exu_aluspr.shift_or
+          vpiNetType: wire (1)
+      vpiPort (4 items):
+        Port name:spr_out start:31:4 end:31:11:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiName: spr_out
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:spr_out start:31:4 end:31:11:
+            vpiParent: Port name:spr_out
+            vpiName: spr_out
+            vpiFullName: work@sparc_exu_aluspr.spr_out.spr_out
+            vpiActual: Net name:spr_out
+          vpiTypespec RefTypespec start:39:8 end:39:14:
+            vpiParent: Port name:spr_out
+            vpiFullName: work@sparc_exu_aluspr.spr_out
+            vpiActual: LogicTypespec
+        Port name:rs1_data start:33:4 end:33:12:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiName: rs1_data
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:rs1_data start:33:4 end:33:12:
+            vpiParent: Port name:rs1_data
+            vpiName: rs1_data
+            vpiFullName: work@sparc_exu_aluspr.rs1_data.rs1_data
+            vpiActual: Net name:rs1_data
+          vpiTypespec RefTypespec start:36:7 end:36:13:
+            vpiParent: Port name:rs1_data
+            vpiFullName: work@sparc_exu_aluspr.rs1_data
+            vpiActual: LogicTypespec
+        Port name:rs2_data start:33:14 end:33:22:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiName: rs2_data
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:rs2_data start:33:14 end:33:22:
+            vpiParent: Port name:rs2_data
+            vpiName: rs2_data
+            vpiFullName: work@sparc_exu_aluspr.rs2_data.rs2_data
+            vpiActual: Net name:rs2_data
+          vpiTypespec RefTypespec start:37:7 end:37:13:
+            vpiParent: Port name:rs2_data
+            vpiFullName: work@sparc_exu_aluspr.rs2_data
+            vpiActual: LogicTypespec
+        Port name:cin start:33:24 end:33:27:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiName: cin
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:cin start:33:24 end:33:27:
+            vpiParent: Port name:cin
+            vpiName: cin
+            vpiFullName: work@sparc_exu_aluspr.cin.cin
+            vpiActual: Net name:cin
+          vpiTypespec RefTypespec start:38:14 end:38:14:
+            vpiParent: Port name:cin
+            vpiFullName: work@sparc_exu_aluspr.cin
+            vpiActual: LogicTypespec
+      vpiContAssign (4 items):
+        ContAssign start:45:8 end:45:69:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiLhs PartSelect name:rs1_data_xor_rs2_data[63:0] start:45:8 end:45:35:
+            vpiParent: ContAssign
+            vpiName: rs1_data_xor_rs2_data[63:0]
+            vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0]
+            vpiPrefix RefObj name:rs1_data_xor_rs2_data start:45:8 end:45:29:
+              vpiParent: PartSelect name:rs1_data_xor_rs2_data[63:0]
+              vpiName: rs1_data_xor_rs2_data
+              vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0].rs1_data_xor_rs2_data
+              vpiActual: Net name:rs1_data_xor_rs2_data
+            vpiRange Range start:45:30 end:45:34:
+              vpiParent: PartSelect name:rs1_data_xor_rs2_data[63:0]
+              vpiLeftRange Constant start:45:30 end:45:32:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:45:33 end:45:34:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiRhs Operation start:45:38 end:45:69:
+            vpiParent: ContAssign
+            vpiOpType: bitwise xor (30)
+            vpiOperand (2 items):
+              PartSelect name:rs1_data[63:0] start:45:38 end:45:52:
+                vpiParent: Operation
+                vpiName: rs1_data[63:0]
+                vpiFullName: work@sparc_exu_aluspr.rs1_data[63:0]
+                vpiPrefix RefObj name:rs1_data start:45:38 end:45:46:
+                  vpiParent: PartSelect name:rs1_data[63:0]
+                  vpiName: rs1_data
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data[63:0].rs1_data
+                  vpiActual: Net name:rs1_data
+                vpiRange Range start:45:47 end:45:51:
+                  vpiParent: PartSelect name:rs1_data[63:0]
+                  vpiLeftRange Constant start:45:47 end:45:49:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "63"
+                    vpiValue: 63
+                  vpiRightRange Constant start:45:50 end:45:51:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              PartSelect name:rs2_data[63:0] start:45:55 end:45:69:
+                vpiParent: Operation
+                vpiName: rs2_data[63:0]
+                vpiFullName: work@sparc_exu_aluspr.rs2_data[63:0]
+                vpiPrefix RefObj name:rs2_data start:45:55 end:45:63:
+                  vpiParent: PartSelect name:rs2_data[63:0]
+                  vpiName: rs2_data
+                  vpiFullName: work@sparc_exu_aluspr.rs2_data[63:0].rs2_data
+                  vpiActual: Net name:rs2_data
+                vpiRange Range start:45:64 end:45:68:
+                  vpiParent: PartSelect name:rs2_data[63:0]
+                  vpiLeftRange Constant start:45:64 end:45:66:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs2_data[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "63"
+                    vpiValue: 63
+                  vpiRightRange Constant start:45:67 end:45:68:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs2_data[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+        ContAssign start:46:8 end:46:68:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiLhs PartSelect name:rs1_data_or_rs2_data[62:0] start:46:8 end:46:34:
+            vpiParent: ContAssign
+            vpiName: rs1_data_or_rs2_data[62:0]
+            vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0]
+            vpiPrefix RefObj name:rs1_data_or_rs2_data start:46:8 end:46:28:
+              vpiParent: PartSelect name:rs1_data_or_rs2_data[62:0]
+              vpiName: rs1_data_or_rs2_data
+              vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0].rs1_data_or_rs2_data
+              vpiActual: Net name:rs1_data_or_rs2_data
+            vpiRange Range start:46:29 end:46:33:
+              vpiParent: PartSelect name:rs1_data_or_rs2_data[62:0]
+              vpiLeftRange Constant start:46:29 end:46:31:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "62"
+                vpiValue: 62
+              vpiRightRange Constant start:46:32 end:46:33:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiRhs Operation start:46:37 end:46:68:
+            vpiParent: ContAssign
+            vpiOpType: bitwise or (29)
+            vpiOperand (2 items):
+              PartSelect name:rs1_data[62:0] start:46:37 end:46:51:
+                vpiParent: Operation
+                vpiName: rs1_data[62:0]
+                vpiFullName: work@sparc_exu_aluspr.rs1_data[62:0]
+                vpiPrefix RefObj name:rs1_data start:46:37 end:46:45:
+                  vpiParent: PartSelect name:rs1_data[62:0]
+                  vpiName: rs1_data
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data[62:0].rs1_data
+                  vpiActual: Net name:rs1_data
+                vpiRange Range start:46:46 end:46:50:
+                  vpiParent: PartSelect name:rs1_data[62:0]
+                  vpiLeftRange Constant start:46:46 end:46:48:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data[62:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "62"
+                    vpiValue: 62
+                  vpiRightRange Constant start:46:49 end:46:50:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data[62:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              PartSelect name:rs2_data[62:0] start:46:54 end:46:68:
+                vpiParent: Operation
+                vpiName: rs2_data[62:0]
+                vpiFullName: work@sparc_exu_aluspr.rs2_data[62:0]
+                vpiPrefix RefObj name:rs2_data start:46:54 end:46:62:
+                  vpiParent: PartSelect name:rs2_data[62:0]
+                  vpiName: rs2_data
+                  vpiFullName: work@sparc_exu_aluspr.rs2_data[62:0].rs2_data
+                  vpiActual: Net name:rs2_data
+                vpiRange Range start:46:63 end:46:67:
+                  vpiParent: PartSelect name:rs2_data[62:0]
+                  vpiLeftRange Constant start:46:63 end:46:65:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs2_data[62:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "62"
+                    vpiValue: 62
+                  vpiRightRange Constant start:46:66 end:46:67:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs2_data[62:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+        ContAssign start:47:8 end:47:57:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiLhs PartSelect name:shift_or[63:0] start:47:8 end:47:22:
+            vpiParent: ContAssign
+            vpiName: shift_or[63:0]
+            vpiFullName: work@sparc_exu_aluspr.shift_or[63:0]
+            vpiPrefix RefObj name:shift_or start:47:8 end:47:16:
+              vpiParent: PartSelect name:shift_or[63:0]
+              vpiName: shift_or
+              vpiFullName: work@sparc_exu_aluspr.shift_or[63:0].shift_or
+              vpiActual: Net name:shift_or
+            vpiRange Range start:47:17 end:47:21:
+              vpiParent: PartSelect name:shift_or[63:0]
+              vpiLeftRange Constant start:47:17 end:47:19:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.shift_or[63:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:47:20 end:47:21:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.shift_or[63:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiRhs Operation start:47:25 end:47:57:
+            vpiParent: ContAssign
+            vpiOpType: concatenation (33)
+            vpiOperand (2 items):
+              PartSelect name:rs1_data_or_rs2_data[62:0] start:47:26 end:47:52:
+                vpiParent: Operation
+                vpiName: rs1_data_or_rs2_data[62:0]
+                vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0]
+                vpiPrefix RefObj name:rs1_data_or_rs2_data start:47:26 end:47:46:
+                  vpiParent: PartSelect name:rs1_data_or_rs2_data[62:0]
+                  vpiName: rs1_data_or_rs2_data
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0].rs1_data_or_rs2_data
+                  vpiActual: Net name:rs1_data_or_rs2_data
+                vpiRange Range start:47:47 end:47:51:
+                  vpiParent: PartSelect name:rs1_data_or_rs2_data[62:0]
+                  vpiLeftRange Constant start:47:47 end:47:49:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "62"
+                    vpiValue: 62
+                  vpiRightRange Constant start:47:50 end:47:51:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data_or_rs2_data[62:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              RefObj name:cin start:47:53 end:47:56:
+                vpiParent: Operation
+                vpiName: cin
+                vpiFullName: work@sparc_exu_aluspr.cin
+                vpiActual: Net name:cin
+        ContAssign start:49:8 end:49:68:
+          vpiParent: Module name:work@sparc_exu_aluspr
+          vpiLhs PartSelect name:spr_out[63:0] start:49:8 end:49:21:
+            vpiParent: ContAssign
+            vpiName: spr_out[63:0]
+            vpiFullName: work@sparc_exu_aluspr.spr_out[63:0]
+            vpiPrefix RefObj name:spr_out start:49:8 end:49:15:
+              vpiParent: PartSelect name:spr_out[63:0]
+              vpiName: spr_out
+              vpiFullName: work@sparc_exu_aluspr.spr_out[63:0].spr_out
+              vpiActual: Net name:spr_out
+            vpiRange Range start:49:16 end:49:20:
+              vpiParent: PartSelect name:spr_out[63:0]
+              vpiLeftRange Constant start:49:16 end:49:18:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.spr_out[63:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "63"
+                vpiValue: 63
+              vpiRightRange Constant start:49:19 end:49:20:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@sparc_exu_aluspr.spr_out[63:0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiRhs Operation start:49:24 end:49:68:
+            vpiParent: ContAssign
+            vpiOpType: bitwise xor (30)
+            vpiOperand (2 items):
+              PartSelect name:rs1_data_xor_rs2_data[63:0] start:49:24 end:49:51:
+                vpiParent: Operation
+                vpiName: rs1_data_xor_rs2_data[63:0]
+                vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0]
+                vpiPrefix RefObj name:rs1_data_xor_rs2_data start:49:24 end:49:45:
+                  vpiParent: PartSelect name:rs1_data_xor_rs2_data[63:0]
+                  vpiName: rs1_data_xor_rs2_data
+                  vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0].rs1_data_xor_rs2_data
+                  vpiActual: Net name:rs1_data_xor_rs2_data
+                vpiRange Range start:49:46 end:49:50:
+                  vpiParent: PartSelect name:rs1_data_xor_rs2_data[63:0]
+                  vpiLeftRange Constant start:49:46 end:49:48:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "63"
+                    vpiValue: 63
+                  vpiRightRange Constant start:49:49 end:49:50:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.rs1_data_xor_rs2_data[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              PartSelect name:shift_or[63:0] start:49:54 end:49:68:
+                vpiParent: Operation
+                vpiName: shift_or[63:0]
+                vpiFullName: work@sparc_exu_aluspr.shift_or[63:0]
+                vpiPrefix RefObj name:shift_or start:49:54 end:49:62:
+                  vpiParent: PartSelect name:shift_or[63:0]
+                  vpiName: shift_or
+                  vpiFullName: work@sparc_exu_aluspr.shift_or[63:0].shift_or
+                  vpiActual: Net name:shift_or
+                vpiRange Range start:49:63 end:49:67:
+                  vpiParent: PartSelect name:shift_or[63:0]
+                  vpiLeftRange Constant start:49:63 end:49:65:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.shift_or[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "63"
+                    vpiValue: 63
+                  vpiRightRange Constant start:49:66 end:49:67:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sparc_exu_aluspr.shift_or[63:0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+  vpiTypespec (2 items):
+    ModuleTypespec name:work@sparc_exu_aluspr:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@sparc_exu_aluspr start:29:8 end:29:24:
+        vpiParent: ModuleTypespec name:work@sparc_exu_aluspr
+        vpiName: work@sparc_exu_aluspr
+      vpiModule: Module name:work@sparc_exu_aluspr
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+===================
+
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 0
+[WARNING] : 0
+[   NOTE] : 0
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+    test-name: UtdSV/sparc_exu_aluspr.v
+ test-dirpath: ${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v
+ slpp_dirpath: ${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all
+uhdm-filepath: ${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all/surelog.uhdm
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {PosixPath('${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all/lib/work/sparc_exu_aluspr.v'): {'post_len': 0,
+                                                                                                                                                  'pre_len': 496}},
+            'post_len': 0,
+            'pre_len': 496,
+            'test_name': 'UtdSV/sparc_exu_aluspr.v'}}
+
++--------------------------------------+----------+-----------+
+| INPUT                                |   PRELEN |   POSTLEN |
++======================================+==========+===========+
+| slpp_all/lib/work/sparc_exu_aluspr.v |      496 |         0 |
++======================================+==========+===========+
+|                                      |      496 |         0 |
++--------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all/surelog.uhdm ${SURELOG_DIR}/regression/UtdSV/sparc_exu_aluspr.v/slpp_all/reduced.uhdm
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                             156     156       0         0
+----------------------------------------------------------------
+                                   156     156       0         0
+===================== END REDUCTION RESULT =====================

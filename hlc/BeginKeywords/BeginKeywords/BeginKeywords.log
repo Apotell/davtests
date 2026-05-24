@@ -1,0 +1,117 @@
+[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all/surelog.log".
+AST_DEBUG_BEGIN
+Count: 22
+LIB: work
+FILE: ${SURELOG_DIR}/tests/BeginKeywords/top.v
+n<${SURELOG_DIR}/tests/BeginKeywords/top.v> u<21> t<Top_level_rule> c<1> l<8:1> el<15:3>
+  n<> u<1> t<Null_rule> p<21> s<2> l<8:1> el<8:1>
+  n</*\n`begin_keywords "1364-2001" \nmodule b_kw1();\n  reg logic; // OK: "logic" is not a keyword in 1364-2001\nendmodule\n`end_keywords\n*/> u<2> t<BLOCK_COMMENT> p<21> s<19> l<8:1> el<10:10>
+  n<> u<19> t<Source_text> p<21> c<18> s<20> l<8:1> el<10:10>
+    n<> u<18> t<Description> p<19> c<17> l<8:1> el<10:10>
+      n<> u<17> t<Module_declaration> p<18> c<7> l<8:1> el<10:10>
+        n<> u<7> t<Module_nonansi_header> p<17> c<3> s<15> l<8:1> el<8:16>
+          n<module> u<3> t<Module_keyword> p<7> s<4> l<8:1> el<8:7>
+          n<b_kw2> u<4> t<SIMPLE_IDENTIFIER> p<7> s<5> l<8:8> el<8:13>
+          n<> u<5> t<Package_import_declaration_list> p<7> s<6> l<8:13> el<8:13>
+          n<> u<6> t<Port_list> p<7> l<8:13> el<8:15>
+        n<> u<15> t<Module_item> p<17> c<14> s<16> l<9:1> el<9:11>
+          n<> u<14> t<Port_declaration> p<15> c<13> l<9:1> el<9:10>
+            n<> u<13> t<Interface_port_declaration> p<14> c<9> l<9:1> el<9:10>
+              n<logic> u<9> t<Interface_identifier> p<13> c<8> s<12> l<9:1> el<9:6>
+                n<logic> u<8> t<SIMPLE_IDENTIFIER> p<9> l<9:1> el<9:6>
+              n<> u<12> t<Interface_identifier_list> p<13> c<11> l<9:7> el<9:10>
+                n<clk> u<11> t<Interface_identifier> p<12> c<10> l<9:7> el<9:10>
+                  n<clk> u<10> t<SIMPLE_IDENTIFIER> p<11> l<9:7> el<9:10>
+        n<> u<16> t<ENDMODULE> p<17> l<10:1> el<10:10>
+  n</*\nmodule b_kw3();\n  reg logic; // BAD: "logic" is a keyword in 1800-2017\nendmodule\n*/> u<20> t<BLOCK_COMMENT> p<21> l<8:1> el<10:10>
+AST_DEBUG_END
+[INF:CP0303] ${SURELOG_DIR}/tests/BeginKeywords/top.v:8:1: Compile module "work@b_kw2".
+[WRN:PA0205] ${SURELOG_DIR}/tests/BeginKeywords/top.v:8:1: No timescale set for "work@b_kw2".
+====== UHDM =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFiles (1 items):
+    SourceFile name:top.v file:${SURELOG_DIR}/tests/BeginKeywords/top.v:
+      vpiParent: Design name:unnamed
+      vpiName: top.v
+      vpiPreprocFile: "${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all/lib/work/top.v"
+      vpiDefNetType: none (12)
+  vpiAllModules (1 items):
+    Module name:work@b_kw2 file:${SURELOG_DIR}/tests/BeginKeywords/top.v start:8:1 end:10:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@b_kw2 start:8:8 end:8:13:
+        vpiParent: Module name:work@b_kw2
+        vpiName: work@b_kw2
+      vpiFullName: work@b_kw2
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:work@b_kw2
+      vpiDefName: work@b_kw2
+      vpiDefNetType: none (12)
+      vpiNet (1 items):
+        Net name:clk start:9:7 end:9:10:
+          vpiParent: Module name:work@b_kw2
+          vpiTypespec RefTypespec name:logic start:9:1 end:9:6:
+            vpiParent: Net name:clk
+            vpiName: logic
+            vpiFullName: work@b_kw2.clk.logic
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: work@b_kw2.clk
+  vpiTypespec (1 items):
+    ModuleTypespec name:work@b_kw2:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@b_kw2 start:8:8 end:8:13:
+        vpiParent: ModuleTypespec name:work@b_kw2
+        vpiName: work@b_kw2
+      vpiModule: Module name:work@b_kw2
+===================
+
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 0
+[WARNING] : 1
+[   NOTE] : 0
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+    test-name: BeginKeywords/BeginKeywords
+ test-dirpath: ${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords
+ slpp_dirpath: ${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all
+uhdm-filepath: ${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all/surelog.uhdm
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {PosixPath('${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all/lib/work/top.v'): {'post_len': 0,
+                                                                                                                                        'pre_len': 34}},
+            'post_len': 0,
+            'pre_len': 34,
+            'test_name': 'BeginKeywords/BeginKeywords'}}
+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| slpp_all/lib/work/top.v |       34 |         0 |
++=========================+==========+===========+
+|                         |       34 |         0 |
++-------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all/surelog.uhdm ${SURELOG_DIR}/regression/BeginKeywords/BeginKeywords/slpp_all/reduced.uhdm
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                               9       9       0         0
+----------------------------------------------------------------
+                                     9       9       0         0
+===================== END REDUCTION RESULT =====================

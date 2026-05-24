@@ -1,0 +1,35 @@
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+BasedOnStyle: LLVM
+Language: Cpp
+IndentWidth: 2
+ColumnLimit: 120
+AccessModifierOffset: -1
+IndentAccessModifiers: false
+SpacesBeforeTrailingComments: 2
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLambdasOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+InsertNewlineAtEOF: true
+IndentCaseLabels: true
+CompactNamespaces: true
+PointerAlignment: Right
+ReferenceAlignment: Right
+BreakTemplateDeclarations: Yes
+PackConstructorInitializers: NextLine
+IndentPPDirectives: BeforeHash
+AlignTrailingComments:
+  Kind: Always
+SortIncludes: true  # Enable include sorting (required!)
+IncludeBlocks: Preserve
+IncludeIsMainRegex: '^<Surelog/[^/]+/([^/]+)\.h>$'
+IncludeCategories:
+  - Regex:        '^<Surelog/[^/]+/[^/]+\.h>$'    # Matches <Surelog/folder/file.h>
+    Priority:     1
+  - Regex:        '^<uhdm/[^/]+\.h>$'             # Matches <uhdm/file.h>
+    Priority:     2
+  - Regex:        '^<[a-z]+/[^/]\.h>$'            # Matches <library/file.h>
+    Priority:     3
+  - Regex:        '^<([a-z]+/)?([^/]+)\.h>$'      # Handles <vector>, <cstdio>, <sys/stat.h>
+    Priority:     4

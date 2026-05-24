@@ -1,0 +1,222 @@
+name: 'hlc'
+
+# Concurrency: cancel any in-progress run for the same workflow and source ref.
+# For repository_dispatch triggers the relevant ref is the branch on the remote
+# (hlc) repo that produced the build, passed as client_payload.ref.  Using
+# github.ref alone would group all dispatches together regardless of source
+# branch, causing a run triggered by one branch to cancel a run already in
+# progress for a different branch.  The fallback to github.ref covers
+# workflow_dispatch, where no client payload is present.
+concurrency:
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.client_payload.ref || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_number:
+        description: 'Build run number'
+        required: true
+      run_id:
+        description: 'Build run ID (from the url)'
+        required: true
+  repository_dispatch:
+    types: [hlc-build-complete]
+
+env:
+  PYTHON3_VERSION: '3.x'
+  hlc-run-id: ${{ github.event.client_payload.run_id || github.event.inputs.run_id }}
+  hlc-run-number: ${{ github.event.client_payload.run_number || github.event.inputs.run_number }}
+
+jobs:
+# Preflight ###########################################################################################################
+
+  preflight:
+    name: "Preflight | ubuntu"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Verify artifacts are accessible
+      env:
+        GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+      run: |
+        artifacts=$(gh api /repos/Apotell/hlc/actions/runs/${{ env.hlc-run-id }}/artifacts \
+          --jq '.artifacts[].name')
+        echo "Available artifacts:"
+        echo "$artifacts"
+        echo "$artifacts" | grep -q "hlc_ubuntu_release_${{ env.hlc-run-number }}" \
+          || { echo "::error::Build artifact not found"; exit 1; }
+        echo "$artifacts" | grep -q "pyuhdm-" \
+          || { echo "::error::pyuhdm artifact not found"; exit 1; }
+
+# Regression ##########################################################################################################
+
+  regression:
+    name: "Regression | ${{ matrix.config.tag }} | ${{ matrix.shard }}"
+    needs: preflight
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        num_shards: [8]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+        config:
+        - { os: ubuntu-24.04, tag: ubuntu, build-type: release }
+        # - { os: windows-2022, tag: windows, build-type: release }
+
+    env:
+      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.client_payload.run_number || github.event.inputs.run_number }}
+      pyuhdm-artifact-pattern: "pyuhdm-*-linux_x86_64.whl"
+      regression-artifact-name: Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_${{ matrix.shard }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON3_VERSION }}
+        architecture: 'x64'
+        cache: 'pip'
+        cache-dependency-path: requirements.txt
+
+    - name: Setup Python Packages
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+
+    - name: Download artifact (build)
+      uses: actions/download-artifact@v7
+      with:
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ env.hlc-run-id }}
+        repository: Apotell/hlc
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+
+    - name: Download artifact (pyuhdm)
+      uses: actions/download-artifact@v7
+      with:
+        pattern: ${{ env.pyuhdm-artifact-pattern }}
+        run-id: ${{ env.hlc-run-id }}
+        repository: Apotell/hlc
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+
+    - name: Extract build artifact
+      shell: bash
+      run: |
+        # This has to be a separate step and run under bash since tar on Windows
+        # still doesn't support symlink and the root repository folder is a symlink.
+        tar xzfp ${{ env.build-artifact-name }}.tar.gz
+        mv ${{ env.build-artifact-name }} build
+        rm ${{ env.build-artifact-name }}.tar.gz
+
+    - name: Run regression
+      if: runner.os == 'Linux'
+      shell: bash
+      timeout-minutes: 60
+      run: |
+        python -m pip install $(ls ${{ env.pyuhdm-artifact-pattern }} | head -n 1)
+
+        python3 scripts/regression.py                                                         \
+          --build-dirpath build/bin/${{ matrix.config.tag }}_${{ matrix.config.build-type }}  \
+          --surelog-filepath surelog                                                          \
+          --reducer-filepath uhdm-reduce                                                      \
+          --output-dirpath ${{ github.workspace }}/regression                                 \
+          --jobs $(nproc)                                                                     \
+          --num_shards=${{ matrix.num_shards }}                                               \
+          --shard=${{ matrix.shard }}
+        git status
+
+    - name: Prepare regression artifacts
+      if: ${{ !cancelled() }}
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo "$GITHUB_CONTEXT" > env.json
+        mv regression/regression.csv .
+        mv regression ${{ env.regression-artifact-name }}
+        find ${{ env.regression-artifact-name }} -name "*.tar.gz" | tar czfp ${{ env.regression-artifact-name }}.tar.gz -T -
+
+    - name: Archive artifacts
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ env.regression-artifact-name }}
+        path: |
+          ${{ env.regression-artifact-name }}.tar.gz
+          env.json
+          regression.csv
+
+# Summarize ###########################################################################################################
+
+  Summarize:
+    name: "Summarize | ${{ matrix.config.tag }} | ${{ matrix.config.build-type }}"
+    needs: regression
+    runs-on: ${{ matrix.config.os }}
+    if: ${{ !cancelled() }}
+
+    env:
+      regression-artifact-pattern: 'Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_*'
+      summary-artifact-name: Summary_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: ubuntu-24.04, tag: ubuntu, build-type: release }
+        # - { os: windows-2022, tag: windows, build-type: release }
+
+    steps:
+    - name: Git Pull
+      uses: actions/checkout@v6
+      with:
+        sparse-checkout: |
+          scripts
+          requirements.txt
+
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON3_VERSION }}
+        architecture: 'x64'
+        cache: 'pip'
+        cache-dependency-path: requirements.txt
+
+    - name: Setup Python Packages
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+
+    # NOTE: Minimum v8 is required here. Older versions do NOT support 'skip-decompress'
+    # argument and the scripts are written with that assumption. upload-artifact@v7 and
+    # download-artifact@v8 are *known* to be compatible.
+    - name: Download regression artifact
+      uses: actions/download-artifact@v8
+      with:
+        pattern: ${{ env.regression-artifact-pattern }}
+        skip-decompress: true
+        merge-multiple: true
+
+    - name: Run scanner
+      timeout-minutes: 15
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        ls -lR
+        python3 scripts/summarize.py                                  \
+          ${{ github.workspace }}                                     \
+          Regression_ubuntu_release_${{ github.run_number }}_{index}  \
+          --jobs $(nproc)
+
+    - name: Archive artifacts
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ env.summary-artifact-name }}
+        path: |
+          errors.log
+          env.json
+          reducer.csv
+          regression.csv

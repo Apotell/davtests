@@ -1,0 +1,1374 @@
+[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all/surelog.log".
+AST_DEBUG_BEGIN
+Count: 586
+LIB: work
+FILE: ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v
+n<${SURELOG_DIR}/tests/Verilator/t_initial_edge.v> u<585> t<Top_level_rule> c<1> l<25:1> el<102:1>
+  n<> u<1> t<Null_rule> p<585> s<2> l<25:1> el<25:1>
+  n<// DESCRIPTION: Verilator: initial edge issue> u<2> t<LINE_COMMENT> p<585> s<3> l<1:1> el<1:46>
+  n<//> u<3> t<LINE_COMMENT> p<585> s<4> l<2:1> el<2:3>
+  n<// The module initial_edge drives the output "res" high when the reset signal,> u<4> t<LINE_COMMENT> p<585> s<5> l<3:1> el<3:79>
+  n<// rst, goes high.> u<5> t<LINE_COMMENT> p<585> s<6> l<4:1> el<4:19>
+  n<//> u<6> t<LINE_COMMENT> p<585> s<7> l<5:1> el<5:3>
+  n<// The module initial_edge_n drives the output "res_n" high when the reset> u<7> t<LINE_COMMENT> p<585> s<8> l<6:1> el<6:75>
+  n<// signal, rst_n, goes low.> u<8> t<LINE_COMMENT> p<585> s<9> l<7:1> el<7:28>
+  n<//> u<9> t<LINE_COMMENT> p<585> s<10> l<8:1> el<8:3>
+  n<// For 4-state simulators, that edge occurs when the initial value of rst_n,> u<10> t<LINE_COMMENT> p<585> s<11> l<9:1> el<9:77>
+  n<// X, goes to zero. However, by default for Verilator, being 2-state, the> u<11> t<LINE_COMMENT> p<585> s<12> l<10:1> el<10:74>
+  n<// initial value is zero, so no edge is seen.> u<12> t<LINE_COMMENT> p<585> s<13> l<11:1> el<11:46>
+  n<//> u<13> t<LINE_COMMENT> p<585> s<14> l<12:1> el<12:3>
+  n<// This is not a bug in verilator (it is bad design to rely on an edge> u<14> t<LINE_COMMENT> p<585> s<15> l<13:1> el<13:71>
+  n<// transition from an unitialized signal), but the problem is that there are> u<15> t<LINE_COMMENT> p<585> s<16> l<14:1> el<14:77>
+  n<// quite a few instances of code out there that seems to be dependent on this> u<16> t<LINE_COMMENT> p<585> s<17> l<15:1> el<15:78>
+  n<// behaviour to get out of reset.> u<17> t<LINE_COMMENT> p<585> s<18> l<16:1> el<16:34>
+  n<//> u<18> t<LINE_COMMENT> p<585> s<19> l<17:1> el<17:3>
+  n<// The Verilator --x-initial-edge flag causes these initial edges to trigger,> u<19> t<LINE_COMMENT> p<585> s<20> l<18:1> el<18:78>
+  n<// thus matching the behaviour of a 4-state simulator. This is reportedly also> u<20> t<LINE_COMMENT> p<585> s<21> l<19:1> el<19:79>
+  n<// the behaviour of commercial cycle accurate modelling tools as well.> u<21> t<LINE_COMMENT> p<585> s<22> l<20:1> el<20:71>
+  n<//> u<22> t<LINE_COMMENT> p<585> s<23> l<21:1> el<21:3>
+  n<// This file ONLY is placed into the Public Domain, for any use, without> u<23> t<LINE_COMMENT> p<585> s<24> l<22:1> el<22:73>
+  n<// warranty, 2012 by Wilson Snyder.> u<24> t<LINE_COMMENT> p<585> s<583> l<23:1> el<23:36>
+  n<> u<583> t<Source_text> p<585> c<33> s<584> l<25:1> el<101:10>
+    n<> u<33> t<Description> p<583> c<32> s<367> l<25:1> el<25:19>
+      n<> u<32> t<Top_directives> p<33> c<31> l<25:1> el<25:19>
+        n<> u<31> t<Timescale_directive> p<32> c<27> l<25:1> el<25:19>
+          n<> u<27> t<Time_literal> p<31> c<25> s<30> l<25:12> el<25:15>
+            n<1> u<25> t<INTEGRAL_NUMBER> p<27> s<26> l<25:12> el<25:13>
+            n<ns> u<26> t<Time_unit> p<27> l<25:13> el<25:15>
+          n<> u<30> t<Time_literal> p<31> c<28> l<25:16> el<25:19>
+            n<1> u<28> t<INTEGRAL_NUMBER> p<30> s<29> l<25:16> el<25:17>
+            n<ns> u<29> t<Time_unit> p<30> l<25:17> el<25:19>
+    n<> u<367> t<Description> p<583> c<366> s<474> l<27:1> el<69:10>
+      n<> u<366> t<Module_declaration> p<367> c<46> l<27:1> el<69:10>
+        n<> u<46> t<Module_nonansi_header> p<366> c<34> s<53> l<27:1> el<30:6>
+          n<module> u<34> t<Module_keyword> p<46> s<35> l<27:1> el<27:7>
+          n<t> u<35> t<SIMPLE_IDENTIFIER> p<46> s<36> l<27:8> el<27:9>
+          n<> u<36> t<Package_import_declaration_list> p<46> s<37> l<27:10> el<27:10>
+          n</*AUTOARG*/> u<37> t<BLOCK_COMMENT> p<46> s<38> l<27:10> el<30:5>
+          n<// Inputs> u<38> t<LINE_COMMENT> p<46> s<45> l<28:4> el<28:13>
+          n<> u<45> t<Port_list> p<46> c<44> l<27:10> el<30:5>
+            n<> u<44> t<Port> p<45> c<43> l<29:4> el<29:7>
+              n<> u<43> t<Port_expression> p<44> c<42> l<29:4> el<29:7>
+                n<> u<42> t<Port_reference> p<43> c<39> l<29:4> el<29:7>
+                  n<clk> u<39> t<SIMPLE_IDENTIFIER> p<42> s<41> l<29:4> el<29:7>
+                  n<> u<41> t<Constant_select> p<42> c<40> l<30:4> el<30:4>
+                    n<> u<40> t<Constant_bit_select> p<41> l<30:4> el<30:4>
+        n<> u<53> t<Module_item> p<366> c<52> s<65> l<31:4> el<31:14>
+          n<> u<52> t<Port_declaration> p<53> c<51> l<31:4> el<31:13>
+            n<> u<51> t<Input_declaration> p<52> c<48> l<31:4> el<31:13>
+              n<> u<48> t<Net_port_type> p<51> c<47> s<50> l<31:10> el<31:10>
+                n<> u<47> t<Data_type_or_implicit> p<48> l<31:10> el<31:10>
+              n<> u<50> t<Port_identifier_list> p<51> c<49> l<31:10> el<31:13>
+                n<clk> u<49> t<SIMPLE_IDENTIFIER> p<50> l<31:10> el<31:13>
+        n<> u<65> t<Module_item> p<366> c<64> s<77> l<33:4> el<33:14>
+          n<> u<64> t<Non_port_module_item> p<65> c<63> l<33:4> el<33:14>
+            n<> u<63> t<Module_or_generate_item> p<64> c<62> l<33:4> el<33:14>
+              n<> u<62> t<Module_common_item> p<63> c<61> l<33:4> el<33:14>
+                n<> u<61> t<Module_or_generate_item_declaration> p<62> c<60> l<33:4> el<33:14>
+                  n<> u<60> t<Package_or_generate_item_declaration> p<61> c<59> l<33:4> el<33:14>
+                    n<> u<59> t<Net_declaration> p<60> c<54> l<33:4> el<33:14>
+                      n<> u<54> t<WIRE> p<59> s<55> l<33:4> el<33:8>
+                      n<> u<55> t<Data_type_or_implicit> p<59> s<58> l<33:10> el<33:10>
+                      n<> u<58> t<Net_decl_assignment_list> p<59> c<57> l<33:10> el<33:13>
+                        n<> u<57> t<Net_decl_assignment> p<58> c<56> l<33:10> el<33:13>
+                          n<res> u<56> t<SIMPLE_IDENTIFIER> p<57> l<33:10> el<33:13>
+        n<> u<77> t<Module_item> p<366> c<76> s<90> l<34:4> el<34:16>
+          n<> u<76> t<Non_port_module_item> p<77> c<75> l<34:4> el<34:16>
+            n<> u<75> t<Module_or_generate_item> p<76> c<74> l<34:4> el<34:16>
+              n<> u<74> t<Module_common_item> p<75> c<73> l<34:4> el<34:16>
+                n<> u<73> t<Module_or_generate_item_declaration> p<74> c<72> l<34:4> el<34:16>
+                  n<> u<72> t<Package_or_generate_item_declaration> p<73> c<71> l<34:4> el<34:16>
+                    n<> u<71> t<Net_declaration> p<72> c<66> l<34:4> el<34:16>
+                      n<> u<66> t<WIRE> p<71> s<67> l<34:4> el<34:8>
+                      n<> u<67> t<Data_type_or_implicit> p<71> s<70> l<34:10> el<34:10>
+                      n<> u<70> t<Net_decl_assignment_list> p<71> c<69> l<34:10> el<34:15>
+                        n<> u<69> t<Net_decl_assignment> p<70> c<68> l<34:10> el<34:15>
+                          n<res_n> u<68> t<SIMPLE_IDENTIFIER> p<69> l<34:10> el<34:15>
+        n<> u<90> t<Module_item> p<366> c<89> s<103> l<35:4> el<35:14>
+          n<> u<89> t<Non_port_module_item> p<90> c<88> l<35:4> el<35:14>
+            n<> u<88> t<Module_or_generate_item> p<89> c<87> l<35:4> el<35:14>
+              n<> u<87> t<Module_common_item> p<88> c<86> l<35:4> el<35:14>
+                n<> u<86> t<Module_or_generate_item_declaration> p<87> c<85> l<35:4> el<35:14>
+                  n<> u<85> t<Package_or_generate_item_declaration> p<86> c<84> l<35:4> el<35:14>
+                    n<> u<84> t<Data_declaration> p<85> c<83> l<35:4> el<35:14>
+                      n<> u<83> t<Variable_declaration> p<84> c<79> l<35:4> el<35:14>
+                        n<> u<79> t<Data_type> p<83> c<78> s<82> l<35:4> el<35:7>
+                          n<> u<78> t<REG> p<79> l<35:4> el<35:7>
+                        n<> u<82> t<Variable_decl_assignment_list> p<83> c<81> l<35:10> el<35:13>
+                          n<> u<81> t<Variable_decl_assignment> p<82> c<80> l<35:10> el<35:13>
+                            n<rst> u<80> t<SIMPLE_IDENTIFIER> p<81> l<35:10> el<35:13>
+        n<> u<103> t<Module_item> p<366> c<102> s<120> l<36:4> el<36:16>
+          n<> u<102> t<Non_port_module_item> p<103> c<101> l<36:4> el<36:16>
+            n<> u<101> t<Module_or_generate_item> p<102> c<100> l<36:4> el<36:16>
+              n<> u<100> t<Module_common_item> p<101> c<99> l<36:4> el<36:16>
+                n<> u<99> t<Module_or_generate_item_declaration> p<100> c<98> l<36:4> el<36:16>
+                  n<> u<98> t<Package_or_generate_item_declaration> p<99> c<97> l<36:4> el<36:16>
+                    n<> u<97> t<Data_declaration> p<98> c<96> l<36:4> el<36:16>
+                      n<> u<96> t<Variable_declaration> p<97> c<92> l<36:4> el<36:16>
+                        n<> u<92> t<Data_type> p<96> c<91> s<95> l<36:4> el<36:7>
+                          n<> u<91> t<REG> p<92> l<36:4> el<36:7>
+                        n<> u<95> t<Variable_decl_assignment_list> p<96> c<94> l<36:10> el<36:15>
+                          n<> u<94> t<Variable_decl_assignment> p<95> c<93> l<36:10> el<36:15>
+                            n<rst_n> u<93> t<SIMPLE_IDENTIFIER> p<94> l<36:10> el<36:15>
+        n<> u<120> t<Module_item> p<366> c<119> s<145> l<38:4> el<38:22>
+          n<> u<119> t<Non_port_module_item> p<120> c<118> l<38:4> el<38:22>
+            n<> u<118> t<Module_or_generate_item> p<119> c<117> l<38:4> el<38:22>
+              n<> u<117> t<Module_common_item> p<118> c<116> l<38:4> el<38:22>
+                n<> u<116> t<Module_or_generate_item_declaration> p<117> c<115> l<38:4> el<38:22>
+                  n<> u<115> t<Package_or_generate_item_declaration> p<116> c<114> l<38:4> el<38:22>
+                    n<> u<114> t<Data_declaration> p<115> c<113> l<38:4> el<38:22>
+                      n<> u<113> t<Variable_declaration> p<114> c<105> l<38:4> el<38:22>
+                        n<> u<105> t<Data_type> p<113> c<104> s<112> l<38:4> el<38:11>
+                          n<> u<104> t<INTEGER> p<105> l<38:4> el<38:11>
+                        n<> u<112> t<Variable_decl_assignment_list> p<113> c<111> l<38:12> el<38:21>
+                          n<> u<111> t<Variable_decl_assignment> p<112> c<106> l<38:12> el<38:21>
+                            n<count> u<106> t<SIMPLE_IDENTIFIER> p<111> s<110> l<38:12> el<38:17>
+                            n<> u<110> t<Expression> p<111> c<109> l<38:20> el<38:21>
+                              n<> u<109> t<Primary> p<110> c<108> l<38:20> el<38:21>
+                                n<> u<108> t<Primary_literal> p<109> c<107> l<38:20> el<38:21>
+                                  n<0> u<107> t<INTEGRAL_NUMBER> p<108> l<38:20> el<38:21>
+        n<> u<145> t<Module_item> p<366> c<144> s<170> l<40:4> el<41:16>
+          n<> u<144> t<Non_port_module_item> p<145> c<143> l<40:4> el<41:16>
+            n<> u<143> t<Module_or_generate_item> p<144> c<142> l<40:4> el<41:16>
+              n<> u<142> t<Module_instantiation> p<143> c<121> l<40:4> el<41:16>
+                n<initial_edge> u<121> t<SIMPLE_IDENTIFIER> p<142> s<141> l<40:4> el<40:16>
+                n<> u<141> t<Hierarchical_instance> p<142> c<123> l<40:17> el<41:15>
+                  n<> u<123> t<Name_of_instance> p<141> c<122> s<140> l<40:17> el<40:23>
+                    n<i_edge> u<122> t<SIMPLE_IDENTIFIER> p<123> l<40:17> el<40:23>
+                  n<> u<140> t<Port_connection_list> p<141> c<131> l<40:25> el<41:14>
+                    n<> u<131> t<Named_port_connection> p<140> c<124> s<139> l<40:25> el<40:35>
+                      n<res> u<124> t<SIMPLE_IDENTIFIER> p<131> s<129> l<40:26> el<40:29>
+                      n<> u<129> t<OPEN_PARENS> p<131> s<128> l<40:30> el<40:31>
+                      n<> u<128> t<Expression> p<131> c<127> s<130> l<40:31> el<40:34>
+                        n<> u<127> t<Primary> p<128> c<126> l<40:31> el<40:34>
+                          n<> u<126> t<Primary_literal> p<127> c<125> l<40:31> el<40:34>
+                            n<res> u<125> t<SIMPLE_IDENTIFIER> p<126> l<40:31> el<40:34>
+                      n<> u<130> t<CLOSE_PARENS> p<131> l<40:34> el<40:35>
+                    n<> u<139> t<Named_port_connection> p<140> c<132> l<41:4> el<41:14>
+                      n<rst> u<132> t<SIMPLE_IDENTIFIER> p<139> s<137> l<41:5> el<41:8>
+                      n<> u<137> t<OPEN_PARENS> p<139> s<136> l<41:9> el<41:10>
+                      n<> u<136> t<Expression> p<139> c<135> s<138> l<41:10> el<41:13>
+                        n<> u<135> t<Primary> p<136> c<134> l<41:10> el<41:13>
+                          n<> u<134> t<Primary_literal> p<135> c<133> l<41:10> el<41:13>
+                            n<rst> u<133> t<SIMPLE_IDENTIFIER> p<134> l<41:10> el<41:13>
+                      n<> u<138> t<CLOSE_PARENS> p<139> l<41:13> el<41:14>
+        n<> u<170> t<Module_item> p<366> c<169> s<171> l<43:4> el<44:24>
+          n<> u<169> t<Non_port_module_item> p<170> c<168> l<43:4> el<44:24>
+            n<> u<168> t<Module_or_generate_item> p<169> c<167> l<43:4> el<44:24>
+              n<> u<167> t<Module_instantiation> p<168> c<146> l<43:4> el<44:24>
+                n<initial_edge_n> u<146> t<SIMPLE_IDENTIFIER> p<167> s<166> l<43:4> el<43:18>
+                n<> u<166> t<Hierarchical_instance> p<167> c<148> l<43:19> el<44:23>
+                  n<> u<148> t<Name_of_instance> p<166> c<147> s<165> l<43:19> el<43:27>
+                    n<i_edge_n> u<147> t<SIMPLE_IDENTIFIER> p<148> l<43:19> el<43:27>
+                  n<> u<165> t<Port_connection_list> p<166> c<156> l<43:29> el<44:22>
+                    n<> u<156> t<Named_port_connection> p<165> c<149> s<164> l<43:29> el<43:43>
+                      n<res_n> u<149> t<SIMPLE_IDENTIFIER> p<156> s<154> l<43:30> el<43:35>
+                      n<> u<154> t<OPEN_PARENS> p<156> s<153> l<43:36> el<43:37>
+                      n<> u<153> t<Expression> p<156> c<152> s<155> l<43:37> el<43:42>
+                        n<> u<152> t<Primary> p<153> c<151> l<43:37> el<43:42>
+                          n<> u<151> t<Primary_literal> p<152> c<150> l<43:37> el<43:42>
+                            n<res_n> u<150> t<SIMPLE_IDENTIFIER> p<151> l<43:37> el<43:42>
+                      n<> u<155> t<CLOSE_PARENS> p<156> l<43:42> el<43:43>
+                    n<> u<164> t<Named_port_connection> p<165> c<157> l<44:8> el<44:22>
+                      n<rst_n> u<157> t<SIMPLE_IDENTIFIER> p<164> s<162> l<44:9> el<44:14>
+                      n<> u<162> t<OPEN_PARENS> p<164> s<161> l<44:15> el<44:16>
+                      n<> u<161> t<Expression> p<164> c<160> s<163> l<44:16> el<44:21>
+                        n<> u<160> t<Primary> p<161> c<159> l<44:16> el<44:21>
+                          n<> u<159> t<Primary_literal> p<160> c<158> l<44:16> el<44:21>
+                            n<rst_n> u<158> t<SIMPLE_IDENTIFIER> p<159> l<44:16> el<44:21>
+                      n<> u<163> t<CLOSE_PARENS> p<164> l<44:21> el<44:22>
+        n<// run for 3 cycles, with one cycle of reset.> u<171> t<LINE_COMMENT> p<366> s<364> l<46:4> el<46:49>
+        n<> u<364> t<Module_item> p<366> c<363> s<365> l<47:4> el<67:7>
+          n<> u<363> t<Non_port_module_item> p<364> c<362> l<47:4> el<67:7>
+            n<> u<362> t<Module_or_generate_item> p<363> c<361> l<47:4> el<67:7>
+              n<> u<361> t<Module_common_item> p<362> c<360> l<47:4> el<67:7>
+                n<> u<360> t<Always_construct> p<361> c<172> l<47:4> el<67:7>
+                  n<> u<172> t<ALWAYS> p<360> s<359> l<47:4> el<47:10>
+                  n<> u<359> t<Statement> p<360> c<358> l<47:11> el<67:7>
+                    n<> u<358> t<Statement_item> p<359> c<357> l<47:11> el<67:7>
+                      n<> u<357> t<Procedural_timing_control_statement> p<358> c<180> l<47:11> el<67:7>
+                        n<> u<180> t<Procedural_timing_control> p<357> c<179> s<356> l<47:11> el<47:25>
+                          n<> u<179> t<Event_control> p<180> c<178> l<47:11> el<47:25>
+                            n<> u<178> t<Event_expression> p<179> c<173> l<47:13> el<47:24>
+                              n<> u<173> t<POSEDGE> p<178> s<177> l<47:13> el<47:20>
+                              n<> u<177> t<Expression> p<178> c<176> l<47:21> el<47:24>
+                                n<> u<176> t<Primary> p<177> c<175> l<47:21> el<47:24>
+                                  n<> u<175> t<Primary_literal> p<176> c<174> l<47:21> el<47:24>
+                                    n<clk> u<174> t<SIMPLE_IDENTIFIER> p<175> l<47:21> el<47:24>
+                        n<> u<356> t<Statement_or_null> p<357> c<355> l<47:26> el<67:7>
+                          n<> u<355> t<Statement> p<356> c<354> l<47:26> el<67:7>
+                            n<> u<354> t<Statement_item> p<355> c<353> l<47:26> el<67:7>
+                              n<> u<353> t<Seq_block> p<354> c<210> l<47:26> el<67:7>
+                                n<> u<210> t<Statement_or_null> p<353> c<209> s<240> l<49:7> el<49:37>
+                                  n<> u<209> t<Statement> p<210> c<208> l<49:7> el<49:37>
+                                    n<> u<208> t<Statement_item> p<209> c<207> l<49:7> el<49:37>
+                                      n<> u<207> t<Nonblocking_assignment> p<208> c<185> l<49:7> el<49:36>
+                                        n<> u<185> t<Variable_lvalue> p<207> c<182> s<206> l<49:7> el<49:10>
+                                          n<> u<182> t<Ps_or_hierarchical_identifier> p<185> c<181> s<184> l<49:7> el<49:10>
+                                            n<rst> u<181> t<SIMPLE_IDENTIFIER> p<182> l<49:7> el<49:10>
+                                          n<> u<184> t<Select> p<185> c<183> l<49:13> el<49:13>
+                                            n<> u<183> t<Bit_select> p<184> l<49:13> el<49:13>
+                                        n<> u<206> t<Expression> p<207> c<196> l<49:16> el<49:36>
+                                          n<> u<196> t<Expression> p<206> c<195> s<205> l<49:16> el<49:28>
+                                            n<> u<195> t<Expression> p<196> c<189> l<49:17> el<49:27>
+                                              n<> u<189> t<Expression> p<195> c<188> s<194> l<49:17> el<49:22>
+                                                n<> u<188> t<Primary> p<189> c<187> l<49:17> el<49:22>
+                                                  n<> u<187> t<Primary_literal> p<188> c<186> l<49:17> el<49:22>
+                                                    n<count> u<186> t<SIMPLE_IDENTIFIER> p<187> l<49:17> el<49:22>
+                                              n<> u<194> t<EQUIV> p<195> s<193> l<49:23> el<49:25>
+                                              n<> u<193> t<Expression> p<195> c<192> l<49:26> el<49:27>
+                                                n<> u<192> t<Primary> p<193> c<191> l<49:26> el<49:27>
+                                                  n<> u<191> t<Primary_literal> p<192> c<190> l<49:26> el<49:27>
+                                                    n<0> u<190> t<INTEGRAL_NUMBER> p<191> l<49:26> el<49:27>
+                                          n<> u<205> t<QMARK> p<206> s<200> l<49:29> el<49:30>
+                                          n<> u<200> t<Expression> p<206> c<199> s<204> l<49:31> el<49:32>
+                                            n<> u<199> t<Primary> p<200> c<198> l<49:31> el<49:32>
+                                              n<> u<198> t<Primary_literal> p<199> c<197> l<49:31> el<49:32>
+                                                n<1> u<197> t<INTEGRAL_NUMBER> p<198> l<49:31> el<49:32>
+                                          n<> u<204> t<Expression> p<206> c<203> l<49:35> el<49:36>
+                                            n<> u<203> t<Primary> p<204> c<202> l<49:35> el<49:36>
+                                              n<> u<202> t<Primary_literal> p<203> c<201> l<49:35> el<49:36>
+                                                n<0> u<201> t<INTEGRAL_NUMBER> p<202> l<49:35> el<49:36>
+                                n<> u<240> t<Statement_or_null> p<353> c<239> s<331> l<50:7> el<50:37>
+                                  n<> u<239> t<Statement> p<240> c<238> l<50:7> el<50:37>
+                                    n<> u<238> t<Statement_item> p<239> c<237> l<50:7> el<50:37>
+                                      n<> u<237> t<Nonblocking_assignment> p<238> c<215> l<50:7> el<50:36>
+                                        n<> u<215> t<Variable_lvalue> p<237> c<212> s<236> l<50:7> el<50:12>
+                                          n<> u<212> t<Ps_or_hierarchical_identifier> p<215> c<211> s<214> l<50:7> el<50:12>
+                                            n<rst_n> u<211> t<SIMPLE_IDENTIFIER> p<212> l<50:7> el<50:12>
+                                          n<> u<214> t<Select> p<215> c<213> l<50:13> el<50:13>
+                                            n<> u<213> t<Bit_select> p<214> l<50:13> el<50:13>
+                                        n<> u<236> t<Expression> p<237> c<226> l<50:16> el<50:36>
+                                          n<> u<226> t<Expression> p<236> c<225> s<235> l<50:16> el<50:28>
+                                            n<> u<225> t<Expression> p<226> c<219> l<50:17> el<50:27>
+                                              n<> u<219> t<Expression> p<225> c<218> s<224> l<50:17> el<50:22>
+                                                n<> u<218> t<Primary> p<219> c<217> l<50:17> el<50:22>
+                                                  n<> u<217> t<Primary_literal> p<218> c<216> l<50:17> el<50:22>
+                                                    n<count> u<216> t<SIMPLE_IDENTIFIER> p<217> l<50:17> el<50:22>
+                                              n<> u<224> t<EQUIV> p<225> s<223> l<50:23> el<50:25>
+                                              n<> u<223> t<Expression> p<225> c<222> l<50:26> el<50:27>
+                                                n<> u<222> t<Primary> p<223> c<221> l<50:26> el<50:27>
+                                                  n<> u<221> t<Primary_literal> p<222> c<220> l<50:26> el<50:27>
+                                                    n<0> u<220> t<INTEGRAL_NUMBER> p<221> l<50:26> el<50:27>
+                                          n<> u<235> t<QMARK> p<236> s<230> l<50:29> el<50:30>
+                                          n<> u<230> t<Expression> p<236> c<229> s<234> l<50:31> el<50:32>
+                                            n<> u<229> t<Primary> p<230> c<228> l<50:31> el<50:32>
+                                              n<> u<228> t<Primary_literal> p<229> c<227> l<50:31> el<50:32>
+                                                n<0> u<227> t<INTEGRAL_NUMBER> p<228> l<50:31> el<50:32>
+                                          n<> u<234> t<Expression> p<236> c<233> l<50:35> el<50:36>
+                                            n<> u<233> t<Primary> p<234> c<232> l<50:35> el<50:36>
+                                              n<> u<232> t<Primary_literal> p<233> c<231> l<50:35> el<50:36>
+                                                n<1> u<231> t<INTEGRAL_NUMBER> p<232> l<50:35> el<50:36>
+                                n<> u<331> t<Statement_or_null> p<353> c<330> s<351> l<52:7> el<63:10>
+                                  n<> u<330> t<Statement> p<331> c<329> l<52:7> el<63:10>
+                                    n<> u<329> t<Statement_item> p<330> c<328> l<52:7> el<63:10>
+                                      n<> u<328> t<Conditional_statement> p<329> c<252> l<52:7> el<63:10>
+                                        n<> u<252> t<Cond_predicate> p<328> c<251> s<327> l<52:11> el<52:21>
+                                          n<> u<251> t<Expression_or_cond_pattern> p<252> c<250> l<52:11> el<52:21>
+                                            n<> u<250> t<Expression> p<251> c<244> l<52:11> el<52:21>
+                                              n<> u<244> t<Expression> p<250> c<243> s<249> l<52:11> el<52:16>
+                                                n<> u<243> t<Primary> p<244> c<242> l<52:11> el<52:16>
+                                                  n<> u<242> t<Primary_literal> p<243> c<241> l<52:11> el<52:16>
+                                                    n<count> u<241> t<SIMPLE_IDENTIFIER> p<242> l<52:11> el<52:16>
+                                              n<> u<249> t<EQUIV> p<250> s<248> l<52:17> el<52:19>
+                                              n<> u<248> t<Expression> p<250> c<247> l<52:20> el<52:21>
+                                                n<> u<247> t<Primary> p<248> c<246> l<52:20> el<52:21>
+                                                  n<> u<246> t<Primary_literal> p<247> c<245> l<52:20> el<52:21>
+                                                    n<3> u<245> t<INTEGRAL_NUMBER> p<246> l<52:20> el<52:21>
+                                        n<> u<327> t<Statement_or_null> p<328> c<326> l<52:23> el<63:10>
+                                          n<> u<326> t<Statement> p<327> c<325> l<52:23> el<63:10>
+                                            n<> u<325> t<Statement_item> p<326> c<324> l<52:23> el<63:10>
+                                              n<> u<324> t<Seq_block> p<325> c<322> l<52:23> el<63:10>
+                                                n<> u<322> t<Statement_or_null> p<324> c<321> s<323> l<53:3> el<62:6>
+                                                  n<> u<321> t<Statement> p<322> c<320> l<53:3> el<62:6>
+                                                    n<> u<320> t<Statement_item> p<321> c<319> l<53:3> el<62:6>
+                                                      n<> u<319> t<Conditional_statement> p<320> c<278> l<53:3> el<62:6>
+                                                        n<> u<278> t<Cond_predicate> p<319> c<277> s<304> l<53:7> el<53:33>
+                                                          n<> u<277> t<Expression_or_cond_pattern> p<278> c<276> l<53:7> el<53:33>
+                                                            n<> u<276> t<Expression> p<277> c<263> l<53:7> el<53:33>
+                                                              n<> u<263> t<Expression> p<276> c<262> s<275> l<53:7> el<53:17>
+                                                                n<> u<262> t<Expression> p<263> c<256> l<53:8> el<53:16>
+                                                                  n<> u<256> t<Expression> p<262> c<255> s<261> l<53:8> el<53:11>
+                                                                    n<> u<255> t<Primary> p<256> c<254> l<53:8> el<53:11>
+                                                                      n<> u<254> t<Primary_literal> p<255> c<253> l<53:8> el<53:11>
+                                                                        n<res> u<253> t<SIMPLE_IDENTIFIER> p<254> l<53:8> el<53:11>
+                                                                  n<> u<261> t<EQUIV> p<262> s<260> l<53:12> el<53:14>
+                                                                  n<> u<260> t<Expression> p<262> c<259> l<53:15> el<53:16>
+                                                                    n<> u<259> t<Primary> p<260> c<258> l<53:15> el<53:16>
+                                                                      n<> u<258> t<Primary_literal> p<259> c<257> l<53:15> el<53:16>
+                                                                        n<1> u<257> t<INTEGRAL_NUMBER> p<258> l<53:15> el<53:16>
+                                                              n<> u<275> t<LOGICAL_AND> p<276> s<274> l<53:18> el<53:20>
+                                                              n<> u<274> t<Expression> p<276> c<273> l<53:21> el<53:33>
+                                                                n<> u<273> t<Expression> p<274> c<267> l<53:22> el<53:32>
+                                                                  n<> u<267> t<Expression> p<273> c<266> s<272> l<53:22> el<53:27>
+                                                                    n<> u<266> t<Primary> p<267> c<265> l<53:22> el<53:27>
+                                                                      n<> u<265> t<Primary_literal> p<266> c<264> l<53:22> el<53:27>
+                                                                        n<res_n> u<264> t<SIMPLE_IDENTIFIER> p<265> l<53:22> el<53:27>
+                                                                  n<> u<272> t<EQUIV> p<273> s<271> l<53:28> el<53:30>
+                                                                  n<> u<271> t<Expression> p<273> c<270> l<53:31> el<53:32>
+                                                                    n<> u<270> t<Primary> p<271> c<269> l<53:31> el<53:32>
+                                                                      n<> u<269> t<Primary_literal> p<270> c<268> l<53:31> el<53:32>
+                                                                        n<1> u<268> t<INTEGRAL_NUMBER> p<269> l<53:31> el<53:32>
+                                                        n<> u<304> t<Statement_or_null> p<319> c<303> s<318> l<53:35> el<56:6>
+                                                          n<> u<303> t<Statement> p<304> c<302> l<53:35> el<56:6>
+                                                            n<> u<302> t<Statement_item> p<303> c<301> l<53:35> el<56:6>
+                                                              n<> u<301> t<Seq_block> p<302> c<290> l<53:35> el<56:6>
+                                                                n<> u<290> t<Statement_or_null> p<301> c<289> s<299> l<54:6> el<54:40>
+                                                                  n<> u<289> t<Statement> p<290> c<288> l<54:6> el<54:40>
+                                                                    n<> u<288> t<Statement_item> p<289> c<287> l<54:6> el<54:40>
+                                                                      n<> u<287> t<Subroutine_call_statement> p<288> c<286> l<54:6> el<54:40>
+                                                                        n<> u<286> t<Subroutine_call> p<287> c<279> l<54:6> el<54:39>
+                                                                          n<$> u<279> t<DOLLAR> p<286> s<280> l<54:6> el<54:7>
+                                                                          n<write> u<280> t<SIMPLE_IDENTIFIER> p<286> s<285> l<54:7> el<54:12>
+                                                                          n<> u<285> t<Argument_list> p<286> c<284> l<54:14> el<54:38>
+                                                                            n<> u<284> t<Expression> p<285> c<283> l<54:14> el<54:38>
+                                                                              n<> u<283> t<Primary> p<284> c<282> l<54:14> el<54:38>
+                                                                                n<> u<282> t<Primary_literal> p<283> c<281> l<54:14> el<54:38>
+                                                                                  n<"*-* All Finished *-*\n"> u<281> t<QUOTED_STRING> p<282> l<54:14> el<54:38>
+                                                                n<> u<299> t<Statement_or_null> p<301> c<298> s<300> l<55:6> el<55:14>
+                                                                  n<> u<298> t<Statement> p<299> c<297> l<55:6> el<55:14>
+                                                                    n<> u<297> t<Statement_item> p<298> c<296> l<55:6> el<55:14>
+                                                                      n<> u<296> t<Subroutine_call_statement> p<297> c<295> l<55:6> el<55:14>
+                                                                        n<> u<295> t<Subroutine_call> p<296> c<291> l<55:6> el<55:13>
+                                                                          n<$> u<291> t<DOLLAR> p<295> s<292> l<55:6> el<55:7>
+                                                                          n<finish> u<292> t<SIMPLE_IDENTIFIER> p<295> s<294> l<55:7> el<55:13>
+                                                                          n<> u<294> t<Select> p<295> c<293> l<55:13> el<55:13>
+                                                                            n<> u<293> t<Bit_select> p<294> l<55:13> el<55:13>
+                                                                n<> u<300> t<END> p<301> l<56:3> el<56:6>
+                                                        n<> u<318> t<Statement_or_null> p<319> c<317> l<57:8> el<62:6>
+                                                          n<> u<317> t<Statement> p<318> c<316> l<57:8> el<62:6>
+                                                            n<> u<316> t<Statement_item> p<317> c<315> l<57:8> el<62:6>
+                                                              n<> u<315> t<Seq_block> p<316> c<313> l<57:8> el<62:6>
+                                                                n<> u<313> t<Statement_or_null> p<315> c<312> s<314> l<61:6> el<61:12>
+                                                                  n<> u<312> t<Statement> p<313> c<311> l<61:6> el<61:12>
+                                                                    n<> u<311> t<Statement_item> p<312> c<310> l<61:6> el<61:12>
+                                                                      n<> u<310> t<Subroutine_call_statement> p<311> c<309> l<61:6> el<61:12>
+                                                                        n<> u<309> t<Subroutine_call> p<310> c<305> l<61:6> el<61:11>
+                                                                          n<$> u<305> t<DOLLAR> p<309> s<306> l<61:6> el<61:7>
+                                                                          n<stop> u<306> t<SIMPLE_IDENTIFIER> p<309> s<308> l<61:7> el<61:11>
+                                                                          n<> u<308> t<Select> p<309> c<307> l<61:11> el<61:11>
+                                                                            n<> u<307> t<Bit_select> p<308> l<61:11> el<61:11>
+                                                                n<> u<314> t<END> p<315> l<62:3> el<62:6>
+                                                n<> u<323> t<END> p<324> l<63:7> el<63:10>
+                                n<> u<351> t<Statement_or_null> p<353> c<350> s<352> l<65:7> el<65:25>
+                                  n<> u<350> t<Statement> p<351> c<349> l<65:7> el<65:25>
+                                    n<> u<349> t<Statement_item> p<350> c<348> l<65:7> el<65:25>
+                                      n<> u<348> t<Blocking_assignment> p<349> c<347> l<65:7> el<65:24>
+                                        n<> u<347> t<Variable_assignment> p<348> c<336> l<65:7> el<65:24>
+                                          n<> u<336> t<Variable_lvalue> p<347> c<333> s<346> l<65:7> el<65:12>
+                                            n<> u<333> t<Ps_or_hierarchical_identifier> p<336> c<332> s<335> l<65:7> el<65:12>
+                                              n<count> u<332> t<SIMPLE_IDENTIFIER> p<333> l<65:7> el<65:12>
+                                            n<> u<335> t<Select> p<336> c<334> l<65:13> el<65:13>
+                                              n<> u<334> t<Bit_select> p<335> l<65:13> el<65:13>
+                                          n<> u<346> t<Expression> p<347> c<340> l<65:15> el<65:24>
+                                            n<> u<340> t<Expression> p<346> c<339> s<345> l<65:15> el<65:20>
+                                              n<> u<339> t<Primary> p<340> c<338> l<65:15> el<65:20>
+                                                n<> u<338> t<Primary_literal> p<339> c<337> l<65:15> el<65:20>
+                                                  n<count> u<337> t<SIMPLE_IDENTIFIER> p<338> l<65:15> el<65:20>
+                                            n<> u<345> t<BinaryOp_Plus> p<346> s<344> l<65:21> el<65:22>
+                                            n<> u<344> t<Expression> p<346> c<343> l<65:23> el<65:24>
+                                              n<> u<343> t<Primary> p<344> c<342> l<65:23> el<65:24>
+                                                n<> u<342> t<Primary_literal> p<343> c<341> l<65:23> el<65:24>
+                                                  n<1> u<341> t<INTEGRAL_NUMBER> p<342> l<65:23> el<65:24>
+                                n<> u<352> t<END> p<353> l<67:4> el<67:7>
+        n<> u<365> t<ENDMODULE> p<366> l<69:1> el<69:10>
+    n<> u<474> t<Description> p<583> c<473> s<475> l<72:1> el<85:10>
+      n<> u<473> t<Module_declaration> p<474> c<384> l<72:1> el<85:10>
+        n<> u<384> t<Module_nonansi_header> p<473> c<368> s<391> l<72:1> el<73:17>
+          n<module> u<368> t<Module_keyword> p<384> s<369> l<72:1> el<72:7>
+          n<initial_edge_n> u<369> t<SIMPLE_IDENTIFIER> p<384> s<370> l<72:8> el<72:22>
+          n<> u<370> t<Package_import_declaration_list> p<384> s<383> l<72:23> el<72:23>
+          n<> u<383> t<Port_list> p<384> c<376> l<72:23> el<73:16>
+            n<> u<376> t<Port> p<383> c<375> s<382> l<72:24> el<72:29>
+              n<> u<375> t<Port_expression> p<376> c<374> l<72:24> el<72:29>
+                n<> u<374> t<Port_reference> p<375> c<371> l<72:24> el<72:29>
+                  n<res_n> u<371> t<SIMPLE_IDENTIFIER> p<374> s<373> l<72:24> el<72:29>
+                  n<> u<373> t<Constant_select> p<374> c<372> l<72:29> el<72:29>
+                    n<> u<372> t<Constant_bit_select> p<373> l<72:29> el<72:29>
+            n<> u<382> t<Port> p<383> c<381> l<73:10> el<73:15>
+              n<> u<381> t<Port_expression> p<382> c<380> l<73:10> el<73:15>
+                n<> u<380> t<Port_reference> p<381> c<377> l<73:10> el<73:15>
+                  n<rst_n> u<377> t<SIMPLE_IDENTIFIER> p<380> s<379> l<73:10> el<73:15>
+                  n<> u<379> t<Constant_select> p<380> c<378> l<73:15> el<73:15>
+                    n<> u<378> t<Constant_bit_select> p<379> l<73:15> el<73:15>
+        n<> u<391> t<Module_item> p<473> c<390> s<398> l<74:4> el<74:18>
+          n<> u<390> t<Port_declaration> p<391> c<389> l<74:4> el<74:17>
+            n<> u<389> t<Output_declaration> p<390> c<386> l<74:4> el<74:17>
+              n<> u<386> t<Net_port_type> p<389> c<385> s<388> l<74:12> el<74:12>
+                n<> u<385> t<Data_type_or_implicit> p<386> l<74:12> el<74:12>
+              n<> u<388> t<Port_identifier_list> p<389> c<387> l<74:12> el<74:17>
+                n<res_n> u<387> t<SIMPLE_IDENTIFIER> p<388> l<74:12> el<74:17>
+        n<> u<398> t<Module_item> p<473> c<397> s<415> l<75:4> el<75:18>
+          n<> u<397> t<Port_declaration> p<398> c<396> l<75:4> el<75:17>
+            n<> u<396> t<Input_declaration> p<397> c<393> l<75:4> el<75:17>
+              n<> u<393> t<Net_port_type> p<396> c<392> s<395> l<75:12> el<75:12>
+                n<> u<392> t<Data_type_or_implicit> p<393> l<75:12> el<75:12>
+              n<> u<395> t<Port_identifier_list> p<396> c<394> l<75:12> el<75:17>
+                n<rst_n> u<394> t<SIMPLE_IDENTIFIER> p<395> l<75:12> el<75:17>
+        n<> u<415> t<Module_item> p<473> c<414> s<471> l<77:4> el<77:25>
+          n<> u<414> t<Non_port_module_item> p<415> c<413> l<77:4> el<77:25>
+            n<> u<413> t<Module_or_generate_item> p<414> c<412> l<77:4> el<77:25>
+              n<> u<412> t<Module_common_item> p<413> c<411> l<77:4> el<77:25>
+                n<> u<411> t<Module_or_generate_item_declaration> p<412> c<410> l<77:4> el<77:25>
+                  n<> u<410> t<Package_or_generate_item_declaration> p<411> c<409> l<77:4> el<77:25>
+                    n<> u<409> t<Data_declaration> p<410> c<408> l<77:4> el<77:25>
+                      n<> u<408> t<Variable_declaration> p<409> c<400> l<77:4> el<77:25>
+                        n<> u<400> t<Data_type> p<408> c<399> s<407> l<77:4> el<77:7>
+                          n<> u<399> t<REG> p<400> l<77:4> el<77:7>
+                        n<> u<407> t<Variable_decl_assignment_list> p<408> c<406> l<77:12> el<77:24>
+                          n<> u<406> t<Variable_decl_assignment> p<407> c<401> l<77:12> el<77:24>
+                            n<res_n> u<401> t<SIMPLE_IDENTIFIER> p<406> s<405> l<77:12> el<77:17>
+                            n<> u<405> t<Expression> p<406> c<404> l<77:20> el<77:24>
+                              n<> u<404> t<Primary> p<405> c<403> l<77:20> el<77:24>
+                                n<> u<403> t<Primary_literal> p<404> c<402> l<77:20> el<77:24>
+                                  n<> u<402> t<ONE_TICK_b0> p<403> l<77:20> el<77:24>
+        n<> u<471> t<Module_item> p<473> c<470> s<472> l<79:4> el<83:7>
+          n<> u<470> t<Non_port_module_item> p<471> c<469> l<79:4> el<83:7>
+            n<> u<469> t<Module_or_generate_item> p<470> c<468> l<79:4> el<83:7>
+              n<> u<468> t<Module_common_item> p<469> c<467> l<79:4> el<83:7>
+                n<> u<467> t<Always_construct> p<468> c<416> l<79:4> el<83:7>
+                  n<> u<416> t<ALWAYS> p<467> s<466> l<79:4> el<79:10>
+                  n<> u<466> t<Statement> p<467> c<465> l<79:11> el<83:7>
+                    n<> u<465> t<Statement_item> p<466> c<464> l<79:11> el<83:7>
+                      n<> u<464> t<Procedural_timing_control_statement> p<465> c<424> l<79:11> el<83:7>
+                        n<> u<424> t<Procedural_timing_control> p<464> c<423> s<463> l<79:11> el<79:27>
+                          n<> u<423> t<Event_control> p<424> c<422> l<79:11> el<79:27>
+                            n<> u<422> t<Event_expression> p<423> c<417> l<79:13> el<79:26>
+                              n<> u<417> t<NEGEDGE> p<422> s<421> l<79:13> el<79:20>
+                              n<> u<421> t<Expression> p<422> c<420> l<79:21> el<79:26>
+                                n<> u<420> t<Primary> p<421> c<419> l<79:21> el<79:26>
+                                  n<> u<419> t<Primary_literal> p<420> c<418> l<79:21> el<79:26>
+                                    n<rst_n> u<418> t<SIMPLE_IDENTIFIER> p<419> l<79:21> el<79:26>
+                        n<> u<463> t<Statement_or_null> p<464> c<462> l<79:28> el<83:7>
+                          n<> u<462> t<Statement> p<463> c<461> l<79:28> el<83:7>
+                            n<> u<461> t<Statement_item> p<462> c<460> l<79:28> el<83:7>
+                              n<> u<460> t<Seq_block> p<461> c<458> l<79:28> el<83:7>
+                                n<> u<458> t<Statement_or_null> p<460> c<457> s<459> l<80:7> el<82:10>
+                                  n<> u<457> t<Statement> p<458> c<456> l<80:7> el<82:10>
+                                    n<> u<456> t<Statement_item> p<457> c<455> l<80:7> el<82:10>
+                                      n<> u<455> t<Conditional_statement> p<456> c<436> l<80:7> el<82:10>
+                                        n<> u<436> t<Cond_predicate> p<455> c<435> s<454> l<80:11> el<80:24>
+                                          n<> u<435> t<Expression_or_cond_pattern> p<436> c<434> l<80:11> el<80:24>
+                                            n<> u<434> t<Expression> p<435> c<428> l<80:11> el<80:24>
+                                              n<> u<428> t<Expression> p<434> c<427> s<433> l<80:11> el<80:16>
+                                                n<> u<427> t<Primary> p<428> c<426> l<80:11> el<80:16>
+                                                  n<> u<426> t<Primary_literal> p<427> c<425> l<80:11> el<80:16>
+                                                    n<rst_n> u<425> t<SIMPLE_IDENTIFIER> p<426> l<80:11> el<80:16>
+                                              n<> u<433> t<EQUIV> p<434> s<432> l<80:17> el<80:19>
+                                              n<> u<432> t<Expression> p<434> c<431> l<80:20> el<80:24>
+                                                n<> u<431> t<Primary> p<432> c<430> l<80:20> el<80:24>
+                                                  n<> u<430> t<Primary_literal> p<431> c<429> l<80:20> el<80:24>
+                                                    n<> u<429> t<ONE_TICK_b0> p<430> l<80:20> el<80:24>
+                                        n<> u<454> t<Statement_or_null> p<455> c<453> l<80:26> el<82:10>
+                                          n<> u<453> t<Statement> p<454> c<452> l<80:26> el<82:10>
+                                            n<> u<452> t<Statement_item> p<453> c<451> l<80:26> el<82:10>
+                                              n<> u<451> t<Seq_block> p<452> c<449> l<80:26> el<82:10>
+                                                n<> u<449> t<Statement_or_null> p<451> c<448> s<450> l<81:10> el<81:24>
+                                                  n<> u<448> t<Statement> p<449> c<447> l<81:10> el<81:24>
+                                                    n<> u<447> t<Statement_item> p<448> c<446> l<81:10> el<81:24>
+                                                      n<> u<446> t<Nonblocking_assignment> p<447> c<441> l<81:10> el<81:23>
+                                                        n<> u<441> t<Variable_lvalue> p<446> c<438> s<445> l<81:10> el<81:15>
+                                                          n<> u<438> t<Ps_or_hierarchical_identifier> p<441> c<437> s<440> l<81:10> el<81:15>
+                                                            n<res_n> u<437> t<SIMPLE_IDENTIFIER> p<438> l<81:10> el<81:15>
+                                                          n<> u<440> t<Select> p<441> c<439> l<81:16> el<81:16>
+                                                            n<> u<439> t<Bit_select> p<440> l<81:16> el<81:16>
+                                                        n<> u<445> t<Expression> p<446> c<444> l<81:19> el<81:23>
+                                                          n<> u<444> t<Primary> p<445> c<443> l<81:19> el<81:23>
+                                                            n<> u<443> t<Primary_literal> p<444> c<442> l<81:19> el<81:23>
+                                                              n<> u<442> t<ONE_TICK_b1> p<443> l<81:19> el<81:23>
+                                                n<> u<450> t<END> p<451> l<82:7> el<82:10>
+                                n<> u<459> t<END> p<460> l<83:4> el<83:7>
+        n<> u<472> t<ENDMODULE> p<473> l<85:1> el<85:10>
+    n<// initial_edge_n> u<475> t<LINE_COMMENT> p<583> s<582> l<85:11> el<85:28>
+    n<> u<582> t<Description> p<583> c<581> l<88:1> el<101:10>
+      n<> u<581> t<Module_declaration> p<582> c<492> l<88:1> el<101:10>
+        n<> u<492> t<Module_nonansi_header> p<581> c<476> s<499> l<88:1> el<89:13>
+          n<module> u<476> t<Module_keyword> p<492> s<477> l<88:1> el<88:7>
+          n<initial_edge> u<477> t<SIMPLE_IDENTIFIER> p<492> s<478> l<88:8> el<88:20>
+          n<> u<478> t<Package_import_declaration_list> p<492> s<491> l<88:21> el<88:21>
+          n<> u<491> t<Port_list> p<492> c<484> l<88:21> el<89:12>
+            n<> u<484> t<Port> p<491> c<483> s<490> l<88:22> el<88:25>
+              n<> u<483> t<Port_expression> p<484> c<482> l<88:22> el<88:25>
+                n<> u<482> t<Port_reference> p<483> c<479> l<88:22> el<88:25>
+                  n<res> u<479> t<SIMPLE_IDENTIFIER> p<482> s<481> l<88:22> el<88:25>
+                  n<> u<481> t<Constant_select> p<482> c<480> l<88:25> el<88:25>
+                    n<> u<480> t<Constant_bit_select> p<481> l<88:25> el<88:25>
+            n<> u<490> t<Port> p<491> c<489> l<89:8> el<89:11>
+              n<> u<489> t<Port_expression> p<490> c<488> l<89:8> el<89:11>
+                n<> u<488> t<Port_reference> p<489> c<485> l<89:8> el<89:11>
+                  n<rst> u<485> t<SIMPLE_IDENTIFIER> p<488> s<487> l<89:8> el<89:11>
+                  n<> u<487> t<Constant_select> p<488> c<486> l<89:11> el<89:11>
+                    n<> u<486> t<Constant_bit_select> p<487> l<89:11> el<89:11>
+        n<> u<499> t<Module_item> p<581> c<498> s<506> l<90:4> el<90:16>
+          n<> u<498> t<Port_declaration> p<499> c<497> l<90:4> el<90:15>
+            n<> u<497> t<Output_declaration> p<498> c<494> l<90:4> el<90:15>
+              n<> u<494> t<Net_port_type> p<497> c<493> s<496> l<90:12> el<90:12>
+                n<> u<493> t<Data_type_or_implicit> p<494> l<90:12> el<90:12>
+              n<> u<496> t<Port_identifier_list> p<497> c<495> l<90:12> el<90:15>
+                n<res> u<495> t<SIMPLE_IDENTIFIER> p<496> l<90:12> el<90:15>
+        n<> u<506> t<Module_item> p<581> c<505> s<523> l<91:4> el<91:16>
+          n<> u<505> t<Port_declaration> p<506> c<504> l<91:4> el<91:15>
+            n<> u<504> t<Input_declaration> p<505> c<501> l<91:4> el<91:15>
+              n<> u<501> t<Net_port_type> p<504> c<500> s<503> l<91:12> el<91:12>
+                n<> u<500> t<Data_type_or_implicit> p<501> l<91:12> el<91:12>
+              n<> u<503> t<Port_identifier_list> p<504> c<502> l<91:12> el<91:15>
+                n<rst> u<502> t<SIMPLE_IDENTIFIER> p<503> l<91:12> el<91:15>
+        n<> u<523> t<Module_item> p<581> c<522> s<579> l<93:4> el<93:23>
+          n<> u<522> t<Non_port_module_item> p<523> c<521> l<93:4> el<93:23>
+            n<> u<521> t<Module_or_generate_item> p<522> c<520> l<93:4> el<93:23>
+              n<> u<520> t<Module_common_item> p<521> c<519> l<93:4> el<93:23>
+                n<> u<519> t<Module_or_generate_item_declaration> p<520> c<518> l<93:4> el<93:23>
+                  n<> u<518> t<Package_or_generate_item_declaration> p<519> c<517> l<93:4> el<93:23>
+                    n<> u<517> t<Data_declaration> p<518> c<516> l<93:4> el<93:23>
+                      n<> u<516> t<Variable_declaration> p<517> c<508> l<93:4> el<93:23>
+                        n<> u<508> t<Data_type> p<516> c<507> s<515> l<93:4> el<93:7>
+                          n<> u<507> t<REG> p<508> l<93:4> el<93:7>
+                        n<> u<515> t<Variable_decl_assignment_list> p<516> c<514> l<93:12> el<93:22>
+                          n<> u<514> t<Variable_decl_assignment> p<515> c<509> l<93:12> el<93:22>
+                            n<res> u<509> t<SIMPLE_IDENTIFIER> p<514> s<513> l<93:12> el<93:15>
+                            n<> u<513> t<Expression> p<514> c<512> l<93:18> el<93:22>
+                              n<> u<512> t<Primary> p<513> c<511> l<93:18> el<93:22>
+                                n<> u<511> t<Primary_literal> p<512> c<510> l<93:18> el<93:22>
+                                  n<> u<510> t<ONE_TICK_b0> p<511> l<93:18> el<93:22>
+        n<> u<579> t<Module_item> p<581> c<578> s<580> l<95:4> el<99:7>
+          n<> u<578> t<Non_port_module_item> p<579> c<577> l<95:4> el<99:7>
+            n<> u<577> t<Module_or_generate_item> p<578> c<576> l<95:4> el<99:7>
+              n<> u<576> t<Module_common_item> p<577> c<575> l<95:4> el<99:7>
+                n<> u<575> t<Always_construct> p<576> c<524> l<95:4> el<99:7>
+                  n<> u<524> t<ALWAYS> p<575> s<574> l<95:4> el<95:10>
+                  n<> u<574> t<Statement> p<575> c<573> l<95:11> el<99:7>
+                    n<> u<573> t<Statement_item> p<574> c<572> l<95:11> el<99:7>
+                      n<> u<572> t<Procedural_timing_control_statement> p<573> c<532> l<95:11> el<99:7>
+                        n<> u<532> t<Procedural_timing_control> p<572> c<531> s<571> l<95:11> el<95:25>
+                          n<> u<531> t<Event_control> p<532> c<530> l<95:11> el<95:25>
+                            n<> u<530> t<Event_expression> p<531> c<525> l<95:13> el<95:24>
+                              n<> u<525> t<POSEDGE> p<530> s<529> l<95:13> el<95:20>
+                              n<> u<529> t<Expression> p<530> c<528> l<95:21> el<95:24>
+                                n<> u<528> t<Primary> p<529> c<527> l<95:21> el<95:24>
+                                  n<> u<527> t<Primary_literal> p<528> c<526> l<95:21> el<95:24>
+                                    n<rst> u<526> t<SIMPLE_IDENTIFIER> p<527> l<95:21> el<95:24>
+                        n<> u<571> t<Statement_or_null> p<572> c<570> l<95:26> el<99:7>
+                          n<> u<570> t<Statement> p<571> c<569> l<95:26> el<99:7>
+                            n<> u<569> t<Statement_item> p<570> c<568> l<95:26> el<99:7>
+                              n<> u<568> t<Seq_block> p<569> c<566> l<95:26> el<99:7>
+                                n<> u<566> t<Statement_or_null> p<568> c<565> s<567> l<96:7> el<98:10>
+                                  n<> u<565> t<Statement> p<566> c<564> l<96:7> el<98:10>
+                                    n<> u<564> t<Statement_item> p<565> c<563> l<96:7> el<98:10>
+                                      n<> u<563> t<Conditional_statement> p<564> c<544> l<96:7> el<98:10>
+                                        n<> u<544> t<Cond_predicate> p<563> c<543> s<562> l<96:11> el<96:22>
+                                          n<> u<543> t<Expression_or_cond_pattern> p<544> c<542> l<96:11> el<96:22>
+                                            n<> u<542> t<Expression> p<543> c<536> l<96:11> el<96:22>
+                                              n<> u<536> t<Expression> p<542> c<535> s<541> l<96:11> el<96:14>
+                                                n<> u<535> t<Primary> p<536> c<534> l<96:11> el<96:14>
+                                                  n<> u<534> t<Primary_literal> p<535> c<533> l<96:11> el<96:14>
+                                                    n<rst> u<533> t<SIMPLE_IDENTIFIER> p<534> l<96:11> el<96:14>
+                                              n<> u<541> t<EQUIV> p<542> s<540> l<96:15> el<96:17>
+                                              n<> u<540> t<Expression> p<542> c<539> l<96:18> el<96:22>
+                                                n<> u<539> t<Primary> p<540> c<538> l<96:18> el<96:22>
+                                                  n<> u<538> t<Primary_literal> p<539> c<537> l<96:18> el<96:22>
+                                                    n<> u<537> t<ONE_TICK_b1> p<538> l<96:18> el<96:22>
+                                        n<> u<562> t<Statement_or_null> p<563> c<561> l<96:24> el<98:10>
+                                          n<> u<561> t<Statement> p<562> c<560> l<96:24> el<98:10>
+                                            n<> u<560> t<Statement_item> p<561> c<559> l<96:24> el<98:10>
+                                              n<> u<559> t<Seq_block> p<560> c<557> l<96:24> el<98:10>
+                                                n<> u<557> t<Statement_or_null> p<559> c<556> s<558> l<97:10> el<97:22>
+                                                  n<> u<556> t<Statement> p<557> c<555> l<97:10> el<97:22>
+                                                    n<> u<555> t<Statement_item> p<556> c<554> l<97:10> el<97:22>
+                                                      n<> u<554> t<Nonblocking_assignment> p<555> c<549> l<97:10> el<97:21>
+                                                        n<> u<549> t<Variable_lvalue> p<554> c<546> s<553> l<97:10> el<97:13>
+                                                          n<> u<546> t<Ps_or_hierarchical_identifier> p<549> c<545> s<548> l<97:10> el<97:13>
+                                                            n<res> u<545> t<SIMPLE_IDENTIFIER> p<546> l<97:10> el<97:13>
+                                                          n<> u<548> t<Select> p<549> c<547> l<97:14> el<97:14>
+                                                            n<> u<547> t<Bit_select> p<548> l<97:14> el<97:14>
+                                                        n<> u<553> t<Expression> p<554> c<552> l<97:17> el<97:21>
+                                                          n<> u<552> t<Primary> p<553> c<551> l<97:17> el<97:21>
+                                                            n<> u<551> t<Primary_literal> p<552> c<550> l<97:17> el<97:21>
+                                                              n<> u<550> t<ONE_TICK_b1> p<551> l<97:17> el<97:21>
+                                                n<> u<558> t<END> p<559> l<98:7> el<98:10>
+                                n<> u<567> t<END> p<568> l<99:4> el<99:7>
+        n<> u<580> t<ENDMODULE> p<581> l<101:1> el<101:10>
+  n<// initial_edge> u<584> t<LINE_COMMENT> p<585> l<101:11> el<101:26>
+AST_DEBUG_END
+[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:27:1: Compile module "work@t".
+[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:72:1: Compile module "work@initial_edge_n".
+[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:88:1: Compile module "work@initial_edge".
+[INF:CM0029] Using global timescale: "1ns/1ns".
+====== UHDM =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFiles (1 items):
+    SourceFile name:t_initial_edge.v file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:
+      vpiParent: Design name:unnamed
+      vpiName: t_initial_edge.v
+      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all/lib/work/t_initial_edge.v"
+      vpiDefNetType: none (12)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+  vpiAllModules (3 items):
+    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v start:27:1 end:69:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@t start:27:8 end:27:9:
+        vpiParent: Module name:work@t
+        vpiName: work@t
+      vpiFullName: work@t
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Module name:work@t
+        IntegerTypespec:
+          vpiParent: Module name:work@t
+          vpiSigned: true
+        ModuleTypespec name:work@initial_edge start:40:4 end:40:16:
+          vpiParent: Module name:work@t
+          vpiName Identifier name:work@initial_edge start:40:4 end:40:16:
+            vpiParent: ModuleTypespec name:work@initial_edge
+            vpiName: work@initial_edge
+        ModuleTypespec name:work@initial_edge_n start:43:4 end:43:18:
+          vpiParent: Module name:work@t
+          vpiName Identifier name:work@initial_edge_n start:43:4 end:43:18:
+            vpiParent: ModuleTypespec name:work@initial_edge_n
+            vpiName: work@initial_edge_n
+      vpiDefName: work@t
+      vpiDefNetType: none (12)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiNet (6 items):
+        Net name:clk start:31:10 end:31:13:
+          vpiParent: Module name:work@t
+          vpiTypespec RefTypespec start:31:10 end:31:10:
+            vpiParent: Net name:clk
+            vpiFullName: work@t.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: work@t.clk
+        Net name:res start:33:10 end:33:13:
+          vpiParent: Module name:work@t
+          vpiTypespec RefTypespec start:33:10 end:33:10:
+            vpiParent: Net name:res
+            vpiFullName: work@t.res
+            vpiActual: LogicTypespec
+          vpiName: res
+          vpiFullName: work@t.res
+          vpiNetType: wire (1)
+        Net name:res_n start:34:10 end:34:15:
+          vpiParent: Module name:work@t
+          vpiTypespec RefTypespec start:34:10 end:34:10:
+            vpiParent: Net name:res_n
+            vpiFullName: work@t.res_n
+            vpiActual: LogicTypespec
+          vpiName: res_n
+          vpiFullName: work@t.res_n
+          vpiNetType: wire (1)
+        Net name:rst start:35:10 end:35:13:
+          vpiParent: Module name:work@t
+          vpiTypespec RefTypespec start:35:4 end:35:7:
+            vpiParent: Net name:rst
+            vpiFullName: work@t.rst
+            vpiActual: LogicTypespec
+          vpiName: rst
+          vpiFullName: work@t.rst
+        Net name:rst_n start:36:10 end:36:15:
+          vpiParent: Module name:work@t
+          vpiTypespec RefTypespec start:36:4 end:36:7:
+            vpiParent: Net name:rst_n
+            vpiFullName: work@t.rst_n
+            vpiActual: LogicTypespec
+          vpiName: rst_n
+          vpiFullName: work@t.rst_n
+        Net name:count start:38:12 end:38:17:
+          vpiParent: Module name:work@t
+          vpiTypespec RefTypespec start:38:4 end:38:11:
+            vpiParent: Net name:count
+            vpiFullName: work@t.count
+            vpiActual: IntegerTypespec
+          vpiName: count
+          vpiFullName: work@t.count
+          vpiValue Constant start:38:20 end:38:21:
+            vpiParent: Net name:count
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@t.count
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+      vpiPort (1 items):
+        Port name:clk start:29:4 end:29:7:
+          vpiParent: Module name:work@t
+          vpiName: clk
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:29:4 end:29:7:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: work@t.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec start:31:10 end:31:10:
+            vpiParent: Port name:clk
+            vpiFullName: work@t.clk
+            vpiActual: LogicTypespec
+      vpiProcess (1 items):
+        Always start:47:4 end:67:7:
+          vpiParent: Module name:work@t
+          vpiStmt EventControl start:47:11 end:67:7:
+            vpiParent: Always
+            vpiCondition Operation:
+              vpiParent: EventControl
+              vpiOpType: posedge (39)
+              vpiOperand (1 items):
+                RefObj name:clk start:47:21 end:47:24:
+                  vpiParent: Operation
+                  vpiName: clk
+                  vpiFullName: work@t.clk
+                  vpiActual: Net name:clk
+            vpiStmt Begin start:47:26 end:67:7:
+              vpiParent: EventControl
+              vpiFullName: work@t
+              vpiStmt (4 items):
+                Assignment start:49:7 end:49:36:
+                  vpiParent: Begin
+                  vpiLhs RefObj name:rst start:49:7 end:49:10:
+                    vpiParent: Assignment
+                    vpiName: rst
+                    vpiFullName: work@t.rst
+                    vpiActual: Net name:rst
+                  vpiRhs Operation start:49:16 end:49:36:
+                    vpiParent: Assignment
+                    vpiOpType: condition (32)
+                    vpiOperand (3 items):
+                      Operation start:49:17 end:49:27:
+                        vpiParent: Operation
+                        vpiOpType: equal (14)
+                        vpiOperand (2 items):
+                          RefObj name:count start:49:17 end:49:22:
+                            vpiParent: Operation
+                            vpiName: count
+                            vpiFullName: work@t.count
+                            vpiActual: Net name:count
+                          Constant start:49:26 end:49:27:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@t
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      Constant start:49:31 end:49:32:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@t
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                      Constant start:49:35 end:49:36:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@t
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                Assignment start:50:7 end:50:36:
+                  vpiParent: Begin
+                  vpiLhs RefObj name:rst_n start:50:7 end:50:12:
+                    vpiParent: Assignment
+                    vpiName: rst_n
+                    vpiFullName: work@t.rst_n
+                    vpiActual: Net name:rst_n
+                  vpiRhs Operation start:50:16 end:50:36:
+                    vpiParent: Assignment
+                    vpiOpType: condition (32)
+                    vpiOperand (3 items):
+                      Operation start:50:17 end:50:27:
+                        vpiParent: Operation
+                        vpiOpType: equal (14)
+                        vpiOperand (2 items):
+                          RefObj name:count start:50:17 end:50:22:
+                            vpiParent: Operation
+                            vpiName: count
+                            vpiFullName: work@t.count
+                            vpiActual: Net name:count
+                          Constant start:50:26 end:50:27:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@t
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      Constant start:50:31 end:50:32:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@t
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                      Constant start:50:35 end:50:36:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@t
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                IfStmt start:52:7 end:63:10:
+                  vpiParent: Begin
+                  vpiCondition Operation start:52:11 end:52:21:
+                    vpiParent: IfStmt
+                    vpiOpType: equal (14)
+                    vpiOperand (2 items):
+                      RefObj name:count start:52:11 end:52:16:
+                        vpiParent: Operation
+                        vpiName: count
+                        vpiFullName: work@t.count
+                        vpiActual: Net name:count
+                      Constant start:52:20 end:52:21:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@t
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "3"
+                        vpiValue: 3
+                  vpiStmt Begin start:52:23 end:63:10:
+                    vpiParent: IfStmt
+                    vpiFullName: work@t
+                    vpiStmt (1 items):
+                      IfElse start:53:3 end:62:6:
+                        vpiParent: Begin
+                        vpiCondition Operation start:53:7 end:53:33:
+                          vpiParent: IfElse
+                          vpiOpType: logical and (26)
+                          vpiOperand (2 items):
+                            Operation start:53:8 end:53:16:
+                              vpiParent: Operation
+                              vpiOpType: equal (14)
+                              vpiOperand (2 items):
+                                RefObj name:res start:53:8 end:53:11:
+                                  vpiParent: Operation
+                                  vpiName: res
+                                  vpiFullName: work@t.res
+                                  vpiActual: Net name:res
+                                Constant start:53:15 end:53:16:
+                                  vpiParent: Operation
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: work@t
+                                    vpiActual: IntTypespec
+                                  vpiConstType: unsigned int (9)
+                                  vpiSize: 64
+                                  vpiDecompile: "1"
+                                  vpiValue: 1
+                            Operation start:53:22 end:53:32:
+                              vpiParent: Operation
+                              vpiOpType: equal (14)
+                              vpiOperand (2 items):
+                                RefObj name:res_n start:53:22 end:53:27:
+                                  vpiParent: Operation
+                                  vpiName: res_n
+                                  vpiFullName: work@t.res_n
+                                  vpiActual: Net name:res_n
+                                Constant start:53:31 end:53:32:
+                                  vpiParent: Operation
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: work@t
+                                    vpiActual: IntTypespec
+                                  vpiConstType: unsigned int (9)
+                                  vpiSize: 64
+                                  vpiDecompile: "1"
+                                  vpiValue: 1
+                        vpiStmt Begin start:53:35 end:56:6:
+                          vpiParent: IfElse
+                          vpiFullName: work@t
+                          vpiStmt (2 items):
+                            SysFuncCall name:$write start:54:6 end:54:39:
+                              vpiParent: Begin
+                              vpiName Identifier name:$write start:54:6 end:54:12:
+                                vpiParent: SysFuncCall name:$write
+                                vpiName: "$write"
+                              vpiArgument (1 items):
+                                Constant start:54:14 end:54:38:
+                                  vpiParent: SysFuncCall name:$write
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: work@t
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 176
+                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                  vpiValue: *-* All Finished *-*\n
+                            SysFuncCall name:$finish start:55:6 end:55:13:
+                              vpiParent: Begin
+                              vpiName Identifier name:$finish start:55:6 end:55:13:
+                                vpiParent: SysFuncCall name:$finish
+                                vpiName: "$finish"
+                        vpiElseStmt Begin start:57:8 end:62:6:
+                          vpiParent: IfElse
+                          vpiFullName: work@t
+                          vpiStmt (1 items):
+                            SysFuncCall name:$stop start:61:6 end:61:11:
+                              vpiParent: Begin
+                              vpiName Identifier name:$stop start:61:6 end:61:11:
+                                vpiParent: SysFuncCall name:$stop
+                                vpiName: "$stop"
+                Assignment start:65:7 end:65:24:
+                  vpiParent: Begin
+                  vpiBlocking: true
+                  vpiLhs RefObj name:count start:65:7 end:65:12:
+                    vpiParent: Assignment
+                    vpiName: count
+                    vpiFullName: work@t.count
+                    vpiActual: Net name:count
+                  vpiRhs Operation start:65:15 end:65:24:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:count start:65:15 end:65:20:
+                        vpiParent: Operation
+                        vpiName: count
+                        vpiFullName: work@t.count
+                        vpiActual: Net name:count
+                      Constant start:65:23 end:65:24:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@t
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+          vpiAlwaysType: always (1)
+      vpiRefInstance (2 items):
+        RefInstance name:i_edge start:40:17 end:40:23:
+          vpiParent: Module name:work@t
+          vpiName: i_edge
+          vpiTypespec RefTypespec name:work@initial_edge start:40:4 end:40:16:
+            vpiParent: RefInstance name:i_edge
+            vpiName: work@initial_edge
+            vpiFullName: work@t.i_edge.work@initial_edge
+            vpiActual: ModuleTypespec name:work@initial_edge
+          vpiPort (2 items):
+            Port start:40:25 end:40:35:
+              vpiParent: RefInstance name:i_edge
+              vpiLowConn RefObj name:res start:40:26 end:40:29:
+                vpiParent: Port
+                vpiName: res
+                vpiFullName: work@t.i_edge.res
+                vpiActual: Net name:res
+              vpiHighConn RefObj name:res start:40:31 end:40:34:
+                vpiParent: Port
+                vpiName: res
+                vpiFullName: work@t.i_edge.res
+                vpiActual: Net name:res
+            Port start:41:4 end:41:14:
+              vpiParent: RefInstance name:i_edge
+              vpiLowConn RefObj name:rst start:41:5 end:41:8:
+                vpiParent: Port
+                vpiName: rst
+                vpiFullName: work@t.i_edge.rst
+                vpiActual: Net name:rst
+              vpiHighConn RefObj name:rst start:41:10 end:41:13:
+                vpiParent: Port
+                vpiName: rst
+                vpiFullName: work@t.i_edge.rst
+                vpiActual: Net name:rst
+        RefInstance name:i_edge_n start:43:19 end:43:27:
+          vpiParent: Module name:work@t
+          vpiName: i_edge_n
+          vpiTypespec RefTypespec name:work@initial_edge_n start:43:4 end:43:18:
+            vpiParent: RefInstance name:i_edge_n
+            vpiName: work@initial_edge_n
+            vpiFullName: work@t.i_edge_n.work@initial_edge_n
+            vpiActual: ModuleTypespec name:work@initial_edge_n
+          vpiPort (2 items):
+            Port start:43:29 end:43:43:
+              vpiParent: RefInstance name:i_edge_n
+              vpiLowConn RefObj name:res_n start:43:30 end:43:35:
+                vpiParent: Port
+                vpiName: res_n
+                vpiFullName: work@t.i_edge_n.res_n
+                vpiActual: Net name:res_n
+              vpiHighConn RefObj name:res_n start:43:37 end:43:42:
+                vpiParent: Port
+                vpiName: res_n
+                vpiFullName: work@t.i_edge_n.res_n
+                vpiActual: Net name:res_n
+            Port start:44:8 end:44:22:
+              vpiParent: RefInstance name:i_edge_n
+              vpiLowConn RefObj name:rst_n start:44:9 end:44:14:
+                vpiParent: Port
+                vpiName: rst_n
+                vpiFullName: work@t.i_edge_n.rst_n
+                vpiActual: Net name:rst_n
+              vpiHighConn RefObj name:rst_n start:44:16 end:44:21:
+                vpiParent: Port
+                vpiName: rst_n
+                vpiFullName: work@t.i_edge_n.rst_n
+                vpiActual: Net name:rst_n
+    Module name:work@initial_edge_n file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v start:72:1 end:85:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@initial_edge_n start:72:8 end:72:22:
+        vpiParent: Module name:work@initial_edge_n
+        vpiName: work@initial_edge_n
+      vpiFullName: work@initial_edge_n
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:work@initial_edge_n
+        BitTypespec:
+          vpiParent: Module name:work@initial_edge_n
+      vpiDefName: work@initial_edge_n
+      vpiDefNetType: none (12)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiNet (2 items):
+        Net name:res_n start:74:12 end:74:17:
+          vpiParent: Module name:work@initial_edge_n
+          vpiTypespec RefTypespec start:74:12 end:74:12:
+            vpiParent: Net name:res_n
+            vpiFullName: work@initial_edge_n.res_n
+            vpiActual: LogicTypespec
+          vpiName: res_n
+          vpiFullName: work@initial_edge_n.res_n
+          vpiValue Constant start:77:20 end:77:24:
+            vpiParent: Net name:res_n
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@initial_edge_n.res_n
+              vpiActual: BitTypespec
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'b0"
+            vpiValue: 0
+        Net name:rst_n start:75:12 end:75:17:
+          vpiParent: Module name:work@initial_edge_n
+          vpiTypespec RefTypespec start:75:12 end:75:12:
+            vpiParent: Net name:rst_n
+            vpiFullName: work@initial_edge_n.rst_n
+            vpiActual: LogicTypespec
+          vpiName: rst_n
+          vpiFullName: work@initial_edge_n.rst_n
+      vpiPort (2 items):
+        Port name:res_n start:72:24 end:72:29:
+          vpiParent: Module name:work@initial_edge_n
+          vpiName: res_n
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:res_n start:72:24 end:72:29:
+            vpiParent: Port name:res_n
+            vpiName: res_n
+            vpiFullName: work@initial_edge_n.res_n.res_n
+            vpiActual: Net name:res_n
+          vpiTypespec RefTypespec start:74:12 end:74:12:
+            vpiParent: Port name:res_n
+            vpiFullName: work@initial_edge_n.res_n
+            vpiActual: LogicTypespec
+        Port name:rst_n start:73:10 end:73:15:
+          vpiParent: Module name:work@initial_edge_n
+          vpiName: rst_n
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:rst_n start:73:10 end:73:15:
+            vpiParent: Port name:rst_n
+            vpiName: rst_n
+            vpiFullName: work@initial_edge_n.rst_n.rst_n
+            vpiActual: Net name:rst_n
+          vpiTypespec RefTypespec start:75:12 end:75:12:
+            vpiParent: Port name:rst_n
+            vpiFullName: work@initial_edge_n.rst_n
+            vpiActual: LogicTypespec
+      vpiProcess (1 items):
+        Always start:79:4 end:83:7:
+          vpiParent: Module name:work@initial_edge_n
+          vpiStmt EventControl start:79:11 end:83:7:
+            vpiParent: Always
+            vpiCondition Operation:
+              vpiParent: EventControl
+              vpiOpType: negedge (40)
+              vpiOperand (1 items):
+                RefObj name:rst_n start:79:21 end:79:26:
+                  vpiParent: Operation
+                  vpiName: rst_n
+                  vpiFullName: work@initial_edge_n.rst_n
+                  vpiActual: Net name:rst_n
+            vpiStmt Begin start:79:28 end:83:7:
+              vpiParent: EventControl
+              vpiFullName: work@initial_edge_n
+              vpiTypespec (1 items):
+                BitTypespec:
+                  vpiParent: Begin
+              vpiStmt (1 items):
+                IfStmt start:80:7 end:82:10:
+                  vpiParent: Begin
+                  vpiCondition Operation start:80:11 end:80:24:
+                    vpiParent: IfStmt
+                    vpiOpType: equal (14)
+                    vpiOperand (2 items):
+                      RefObj name:rst_n start:80:11 end:80:16:
+                        vpiParent: Operation
+                        vpiName: rst_n
+                        vpiFullName: work@initial_edge_n.rst_n
+                        vpiActual: Net name:rst_n
+                      Constant start:80:20 end:80:24:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@initial_edge_n
+                          vpiActual: BitTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 1
+                        vpiDecompile: "1'b0"
+                        vpiValue: 0
+                  vpiStmt Begin start:80:26 end:82:10:
+                    vpiParent: IfStmt
+                    vpiFullName: work@initial_edge_n
+                    vpiTypespec (1 items):
+                      BitTypespec:
+                        vpiParent: Begin
+                    vpiStmt (1 items):
+                      Assignment start:81:10 end:81:23:
+                        vpiParent: Begin
+                        vpiLhs RefObj name:res_n start:81:10 end:81:15:
+                          vpiParent: Assignment
+                          vpiName: res_n
+                          vpiFullName: work@initial_edge_n.res_n
+                          vpiActual: Net name:res_n
+                        vpiRhs Constant start:81:19 end:81:23:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@initial_edge_n
+                            vpiActual: BitTypespec
+                          vpiConstType: binary (3)
+                          vpiSize: 1
+                          vpiDecompile: "1'b1"
+                          vpiValue: 1
+          vpiAlwaysType: always (1)
+    Module name:work@initial_edge file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v start:88:1 end:101:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@initial_edge start:88:8 end:88:20:
+        vpiParent: Module name:work@initial_edge
+        vpiName: work@initial_edge
+      vpiFullName: work@initial_edge
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:work@initial_edge
+        BitTypespec:
+          vpiParent: Module name:work@initial_edge
+      vpiDefName: work@initial_edge
+      vpiDefNetType: none (12)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiNet (2 items):
+        Net name:res start:90:12 end:90:15:
+          vpiParent: Module name:work@initial_edge
+          vpiTypespec RefTypespec start:90:12 end:90:12:
+            vpiParent: Net name:res
+            vpiFullName: work@initial_edge.res
+            vpiActual: LogicTypespec
+          vpiName: res
+          vpiFullName: work@initial_edge.res
+          vpiValue Constant start:93:18 end:93:22:
+            vpiParent: Net name:res
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@initial_edge.res
+              vpiActual: BitTypespec
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'b0"
+            vpiValue: 0
+        Net name:rst start:91:12 end:91:15:
+          vpiParent: Module name:work@initial_edge
+          vpiTypespec RefTypespec start:91:12 end:91:12:
+            vpiParent: Net name:rst
+            vpiFullName: work@initial_edge.rst
+            vpiActual: LogicTypespec
+          vpiName: rst
+          vpiFullName: work@initial_edge.rst
+      vpiPort (2 items):
+        Port name:res start:88:22 end:88:25:
+          vpiParent: Module name:work@initial_edge
+          vpiName: res
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:res start:88:22 end:88:25:
+            vpiParent: Port name:res
+            vpiName: res
+            vpiFullName: work@initial_edge.res.res
+            vpiActual: Net name:res
+          vpiTypespec RefTypespec start:90:12 end:90:12:
+            vpiParent: Port name:res
+            vpiFullName: work@initial_edge.res
+            vpiActual: LogicTypespec
+        Port name:rst start:89:8 end:89:11:
+          vpiParent: Module name:work@initial_edge
+          vpiName: rst
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:rst start:89:8 end:89:11:
+            vpiParent: Port name:rst
+            vpiName: rst
+            vpiFullName: work@initial_edge.rst.rst
+            vpiActual: Net name:rst
+          vpiTypespec RefTypespec start:91:12 end:91:12:
+            vpiParent: Port name:rst
+            vpiFullName: work@initial_edge.rst
+            vpiActual: LogicTypespec
+      vpiProcess (1 items):
+        Always start:95:4 end:99:7:
+          vpiParent: Module name:work@initial_edge
+          vpiStmt EventControl start:95:11 end:99:7:
+            vpiParent: Always
+            vpiCondition Operation:
+              vpiParent: EventControl
+              vpiOpType: posedge (39)
+              vpiOperand (1 items):
+                RefObj name:rst start:95:21 end:95:24:
+                  vpiParent: Operation
+                  vpiName: rst
+                  vpiFullName: work@initial_edge.rst
+                  vpiActual: Net name:rst
+            vpiStmt Begin start:95:26 end:99:7:
+              vpiParent: EventControl
+              vpiFullName: work@initial_edge
+              vpiTypespec (1 items):
+                BitTypespec:
+                  vpiParent: Begin
+              vpiStmt (1 items):
+                IfStmt start:96:7 end:98:10:
+                  vpiParent: Begin
+                  vpiCondition Operation start:96:11 end:96:22:
+                    vpiParent: IfStmt
+                    vpiOpType: equal (14)
+                    vpiOperand (2 items):
+                      RefObj name:rst start:96:11 end:96:14:
+                        vpiParent: Operation
+                        vpiName: rst
+                        vpiFullName: work@initial_edge.rst
+                        vpiActual: Net name:rst
+                      Constant start:96:18 end:96:22:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@initial_edge
+                          vpiActual: BitTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 1
+                        vpiDecompile: "1'b1"
+                        vpiValue: 1
+                  vpiStmt Begin start:96:24 end:98:10:
+                    vpiParent: IfStmt
+                    vpiFullName: work@initial_edge
+                    vpiTypespec (1 items):
+                      BitTypespec:
+                        vpiParent: Begin
+                    vpiStmt (1 items):
+                      Assignment start:97:10 end:97:21:
+                        vpiParent: Begin
+                        vpiLhs RefObj name:res start:97:10 end:97:13:
+                          vpiParent: Assignment
+                          vpiName: res
+                          vpiFullName: work@initial_edge.res
+                          vpiActual: Net name:res
+                        vpiRhs Constant start:97:17 end:97:21:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@initial_edge
+                            vpiActual: BitTypespec
+                          vpiConstType: binary (3)
+                          vpiSize: 1
+                          vpiDecompile: "1'b1"
+                          vpiValue: 1
+          vpiAlwaysType: always (1)
+  vpiTypespec (5 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    ModuleTypespec name:work@t:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@t start:27:8 end:27:9:
+        vpiParent: ModuleTypespec name:work@t
+        vpiName: work@t
+      vpiModule: Module name:work@t
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    ModuleTypespec name:work@initial_edge_n:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@initial_edge_n start:72:8 end:72:22:
+        vpiParent: ModuleTypespec name:work@initial_edge_n
+        vpiName: work@initial_edge_n
+      vpiModule: Module name:work@initial_edge_n
+    ModuleTypespec name:work@initial_edge:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@initial_edge start:88:8 end:88:20:
+        vpiParent: ModuleTypespec name:work@initial_edge
+        vpiName: work@initial_edge
+      vpiModule: Module name:work@initial_edge
+===================
+
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 0
+[WARNING] : 0
+[   NOTE] : 0
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+    test-name: Verilator/t_initial_edge
+ test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge
+ slpp_dirpath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all
+uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all/surelog.uhdm
+
+
+{'result': {'coverage': 96.59,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all/lib/work/t_initial_edge.v'): {'post_len': 26,
+                                                                                                                                                'pre_len': 763}},
+            'post_len': 26,
+            'pre_len': 763,
+            'test_name': 'Verilator/t_initial_edge'}}
+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| slpp_all/lib/work/t_initial_edge.v |      763 |        26 |
++====================================+==========+===========+
+|                                    |      763 |        26 |
++------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 96.59
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_initial_edge/slpp_all/reduced.uhdm
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+Constant                            18      12       2         8
+Operation                           14       8       0         6
+RefObj                              29      25       0         4
+RefTypespec                         35      29       2         8
+----------------------------------------------------------------
+Others                              80      80       0         0
+----------------------------------------------------------------
+                                   176     154       4        26
+===================== END REDUCTION RESULT =====================
