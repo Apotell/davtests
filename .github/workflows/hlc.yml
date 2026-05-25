@@ -149,6 +149,64 @@ jobs:
           env.json
           regression.csv
 
+# C++ Tests ###########################################################################################################
+
+  cpp_tests:
+    name: "C++ Tests | ubuntu | release"
+    needs: preflight
+    runs-on: ubuntu-24.04
+
+    env:
+      build-artifact-name: hlc_ubuntu_release_${{ github.event.client_payload.run_number || github.event.inputs.run_number }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+      with:
+        submodules: recursive
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y cmake ninja-build
+
+    - name: Setup Clang
+      uses: egor-tensin/setup-clang@v2
+
+    - name: Download artifact (build)
+      uses: actions/download-artifact@v7
+      with:
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ env.hlc-run-id }}
+        repository: Apotell/hlc
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+
+    - name: Extract build artifact
+      shell: bash
+      run: |
+        tar xzfp ${{ env.build-artifact-name }}.tar.gz
+        # The artifact stores lib/ and bin/ under ubuntu_release/ for multi-platform
+        # support.  Reconstruct a clean install tree so cmake's find_package works.
+        mkdir -p hlc_install/lib hlc_install/bin
+        cp -r ${{ env.build-artifact-name }}/include          hlc_install/
+        cp -r ${{ env.build-artifact-name }}/src              hlc_install/
+        cp -r ${{ env.build-artifact-name }}/lib/ubuntu_release/. hlc_install/lib/
+        cp -r ${{ env.build-artifact-name }}/bin/ubuntu_release/. hlc_install/bin/
+
+    - name: Configure
+      run: |
+        cmake                                             \
+          -G Ninja                                        \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo               \
+          -DBUILD_DIR=${{ github.workspace }}/hlc_install \
+          -S . -B out/build
+
+    - name: Build
+      run: cmake --build out/build -j $(nproc)
+
+    - name: Test
+      run: ctest --test-dir out/build --output-on-failure
+
 # Summarize ###########################################################################################################
 
   Summarize:

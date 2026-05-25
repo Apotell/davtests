@@ -27,7 +27,7 @@ namespace SURELOG {
 class AaFirstTest : public Test {
  public:
   static void SetUpTestSuite() {
-    Compile(__FILE__, {"-parse", "-nobuiltin", "dut.sv"});
+    Compile(__FILE__, {"-f", "AaFirstTest.hlc"});
 
     ASSERT_NE(m_session, nullptr) << "Session is null";
     ASSERT_NE(m_compiler, nullptr) << "Compiler is null";

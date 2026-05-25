@@ -45,7 +45,7 @@ namespace SURELOG {
 class Instantiations : public Test {
  public:
   static void SetUpTestSuite() {
-    Compile(__FILE__, {"-parse", "-d", "uhdm", "-d", "ast", "-nobuiltin", "dut.sv"});
+    Compile(__FILE__, {"-f", "Instantiations.hlc"});
 
     ASSERT_NE(m_session, nullptr) << "Session is null";
     ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
@@ -77,7 +77,7 @@ TEST_F(Instantiations, InterfaceDefinitions) {
 }
 
 TEST_F(Instantiations, ProgramDefinition) {
-  ASSERT_NE(uhdm::findByName<uhdm::Program>("my_prog", m_design->getAllPrograms()), nullptr);
+  ASSERT_NE(uhdm::findByName<uhdm::Program>("work@my_prog", m_design->getAllPrograms()), nullptr);
 }
 
 TEST_F(Instantiations, UdpDefinition) {
