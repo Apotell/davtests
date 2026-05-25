@@ -201,9 +201,6 @@ def _run_one(params):
 
   log(f'Running {name} ...')
 
-  slpp_all_filepath: Path = test_dirpath / 'slpp_all' / 'surelog.uhdm'
-  slpp_unit_filepath: Path = test_dirpath / 'slpp_unit' / 'surelog.uhdm'
-
   source_regression_log_filepath = test_dirpath / 'regression.log'
   source_test_log_filepath = test_dirpath / f'{name}.log'
 
@@ -215,13 +212,8 @@ def _run_one(params):
 
   golden_log_filepath = Path(env['regression']['golden-log-filepath'])
 
-  uhdm_src_filepath = None
-  if slpp_all_filepath.is_file():
-    uhdm_src_filepath = slpp_all_filepath
-  elif slpp_unit_filepath.is_file():
-    uhdm_src_filepath = slpp_unit_filepath
-
-  uhdm_dst_filepath = uhdm_src_filepath.parent / 'reduced.uhdm' if uhdm_src_filepath else None
+  uhdm_src_filepath = test_dirpath / 'surelog.uhdm'
+  uhdm_dst_filepath = test_dirpath / 'reduced.uhdm'
 
   completed = False
   result = {

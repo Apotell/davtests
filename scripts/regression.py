@@ -428,16 +428,8 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
 
   reducer_timedelta = timedelta(seconds=0)
 
-  slpp_all_filepath: Path = test_dirpath / 'slpp_all' / 'surelog.uhdm'
-  slpp_unit_filepath: Path = test_dirpath / 'slpp_unit' / 'surelog.uhdm'
-
-  uhdm_src_filepath = None
-  if slpp_all_filepath.is_file():
-    uhdm_src_filepath = slpp_all_filepath
-  elif slpp_unit_filepath.is_file():
-    uhdm_src_filepath = slpp_unit_filepath
-
-  uhdm_dst_filepath = uhdm_src_filepath.parent / 'reduced.uhdm' if uhdm_src_filepath else None
+  uhdm_src_filepath = test_dirpath / 'surelog.uhdm'
+  uhdm_dst_filepath = test_dirpath / 'reduced.uhdm'
 
   args = [reducer_filepath, uhdm_src_filepath, uhdm_dst_filepath]
   if verbose:
@@ -536,7 +528,6 @@ def _run_one(params):
   reducer_log_filepath = output_dirpath / 'reducer.log'
   keywords = coverage.load_reserved_keywords()
 
-  rmtree(dirpath, ['slpp_all', 'slpp_unit'])
   rmdir(output_dirpath)
   mkdir(output_dirpath)
 

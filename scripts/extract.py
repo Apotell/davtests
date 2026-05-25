@@ -64,28 +64,25 @@ def _extract_worker(params):
 
           with tarfile.open(fileobj=archive_strm.extractfile(tarinfo)) as test_strm:
             if 'db' in modes:
-              for slpp in ['slpp_all', 'slpp_unit']:
-                src_db_filepath = f'{name}/{slpp}/{_default_dbname}'
+              src_db_filepath = f'{name}/{_default_dbname}'
 
-                if src_db_filepath in test_strm.getnames():
-                  dst_db_dirpath = dst_dirpath / slpp
-                  mkdir(dst_db_dirpath)
+              if src_db_filepath in test_strm.getnames():
+                dst_db_dirpath = dst_dirpath
+                mkdir(dst_db_dirpath)
 
-                  dst_db_filepath = dst_db_dirpath / _default_dbname
+                dst_db_filepath = dst_db_dirpath / _default_dbname
 
-                  try:
-                    src_strm = test_strm.extractfile(src_db_filepath)
+                try:
+                  src_strm = test_strm.extractfile(src_db_filepath)
 
-                    with open(dst_db_filepath, 'wb') as dst_strm:
-                      dst_strm.write(src_strm.read()) # pyright: ignore[reportOptionalMemberAccess]
-                      dst_strm.flush()
+                  with open(dst_db_filepath, 'wb') as dst_strm:
+                    dst_strm.write(src_strm.read()) # pyright: ignore[reportOptionalMemberAccess]
+                    dst_strm.flush()
 
-                  except Exception:
-                    log(f'Failed to extract \"{src_db_filepath}\"')
-                    traceback.print_exc()
-                    result += 1
-
-                  break
+                except Exception:
+                  log(f'Failed to extract \"{src_db_filepath}\"')
+                  traceback.print_exc()
+                  result += 1
 
             if 'log' in modes:
               for platform_id in _platform_ids:

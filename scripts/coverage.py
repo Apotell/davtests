@@ -204,12 +204,8 @@ def _run_one(args):
   log(f'Running {test_id} ...')
 
   test_name = str(test_id)
-  slpp_all_dirpath = test_dirpath / 'slpp_all'
-  slpp_unit_dirpath = test_dirpath / 'slpp_unit'
-  slpp_dirpath = slpp_all_dirpath if slpp_all_dirpath.is_dir() else slpp_unit_dirpath
-
-  uhdm_filepath = slpp_dirpath / 'surelog.uhdm'
-  lib_dirpath = slpp_dirpath / 'lib'
+  uhdm_filepath = test_dirpath / 'surelog.uhdm'
+  lib_dirpath = test_dirpath / 'lib'
   coverage_log_filepath = test_dirpath / 'coverage.log'
 
   result = {
@@ -228,7 +224,6 @@ def _run_one(args):
       print( 'Environment:')
       print(f'    test-name: {test_name}')
       print(f' test-dirpath: {test_dirpath}')
-      print(f' slpp_dirpath: {slpp_dirpath}')
       print(f'uhdm-filepath: {uhdm_filepath}')
       print()
 
