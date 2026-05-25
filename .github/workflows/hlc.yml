@@ -1,14 +1,8 @@
 name: 'hlc'
+run-name: "hlc #${{ github.event.inputs.run_number }} · ${{ github.event.inputs.context || github.ref }}"
 
-# Concurrency: cancel any in-progress run for the same workflow and source ref.
-# For repository_dispatch triggers the relevant ref is the branch on the remote
-# (hlc) repo that produced the build, passed as client_payload.ref.  Using
-# github.ref alone would group all dispatches together regardless of source
-# branch, causing a run triggered by one branch to cancel a run already in
-# progress for a different branch.  The fallback to github.ref covers
-# workflow_dispatch, where no client payload is present.
 concurrency:
-  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.client_payload.ref || github.ref }}
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.inputs.context || github.ref }}
   cancel-in-progress: true
 
 on:
@@ -20,13 +14,13 @@ on:
       run_id:
         description: 'Build run ID (from the url)'
         required: true
-  repository_dispatch:
-    types: [hlc-build-complete]
+      context:
+        description: 'Triggering context (actor/branch)'
+        required: false
+        default: master
 
 env:
   PYTHON3_VERSION: '3.x'
-  hlc-run-id: ${{ github.event.client_payload.run_id || github.event.inputs.run_id }}
-  hlc-run-number: ${{ github.event.client_payload.run_number || github.event.inputs.run_number }}
 
 jobs:
 # Preflight ###########################################################################################################
@@ -40,11 +34,11 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
       run: |
-        artifacts=$(gh api /repos/Apotell/hlc/actions/runs/${{ env.hlc-run-id }}/artifacts \
+        artifacts=$(gh api /repos/Apotell/hlc/actions/runs/${{ github.event.inputs.run_id }}/artifacts \
           --jq '.artifacts[].name')
         echo "Available artifacts:"
         echo "$artifacts"
-        echo "$artifacts" | grep -q "hlc_ubuntu_release_${{ env.hlc-run-number }}" \
+        echo "$artifacts" | grep -q "hlc_ubuntu_release_${{ github.event.inputs.run_number }}" \
           || { echo "::error::Build artifact not found"; exit 1; }
         echo "$artifacts" | grep -q "pyuhdm-" \
           || { echo "::error::pyuhdm artifact not found"; exit 1; }
@@ -66,13 +60,15 @@ jobs:
         # - { os: windows-2022, tag: windows, build-type: release }
 
     env:
-      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.client_payload.run_number || github.event.inputs.run_number }}
+      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.inputs.run_number }}
       pyuhdm-artifact-pattern: "pyuhdm-*-linux_x86_64.whl"
       regression-artifact-name: Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_${{ matrix.shard }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
+      with:
+        ref: ${{ github.ref }}
 
     - name: Setup Python
       uses: actions/setup-python@v6
@@ -91,7 +87,7 @@ jobs:
       uses: actions/download-artifact@v7
       with:
         name: ${{ env.build-artifact-name }}
-        run-id: ${{ env.hlc-run-id }}
+        run-id: ${{ github.event.inputs.run_id }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
@@ -99,7 +95,7 @@ jobs:
       uses: actions/download-artifact@v7
       with:
         pattern: ${{ env.pyuhdm-artifact-pattern }}
-        run-id: ${{ env.hlc-run-id }}
+        run-id: ${{ github.event.inputs.run_id }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
@@ -157,7 +153,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     env:
-      build-artifact-name: hlc_ubuntu_release_${{ github.event.client_payload.run_number || github.event.inputs.run_number }}
+      build-artifact-name: hlc_ubuntu_release_${{ github.event.inputs.run_number }}
 
     steps:
     - name: Checkout repository
@@ -177,7 +173,7 @@ jobs:
       uses: actions/download-artifact@v7
       with:
         name: ${{ env.build-artifact-name }}
-        run-id: ${{ env.hlc-run-id }}
+        run-id: ${{ github.event.inputs.run_id }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
