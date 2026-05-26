@@ -13,9 +13,10 @@ add_subdirectory(third_party/googletest EXCLUDE_FROM_ALL)
 enable_testing()
 include(GoogleTest)
 
-set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build" CACHE PATH "hlc install directory")
+set(HLC_BUILD_DIR "${CMAKE_SOURCE_DIR}/build" CACHE PATH "hlc install directory")
+cmake_path(ABSOLUTE_PATH HLC_BUILD_DIR BASE_DIRECTORY "${CMAKE_SOURCE_DIR}" NORMALIZE OUTPUT_VARIABLE HLC_BUILD_DIR)
 
-find_package(Surelog REQUIRED HINTS "${BUILD_DIR}")
+find_package(Surelog REQUIRED HINTS "${HLC_BUILD_DIR}")
 find_package(Threads REQUIRED)
 
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
@@ -25,7 +26,7 @@ foreach(TEST_SRC IN LISTS TEST_SOURCES)
   get_filename_component(TEST_NAME "${TEST_SRC}" NAME_WE)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
 
-  add_executable(${TEST_NAME} ${TEST_SRC} ${BUILD_DIR}/src/Tests/Test.cpp)
+  add_executable(${TEST_NAME} ${TEST_SRC} ${HLC_BUILD_DIR}/src/Tests/Test.cpp)
   target_link_libraries(${TEST_NAME} PRIVATE
     surelog::surelog
     GTest::gtest
