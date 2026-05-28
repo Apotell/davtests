@@ -115,13 +115,13 @@ jobs:
       run: |
         python -m pip install $(ls ${{ env.pyuhdm-artifact-pattern }} | head -n 1)
 
-        python3 scripts/regression.py                                                         \
-          --build-dirpath build/bin/${{ matrix.config.tag }}_${{ matrix.config.build-type }}  \
-          --surelog-filepath surelog                                                          \
-          --reducer-filepath uhdm-reduce                                                      \
-          --output-dirpath ${{ github.workspace }}/regression                                 \
-          --jobs $(nproc)                                                                     \
-          --num_shards=${{ matrix.num_shards }}                                               \
+        python3 scripts/regression.py                         \
+          --build-dirpath ${{ github.workspace }}/build/bin   \
+          --surelog-filepath surelog                          \
+          --reducer-filepath uhdm-reduce                      \
+          --output-dirpath ${{ github.workspace }}/regression \
+          --jobs $(nproc)                                     \
+          --num_shards=${{ matrix.num_shards }}               \
           --shard=${{ matrix.shard }}
         git status
 
@@ -181,20 +181,14 @@ jobs:
       shell: bash
       run: |
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
-        # The artifact stores lib/ and bin/ under ubuntu_release/ for multi-platform
-        # support.  Reconstruct a clean install tree so cmake's find_package works.
-        mkdir -p hlc_install/lib hlc_install/bin
-        cp -r ${{ env.build-artifact-name }}/include          hlc_install/
-        cp -r ${{ env.build-artifact-name }}/src              hlc_install/
-        cp -r ${{ env.build-artifact-name }}/lib/ubuntu_release/. hlc_install/lib/
-        cp -r ${{ env.build-artifact-name }}/bin/ubuntu_release/. hlc_install/bin/
+        mv ${{ env.build-artifact-name }} build
 
     - name: Configure
       run: |
-        cmake                                             \
-          -G Ninja                                        \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo               \
-          -DBUILD_DIR=${{ github.workspace }}/hlc_install \
+        cmake                                       \
+          -G Ninja                                  \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo         \
+          -DBUILD_DIR=${{ github.workspace }}/build \
           -S . -B out/build
 
     - name: Build
