@@ -961,6 +961,15 @@ AST_DEBUG_END
 [WRN:PA0205] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:1:1: No timescale set for "work@left_rotate_assertions".
 [WRN:PA0205] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate.sv:1:1: No timescale set for "work@left_rotation".
 [WRN:PA0205] ${SURELOG_DIR}/tests/AssertDelayError/tb_left_rotate.sv:2:1: No timescale set for "work@tb_left_rotation".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:38:10: Illegal implicit net "id:142, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:38:6: Illegal implicit net "id:144, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:39:10: Illegal implicit net "id:145, name:reset".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:39:4: Illegal implicit net "id:147, name:rst_n".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:40:12: Illegal implicit net "id:148, name:in_data".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:40:4: Illegal implicit net "id:150, name:word_in".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:41:6: Illegal implicit net "id:152, name:rotate_by".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:42:12: Illegal implicit net "id:153, name:out_data".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertDelayError/left_rotate_assertions.sv:42:4: Illegal implicit net "id:155, name:rotated".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2251,11 +2260,74 @@ Design name:unnamed:
       vpiModule: Module name:work@tb_left_rotation
     StringTypespec:
       vpiParent: Design name:unnamed
+  vpiBindDirective (1 items):
+    BindDirective start:37:1 end:43:3:
+      vpiParent: Design name:unnamed
+      vpiBindTargetScope RefTypespec name:left_rotation start:37:6 end:37:19:
+        vpiParent: BindDirective
+        vpiName: left_rotation
+        vpiFullName: left_rotation
+        vpiActual: ModuleTypespec name:work@left_rotation
+      vpiBindSourceInstance RefInstance name:u_left_rotate_assertions start:37:43 end:37:67:
+        vpiParent: BindDirective
+        vpiName: u_left_rotate_assertions
+        vpiTypespec RefTypespec name:work@left_rotate_assertions start:37:20 end:37:42:
+          vpiParent: RefInstance name:u_left_rotate_assertions
+          vpiName: work@left_rotate_assertions
+          vpiFullName: u_left_rotate_assertions.work@left_rotate_assertions
+          vpiActual: ModuleTypespec name:work@left_rotate_assertions
+        vpiPort (5 items):
+          Port start:38:5 end:38:14:
+            vpiParent: RefInstance name:u_left_rotate_assertions
+            vpiLowConn RefObj name:clk start:38:6 end:38:9:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: u_left_rotate_assertions.clk
+            vpiHighConn RefObj name:clk start:38:10 end:38:13:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: u_left_rotate_assertions.clk
+          Port start:39:3 end:39:16:
+            vpiParent: RefInstance name:u_left_rotate_assertions
+            vpiLowConn RefObj name:rst_n start:39:4 end:39:9:
+              vpiParent: Port
+              vpiName: rst_n
+              vpiFullName: u_left_rotate_assertions.rst_n
+            vpiHighConn RefObj name:reset start:39:10 end:39:15:
+              vpiParent: Port
+              vpiName: reset
+              vpiFullName: u_left_rotate_assertions.reset
+          Port start:40:3 end:40:20:
+            vpiParent: RefInstance name:u_left_rotate_assertions
+            vpiLowConn RefObj name:word_in start:40:4 end:40:11:
+              vpiParent: Port
+              vpiName: word_in
+              vpiFullName: u_left_rotate_assertions.word_in
+            vpiHighConn RefObj name:in_data start:40:12 end:40:19:
+              vpiParent: Port
+              vpiName: in_data
+              vpiFullName: u_left_rotate_assertions.in_data
+          Port start:41:5 end:41:17:
+            vpiParent: RefInstance name:u_left_rotate_assertions
+            vpiLowConn RefObj name:rotate_by start:41:6 end:41:15:
+              vpiParent: Port
+              vpiName: rotate_by
+              vpiFullName: u_left_rotate_assertions.rotate_by
+          Port start:42:3 end:42:21:
+            vpiParent: RefInstance name:u_left_rotate_assertions
+            vpiLowConn RefObj name:rotated start:42:4 end:42:11:
+              vpiParent: Port
+              vpiName: rotated
+              vpiFullName: u_left_rotate_assertions.rotated
+            vpiHighConn RefObj name:out_data start:42:12 end:42:20:
+              vpiParent: Port
+              vpiName: out_data
+              vpiFullName: u_left_rotate_assertions.out_data
 ===================
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 9
 [WARNING] : 3
 [   NOTE] : 0
 
@@ -2267,31 +2339,31 @@ Environment:
 uhdm-filepath: ${SURELOG_DIR}/regression/AssertDelayError/AssertDelayError/surelog.uhdm
 
 
-{'result': {'coverage': 93.77,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 3,
             'files': {PosixPath('${SURELOG_DIR}/regression/AssertDelayError/AssertDelayError/lib/work/left_rotate.sv'): {'post_len': 0,
                                                                                                                                               'pre_len': 301},
-                      PosixPath('${SURELOG_DIR}/regression/AssertDelayError/AssertDelayError/lib/work/left_rotate_assertions.sv'): {'post_len': 96,
+                      PosixPath('${SURELOG_DIR}/regression/AssertDelayError/AssertDelayError/lib/work/left_rotate_assertions.sv'): {'post_len': 0,
                                                                                                                                                          'pre_len': 810},
                       PosixPath('${SURELOG_DIR}/regression/AssertDelayError/AssertDelayError/lib/work/tb_left_rotate.sv'): {'post_len': 0,
                                                                                                                                                  'pre_len': 431}},
-            'post_len': 96,
+            'post_len': 0,
             'pre_len': 1542,
             'test_name': 'AssertDelayError/AssertDelayError'}}
 
 +------------------------------------+----------+-----------+
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
-| lib/work/left_rotate_assertions.sv |      810 |        96 |
+| lib/work/left_rotate_assertions.sv |      810 |         0 |
 | lib/work/left_rotate.sv            |      301 |         0 |
 | lib/work/tb_left_rotate.sv         |      431 |         0 |
 +====================================+==========+===========+
-|                                    |     1542 |        96 |
+|                                    |     1542 |         0 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.77
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2302,7 +2374,7 @@ COMMAND: ${SURELOG_DIR}/regression/AssertDelayError/AssertDelayError/surelog.uhd
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             315     315       0         0
+Others                             333     333       0         0
 ----------------------------------------------------------------
-                                   315     315       0         0
+                                   333     333       0         0
 ===================== END REDUCTION RESULT =====================

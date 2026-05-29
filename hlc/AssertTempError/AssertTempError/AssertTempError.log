@@ -1471,6 +1471,14 @@ AST_DEBUG_END
 [WRN:PA0205] ${SURELOG_DIR}/tests/AssertTempError/design.sv:2:1: No timescale set for "work@UART".
 [WRN:PA0205] ${SURELOG_DIR}/tests/AssertTempError/design.sv:70:1: No timescale set for "work@UART_assertions".
 [WRN:PA0205] ${SURELOG_DIR}/tests/AssertTempError/testbench.sv:3:1: No timescale set for "work@tb_UART".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:36: Illegal implicit net "id:387, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:32: Illegal implicit net "id:389, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:48: Illegal implicit net "id:390, name:rst_n".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:42: Illegal implicit net "id:392, name:rst_n".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:61: Illegal implicit net "id:393, name:send".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:56: Illegal implicit net "id:395, name:send".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:73: Illegal implicit net "id:396, name:done".
+[ERR:EL0535] ${SURELOG_DIR}/tests/AssertTempError/design.sv:100:68: Illegal implicit net "id:398, name:done".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -3465,11 +3473,68 @@ Design name:unnamed:
       vpiModule: Module name:work@tb_UART
     LogicTypespec:
       vpiParent: Design name:unnamed
+  vpiBindDirective (1 items):
+    BindDirective start:100:1 end:100:80:
+      vpiParent: Design name:unnamed
+      vpiBindTargetScope RefTypespec name:UART start:100:6 end:100:10:
+        vpiParent: BindDirective
+        vpiName: UART
+        vpiFullName: UART
+        vpiActual: ModuleTypespec name:work@UART
+      vpiBindSourceInstance RefInstance name:uut start:100:27 end:100:30:
+        vpiParent: BindDirective
+        vpiName: uut
+        vpiTypespec RefTypespec name:work@UART_assertions start:100:11 end:100:26:
+          vpiParent: RefInstance name:uut
+          vpiName: work@UART_assertions
+          vpiFullName: uut.work@UART_assertions
+          vpiActual: ModuleTypespec name:work@UART_assertions
+        vpiPort (4 items):
+          Port start:100:31 end:100:40:
+            vpiParent: RefInstance name:uut
+            vpiLowConn RefObj name:clk start:100:32 end:100:35:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: uut.clk
+            vpiHighConn RefObj name:clk start:100:36 end:100:39:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: uut.clk
+          Port start:100:41 end:100:54:
+            vpiParent: RefInstance name:uut
+            vpiLowConn RefObj name:rst_n start:100:42 end:100:47:
+              vpiParent: Port
+              vpiName: rst_n
+              vpiFullName: uut.rst_n
+            vpiHighConn RefObj name:rst_n start:100:48 end:100:53:
+              vpiParent: Port
+              vpiName: rst_n
+              vpiFullName: uut.rst_n
+          Port start:100:55 end:100:66:
+            vpiParent: RefInstance name:uut
+            vpiLowConn RefObj name:send start:100:56 end:100:60:
+              vpiParent: Port
+              vpiName: send
+              vpiFullName: uut.send
+            vpiHighConn RefObj name:send start:100:61 end:100:65:
+              vpiParent: Port
+              vpiName: send
+              vpiFullName: uut.send
+          Port start:100:67 end:100:78:
+            vpiParent: RefInstance name:uut
+            vpiLowConn RefObj name:done start:100:68 end:100:72:
+              vpiParent: Port
+              vpiName: done
+              vpiFullName: uut.done
+            vpiHighConn RefObj name:done start:100:73 end:100:77:
+              vpiParent: Port
+              vpiName: done
+              vpiFullName: uut.done
 ===================
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 8
 [WARNING] : 3
 [   NOTE] : 0
 
@@ -3481,28 +3546,28 @@ Environment:
 uhdm-filepath: ${SURELOG_DIR}/regression/AssertTempError/AssertTempError/surelog.uhdm
 
 
-{'result': {'coverage': 97.45,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 2,
-            'files': {PosixPath('${SURELOG_DIR}/regression/AssertTempError/AssertTempError/lib/work/design.sv'): {'post_len': 48,
+            'files': {PosixPath('${SURELOG_DIR}/regression/AssertTempError/AssertTempError/lib/work/design.sv'): {'post_len': 0,
                                                                                                                                        'pre_len': 1453},
                       PosixPath('${SURELOG_DIR}/regression/AssertTempError/AssertTempError/lib/work/testbench.sv'): {'post_len': 0,
                                                                                                                                           'pre_len': 432}},
-            'post_len': 48,
+            'post_len': 0,
             'pre_len': 1885,
             'test_name': 'AssertTempError/AssertTempError'}}
 
 +-----------------------+----------+-----------+
 | INPUT                 |   PRELEN |   POSTLEN |
 +=======================+==========+===========+
-| lib/work/design.sv    |     1453 |        48 |
+| lib/work/design.sv    |     1453 |         0 |
 | lib/work/testbench.sv |      432 |         0 |
 +=======================+==========+===========+
-|                       |     1885 |        48 |
+|                       |     1885 |         0 |
 +-----------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.45
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3512,9 +3577,9 @@ COMMAND: ${SURELOG_DIR}/regression/AssertTempError/AssertTempError/surelog.uhdm 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-RefObj                             111     107       0         4
+RefObj                             119     115       0         4
 ----------------------------------------------------------------
-Others                             369     369       0         0
+Others                             377     377       0         0
 ----------------------------------------------------------------
-                                   480     476       0         4
+                                   496     492       0         4
 ===================== END REDUCTION RESULT =====================

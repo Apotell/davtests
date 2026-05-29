@@ -495,7 +495,9 @@ AST_DEBUG_END
 [ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:56:8: Illegal implicit net "id:173, name:si".
 [ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:65:17: Illegal implicit net "id:178, name:si".
 [ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:65:8: Illegal implicit net "id:180, name:si".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:76:12: Illegal implicit net "id:201, name:b_finished".
+[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:72:14: Illegal implicit net "id:187, name:si".
+[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:72:5: Illegal implicit net "id:189, name:si".
+[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_bind.v:76:12: Illegal implicit net "id:205, name:b_finished".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1099,7 +1101,7 @@ Design name:unnamed:
             vpiParent: Port name:i
             vpiFullName: work@ExampInst.i
             vpiActual: LogicTypespec
-      vpiRefInstance (2 items):
+      vpiRefInstance (1 items):
         RefInstance name:instName start:52:15 end:52:23:
           vpiParent: Module name:work@ExampInst
           vpiName: instName
@@ -1157,25 +1159,33 @@ Design name:unnamed:
                 vpiName: i
                 vpiFullName: work@ExampInst.instName.i
                 vpiActual: Net name:i
-        RefInstance name:instProg start:63:25 end:63:33:
+      vpiBindDirective (1 items):
+        BindDirective start:63:4 end:65:22:
           vpiParent: Module name:work@ExampInst
-          vpiName: instProg
-          vpiTypespec RefTypespec name:work@Prog start:63:20 end:63:24:
-            vpiParent: RefInstance name:instProg
-            vpiName: work@Prog
-            vpiFullName: work@ExampInst.instProg.work@Prog
-            vpiActual: ProgramTypespec name:work@Prog
-          vpiPort (1 items):
-            Port start:65:7 end:65:20:
+          vpiBindTargetScope RefTypespec name:InstModule start:63:9 end:63:19:
+            vpiParent: BindDirective
+            vpiName: InstModule
+            vpiFullName: work@ExampInst.InstModule
+            vpiActual: ModuleTypespec name:work@InstModule
+          vpiBindSourceInstance RefInstance name:instProg start:63:25 end:63:33:
+            vpiParent: BindDirective
+            vpiName: instProg
+            vpiTypespec RefTypespec name:work@Prog start:63:20 end:63:24:
               vpiParent: RefInstance name:instProg
-              vpiLowConn RefObj name:si start:65:8 end:65:10:
-                vpiParent: Port
-                vpiName: si
-                vpiFullName: work@ExampInst.instProg.si
-              vpiHighConn RefObj name:si start:65:17 end:65:19:
-                vpiParent: Port
-                vpiName: si
-                vpiFullName: work@ExampInst.instProg.si
+              vpiName: work@Prog
+              vpiFullName: work@ExampInst.instProg.work@Prog
+              vpiActual: ProgramTypespec name:work@Prog
+            vpiPort (1 items):
+              Port start:65:7 end:65:20:
+                vpiParent: RefInstance name:instProg
+                vpiLowConn RefObj name:si start:65:8 end:65:10:
+                  vpiParent: Port
+                  vpiName: si
+                  vpiFullName: work@ExampInst.instProg.si
+                vpiHighConn RefObj name:si start:65:17 end:65:19:
+                  vpiParent: Port
+                  vpiName: si
+                  vpiFullName: work@ExampInst.instProg.si
   vpiTypespec (8 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -1217,11 +1227,38 @@ Design name:unnamed:
         vpiParent: ProgramTypespec name:work@Prog2
         vpiName: work@Prog2
       vpiProgram: Program name:work@Prog2
+  vpiBindDirective (1 items):
+    BindDirective start:70:1 end:72:19:
+      vpiParent: Design name:unnamed
+      vpiBindTargetScope RefTypespec name:InstModule start:70:6 end:70:16:
+        vpiParent: BindDirective
+        vpiName: InstModule
+        vpiFullName: InstModule
+        vpiActual: ModuleTypespec name:work@InstModule
+      vpiBindSourceInstance RefInstance name:instProg2 start:70:23 end:70:32:
+        vpiParent: BindDirective
+        vpiName: instProg2
+        vpiTypespec RefTypespec name:work@Prog2 start:70:17 end:70:22:
+          vpiParent: RefInstance name:instProg2
+          vpiName: work@Prog2
+          vpiFullName: instProg2.work@Prog2
+          vpiActual: ProgramTypespec name:work@Prog2
+        vpiPort (1 items):
+          Port start:72:4 end:72:17:
+            vpiParent: RefInstance name:instProg2
+            vpiLowConn RefObj name:si start:72:5 end:72:7:
+              vpiParent: Port
+              vpiName: si
+              vpiFullName: instProg2.si
+            vpiHighConn RefObj name:si start:72:14 end:72:16:
+              vpiParent: Port
+              vpiName: si
+              vpiFullName: instProg2.si
 ===================
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 10
 [WARNING] : 2
 [   NOTE] : 0
 
@@ -1233,25 +1270,25 @@ Environment:
 uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_bind/surelog.uhdm
 
 
-{'result': {'coverage': 91.89,
+{'result': {'coverage': 97.05,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_bind/lib/work/t_bind.v'): {'post_len': 55,
+            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_bind/lib/work/t_bind.v'): {'post_len': 20,
                                                                                                                        'pre_len': 678}},
-            'post_len': 55,
+            'post_len': 20,
             'pre_len': 678,
             'test_name': 'Verilator/t_bind'}}
 
 +-------------------+----------+-----------+
 | INPUT             |   PRELEN |   POSTLEN |
 +===================+==========+===========+
-| lib/work/t_bind.v |      678 |        55 |
+| lib/work/t_bind.v |      678 |        20 |
 +===================+==========+===========+
-|                   |      678 |        55 |
+|                   |      678 |        20 |
 +-------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.89
+[COVERAGE] : 97.05
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1262,7 +1299,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_bind/surelog.uhdm ${SURELOG_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             184     184       0         0
+Others                             193     193       0         0
 ----------------------------------------------------------------
-                                   184     184       0         0
+                                   193     193       0         0
 ===================== END REDUCTION RESULT =====================

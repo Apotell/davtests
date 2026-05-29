@@ -313,6 +313,16 @@ AST_DEBUG_END
              ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:34:15: closing label "add_sub_if".
 [WRN:PA0205] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:1:1: No timescale set for "work@ADD_SUB".
 [WRN:PA0205] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:19:1: No timescale set for "work@add_sub_if".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:37:8: Illegal implicit net "id:146, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:37:4: Illegal implicit net "id:148, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:38:6: Illegal implicit net "id:149, name:a0".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:38:4: Illegal implicit net "id:151, name:a".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:39:6: Illegal implicit net "id:152, name:b0".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:39:4: Illegal implicit net "id:154, name:b".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:40:10: Illegal implicit net "id:155, name:doAdd0".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:40:4: Illegal implicit net "id:157, name:doAdd".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:41:11: Illegal implicit net "id:158, name:result0".
+[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceBinding/dut.sv:41:4: Illegal implicit net "id:160, name:result".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -856,11 +866,78 @@ Design name:unnamed:
       vpiName Identifier name:work@add_sub_if start:36:14 end:36:24:
         vpiParent: InterfaceTypespec name:work@add_sub_if
         vpiName: work@add_sub_if
+  vpiBindDirective (1 items):
+    BindDirective start:36:1 end:42:3:
+      vpiParent: Design name:unnamed
+      vpiBindTargetScope RefTypespec name:ADD_SUB start:36:6 end:36:13:
+        vpiParent: BindDirective
+        vpiName: ADD_SUB
+        vpiFullName: ADD_SUB
+        vpiActual: ModuleTypespec name:work@ADD_SUB
+      vpiBindSourceInstance RefInstance name:add_sub_if0 start:36:25 end:36:36:
+        vpiParent: BindDirective
+        vpiName: add_sub_if0
+        vpiTypespec RefTypespec name:work@add_sub_if start:36:14 end:36:24:
+          vpiParent: RefInstance name:add_sub_if0
+          vpiName: work@add_sub_if
+          vpiFullName: add_sub_if0.work@add_sub_if
+          vpiActual: InterfaceTypespec name:work@add_sub_if
+        vpiPort (5 items):
+          Port start:37:3 end:37:12:
+            vpiParent: RefInstance name:add_sub_if0
+            vpiLowConn RefObj name:clk start:37:4 end:37:7:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: add_sub_if0.clk
+            vpiHighConn RefObj name:clk start:37:8 end:37:11:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: add_sub_if0.clk
+          Port start:38:3 end:38:9:
+            vpiParent: RefInstance name:add_sub_if0
+            vpiLowConn RefObj name:a start:38:4 end:38:5:
+              vpiParent: Port
+              vpiName: a
+              vpiFullName: add_sub_if0.a
+            vpiHighConn RefObj name:a0 start:38:6 end:38:8:
+              vpiParent: Port
+              vpiName: a0
+              vpiFullName: add_sub_if0.a0
+          Port start:39:3 end:39:9:
+            vpiParent: RefInstance name:add_sub_if0
+            vpiLowConn RefObj name:b start:39:4 end:39:5:
+              vpiParent: Port
+              vpiName: b
+              vpiFullName: add_sub_if0.b
+            vpiHighConn RefObj name:b0 start:39:6 end:39:8:
+              vpiParent: Port
+              vpiName: b0
+              vpiFullName: add_sub_if0.b0
+          Port start:40:3 end:40:17:
+            vpiParent: RefInstance name:add_sub_if0
+            vpiLowConn RefObj name:doAdd start:40:4 end:40:9:
+              vpiParent: Port
+              vpiName: doAdd
+              vpiFullName: add_sub_if0.doAdd
+            vpiHighConn RefObj name:doAdd0 start:40:10 end:40:16:
+              vpiParent: Port
+              vpiName: doAdd0
+              vpiFullName: add_sub_if0.doAdd0
+          Port start:41:3 end:41:19:
+            vpiParent: RefInstance name:add_sub_if0
+            vpiLowConn RefObj name:result start:41:4 end:41:10:
+              vpiParent: Port
+              vpiName: result
+              vpiFullName: add_sub_if0.result
+            vpiHighConn RefObj name:result0 start:41:11 end:41:18:
+              vpiParent: Port
+              vpiName: result0
+              vpiFullName: add_sub_if0.result0
 ===================
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 12
 [WARNING] : 2
 [   NOTE] : 0
 
@@ -872,25 +949,25 @@ Environment:
 uhdm-filepath: ${SURELOG_DIR}/regression/InterfaceBinding/InterfaceBinding/surelog.uhdm
 
 
-{'result': {'coverage': 88.89,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/InterfaceBinding/InterfaceBinding/lib/work/dut.sv'): {'post_len': 60,
+            'files': {PosixPath('${SURELOG_DIR}/regression/InterfaceBinding/InterfaceBinding/lib/work/dut.sv'): {'post_len': 0,
                                                                                                                                       'pre_len': 540}},
-            'post_len': 60,
+            'post_len': 0,
             'pre_len': 540,
             'test_name': 'InterfaceBinding/InterfaceBinding'}}
 
 +-----------------+----------+-----------+
 | INPUT           |   PRELEN |   POSTLEN |
 +=================+==========+===========+
-| lib/work/dut.sv |      540 |        60 |
+| lib/work/dut.sv |      540 |         0 |
 +=================+==========+===========+
-|                 |      540 |        60 |
+|                 |      540 |         0 |
 +-----------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 88.89
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -901,7 +978,7 @@ COMMAND: ${SURELOG_DIR}/regression/InterfaceBinding/InterfaceBinding/surelog.uhd
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             134     134       0         0
+Others                             153     153       0         0
 ----------------------------------------------------------------
-                                   134     134       0         0
+                                   153     153       0         0
 ===================== END REDUCTION RESULT =====================

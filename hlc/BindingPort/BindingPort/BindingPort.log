@@ -57,6 +57,8 @@ AST_DEBUG_END
 [INF:CP0303] ${SURELOG_DIR}/tests/BindingPort/dut.sv:13:1: Compile module "work@UART_assertions".
 [WRN:PA0205] ${SURELOG_DIR}/tests/BindingPort/dut.sv:4:1: No timescale set for "work@UART".
 [WRN:PA0205] ${SURELOG_DIR}/tests/BindingPort/dut.sv:13:1: No timescale set for "work@UART_assertions".
+[ERR:EL0535] ${SURELOG_DIR}/tests/BindingPort/dut.sv:22:44: Illegal implicit net "id:23, name:clk".
+[ERR:EL0535] ${SURELOG_DIR}/tests/BindingPort/dut.sv:22:38: Illegal implicit net "id:25, name:state".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -153,11 +155,38 @@ Design name:unnamed:
       vpiName Identifier name:work@UART_assertions start:22:17 end:22:32:
         vpiParent: ModuleTypespec name:work@UART_assertions
         vpiName: work@UART_assertions
+  vpiBindDirective (1 items):
+    BindDirective start:22:7 end:22:50:
+      vpiParent: Design name:unnamed
+      vpiBindTargetScope RefTypespec name:UART start:22:12 end:22:16:
+        vpiParent: BindDirective
+        vpiName: UART
+        vpiFullName: UART
+        vpiActual: ModuleTypespec name:work@UART
+      vpiBindSourceInstance RefInstance name:uut start:22:33 end:22:36:
+        vpiParent: BindDirective
+        vpiName: uut
+        vpiTypespec RefTypespec name:work@UART_assertions start:22:17 end:22:32:
+          vpiParent: RefInstance name:uut
+          vpiName: work@UART_assertions
+          vpiFullName: uut.work@UART_assertions
+          vpiActual: ModuleTypespec name:work@UART_assertions
+        vpiPort (1 items):
+          Port start:22:37 end:22:48:
+            vpiParent: RefInstance name:uut
+            vpiLowConn RefObj name:state start:22:38 end:22:43:
+              vpiParent: Port
+              vpiName: state
+              vpiFullName: uut.state
+            vpiHighConn RefObj name:clk start:22:44 end:22:47:
+              vpiParent: Port
+              vpiName: clk
+              vpiFullName: uut.clk
 ===================
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
 
@@ -169,25 +198,25 @@ Environment:
 uhdm-filepath: ${SURELOG_DIR}/regression/BindingPort/BindingPort/surelog.uhdm
 
 
-{'result': {'coverage': 84.87,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/BindingPort/BindingPort/lib/work/dut.sv'): {'post_len': 18,
+            'files': {PosixPath('${SURELOG_DIR}/regression/BindingPort/BindingPort/lib/work/dut.sv'): {'post_len': 0,
                                                                                                                             'pre_len': 119}},
-            'post_len': 18,
+            'post_len': 0,
             'pre_len': 119,
             'test_name': 'BindingPort/BindingPort'}}
 
 +-----------------+----------+-----------+
 | INPUT           |   PRELEN |   POSTLEN |
 +=================+==========+===========+
-| lib/work/dut.sv |      119 |        18 |
+| lib/work/dut.sv |      119 |         0 |
 +=================+==========+===========+
-|                 |      119 |        18 |
+|                 |      119 |         0 |
 +-----------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 84.87
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -198,7 +227,7 @@ COMMAND: ${SURELOG_DIR}/regression/BindingPort/BindingPort/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    24      24       0         0
+                                    31      31       0         0
 ===================== END REDUCTION RESULT =====================
