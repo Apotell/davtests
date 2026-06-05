@@ -175,7 +175,7 @@ n<${SURELOG_DIR}/tests/Google/chapter-7/queues/insert_assign.sv> u<169> t<Top_le
 AST_DEBUG_END
 [INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-7/queues/insert_assign.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/queues/insert_assign.sv:23:35: Illegal implicit net "id:56, name:size".
+[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/queues/insert_assign.sv:23:35: Illegal implicit net "id:63, name:size".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -198,6 +198,19 @@ Design name:unnamed:
           vpiArrayType: static (1)
           vpiRange Range start:18:6 end:18:9:
             vpiParent: ArrayTypespec
+            vpiLeftRange Operation:
+              vpiParent: Range
+              vpiOpType: subtract (11)
+              vpiOperand (1 items):
+                Constant start:18:7 end:18:8:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@top
+                    vpiActual: StringTypespec
+                  vpiConstType: unbounded (11)
+                  vpiDecompile: "$"
+                  vpiValue: $
           vpiElemTypespec RefTypespec start:18:1 end:18:4:
             vpiParent: ArrayTypespec
             vpiFullName: work@top
@@ -325,27 +338,36 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "10"
                       vpiValue: 10
-                    PartSelect name:q[2:] start:22:20 end:22:26:
+                    PartSelect name:q[2:$] start:22:20 end:22:26:
                       vpiParent: Operation
-                      vpiName: q[2:]
-                      vpiFullName: work@top.q[2:]
+                      vpiName: q[2:$]
+                      vpiFullName: work@top.q[2:$]
                       vpiPrefix RefObj name:q start:22:20 end:22:21:
-                        vpiParent: PartSelect name:q[2:]
+                        vpiParent: PartSelect name:q[2:$]
                         vpiName: q
-                        vpiFullName: work@top.q[2:].q
+                        vpiFullName: work@top.q[2:$].q
                         vpiActual: Net name:q
                       vpiRange Range start:22:22 end:22:25:
-                        vpiParent: PartSelect name:q[2:]
+                        vpiParent: PartSelect name:q[2:$]
                         vpiLeftRange Constant start:22:22 end:22:23:
                           vpiParent: Range
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@top.q[2:]
+                            vpiFullName: work@top.q[2:$]
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "2"
                           vpiValue: 2
+                        vpiRightRange Constant start:22:24 end:22:25:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@top.q[2:$]
+                            vpiActual: StringTypespec
+                          vpiConstType: unbounded (11)
+                          vpiDecompile: "$"
+                          vpiValue: $
               SysFuncCall name:$display start:23:2 end:23:40:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:2 end:23:10:
@@ -467,11 +489,11 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-7/queues/insert_assign/surelog
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            11       8       1         4
-Operation                            2       1       0         1
-RefTypespec                         13       9       0         4
+Constant                            13      10       1         4
+Operation                            3       2       0         1
+RefTypespec                         15      11       0         4
 ----------------------------------------------------------------
 Others                              32      32       0         0
 ----------------------------------------------------------------
-                                    58      50       1         9
+                                    63      55       1         9
 ===================== END REDUCTION RESULT =====================
