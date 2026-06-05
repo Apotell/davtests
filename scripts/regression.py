@@ -394,6 +394,11 @@ def _run_surelog(
         time.sleep(0.25)
 
       returncode = process.poll()
+      if returncode == 3221225477:
+        status = Status.SEGFLT
+      elif returncode < 0:
+        status = Status.FAIL
+
       surelog_timedelta = datetime.now() - surelog_start_dt
       print(f'Surelog terminated with exit code: {returncode} in {str(surelog_timedelta)}')
     except:
