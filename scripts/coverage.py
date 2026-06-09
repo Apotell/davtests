@@ -14,8 +14,8 @@ from contextlib import redirect_stdout, redirect_stderr
 from datetime import datetime
 from enum import Enum, unique
 from pathlib import Path
+from pathlibutil.json import load as json_load
 from typing import Dict, List, Set
-
 from utils import build_filters, log
 
 
@@ -52,8 +52,14 @@ def _scan(dirpath, filters):
   ]
 
 
+def _mounted(p: str, mounts: dict[str, str]) -> str:
+    for vn, mp in mounts.items():
+      p = p.replace(vn, mp)
+    return p
+
+
 class Visitor(pyuhdm.UhdmVisitor):
-  def __init__(self, file_contents: Dict[Path, list[str]]):
+  def __init__(self, file_contents: Dict[str, list[str]]):
     super().__init__()
     self.file_contents = file_contents
     self.ignored_types = [
@@ -73,13 +79,13 @@ class Visitor(pyuhdm.UhdmVisitor):
     if obj.uhdm_type in self.ignored_types:
       return
 
-    filepath = Path(obj.pp_file)
-    if filepath not in self.file_contents:
+    logical = obj.pp_file
+    if logical not in self.file_contents:
       return
 
-    line = self.file_contents[filepath][obj.pp_start_line - 1]
+    line = self.file_contents[logical][obj.pp_start_line - 1]
     line = line[:obj.pp_start_column - 1] + (' ' * (obj.pp_end_column - obj.pp_start_column)) + line[obj.pp_end_column - 1:]
-    self.file_contents[filepath][obj.pp_start_line - 1] = line
+    self.file_contents[logical][obj.pp_start_line - 1] = line
 
 
 @functools.cache
@@ -205,8 +211,8 @@ def _run_one(args):
 
   test_name = str(test_id)
   uhdm_filepath = test_dirpath / 'surelog.uhdm'
-  lib_dirpath = test_dirpath / 'lib'
   coverage_log_filepath = test_dirpath / 'coverage.log'
+  mounts_filepath = test_dirpath / 'mounts.json'
 
   result = {
     'test_name': test_name,
@@ -222,30 +228,36 @@ def _run_one(args):
           redirect_stderr(coverage_log_strm):
     try:
       print( 'Environment:')
-      print(f'    test-name: {test_name}')
-      print(f' test-dirpath: {test_dirpath}')
-      print(f'uhdm-filepath: {uhdm_filepath}')
+      print(f'      test-name: {test_name}')
+      print(f'   test-dirpath: {test_dirpath}')
+      print(f'  uhdm-filepath: {uhdm_filepath}')
+      print(f'mounts-filepath: {mounts_filepath}')
       print()
+
+      # Load mounted paths to resolve logical paths in binary
+      mounts = json_load(mounts_filepath.open())
 
       if uhdm_filepath.exists():
         s = pyuhdm.Serializer()
         designs = s.restore(str(uhdm_filepath))
 
         file_contents = {}
+        logical_to_path = {}
         for design in designs:
           for sf in design.source_files:
-            filepath = Path(sf.preproc_file)
+            filepath = Path(_mounted(sf.preproc_file, mounts))
 
             if filepath.is_file():
               # NOTE(HS): When loaded from cache, the pp file
               # doesn't exist at this location.
               content = _load_file_content(filepath)
-              file_contents[filepath] = content
+              file_contents[sf.preproc_file] = content
+              logical_to_path[sf.preproc_file] = filepath
 
               pre_len = _compute_length(content)
               _save_file_content(filepath.with_stem(f'{filepath.stem}_pre') , content)
 
-              result['files'][filepath] = {
+              result['files'][sf.preproc_file] = {
                 'pre_len': pre_len,
                 'post_len': 0,
               }
@@ -257,10 +269,11 @@ def _run_one(args):
           for design in designs:
             visitor.visit(design)
 
-          for filepath, content in file_contents.items():
+          for logical, content in file_contents.items():
             content = _mask_reserved_keywords(content, keywords)
 
-            result['files'][filepath]['post_len'] = _compute_length(content)
+            result['files'][logical]['post_len'] = _compute_length(content)
+            filepath = logical_to_path[logical]
             _save_file_content(filepath.with_stem(f'{filepath.stem}_post'), content)
         else:
           print(f'FAILED to find any source files.')
@@ -285,7 +298,7 @@ def _run_one(args):
 
     print()
     pprint.pprint({'result': result})
-    _print_result(test_dirpath, result)
+    _print_result(result)
 
     coverage_log_strm.flush()
 
@@ -293,10 +306,10 @@ def _run_one(args):
   return result
 
 
-def _print_result(test_dirpath, result):
+def _print_result(result):
   headers = ['INPUT', 'PRELEN', 'POSTLEN']
   rows = [(
-    key.relative_to(test_dirpath),
+    key,
     value['pre_len'],
     value['post_len']
   ) for key, value in result['files'].items()]

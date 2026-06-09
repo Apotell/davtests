@@ -396,7 +396,7 @@ def _run_surelog(
       returncode = process.poll()
       if returncode == 3221225477:
         status = Status.SEGFLT
-      elif returncode < 0:
+      elif returncode and returncode < 0:
         status = Status.FAIL
 
       surelog_timedelta = datetime.now() - surelog_start_dt
@@ -528,7 +528,7 @@ def _run_one(params):
   env_filepath = output_dirpath / 'env.json'
   regression_log_filepath = output_dirpath / 'regression.log'
   golden_log_filepath, surelog_log_filepath = _get_surelog_log_filepaths(test_id, dirpath, output_dirpath)
-  uvm_absdirpath = _workspace_dirpath / 'UVM'
+  uvm_absdirpath = _workspace_dirpath / 'third_party' / 'UVM'
   coverage_log_filepath = output_dirpath / 'coverage.log'
   reducer_log_filepath = output_dirpath / 'reducer.log'
   keywords = coverage.load_reserved_keywords()
