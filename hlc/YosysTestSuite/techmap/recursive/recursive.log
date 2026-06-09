@@ -1,9 +1,9 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive/surelog.log".
+[INF:CM0023] Creating log file "$Output/hlc.log".
 AST_DEBUG_BEGIN
 Count: 45
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v> u<44> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: $Source01/recursive.v
+n<$Source01/recursive.v> u<44> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<44> s<43> l<1:1>
   n<> u<43> t<Source_text> p<44> c<26> l<1:1> el<8:10>
     n<> u<26> t<Description> p<43> c<25> s<42> l<1:1> el<4:10>
@@ -48,20 +48,20 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v> u<44> t<Top_level_rul
                   n<> u<34> t<Ordered_port_connection> p<35> l<7:8> el<7:8>
         n<> u<40> t<ENDMODULE> p<41> l<8:1> el<8:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v:6:1: Compile module "work@foo".
+[INF:CP0303] $Source01/recursive.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/recursive.v:6:1: Compile module "work@foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
   vpiSourceFiles (1 items):
-    SourceFile name:recursive.v file:${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v:
+    SourceFile name:recursive.v file:$Source01/recursive.v:
       vpiParent: Design name:unnamed
       vpiName: recursive.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive/lib/work/recursive.v"
+      vpiPreprocFile: "$Output/lib/work/recursive.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v start:1:1 end:4:10:
+    Module name:work@top file:$Source01/recursive.v start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -97,7 +97,7 @@ Design name:unnamed:
             vpiName: work@foo
             vpiFullName: work@top.f0.work@foo
             vpiActual: ModuleTypespec name:work@foo
-    Module name:work@foo file:${SURELOG_DIR}/tests/YosysTestSuite/techmap/recursive.v start:6:1 end:8:10:
+    Module name:work@foo file:$Source01/recursive.v start:6:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:6:8 end:6:11:
         vpiParent: Module name:work@foo
@@ -144,27 +144,28 @@ Design name:unnamed:
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/techmap/recursive
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive/surelog.uhdm
+      test-name: YosysTestSuite/techmap/recursive
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/techmap/recursive/lib/work/recursive.v'): {'post_len': 0,
-                                                                                                                                          'pre_len': 67}},
+            'files': {'$Output/lib/work/recursive.v': {'post_len': 0,
+                                                       'pre_len': 67}},
             'post_len': 0,
             'pre_len': 67,
             'test_name': 'YosysTestSuite/techmap/recursive'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/recursive.v |       67 |         0 |
-+======================+==========+===========+
-|                      |       67 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/recursive.v |       67 |         0 |
++==============================+==========+===========+
+|                              |       67 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0

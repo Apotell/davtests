@@ -1,6 +1,6 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic/surelog.log".
-[FTL:CM0008] Verilog File "${SURELOG_DIR}/tests/SimpleCmdLineTest/bad" does not exist.
-[FTL:CM0008] Verilog File "${SURELOG_DIR}/tests/SimpleCmdLineTest/command" does not exist.
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[FTL:CM0008] Verilog File "$Source01/bad" does not exist.
+[FTL:CM0008] Verilog File "$Source01/command" does not exist.
 [  FATAL] : 2
 [ SYNTAX] : 0
 [  ERROR] : 0
@@ -10,11 +10,20 @@
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SimpleCmdLineTest/TestBasic
- test-dirpath: ${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic
-uhdm-filepath: ${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic/surelog.uhdm
+      test-name: SimpleCmdLineTest/TestBasic
+   test-dirpath: ${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic
+  uhdm-filepath: ${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic/mounts.json
 
-FAILED to find uhdm database!
+SimpleCmdLineTest/TestBasic FAILED with exception!
+Traceback (most recent call last):
+  File "${SURELOG_DIR}/scripts/coverage.py", line 238, in _run_one
+    mounts = json_load(mounts_filepath.open())
+                       ~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.14.5/x64/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '${SURELOG_DIR}/regression/SimpleCmdLineTest/TestBasic/mounts.json'
 
 {'result': {'coverage': 0,
             'error_count': 1,
