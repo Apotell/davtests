@@ -75,11 +75,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_typo_bad.v:11:1: Compile module "work@submod".
 [INF:CP0303] $Source01/t_interface_typo_bad.v:18:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_interface_typo_bad.v:26:10: Illegal implicit net "id:29, name:foo".
+[ERR:EL0535] $Source01/t_interface_typo_bad.v:26:10: Illegal implicit net "id:32, name:foo".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:t_interface_typo_bad.v file:$Source01/t_interface_typo_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_typo_bad.v
@@ -93,6 +93,11 @@ Design name:unnamed:
         vpiName: work@foo_intf
       vpiFullName: work@foo_intf
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@foo_intf
+        vpiName: work
+        vpiFullName: work@foo_intf.work
+      vpiCell: foo_intf
   vpiAllModules (2 items):
     Module name:work@submod file:$Source01/t_interface_typo_bad.v start:11:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -102,6 +107,11 @@ Design name:unnamed:
       vpiFullName: work@submod
       vpiDefName: work@submod
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@submod
+        vpiName: work
+        vpiFullName: work@submod.work
+      vpiCell: submod
       vpiNet (1 items):
         Net name:foo start:13:13 end:13:16:
           vpiParent: Module name:work@submod
@@ -143,6 +153,11 @@ Design name:unnamed:
             vpiName: work@submod
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:the_foo start:21:12 end:21:19:
           vpiParent: Module name:work@t
@@ -239,7 +254,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_interface_typo_bad/surelog.uhdm $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              32      32       0         0
 ----------------------------------------------------------------
-                                    29      29       0         0
+                                    32      32       0         0
 ===================== END REDUCTION RESULT =====================

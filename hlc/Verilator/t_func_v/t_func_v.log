@@ -164,11 +164,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_v.v:16:1: Compile module "work@level1".
 [INF:CP0303] $Source01/t_func_v.v:29:1: Compile module "work@level2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_func_v.v:23:11: Illegal implicit net "id:46, name:mem".
+[ERR:EL0535] $Source01/t_func_v.v:23:11: Illegal implicit net "id:49, name:mem".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:t_func_v.v file:$Source01/t_func_v.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_v.v
@@ -189,6 +189,11 @@ Design name:unnamed:
             vpiName: work@level1
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:13:4 end:13:27:
           vpiParent: Module name:work@t
@@ -241,6 +246,11 @@ Design name:unnamed:
             vpiName: work@level2
       vpiDefName: work@level1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@level1
+        vpiName: work
+        vpiFullName: work@level1.work
+      vpiCell: level1
       vpiTaskFunc (1 items):
         Task name:doit start:22:4 end:26:11:
           vpiParent: Module name:work@level1
@@ -395,6 +405,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@level2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@level2
+        vpiName: work
+        vpiFullName: work@level2.work
+      vpiCell: level2
       vpiNet (1 items):
         Net name:mem start:33:16 end:33:19:
           vpiParent: Module name:work@level2
@@ -477,7 +492,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_v/surelog.uhdm ${SURELOG_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

@@ -245,13 +245,13 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@foo".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:17:53: Illegal implicit net "id:98, name:InitDefault".
-[ERR:EL0535] $Source01/dut.sv:18:26: Illegal implicit net "id:105, name:key".
-[ERR:EL0535] $Source01/dut.sv:18:10: Illegal implicit net "id:107, name:ResetValue".
+[ERR:EL0535] $Source01/dut.sv:17:53: Illegal implicit net "id:103, name:InitDefault".
+[ERR:EL0535] $Source01/dut.sv:18:26: Illegal implicit net "id:110, name:key".
+[ERR:EL0535] $Source01/dut.sv:18:10: Illegal implicit net "id:112, name:ResetValue".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
@@ -388,6 +388,11 @@ Design name:unnamed:
           vpiParent: Package name:work@pkg
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
   vpiAllModules (4 items):
     Module name:work@foo2 file:$Source01/dut.sv start:10:1 end:11:10:
       vpiParent: Design name:unnamed
@@ -453,6 +458,11 @@ Design name:unnamed:
           vpiParent: Module name:work@foo2
       vpiDefName: work@foo2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo2
+        vpiName: work
+        vpiFullName: work@foo2.work
+      vpiCell: foo2
     Module name:work@foo file:$Source01/dut.sv start:13:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:13:8 end:13:11:
@@ -522,6 +532,11 @@ Design name:unnamed:
             vpiName: work@foo2
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiRefInstance (1 items):
         RefInstance name:f start:14:35 end:14:36:
           vpiParent: Module name:work@foo
@@ -591,6 +606,11 @@ Design name:unnamed:
             vpiName: work@foo
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiRefInstance (1 items):
         RefInstance name:f start:18:32 end:18:33:
           vpiParent: Module name:work@dut
@@ -636,6 +656,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:d start:22:7 end:22:8:
           vpiParent: Module name:work@top
@@ -720,10 +745,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       1         1
 Operation                            1       0       0         1
-RefObj                              12      11       0         1
+RefObj                              17      16       0         1
 RefTypespec                         21      21       1         1
 ----------------------------------------------------------------
 Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   106     104       2         4
+                                   111     109       2         4
 ===================== END REDUCTION RESULT =====================

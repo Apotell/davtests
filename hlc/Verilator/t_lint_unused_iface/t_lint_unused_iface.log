@@ -232,14 +232,14 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_lint_unused_iface.v:34:1: Compile module "work@t".
 [WRN:CP0323] $Source01/t_lint_unused_iface.v:34:1: Multiply defined typedef "work@dummy_if".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_lint_unused_iface.v:29:20: Illegal implicit net "id:57, name:signal".
-[ERR:EL0535] $Source01/t_lint_unused_iface.v:30:32: Illegal implicit net "id:63, name:signal".
-[ERR:EL0535] $Source01/t_lint_unused_iface.v:55:8: Illegal implicit net "id:97, name:dummy_in".
-[ERR:EL0535] $Source01/t_lint_unused_iface.v:56:8: Illegal implicit net "id:100, name:dummy_out".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:29:20: Illegal implicit net "id:60, name:signal".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:30:32: Illegal implicit net "id:66, name:signal".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:55:8: Illegal implicit net "id:100, name:dummy_in".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:56:8: Illegal implicit net "id:103, name:dummy_out".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:t_lint_unused_iface.v file:$Source01/t_lint_unused_iface.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_unused_iface.v
@@ -266,6 +266,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@dummy_if
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@dummy_if
+        vpiName: work
+        vpiFullName: work@dummy_if.work
+      vpiCell: dummy_if
       vpiModport (2 items):
         Modport name:slave start:9:12 end:9:17:
           vpiParent: Interface name:work@dummy_if
@@ -310,6 +315,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (4 items):
         Net name:signal_i start:22:16 end:22:24:
           vpiParent: Module name:work@sub
@@ -497,6 +507,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:signal_o start:41:11 end:41:19:
           vpiParent: Module name:work@t
@@ -678,7 +693,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                             101     101       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                   101     101       0         0
 ===================== END REDUCTION RESULT =====================

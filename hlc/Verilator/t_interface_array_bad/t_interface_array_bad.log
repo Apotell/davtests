@@ -273,11 +273,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_array_bad.v:14:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_interface_array_bad.v:45:1: Compile module "work@baz".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_interface_array_bad.v:22:21: Illegal implicit net "id:65, name:a".
+[ERR:EL0535] $Source01/t_interface_array_bad.v:22:21: Illegal implicit net "id:68, name:a".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:t_interface_array_bad.v file:$Source01/t_interface_array_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array_bad.v
@@ -301,6 +301,11 @@ Design name:unnamed:
           vpiFullName: work@foo_intf.a
           vpiNetType: none (12)
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@foo_intf
+        vpiName: work
+        vpiFullName: work@foo_intf.work
+      vpiCell: foo_intf
   vpiAllModules (2 items):
     Module name:work@t file:$Source01/t_interface_array_bad.v start:14:1 end:43:10:
       vpiParent: Design name:unnamed
@@ -428,6 +433,11 @@ Design name:unnamed:
             vpiName: work@baz
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:bar start:19:20 end:19:23:
           vpiParent: Module name:work@t
@@ -569,6 +579,11 @@ Design name:unnamed:
           vpiParent: Module name:work@baz
       vpiDefName: work@baz
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@baz
+        vpiName: work
+        vpiFullName: work@baz.work
+      vpiCell: baz
       vpiTaskFunc (1 items):
         Function name:the_func start:48:4 end:50:15:
           vpiParent: Module name:work@baz
@@ -704,10 +719,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       1         1
 Operation                            1       0       0         1
-RefObj                               8       7       0         1
+RefObj                              11      10       0         1
 RefTypespec                         21      21       1         1
 ----------------------------------------------------------------
 Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    97      95       2         4
+                                   100      98       2         4
 ===================== END REDUCTION RESULT =====================

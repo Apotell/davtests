@@ -210,11 +210,11 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@lower".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@upper".
 [WRN:PA0205] $Source01/dut.sv:22:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:11:25: Illegal implicit net "id:40, name:VALUE_TEMP".
+[ERR:EL0535] $Source01/dut.sv:11:25: Illegal implicit net "id:45, name:VALUE_TEMP".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
@@ -250,7 +250,7 @@ Design name:unnamed:
               vpiParent: Operation
               vpiFullName: work@foo_pkg
               vpiActual: IntTypespec
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (1 items):
               Operation start:2:34 end:2:46:
                 vpiParent: Operation
@@ -268,6 +268,11 @@ Design name:unnamed:
                     vpiValue: 1
       vpiDefName: work@foo_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@foo_pkg
+        vpiName: work
+        vpiFullName: work@foo_pkg::work
+      vpiCell: foo_pkg
   vpiAllModules (4 items):
     Module name:work@bottom file:$Source01/dut.sv start:5:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -304,6 +309,11 @@ Design name:unnamed:
             vpiValue: 8
       vpiDefName: work@bottom
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bottom
+        vpiName: work
+        vpiFullName: work@bottom.work
+      vpiCell: bottom
     Module name:work@lower file:$Source01/dut.sv start:9:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@lower start:9:8 end:9:13:
@@ -358,6 +368,11 @@ Design name:unnamed:
             vpiName: work@bottom
       vpiDefName: work@lower
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@lower
+        vpiName: work
+        vpiFullName: work@lower.work
+      vpiCell: lower
       vpiRefInstance (1 items):
         RefInstance name:bottom_u start:14:5 end:14:13:
           vpiParent: Module name:work@lower
@@ -422,6 +437,11 @@ Design name:unnamed:
             vpiName: work@lower
       vpiDefName: work@upper
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@upper
+        vpiName: work
+        vpiFullName: work@upper.work
+      vpiCell: upper
       vpiRefInstance (1 items):
         RefInstance name:lower_u start:19:9 end:19:16:
           vpiParent: Module name:work@upper
@@ -472,6 +492,11 @@ Design name:unnamed:
             vpiName: work@upper
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:upper_u start:24:9 end:24:16:
           vpiParent: Module name:work@top
@@ -558,7 +583,7 @@ Constant                             5       5       1         1
 Operation                            3       1       0         2
 RefTypespec                         14      12       0         2
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                    73      69       1         5
+                                    78      74       1         5
 ===================== END REDUCTION RESULT =====================

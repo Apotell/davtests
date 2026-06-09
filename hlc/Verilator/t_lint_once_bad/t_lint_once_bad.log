@@ -152,13 +152,13 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_lint_once_bad.v:9:1: Multiply defined typedef "work@sub".
 [INF:CP0303] $Source01/t_lint_once_bad.v:15:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_lint_once_bad.v:10:11: Illegal implicit net "id:13, name:A".
-[ERR:EL0535] $Source01/t_lint_once_bad.v:11:11: Illegal implicit net "id:22, name:A".
-[ERR:EL0535] $Source01/t_lint_once_bad.v:12:11: Illegal implicit net "id:31, name:A".
+[ERR:EL0535] $Source01/t_lint_once_bad.v:10:11: Illegal implicit net "id:15, name:A".
+[ERR:EL0535] $Source01/t_lint_once_bad.v:11:11: Illegal implicit net "id:24, name:A".
+[ERR:EL0535] $Source01/t_lint_once_bad.v:12:11: Illegal implicit net "id:33, name:A".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:t_lint_once_bad.v file:$Source01/t_lint_once_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_once_bad.v
@@ -189,6 +189,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiRefInstance (3 items):
         RefInstance name:sub1 start:10:17 end:10:21:
           vpiParent: Module name:work@t
@@ -348,6 +353,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (2 items):
         Net name:unus1 start:18:14 end:18:19:
           vpiParent: Module name:work@sub
@@ -427,7 +437,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_once_bad/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

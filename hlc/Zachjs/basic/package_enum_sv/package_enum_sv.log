@@ -104,11 +104,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/basic/package_enum.sv:8:1: Compile module "work@top".
 [WRN:CP0323] $Source01/basic/package_enum.sv:8:1: Multiply defined typedef "foo_pkg".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/basic/package_enum.sv:10:28: Illegal implicit net "id:41, name:AccessAck".
+[ERR:EL0535] $Source01/basic/package_enum.sv:10:28: Illegal implicit net "id:43, name:AccessAck".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:package_enum.sv file:$Source01/basic/package_enum.sv:
       vpiParent: Design name:unnamed
       vpiName: package_enum.sv
@@ -196,6 +196,11 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@foo_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@foo_pkg
+        vpiName: work
+        vpiFullName: work@foo_pkg::work
+      vpiCell: foo_pkg
   vpiAllModules (1 items):
     Module name:work@top file:$Source01/basic/package_enum.sv start:8:1 end:12:10:
       vpiParent: Design name:unnamed
@@ -212,6 +217,11 @@ Design name:unnamed:
           vpiName: foo_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:test start:9:20 end:9:24:
           vpiParent: Module name:work@top
@@ -310,7 +320,7 @@ COMMAND: ${SURELOG_DIR}/regression/Zachjs/basic/package_enum_sv/surelog.uhdm ${S
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

@@ -240,14 +240,14 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_crazy_sel.v:36:1: Compile module "work@foo".
 [INF:CP0303] $Source01/t_crazy_sel.v:40:1: Compile module "work@bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:33: Illegal implicit net "id:59, name:THE_LP".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:15: Illegal implicit net "id:63, name:foo_loop".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:41: Illegal implicit net "id:64, name:foo_inst".
-[ERR:EL0535] $Source01/t_crazy_sel.v:26:50: Illegal implicit net "id:65, name:y".
+[ERR:EL0535] $Source01/t_crazy_sel.v:26:33: Illegal implicit net "id:63, name:THE_LP".
+[ERR:EL0535] $Source01/t_crazy_sel.v:26:15: Illegal implicit net "id:67, name:foo_loop".
+[ERR:EL0535] $Source01/t_crazy_sel.v:26:41: Illegal implicit net "id:68, name:foo_inst".
+[ERR:EL0535] $Source01/t_crazy_sel.v:26:50: Illegal implicit net "id:69, name:y".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:t_crazy_sel.v file:$Source01/t_crazy_sel.v:
       vpiParent: Design name:unnamed
       vpiName: t_crazy_sel.v
@@ -271,6 +271,11 @@ Design name:unnamed:
           vpiFullName: work@foo_intf.a
           vpiNetType: none (12)
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@foo_intf
+        vpiName: work
+        vpiFullName: work@foo_intf.work
+      vpiCell: foo_intf
   vpiAllModules (3 items):
     Module name:work@t file:$Source01/t_crazy_sel.v start:15:1 end:34:10:
       vpiParent: Design name:unnamed
@@ -288,6 +293,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:the_genvar start:16:11 end:16:21:
           vpiParent: Module name:work@t
@@ -414,7 +424,7 @@ Design name:unnamed:
             vpiForIncStmt (1 items):
               Operation start:18:44 end:18:56:
                 vpiParent: GenFor
-                vpiOpType: post inc (62)
+                vpiOpType: post inc (64)
                 vpiOperand (1 items):
                   RefObj name:the_genvar start:18:44 end:18:54:
                     vpiParent: Operation
@@ -472,6 +482,11 @@ Design name:unnamed:
           vpiParent: Module name:work@foo
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiNet (1 items):
         Net name:y start:37:10 end:37:11:
           vpiParent: Module name:work@foo
@@ -521,6 +536,11 @@ Design name:unnamed:
           vpiParent: Module name:work@bar
       vpiDefName: work@bar
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bar
+        vpiName: work
+        vpiFullName: work@bar.work
+      vpiCell: bar
   vpiTypespec (6 items):
     InterfaceTypespec name:work@foo_intf:
       vpiParent: Design name:unnamed
@@ -629,7 +649,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_crazy_sel/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    89      89       0         0
 ===================== END REDUCTION RESULT =====================

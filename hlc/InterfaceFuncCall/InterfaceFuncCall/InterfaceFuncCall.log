@@ -163,11 +163,11 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/dut.sv:9:1: Multiply defined typedef "work@Foo".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@Foo".
-[ERR:EL0535] $Source01/dut.sv:11:12: Illegal implicit net "id:45, name:MULTIPLIER".
+[ERR:EL0535] $Source01/dut.sv:11:12: Illegal implicit net "id:47, name:MULTIPLIER".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
+  vpiSourceFile (1 items):
     SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
@@ -211,6 +211,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@Foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@Foo
+        vpiName: work
+        vpiFullName: work@Foo.work
+      vpiCell: Foo
       vpiTaskFunc (1 items):
         Function name:bar start:3:5 end:6:16:
           vpiParent: Interface name:work@Foo
@@ -293,6 +298,11 @@ Design name:unnamed:
             vpiName: work@Foo
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:12:5 end:15:8:
           vpiParent: Module name:work@top
@@ -461,7 +471,7 @@ COMMAND: ${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/surelog.u
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================
