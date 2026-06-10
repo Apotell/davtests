@@ -115,7 +115,8 @@ TEST_F(CompilerDirectivesDebug, FormatStringIsStringConstant) {
 TEST_F(CompilerDirectivesDebug, FormatStringValue) {
   const uhdm::Constant *const arg = getArg(m_design, 0);
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getValue(), "At %s @ %d\n");
+  // vpiValue stores the raw escape sequence — literal backslash-n, not a newline.
+  EXPECT_EQ(arg->getValue(), "At %s @ %d\\n");
 }
 
 // ---------------------------------------------------------------------------
