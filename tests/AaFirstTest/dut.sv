@@ -1,19 +1,7 @@
-  function void execute(uvm_component comp, uvm_phase phase);
-    fork
-      begin
-        process proc;
+// Fist very simple test of the Surelog regression
 
-        // reseed this process for random stability
-        proc = process::self();
-        proc.srandom(uvm_create_random_seed(phase.get_type_name(), comp.get_full_name()));
+module top(input logic a);
 
-        phase.m_num_procs_not_yet_returned++;
+  bottom b (a);
 
-        exec_task(comp,phase);
-
-        phase.m_num_procs_not_yet_returned--;
-
-      end
-    join_none
-
-  endfunction
+endmodule
