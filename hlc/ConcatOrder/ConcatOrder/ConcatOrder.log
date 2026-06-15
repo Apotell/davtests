@@ -337,9 +337,6 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:39:2: No timescale set for "work@testbench".
 [ERR:EL0535] $Source01/dut.sv:11:13: Illegal implicit net "id:46, name:cce_ucode".
 [ERR:EL0535] $Source01/dut.sv:27:8: Illegal implicit net "id:103, name:cce_ucode".
-[ERR:EL0535] $Source01/dut.sv:41:40: Illegal implicit net "id:128, name:e_bp_multicore_1_cce_ucode_cfg".
-[ERR:EL0535] $Source01/dut.sv:43:50: Illegal implicit net "id:137, name:all_cfgs_gp".
-[ERR:EL0535] $Source01/dut.sv:44:61: Illegal implicit net "id:144, name:cce_ucode".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -750,7 +747,7 @@ Design name:unnamed:
             vpiParent: Parameter name:bp_params_p
             vpiName: bp_params_e
             vpiFullName: work@testbench.bp_params_p.bp_params_e
-            vpiActual: UnsupportedTypespec name:bp_params_e
+            vpiActual: TypedefTypespec name:bp_params_e
           vpiName: bp_params_p
           vpiFullName: work@testbench.bp_params_p
         Parameter name:proc_param_lp start:43:34 end:43:47:
@@ -759,7 +756,7 @@ Design name:unnamed:
             vpiParent: Parameter name:proc_param_lp
             vpiName: bp_proc_param_s
             vpiFullName: work@testbench.proc_param_lp.bp_proc_param_s
-            vpiActual: UnsupportedTypespec name:bp_proc_param_s
+            vpiActual: TypedefTypespec name:bp_proc_param_s
           vpiName: proc_param_lp
           vpiFullName: work@testbench.proc_param_lp
           vpiLocalParam: true
@@ -784,6 +781,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: e_bp_multicore_1_cce_ucode_cfg
             vpiFullName: work@testbench.e_bp_multicore_1_cce_ucode_cfg
+            vpiActual: EnumConst name:e_bp_multicore_1_cce_ucode_cfg
         ParamAssign start:43:34 end:43:74:
           vpiParent: Module name:work@testbench
           vpiLhs RefObj name:proc_param_lp start:43:34 end:43:47:
@@ -799,6 +797,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:all_cfgs_gp[bp_params_p]
               vpiName: all_cfgs_gp
               vpiFullName: work@testbench.all_cfgs_gp
+              vpiActual: Parameter name:all_cfgs_gp
             vpiIndex RefObj name:bp_params_p start:43:62 end:43:73:
               vpiParent: BitSelect name:all_cfgs_gp[bp_params_p]
               vpiName: bp_params_p
@@ -815,7 +814,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: proc_param_lp.cce_ucode
             vpiFullName: work@testbench.proc_param_lp.cce_ucode
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:proc_param_lp start:44:47 end:44:60:
                 vpiParent: HierPath name:proc_param_lp.cce_ucode
                 vpiName: proc_param_lp
@@ -825,22 +824,13 @@ Design name:unnamed:
                 vpiParent: HierPath name:proc_param_lp.cce_ucode
                 vpiName: cce_ucode
                 vpiFullName: work@testbench.cce_ucode
-      vpiTypespec (4 items):
+                vpiActual: TypespecMember name:cce_ucode
+      vpiTypespec (2 items):
         ImportTypespec name:bp_common_pkg start:40:9 end:40:25:
           vpiParent: Module name:work@testbench
           vpiName Identifier name:bp_common_pkg start:40:9 end:40:22:
             vpiParent: ImportTypespec name:bp_common_pkg
             vpiName: bp_common_pkg
-        UnsupportedTypespec name:bp_params_e start:41:14 end:41:25:
-          vpiParent: Module name:work@testbench
-          vpiName Identifier name:bp_params_e:
-            vpiParent: UnsupportedTypespec name:bp_params_e
-            vpiName: bp_params_e
-        UnsupportedTypespec name:bp_proc_param_s start:43:18 end:43:33:
-          vpiParent: Module name:work@testbench
-          vpiName Identifier name:bp_proc_param_s:
-            vpiParent: UnsupportedTypespec name:bp_proc_param_s
-            vpiName: bp_proc_param_s
         LogicTypespec:
           vpiParent: Module name:work@testbench
       vpiDefName: work@testbench
@@ -928,7 +918,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 2
 [WARNING] : 3
 [   NOTE] : 0
 
@@ -970,13 +960,13 @@ COMMAND: ${SURELOG_DIR}/regression/ConcatOrder/ConcatOrder/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      11       3         4
-Identifier                          15      14       0         1
+Identifier                          13      12       0         1
 Operation                            8       4       0         4
 RefObj                              27      23       0         4
 RefTypespec                         28      26       2         4
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                   145     132       5        18
+                                   141     128       5        18
 ===================== END REDUCTION RESULT =====================

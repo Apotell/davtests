@@ -445,14 +445,8 @@ n<$Source01/dut.sv> u<440> t<Top_level_rule> c<1> l<1:1> el<62:1>
         n<> u<436> t<ENDMODULE> p<437> l<61:1> el<61:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@prim_pad_wrapper_pkg".
-[ERR:CP0341] $Source01/dut.sv:1:1: Unmached label "work@prim_pad_wrapper_pkg",
-             $Source01/dut.sv:6:14: closing label "prim_pad_wrapper_pkg".
 [INF:CP0301] $Source01/dut.sv:8:1: Compile package "work@pinmux_pkg".
-[ERR:CP0341] $Source01/dut.sv:8:1: Unmached label "work@pinmux_pkg",
-             $Source01/dut.sv:20:14: closing label "pinmux_pkg".
 [INF:CP0303] $Source01/dut.sv:22:1: Compile module "work@prim_generic_pad_attr".
-[ERR:CP0341] $Source01/dut.sv:22:1: Unmached label "work@prim_generic_pad_attr",
-             $Source01/dut.sv:28:13: closing label "prim_generic_pad_attr".
 [INF:CP0335] $Source01/dut.sv:25:30: Compile generate block "gen_assign".
 [INF:CP0303] $Source01/dut.sv:30:1: Compile module "work@prim_pad_attr".
 [INF:CP0335] $Source01/dut.sv:34:19: Compile generate block "gen_generic".
@@ -467,14 +461,7 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:41:1: No timescale set for "work@sub_top".
 [WRN:PA0205] $Source01/dut.sv:52:1: No timescale set for "work@top".
 [ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:77, name:dio_pad_type".
-[ERR:EL0535] $Source01/dut.sv:18:31: Illegal implicit net "id:79, name:A".
-[ERR:EL0535] $Source01/dut.sv:24:35: Illegal implicit net "id:95, name:A".
-[ERR:EL0535] $Source01/dut.sv:25:19: Illegal implicit net "id:102, name:B".
 [ERR:EL0535] $Source01/dut.sv:26:14: Illegal implicit net "id:106, name:a".
-[ERR:EL0535] $Source01/dut.sv:32:35: Illegal implicit net "id:117, name:A".
-[ERR:EL0535] $Source01/dut.sv:43:39: Illegal implicit net "id:141, name:DefaultTargetCfg".
-[ERR:EL0535] $Source01/dut.sv:45:26: Illegal implicit net "id:153, name:NDioPads".
-[ERR:EL0535] $Source01/dut.sv:47:28: Illegal implicit net "id:163, name:dio_pad_type".
 [ERR:EL0535] $Source01/dut.sv:47:10: Illegal implicit net "id:165, name:PadType".
 [ERR:EL0535] $Source01/dut.sv:54:7: Illegal implicit net "id:176, name:dio_pad_type".
 [ERR:EL0535] $Source01/dut.sv:54:34: Illegal implicit net "id:179, name:NDioPads".
@@ -655,17 +642,13 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: A
                           vpiFullName: work@pinmux_pkg::A
-      vpiTypespec (5 items):
+                          vpiActual: EnumConst name:A
+      vpiTypespec (4 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:9:11 end:9:34:
           vpiParent: Package name:work@pinmux_pkg
           vpiName Identifier name:prim_pad_wrapper_pkg start:9:11 end:9:31:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
-        UnsupportedTypespec name:pad_type_e start:14:7 end:14:17:
-          vpiParent: Package name:work@pinmux_pkg
-          vpiName Identifier name:pad_type_e:
-            vpiParent: UnsupportedTypespec name:pad_type_e
-            vpiName: pad_type_e
         ArrayTypespec:
           vpiParent: Package name:work@pinmux_pkg
           vpiArrayType: static (1)
@@ -705,7 +688,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: pad_type_e
             vpiFullName: work@pinmux_pkg::pad_type_e
-            vpiActual: UnsupportedTypespec name:pad_type_e
+            vpiActual: TypedefTypespec name:pad_type_e
         StructTypespec start:13:12 end:15:5:
           vpiParent: Package name:work@pinmux_pkg
           vpiPacked: true
@@ -751,7 +734,7 @@ Design name:unnamed:
             vpiParent: Parameter name:PadType
             vpiName: pad_type_e
             vpiFullName: work@prim_generic_pad_attr.PadType.pad_type_e
-            vpiActual: UnsupportedTypespec name:pad_type_e
+            vpiActual: TypedefTypespec name:pad_type_e
           vpiName: PadType
           vpiFullName: work@prim_generic_pad_attr.PadType
       vpiParamAssign (1 items):
@@ -766,17 +749,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: A
             vpiFullName: work@prim_generic_pad_attr.A
-      vpiTypespec (2 items):
+            vpiActual: EnumConst name:A
+      vpiTypespec (1 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:23:11 end:23:34:
           vpiParent: Module name:work@prim_generic_pad_attr
           vpiName Identifier name:prim_pad_wrapper_pkg start:23:11 end:23:31:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
-        UnsupportedTypespec name:pad_type_e start:24:14 end:24:24:
-          vpiParent: Module name:work@prim_generic_pad_attr
-          vpiName Identifier name:pad_type_e:
-            vpiParent: UnsupportedTypespec name:pad_type_e
-            vpiName: pad_type_e
       vpiDefName: work@prim_generic_pad_attr
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -800,6 +779,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: B
                 vpiFullName: work@prim_generic_pad_attr.B
+                vpiActual: EnumConst name:B
           vpiStmt Begin name:gen_assign start:25:22 end:27:7:
             vpiParent: GenIf
             vpiName Identifier name:gen_assign start:25:30 end:25:40:
@@ -839,7 +819,7 @@ Design name:unnamed:
             vpiParent: Parameter name:PadType
             vpiName: pad_type_e
             vpiFullName: work@prim_pad_attr.PadType.pad_type_e
-            vpiActual: UnsupportedTypespec name:pad_type_e
+            vpiActual: TypedefTypespec name:pad_type_e
           vpiName: PadType
           vpiFullName: work@prim_pad_attr.PadType
       vpiParamAssign (1 items):
@@ -854,17 +834,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: A
             vpiFullName: work@prim_pad_attr.A
-      vpiTypespec (2 items):
+            vpiActual: EnumConst name:A
+      vpiTypespec (1 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:31:11 end:31:34:
           vpiParent: Module name:work@prim_pad_attr
           vpiName Identifier name:prim_pad_wrapper_pkg start:31:11 end:31:31:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
-        UnsupportedTypespec name:pad_type_e start:32:14 end:32:24:
-          vpiParent: Module name:work@prim_pad_attr
-          vpiName Identifier name:pad_type_e:
-            vpiParent: UnsupportedTypespec name:pad_type_e
-            vpiName: pad_type_e
       vpiDefName: work@prim_pad_attr
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -933,7 +909,7 @@ Design name:unnamed:
             vpiParent: Parameter name:TargetCfg
             vpiName: target_cfg_t
             vpiFullName: work@sub_top.TargetCfg.target_cfg_t
-            vpiActual: UnsupportedTypespec name:target_cfg_t
+            vpiActual: TypedefTypespec name:target_cfg_t
           vpiName: TargetCfg
           vpiFullName: work@sub_top.TargetCfg
       vpiParamAssign (1 items):
@@ -948,17 +924,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: DefaultTargetCfg
             vpiFullName: work@sub_top.DefaultTargetCfg
-      vpiTypespec (2 items):
+            vpiActual: Parameter name:DefaultTargetCfg
+      vpiTypespec (1 items):
         ImportTypespec name:pinmux_pkg start:42:11 end:42:24:
           vpiParent: Module name:work@sub_top
           vpiName Identifier name:pinmux_pkg start:42:11 end:42:21:
             vpiParent: ImportTypespec name:pinmux_pkg
             vpiName: pinmux_pkg
-        UnsupportedTypespec name:target_cfg_t start:43:14 end:43:26:
-          vpiParent: Module name:work@sub_top
-          vpiName Identifier name:target_cfg_t:
-            vpiParent: UnsupportedTypespec name:target_cfg_t
-            vpiName: target_cfg_t
       vpiDefName: work@sub_top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -1012,6 +984,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: NDioPads
                 vpiFullName: work@sub_top.NDioPads
+                vpiActual: Parameter name:NDioPads
           vpiStmt Begin name:gen_dio_attr start:45:41 end:49:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_dio_attr start:45:49 end:45:61:
@@ -1045,7 +1018,7 @@ Design name:unnamed:
                       vpiParent: ParamAssign
                       vpiName: TargetCfg.dio_pad_type[k]
                       vpiFullName: work@sub_top.gen_dio_attr.u_prim_pad_attr.TargetCfg.dio_pad_type[k]
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         RefObj name:TargetCfg start:47:18 end:47:27:
                           vpiParent: HierPath name:TargetCfg.dio_pad_type[k]
                           vpiName: TargetCfg
@@ -1059,6 +1032,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:dio_pad_type[k]
                             vpiName: dio_pad_type
                             vpiFullName: work@sub_top.gen_dio_attr.u_prim_pad_attr.TargetCfg.dio_pad_type[k].dio_pad_type
+                            vpiActual: TypespecMember name:dio_pad_type
                           vpiIndex RefObj name:k start:47:41 end:47:42:
                             vpiParent: BitSelect name:dio_pad_type[k]
                             vpiName: k
@@ -1107,7 +1081,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: pinmux_pkg::NDioPads
                       vpiFullName: work@top.pinmux_pkg::NDioPads
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         ClassTypespec name:pinmux_pkg
                         RefObj name:NDioPads start:54:34 end:54:42:
                           vpiParent: HierPath name:pinmux_pkg::NDioPads
@@ -1121,7 +1095,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: prim_pad_wrapper_pkg::B
                           vpiFullName: work@top.prim_pad_wrapper_pkg::B
-                          vpiActual (2 items):
+                          vpiPathElem (2 items):
                             ClassTypespec name:prim_pad_wrapper_pkg
                             RefObj name:B start:54:65 end:54:66:
                               vpiParent: HierPath name:prim_pad_wrapper_pkg::B
@@ -1205,7 +1179,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 17
+[  ERROR] : 7
 [WARNING] : 7
 [   NOTE] : 0
 
@@ -1246,12 +1220,13 @@ COMMAND: ${SURELOG_DIR}/regression/ParamElabMulti/ParamElabMulti/surelog.uhdm ${
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            10      10       1         1
-Operation                           10       9       0         1
-RefObj                              36      35       0         1
-RefTypespec                         24      24       1         1
+Constant                            10      12       3         1
+LogicTypespec                        1       2       1         0
+Operation                           10       6       0         4
+RefObj                              36      31       0         5
+RefTypespec                         24      25       2         1
 ----------------------------------------------------------------
-Others                             103     103       0         0
+Others                              94      94       0         0
 ----------------------------------------------------------------
-                                   183     181       2         4
+                                   175     170       6        11
 ===================== END REDUCTION RESULT =====================

@@ -38,10 +38,10 @@ n<$Source01/class_test_20.sv> u<33> t<Top_level_rule> c<1> l<6:1> el<6:58>
             n<> u<27> t<ENDCLASS> p<28> l<6:50> el<6:58>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_test_20.sv:6:38: Illegal implicit net "id:8, name:x".
-[ERR:EL0535] $Source01/class_test_20.sv:6:35: Illegal implicit net "id:10, name:v1".
-[ERR:EL0535] $Source01/class_test_20.sv:6:45: Illegal implicit net "id:11, name:y".
-[ERR:EL0535] $Source01/class_test_20.sv:6:42: Illegal implicit net "id:13, name:v2".
+[ERR:EL0535] $Source01/class_test_20.sv:6:38: Illegal implicit net "id:9, name:x".
+[ERR:EL0535] $Source01/class_test_20.sv:6:35: Illegal implicit net "id:11, name:v1".
+[ERR:EL0535] $Source01/class_test_20.sv:6:45: Illegal implicit net "id:12, name:y".
+[ERR:EL0535] $Source01/class_test_20.sv:6:42: Illegal implicit net "id:14, name:v2".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -52,15 +52,15 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/class_test_20.sv"
       vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:Foo file:$Source01/class_test_20.sv start:6:1 end:6:58:
+    ClassDefn name:work@Foo file:$Source01/class_test_20.sv start:6:1 end:6:58:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Foo start:6:7 end:6:10:
-        vpiParent: ClassDefn name:Foo
-        vpiName: Foo
-      vpiFullName: Foo
+      vpiName Identifier name:work@Foo start:6:7 end:6:10:
+        vpiParent: ClassDefn name:work@Foo
+        vpiName: work@Foo
+      vpiFullName: work@Foo
       vpiTypespec (1 items):
         ClassTypespec name:Package start:6:19 end:6:48:
-          vpiParent: ClassDefn name:Foo
+          vpiParent: ClassDefn name:work@Foo
           vpiName: Package
           vpiParamAssign (2 items):
             ParamAssign start:6:34 end:6:40:
@@ -69,34 +69,40 @@ Design name:unnamed:
               vpiLhs RefObj name:v1 start:6:35 end:6:37:
                 vpiParent: ParamAssign
                 vpiName: v1
-                vpiFullName: Foo::Package::v1
+                vpiFullName: work@Foo::Package::v1
               vpiRhs RefObj name:x start:6:38 end:6:39:
                 vpiParent: ParamAssign
                 vpiName: x
-                vpiFullName: Foo::Package::x
+                vpiFullName: work@Foo::Package::x
             ParamAssign start:6:41 end:6:47:
               vpiParent: ClassTypespec name:Package
               vpiConnByName: true
               vpiLhs RefObj name:v2 start:6:42 end:6:44:
                 vpiParent: ParamAssign
                 vpiName: v2
-                vpiFullName: Foo::Package::v2
+                vpiFullName: work@Foo::Package::v2
               vpiRhs RefObj name:y start:6:45 end:6:46:
                 vpiParent: ParamAssign
                 vpiName: y
-                vpiFullName: Foo::Package::y
+                vpiFullName: work@Foo::Package::y
+      vpiClassType: userdefined class (3)
       vpiExtends Extends start:6:11 end:6:18:
-        vpiParent: ClassDefn name:Foo
+        vpiParent: ClassDefn name:work@Foo
         vpiClassTypespec RefTypespec name:Package start:6:19 end:6:48:
           vpiParent: Extends
           vpiName: Package
-          vpiFullName: Foo::Package
+          vpiFullName: work@Foo::Package
           vpiActual: ClassTypespec name:Package
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@Foo
+        vpiName: work
+        vpiFullName: work@Foo::work
+      vpiCell: Foo
   vpiTypespec (1 items):
-    ClassTypespec name:Foo:
+    ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: Foo
-      vpiClassDefn: ClassDefn name:Foo
+      vpiName: work@Foo
+      vpiClassDefn: ClassDefn name:work@Foo
 ===================
 
 [  FATAL] : 0
@@ -143,7 +149,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/generic/class/class_test_20/surelog.uh
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              15      15       0         0
 ----------------------------------------------------------------
-                                    14      14       0         0
+                                    15      15       0         0
 ===================== END REDUCTION RESULT =====================

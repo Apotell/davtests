@@ -346,11 +346,7 @@ n<$Source01/dut.sv> u<341> t<Top_level_rule> c<1> l<1:1> el<67:1>
         n<> u<337> t<ENDMODULE> p<338> l<66:1> el<66:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pinmux_pkg".
-[ERR:CP0341] $Source01/dut.sv:1:1: Unmached label "work@pinmux_pkg",
-             $Source01/dut.sv:17:14: closing label "pinmux_pkg".
 [INF:CP0303] $Source01/dut.sv:19:1: Compile module "work@prim_generic_pad_attr".
-[ERR:CP0341] $Source01/dut.sv:19:1: Unmached label "work@prim_generic_pad_attr",
-             $Source01/dut.sv:22:13: closing label "prim_generic_pad_attr".
 [INF:CP0303] $Source01/dut.sv:24:1: Compile module "work@prim_submodule".
 [INF:CP0303] $Source01/dut.sv:35:1: Compile module "work@prim_pad_attr".
 [INF:CP0303] $Source01/dut.sv:46:1: Compile module "work@almost_top".
@@ -364,7 +360,6 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/dut.sv:28:9: Illegal implicit net "id:98, name:PadTypeInGeneric".
 [ERR:EL0535] $Source01/dut.sv:41:10: Illegal implicit net "id:119, name:o".
 [ERR:EL0535] $Source01/dut.sv:41:8: Illegal implicit net "id:121, name:o".
-[ERR:EL0535] $Source01/dut.sv:51:26: Illegal implicit net "id:141, name:dio_pad_type".
 [ERR:EL0535] $Source01/dut.sv:51:8: Illegal implicit net "id:143, name:PadType".
 ====== UHDM =======
 Design name:unnamed:
@@ -774,7 +769,7 @@ Design name:unnamed:
             vpiParent: Parameter name:TargetCfg
             vpiName: struct1_t
             vpiFullName: work@almost_top.TargetCfg.struct1_t
-            vpiActual: UnsupportedTypespec name:struct1_t
+            vpiActual: TypedefTypespec name:struct1_t
           vpiName: TargetCfg
           vpiFullName: work@almost_top.TargetCfg
       vpiParamAssign (1 items):
@@ -795,17 +790,12 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         ImportTypespec name:pinmux_pkg start:47:11 end:47:24:
           vpiParent: Module name:work@almost_top
           vpiName Identifier name:pinmux_pkg start:47:11 end:47:21:
             vpiParent: ImportTypespec name:pinmux_pkg
             vpiName: pinmux_pkg
-        UnsupportedTypespec name:struct1_t start:48:14 end:48:23:
-          vpiParent: Module name:work@almost_top
-          vpiName Identifier name:struct1_t:
-            vpiParent: UnsupportedTypespec name:struct1_t
-            vpiName: struct1_t
         ModuleTypespec name:work@prim_pad_attr start:50:4 end:50:17:
           vpiParent: Module name:work@almost_top
           vpiName Identifier name:work@prim_pad_attr start:50:4 end:50:17:
@@ -839,7 +829,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: TargetCfg.dio_pad_type
                 vpiFullName: work@almost_top.u_prim_pad_attr.TargetCfg.dio_pad_type
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:TargetCfg start:51:16 end:51:25:
                     vpiParent: HierPath name:TargetCfg.dio_pad_type
                     vpiName: TargetCfg
@@ -849,6 +839,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:TargetCfg.dio_pad_type
                     vpiName: dio_pad_type
                     vpiFullName: work@almost_top.u_prim_pad_attr.dio_pad_type
+                    vpiActual: TypespecMember name:dio_pad_type
     Module name:work@top file:$Source01/dut.sv start:57:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:57:8 end:57:11:
@@ -862,7 +853,7 @@ Design name:unnamed:
             vpiParent: Parameter name:TargetCfg
             vpiName: struct2_t
             vpiFullName: work@top.TargetCfg.struct2_t
-            vpiActual: UnsupportedTypespec name:struct2_t
+            vpiActual: TypedefTypespec name:struct2_t
           vpiName: TargetCfg
           vpiFullName: work@top.TargetCfg
       vpiParamAssign (1 items):
@@ -883,17 +874,12 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         ImportTypespec name:pinmux_pkg start:58:11 end:58:24:
           vpiParent: Module name:work@top
           vpiName Identifier name:pinmux_pkg start:58:11 end:58:21:
             vpiParent: ImportTypespec name:pinmux_pkg
             vpiName: pinmux_pkg
-        UnsupportedTypespec name:struct2_t start:59:14 end:59:23:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:struct2_t:
-            vpiParent: UnsupportedTypespec name:struct2_t
-            vpiName: struct2_t
         ModuleTypespec name:work@almost_top start:61:4 end:61:14:
           vpiParent: Module name:work@top
           vpiName Identifier name:work@almost_top start:61:4 end:61:14:
@@ -953,7 +939,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
+[  ERROR] : 4
 [WARNING] : 6
 [   NOTE] : 0
 
@@ -995,7 +981,7 @@ COMMAND: ${SURELOG_DIR}/regression/ComplexParamOverload2/ComplexParamOverload2/s
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             147     147       0         0
+Others                             143     143       0         0
 ----------------------------------------------------------------
-                                   147     147       0         0
+                                   143     143       0         0
 ===================== END REDUCTION RESULT =====================

@@ -256,9 +256,6 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pack".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@prim_sec_anchor_flop".
 [WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:23:52: Illegal implicit net "id:100, name:RndCnstScrmblKeyInitDefault".
-[ERR:EL0535] $Source01/dut.sv:24:19: Illegal implicit net "id:106, name:SramKeyWidth".
-[ERR:EL0535] $Source01/dut.sv:27:38: Illegal implicit net "id:116, name:key".
 [ERR:EL0535] $Source01/dut.sv:27:6: Illegal implicit net "id:118, name:ResetValue".
 ====== UHDM =======
 Design name:unnamed:
@@ -570,7 +567,7 @@ Design name:unnamed:
             vpiParent: Parameter name:RndCnstScrmblKeyInit
             vpiName: scrmbl_key_init_t
             vpiFullName: work@top.RndCnstScrmblKeyInit.scrmbl_key_init_t
-            vpiActual: UnsupportedTypespec name:scrmbl_key_init_t
+            vpiActual: TypedefTypespec name:scrmbl_key_init_t
           vpiName: RndCnstScrmblKeyInit
           vpiFullName: work@top.RndCnstScrmblKeyInit
         Parameter name:Width start:24:11 end:24:16:
@@ -593,6 +590,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: RndCnstScrmblKeyInitDefault
             vpiFullName: work@top.RndCnstScrmblKeyInitDefault
+            vpiActual: Parameter name:RndCnstScrmblKeyInitDefault
         ParamAssign start:24:11 end:24:31:
           vpiParent: Module name:work@top
           vpiLhs RefObj name:Width start:24:11 end:24:16:
@@ -604,17 +602,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: SramKeyWidth
             vpiFullName: work@top.SramKeyWidth
-      vpiTypespec (4 items):
+            vpiActual: Parameter name:SramKeyWidth
+      vpiTypespec (3 items):
         ImportTypespec name:pack start:22:8 end:22:15:
           vpiParent: Module name:work@top
           vpiName Identifier name:pack start:22:8 end:22:12:
             vpiParent: ImportTypespec name:pack
             vpiName: pack
-        UnsupportedTypespec name:scrmbl_key_init_t start:23:11 end:23:28:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:scrmbl_key_init_t:
-            vpiParent: UnsupportedTypespec name:scrmbl_key_init_t
-            vpiName: scrmbl_key_init_t
         LogicTypespec:
           vpiParent: Module name:work@top
         ModuleTypespec name:work@prim_sec_anchor_flop start:25:1 end:25:21:
@@ -663,7 +657,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: RndCnstScrmblKeyInit.key
                 vpiFullName: work@top.u_key_out_anchor.RndCnstScrmblKeyInit.key
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:RndCnstScrmblKeyInit start:27:17 end:27:37:
                     vpiParent: HierPath name:RndCnstScrmblKeyInit.key
                     vpiName: RndCnstScrmblKeyInit
@@ -673,6 +667,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:RndCnstScrmblKeyInit.key
                     vpiName: key
                     vpiFullName: work@top.u_key_out_anchor.key
+                    vpiActual: TypespecMember name:key
   vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -695,7 +690,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
 
@@ -741,7 +736,7 @@ Operation                            3       0       0         3
 RefObj                              19      16       0         3
 RefTypespec                         22      22       3         3
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                   106     100       6        12
+                                   104      98       6        12
 ===================== END REDUCTION RESULT =====================

@@ -39,7 +39,7 @@ n<$Source01/class_member_test_23.sv> u<34> t<Top_level_rule> c<1> l<6:1> el<8:9>
             n<> u<28> t<ENDCLASS> p<29> l<8:1> el<8:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_23.sv:7:40: Illegal implicit net "id:11, name:M".
+[ERR:EL0535] $Source01/class_member_test_23.sv:7:40: Illegal implicit net "id:12, name:M".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -50,18 +50,18 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/class_member_test_23.sv"
       vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:myclass file:$Source01/class_member_test_23.sv start:6:1 end:8:9:
+    ClassDefn name:work@myclass file:$Source01/class_member_test_23.sv start:6:1 end:8:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:myclass start:6:7 end:6:14:
-        vpiParent: ClassDefn name:myclass
-        vpiName: myclass
-      vpiFullName: myclass
+      vpiName Identifier name:work@myclass start:6:7 end:6:14:
+        vpiParent: ClassDefn name:work@myclass
+        vpiName: work@myclass
+      vpiFullName: work@myclass
       vpiTypespec (2 items):
         ClassTypespec name:mypkg start:7:27 end:7:32:
-          vpiParent: ClassDefn name:myclass
+          vpiParent: ClassDefn name:work@myclass
           vpiName: mypkg
         ArrayTypespec:
-          vpiParent: ClassDefn name:myclass
+          vpiParent: ClassDefn name:work@myclass
           vpiArrayType: static (1)
           vpiRange Range start:7:39 end:7:42:
             vpiParent: ArrayTypespec
@@ -72,17 +72,23 @@ Design name:unnamed:
                 RefObj name:M start:7:40 end:7:41:
                   vpiParent: Operation
                   vpiName: M
-                  vpiFullName: myclass::M
+                  vpiFullName: work@myclass::M
           vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiFullName: myclass
+            vpiFullName: work@myclass
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@myclass
+        vpiName: work
+        vpiFullName: work@myclass::work
+      vpiCell: myclass
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:subr start:7:8 end:7:43:
-          vpiParent: ClassDefn name:myclass
+          vpiParent: ClassDefn name:work@myclass
           vpiName Identifier name:subr start:7:22 end:7:26:
             vpiParent: FunctionDecl name:subr
             vpiName: subr
-          vpiFullName: myclass::subr
+          vpiFullName: work@myclass::subr
           vpiIODecl (1 items):
             IODecl name:y start:7:38 end:7:39:
               vpiParent: FunctionDecl name:subr
@@ -90,17 +96,17 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:7:27 end:7:37:
                 vpiParent: IODecl name:y
-                vpiFullName: myclass::subr::y
+                vpiFullName: work@myclass::subr::y
                 vpiActual: ArrayTypespec
           vpiReturn RefTypespec start:7:17 end:7:21:
             vpiParent: FunctionDecl name:subr
-            vpiFullName: myclass::subr
+            vpiFullName: work@myclass::subr
             vpiActual: VoidTypespec
   vpiTypespec (2 items):
-    ClassTypespec name:myclass:
+    ClassTypespec name:work@myclass:
       vpiParent: Design name:unnamed
-      vpiName: myclass
-      vpiClassDefn: ClassDefn name:myclass
+      vpiName: work@myclass
+      vpiClassDefn: ClassDefn name:work@myclass
     VoidTypespec start:7:17 end:7:21:
       vpiParent: Design name:unnamed
 ===================
@@ -149,7 +155,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/generic/member/class_member_test_23/su
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              17      17       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    17      17       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

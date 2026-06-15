@@ -350,10 +350,10 @@ AST_DEBUG_END
 [INF:CP0306] $Source01/top.sv:2:9: Compile program "class_t".
 [WRN:CP0314] $Source01/top.sv:2:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/top.sv:10:9: Illegal implicit net "id:134, name:len".
-[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:140, name:len".
-[ERR:EL0535] $Source01/top.sv:12:9: Illegal implicit net "id:147, name:payload".
-[ERR:EL0535] $Source01/top.sv:12:27: Illegal implicit net "id:150, name:len".
+[ERR:EL0535] $Source01/top.sv:10:9: Illegal implicit net "id:139, name:len".
+[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:145, name:len".
+[ERR:EL0535] $Source01/top.sv:12:9: Illegal implicit net "id:152, name:payload".
+[ERR:EL0535] $Source01/top.sv:12:27: Illegal implicit net "id:155, name:len".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1923,6 +1923,13 @@ Design name:unnamed:
         vpiParent: ClassDefn name:mailbox
         vpiName: mailbox
       vpiFullName: mailbox
+      vpiTypespec (1 items):
+        ClassTypespec name:mailbox:
+          vpiParent: ClassDefn name:mailbox
+          vpiName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+      vpiClassType: mailbox class (1)
+      vpiCell: mailbox
       vpiMethod (8 items):
         Function name:new start:3:3 end:4:14:
           vpiParent: ClassDefn name:mailbox
@@ -1930,6 +1937,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
               vpiParent: Function name:new
@@ -1949,6 +1957,11 @@ Design name:unnamed:
                 vpiParent: IODecl name:bound
                 vpiFullName: mailbox::new::bound
                 vpiActual: IntTypespec
+          vpiReturn RefTypespec name:mailbox:
+            vpiParent: Function name:new
+            vpiName: mailbox
+            vpiFullName: mailbox::new::mailbox
+            vpiActual: ClassTypespec name:mailbox
         Function name:num start:6:3 end:7:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:num start:6:16 end:6:19:
@@ -1969,6 +1982,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
               vpiParent: Task name:put
@@ -2012,6 +2026,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
               vpiParent: Task name:get
@@ -2053,6 +2068,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
               vpiParent: Task name:peek
@@ -2129,6 +2145,8 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiClassType: process class (4)
+      vpiCell: process
       vpiMethod (6 items):
         Function name:self start:34:10 end:35:14:
           vpiParent: ClassDefn name:process
@@ -2170,30 +2188,41 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:await start:43:8 end:43:13:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:suspend start:46:8 end:46:15:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:resume start:49:8 end:49:14:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
         vpiName: semaphore
       vpiFullName: semaphore
+      vpiTypespec (1 items):
+        ClassTypespec name:semaphore:
+          vpiParent: ClassDefn name:semaphore
+          vpiName: semaphore
+          vpiClassDefn: ClassDefn name:semaphore
+      vpiClassType: semaphore class (2)
+      vpiCell: semaphore
       vpiMethod (4 items):
         Function name:new start:57:3 end:58:14:
           vpiParent: ClassDefn name:semaphore
@@ -2201,6 +2230,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
               vpiParent: Function name:new
@@ -2220,12 +2250,18 @@ Design name:unnamed:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::new::keyCount
                 vpiActual: IntTypespec
+          vpiReturn RefTypespec name:semaphore:
+            vpiParent: Function name:new
+            vpiName: semaphore
+            vpiFullName: semaphore::new::semaphore
+            vpiActual: ClassTypespec name:semaphore
         Task name:put start:60:3 end:61:10:
           vpiParent: ClassDefn name:semaphore
           vpiName Identifier name:put start:60:8 end:60:11:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
               vpiParent: Task name:put
@@ -2251,6 +2287,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
               vpiParent: Task name:get
@@ -2308,10 +2345,10 @@ Design name:unnamed:
         vpiName: work@class_t
       vpiFullName: work@class_t
       vpiTypespec (1 items):
-        ClassTypespec name:A:
+        ClassTypespec name:work@A:
           vpiParent: Program name:work@class_t
-          vpiName: A
-          vpiClassDefn: ClassDefn name:A
+          vpiName: work@A
+          vpiClassDefn: ClassDefn name:work@A
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:work@class_t
@@ -2319,17 +2356,23 @@ Design name:unnamed:
         vpiFullName: work@class_t.work
       vpiCell: class_t
       vpiClassDefn (1 items):
-        ClassDefn name:A file:$Source01/top.sv start:6:3 end:19:9:
+        ClassDefn name:work@A file:$Source01/top.sv start:6:3 end:19:9:
           vpiParent: Program name:work@class_t
-          vpiName Identifier name:A start:6:9 end:6:10:
-            vpiParent: ClassDefn name:A
-            vpiName: A
-          vpiFullName: work@class_t::A
+          vpiName Identifier name:work@A start:6:9 end:6:10:
+            vpiParent: ClassDefn name:work@A
+            vpiName: work@A
+          vpiFullName: work@class_t::work@A
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@A
+            vpiName: work
+            vpiFullName: work@class_t::work@A::work
+          vpiCell: A
           vpiConstraint (1 items):
             Constraint name:legal start:9:21 end:13:5:
-              vpiParent: ClassDefn name:A
+              vpiParent: ClassDefn name:work@A
               vpiName: legal
-              vpiFullName: work@class_t::A::legal
+              vpiFullName: work@class_t::work@A::legal
               vpiConstraintItem (3 items):
                 Distribution start:10:9 end:10:18:
                   vpiParent: Constraint name:legal
@@ -2340,12 +2383,12 @@ Design name:unnamed:
                       RefObj name:len start:10:9 end:10:12:
                         vpiParent: Operation
                         vpiName: len
-                        vpiFullName: work@class_t::A::legal::len
+                        vpiFullName: work@class_t::work@A::legal::len
                       Constant start:10:16 end:10:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@class_t::A::legal
+                          vpiFullName: work@class_t::work@A::legal
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -2360,12 +2403,12 @@ Design name:unnamed:
                       RefObj name:len start:11:9 end:11:12:
                         vpiParent: Operation
                         vpiName: len
-                        vpiFullName: work@class_t::A::legal::len
+                        vpiFullName: work@class_t::work@A::legal::len
                       Constant start:11:16 end:11:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@class_t::A::legal
+                          vpiFullName: work@class_t::work@A::legal
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -2380,12 +2423,12 @@ Design name:unnamed:
                       HierPath name:payload.size() start:12:9 end:12:22:
                         vpiParent: Operation
                         vpiName: payload.size()
-                        vpiFullName: work@class_t::A::legal::payload.size()
-                        vpiActual (2 items):
+                        vpiFullName: work@class_t::work@A::legal::payload.size()
+                        vpiPathElem (2 items):
                           RefObj name:payload start:12:9 end:12:16:
                             vpiParent: HierPath name:payload.size()
                             vpiName: payload
-                            vpiFullName: work@class_t::A::legal::payload
+                            vpiFullName: work@class_t::work@A::legal::payload
                           FuncCall name:size start:12:17 end:12:23:
                             vpiParent: HierPath name:payload.size()
                             vpiName Identifier name:size start:12:17 end:12:21:
@@ -2394,7 +2437,7 @@ Design name:unnamed:
                       RefObj name:len start:12:27 end:12:30:
                         vpiParent: Operation
                         vpiName: len
-                        vpiFullName: work@class_t::A::legal::len
+                        vpiFullName: work@class_t::work@A::legal::len
   vpiTypespec (8 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
@@ -2469,7 +2512,7 @@ COMMAND: ${SURELOG_DIR}/regression/SimpleClass/SimpleClass/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             606     606       0         0
+Others                             611     611       0         0
 ----------------------------------------------------------------
-                                   606     606       0         0
+                                   611     611       0         0
 ===================== END REDUCTION RESULT =====================

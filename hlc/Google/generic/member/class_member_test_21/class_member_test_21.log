@@ -56,7 +56,7 @@ n<$Source01/class_member_test_21.sv> u<51> t<Top_level_rule> c<1> l<6:1> el<8:9>
             n<> u<45> t<ENDCLASS> p<46> l<8:1> el<8:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_21.sv:7:28: Illegal implicit net "id:6, name:N".
+[ERR:EL0535] $Source01/class_member_test_21.sv:7:28: Illegal implicit net "id:7, name:N".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -67,15 +67,15 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/class_member_test_21.sv"
       vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:myclass file:$Source01/class_member_test_21.sv start:6:1 end:8:9:
+    ClassDefn name:work@myclass file:$Source01/class_member_test_21.sv start:6:1 end:8:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:myclass start:6:7 end:6:14:
-        vpiParent: ClassDefn name:myclass
-        vpiName: myclass
-      vpiFullName: myclass
+      vpiName Identifier name:work@myclass start:6:7 end:6:14:
+        vpiParent: ClassDefn name:work@myclass
+        vpiName: work@myclass
+      vpiFullName: work@myclass
       vpiTypespec (2 items):
         UnsupportedTypespec name:sometype start:7:17 end:7:32:
-          vpiParent: ClassDefn name:myclass
+          vpiParent: ClassDefn name:work@myclass
           vpiName Identifier name:sometype:
             vpiParent: UnsupportedTypespec name:sometype
             vpiName: sometype
@@ -89,19 +89,19 @@ Design name:unnamed:
                   RefObj name:N start:7:28 end:7:29:
                     vpiParent: Operation
                     vpiName: N
-                    vpiFullName: myclass::sometype::N
+                    vpiFullName: work@myclass::sometype::N
                   Constant start:7:30 end:7:31:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: myclass::sometype
+                      vpiFullName: work@myclass::sometype
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "1"
                     vpiValue: 1
         UnsupportedTypespec name:ducktype start:7:38 end:7:51:
-          vpiParent: ClassDefn name:myclass
+          vpiParent: ClassDefn name:work@myclass
           vpiName Identifier name:ducktype:
             vpiParent: UnsupportedTypespec name:ducktype
             vpiName: ducktype
@@ -112,19 +112,25 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: myclass::ducktype
+                  vpiFullName: work@myclass::ducktype
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@myclass
+        vpiName: work
+        vpiFullName: work@myclass::work
+      vpiCell: myclass
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:subr start:7:8 end:7:54:
-          vpiParent: ClassDefn name:myclass
+          vpiParent: ClassDefn name:work@myclass
           vpiName Identifier name:subr start:7:33 end:7:37:
             vpiParent: FunctionDecl name:subr
             vpiName: subr
-          vpiFullName: myclass::subr
+          vpiFullName: work@myclass::subr
           vpiIODecl (1 items):
             IODecl name:x start:7:52 end:7:53:
               vpiParent: FunctionDecl name:subr
@@ -132,17 +138,17 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:7:38 end:7:51:
                 vpiParent: IODecl name:x
-                vpiFullName: myclass::subr::x
+                vpiFullName: work@myclass::subr::x
                 vpiActual: UnsupportedTypespec name:ducktype
           vpiReturn RefTypespec start:7:17 end:7:32:
             vpiParent: FunctionDecl name:subr
-            vpiFullName: myclass::subr
+            vpiFullName: work@myclass::subr
             vpiActual: UnsupportedTypespec name:sometype
   vpiTypespec (2 items):
-    ClassTypespec name:myclass:
+    ClassTypespec name:work@myclass:
       vpiParent: Design name:unnamed
-      vpiName: myclass
-      vpiClassDefn: ClassDefn name:myclass
+      vpiName: work@myclass
+      vpiClassDefn: ClassDefn name:work@myclass
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -192,7 +198,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/generic/member/class_member_test_21/su
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

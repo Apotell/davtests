@@ -111,7 +111,6 @@ n<$Source01/pr718.v> u<105> t<Top_level_rule> c<1> l<4:1> el<21:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/pr718.v:4:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/pr718.v:8:21: Illegal implicit net "id:18, name:F".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -141,33 +140,35 @@ Design name:unnamed:
           vpiStmt Begin start:5:13 end:12:8:
             vpiParent: Initial
             vpiFullName: work@test
-            vpiStmt (5 items):
+            vpiStmt (3 items):
               ForkStmt name:F start:6:9 end:9:13:
                 vpiParent: Begin
                 vpiName Identifier name:F start:6:15 end:6:16:
                   vpiParent: ForkStmt name:F
                   vpiName: F
                 vpiFullName: work@test.F
-              ForeverStmt start:7:13 end:7:25:
-                vpiParent: Begin
-                vpiStmt DelayControl start:7:21 end:7:24:
-                  vpiParent: ForeverStmt
-                  vpiDelay Constant start:7:22 end:7:24:
-                    vpiParent: DelayControl
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@test
-                      vpiActual: IntTypespec
-                    vpiConstType: int (7)
-                    vpiSize: 32
-                    vpiDecompile: "10"
-                    vpiValue: 10
-              Disable start:8:13 end:8:23:
-                vpiParent: Begin
-                vpiExpr RefObj name:F start:8:21 end:8:22:
-                  vpiParent: Disable
-                  vpiName: F
-                  vpiFullName: work@test.F
+                vpiStmt (2 items):
+                  ForeverStmt start:7:13 end:7:25:
+                    vpiParent: ForkStmt name:F
+                    vpiStmt DelayControl start:7:21 end:7:24:
+                      vpiParent: ForeverStmt
+                      vpiDelay Constant start:7:22 end:7:24:
+                        vpiParent: DelayControl
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@test.F
+                          vpiActual: IntTypespec
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "10"
+                        vpiValue: 10
+                  Disable start:8:13 end:8:23:
+                    vpiParent: ForkStmt name:F
+                    vpiExpr RefObj name:F start:8:21 end:8:22:
+                      vpiParent: Disable
+                      vpiName: F
+                      vpiFullName: work@test.F.F
+                      vpiActual: ForkStmt name:F
               SysFuncCall name:$display start:10:9 end:10:27:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:10:9 end:10:17:
@@ -244,7 +245,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 

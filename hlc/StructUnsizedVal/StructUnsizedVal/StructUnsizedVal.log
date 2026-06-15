@@ -245,8 +245,6 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@foo".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:17:53: Illegal implicit net "id:103, name:InitDefault".
-[ERR:EL0535] $Source01/dut.sv:18:26: Illegal implicit net "id:110, name:key".
 [ERR:EL0535] $Source01/dut.sv:18:10: Illegal implicit net "id:112, name:ResetValue".
 ====== UHDM =======
 Design name:unnamed:
@@ -573,7 +571,7 @@ Design name:unnamed:
             vpiParent: Parameter name:Init
             vpiName: init_t
             vpiFullName: work@dut.Init.init_t
-            vpiActual: UnsupportedTypespec name:init_t
+            vpiActual: TypedefTypespec name:init_t
           vpiName: Init
           vpiFullName: work@dut.Init
       vpiParamAssign (1 items):
@@ -588,17 +586,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: InitDefault
             vpiFullName: work@dut.InitDefault
-      vpiTypespec (3 items):
+            vpiActual: Parameter name:InitDefault
+      vpiTypespec (2 items):
         ImportTypespec name:pkg start:17:19 end:17:25:
           vpiParent: Module name:work@dut
           vpiName Identifier name:pkg start:17:19 end:17:22:
             vpiParent: ImportTypespec name:pkg
             vpiName: pkg
-        UnsupportedTypespec name:init_t start:17:39 end:17:45:
-          vpiParent: Module name:work@dut
-          vpiName Identifier name:init_t:
-            vpiParent: UnsupportedTypespec name:init_t
-            vpiName: init_t
         ModuleTypespec name:work@foo start:18:3 end:18:6:
           vpiParent: Module name:work@dut
           vpiName Identifier name:work@foo start:18:3 end:18:6:
@@ -632,7 +626,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: Init.key
                 vpiFullName: work@dut.f.Init.key
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:Init start:18:21 end:18:25:
                     vpiParent: HierPath name:Init.key
                     vpiName: Init
@@ -642,6 +636,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:Init.key
                     vpiName: key
                     vpiFullName: work@dut.f.key
+                    vpiActual: TypespecMember name:key
     Module name:work@top file:$Source01/dut.sv start:21:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:21:8 end:21:11:
@@ -702,7 +697,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 5
 [   NOTE] : 0
 
@@ -748,7 +743,7 @@ Operation                            1       0       0         1
 RefObj                              17      16       0         1
 RefTypespec                         21      21       1         1
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   111     109       2         4
+                                   109     107       2         4
 ===================== END REDUCTION RESULT =====================

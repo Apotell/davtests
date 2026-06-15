@@ -296,13 +296,6 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_pkg".
 [WRN:PA0205] $Source01/dut.sv:14:1: No timescale set for "work@GOOD".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:20:31: Illegal implicit net "id:56, name:Get3".
-[ERR:EL0535] $Source01/dut.sv:32:27: Illegal implicit net "id:75, name:Get4".
-[ERR:EL0535] $Source01/dut.sv:29:32: Illegal implicit net "id:92, name:Get2".
-[ERR:EL0535] $Source01/dut.sv:29:38: Illegal implicit net "id:93, name:Get3".
-[ERR:EL0535] $Source01/dut.sv:27:27: Illegal implicit net "id:108, name:Get1".
-[ERR:EL0535] $Source01/dut.sv:25:23: Illegal implicit net "id:118, name:Get0".
-[ERR:EL0535] $Source01/dut.sv:25:29: Illegal implicit net "id:119, name:GetDefault".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -470,7 +463,7 @@ Design name:unnamed:
             vpiParent: Parameter name:GetWhat
             vpiName: get_e
             vpiFullName: work@top.GetWhat.get_e
-            vpiActual: UnsupportedTypespec name:get_e
+            vpiActual: TypedefTypespec name:get_e
           vpiName: GetWhat
           vpiFullName: work@top.GetWhat
       vpiParamAssign (1 items):
@@ -485,17 +478,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: Get3
             vpiFullName: work@top.Get3
-      vpiTypespec (2 items):
+            vpiActual: EnumConst name:Get3
+      vpiTypespec (1 items):
         ImportTypespec name:my_pkg start:18:8 end:18:17:
           vpiParent: Module name:work@top
           vpiName Identifier name:my_pkg start:18:8 end:18:14:
             vpiParent: ImportTypespec name:my_pkg
             vpiName: my_pkg
-        UnsupportedTypespec name:get_e start:20:15 end:20:20:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:get_e:
-            vpiParent: UnsupportedTypespec name:get_e
-            vpiName: get_e
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -536,10 +525,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: Get0
                     vpiFullName: work@top.Get0
+                    vpiActual: EnumConst name:Get0
                   RefObj name:GetDefault start:25:29 end:25:39:
                     vpiParent: Operation
                     vpiName: GetDefault
                     vpiFullName: work@top.GetDefault
+                    vpiActual: EnumConst name:GetDefault
           vpiStmt Begin name:gen_zero start:25:42 end:27:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_zero start:25:50 end:25:58:
@@ -583,6 +574,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: Get1
                       vpiFullName: work@top.Get1
+                      vpiActual: EnumConst name:Get1
                 vpiStmt Begin name:gen_one start:27:33 end:29:6:
                   vpiParent: GenIfElse
                   vpiName Identifier name:gen_one start:27:41 end:27:48:
@@ -630,10 +622,12 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: Get2
                                 vpiFullName: work@top.Get2
+                                vpiActual: EnumConst name:Get2
                               RefObj name:Get3 start:29:38 end:29:42:
                                 vpiParent: Operation
                                 vpiName: Get3
                                 vpiFullName: work@top.Get3
+                                vpiActual: EnumConst name:Get3
                       vpiStmt Begin name:gen_two start:29:45 end:32:6:
                         vpiParent: GenIfElse
                         vpiName Identifier name:gen_two start:29:53 end:29:60:
@@ -691,6 +685,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: Get4
                                   vpiFullName: work@top.Get4
+                                  vpiActual: EnumConst name:Get4
                             vpiStmt Begin name:gen_three start:32:33 end:34:6:
                               vpiParent: GenIfElse
                               vpiName Identifier name:gen_three start:32:41 end:32:50:
@@ -759,7 +754,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 
@@ -800,8 +795,12 @@ COMMAND: ${SURELOG_DIR}/regression/InsideOp/InsideOp/surelog.uhdm ${SURELOG_DIR}
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                            11      15       4         0
+Operation                            6       2       0         4
+RefObj                              21      13       0         8
+RefTypespec                         17      19       2         0
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   114     108       6        12
 ===================== END REDUCTION RESULT =====================

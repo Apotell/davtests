@@ -276,32 +276,28 @@ n<$Source01/dut.sv> u<271> t<Top_level_rule> c<1> l<1:1> el<67:1>
         n<> u<267> t<ENDMODULE> p<268> l<66:1> el<66:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pack".
-[ERR:CP0341] $Source01/dut.sv:1:1: Unmached label "work@pack",
+[ERR:CP0341] $Source01/dut.sv:1:1: Unmatched label "work@pack",
              $Source01/dut.sv:2:14: closing label "bad_pack".
-[ERR:CP0341] $Source01/dut.sv:4:1: Unmached label "c",
+[ERR:CP0341] $Source01/dut.sv:4:1: Unmatched label "work@c",
              $Source01/dut.sv:5:12: closing label "bad_c".
 [INF:CP0304] $Source01/dut.sv:7:1: Compile interface "work@intf".
-[ERR:CP0341] $Source01/dut.sv:7:11: Unmached label "intf",
+[ERR:CP0341] $Source01/dut.sv:7:11: Unmatched label "intf",
              $Source01/dut.sv:8:16: closing label "bad_int".
 [INF:CP0304] $Source01/dut.sv:12:1: Compile interface "work@itf".
 [INF:CP0304] $Source01/dut.sv:14:3: Compile interface "work@itf2".
-[ERR:CP0341] $Source01/dut.sv:14:35: Unmached label "itf2",
-             $Source01/dut.sv:15:18: closing label "itf2".
 [INF:CP0304] $Source01/dut.sv:17:3: Compile interface "work@itf3".
-[ERR:CP0341] $Source01/dut.sv:17:35: Unmached label "itf3",
+[ERR:CP0341] $Source01/dut.sv:17:35: Unmatched label "itf3",
              $Source01/dut.sv:18:18: closing label "bad_itf3".
 [INF:CP0303] $Source01/dut.sv:23:1: Compile module "work@test".
-[ERR:CP0341] $Source01/dut.sv:23:1: Unmached label "work@test",
+[ERR:CP0341] $Source01/dut.sv:23:1: Unmatched label "work@test",
              $Source01/dut.sv:57:13: closing label "bad_test".
-[ERR:CP0341] $Source01/dut.sv:30:12: Unmached label "dummy_label",
+[ERR:CP0341] $Source01/dut.sv:30:12: Unmatched label "dummy_label",
              $Source01/dut.sv:32:10: closing label "dummy_label_bad".
 [INF:CP0303] $Source01/dut.sv:34:4: Compile module "work@sub".
-[ERR:CP0341] $Source01/dut.sv:34:4: Unmached label "work@sub",
-             $Source01/dut.sv:35:16: closing label "sub".
 [INF:CP0303] $Source01/dut.sv:37:4: Compile module "work@sub2".
-[ERR:CP0341] $Source01/dut.sv:37:4: Unmached label "work@sub2",
+[ERR:CP0341] $Source01/dut.sv:37:4: Unmatched label "work@sub2",
              $Source01/dut.sv:38:16: closing label "bad_sub2".
-[ERR:CP0341] $Source01/dut.sv:42:11: Unmached label "n1",
+[ERR:CP0341] $Source01/dut.sv:42:11: Unmatched label "n1",
              $Source01/dut.sv:44:11: closing label "n2".
 [INF:CP0303] $Source01/dut.sv:60:1: Compile module "work@block_tb".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pack".
@@ -340,14 +336,20 @@ Design name:unnamed:
         vpiParent: Package name:work@pack
         vpiName: bad_pack
   vpiAllClasses (1 items):
-    ClassDefn name:c file:$Source01/dut.sv start:4:1 end:5:17:
+    ClassDefn name:work@c file:$Source01/dut.sv start:4:1 end:5:17:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:c start:4:7 end:4:8:
-        vpiParent: ClassDefn name:c
-        vpiName: c
-      vpiFullName: c
+      vpiName Identifier name:work@c start:4:7 end:4:8:
+        vpiParent: ClassDefn name:work@c
+        vpiName: work@c
+      vpiFullName: work@c
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@c
+        vpiName: work
+        vpiFullName: work@c::work
+      vpiCell: c
       vpiEndLabel Identifier name:bad_c start:5:12 end:5:17:
-        vpiParent: ClassDefn name:c
+        vpiParent: ClassDefn name:work@c
         vpiName: bad_c
   vpiAllInterfaces (2 items):
     Interface name:work@intf file:$Source01/dut.sv start:7:1 end:8:23:
@@ -513,73 +515,76 @@ Design name:unnamed:
           vpiStmt Begin start:40:9 end:54:6:
             vpiParent: Initial
             vpiFullName: work@test
-            vpiStmt (6 items):
+            vpiStmt (3 items):
               ForkStmt name:n1 start:42:4 end:44:13:
                 vpiParent: Begin
                 vpiName Identifier name:n1 start:42:11 end:42:13:
                   vpiParent: ForkStmt name:n1
                   vpiName: n1
                 vpiFullName: work@test.n1
+                vpiStmt (1 items):
+                  FuncCall name:print start:43:6 end:43:15:
+                    vpiParent: ForkStmt name:n1
+                    vpiName Identifier name:print start:43:6 end:43:11:
+                      vpiParent: FuncCall name:print
+                      vpiName: print
+                    vpiArgument (1 items):
+                      Constant start:43:12 end:43:14:
+                        vpiParent: FuncCall name:print
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@test.n1
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiDecompile: "\"\""
+                        vpiValue: 
                 vpiEndLabel Identifier name:n2 start:44:11 end:44:13:
                   vpiParent: ForkStmt name:n1
                   vpiName: n2
-              FuncCall name:print start:43:6 end:43:15:
-                vpiParent: Begin
-                vpiName Identifier name:print start:43:6 end:43:11:
-                  vpiParent: FuncCall name:print
-                  vpiName: print
-                vpiArgument (1 items):
-                  Constant start:43:12 end:43:14:
-                    vpiParent: FuncCall name:print
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiDecompile: "\"\""
-                    vpiValue: 
               ForkStmt start:46:4 end:48:13:
                 vpiParent: Begin
                 vpiFullName: work@test
+                vpiStmt (1 items):
+                  FuncCall name:print start:47:6 end:47:15:
+                    vpiParent: ForkStmt
+                    vpiName Identifier name:print start:47:6 end:47:11:
+                      vpiParent: FuncCall name:print
+                      vpiName: print
+                    vpiArgument (1 items):
+                      Constant start:47:12 end:47:14:
+                        vpiParent: FuncCall name:print
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiDecompile: "\"\""
+                        vpiValue: 
                 vpiEndLabel Identifier name:n2 start:48:11 end:48:13:
                   vpiParent: ForkStmt
                   vpiName: n2
-              FuncCall name:print start:47:6 end:47:15:
-                vpiParent: Begin
-                vpiName Identifier name:print start:47:6 end:47:11:
-                  vpiParent: FuncCall name:print
-                  vpiName: print
-                vpiArgument (1 items):
-                  Constant start:47:12 end:47:14:
-                    vpiParent: FuncCall name:print
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiDecompile: "\"\""
-                    vpiValue: 
               ForkStmt name:n1 start:50:3 end:52:7:
                 vpiParent: Begin
                 vpiName Identifier name:n1 start:50:10 end:50:12:
                   vpiParent: ForkStmt name:n1
                   vpiName: n1
                 vpiFullName: work@test.n1
-              FuncCall name:print start:51:5 end:51:14:
-                vpiParent: Begin
-                vpiName Identifier name:print start:51:5 end:51:10:
-                  vpiParent: FuncCall name:print
-                  vpiName: print
-                vpiArgument (1 items):
-                  Constant start:51:11 end:51:13:
-                    vpiParent: FuncCall name:print
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiDecompile: "\"\""
-                    vpiValue: 
+                vpiStmt (1 items):
+                  FuncCall name:print start:51:5 end:51:14:
+                    vpiParent: ForkStmt name:n1
+                    vpiName Identifier name:print start:51:5 end:51:10:
+                      vpiParent: FuncCall name:print
+                      vpiName: print
+                    vpiArgument (1 items):
+                      Constant start:51:11 end:51:13:
+                        vpiParent: FuncCall name:print
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@test.n1
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiDecompile: "\"\""
+                        vpiValue: 
       vpiModule (2 items):
         Module name:work@sub file:$Source01/dut.sv start:34:4 end:35:19:
           vpiParent: Module name:work@test
@@ -657,14 +662,33 @@ Design name:unnamed:
           vpiStmt ForkStmt start:63:17 end:65:14:
             vpiParent: Initial
             vpiFullName: work@block_tb
+            vpiStmt (1 items):
+              Assignment start:64:4 end:64:9:
+                vpiParent: ForkStmt
+                vpiBlocking: true
+                vpiLhs RefObj name:a start:64:4 end:64:5:
+                  vpiParent: Assignment
+                  vpiName: a
+                  vpiFullName: work@block_tb.a
+                  vpiActual: Net name:a
+                vpiRhs Constant start:64:8 end:64:9:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@block_tb
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
             vpiEndLabel Identifier name:name1 start:65:9 end:65:14:
               vpiParent: ForkStmt
               vpiName: name1
   vpiTypespec (9 items):
-    ClassTypespec name:c:
+    ClassTypespec name:work@c:
       vpiParent: Design name:unnamed
-      vpiName: c
-      vpiClassDefn: ClassDefn name:c
+      vpiName: work@c
+      vpiClassDefn: ClassDefn name:work@c
     InterfaceTypespec name:work@intf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@intf start:7:11 end:7:15:
@@ -710,7 +734,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 10
+[  ERROR] : 8
 [WARNING] : 9
 [   NOTE] : 0
 
@@ -723,25 +747,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/BadLabel/BadLabel/mounts.json
 
 
-{'result': {'coverage': 98.68,
+{'result': {'coverage': 99.18,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 8,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 5,
                                                   'pre_len': 608}},
-            'post_len': 8,
+            'post_len': 5,
             'pre_len': 608,
             'test_name': 'BadLabel/BadLabel'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      608 |         8 |
+| $Output/lib/work/dut.sv |      608 |         5 |
 +=========================+==========+===========+
-|                         |      608 |         8 |
+|                         |      608 |         5 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.68
+[COVERAGE] : 99.18
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -751,12 +775,12 @@ COMMAND: ${SURELOG_DIR}/regression/BadLabel/BadLabel/surelog.uhdm ${SURELOG_DIR}
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             6       7       1         0
+Constant                             7       8       1         0
 Operation                            1       0       0         1
-RefObj                              10       9       0         1
-RefTypespec                          8       9       1         0
+RefObj                              12      11       0         1
+RefTypespec                          9      10       1         0
 ----------------------------------------------------------------
-Others                              81      81       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                   106     106       2         2
+                                   111     111       2         2
 ===================== END REDUCTION RESULT =====================

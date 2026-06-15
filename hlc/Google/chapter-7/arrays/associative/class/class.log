@@ -63,7 +63,7 @@ n<$Source01/class.sv> u<57> t<Top_level_rule> c<1> l<15:1> el<24:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/class.sv:15:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class.sv:21:11: Illegal implicit net "id:15, name:C".
+[ERR:EL0535] $Source01/class.sv:21:11: Illegal implicit net "id:16, name:C".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -81,10 +81,10 @@ Design name:unnamed:
         vpiName: work@top
       vpiFullName: work@top
       vpiTypespec (2 items):
-        ClassTypespec name:C:
+        ClassTypespec name:work@C:
           vpiParent: Module name:work@top
-          vpiName: C
-          vpiClassDefn: ClassDefn name:C
+          vpiName: work@C
+          vpiClassDefn: ClassDefn name:work@C
         ArrayTypespec:
           vpiParent: Module name:work@top
           vpiArrayType: static (1)
@@ -110,21 +110,27 @@ Design name:unnamed:
         vpiFullName: work@top.work
       vpiCell: top
       vpiClassDefn (1 items):
-        ClassDefn name:C file:$Source01/class.sv start:17:1 end:19:9:
+        ClassDefn name:work@C file:$Source01/class.sv start:17:1 end:19:9:
           vpiParent: Module name:work@top
-          vpiName Identifier name:C start:17:7 end:17:8:
-            vpiParent: ClassDefn name:C
-            vpiName: C
-          vpiFullName: work@top::C
+          vpiName Identifier name:work@C start:17:7 end:17:8:
+            vpiParent: ClassDefn name:work@C
+            vpiName: work@C
+          vpiFullName: work@top::work@C
           vpiVariable (1 items):
             Variable name:x start:18:9 end:18:10:
-              vpiParent: ClassDefn name:C
+              vpiParent: ClassDefn name:work@C
               vpiTypespec RefTypespec start:18:5 end:18:8:
                 vpiParent: Variable name:x
-                vpiFullName: work@top::C::x
+                vpiFullName: work@top::work@C::x
                 vpiActual: IntTypespec
               vpiName: x
-              vpiFullName: work@top::C::x
+              vpiFullName: work@top::work@C::x
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@C
+            vpiName: work
+            vpiFullName: work@top::work@C::work
+          vpiCell: C
       vpiNet (1 items):
         Net name:arr start:21:5 end:21:8:
           vpiParent: Module name:work@top
@@ -190,7 +196,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/class/sur
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              20      20       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    20      20       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================

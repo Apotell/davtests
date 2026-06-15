@@ -86,8 +86,8 @@ n<$Source01/dut.sv> u<80> t<Top_level_rule> c<1> l<1:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
-[ERR:EL0535] $Source01/dut.sv:8:22: Illegal implicit net "id:12, name:uvm_resource_base".
-[ERR:EL0535] $Source01/dut.sv:15:35: Illegal implicit net "id:34, name:i".
+[ERR:EL0535] $Source01/dut.sv:8:22: Illegal implicit net "id:14, name:uvm_resource_base".
+[ERR:EL0535] $Source01/dut.sv:15:35: Illegal implicit net "id:36, name:i".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -105,14 +105,14 @@ Design name:unnamed:
         vpiName: work@pkg
       vpiFullName: work@pkg
       vpiTypespec (2 items):
-        ClassTypespec name:uvm_queue:
+        ClassTypespec name:work@uvm_queue:
           vpiParent: Package name:work@pkg
-          vpiName: uvm_queue
-          vpiClassDefn: ClassDefn name:uvm_queue
-        ClassTypespec name:uvm_resource_types:
+          vpiName: work@uvm_queue
+          vpiClassDefn: ClassDefn name:work@uvm_queue
+        ClassTypespec name:work@uvm_resource_types:
           vpiParent: Package name:work@pkg
-          vpiName: uvm_resource_types
-          vpiClassDefn: ClassDefn name:uvm_resource_types
+          vpiName: work@uvm_resource_types
+          vpiClassDefn: ClassDefn name:work@uvm_resource_types
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -121,21 +121,27 @@ Design name:unnamed:
         vpiFullName: work@pkg::work
       vpiCell: pkg
       vpiClassDefn (2 items):
-        ClassDefn name:uvm_queue file:$Source01/dut.sv start:3:1 end:4:9:
+        ClassDefn name:work@uvm_queue file:$Source01/dut.sv start:3:1 end:4:9:
           vpiParent: Package name:work@pkg
-          vpiName Identifier name:uvm_queue start:3:7 end:3:16:
-            vpiParent: ClassDefn name:uvm_queue
-            vpiName: uvm_queue
-          vpiFullName: work@pkg::uvm_queue
-        ClassDefn name:uvm_resource_types file:$Source01/dut.sv start:6:1 end:10:9:
+          vpiName Identifier name:work@uvm_queue start:3:7 end:3:16:
+            vpiParent: ClassDefn name:work@uvm_queue
+            vpiName: work@uvm_queue
+          vpiFullName: work@pkg::work@uvm_queue
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@uvm_queue
+            vpiName: work
+            vpiFullName: work@pkg::work@uvm_queue::work
+          vpiCell: uvm_queue
+        ClassDefn name:work@uvm_resource_types file:$Source01/dut.sv start:6:1 end:10:9:
           vpiParent: Package name:work@pkg
-          vpiName Identifier name:uvm_resource_types start:6:7 end:6:25:
-            vpiParent: ClassDefn name:uvm_resource_types
-            vpiName: uvm_resource_types
-          vpiFullName: work@pkg::uvm_resource_types
+          vpiName Identifier name:work@uvm_resource_types start:6:7 end:6:25:
+            vpiParent: ClassDefn name:work@uvm_resource_types
+            vpiName: work@uvm_resource_types
+          vpiFullName: work@pkg::work@uvm_resource_types
           vpiTypespec (2 items):
             UnsupportedTypespec name:uvm_queue start:8:11 end:8:40:
-              vpiParent: ClassDefn name:uvm_resource_types
+              vpiParent: ClassDefn name:work@uvm_resource_types
               vpiName Identifier name:uvm_queue:
                 vpiParent: UnsupportedTypespec name:uvm_queue
                 vpiName: uvm_queue
@@ -145,16 +151,22 @@ Design name:unnamed:
                   vpiRhs RefObj name:uvm_resource_base start:8:22 end:8:39:
                     vpiParent: ParamAssign
                     vpiName: uvm_resource_base
-                    vpiFullName: work@pkg::uvm_resource_types::uvm_queue::uvm_resource_base
+                    vpiFullName: work@pkg::work@uvm_resource_types::uvm_queue::uvm_resource_base
             TypedefTypespec name:rsrc_q_t start:8:3 end:8:50:
-              vpiParent: ClassDefn name:uvm_resource_types
+              vpiParent: ClassDefn name:work@uvm_resource_types
               vpiName Identifier name:rsrc_q_t start:8:41 end:8:49:
                 vpiParent: TypedefTypespec name:rsrc_q_t
                 vpiName: rsrc_q_t
               vpiTypedefAlias RefTypespec start:8:11 end:8:40:
                 vpiParent: TypedefTypespec name:rsrc_q_t
-                vpiFullName: work@pkg::uvm_resource_types::rsrc_q_t
+                vpiFullName: work@pkg::work@uvm_resource_types::rsrc_q_t
                 vpiActual: UnsupportedTypespec name:uvm_queue
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@uvm_resource_types
+            vpiName: work
+            vpiFullName: work@pkg::work@uvm_resource_types::work
+          vpiCell: uvm_resource_types
       vpiTaskFunc (1 items):
         Function name:start_phase_sequence start:12:1 end:18:12:
           vpiParent: Package name:work@pkg
@@ -189,7 +201,7 @@ Design name:unnamed:
                   vpiParent: Variable name:rsrc
                   vpiName: rq.get(i)
                   vpiFullName: work@pkg::start_phase_sequence::rsrc::rq.get(i)
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:rq start:15:28 end:15:30:
                       vpiParent: HierPath name:rq.get(i)
                       vpiName: rq
@@ -270,7 +282,7 @@ COMMAND: ${SURELOG_DIR}/regression/ClassMemberFunc/ClassMemberFunc/surelog.uhdm 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

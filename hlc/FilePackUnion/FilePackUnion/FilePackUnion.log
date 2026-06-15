@@ -245,14 +245,8 @@ n<$Source01/dut.sv> u<240> t<Top_level_rule> c<1> l<2:1> el<81:3>
   n</*\n\ninterface rggen_register_if #(\n);\n \n\n  logic                     valid;\n  logic [31:0]   value;\n\n  modport register (\n    input   valid,\n    output  value\n  );\n\n  modport monitor (\n    input valid,\n    input value\n  );\nendinterface\n\n\nmodule rggen_bit_field (input logic [31:0] o_value);\nendmodule\n\nmodule top();\n  rggen_register_if  register_if[1]();\n\n\n  // assign o = register_if[0].value[8+:1];\n  \n  rggen_bit_field i1 (\n    .o_value            (register_if)\n  );\n\n   rggen_bit_field  u_bit_field (\n    .o_value            (register_if[0].value[8+:1])\n  );\n  \n\nendmodule\n\n*/> u<239> t<BLOCK_COMMENT> p<240> l<2:1> el<38:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@foo_flags_pkg".
-[ERR:CP0341] $Source01/dut.sv:2:1: Unmached label "work@foo_flags_pkg",
-             $Source01/dut.sv:10:14: closing label "foo_flags_pkg".
 [INF:CP0301] $Source01/dut.sv:12:1: Compile package "work@fooes_pkg".
-[ERR:CP0341] $Source01/dut.sv:12:1: Unmached label "work@fooes_pkg",
-             $Source01/dut.sv:21:14: closing label "fooes_pkg".
 [INF:CP0301] $Source01/dut.sv:28:1: Compile package "work@goog".
-[ERR:CP0341] $Source01/dut.sv:28:1: Unmached label "work@goog",
-             $Source01/dut.sv:33:13: closing label "goog".
 [INF:CP0303] $Source01/dut.sv:35:1: Compile module "work@top".
 [WRN:CP0323] $Source01/dut.sv:35:1: Multiply defined typedef "goog".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@foo_flags_pkg".
@@ -592,7 +586,7 @@ Design name:unnamed:
             vpiParent: Variable name:b
             vpiName: top_flag_t
             vpiFullName: work@top.b.top_flag_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:goog::top_flag_t
             vpiActual: UnsupportedTypespec name:top_flag_t
           vpiName: b
           vpiFullName: work@top.b
@@ -628,7 +622,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiName: top_flag_t
             vpiFullName: work@top.a.top_flag_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:goog::top_flag_t
             vpiActual: UnsupportedTypespec name:top_flag_t
           vpiName: a
           vpiFullName: work@top.a
@@ -646,10 +640,11 @@ Design name:unnamed:
             vpiParent: Port name:a
             vpiName: top_flag_t
             vpiFullName: work@top.a.top_flag_t
-            vpiPrefix HierPath start:35:18 end:35:24:
+            vpiPrefix HierPath name:goog::top_flag_t start:35:18 end:35:24:
               vpiParent: RefTypespec name:top_flag_t
-              vpiFullName: work@top.a.top_flag_t
-              vpiActual (2 items):
+              vpiName: goog::top_flag_t
+              vpiFullName: work@top.a.top_flag_t.goog::top_flag_t
+              vpiPathElem (2 items):
                 ClassTypespec name:goog
                 UnsupportedTypespec name:top_flag_t
             vpiActual: UnsupportedTypespec name:top_flag_t
@@ -665,10 +660,11 @@ Design name:unnamed:
             vpiParent: Port name:b
             vpiName: top_flag_t
             vpiFullName: work@top.b.top_flag_t
-            vpiPrefix HierPath start:35:46 end:35:52:
+            vpiPrefix HierPath name:goog::top_flag_t start:35:46 end:35:52:
               vpiParent: RefTypespec name:top_flag_t
-              vpiFullName: work@top.b.top_flag_t
-              vpiActual (2 items):
+              vpiName: goog::top_flag_t
+              vpiFullName: work@top.b.top_flag_t.goog::top_flag_t
+              vpiPathElem (2 items):
                 ClassTypespec name:goog
                 UnsupportedTypespec name:top_flag_t
             vpiActual: UnsupportedTypespec name:top_flag_t
@@ -762,7 +758,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 5
 [   NOTE] : 0
 

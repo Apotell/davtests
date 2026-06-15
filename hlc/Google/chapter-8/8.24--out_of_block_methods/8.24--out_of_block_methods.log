@@ -192,9 +192,9 @@ n<$Source01/8.24--out_of_block_methods.sv> u<186> t<Top_level_rule> c<1> l<15:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.24--out_of_block_methods.sv:15:1: Compile module "work@class_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/8.24--out_of_block_methods.sv:31:12: Illegal implicit net "id:52, name:a".
-[ERR:EL0535] $Source01/8.24--out_of_block_methods.sv:33:21: Illegal implicit net "id:59, name:a".
-[ERR:EL0535] $Source01/8.24--out_of_block_methods.sv:37:21: Illegal implicit net "id:71, name:a".
+[ERR:EL0535] $Source01/8.24--out_of_block_methods.sv:31:12: Illegal implicit net "id:53, name:a".
+[ERR:EL0535] $Source01/8.24--out_of_block_methods.sv:33:21: Illegal implicit net "id:60, name:a".
+[ERR:EL0535] $Source01/8.24--out_of_block_methods.sv:37:21: Illegal implicit net "id:72, name:a".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -212,10 +212,10 @@ Design name:unnamed:
         vpiName: work@class_tb
       vpiFullName: work@class_tb
       vpiTypespec (2 items):
-        ClassTypespec name:test_cls:
+        ClassTypespec name:work@test_cls:
           vpiParent: Module name:work@class_tb
-          vpiName: test_cls
-          vpiClassDefn: ClassDefn name:test_cls
+          vpiName: work@test_cls
+          vpiClassDefn: ClassDefn name:work@test_cls
         LogicTypespec:
           vpiParent: Module name:work@class_tb
       vpiDefName: work@class_tb
@@ -226,28 +226,34 @@ Design name:unnamed:
         vpiFullName: work@class_tb.work
       vpiCell: class_tb
       vpiClassDefn (1 items):
-        ClassDefn name:test_cls file:$Source01/8.24--out_of_block_methods.sv start:16:2 end:19:10:
+        ClassDefn name:work@test_cls file:$Source01/8.24--out_of_block_methods.sv start:16:2 end:19:10:
           vpiParent: Module name:work@class_tb
-          vpiName Identifier name:test_cls start:16:8 end:16:16:
-            vpiParent: ClassDefn name:test_cls
-            vpiName: test_cls
-          vpiFullName: work@class_tb::test_cls
+          vpiName Identifier name:work@test_cls start:16:8 end:16:16:
+            vpiParent: ClassDefn name:work@test_cls
+            vpiName: work@test_cls
+          vpiFullName: work@class_tb::work@test_cls
           vpiVariable (1 items):
             Variable name:a start:17:7 end:17:8:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiTypespec RefTypespec start:17:3 end:17:6:
                 vpiParent: Variable name:a
-                vpiFullName: work@class_tb::test_cls::a
+                vpiFullName: work@class_tb::work@test_cls::a
                 vpiActual: IntTypespec
               vpiName: a
-              vpiFullName: work@class_tb::test_cls::a
+              vpiFullName: work@class_tb::work@test_cls::a
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@test_cls
+            vpiName: work
+            vpiFullName: work@class_tb::work@test_cls::work
+          vpiCell: test_cls
           vpiMethod (1 items):
             Function name:test_method start:21:2 end:24:13:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiName Identifier name:test_method start:21:26 end:21:37:
                 vpiParent: Function name:test_method
                 vpiName: test_method
-              vpiFullName: work@class_tb::test_cls::test_method
+              vpiFullName: work@class_tb::work@test_cls::test_method
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:val start:21:42 end:21:45:
@@ -256,11 +262,11 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiTypespec RefTypespec start:21:38 end:21:41:
                     vpiParent: IODecl name:val
-                    vpiFullName: work@class_tb::test_cls::test_method::val
+                    vpiFullName: work@class_tb::work@test_cls::test_method::val
                     vpiActual: IntTypespec
               vpiStmt Begin:
                 vpiParent: Function name:test_method
-                vpiFullName: work@class_tb::test_cls::test_method
+                vpiFullName: work@class_tb::work@test_cls::test_method
                 vpiStmt (2 items):
                   SysFuncCall name:$display start:22:3 end:22:26:
                     vpiParent: Begin
@@ -272,7 +278,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@class_tb::test_cls::test_method
+                          vpiFullName: work@class_tb::work@test_cls::test_method
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 88
@@ -284,7 +290,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:a start:23:3 end:23:4:
                       vpiParent: Assignment
                       vpiName: a
-                      vpiFullName: work@class_tb::test_cls::test_method::a
+                      vpiFullName: work@class_tb::work@test_cls::test_method::a
                       vpiActual: Variable name:a
                     vpiRhs Operation:
                       vpiParent: Assignment
@@ -293,24 +299,24 @@ Design name:unnamed:
                         RefObj name:a start:23:3 end:23:4:
                           vpiParent: Operation
                           vpiName: a
-                          vpiFullName: work@class_tb::test_cls::test_method::a
+                          vpiFullName: work@class_tb::work@test_cls::test_method::a
                           vpiActual: Variable name:a
                         RefObj name:val start:23:8 end:23:11:
                           vpiParent: Operation
                           vpiName: val
-                          vpiFullName: work@class_tb::test_cls::test_method::val
+                          vpiFullName: work@class_tb::work@test_cls::test_method::val
                           vpiActual: IODecl name:val
               vpiReturn RefTypespec start:21:11 end:21:15:
                 vpiParent: Function name:test_method
-                vpiFullName: work@class_tb::test_cls::test_method
+                vpiFullName: work@class_tb::work@test_cls::test_method
                 vpiActual: VoidTypespec
           vpiTaskFuncDecl (1 items):
             FunctionDecl name:test_method start:18:10 end:18:44:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiName Identifier name:test_method start:18:24 end:18:35:
                 vpiParent: FunctionDecl name:test_method
                 vpiName: test_method
-              vpiFullName: work@class_tb::test_cls::test_method
+              vpiFullName: work@class_tb::work@test_cls::test_method
               vpiIODecl (1 items):
                 IODecl name:val start:18:40 end:18:43:
                   vpiParent: FunctionDecl name:test_method
@@ -318,11 +324,11 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiTypespec RefTypespec start:18:36 end:18:39:
                     vpiParent: IODecl name:val
-                    vpiFullName: work@class_tb::test_cls::test_method::val
+                    vpiFullName: work@class_tb::work@test_cls::test_method::val
                     vpiActual: IntTypespec
               vpiReturn RefTypespec start:18:19 end:18:23:
                 vpiParent: FunctionDecl name:test_method
-                vpiFullName: work@class_tb::test_cls::test_method
+                vpiFullName: work@class_tb::work@test_cls::test_method
                 vpiActual: VoidTypespec
       vpiNet (1 items):
         Net name:test_obj start:26:11 end:26:19:
@@ -361,7 +367,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: test_obj.a
                   vpiFullName: work@class_tb.test_obj.a
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:test_obj start:31:3 end:31:11:
                       vpiParent: HierPath name:test_obj.a
                       vpiName: test_obj
@@ -391,7 +397,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: test_obj.a
                     vpiFullName: work@class_tb.test_obj.a
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:test_obj start:33:12 end:33:20:
                         vpiParent: HierPath name:test_obj.a
                         vpiName: test_obj
@@ -405,7 +411,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: test_obj.test_method(9)
                 vpiFullName: work@class_tb.test_obj.test_method(9)
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:test_obj start:35:3 end:35:11:
                     vpiParent: HierPath name:test_obj.test_method(9)
                     vpiName: test_obj
@@ -437,7 +443,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: test_obj.a
                     vpiFullName: work@class_tb.test_obj.a
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:test_obj start:37:12 end:37:20:
                         vpiParent: HierPath name:test_obj.a
                         vpiName: test_obj
@@ -507,7 +513,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-8/8.24--out_of_block_methods/s
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

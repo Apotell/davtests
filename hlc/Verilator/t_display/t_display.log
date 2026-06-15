@@ -3140,7 +3140,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: sub.write_m
                 vpiFullName: work@t.sub.write_m
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:sub start:23:7 end:23:10:
                     vpiParent: HierPath name:sub.write_m
                     vpiName: sub
@@ -3154,7 +3154,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: sub2.write_m
                 vpiFullName: work@t.sub2.write_m
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:sub2 start:24:7 end:24:11:
                     vpiParent: HierPath name:sub2.write_m
                     vpiName: sub2
@@ -5806,63 +5806,59 @@ multiline
             vpiParent: Task name:write_m
             vpiName: write_m
           vpiFullName: work@sub.write_m
-          vpiStmt Begin:
+          vpiStmt Begin start:149:7 end:154:10:
             vpiParent: Task name:write_m
             vpiFullName: work@sub.write_m
-            vpiStmt (1 items):
-              Begin start:149:7 end:154:10:
+            vpiStmt (2 items):
+              SysFuncCall name:$write start:150:10 end:150:45:
                 vpiParent: Begin
-                vpiFullName: work@sub.write_m
-                vpiStmt (2 items):
-                  SysFuncCall name:$write start:150:10 end:150:45:
-                    vpiParent: Begin
-                    vpiName Identifier name:$write start:150:10 end:150:16:
+                vpiName Identifier name:$write start:150:10 end:150:16:
+                  vpiParent: SysFuncCall name:$write
+                  vpiName: "$write"
+                vpiArgument (2 items):
+                  Constant start:150:17 end:150:37:
+                    vpiParent: SysFuncCall name:$write
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sub.write_m
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 144
+                    vpiDecompile: "\"[%0t] In %m (%l)\\n\""
+                    vpiValue: [%0t] In %m (%l)\n
+                  SysTaskCall name:$time start:150:39 end:150:44:
+                    vpiParent: SysFuncCall name:$write
+                    vpiName Identifier name:$time start:150:39 end:150:44:
+                      vpiParent: SysTaskCall name:$time
+                      vpiName: "$time"
+              Begin name:subblock start:151:10 end:153:13:
+                vpiParent: Begin
+                vpiName Identifier name:subblock start:151:18 end:151:26:
+                  vpiParent: Begin name:subblock
+                  vpiName: subblock
+                vpiFullName: work@sub.write_m.subblock
+                vpiStmt (1 items):
+                  SysFuncCall name:$write start:152:13 end:152:48:
+                    vpiParent: Begin name:subblock
+                    vpiName Identifier name:$write start:152:13 end:152:19:
                       vpiParent: SysFuncCall name:$write
                       vpiName: "$write"
                     vpiArgument (2 items):
-                      Constant start:150:17 end:150:37:
+                      Constant start:152:20 end:152:40:
                         vpiParent: SysFuncCall name:$write
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@sub.write_m
+                          vpiFullName: work@sub.write_m.subblock
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 144
-                        vpiDecompile: "\"[%0t] In %m (%l)\\n\""
-                        vpiValue: [%0t] In %m (%l)\n
-                      SysTaskCall name:$time start:150:39 end:150:44:
+                        vpiDecompile: "\"[%0t] In %M (%L)\\n\""
+                        vpiValue: [%0t] In %M (%L)\n
+                      SysTaskCall name:$time start:152:42 end:152:47:
                         vpiParent: SysFuncCall name:$write
-                        vpiName Identifier name:$time start:150:39 end:150:44:
+                        vpiName Identifier name:$time start:152:42 end:152:47:
                           vpiParent: SysTaskCall name:$time
                           vpiName: "$time"
-                  Begin name:subblock start:151:10 end:153:13:
-                    vpiParent: Begin
-                    vpiName Identifier name:subblock start:151:18 end:151:26:
-                      vpiParent: Begin name:subblock
-                      vpiName: subblock
-                    vpiFullName: work@sub.write_m.subblock
-                    vpiStmt (1 items):
-                      SysFuncCall name:$write start:152:13 end:152:48:
-                        vpiParent: Begin name:subblock
-                        vpiName Identifier name:$write start:152:13 end:152:19:
-                          vpiParent: SysFuncCall name:$write
-                          vpiName: "$write"
-                        vpiArgument (2 items):
-                          Constant start:152:20 end:152:40:
-                            vpiParent: SysFuncCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: work@sub.write_m.subblock
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 144
-                            vpiDecompile: "\"[%0t] In %M (%L)\\n\""
-                            vpiValue: [%0t] In %M (%L)\n
-                          SysTaskCall name:$time start:152:42 end:152:47:
-                            vpiParent: SysFuncCall name:$write
-                            vpiName Identifier name:$time start:152:42 end:152:47:
-                              vpiParent: SysTaskCall name:$time
-                              vpiName: "$time"
     Module name:work@sub2 file:$Source01/t_display.v start:158:1 end:168:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub2 start:158:8 end:158:12:
@@ -5883,63 +5879,59 @@ multiline
             vpiParent: Task name:write_m
             vpiName: write_m
           vpiFullName: work@sub2.write_m
-          vpiStmt Begin:
+          vpiStmt Begin start:161:7 end:166:10:
             vpiParent: Task name:write_m
             vpiFullName: work@sub2.write_m
-            vpiStmt (1 items):
-              Begin start:161:7 end:166:10:
+            vpiStmt (2 items):
+              SysFuncCall name:$write start:162:10 end:162:45:
                 vpiParent: Begin
-                vpiFullName: work@sub2.write_m
-                vpiStmt (2 items):
-                  SysFuncCall name:$write start:162:10 end:162:45:
-                    vpiParent: Begin
-                    vpiName Identifier name:$write start:162:10 end:162:16:
+                vpiName Identifier name:$write start:162:10 end:162:16:
+                  vpiParent: SysFuncCall name:$write
+                  vpiName: "$write"
+                vpiArgument (2 items):
+                  Constant start:162:17 end:162:37:
+                    vpiParent: SysFuncCall name:$write
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sub2.write_m
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 144
+                    vpiDecompile: "\"[%0t] In %m (%l)\\n\""
+                    vpiValue: [%0t] In %m (%l)\n
+                  SysTaskCall name:$time start:162:39 end:162:44:
+                    vpiParent: SysFuncCall name:$write
+                    vpiName Identifier name:$time start:162:39 end:162:44:
+                      vpiParent: SysTaskCall name:$time
+                      vpiName: "$time"
+              Begin name:subblock2 start:163:10 end:165:13:
+                vpiParent: Begin
+                vpiName Identifier name:subblock2 start:163:18 end:163:27:
+                  vpiParent: Begin name:subblock2
+                  vpiName: subblock2
+                vpiFullName: work@sub2.write_m.subblock2
+                vpiStmt (1 items):
+                  SysFuncCall name:$write start:164:13 end:164:48:
+                    vpiParent: Begin name:subblock2
+                    vpiName Identifier name:$write start:164:13 end:164:19:
                       vpiParent: SysFuncCall name:$write
                       vpiName: "$write"
                     vpiArgument (2 items):
-                      Constant start:162:17 end:162:37:
+                      Constant start:164:20 end:164:40:
                         vpiParent: SysFuncCall name:$write
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@sub2.write_m
+                          vpiFullName: work@sub2.write_m.subblock2
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 144
-                        vpiDecompile: "\"[%0t] In %m (%l)\\n\""
-                        vpiValue: [%0t] In %m (%l)\n
-                      SysTaskCall name:$time start:162:39 end:162:44:
+                        vpiDecompile: "\"[%0t] In %m (%L)\\n\""
+                        vpiValue: [%0t] In %m (%L)\n
+                      SysTaskCall name:$time start:164:42 end:164:47:
                         vpiParent: SysFuncCall name:$write
-                        vpiName Identifier name:$time start:162:39 end:162:44:
+                        vpiName Identifier name:$time start:164:42 end:164:47:
                           vpiParent: SysTaskCall name:$time
                           vpiName: "$time"
-                  Begin name:subblock2 start:163:10 end:165:13:
-                    vpiParent: Begin
-                    vpiName Identifier name:subblock2 start:163:18 end:163:27:
-                      vpiParent: Begin name:subblock2
-                      vpiName: subblock2
-                    vpiFullName: work@sub2.write_m.subblock2
-                    vpiStmt (1 items):
-                      SysFuncCall name:$write start:164:13 end:164:48:
-                        vpiParent: Begin name:subblock2
-                        vpiName Identifier name:$write start:164:13 end:164:19:
-                          vpiParent: SysFuncCall name:$write
-                          vpiName: "$write"
-                        vpiArgument (2 items):
-                          Constant start:164:20 end:164:40:
-                            vpiParent: SysFuncCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: work@sub2.write_m.subblock2
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 144
-                            vpiDecompile: "\"[%0t] In %m (%L)\\n\""
-                            vpiValue: [%0t] In %m (%L)\n
-                          SysTaskCall name:$time start:164:42 end:164:47:
-                            vpiParent: SysFuncCall name:$write
-                            vpiName Identifier name:$time start:164:42 end:164:47:
-                              vpiParent: SysTaskCall name:$time
-                              vpiName: "$time"
   vpiTypespec (7 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -6017,7 +6009,7 @@ Constant                           180     168      10        22
 Operation                           18       8       0        10
 RefTypespec                        192     176       6        22
 ----------------------------------------------------------------
-Others                             423     423       0         0
+Others                             421     421       0         0
 ----------------------------------------------------------------
-                                   813     775      16        54
+                                   811     773      16        54
 ===================== END REDUCTION RESULT =====================

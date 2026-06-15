@@ -222,8 +222,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_trace_param.v:14:1: Compile package "work@my_module_types".
 [INF:CP0303] $Source01/t_trace_param.v:21:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_trace_param.v:25:12: Illegal implicit net "id:53, name:MY_PARAM".
-[ERR:EL0535] $Source01/t_trace_param.v:26:19: Illegal implicit net "id:68, name:MY_PARAM".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -406,6 +404,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: MY_PARAM
                     vpiFullName: work@t.MY_PARAM
+                    vpiActual: Parameter name:MY_PARAM
                   Constant start:25:21 end:25:22:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -446,6 +445,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: MY_PARAM
                   vpiFullName: work@t.MY_PARAM
+                  vpiActual: Parameter name:MY_PARAM
                 Constant start:26:28 end:26:29:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -605,7 +605,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 
@@ -646,8 +646,12 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_trace_param/surelog.uhdm ${SURELO
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             7       7       2         2
+Operation                            3       1       0         2
+RefObj                              15      13       0         2
+RefTypespec                         18      18       2         2
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                    93      89       4         8
 ===================== END REDUCTION RESULT =====================

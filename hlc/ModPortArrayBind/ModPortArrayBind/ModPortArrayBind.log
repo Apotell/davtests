@@ -165,8 +165,6 @@ n<$Source01/dut.sv> u<160> t<Top_level_rule> c<1> l<2:1> el<30:1>
         n<> u<156> t<ENDMODULE> p<157> l<29:1> el<29:10>
 AST_DEBUG_END
 [INF:CP0304] $Source01/dut.sv:2:1: Compile interface "work@r5p_bus_if".
-[ERR:CP0341] $Source01/dut.sv:2:11: Unmached label "r5p_bus_if",
-             $Source01/dut.sv:10:15: closing label "r5p_bus_if".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@r5p_bus_dec".
 [INF:CP0335] $Source01/dut.sv:21:29: Compile generate block "gen_loop".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@r5p_bus_dec".
@@ -339,7 +337,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:r5p_bus_if.man
               vpiName: r5p_bus_if.man
               vpiFullName: work@r5p_bus_dec.m.r5p_bus_if.man.r5p_bus_if.man
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:r5p_bus_if start:15:3 end:15:13:
                   vpiParent: HierPath name:r5p_bus_if.man
                   vpiName: r5p_bus_if
@@ -412,26 +410,27 @@ Design name:unnamed:
               vpiStmt (1 items):
                 ContAssign start:23:10 end:23:38:
                   vpiParent: Begin name:gen_loop
-                  vpiLhs HierPath start:23:10 end:23:18:
+                  vpiLhs HierPath name:m[i].vld start:23:10 end:23:18:
                     vpiParent: ContAssign
-                    vpiFullName: work@r5p_bus_dec.gen_loop
-                    vpiActual (2 items):
+                    vpiName: m[i].vld
+                    vpiFullName: work@r5p_bus_dec.gen_loop.m[i].vld
+                    vpiPathElem (2 items):
                       BitSelect name:m[i] start:23:10 end:23:13:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:m[i].vld
                         vpiName: m[i]
-                        vpiFullName: work@r5p_bus_dec.gen_loop.m[i]
+                        vpiFullName: work@r5p_bus_dec.gen_loop.m[i].vld.m[i]
                         vpiPrefix RefObj name:m start:23:10 end:23:11:
                           vpiParent: BitSelect name:m[i]
                           vpiName: m
-                          vpiFullName: work@r5p_bus_dec.gen_loop.m
+                          vpiFullName: work@r5p_bus_dec.gen_loop.m[i].vld.m
                           vpiActual: Net name:m
                         vpiIndex RefObj name:i start:23:12 end:23:13:
                           vpiParent: BitSelect name:m[i]
                           vpiName: i
-                          vpiFullName: work@r5p_bus_dec.gen_loop.i
+                          vpiFullName: work@r5p_bus_dec.gen_loop.m[i].vld.i
                           vpiActual: Variable name:i
                       RefObj name:vld start:23:15 end:23:18:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:m[i].vld
                         vpiName: vld
                         vpiFullName: work@r5p_bus_dec.gen_loop.vld
                   vpiRhs Operation start:23:21 end:23:38:
@@ -496,7 +495,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
 

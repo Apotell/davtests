@@ -114,9 +114,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@test".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_package1".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@test".
-[ERR:EL0535] $Source01/dut.sv:18:3: Illegal implicit net "id:44, name:v".
-[ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:45, name:p1".
-[ERR:EL0535] $Source01/dut.sv:18:12: Illegal implicit net "id:46, name:p2".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -276,6 +273,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: v
                   vpiFullName: work@test.v
+                  vpiActual: Variable name:v
                 vpiRhs Operation start:18:7 end:18:14:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -284,10 +282,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: p1
                       vpiFullName: work@test.p1
+                      vpiActual: Parameter name:p1
                     RefObj name:p2 start:18:12 end:18:14:
                       vpiParent: Operation
                       vpiName: p2
                       vpiFullName: work@test.p2
+                      vpiActual: Parameter name:p2
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -302,7 +302,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 
@@ -343,8 +343,12 @@ COMMAND: ${SURELOG_DIR}/regression/PackageNet/PackageNet/surelog.uhdm ${SURELOG_
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             4       5       1         0
+Operation                            1       0       0         1
+RefObj                               7       5       0         2
+RefTypespec                          8       9       1         0
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    44      43       2         3
 ===================== END REDUCTION RESULT =====================

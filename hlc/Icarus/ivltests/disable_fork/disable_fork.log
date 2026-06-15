@@ -90,7 +90,6 @@ n<$Source01/disable_fork.v> u<84> t<Top_level_rule> c<1> l<21:1> el<35:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/disable_fork.v:21:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/disable_fork.v:25:15: Illegal implicit net "id:17, name:fork_label".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -120,68 +119,70 @@ Design name:unnamed:
           vpiStmt Begin start:23:12 end:32:7:
             vpiParent: Initial
             vpiFullName: work@main
-            vpiStmt (4 items):
+            vpiStmt (2 items):
               ForkStmt name:fork_label start:24:7 end:30:11:
                 vpiParent: Begin
                 vpiName Identifier name:fork_label start:24:13 end:24:23:
                   vpiParent: ForkStmt name:fork_label
                   vpiName: fork_label
                 vpiFullName: work@main.fork_label
-              DelayControl start:25:2 end:25:26:
-                vpiParent: Begin
-                vpiStmt Disable start:25:7 end:25:26:
-                  vpiParent: DelayControl
-                  vpiExpr RefObj name:fork_label start:25:15 end:25:25:
-                    vpiParent: Disable
-                    vpiName: fork_label
-                    vpiFullName: work@main.fork_label
-                vpiDelay Constant start:25:3 end:25:6:
-                  vpiParent: DelayControl
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@main
-                    vpiActual: IntTypespec
-                  vpiConstType: int (7)
-                  vpiSize: 32
-                  vpiDecompile: "100"
-                  vpiValue: 100
-              DelayControl start:26:2 end:29:5:
-                vpiParent: Begin
-                vpiStmt Begin start:26:7 end:29:5:
-                  vpiParent: DelayControl
-                  vpiFullName: work@main
-                  vpiStmt (2 items):
-                    SysFuncCall name:$display start:27:5 end:27:45:
-                      vpiParent: Begin
-                      vpiName Identifier name:$display start:27:5 end:27:13:
-                        vpiParent: SysFuncCall name:$display
-                        vpiName: "$display"
-                      vpiArgument (1 items):
-                        Constant start:27:14 end:27:44:
-                          vpiParent: SysFuncCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 224
-                          vpiDecompile: "\"FAILED -- shouldn't get here\""
-                          vpiValue: FAILED -- shouldn't get here
-                    SysFuncCall name:$finish start:28:5 end:28:12:
-                      vpiParent: Begin
-                      vpiName Identifier name:$finish start:28:5 end:28:12:
-                        vpiParent: SysFuncCall name:$finish
-                        vpiName: "$finish"
-                vpiDelay Constant start:26:3 end:26:6:
-                  vpiParent: DelayControl
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@main
-                    vpiActual: IntTypespec
-                  vpiConstType: int (7)
-                  vpiSize: 32
-                  vpiDecompile: "200"
-                  vpiValue: 200
+                vpiStmt (2 items):
+                  DelayControl start:25:2 end:25:26:
+                    vpiParent: ForkStmt name:fork_label
+                    vpiStmt Disable start:25:7 end:25:26:
+                      vpiParent: DelayControl
+                      vpiExpr RefObj name:fork_label start:25:15 end:25:25:
+                        vpiParent: Disable
+                        vpiName: fork_label
+                        vpiFullName: work@main.fork_label.fork_label
+                        vpiActual: ForkStmt name:fork_label
+                    vpiDelay Constant start:25:3 end:25:6:
+                      vpiParent: DelayControl
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@main.fork_label
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "100"
+                      vpiValue: 100
+                  DelayControl start:26:2 end:29:5:
+                    vpiParent: ForkStmt name:fork_label
+                    vpiStmt Begin start:26:7 end:29:5:
+                      vpiParent: DelayControl
+                      vpiFullName: work@main.fork_label
+                      vpiStmt (2 items):
+                        SysFuncCall name:$display start:27:5 end:27:45:
+                          vpiParent: Begin
+                          vpiName Identifier name:$display start:27:5 end:27:13:
+                            vpiParent: SysFuncCall name:$display
+                            vpiName: "$display"
+                          vpiArgument (1 items):
+                            Constant start:27:14 end:27:44:
+                              vpiParent: SysFuncCall name:$display
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@main.fork_label
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 224
+                              vpiDecompile: "\"FAILED -- shouldn't get here\""
+                              vpiValue: FAILED -- shouldn't get here
+                        SysFuncCall name:$finish start:28:5 end:28:12:
+                          vpiParent: Begin
+                          vpiName Identifier name:$finish start:28:5 end:28:12:
+                            vpiParent: SysFuncCall name:$finish
+                            vpiName: "$finish"
+                    vpiDelay Constant start:26:3 end:26:6:
+                      vpiParent: DelayControl
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@main.fork_label
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "200"
+                      vpiValue: 200
               SysFuncCall name:$display start:31:7 end:31:25:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:31:7 end:31:15:
@@ -214,7 +215,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 

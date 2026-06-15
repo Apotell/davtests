@@ -24,11 +24,11 @@
 [WRN:PA0205] $Source01/top.v:27:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:26:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "work@my_interface".
-[ERR:EL0535] $Source01/top.v:13:95: Illegal implicit net "id:197, name:m_if".
-[ERR:EL0535] $Source01/top.v:64:17: Illegal implicit net "id:277, name:capture".
-[ERR:EL0535] $Source01/top.v:64:8: Illegal implicit net "id:279, name:capture".
-[ERR:EL0535] $Source01/top.v:65:13: Illegal implicit net "id:280, name:clk".
-[ERR:EL0535] $Source01/top.v:65:8: Illegal implicit net "id:282, name:clk".
+[ERR:EL0535] $Source01/top.v:13:95: Illegal implicit net "id:194, name:m_if".
+[ERR:EL0535] $Source01/top.v:64:17: Illegal implicit net "id:274, name:capture".
+[ERR:EL0535] $Source01/top.v:64:8: Illegal implicit net "id:276, name:capture".
+[ERR:EL0535] $Source01/top.v:65:13: Illegal implicit net "id:277, name:clk".
+[ERR:EL0535] $Source01/top.v:65:8: Illegal implicit net "id:279, name:clk".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1618,16 +1618,20 @@ Design name:unnamed:
         vpiParent: ClassDefn name:mailbox
         vpiName: mailbox
       vpiFullName: mailbox
+      vpiTypespec (1 items):
+        ClassTypespec name:mailbox:
+          vpiParent: ClassDefn name:mailbox
+          vpiName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+      vpiClassType: mailbox class (1)
+      vpiCell: mailbox
       vpiMethod (8 items):
         Function name:new start:3:3 end:4:14:
           vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:new start:3:12 end:3:15:
+          vpiName Identifier name:new:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
-          vpiTypespec (1 items):
-            LogicTypespec start:3:12 end:3:12:
-              vpiParent: Function name:new
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -1648,10 +1652,11 @@ Design name:unnamed:
                 vpiParent: IODecl name:bound
                 vpiFullName: mailbox::new::bound
                 vpiActual: IntTypespec
-          vpiReturn RefTypespec start:3:12 end:3:12:
+          vpiReturn RefTypespec name:mailbox:
             vpiParent: Function name:new
-            vpiFullName: mailbox::new
-            vpiActual: LogicTypespec
+            vpiName: mailbox
+            vpiFullName: mailbox::new::mailbox
+            vpiActual: ClassTypespec name:mailbox
         Function name:num start:6:3 end:7:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:num start:6:16 end:6:19:
@@ -1672,6 +1677,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
               vpiParent: Task name:put
@@ -1713,20 +1719,18 @@ Design name:unnamed:
             vpiName: get
           vpiFullName: mailbox::get
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:15:13 end:15:16:
+            LogicTypespec:
               vpiParent: Task name:get
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
               vpiParent: Task name:get
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:15:13 end:15:16:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:15:17 end:15:17:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
         Function name:try_get start:18:3 end:19:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:try_get start:18:16 end:18:23:
@@ -1734,21 +1738,18 @@ Design name:unnamed:
             vpiName: try_get
           vpiFullName: mailbox::try_get
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:18:25 end:18:28:
+            LogicTypespec:
               vpiParent: Function name:try_get
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
               vpiParent: Function name:try_get
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:18:25 end:18:28:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:18:29 end:18:29:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
           vpiReturn RefTypespec start:18:12 end:18:15:
             vpiParent: Function name:try_get
             vpiFullName: mailbox::try_get
@@ -1760,20 +1761,18 @@ Design name:unnamed:
             vpiName: peek
           vpiFullName: mailbox::peek
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:21:14 end:21:17:
+            LogicTypespec:
               vpiParent: Task name:peek
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
               vpiParent: Task name:peek
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:21:14 end:21:17:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:21:18 end:21:18:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
         Function name:try_peek start:24:3 end:25:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:try_peek start:24:16 end:24:24:
@@ -1781,21 +1780,18 @@ Design name:unnamed:
             vpiName: try_peek
           vpiFullName: mailbox::try_peek
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:24:25 end:24:28:
+            LogicTypespec:
               vpiParent: Function name:try_peek
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
               vpiParent: Function name:try_peek
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:24:25 end:24:28:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:24:29 end:24:29:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
           vpiReturn RefTypespec start:24:12 end:24:15:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
@@ -1844,6 +1840,8 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiClassType: process class (4)
+      vpiCell: process
       vpiMethod (6 items):
         Function name:self start:34:10 end:35:14:
           vpiParent: ClassDefn name:process
@@ -1885,40 +1883,48 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:await start:43:8 end:43:13:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:suspend start:46:8 end:46:15:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:resume start:49:8 end:49:14:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
+          vpiVisibility: public (1)
     ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
         vpiName: semaphore
       vpiFullName: semaphore
+      vpiTypespec (1 items):
+        ClassTypespec name:semaphore:
+          vpiParent: ClassDefn name:semaphore
+          vpiName: semaphore
+          vpiClassDefn: ClassDefn name:semaphore
+      vpiClassType: semaphore class (2)
+      vpiCell: semaphore
       vpiMethod (4 items):
         Function name:new start:57:3 end:58:14:
           vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:new start:57:12 end:57:15:
+          vpiName Identifier name:new:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
-          vpiTypespec (1 items):
-            LogicTypespec start:57:12 end:57:12:
-              vpiParent: Function name:new
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -1939,16 +1945,18 @@ Design name:unnamed:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::new::keyCount
                 vpiActual: IntTypespec
-          vpiReturn RefTypespec start:57:12 end:57:12:
+          vpiReturn RefTypespec name:semaphore:
             vpiParent: Function name:new
-            vpiFullName: semaphore::new
-            vpiActual: LogicTypespec
+            vpiName: semaphore
+            vpiFullName: semaphore::new::semaphore
+            vpiActual: ClassTypespec name:semaphore
         Task name:put start:60:3 end:61:10:
           vpiParent: ClassDefn name:semaphore
           vpiName Identifier name:put start:60:8 end:60:11:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
               vpiParent: Task name:put
@@ -1974,6 +1982,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
               vpiParent: Task name:get
@@ -2023,30 +2032,36 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
-    ClassDefn name:env file:$Source01/top.v start:8:1 end:15:10:
+    ClassDefn name:work@env file:$Source01/top.v start:8:1 end:15:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:env start:8:7 end:8:10:
-        vpiParent: ClassDefn name:env
-        vpiName: env
-      vpiFullName: env
+      vpiName Identifier name:work@env start:8:7 end:8:10:
+        vpiParent: ClassDefn name:work@env
+        vpiName: work@env
+      vpiFullName: work@env
       vpiTypespec (1 items):
         ClassTypespec name:uvm_env start:8:19 end:8:26:
-          vpiParent: ClassDefn name:env
+          vpiParent: ClassDefn name:work@env
           vpiName: uvm_env
+      vpiClassType: userdefined class (3)
       vpiExtends Extends start:8:11 end:8:18:
-        vpiParent: ClassDefn name:env
+        vpiParent: ClassDefn name:work@env
         vpiClassTypespec RefTypespec name:uvm_env start:8:19 end:8:26:
           vpiParent: Extends
           vpiName: uvm_env
-          vpiFullName: env::uvm_env
+          vpiFullName: work@env::uvm_env
           vpiActual: ClassTypespec name:uvm_env
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@env
+        vpiName: work
+        vpiFullName: work@env::work
+      vpiCell: env
       vpiMethod (1 items):
         Function name:connect_phase start:11:3 end:14:14:
-          vpiParent: ClassDefn name:env
+          vpiParent: ClassDefn name:work@env
           vpiName Identifier name:connect_phase start:11:17 end:11:30:
             vpiParent: Function name:connect_phase
             vpiName: connect_phase
-          vpiFullName: env::connect_phase
+          vpiFullName: work@env::connect_phase
           vpiTypespec (3 items):
             UnsupportedTypespec name:uvm_phase start:11:31 end:11:40:
               vpiParent: Function name:connect_phase
@@ -2066,7 +2081,7 @@ Design name:unnamed:
                   vpiParent: ClassTypespec name:uvm_resource_db
                   vpiRhs RefTypespec start:13:29 end:13:47:
                     vpiParent: ParamAssign
-                    vpiFullName: env::connect_phase::uvm_resource_db
+                    vpiFullName: work@env::connect_phase::uvm_resource_db
                     vpiActual: InterfaceTypespec name:add_sub_if
           vpiVisibility: public (1)
           vpiIODecl (1 items):
@@ -2076,15 +2091,15 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:11:31 end:11:40:
                 vpiParent: IODecl name:phase
-                vpiFullName: env::connect_phase::phase
+                vpiFullName: work@env::connect_phase::phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt ImmediateAssert start:13:5 end:13:102:
             vpiParent: Function name:connect_phase
             "vpiExpr HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:99":
               vpiParent: ImmediateAssert
               vpiName: uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
-              vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
-              vpiActual (2 items):
+              vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
+              vpiPathElem (2 items):
                 ClassTypespec name:uvm_resource_db
                 FuncCall name:read_by_name start:13:50 end:13:100:
                   vpiParent: "HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
@@ -2101,7 +2116,7 @@ Design name:unnamed:
                       vpiParent: FuncCall name:read_by_name
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
+                        vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 80
@@ -2110,10 +2125,10 @@ Design name:unnamed:
                     RefObj name:m_if start:13:95 end:13:99:
                       vpiParent: FuncCall name:read_by_name
                       vpiName: m_if
-                      vpiFullName: env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
+                      vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
           vpiReturn RefTypespec start:11:12 end:11:16:
             vpiParent: Function name:connect_phase
-            vpiFullName: env::connect_phase
+            vpiFullName: work@env::connect_phase
             vpiActual: VoidTypespec
   vpiAllInterfaces (1 items):
     Interface name:work@my_interface file:$Source01/top1.v start:2:1 end:10:13:
@@ -2749,10 +2764,10 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
-    ClassTypespec name:env:
+    ClassTypespec name:work@env:
       vpiParent: Design name:unnamed
-      vpiName: env
-      vpiClassDefn: ClassDefn name:env
+      vpiName: work@env
+      vpiClassDefn: ClassDefn name:work@env
     VoidTypespec start:11:12 end:11:16:
       vpiParent: Design name:unnamed
     StringTypespec:
@@ -2862,7 +2877,7 @@ COMMAND: ${SURELOG_DIR}/regression/Escape/Escape/surelog.uhdm ${SURELOG_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             784     784       0         0
+Others                             781     781       0         0
 ----------------------------------------------------------------
-                                   784     784       0         0
+                                   781     781       0         0
 ===================== END REDUCTION RESULT =====================

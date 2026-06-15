@@ -177,14 +177,8 @@ n<$Source01/dut.sv> u<172> t<Top_level_rule> c<1> l<1:1> el<63:3>
   n</*\n\npackage pack_pkg;\ntypedef enum logic { fOO } foo;\nendpackage\n\nmodule dut(input pack_pkg::foo [1:0] inp[2], output pack_pkg::foo [1:0] out[2]);\nassign out = inp;\nendmodule\n\n*/> u<171> t<BLOCK_COMMENT> p<172> l<1:1> el<18:16>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@prim_pad_wrapper_pkg".
-[ERR:CP0341] $Source01/dut.sv:1:1: Unmached label "work@prim_pad_wrapper_pkg",
-             $Source01/dut.sv:6:14: closing label "prim_pad_wrapper_pkg".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@prim_pad_wrapper".
-[ERR:CP0341] $Source01/dut.sv:8:1: Unmached label "work@prim_pad_wrapper",
-             $Source01/dut.sv:10:13: closing label "prim_pad_wrapper".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@dut".
-[ERR:CP0341] $Source01/dut.sv:12:1: Unmached label "work@dut",
-             $Source01/dut.sv:18:13: closing label "dut".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@prim_pad_wrapper_pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@prim_pad_wrapper".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@dut".
@@ -315,17 +309,12 @@ Design name:unnamed:
         vpiParent: Module name:work@prim_pad_wrapper
         vpiName: work@prim_pad_wrapper
       vpiFullName: work@prim_pad_wrapper
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:9:10 end:9:33:
           vpiParent: Module name:work@prim_pad_wrapper
           vpiName Identifier name:prim_pad_wrapper_pkg start:9:10 end:9:30:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
-        UnsupportedTypespec name:pad_pok_t start:9:42 end:9:51:
-          vpiParent: Module name:work@prim_pad_wrapper
-          vpiName Identifier name:pad_pok_t:
-            vpiParent: UnsupportedTypespec name:pad_pok_t
-            vpiName: pad_pok_t
       vpiDefName: work@prim_pad_wrapper
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -340,7 +329,7 @@ Design name:unnamed:
             vpiParent: Net name:pok_i
             vpiName: pad_pok_t
             vpiFullName: work@prim_pad_wrapper.pok_i.pad_pok_t
-            vpiActual: UnsupportedTypespec name:pad_pok_t
+            vpiActual: TypedefTypespec name:pad_pok_t
           vpiName: pok_i
           vpiFullName: work@prim_pad_wrapper.pok_i
           vpiNetType: wire (1)
@@ -357,7 +346,7 @@ Design name:unnamed:
             vpiParent: Port name:pok_i
             vpiName: pad_pok_t
             vpiFullName: work@prim_pad_wrapper.pok_i.pad_pok_t
-            vpiActual: UnsupportedTypespec name:pad_pok_t
+            vpiActual: TypedefTypespec name:pad_pok_t
       vpiEndLabel Identifier name:prim_pad_wrapper start:10:13 end:10:29:
         vpiParent: Module name:work@prim_pad_wrapper
         vpiName: prim_pad_wrapper
@@ -394,7 +383,7 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: 0
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:13:10 end:13:33:
           vpiParent: Module name:work@dut
           vpiName Identifier name:prim_pad_wrapper_pkg start:13:10 end:13:30:
@@ -450,11 +439,6 @@ Design name:unnamed:
           vpiVector: true
         BitTypespec:
           vpiParent: Module name:work@dut
-        UnsupportedTypespec name:pad_pok_t start:14:3 end:14:12:
-          vpiParent: Module name:work@dut
-          vpiName Identifier name:pad_pok_t:
-            vpiParent: UnsupportedTypespec name:pad_pok_t
-            vpiName: pad_pok_t
         ArrayTypespec:
           vpiParent: Module name:work@dut
           vpiArrayType: static (1)
@@ -485,7 +469,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: pad_pok_t
             vpiFullName: work@dut.pad_pok_t
-            vpiActual: UnsupportedTypespec name:pad_pok_t
+            vpiActual: TypedefTypespec name:pad_pok_t
         ModuleTypespec name:work@prim_pad_wrapper start:15:3 end:15:19:
           vpiParent: Module name:work@dut
           vpiName Identifier name:work@prim_pad_wrapper start:15:3 end:15:19:
@@ -577,7 +561,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
 
@@ -619,7 +603,7 @@ COMMAND: ${SURELOG_DIR}/regression/PackedArrayHighConn/PackedArrayHighConn/surel
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              96      96       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                    96      96       0         0
+                                    92      92       0         0
 ===================== END REDUCTION RESULT =====================

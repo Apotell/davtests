@@ -5,7 +5,6 @@
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@aes_pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@mix_columns".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@cipher_core".
-[ERR:EL0535] $Source01/dut.sv:18:15: Illegal implicit net "id:52, name:CIPH_INV".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -110,7 +109,7 @@ Design name:unnamed:
             vpiParent: Net name:op_i
             vpiName: ciph_op_e
             vpiFullName: work@mix_columns.op_i.ciph_op_e
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:aes_pkg::ciph_op_e
             vpiActual: UnsupportedTypespec name:ciph_op_e
           vpiName: op_i
           vpiFullName: work@mix_columns.op_i
@@ -128,10 +127,11 @@ Design name:unnamed:
             vpiParent: Port name:op_i
             vpiName: ciph_op_e
             vpiFullName: work@mix_columns.op_i.ciph_op_e
-            vpiPrefix HierPath start:9:10 end:9:19:
+            vpiPrefix HierPath name:aes_pkg::ciph_op_e start:9:10 end:9:19:
               vpiParent: RefTypespec name:ciph_op_e
-              vpiFullName: work@mix_columns.op_i.ciph_op_e
-              vpiActual (2 items):
+              vpiName: aes_pkg::ciph_op_e
+              vpiFullName: work@mix_columns.op_i.ciph_op_e.aes_pkg::ciph_op_e
+              vpiPathElem (2 items):
                 ClassTypespec name:aes_pkg
                 UnsupportedTypespec name:ciph_op_e
             vpiActual: UnsupportedTypespec name:ciph_op_e
@@ -174,8 +174,8 @@ Design name:unnamed:
             vpiParent: Net name:op_i
             vpiName: ciph_op_e
             vpiFullName: work@cipher_core.op_i.ciph_op_e
-            vpiPrefix: HierPath
-            vpiActual: UnsupportedTypespec name:ciph_op_e
+            vpiPrefix: HierPath name:aes_pkg::ciph_op_e
+            vpiActual: TypedefTypespec name:ciph_op_e
           vpiName: op_i
           vpiFullName: work@cipher_core.op_i
           vpiNetType: wire (1)
@@ -192,13 +192,14 @@ Design name:unnamed:
             vpiParent: Port name:op_i
             vpiName: ciph_op_e
             vpiFullName: work@cipher_core.op_i.ciph_op_e
-            vpiPrefix HierPath start:14:10 end:14:19:
+            vpiPrefix HierPath name:aes_pkg::ciph_op_e start:14:10 end:14:19:
               vpiParent: RefTypespec name:ciph_op_e
-              vpiFullName: work@cipher_core.op_i.ciph_op_e
-              vpiActual (2 items):
+              vpiName: aes_pkg::ciph_op_e
+              vpiFullName: work@cipher_core.op_i.ciph_op_e.aes_pkg::ciph_op_e
+              vpiPathElem (2 items):
                 ClassTypespec name:aes_pkg
                 UnsupportedTypespec name:ciph_op_e
-            vpiActual: UnsupportedTypespec name:ciph_op_e
+            vpiActual: TypedefTypespec name:ciph_op_e
       vpiRefInstance (1 items):
         RefInstance name:key_mix_columns start:17:15 end:17:30:
           vpiParent: Module name:work@cipher_core
@@ -220,6 +221,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: CIPH_INV
                 vpiFullName: work@cipher_core.key_mix_columns.CIPH_INV
+                vpiActual: EnumConst name:CIPH_INV
   vpiTypespec (2 items):
     ModuleTypespec name:work@mix_columns:
       vpiParent: Design name:unnamed
@@ -237,7 +239,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 

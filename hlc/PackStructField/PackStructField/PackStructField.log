@@ -143,11 +143,7 @@ n<$Source01/dut.sv> u<138> t<Top_level_rule> c<1> l<2:1> el<24:22>
         n<my_module> u<133> t<SIMPLE_IDENTIFIER> p<135> l<24:13> el<24:22>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@my_package".
-[ERR:CP0341] $Source01/dut.sv:2:1: Unmached label "work@my_package",
-             $Source01/dut.sv:14:14: closing label "my_package".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@my_module".
-[ERR:CP0341] $Source01/dut.sv:16:1: Unmached label "work@my_module",
-             $Source01/dut.sv:24:13: closing label "my_module".
 [WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "my_package".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@my_package".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@my_module".
@@ -286,7 +282,7 @@ Design name:unnamed:
             vpiParent: Variable name:x
             vpiName: my_struct
             vpiFullName: work@my_module.x.my_struct
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:my_package::my_struct
             vpiActual: UnsupportedTypespec name:my_struct
           vpiName: x
           vpiFullName: work@my_module.x
@@ -297,7 +293,7 @@ Design name:unnamed:
             vpiParent: Variable name:y
             vpiName: my_struct
             vpiFullName: work@my_module.y.my_struct
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:my_package::my_struct
             vpiActual: UnsupportedTypespec name:my_struct
           vpiName: y
           vpiFullName: work@my_module.y
@@ -345,10 +341,11 @@ Design name:unnamed:
             vpiParent: Port name:x
             vpiName: my_struct
             vpiFullName: work@my_module.x.my_struct
-            vpiPrefix HierPath start:17:12 end:17:24:
+            vpiPrefix HierPath name:my_package::my_struct start:17:12 end:17:24:
               vpiParent: RefTypespec name:my_struct
-              vpiFullName: work@my_module.x.my_struct
-              vpiActual (2 items):
+              vpiName: my_package::my_struct
+              vpiFullName: work@my_module.x.my_struct.my_package::my_struct
+              vpiPathElem (2 items):
                 ClassTypespec name:my_package
                 UnsupportedTypespec name:my_struct
             vpiActual: UnsupportedTypespec name:my_struct
@@ -364,10 +361,11 @@ Design name:unnamed:
             vpiParent: Port name:y
             vpiName: my_struct
             vpiFullName: work@my_module.y.my_struct
-            vpiPrefix HierPath start:18:12 end:18:24:
+            vpiPrefix HierPath name:my_package::my_struct start:18:12 end:18:24:
               vpiParent: RefTypespec name:my_struct
-              vpiFullName: work@my_module.y.my_struct
-              vpiActual (2 items):
+              vpiName: my_package::my_struct
+              vpiFullName: work@my_module.y.my_struct.my_package::my_struct
+              vpiPathElem (2 items):
                 ClassTypespec name:my_package
                 UnsupportedTypespec name:my_struct
             vpiActual: UnsupportedTypespec name:my_struct
@@ -383,7 +381,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: my_package::my_parameter.a
             vpiFullName: work@my_module.my_package::my_parameter.a
-            vpiActual (3 items):
+            vpiPathElem (3 items):
               ClassTypespec name:my_package
               RefObj name:my_parameter start:21:24 end:21:36:
                 vpiParent: HierPath name:my_package::my_parameter.a
@@ -404,7 +402,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: my_package::my_parameter.b
             vpiFullName: work@my_module.my_package::my_parameter.b
-            vpiActual (3 items):
+            vpiPathElem (3 items):
               ClassTypespec name:my_package
               RefObj name:my_parameter start:22:24 end:22:36:
                 vpiParent: HierPath name:my_package::my_parameter.b
@@ -428,7 +426,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 6
 [WARNING] : 3
 [   NOTE] : 0
 

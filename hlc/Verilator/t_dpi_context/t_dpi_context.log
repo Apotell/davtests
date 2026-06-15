@@ -564,7 +564,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: a.test1
                 vpiFullName: work@t.a.test1
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:a start:14:7 end:14:8:
                     vpiParent: HierPath name:a.test1
                     vpiName: a
@@ -578,7 +578,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: b.test1
                 vpiFullName: work@t.b.test1
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:b start:15:7 end:15:8:
                     vpiParent: HierPath name:b.test1
                     vpiName: b
@@ -592,7 +592,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: a.test2
                 vpiFullName: work@t.a.test2
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:a start:16:7 end:16:8:
                     vpiParent: HierPath name:a.test2
                     vpiName: a
@@ -606,7 +606,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: b.test2
                 vpiFullName: work@t.b.test2
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:b start:17:7 end:17:8:
                     vpiParent: HierPath name:b.test2
                     vpiName: b
@@ -881,45 +881,41 @@ Design name:unnamed:
             vpiParent: Task name:test2
             vpiName: test2
           vpiFullName: work@sub.test2
-          vpiStmt Begin:
+          vpiStmt IfStmt start:50:7 end:50:44:
             vpiParent: Task name:test2
-            vpiFullName: work@sub.test2
-            vpiStmt (1 items):
-              IfStmt start:50:7 end:50:44:
-                vpiParent: Begin
-                vpiCondition Operation start:50:11 end:50:36:
-                  vpiParent: IfStmt
-                  vpiOpType: not equal (15)
+            vpiCondition Operation start:50:11 end:50:36:
+              vpiParent: IfStmt
+              vpiOpType: not equal (15)
+              vpiOperand (2 items):
+                FuncCall name:dpic_restore start:50:11 end:50:25:
+                  vpiParent: Operation
+                  vpiName Identifier name:dpic_restore start:50:11 end:50:23:
+                    vpiParent: FuncCall name:dpic_restore
+                    vpiName: dpic_restore
+                Operation start:50:29 end:50:36:
+                  vpiParent: Operation
+                  vpiOpType: add (24)
                   vpiOperand (2 items):
-                    FuncCall name:dpic_restore start:50:11 end:50:25:
+                    Constant start:50:29 end:50:31:
                       vpiParent: Operation
-                      vpiName Identifier name:dpic_restore start:50:11 end:50:23:
-                        vpiParent: FuncCall name:dpic_restore
-                        vpiName: dpic_restore
-                    Operation start:50:29 end:50:36:
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@sub.test2
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "23"
+                      vpiValue: 23
+                    RefObj name:inst start:50:32 end:50:36:
                       vpiParent: Operation
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        Constant start:50:29 end:50:31:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@sub.test2
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "23"
-                          vpiValue: 23
-                        RefObj name:inst start:50:32 end:50:36:
-                          vpiParent: Operation
-                          vpiName: inst
-                          vpiFullName: work@sub.test2.inst
-                          vpiActual: Net name:inst
-                vpiStmt SysFuncCall name:$stop start:50:38 end:50:43:
-                  vpiParent: IfStmt
-                  vpiName Identifier name:$stop start:50:38 end:50:43:
-                    vpiParent: SysFuncCall name:$stop
-                    vpiName: "$stop"
+                      vpiName: inst
+                      vpiFullName: work@sub.test2.inst
+                      vpiActual: Net name:inst
+            vpiStmt SysFuncCall name:$stop start:50:38 end:50:43:
+              vpiParent: IfStmt
+              vpiName Identifier name:$stop start:50:38 end:50:43:
+                vpiParent: SysFuncCall name:$stop
+                vpiName: "$stop"
       vpiNet (3 items):
         Net name:inst start:25:27 end:25:31:
           vpiParent: Module name:work@sub
@@ -1086,7 +1082,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_dpi_context/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             139     139       0         0
+Others                             138     138       0         0
 ----------------------------------------------------------------
-                                   139     139       0         0
+                                   138     138       0         0
 ===================== END REDUCTION RESULT =====================
