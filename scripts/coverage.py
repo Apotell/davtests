@@ -229,9 +229,9 @@ def _run_one(args):
     try:
       print( 'Environment:')
       print(f'      test-name: {test_name}')
-      print(f'   test-dirpath: {test_dirpath}')
-      print(f'  uhdm-filepath: {uhdm_filepath}')
-      print(f'mounts-filepath: {mounts_filepath}')
+      print(f'   test-dirpath: {test_dirpath.as_posix()}')
+      print(f'  uhdm-filepath: {uhdm_filepath.as_posix()}')
+      print(f'mounts-filepath: {mounts_filepath.as_posix()}')
       print()
 
       # Load mounted paths to resolve logical paths in binary

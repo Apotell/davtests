@@ -317,6 +317,7 @@ def _get_run_args(
     parts += ['-d', 'cache']
     if Path(test_id).name not in _blacklisted_dump_uhdm_tests:
       parts += ['-d', 'uhdm']
+    parts += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
     parts += ['-o', str(output_dirpath)]
 
     cmdline = ' '.join(['"' + part + '"' if '"' in part else part for part in parts if part])
@@ -347,67 +348,70 @@ def _run_surelog(
   max_cpu_time = 0
   max_vms_memory = 0
   max_rss_memory = 0
-  with surelog_log_filepath.open('wt') as surelog_log_strm:
-    surelog_start_dt = datetime.now()
-    try:
-      process = subprocess.Popen(
-          args,
-          stdout=surelog_log_strm,
-          stderr=subprocess.STDOUT,
-          cwd=dirpath)
+  surelog_start_dt = datetime.now()
+  try:
+    # Surelog writes hlc.log itself (spdlog) into the -o directory. We do NOT
+    # capture its stdout/stderr; they inherit the terminal/CI so the user sees
+    # the AST/UHDM dumps live, and there is no second writer to the log.
+    process = subprocess.Popen(args, cwd=dirpath)
 
-      step_dt = datetime.now()
-      while psutil.pid_exists(process.pid) and process.poll() == None:
-        cpu_time = 0
-        rss_memory = 0
-        vms_memory = 0
-        try:
-          pp = psutil.Process(process.pid)
+    step_dt = datetime.now()
+    while psutil.pid_exists(process.pid) and process.poll() == None:
+      cpu_time = 0
+      rss_memory = 0
+      vms_memory = 0
+      try:
+        pp = psutil.Process(process.pid)
 
-          descendants = list(pp.children(recursive=True))
-          descendants = [pp] + descendants
+        descendants = list(pp.children(recursive=True))
+        descendants = [pp] + descendants
 
-          for descendant in descendants:
-            try:
-              cpu_time += descendant.cpu_times().user
+        for descendant in descendants:
+          try:
+            cpu_time += descendant.cpu_times().user
 
-              mem_info = descendant.memory_info()
-              rss_memory += mem_info.rss
-              vms_memory += mem_info.vms
-            except (psutil.NoSuchProcess, psutil.AccessDenied):
-              # sometimes a subprocess descendant will have terminated between the time
-              # we obtain a list of descendants, and the time we actually poll this
-              # descendant's memory usage.
-              pass
+            mem_info = descendant.memory_info()
+            rss_memory += mem_info.rss
+            vms_memory += mem_info.vms
+          except (psutil.NoSuchProcess, psutil.AccessDenied):
+            # sometimes a subprocess descendant will have terminated between the time
+            # we obtain a list of descendants, and the time we actually poll this
+            # descendant's memory usage.
+            pass
 
-        except (psutil.NoSuchProcess, psutil.AccessDenied):
-          pass
+      except (psutil.NoSuchProcess, psutil.AccessDenied):
+        pass
 
-        max_cpu_time = max(max_cpu_time, cpu_time)
-        max_vms_memory = max(max_vms_memory, vms_memory)
-        max_rss_memory = max(max_rss_memory, rss_memory)
+      max_cpu_time = max(max_cpu_time, cpu_time)
+      max_vms_memory = max(max_vms_memory, vms_memory)
+      max_rss_memory = max(max_rss_memory, rss_memory)
 
-        if (datetime.now() - step_dt) > timedelta(seconds=5):
-          log(f"... still working on {test_id} ...")
-          step_dt = datetime.now()
+      if (datetime.now() - step_dt) > timedelta(seconds=5):
+        log(f"... still working on {test_id} ...")
+        step_dt = datetime.now()
 
-        time.sleep(0.25)
+      time.sleep(0.25)
 
-      returncode = process.poll()
-      if returncode == 3221225477:
-        status = Status.SEGFLT
-      elif returncode and returncode < 0:
-        status = Status.FAIL
-
-      surelog_timedelta = datetime.now() - surelog_start_dt
-      print(f'Surelog terminated with exit code: {returncode} in {str(surelog_timedelta)}')
-    except:
+    returncode = process.poll()
+    if returncode == 3221225477:
+      status = Status.SEGFLT
+    elif returncode and returncode < 0:
       status = Status.FAIL
-      surelog_timedelta = datetime.now() - surelog_start_dt
-      print(f'Surelog threw an exception')
-      traceback.print_exc()
 
-    surelog_log_strm.flush()
+    surelog_timedelta = datetime.now() - surelog_start_dt
+    print(f'Surelog terminated with exit code: {returncode} in {str(surelog_timedelta)}')
+  except:
+    status = Status.FAIL
+    surelog_timedelta = datetime.now() - surelog_start_dt
+    print(f'Surelog threw an exception')
+    traceback.print_exc()
+
+  # Surelog writes its log as 'hlc.log' in the -o directory (its default name,
+  # now that -log_file is gone). Rename it to <name>.log so the rest of the
+  # harness (normalize, golden comparison, merge, extract, summarize) finds it.
+  hlc_log_filepath = output_dirpath / 'hlc.log'
+  if hlc_log_filepath.is_file():
+    hlc_log_filepath.replace(surelog_log_filepath)
 
   if status == Status.PASS and tool_log_filepath and tool_log_filepath.is_file():
     content = tool_log_filepath.open().read()
@@ -436,7 +440,7 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
   uhdm_src_filepath = test_dirpath / 'surelog.uhdm'
   uhdm_dst_filepath = test_dirpath / 'reduced.uhdm'
 
-  args = [reducer_filepath, uhdm_src_filepath, uhdm_dst_filepath]
+  args = [reducer_filepath.as_posix(), uhdm_src_filepath.as_posix(), uhdm_dst_filepath.as_posix()]
   if verbose:
     args.append('-v')
 
