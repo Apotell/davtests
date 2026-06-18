@@ -127,7 +127,6 @@ n<$Source01/class_member_test_58.sv> u<123> t<Top_level_rule> c<1> l<6:1> el<13:
                             n<> u<106> t<Bit_select> p<107> l<11:47> el<11:47>
             n<> u<117> t<ENDCLASS> p<118> l<13:1> el<13:9>
 AST_DEBUG_END
-[ERR:CP0347] $Source01/class_member_test_58.sv:1:1: Call to "BitSelect::setParent" failed.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/class_member_test_58.sv:8:9: Illegal implicit net "id:10, name:x".
 [ERR:EL0535] $Source01/class_member_test_58.sv:8:18: Illegal implicit net "id:11, name:y".
@@ -145,8 +144,10 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/class_member_test_58.sv:10:34: Illegal implicit net "id:29, name:x".
 [ERR:EL0535] $Source01/class_member_test_58.sv:11:9: Illegal implicit net "id:36, name:x".
 [ERR:EL0535] $Source01/class_member_test_58.sv:11:11: Illegal implicit net "id:37, name:z".
+[ERR:EL0535] $Source01/class_member_test_58.sv:11:17: Illegal implicit net "id:42, name:f".
 [ERR:EL0535] $Source01/class_member_test_58.sv:11:23: Illegal implicit net "id:43, name:g".
 [ERR:EL0535] $Source01/class_member_test_58.sv:11:32: Illegal implicit net "id:44, name:q".
+[ERR:EL0535] $Source01/class_member_test_58.sv:11:35: Illegal implicit net "id:49, name:r".
 [ERR:EL0535] $Source01/class_member_test_58.sv:11:41: Illegal implicit net "id:55, name:y".
 [ERR:EL0535] $Source01/class_member_test_58.sv:11:46: Illegal implicit net "id:56, name:x".
 ====== UHDM =======
@@ -207,7 +208,11 @@ Design name:unnamed:
                   vpiParent: ConstraintOrdering
                   vpiName: x.z
                   vpiFullName: work@myclass::solve_this::x.z
-                  vpiPathElem (1 items):
+                  vpiPathElem (2 items):
+                    RefObj name:x start:9:9 end:9:10:
+                      vpiParent: HierPath name:x.z
+                      vpiName: x
+                      vpiFullName: work@myclass::solve_this::x
                     RefObj name:z start:9:11 end:9:12:
                       vpiParent: HierPath name:x.z
                       vpiName: z
@@ -217,7 +222,11 @@ Design name:unnamed:
                   vpiParent: ConstraintOrdering
                   vpiName: y.x
                   vpiFullName: work@myclass::solve_this::y.x
-                  vpiPathElem (1 items):
+                  vpiPathElem (2 items):
+                    RefObj name:y start:9:20 end:9:21:
+                      vpiParent: HierPath name:y.x
+                      vpiName: y
+                      vpiFullName: work@myclass::solve_this::y
                     RefObj name:x start:9:22 end:9:23:
                       vpiParent: HierPath name:y.x
                       vpiName: x
@@ -229,7 +238,11 @@ Design name:unnamed:
                   vpiParent: ConstraintOrdering
                   vpiName: x.z
                   vpiFullName: work@myclass::solve_this::x.z
-                  vpiPathElem (1 items):
+                  vpiPathElem (2 items):
+                    RefObj name:x start:10:9 end:10:10:
+                      vpiParent: HierPath name:x.z
+                      vpiName: x
+                      vpiFullName: work@myclass::solve_this::x
                     RefObj name:z start:10:11 end:10:12:
                       vpiParent: HierPath name:x.z
                       vpiName: z
@@ -255,51 +268,113 @@ Design name:unnamed:
                   vpiParent: ConstraintOrdering
                   vpiName: y.x
                   vpiFullName: work@myclass::solve_this::y.x
-                  vpiPathElem (1 items):
+                  vpiPathElem (2 items):
+                    RefObj name:y start:10:32 end:10:33:
+                      vpiParent: HierPath name:y.x
+                      vpiName: y
+                      vpiFullName: work@myclass::solve_this::y
                     RefObj name:x start:10:34 end:10:35:
                       vpiParent: HierPath name:y.x
                       vpiName: x
                       vpiFullName: work@myclass::solve_this::x
             ConstraintOrdering start:11:3 end:11:48:
               vpiParent: Constraint name:solve_this
-              vpiSolveBefore (2 items):
-                HierPath name:x.z.[2] start:11:9 end:11:15:
+              vpiSolveBefore (3 items):
+                HierPath name:x.z[2] start:11:9 end:11:15:
                   vpiParent: ConstraintOrdering
-                  vpiName: x.z.[2]
-                  vpiFullName: work@myclass::solve_this::x.z.[2]
+                  vpiName: x.z[2]
+                  vpiFullName: work@myclass::solve_this::x.z[2]
                   vpiPathElem (2 items):
-                    RefObj name:z start:11:11 end:11:12:
-                      vpiParent: HierPath name:x.z.[2]
-                      vpiName: z
-                      vpiFullName: work@myclass::solve_this::z
-                    BitSelect name:[2] start:11:12 end:11:14:
-                      vpiParent: HierPath name:x.z.[2]
-                      vpiName: "[2]"
-                      vpiFullName: work@myclass::solve_this::x.z.[2]::[2]
+                    RefObj name:x start:11:9 end:11:10:
+                      vpiParent: HierPath name:x.z[2]
+                      vpiName: x
+                      vpiFullName: work@myclass::solve_this::x
+                    BitSelect name:z[2] start:11:11 end:11:14:
+                      vpiParent: HierPath name:x.z[2]
+                      vpiName: z[2]
+                      vpiFullName: work@myclass::solve_this::x.z[2]::z[2]
+                      vpiPrefix RefObj name:z start:11:11 end:11:12:
+                        vpiParent: BitSelect name:z[2]
+                        vpiName: z
+                        vpiFullName: work@myclass::solve_this::x.z[2]::z
                       vpiIndex Constant start:11:13 end:11:14:
-                        vpiParent: BitSelect name:[2]
+                        vpiParent: BitSelect name:z[2]
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@myclass::solve_this::x.z.[2]::[2]
+                          vpiFullName: work@myclass::solve_this::x.z[2]::z[2]
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "2"
                         vpiValue: 2
+                BitSelect name:f[1] start:11:17 end:11:20:
+                  vpiParent: ConstraintOrdering
+                  vpiName: f[1]
+                  vpiFullName: work@myclass::solve_this::f[1]
+                  vpiPrefix RefObj name:f start:11:17 end:11:18:
+                    vpiParent: BitSelect name:f[1]
+                    vpiName: f
+                    vpiFullName: work@myclass::solve_this::f
+                  vpiIndex Constant start:11:19 end:11:20:
+                    vpiParent: BitSelect name:f[1]
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@myclass::solve_this::f[1]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
                 RefObj name:g start:11:23 end:11:24:
                   vpiParent: ConstraintOrdering
                   vpiName: g
                   vpiFullName: work@myclass::solve_this::g
-              vpiSolveAfter (2 items):
+              vpiSolveAfter (3 items):
                 RefObj name:q start:11:32 end:11:33:
                   vpiParent: ConstraintOrdering
                   vpiName: q
                   vpiFullName: work@myclass::solve_this::q
+                BitSelect name:r[4] start:11:35 end:11:38:
+                  vpiParent: ConstraintOrdering
+                  vpiName: r[4]
+                  vpiFullName: work@myclass::solve_this::r[4]
+                  vpiPrefix RefObj name:r start:11:35 end:11:36:
+                    vpiParent: BitSelect name:r[4]
+                    vpiName: r
+                    vpiFullName: work@myclass::solve_this::r
+                  vpiIndex Constant start:11:37 end:11:38:
+                    vpiParent: BitSelect name:r[4]
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@myclass::solve_this::r[4]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "4"
+                    vpiValue: 4
                 HierPath name:y[3].x start:11:41 end:11:47:
                   vpiParent: ConstraintOrdering
                   vpiName: y[3].x
                   vpiFullName: work@myclass::solve_this::y[3].x
-                  vpiPathElem (1 items):
+                  vpiPathElem (2 items):
+                    BitSelect name:y[3] start:11:41 end:11:44:
+                      vpiParent: HierPath name:y[3].x
+                      vpiName: y[3]
+                      vpiFullName: work@myclass::solve_this::y[3].x::y[3]
+                      vpiPrefix RefObj name:y start:11:41 end:11:42:
+                        vpiParent: BitSelect name:y[3]
+                        vpiName: y
+                        vpiFullName: work@myclass::solve_this::y[3].x::y
+                      vpiIndex Constant start:11:43 end:11:44:
+                        vpiParent: BitSelect name:y[3]
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@myclass::solve_this::y[3].x::y[3]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "3"
+                        vpiValue: 3
                     RefObj name:x start:11:46 end:11:47:
                       vpiParent: HierPath name:y[3].x
                       vpiName: x
@@ -316,7 +391,7 @@ Design name:unnamed:
 
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 21
+[  ERROR] : 22
 [WARNING] : 0
 [   NOTE] : 0
 
@@ -358,7 +433,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/generic/member/class_member_test_58/su
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================
