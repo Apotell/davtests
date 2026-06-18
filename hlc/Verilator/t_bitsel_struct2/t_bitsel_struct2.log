@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:59:59
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_bitsel_struct2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_bitsel_struct2
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_bitsel_struct2.v".
+[INF:PA0201] Parsing source file "$Source01/t_bitsel_struct2.v".
+[SNT:PA0207] $Source01/t_bitsel_struct2.v:22:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   typedef struct packed {\n      logic [3:2] a;\n      logic [5:4][3:2] b;\n   } ab_t;\n   typedef ab_t [7:6] c_t;  // array of structs\n   typedef struct packed {\n      c_t [17:16] d;\n   } e_t;\n\n\n\n\n   initial begin\n      e_t e;\n      do if',
+      do if (($bits(ab_t)) !== (6)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_bitsel_struct2.v",0, ($bits(ab_t)), (6)); $stop; end while(0);;
+         ^-- $Source01/t_bitsel_struct2.v:22:9:.
+[SNT:PA0207] $Source01/t_bitsel_struct2.v:20:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_bitsel_struct2.v:20:3:.
 AST_DEBUG_BEGIN
 Count: 124
 LIB: work
@@ -127,12 +144,6 @@ n<$Source01/t_bitsel_struct2.v> u<123> t<Top_level_rule> c<1> l<6:1> el<44:10>
   n<//> u<121> t<LINE_COMMENT> p<123> s<122> l<30:7> el<30:9>
   n<//> u<122> t<LINE_COMMENT> p<123> l<40:7> el<40:9>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_bitsel_struct2.v:22:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   typedef struct packed {\n      logic [3:2] a;\n      logic [5:4][3:2] b;\n   } ab_t;\n   typedef ab_t [7:6] c_t;  // array of structs\n   typedef struct packed {\n      c_t [17:16] d;\n   } e_t;\n\n\n\n\n   initial begin\n      e_t e;\n      do if',
-      do if (($bits(ab_t)) !== (6)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_bitsel_struct2.v",0, ($bits(ab_t)), (6)); $stop; end while(0);;
-         ^-- $Source01/t_bitsel_struct2.v:22:9:.
-[SNT:PA0207] $Source01/t_bitsel_struct2.v:20:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_bitsel_struct2.v:20:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -529,12 +540,14 @@ Design name:unnamed:
         vpiFullName: e_t
         vpiActual: StructTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

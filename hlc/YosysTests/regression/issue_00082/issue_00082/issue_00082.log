@@ -1,4 +1,18 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:20
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm common.v issue_00082/top.v issue_00082/top_fault.v issue_00082/testbench.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/regression/issue_00082/issue_00082
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/common.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00082/top.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00082/top_fault.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00082/testbench.v".
+[INF:PA0201] Parsing source file "$Source01/common.v".
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
@@ -536,6 +550,7 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00082/top.v".
 AST_DEBUG_BEGIN
 Count: 25
 LIB: work
@@ -565,6 +580,10 @@ n<$Source01/issue_00082/top.v> u<24> t<Top_level_rule> c<1> l<1:1> el<4:1>
                 n<b> u<15> t<SIMPLE_IDENTIFIER> p<16> l<2:7> el<2:8>
         n<> u<20> t<ENDMODULE> p<21> l<3:1> el<3:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00082/top_fault.v".
+[SNT:PA0207] $Source01/issue_00082/top_fault.v:6: Syntax error: mismatched input 'endmodule' expecting {POUND_POUND_DELAY, POUND_DELAY, ATSTAR, AT_PARENS_STAR, ';', 'virtual', 'type', 'bind', 'const', 'static', 'local', 'super', '{', '->', 'if', 'foreach', 'automatic', 'localparam', 'parameter', 'import', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', 'var', 'void', '$', 'endtask', '++', '--', DOLLAR_UNIT, '(*', 'assert', 'assume', 'cover', 'expect', 'disable', '##', '#', 'begin', 'case', 'for', 'assign', 'deassign', 'force', 'release', 'fork', 'repeat', '@', 'return', 'break', 'continue', 'wait', 'wait_order', 'unique', 'unique0', 'priority', 'casez', 'casex', 'randcase', 'forever', 'while', 'do', 'restrict', 'let', ''', 'randsequence', 'this', DOLLAR_ROOT, 'randomize', 'sample', '->>', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, SURELOG_MACRO_NOT_DEFINED},
+endmodule
+^-- $Source01/issue_00082/top_fault.v:6:0:.
 AST_DEBUG_BEGIN
 Count: 51
 LIB: work
@@ -620,9 +639,7 @@ n<$Source01/issue_00082/top_fault.v> u<50> t<Top_level_rule> c<1> l<1:1> el<7:1>
                             n<b> u<35> t<SIMPLE_IDENTIFIER> p<36> l<4:8> el<4:9>
         n<> u<46> t<ENDMODULE> p<47> l<6:1> el<6:10>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/issue_00082/top_fault.v:6: Syntax error: mismatched input 'endmodule' expecting {POUND_POUND_DELAY, POUND_DELAY, ATSTAR, AT_PARENS_STAR, ';', 'virtual', 'type', 'bind', 'const', 'static', 'local', 'super', '{', '->', 'if', 'foreach', 'automatic', 'localparam', 'parameter', 'import', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', 'var', 'void', '$', 'endtask', '++', '--', DOLLAR_UNIT, '(*', 'assert', 'assume', 'cover', 'expect', 'disable', '##', '#', 'begin', 'case', 'for', 'assign', 'deassign', 'force', 'release', 'fork', 'repeat', '@', 'return', 'break', 'continue', 'wait', 'wait_order', 'unique', 'unique0', 'priority', 'casez', 'casex', 'randcase', 'forever', 'while', 'do', 'restrict', 'let', ''', 'randsequence', 'this', DOLLAR_ROOT, 'randomize', 'sample', '->>', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, SURELOG_MACRO_NOT_DEFINED},
-endmodule
-^-- $Source01/issue_00082/top_fault.v:6:0:.
+[INF:PA0201] Parsing source file "$Source01/issue_00082/testbench.v".
 AST_DEBUG_BEGIN
 Count: 139
 LIB: work
@@ -1923,12 +1940,14 @@ Design name:unnamed:
         vpiName: work@testbench
       vpiModule: Module name:work@testbench
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

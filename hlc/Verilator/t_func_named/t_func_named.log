@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:39
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_named.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_named
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_named.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_named.v".
+[SNT:PA0207] $Source01/t_func_named.v:15:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   function int f( int j = 1, int s = 0 );\n      return (j<<16) | s;\n   endfunction\n\n\n\n   initial begin\n      do if',
+      do if ((f(.j(2), .s(1))	) !== (32'h2_0001 )) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",0, (f(.j(2), .s(1))	), (32'h2_0001 )); $stop; end while(0);;
+         ^-- $Source01/t_func_named.v:15:9:.
+[SNT:PA0207] $Source01/t_func_named.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_func_named.v:14:3:.
 AST_DEBUG_BEGIN
 Count: 74
 LIB: work
@@ -77,12 +94,6 @@ n<$Source01/t_func_named.v> u<73> t<Top_level_rule> c<1> l<6:1> el<28:10>
                               n<s> u<55> t<SIMPLE_IDENTIFIER> p<56> l<9:24> el<9:25>
               n<> u<66> t<ENDFUNCTION> p<67> l<10:4> el<10:15>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_func_named.v:15:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   function int f( int j = 1, int s = 0 );\n      return (j<<16) | s;\n   endfunction\n\n\n\n   initial begin\n      do if',
-      do if ((f(.j(2), .s(1))	) !== (32'h2_0001 )) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",0, (f(.j(2), .s(1))	), (32'h2_0001 )); $stop; end while(0);;
-         ^-- $Source01/t_func_named.v:15:9:.
-[SNT:PA0207] $Source01/t_func_named.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_func_named.v:14:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -293,12 +304,14 @@ Design name:unnamed:
         vpiFullName: f
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:57
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_param_avec.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_param_avec
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_param_avec.v".
+[INF:PA0201] Parsing source file "$Source01/t_param_avec.v".
+[SNT:PA0207] $Source01/t_param_avec.v:35:9: Syntax error: no viable alternative at input 'module sub ();\n   function integer get_element;\n      input integer index;\n      input integer array_arg[7:0];\n      get_element = array_arg[index];\n   endfunction\n\n   parameter integer IDX = 5;\n   parameter integer CHK = 5;\n   localparam integer array[0:7] = '{10, 11, 12, 13, 14, 15, 16, 17};\n   localparam element1 = array[IDX];\n   localparam elementf = get_element(IDX, array);\n   initial begin\n      do if',
+      do if ((element1) !== (CHK)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_param_avec.v",0, (element1), (CHK)); $stop; end while(0);;
+         ^-- $Source01/t_param_avec.v:35:9:.
+[SNT:PA0207] $Source01/t_param_avec.v:34:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_param_avec.v:34:3:.
 AST_DEBUG_BEGIN
 Count: 373
 LIB: work
@@ -376,12 +393,6 @@ n<$Source01/t_param_avec.v> u<372> t<Top_level_rule> c<1> l<8:1> el<38:10>
                                   n<> u<355> t<Primary_literal> p<356> c<354> l<33:43> el<33:48>
                                     n<array> u<354> t<SIMPLE_IDENTIFIER> p<355> l<33:43> el<33:48>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_param_avec.v:35:9: Syntax error: no viable alternative at input 'module sub ();\n   function integer get_element;\n      input integer index;\n      input integer array_arg[7:0];\n      get_element = array_arg[index];\n   endfunction\n\n   parameter integer IDX = 5;\n   parameter integer CHK = 5;\n   localparam integer array[0:7] = '{10, 11, 12, 13, 14, 15, 16, 17};\n   localparam element1 = array[IDX];\n   localparam elementf = get_element(IDX, array);\n   initial begin\n      do if',
-      do if ((element1) !== (CHK)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_param_avec.v",0, (element1), (CHK)); $stop; end while(0);;
-         ^-- $Source01/t_param_avec.v:35:9:.
-[SNT:PA0207] $Source01/t_param_avec.v:34:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_param_avec.v:34:3:.
 [INF:CP0303] $Source01/t_param_avec.v:8:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
@@ -1020,12 +1031,14 @@ Design name:unnamed:
             vpiFullName: array
             vpiActual: Parameter name:array
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

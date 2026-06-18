@@ -1,4 +1,17 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:23
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm common.v issue_00095/top.v issue_00095/testbench.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/regression/issue_00095/issue_00095
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/common.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00095/top.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00095/testbench.v".
+[INF:PA0201] Parsing source file "$Source01/common.v".
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
@@ -536,6 +549,16 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00095/top.v".
+[SNT:PA0207] $Source01/issue_00095/top.v:1:21: Syntax error: missing ';' at '=',
+module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
+                     ^-- $Source01/issue_00095/top.v:1:21:.
+[SNT:PA0207] $Source01/issue_00095/top.v:1:22: Syntax error: mismatched input '0' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
+                      ^-- $Source01/issue_00095/top.v:1:22:.
+[SNT:PA0207] $Source01/issue_00095/top.v:1:61: Syntax error: extraneous input '#0' expecting ';',
+module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
+                                                             ^-- $Source01/issue_00095/top.v:1:61:.
 AST_DEBUG_BEGIN
 Count: 91
 LIB: work
@@ -631,15 +654,7 @@ n<$Source01/issue_00095/top.v> u<90> t<Top_level_rule> c<1> l<1:1> el<2:1>
                             n<c> u<75> t<SIMPLE_IDENTIFIER> p<76> l<1:61> el<1:62>
         n<> u<86> t<ENDMODULE> p<87> l<1:65> el<1:74>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/issue_00095/top.v:1:21: Syntax error: missing ';' at '=',
-module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
-                     ^-- $Source01/issue_00095/top.v:1:21:.
-[SNT:PA0207] $Source01/issue_00095/top.v:1:22: Syntax error: mismatched input '0' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
-                      ^-- $Source01/issue_00095/top.v:1:22:.
-[SNT:PA0207] $Source01/issue_00095/top.v:1:61: Syntax error: extraneous input '#0' expecting ';',
-module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
-                                                             ^-- $Source01/issue_00095/top.v:1:61:.
+[INF:PA0201] Parsing source file "$Source01/issue_00095/testbench.v".
 AST_DEBUG_BEGIN
 Count: 139
 LIB: work
@@ -1916,12 +1931,14 @@ Design name:unnamed:
         vpiName: work@testbench
       vpiModule: Module name:work@testbench
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
 [  ERROR] : 3
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

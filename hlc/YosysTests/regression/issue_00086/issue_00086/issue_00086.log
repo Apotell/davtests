@@ -1,4 +1,18 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:21
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm common.v issue_00086/top.v issue_00086/top_fault.v issue_00086/testbench.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/regression/issue_00086/issue_00086
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/common.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00086/top.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00086/top_fault.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00086/testbench.v".
+[INF:PA0201] Parsing source file "$Source01/common.v".
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
@@ -536,6 +550,7 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00086/top.v".
 AST_DEBUG_BEGIN
 Count: 54
 LIB: work
@@ -594,6 +609,10 @@ n<$Source01/issue_00086/top.v> u<53> t<Top_level_rule> c<1> l<1:1> el<7:1>
                             n<b> u<38> t<SIMPLE_IDENTIFIER> p<39> l<5:12> el<5:13>
         n<> u<49> t<ENDMODULE> p<50> l<6:1> el<6:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00086/top_fault.v".
+[SNT:PA0207] $Source01/issue_00086/top_fault.v:3:11: Syntax error: extraneous input ''H0' expecting ';',
+reg N=0.0/0'H0;
+           ^-- $Source01/issue_00086/top_fault.v:3:11:.
 AST_DEBUG_BEGIN
 Count: 48
 LIB: work
@@ -646,9 +665,7 @@ n<$Source01/issue_00086/top_fault.v> u<47> t<Top_level_rule> c<1> l<1:1> el<6:1>
                                     n<0> u<27> t<INTEGRAL_NUMBER> p<28> l<3:11> el<3:12>
         n<> u<43> t<ENDMODULE> p<44> l<4:1> el<4:10>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/issue_00086/top_fault.v:3:11: Syntax error: extraneous input ''H0' expecting ';',
-reg N=0.0/0'H0;
-           ^-- $Source01/issue_00086/top_fault.v:3:11:.
+[INF:PA0201] Parsing source file "$Source01/issue_00086/testbench.v".
 AST_DEBUG_BEGIN
 Count: 158
 LIB: work
@@ -2031,12 +2048,14 @@ Design name:unnamed:
         vpiName: work@testbench
       vpiModule: Module name:work@testbench
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

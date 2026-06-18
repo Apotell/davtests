@@ -1,5 +1,23 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:59:55
+COMMAND: -wd ../../../../tests/YosysTestSuite/asicworld -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm code_hdl_models_arbiter_tb.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/asicworld/code_hdl_models_arbiter_tb
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/code_hdl_models_arbiter_tb.v".
 [ERR:PP0102] $Source01/code_hdl_models_arbiter_tb.v:22:17: Unknown macro "outfile".
+[INF:PA0201] Parsing source file "$Source01/code_hdl_models_arbiter_tb.v".
+[SNT:PA0207] $Source01/code_hdl_models_arbiter_tb.v:22:16: Syntax error: no viable alternative at input 'module testbench ();\n\nreg             clk = 0;\nreg             rst = 1;\nreg             req3 = 0;\nreg             req2 = 0;\nreg             req1 = 0;\nreg             req0 = 0;\nwire            gnt3;   \nwire            gnt2;   \nwire            gnt1;   \nwire            gnt0;  \n\n// Clock generator\nalways #1 clk = ~clk;\ninteger file;\n\nalways @(posedge clk)\n  $fdisplay(file, "%b", {gnt3, gnt2, gnt1, gnt0});\n\ninitial begin\n  file = $fopen(SURELOG_MACRO_NOT_DEFINED:outfile!!!',
+  file = $fopen(SURELOG_MACRO_NOT_DEFINED:outfile!!! );
+                ^-- $Source01/code_hdl_models_arbiter_tb.v:22:16:.
+[SNT:PA0207] $Source01/code_hdl_models_arbiter_tb.v:15: Syntax error: mismatched input 'always' expecting <EOF>,
+always #1 clk = ~clk;
+^-- $Source01/code_hdl_models_arbiter_tb.v:15:0:.
+[WRN:PA0215] Invalid VObject location.
 AST_DEBUG_BEGIN
 Count: 139
 LIB: work
@@ -143,13 +161,6 @@ n<$Source01/code_hdl_models_arbiter_tb.v> u<138> t<Top_level_rule> c<1> l<1:1> e
   n<// Clock generator> u<136> t<LINE_COMMENT> p<138> s<137> l<14:1> el<14:19>
   n<// Connect the DUT> u<137> t<LINE_COMMENT> p<138> l<46:1> el<46:19>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/code_hdl_models_arbiter_tb.v:22:16: Syntax error: no viable alternative at input 'module testbench ();\n\nreg             clk = 0;\nreg             rst = 1;\nreg             req3 = 0;\nreg             req2 = 0;\nreg             req1 = 0;\nreg             req0 = 0;\nwire            gnt3;   \nwire            gnt2;   \nwire            gnt1;   \nwire            gnt0;  \n\n// Clock generator\nalways #1 clk = ~clk;\ninteger file;\n\nalways @(posedge clk)\n  $fdisplay(file, "%b", {gnt3, gnt2, gnt1, gnt0});\n\ninitial begin\n  file = $fopen(SURELOG_MACRO_NOT_DEFINED:outfile!!!',
-  file = $fopen(SURELOG_MACRO_NOT_DEFINED:outfile!!! );
-                ^-- $Source01/code_hdl_models_arbiter_tb.v:22:16:.
-[SNT:PA0207] $Source01/code_hdl_models_arbiter_tb.v:15: Syntax error: mismatched input 'always' expecting <EOF>,
-always #1 clk = ~clk;
-^-- $Source01/code_hdl_models_arbiter_tb.v:15:0:.
-[WRN:PA0215] Invalid VObject location.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -180,12 +191,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:01
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_pow3.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_pow3
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_pow3.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_pow3.v".
+[SNT:PA0207] $Source01/t_math_pow3.v:27:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   // IEEE says for ** the size is L(i).  Thus Icarus Verilog is wrong in sizing some of the below.\n\n   initial begin\n      // NC=67b6cfc1b29a21  VCS=c1b29a20(wrong)   IV=67b6cfc1b29a21  Verilator=67b6cfc1b29a21\n      $display("15 ** 14    = %0x  expect 67b6cfc1b29a21", 64'b1111 ** 64'b1110);\n      // NC=1   VCS=0  IV=0   Verilator=1 (wrong,fixed)\n      $display("15 **-4'sd2 = %0x expect 0 (per IEEE negative power)", ((-4'd1 ** -4'sd2)));\n      // NC=1   VCS=0  IV=67b6cfc1b29a21(wrong)  Verilator=1\n      $display("15 ** 14    = %0x expect 1 (LSB 4-bits of 67b6cfc1b29a21)", ((-4'd1 ** -4'd2)));\n      // NC=1   VCS=0  IV=67b6cfc1b29a21(wrong)  Verilator=1\n      $display("15 ** 14    = %0x expect 1 (LSB 4-bits of 67b6cfc1b29a21)", ((4'd15 ** 4'd14)));\n      // NC=8765432187654321  VCS=8765432187654000(wrong) IV=8765432187654321   Verilator=8765432187654321\n      $display("64'big ** 1 = %0x  expect %0x", 64'h8765432187654321 ** 1, 64'h8765432187654321);\n      $display("\n");\n\n      do if',
+      do if (((64'b1111 ** 64'b1110)) !== (	64'h67b6cfc1b29a21)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_pow3.v",0, ((64'b1111 ** 64'b1110)), (	64'h67b6cfc1b29a21)); fail=1; end while(0);
+         ^-- $Source01/t_math_pow3.v:27:9:.
+[SNT:PA0207] $Source01/t_math_pow3.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_math_pow3.v:14:3:.
 AST_DEBUG_BEGIN
 Count: 76
 LIB: work
@@ -79,12 +96,6 @@ n<$Source01/t_math_pow3.v> u<75> t<Top_level_rule> c<1> l<8:1> el<82:10>
   n<// 0  // NCVERILOG bug> u<73> t<LINE_COMMENT> p<75> s<74> l<74:45> el<74:67>
   n<// 0  // NCVERILOG bug> u<74> t<LINE_COMMENT> p<75> l<75:45> el<75:67>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_math_pow3.v:27:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   // IEEE says for ** the size is L(i).  Thus Icarus Verilog is wrong in sizing some of the below.\n\n   initial begin\n      // NC=67b6cfc1b29a21  VCS=c1b29a20(wrong)   IV=67b6cfc1b29a21  Verilator=67b6cfc1b29a21\n      $display("15 ** 14    = %0x  expect 67b6cfc1b29a21", 64'b1111 ** 64'b1110);\n      // NC=1   VCS=0  IV=0   Verilator=1 (wrong,fixed)\n      $display("15 **-4'sd2 = %0x expect 0 (per IEEE negative power)", ((-4'd1 ** -4'sd2)));\n      // NC=1   VCS=0  IV=67b6cfc1b29a21(wrong)  Verilator=1\n      $display("15 ** 14    = %0x expect 1 (LSB 4-bits of 67b6cfc1b29a21)", ((-4'd1 ** -4'd2)));\n      // NC=1   VCS=0  IV=67b6cfc1b29a21(wrong)  Verilator=1\n      $display("15 ** 14    = %0x expect 1 (LSB 4-bits of 67b6cfc1b29a21)", ((4'd15 ** 4'd14)));\n      // NC=8765432187654321  VCS=8765432187654000(wrong) IV=8765432187654321   Verilator=8765432187654321\n      $display("64'big ** 1 = %0x  expect %0x", 64'h8765432187654321 ** 1, 64'h8765432187654321);\n      $display("\n");\n\n      do if',
-      do if (((64'b1111 ** 64'b1110)) !== (	64'h67b6cfc1b29a21)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_pow3.v",0, ((64'b1111 ** 64'b1110)), (	64'h67b6cfc1b29a21)); fail=1; end while(0);
-         ^-- $Source01/t_math_pow3.v:27:9:.
-[SNT:PA0207] $Source01/t_math_pow3.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_math_pow3.v:14:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -633,12 +644,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiModule: Module
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

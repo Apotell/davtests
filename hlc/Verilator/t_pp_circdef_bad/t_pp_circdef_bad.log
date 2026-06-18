@@ -1,8 +1,32 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:59:35
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_pp_circdef_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_pp_circdef_bad
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_pp_circdef_bad.v".
 [ERR:PP0115] $Source01/t_pp_circdef_bad.v:9:9: Recursive macro definition for "SEL_NUM_BITS",
              $Source01/t_pp_circdef_bad.v:9:9: macro used in macro "SEL_NUM_BITS".
 [ERR:PP0102] $Source01/t_pp_circdef_bad.v:9:8: Unknown macro "SEL_NUM_BITS".
+[ERR:PP0115] $Source01/t_pp_circdef_bad.v:9:9: Recursive macro definition for "SEL_NUM_BITS",
+             $Source01/t_pp_circdef_bad.v:9:9: macro used in macro "SEL_NUM_BITS".
 [ERR:PP0102] $Source01/t_pp_circdef_bad.v:9:25: Unknown macro "SEL_NUM_BITS".
+[INF:PA0201] Parsing source file "$Source01/t_pp_circdef_bad.v".
+[SNT:PA0207] $Source01/t_pp_circdef_bad.v:13:18: Syntax error: no viable alternative at input 'logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!',
+typedef logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!  +: SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!! -1:0]  d_t;
+                  ^-- $Source01/t_pp_circdef_bad.v:13:18:.
+[SNT:PA0207] $Source01/t_pp_circdef_bad.v:13:18: Syntax error: mismatched input 'SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!' expecting {''b0', ''b1', ''B0', ''B1', ''0', ''1', ''x', ''X', ''z', ''Z', '1'b0', '1'b1', '1'bx', '1'bX', '1'B0', '1'B1', '1'Bx', '1'BX', INTEGRAL_NUMBER, REAL_NUMBER, QUOTED_STRING, '(', 'type', 'const', 'local', 'super', '{', 'string', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', '$', '+', '-', DOLLAR_UNIT, '(*', '!', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', '&', '|', '~|', '~&', '^~', ESCAPED_IDENTIFIER, '~', '^', '~^', SIMPLE_IDENTIFIER},
+typedef logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!  +: SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!! -1:0]  d_t;
+                  ^-- $Source01/t_pp_circdef_bad.v:13:18:.
+[SNT:PA0207] $Source01/t_pp_circdef_bad.v:13:61: Syntax error: mismatched input '+:' expecting <EOF>,
+typedef logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!  +: SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!! -1:0]  d_t;
+                                                             ^-- $Source01/t_pp_circdef_bad.v:13:61:.
+[ERR:PA0203] $Source01/t_pp_circdef_bad.v:13: Unknown macro "SEL_NUM_BITS".
+[WRN:PA0215] Invalid VObject location.
 AST_DEBUG_BEGIN
 Count: 34
 LIB: work
@@ -41,17 +65,6 @@ n<$Source01/t_pp_circdef_bad.v> u<33> t<Top_level_rule> c<1> l<13:1> el<13:40>
     n<> u<31> t<Description> p<32> c<30> l<9:22> el<9:63>
       n<> u<30> t<Surelog_macro_not_defined> p<31> l<9:22> el<9:63>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_pp_circdef_bad.v:13:18: Syntax error: no viable alternative at input 'logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!',
-typedef logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!  +: SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!! -1:0]  d_t;
-                  ^-- $Source01/t_pp_circdef_bad.v:13:18:.
-[SNT:PA0207] $Source01/t_pp_circdef_bad.v:13:18: Syntax error: mismatched input 'SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!' expecting {''b0', ''b1', ''B0', ''B1', ''0', ''1', ''x', ''X', ''z', ''Z', '1'b0', '1'b1', '1'bx', '1'bX', '1'B0', '1'B1', '1'Bx', '1'BX', INTEGRAL_NUMBER, REAL_NUMBER, QUOTED_STRING, '(', 'type', 'const', 'local', 'super', '{', 'string', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', '$', '+', '-', DOLLAR_UNIT, '(*', '!', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', '&', '|', '~|', '~&', '^~', ESCAPED_IDENTIFIER, '~', '^', '~^', SIMPLE_IDENTIFIER},
-typedef logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!  +: SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!! -1:0]  d_t;
-                  ^-- $Source01/t_pp_circdef_bad.v:13:18:.
-[SNT:PA0207] $Source01/t_pp_circdef_bad.v:13:61: Syntax error: mismatched input '+:' expecting <EOF>,
-typedef logic [12-SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!!  +: SURELOG_MACRO_NOT_DEFINED:SEL_NUM_BITS!!! -1:0]  d_t;
-                                                             ^-- $Source01/t_pp_circdef_bad.v:13:61:.
-[ERR:PA0203] $Source01/t_pp_circdef_bad.v:13: Unknown macro "SEL_NUM_BITS".
-[WRN:PA0215] Invalid VObject location.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -171,12 +184,14 @@ Design name:unnamed:
         vpiFullName: logic
         vpiActual: UnsupportedTypespec name:logic
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 4
+[  ERROR] : 5
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

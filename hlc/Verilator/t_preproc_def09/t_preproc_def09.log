@@ -1,12 +1,28 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:47
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_preproc_def09.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_preproc_def09
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_preproc_def09.v".
 [ERR:PP0115] $Source01/t_preproc_def09.v:50:9: Recursive macro definition for "DTOP",
              $Source01/t_preproc_def09.v:50:9: macro used in macro "DTOP".
 [ERR:PP0102] $Source01/t_preproc_def09.v:50:1: Unknown macro "DTOP".
+[ERR:PP0115] $Source01/t_preproc_def09.v:50:9: Recursive macro definition for "DTOP",
+             $Source01/t_preproc_def09.v:50:9: macro used in macro "DTOP".
 [ERR:PP0102] $Source01/t_preproc_def09.v:50:14: Unknown macro "DTOP".
 [WRN:PP0113] $Source01/t_preproc_def09.v:55:9: Unused macro argument "a="=".
 [ERR:PP0109] $Source01/t_preproc_def09.v:56: Macro instantiation omits argument 1 (a) for "MACROQUOTE",
 $Source01/t_preproc_def09.v:55:9: No default value for argument 1 (a) in macro definition.
 [INF:PP0112] $Source01/t_preproc_def09.v:60:20: Illegal space in between macro name "MACROPAREN" and open parenthesis.
+[INF:PA0201] Parsing source file "$Source01/t_preproc_def09.v".
+[SNT:PA0207] $Source01/t_preproc_def09.v:11: Syntax error: mismatched input ''' expecting <EOF>,
+'initial $display("start", "msg1"  , "msg2" , "end");'
+^-- $Source01/t_preproc_def09.v:11:0:.
 AST_DEBUG_BEGIN
 Count: 19
 LIB: work
@@ -30,9 +46,6 @@ n<$Source01/t_preproc_def09.v> u<18> t<Top_level_rule> c<1> l<11:1> el<71:17>
   n<// Also check our line counting doesn't go bad> u<16> t<LINE_COMMENT> p<18> s<17> l<59:1> el<59:47>
   n<//======================================================================> u<17> t<LINE_COMMENT> p<18> l<73:1> el<73:73>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_preproc_def09.v:11: Syntax error: mismatched input ''' expecting <EOF>,
-'initial $display("start", "msg1"  , "msg2" , "end");'
-^-- $Source01/t_preproc_def09.v:11:0:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -300,12 +313,14 @@ Design name:unnamed:
           vpiSourceEndColumn: 7
       vpiDefNetType: none (12)
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
-[  ERROR] : 4
+[  ERROR] : 5
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

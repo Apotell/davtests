@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:53
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_signed4.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_signed4
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_signed4.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_signed4.v".
+[SNT:PA0207] $Source01/t_math_signed4.v:26:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   localparam signed [3:0] bug737_p1 = 4'b1000;\n\n   wire [3:0] bug737_a = 4'b1010;\n   reg [5:0]  bug737_y;\n   reg signed [3:0] w4_s;\n   reg signed [4:0] w5_s;\n   reg [3:0] w4_u;\n   reg [4:0] w5_u;\n   reg signed [8:0] w9_s;\n   real      r;\n   initial begin\n      // verilator lint_off WIDTH\n      bug737_y = bug737_a + (bug737_p1 + 4'sb0);\n      do if',
+      do if ((bug737_y) !== (6'b010010)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed4.v",0, (bug737_y), (6'b010010)); fail='1; end while(0);  //bug737
+         ^-- $Source01/t_math_signed4.v:26:9:.
+[SNT:PA0207] $Source01/t_math_signed4.v:23:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_math_signed4.v:23:3:.
 AST_DEBUG_BEGIN
 Count: 245
 LIB: work
@@ -248,12 +265,6 @@ n<$Source01/t_math_signed4.v> u<244> t<Top_level_rule> c<1> l<9:1> el<140:10>
   n<// bug759> u<242> t<LINE_COMMENT> p<244> s<243> l<120:7> el<120:16>
   n<// Don't break concats....> u<243> t<LINE_COMMENT> p<244> l<125:7> el<125:33>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_math_signed4.v:26:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   localparam signed [3:0] bug737_p1 = 4'b1000;\n\n   wire [3:0] bug737_a = 4'b1010;\n   reg [5:0]  bug737_y;\n   reg signed [3:0] w4_s;\n   reg signed [4:0] w5_s;\n   reg [3:0] w4_u;\n   reg [4:0] w5_u;\n   reg signed [8:0] w9_s;\n   real      r;\n   initial begin\n      // verilator lint_off WIDTH\n      bug737_y = bug737_a + (bug737_p1 + 4'sb0);\n      do if',
-      do if ((bug737_y) !== (6'b010010)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed4.v",0, (bug737_y), (6'b010010)); fail='1; end while(0);  //bug737
-         ^-- $Source01/t_math_signed4.v:26:9:.
-[SNT:PA0207] $Source01/t_math_signed4.v:23:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_math_signed4.v:23:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -928,12 +939,14 @@ Design name:unnamed:
         vpiDecompile: "4'b1000"
         vpiValue: "1000"
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

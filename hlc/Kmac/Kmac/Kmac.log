@@ -1,4 +1,17 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:15
+COMMAND: -wd ../../../tests/Kmac -parse -d uhdm -d ast -nobuiltin -synth sha3_pkg.sv kmac_core.sv kmac.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Kmac/Kmac
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sha3_pkg.sv".
+[INF:PP0122] Preprocessing source file "$Source01/kmac_core.sv".
+[INF:PP0122] Preprocessing source file "$Source01/kmac.sv".
+[INF:PA0201] Parsing source file "$Source01/sha3_pkg.sv".
 AST_DEBUG_BEGIN
 Count: 210
 LIB: work
@@ -213,6 +226,7 @@ n<$Source01/sha3_pkg.sv> u<209> t<Top_level_rule> c<1> l<7:1> el<33:1>
         n<> u<205> t<ENDPACKAGE> p<206> s<204> l<32:1> el<32:11>
         n<sha3_pkg> u<204> t<SIMPLE_IDENTIFIER> p<206> l<32:14> el<32:22>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/kmac_core.sv".
 AST_DEBUG_BEGIN
 Count: 374
 LIB: work
@@ -591,6 +605,7 @@ n<$Source01/kmac_core.sv> u<373> t<Top_level_rule> c<1> l<1:1> el<37:1>
         n<// always_comb> u<368> t<LINE_COMMENT> p<370> s<369> l<34:9> el<34:23>
         n<> u<369> t<ENDMODULE> p<370> l<36:1> el<36:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/kmac.sv".
 AST_DEBUG_BEGIN
 Count: 84
 LIB: work
@@ -681,6 +696,11 @@ n<$Source01/kmac.sv> u<83> t<Top_level_rule> c<1> l<1:1> el<17:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/sha3_pkg.sv:7:1: Compile package "work@sha3_pkg".
 [INF:CP0303] $Source01/kmac_core.sv:1:1: Compile module "work@kmac_core".
+[WRN:CP0323] $Source01/kmac_core.sv:1:1: Multiply defined typedef "sha3_pkg".
+[WRN:CP0323] $Source01/kmac_core.sv:1:1: Multiply defined typedef "sha3_pkg".
+[WRN:CP0323] $Source01/kmac_core.sv:1:1: Multiply defined typedef "sha3_pkg".
+[WRN:CP0323] $Source01/kmac_core.sv:1:1: Multiply defined typedef "sha3_pkg".
+[WRN:CP0323] $Source01/kmac_core.sv:1:1: Multiply defined typedef "sha3_pkg".
 [WRN:CP0323] $Source01/kmac_core.sv:1:1: Multiply defined typedef "sha3_pkg".
 [INF:CP0303] $Source01/kmac.sv:1:1: Compile module "work@kmac".
 [WRN:PA0205] $Source01/sha3_pkg.sv:7:1: No timescale set for "work@sha3_pkg".
@@ -1810,12 +1830,14 @@ Design name:unnamed:
         vpiName: work@kmac
       vpiModule: Module name:work@kmac
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 9
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

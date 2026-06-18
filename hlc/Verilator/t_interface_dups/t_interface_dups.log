@@ -1,4 +1,15 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:48
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_interface_dups.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_interface_dups
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_interface_dups.v".
+[INF:PA0201] Parsing source file "$Source01/t_interface_dups.v".
 AST_DEBUG_BEGIN
 Count: 1826
 LIB: work
@@ -1832,6 +1843,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_dups.v:6:1: Compile module "work@t".
 [INF:CP0304] $Source01/t_interface_dups.v:87:1: Compile interface "work@dti".
 [INF:CP0303] $Source01/t_interface_dups.v:103:1: Compile module "work@Test".
+[WRN:CP0323] $Source01/t_interface_dups.v:103:1: Multiply defined typedef "work@dti".
+[WRN:CP0323] $Source01/t_interface_dups.v:103:1: Multiply defined typedef "work@dti".
 [WRN:CP0323] $Source01/t_interface_dups.v:103:1: Multiply defined typedef "work@dti".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_interface_dups.v:120:11: Illegal implicit net "id:613, name:W_DATA".
@@ -4918,12 +4931,14 @@ Design name:unnamed:
         vpiName: work@Test
       vpiModule: Module name:work@Test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 30
-[WARNING] : 1
+[WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

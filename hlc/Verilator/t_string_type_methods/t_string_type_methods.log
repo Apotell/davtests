@@ -1,4 +1,45 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:59:07
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_string_type_methods.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_string_type_methods
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_string_type_methods.v".
+[INF:PA0201] Parsing source file "$Source01/t_string_type_methods.v".
+[SNT:PA0207] $Source01/t_string_type_methods.v:22:19: Syntax error: no viable alternative at input 'do if',
+      s="1234"; do if ((s.len()) !== (4)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.len()), (4)); $stop; end while(0);;
+                   ^-- $Source01/t_string_type_methods.v:22:19:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:24:35: Syntax error: no viable alternative at input 'do if',
+      s="1234"; s.putc(2, "z"); do if ((s) !== ("12z4")) begin $write("%%Error: %s:%0d:  got='%s' exp='%s'\n", "$Source01/t_string_type_methods.v",0, (s), ("12z4")); $stop; end while(0);;
+                                   ^-- $Source01/t_string_type_methods.v:24:35:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:25:19: Syntax error: no viable alternative at input 'do if',
+      s="1234"; do if ((s.getc(2)) !== ("3")) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.getc(2)), ("3")); $stop; end while(0);;
+                   ^-- $Source01/t_string_type_methods.v:25:19:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:26:19: Syntax error: no viable alternative at input 'do if',
+      s="abCD"; do if ((s.toupper()) !== ("ABCD")) begin $write("%%Error: %s:%0d:  got='%s' exp='%s'\n", "$Source01/t_string_type_methods.v",0, (s.toupper()), ("ABCD")); $stop; end while(0);;
+                   ^-- $Source01/t_string_type_methods.v:26:19:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:27:19: Syntax error: no viable alternative at input 'do if',
+      s="abCD"; do if ((s.tolower()) !== ("abcd")) begin $write("%%Error: %s:%0d:  got='%s' exp='%s'\n", "$Source01/t_string_type_methods.v",0, (s.tolower()), ("abcd")); $stop; end while(0);;
+                   ^-- $Source01/t_string_type_methods.v:27:19:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:34:18: Syntax error: no viable alternative at input 'do if',
+      s="101"; do if ((s.atoi()) !== ('d101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atoi()), ('d101)); $stop; end while(0);;
+                  ^-- $Source01/t_string_type_methods.v:34:18:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:35:18: Syntax error: no viable alternative at input 'do if',
+      s="101"; do if ((s.atohex()) !== ('h101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atohex()), ('h101)); $stop; end while(0);;
+                  ^-- $Source01/t_string_type_methods.v:35:18:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:36:18: Syntax error: no viable alternative at input 'do if',
+      s="101"; do if ((s.atooct()) !== ('o101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atooct()), ('o101)); $stop; end while(0);;
+                  ^-- $Source01/t_string_type_methods.v:36:18:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:37:18: Syntax error: no viable alternative at input 'do if',
+      s="101"; do if ((s.atobin()) !== ('b101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atobin()), ('b101)); $stop; end while(0);;
+                  ^-- $Source01/t_string_type_methods.v:37:18:.
+[SNT:PA0207] $Source01/t_string_type_methods.v:38:19: Syntax error: no viable alternative at input 'do if',
+      s="1.23"; do if ((s.atoreal()) !== (1.23)) begin $write("%%Error: %s:%0d:  got='%g' exp='%g'\n", "$Source01/t_string_type_methods.v",0, (s.atoreal()), (1.23)); $stop; end while(0);;
+                   ^-- $Source01/t_string_type_methods.v:38:19:.
 AST_DEBUG_BEGIN
 Count: 3675
 LIB: work
@@ -3678,36 +3719,6 @@ n<$Source01/t_string_type_methods.v> u<3674> t<Top_level_rule> c<1> l<10:1> el<1
                                   n<> u<3653> t<END> p<3654> l<116:7> el<116:10>
         n<> u<3670> t<ENDMODULE> p<3671> l<119:1> el<119:10>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_string_type_methods.v:22:19: Syntax error: no viable alternative at input 'do if',
-      s="1234"; do if ((s.len()) !== (4)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.len()), (4)); $stop; end while(0);;
-                   ^-- $Source01/t_string_type_methods.v:22:19:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:24:35: Syntax error: no viable alternative at input 'do if',
-      s="1234"; s.putc(2, "z"); do if ((s) !== ("12z4")) begin $write("%%Error: %s:%0d:  got='%s' exp='%s'\n", "$Source01/t_string_type_methods.v",0, (s), ("12z4")); $stop; end while(0);;
-                                   ^-- $Source01/t_string_type_methods.v:24:35:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:25:19: Syntax error: no viable alternative at input 'do if',
-      s="1234"; do if ((s.getc(2)) !== ("3")) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.getc(2)), ("3")); $stop; end while(0);;
-                   ^-- $Source01/t_string_type_methods.v:25:19:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:26:19: Syntax error: no viable alternative at input 'do if',
-      s="abCD"; do if ((s.toupper()) !== ("ABCD")) begin $write("%%Error: %s:%0d:  got='%s' exp='%s'\n", "$Source01/t_string_type_methods.v",0, (s.toupper()), ("ABCD")); $stop; end while(0);;
-                   ^-- $Source01/t_string_type_methods.v:26:19:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:27:19: Syntax error: no viable alternative at input 'do if',
-      s="abCD"; do if ((s.tolower()) !== ("abcd")) begin $write("%%Error: %s:%0d:  got='%s' exp='%s'\n", "$Source01/t_string_type_methods.v",0, (s.tolower()), ("abcd")); $stop; end while(0);;
-                   ^-- $Source01/t_string_type_methods.v:27:19:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:34:18: Syntax error: no viable alternative at input 'do if',
-      s="101"; do if ((s.atoi()) !== ('d101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atoi()), ('d101)); $stop; end while(0);;
-                  ^-- $Source01/t_string_type_methods.v:34:18:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:35:18: Syntax error: no viable alternative at input 'do if',
-      s="101"; do if ((s.atohex()) !== ('h101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atohex()), ('h101)); $stop; end while(0);;
-                  ^-- $Source01/t_string_type_methods.v:35:18:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:36:18: Syntax error: no viable alternative at input 'do if',
-      s="101"; do if ((s.atooct()) !== ('o101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atooct()), ('o101)); $stop; end while(0);;
-                  ^-- $Source01/t_string_type_methods.v:36:18:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:37:18: Syntax error: no viable alternative at input 'do if',
-      s="101"; do if ((s.atobin()) !== ('b101)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_string_type_methods.v",0, (s.atobin()), ('b101)); $stop; end while(0);;
-                  ^-- $Source01/t_string_type_methods.v:37:18:.
-[SNT:PA0207] $Source01/t_string_type_methods.v:38:19: Syntax error: no viable alternative at input 'do if',
-      s="1.23"; do if ((s.atoreal()) !== (1.23)) begin $write("%%Error: %s:%0d:  got='%g' exp='%g'\n", "$Source01/t_string_type_methods.v",0, (s.atoreal()), (1.23)); $stop; end while(0);;
-                   ^-- $Source01/t_string_type_methods.v:38:19:.
 [INF:CP0303] $Source01/t_string_type_methods.v:10:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
@@ -8720,12 +8731,14 @@ Design name:unnamed:
     RealTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 10
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

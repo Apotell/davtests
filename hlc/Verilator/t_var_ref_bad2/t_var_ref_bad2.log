@@ -1,4 +1,30 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:59:39
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_var_ref_bad2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_var_ref_bad2
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_var_ref_bad2.v".
+[INF:PA0201] Parsing source file "$Source01/t_var_ref_bad2.v".
+[SNT:PA0207] $Source01/t_var_ref_bad2.v:11:23: Syntax error: no viable alternative at input 'module t(/*AUTOARG*/);\n\n   task checkset(const ref',
+   task checkset(const ref int bad_const_set);
+                       ^-- $Source01/t_var_ref_bad2.v:11:23:.
+[SNT:PA0207] $Source01/t_var_ref_bad2.v:11:23: Syntax error: missing 'ref' at 'ref',
+   task checkset(const ref int bad_const_set);
+                       ^-- $Source01/t_var_ref_bad2.v:11:23:.
+[SNT:PA0207] $Source01/t_var_ref_bad2.v:11:27: Syntax error: no viable alternative at input 'int',
+   task checkset(const ref int bad_const_set);
+                           ^-- $Source01/t_var_ref_bad2.v:11:27:.
+[SNT:PA0207] $Source01/t_var_ref_bad2.v:15:22: Syntax error: no viable alternative at input 'int',
+   task checkset2(ref int int_ref);
+                      ^-- $Source01/t_var_ref_bad2.v:15:22:.
+[SNT:PA0207] $Source01/t_var_ref_bad2.v:18:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_var_ref_bad2.v:18:3:.
 AST_DEBUG_BEGIN
 Count: 67
 LIB: work
@@ -70,21 +96,6 @@ n<$Source01/t_var_ref_bad2.v> u<66> t<Top_level_rule> c<1> l<9:1> el<24:10>
               n<> u<58> t<ENDTASK> p<59> l<16:4> el<16:11>
   n<// Type mismatch> u<65> t<LINE_COMMENT> p<66> l<22:32> el<22:48>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_var_ref_bad2.v:11:23: Syntax error: no viable alternative at input 'module t(/*AUTOARG*/);\n\n   task checkset(const ref',
-   task checkset(const ref int bad_const_set);
-                       ^-- $Source01/t_var_ref_bad2.v:11:23:.
-[SNT:PA0207] $Source01/t_var_ref_bad2.v:11:23: Syntax error: missing 'ref' at 'ref',
-   task checkset(const ref int bad_const_set);
-                       ^-- $Source01/t_var_ref_bad2.v:11:23:.
-[SNT:PA0207] $Source01/t_var_ref_bad2.v:11:27: Syntax error: no viable alternative at input 'int',
-   task checkset(const ref int bad_const_set);
-                           ^-- $Source01/t_var_ref_bad2.v:11:27:.
-[SNT:PA0207] $Source01/t_var_ref_bad2.v:15:22: Syntax error: no viable alternative at input 'int',
-   task checkset2(ref int int_ref);
-                      ^-- $Source01/t_var_ref_bad2.v:15:22:.
-[SNT:PA0207] $Source01/t_var_ref_bad2.v:18:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_var_ref_bad2.v:18:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -173,12 +184,14 @@ Design name:unnamed:
             vpiFullName: checkset2.int_ref
             vpiActual: UnsupportedTypespec name:ref
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 5
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

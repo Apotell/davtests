@@ -1,4 +1,17 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:53
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm common.v issue_00096/top.v issue_00096/testbench.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/regression/issue_00096/issue_00096
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/common.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00096/top.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00096/testbench.v".
+[INF:PA0201] Parsing source file "$Source01/common.v".
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
@@ -536,6 +549,17 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00096/top.v".
+[SNT:PA0207] $Source01/issue_00096/top.v:2: Syntax error: no viable alternative at input 'module top(b);integer\ninout',
+inout b;reg c;assign&0=0;assign 0=0;always
+^-- $Source01/issue_00096/top.v:2:0:.
+[SNT:PA0207] $Source01/issue_00096/top.v:2: Syntax error: extraneous input 'inout' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+inout b;reg c;assign&0=0;assign 0=0;always
+^-- $Source01/issue_00096/top.v:2:0:.
+[SNT:PA0207] $Source01/issue_00096/top.v:2:14: Syntax error: mismatched input 'assign' expecting <EOF>,
+inout b;reg c;assign&0=0;assign 0=0;always
+              ^-- $Source01/issue_00096/top.v:2:14:.
+[WRN:PA0215] Invalid VObject location.
 AST_DEBUG_BEGIN
 Count: 43
 LIB: work
@@ -583,16 +607,7 @@ n<$Source01/issue_00096/top.v> u<42> t<Top_level_rule> c<1> l<1:1> el<5:21>
                 n<> u<34> t<Variable_decl_assignment> p<35> c<33> l<2:13> el<2:14>
                   n<c> u<33> t<SIMPLE_IDENTIFIER> p<34> l<2:13> el<2:14>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/issue_00096/top.v:2: Syntax error: no viable alternative at input 'module top(b);integer\ninout',
-inout b;reg c;assign&0=0;assign 0=0;always
-^-- $Source01/issue_00096/top.v:2:0:.
-[SNT:PA0207] $Source01/issue_00096/top.v:2: Syntax error: extraneous input 'inout' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-inout b;reg c;assign&0=0;assign 0=0;always
-^-- $Source01/issue_00096/top.v:2:0:.
-[SNT:PA0207] $Source01/issue_00096/top.v:2:14: Syntax error: mismatched input 'assign' expecting <EOF>,
-inout b;reg c;assign&0=0;assign 0=0;always
-              ^-- $Source01/issue_00096/top.v:2:14:.
-[WRN:PA0215] Invalid VObject location.
+[INF:PA0201] Parsing source file "$Source01/issue_00096/testbench.v".
 AST_DEBUG_BEGIN
 Count: 139
 LIB: work
@@ -1789,12 +1804,14 @@ Design name:unnamed:
         vpiName: work@testbench
       vpiModule: Module name:work@testbench
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

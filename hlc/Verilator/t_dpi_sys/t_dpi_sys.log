@@ -1,5 +1,23 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:22
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_dpi_sys.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_dpi_sys
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_dpi_sys.v".
 [ERR:PP0102] $Source01/t_dpi_sys.v:15:4: Unknown macro "error".
+[INF:PA0201] Parsing source file "$Source01/t_dpi_sys.v".
+[SNT:PA0207] $Source01/t_dpi_sys.v:15:39: Syntax error: no viable alternative at input 'module t ();\n\n\n   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."',
+   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
+                                       ^-- $Source01/t_dpi_sys.v:15:39:.
+[SNT:PA0207] $Source01/t_dpi_sys.v:15:39: Syntax error: mismatched input '"Only Verilator supports PLI-ish DPI calls."' expecting <EOF>,
+   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
+                                       ^-- $Source01/t_dpi_sys.v:15:39:.
+[ERR:PA0203] $Source01/t_dpi_sys.v:15: Unknown macro "error".
 AST_DEBUG_BEGIN
 Count: 60
 LIB: work
@@ -64,13 +82,6 @@ n<$Source01/t_dpi_sys.v> u<59> t<Top_level_rule> c<1> l<9:1> el<28:10>
     n<> u<57> t<Description> p<58> c<56> l<15:4> el<15:38>
       n<> u<56> t<Surelog_macro_not_defined> p<57> l<15:4> el<15:38>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_dpi_sys.v:15:39: Syntax error: no viable alternative at input 'module t ();\n\n\n   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."',
-   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
-                                       ^-- $Source01/t_dpi_sys.v:15:39:.
-[SNT:PA0207] $Source01/t_dpi_sys.v:15:39: Syntax error: mismatched input '"Only Verilator supports PLI-ish DPI calls."' expecting <EOF>,
-   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
-                                       ^-- $Source01/t_dpi_sys.v:15:39:.
-[ERR:PA0203] $Source01/t_dpi_sys.v:15: Unknown macro "error".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -142,12 +153,14 @@ Design name:unnamed:
         vpiFullName: "$dpii_func"
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

@@ -1,5 +1,22 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:41
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_signed5.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_signed5
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_signed5.v".
 [WRN:PP0113] $Source01/t_math_signed5.v:11:10: Unused macro argument "vs".
+[INF:PA0201] Parsing source file "$Source01/t_math_signed5.v".
+[SNT:PA0207] $Source01/t_math_signed5.v:50:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/\n   // Outputs\n   ow4_u\n   );\n\n   bit fail;\n\n   reg signed [3:0] w4_s;\n   reg signed [4:0] w5_s;\n   reg [2:0] \t    w3_u;\n   reg [3:0] \t    w4_u;\n   reg [4:0] \t    w5_u;\n   reg [5:0] \t    w6_u;\n   reg [15:0] \t    w16a_u;\n   reg [15:0] \t    w16_u;\n   reg [31:0] \t    w32_u;\n   real \t    r;\n\n   reg signed [4:0] bug754_a;\n\n   integer \t    i;\n\n   //verilator lint_off WIDTH\n   wire a = (5'b0 == (5'sb11111 >>> 3'd7));\n   wire b = (5'sb11111 == (5'sb11111 >>> 3'd7));\n   wire c = (1'b0+(5'sb11111 >>> 3'd7));\n   wire d = (1'sb0+(5'sb11111 >>> 3'd7));\n   wire e = (5'b0 == (5'sb11111 / 5'sd3));\n   wire f = (5'sb0 == (5'sb11111 / 5'sd3));\n   wire g = (5'b01010 == (5'b11111 / 5'sd3));\n   initial begin\n      // verilator lint_off STMTDLY\n      #1;\n\n\n\n      do if',
+      do if (({a, b, c, d, e, f, g}) !== (7'b1101011)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed5.v",0, ({a, b, c, d, e, f, g}), (7'b1101011)); fail='1; end while(0);
+         ^-- $Source01/t_math_signed5.v:50:9:.
+[SNT:PA0207] $Source01/t_math_signed5.v:44:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_math_signed5.v:44:3:.
 AST_DEBUG_BEGIN
 Count: 484
 LIB: work
@@ -488,12 +505,6 @@ n<$Source01/t_math_signed5.v> u<483> t<Top_level_rule> c<1> l<14:4> el<190:10>
   n<// bug775> u<481> t<LINE_COMMENT> p<483> s<482> l<186:4> el<186:13>
   n<// Must be consumed> u<482> t<LINE_COMMENT> p<483> l<187:29> el<187:48>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_math_signed5.v:50:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/\n   // Outputs\n   ow4_u\n   );\n\n   bit fail;\n\n   reg signed [3:0] w4_s;\n   reg signed [4:0] w5_s;\n   reg [2:0] \t    w3_u;\n   reg [3:0] \t    w4_u;\n   reg [4:0] \t    w5_u;\n   reg [5:0] \t    w6_u;\n   reg [15:0] \t    w16a_u;\n   reg [15:0] \t    w16_u;\n   reg [31:0] \t    w32_u;\n   real \t    r;\n\n   reg signed [4:0] bug754_a;\n\n   integer \t    i;\n\n   //verilator lint_off WIDTH\n   wire a = (5'b0 == (5'sb11111 >>> 3'd7));\n   wire b = (5'sb11111 == (5'sb11111 >>> 3'd7));\n   wire c = (1'b0+(5'sb11111 >>> 3'd7));\n   wire d = (1'sb0+(5'sb11111 >>> 3'd7));\n   wire e = (5'b0 == (5'sb11111 / 5'sd3));\n   wire f = (5'sb0 == (5'sb11111 / 5'sd3));\n   wire g = (5'b01010 == (5'b11111 / 5'sd3));\n   initial begin\n      // verilator lint_off STMTDLY\n      #1;\n\n\n\n      do if',
-      do if (({a, b, c, d, e, f, g}) !== (7'b1101011)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed5.v",0, ({a, b, c, d, e, f, g}), (7'b1101011)); fail='1; end while(0);
-         ^-- $Source01/t_math_signed5.v:50:9:.
-[SNT:PA0207] $Source01/t_math_signed5.v:44:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_math_signed5.v:44:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -1259,12 +1270,14 @@ Design name:unnamed:
     BitTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

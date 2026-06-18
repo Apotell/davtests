@@ -1,4 +1,24 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:46
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_var_ref_bad3.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_var_ref_bad3
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_var_ref_bad3.v".
+[INF:PA0201] Parsing source file "$Source01/t_var_ref_bad3.v".
+[SNT:PA0207] $Source01/t_var_ref_bad3.v:9:13: Syntax error: no viable alternative at input 'module t(ref int',
+module t(ref int bad_primary_ref
+             ^-- $Source01/t_var_ref_bad3.v:9:13:.
+[SNT:PA0207] $Source01/t_var_ref_bad3.v:10:20: Syntax error: extraneous input ')' expecting ';',
+         /*AUTOARG*/);
+                    ^-- $Source01/t_var_ref_bad3.v:10:20:.
+[SNT:PA0207] $Source01/t_var_ref_bad3.v:11: Syntax error: extraneous input 'endmodule' expecting <EOF>,
+endmodule
+^-- $Source01/t_var_ref_bad3.v:11:0:.
 AST_DEBUG_BEGIN
 Count: 37
 LIB: work
@@ -40,15 +60,6 @@ n<$Source01/t_var_ref_bad3.v> u<36> t<Top_level_rule> c<1> l<9:1> el<11:10>
                   n<bad_primary_ref> u<26> t<SIMPLE_IDENTIFIER> p<27> l<9:18> el<9:33>
               n</*AUTOARG*/> u<29> t<BLOCK_COMMENT> p<30> l<9:18> el<9:33>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_var_ref_bad3.v:9:13: Syntax error: no viable alternative at input 'module t(ref int',
-module t(ref int bad_primary_ref
-             ^-- $Source01/t_var_ref_bad3.v:9:13:.
-[SNT:PA0207] $Source01/t_var_ref_bad3.v:10:20: Syntax error: extraneous input ')' expecting ';',
-         /*AUTOARG*/);
-                    ^-- $Source01/t_var_ref_bad3.v:10:20:.
-[SNT:PA0207] $Source01/t_var_ref_bad3.v:11: Syntax error: extraneous input 'endmodule' expecting <EOF>,
-endmodule
-^-- $Source01/t_var_ref_bad3.v:11:0:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -77,12 +88,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

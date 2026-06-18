@@ -1,4 +1,18 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:18
+COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm common.v issue_00081/top.v issue_00081/top_fault.v issue_00081/testbench.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/regression/issue_00081/issue_00081
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/common.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00081/top.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00081/top_fault.v".
+[INF:PP0122] Preprocessing source file "$Source01/issue_00081/testbench.v".
+[INF:PA0201] Parsing source file "$Source01/common.v".
 AST_DEBUG_BEGIN
 Count: 533
 LIB: work
@@ -536,6 +550,7 @@ n<$Source01/common.v> u<532> t<Top_level_rule> c<1> l<1:1> el<60:1>
                               n<> u<516> t<END> p<517> l<58:5> el<58:8>
         n<> u<528> t<ENDMODULE> p<529> l<59:1> el<59:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00081/top.v".
 AST_DEBUG_BEGIN
 Count: 54
 LIB: work
@@ -594,6 +609,10 @@ n<$Source01/issue_00081/top.v> u<53> t<Top_level_rule> c<1> l<1:1> el<7:1>
                             n<b> u<38> t<SIMPLE_IDENTIFIER> p<39> l<5:12> el<5:13>
         n<> u<49> t<ENDMODULE> p<50> l<6:1> el<6:10>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/issue_00081/top_fault.v".
+[SNT:PA0207] $Source01/issue_00081/top_fault.v:18:17: Syntax error: mismatched input ''' expecting ';',
+    assign y0 = 1'b_ >= (-1 * -1.17);
+                 ^-- $Source01/issue_00081/top_fault.v:18:17:.
 AST_DEBUG_BEGIN
 Count: 406
 LIB: work
@@ -1004,9 +1023,7 @@ n<$Source01/issue_00081/top_fault.v> u<405> t<Top_level_rule> c<1> l<1:1> el<23:
                               n<'d0> u<388> t<INTEGRAL_NUMBER> p<389> l<21:26> el<21:29>
         n<> u<401> t<ENDMODULE> p<402> l<22:1> el<22:10>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/issue_00081/top_fault.v:18:17: Syntax error: mismatched input ''' expecting ';',
-    assign y0 = 1'b_ >= (-1 * -1.17);
-                 ^-- $Source01/issue_00081/top_fault.v:18:17:.
+[INF:PA0201] Parsing source file "$Source01/issue_00081/testbench.v".
 AST_DEBUG_BEGIN
 Count: 158
 LIB: work
@@ -3016,12 +3033,14 @@ Design name:unnamed:
         vpiName: work@testbench
       vpiModule: Module name:work@testbench
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

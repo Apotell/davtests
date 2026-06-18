@@ -1,5 +1,34 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:59:40
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_var_types.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_var_types
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_var_types.v".
 [WRN:PP0113] $Source01/t_var_types.v:182:9: Unused macro argument "zeroinit".
+[INF:PA0201] Parsing source file "$Source01/t_var_types.v".
+[SNT:PA0207] $Source01/t_var_types.v:32:13: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // IEEE: integer_atom_type\n   byte\t\td_byte;\n   shortint\td_shortint;\n   int\t\td_int;\n   longint\td_longint;\n   integer\td_integer;\n   time\t\td_time;\n   chandle\td_chandle;\n\n   // IEEE: integer_atom_type\n   bit\t\td_bit;\n   logic\td_logic;\n   reg\t\td_reg;\n\n   bit\t  [1:0]\td_bit2;\n   logic  [1:0]\td_logic2;\n   reg\t  [1:0]\td_reg2;\n\n   // IEEE: non_integer_type\n   //UNSUP shortreal\td_shortreal;\n   real\t\td_real;\n   realtime\td_realtime;\n\n   // Declarations using var\n   var byte \tv_b',
+   var byte 	v_b;
+             ^-- $Source01/t_var_types.v:32:13:.
+[SNT:PA0207] $Source01/t_var_types.v:32:13: Syntax error: no viable alternative at input 'var byte \tv_b',
+   var byte 	v_b;
+             ^-- $Source01/t_var_types.v:32:13:.
+[SNT:PA0207] $Source01/t_var_types.v:35:7: Syntax error: no viable alternative at input 'var signed',
+   var signed [2:0] v_bs;
+       ^-- $Source01/t_var_types.v:35:7:.
+[SNT:PA0207] $Source01/t_var_types.v:111:3: Syntax error: no viable alternative at input 'chandle \tf_chandle;\tchandle\t\tlv_chandle;\tf_chandle\t= lv_chandle;\tendfunction\n   // verilator lint_on WIDTH\n\n\n\n\n\n\n \n \n\n\n\n\n\n\n\n\n\n\n\n\n   initial',
+   initial begin
+   ^-- $Source01/t_var_types.v:111:3:.
+[SNT:PA0207] $Source01/t_var_types.v:89:63: Syntax error: no viable alternative at input 'f_chandle\t=',
+   function chandle 	f_chandle;	chandle		lv_chandle;	f_chandle	= lv_chandle;	endfunction
+                                                               ^-- $Source01/t_var_types.v:89:63:.
+[SNT:PA0207] $Source01/t_var_types.v:89:77: Syntax error: mismatched input 'endfunction' expecting <EOF>,
+   function chandle 	f_chandle;	chandle		lv_chandle;	f_chandle	= lv_chandle;	endfunction
+                                                                             ^-- $Source01/t_var_types.v:89:77:.
 AST_DEBUG_BEGIN
 Count: 1681
 LIB: work
@@ -1685,24 +1714,6 @@ n<$Source01/t_var_types.v> u<1680> t<Top_level_rule> c<1> l<6:1> el<221:10>
   n<// For unpacked types we don't want width warnings for unsized numbers that fit> u<1678> t<LINE_COMMENT> p<1680> s<1679> l<207:7> el<207:86>
   n<// Special check> u<1679> t<LINE_COMMENT> p<1680> l<214:7> el<214:23>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_var_types.v:32:13: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // IEEE: integer_atom_type\n   byte\t\td_byte;\n   shortint\td_shortint;\n   int\t\td_int;\n   longint\td_longint;\n   integer\td_integer;\n   time\t\td_time;\n   chandle\td_chandle;\n\n   // IEEE: integer_atom_type\n   bit\t\td_bit;\n   logic\td_logic;\n   reg\t\td_reg;\n\n   bit\t  [1:0]\td_bit2;\n   logic  [1:0]\td_logic2;\n   reg\t  [1:0]\td_reg2;\n\n   // IEEE: non_integer_type\n   //UNSUP shortreal\td_shortreal;\n   real\t\td_real;\n   realtime\td_realtime;\n\n   // Declarations using var\n   var byte \tv_b',
-   var byte 	v_b;
-             ^-- $Source01/t_var_types.v:32:13:.
-[SNT:PA0207] $Source01/t_var_types.v:32:13: Syntax error: no viable alternative at input 'var byte \tv_b',
-   var byte 	v_b;
-             ^-- $Source01/t_var_types.v:32:13:.
-[SNT:PA0207] $Source01/t_var_types.v:35:7: Syntax error: no viable alternative at input 'var signed',
-   var signed [2:0] v_bs;
-       ^-- $Source01/t_var_types.v:35:7:.
-[SNT:PA0207] $Source01/t_var_types.v:111:3: Syntax error: no viable alternative at input 'chandle \tf_chandle;\tchandle\t\tlv_chandle;\tf_chandle\t= lv_chandle;\tendfunction\n   // verilator lint_on WIDTH\n\n\n\n\n\n\n \n \n\n\n\n\n\n\n\n\n\n\n\n\n   initial',
-   initial begin
-   ^-- $Source01/t_var_types.v:111:3:.
-[SNT:PA0207] $Source01/t_var_types.v:89:63: Syntax error: no viable alternative at input 'f_chandle\t=',
-   function chandle 	f_chandle;	chandle		lv_chandle;	f_chandle	= lv_chandle;	endfunction
-                                                               ^-- $Source01/t_var_types.v:89:63:.
-[SNT:PA0207] $Source01/t_var_types.v:89:77: Syntax error: mismatched input 'endfunction' expecting <EOF>,
-   function chandle 	f_chandle;	chandle		lv_chandle;	f_chandle	= lv_chandle;	endfunction
-                                                                             ^-- $Source01/t_var_types.v:89:77:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -5576,12 +5587,14 @@ Design name:unnamed:
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 6
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:25
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_dpi_openfirst.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_dpi_openfirst
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_dpi_openfirst.v".
+[INF:PA0201] Parsing source file "$Source01/t_dpi_openfirst.v".
+[SNT:PA0207] $Source01/t_dpi_openfirst.v:31:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   int i_i [2:0];\n   int o_i [2:0];\n\n   import "DPI-C" function int dpii_failure();\n   import "DPI-C" function void dpii_open_i(input int i [], output int o []);\n\n   reg [95:0] crc;\n\n   initial begin\n      crc = 96'h8a10a572_5aef0c8d_d70a4497;\n\n      i_i[0] = crc[31:0];\n      i_i[1] = crc[63:32];\n      i_i[2] = crc[95:64];\n      dpii_open_i(i_i, o_i);\n      do if',
+      do if ((o_i[0]) !== (~i_i[0])) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_dpi_openfirst.v",0, (o_i[0]), (~i_i[0])); end while(0);
+         ^-- $Source01/t_dpi_openfirst.v:31:9:.
+[SNT:PA0207] $Source01/t_dpi_openfirst.v:24:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_dpi_openfirst.v:24:3:.
 AST_DEBUG_BEGIN
 Count: 126
 LIB: work
@@ -129,12 +146,6 @@ n<$Source01/t_dpi_openfirst.v> u<125> t<Top_level_rule> c<1> l<14:1> el<45:10>
                 n<> u<117> t<Variable_decl_assignment> p<118> c<116> l<22:15> el<22:18>
                   n<crc> u<116> t<SIMPLE_IDENTIFIER> p<117> l<22:15> el<22:18>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_dpi_openfirst.v:31:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   int i_i [2:0];\n   int o_i [2:0];\n\n   import "DPI-C" function int dpii_failure();\n   import "DPI-C" function void dpii_open_i(input int i [], output int o []);\n\n   reg [95:0] crc;\n\n   initial begin\n      crc = 96'h8a10a572_5aef0c8d_d70a4497;\n\n      i_i[0] = crc[31:0];\n      i_i[1] = crc[63:32];\n      i_i[2] = crc[95:64];\n      dpii_open_i(i_i, o_i);\n      do if',
-      do if ((o_i[0]) !== (~i_i[0])) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_dpi_openfirst.v",0, (o_i[0]), (~i_i[0])); end while(0);
-         ^-- $Source01/t_dpi_openfirst.v:31:9:.
-[SNT:PA0207] $Source01/t_dpi_openfirst.v:24:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_dpi_openfirst.v:24:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -336,12 +347,14 @@ Design name:unnamed:
         vpiFullName: dpii_open_i
         vpiActual: VoidTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

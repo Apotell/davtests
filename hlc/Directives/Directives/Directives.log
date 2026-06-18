@@ -1,4 +1,14 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:07
+COMMAND: -wd ../../../tests/Directives -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Directives/Directives
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [ERR:PP0124] $Source01/dut.sv:70: Illegal directive `elseif, correct directive is `elsif.
 [ERR:PP0124] $Source01/dut.sv:90: Illegal directive `elseif, correct directive is `elsif.
 [ERR:PP0124] $Source01/dut.sv:95: Illegal directive `elseif, correct directive is `elsif.
@@ -7,15 +17,27 @@
 [ERR:PP0102] $Source01/dut.sv:119:12: Unknown macro "RESET_ACTIVE_lOW".
 [ERR:PP0124] $Source01/dut.sv:125: Illegal directive `elseif, correct directive is `elsif.
 [ERR:PP0124] $Source01/dut.sv:129: Illegal directive `elseif, correct directive is `elsif.
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[SNT:PA0207] $Source01/dut.sv:119:11: Syntax error: no viable alternative at input '= SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!!',
+ int low = SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!! ; //declare variable low
+           ^-- $Source01/dut.sv:119:11:.
+[SNT:PA0207] $Source01/dut.sv:119:11: Syntax error: mismatched input 'SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!!' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+ int low = SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!! ; //declare variable low
+           ^-- $Source01/dut.sv:119:11:.
+[SNT:PA0207] $Source01/dut.sv:120:1: Syntax error: extraneous input 'end' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', SURELOG_MACRO_NOT_DEFINED},
+ end
+ ^-- $Source01/dut.sv:120:1:.
+[ERR:PA0203] $Source01/dut.sv:119: Unknown macro "RESET_ACTIVE_lOW".
+[WRN:PA0215] Invalid VObject location.
 AST_DEBUG_BEGIN
 Count: 120
 LIB: work
 FILE: $Source01/dut.sv
-INCL f<67>: $Source01/defines.svh
+INCL f<68>: $Source01/defines.svh
 n<$Source01/dut.sv> u<119> t<Top_level_rule> c<1> l<29:1> el<143:12>
   n<> u<1> t<Null_rule> p<119> s<2> l<29:1> el<29:1>
   n<// The lines between ifndef & define above should be stripped.> u<2> t<LINE_COMMENT> p<119> s<3> l<5:1> el<5:63>
-  n<// Include macros at global scope> u<3> t<LINE_COMMENT> p<119> s<4> f<67> l<8:3> el<7:36>
+  n<// Include macros at global scope> u<3> t<LINE_COMMENT> p<119> s<4> f<68> l<8:3> el<7:36>
   n<// Ifdefs shouldn't be indented but the content should be> u<4> t<LINE_COMMENT> p<119> s<5> l<9:1> el<9:58>
   n<// The lines between ifdef, define and endif below should be stripped> u<5> t<LINE_COMMENT> p<119> s<117> l<10:1> el<10:70>
   n<> u<117> t<Source_text> p<119> c<49> s<118> l<29:1> el<141:10>
@@ -103,10 +125,10 @@ n<$Source01/dut.sv> u<119> t<Top_level_rule> c<1> l<29:1> el<143:12>
                               n<> u<80> t<Variable_decl_assignment_list> p<81> c<79> l<118:6> el<118:31>
                                 n<> u<79> t<Variable_decl_assignment> p<80> c<74> l<118:6> el<118:31>
                                   n<high> u<74> t<SIMPLE_IDENTIFIER> p<79> s<78> l<118:6> el<118:10>
-                                  n<> u<78> t<Expression> p<79> c<77> f<67> l<4:27> el<4:28>
-                                    n<> u<77> t<Primary> p<78> c<76> f<67> l<4:27> el<4:28>
-                                      n<> u<76> t<Primary_literal> p<77> c<75> f<67> l<4:27> el<4:28>
-                                        n<1> u<75> t<INTEGRAL_NUMBER> p<76> f<67> l<4:27> el<4:28>
+                                  n<> u<78> t<Expression> p<79> c<77> f<68> l<4:27> el<4:28>
+                                    n<> u<77> t<Primary> p<78> c<76> f<68> l<4:27> el<4:28>
+                                      n<> u<76> t<Primary_literal> p<77> c<75> f<68> l<4:27> el<4:28>
+                                        n<1> u<75> t<INTEGRAL_NUMBER> p<76> f<68> l<4:27> el<4:28>
                         n<//declare variable high> u<84> t<LINE_COMMENT> p<93> s<92> l<118:33> el<125:56>
                         n<> u<92> t<Block_item_declaration> p<93> c<91> l<119:2> el<119:9>
                           n<> u<91> t<Data_declaration> p<92> c<90> l<119:2> el<119:9>
@@ -132,17 +154,6 @@ n<$Source01/dut.sv> u<119> t<Top_level_rule> c<1> l<29:1> el<143:12>
         n<> u<114> t<ENDMODULE> p<115> l<141:1> el<141:10>
   n<// DUT_SV> u<118> t<LINE_COMMENT> p<119> l<143:3> el<143:12>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/dut.sv:119:11: Syntax error: no viable alternative at input '= SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!!',
- int low = SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!! ; //declare variable low
-           ^-- $Source01/dut.sv:119:11:.
-[SNT:PA0207] $Source01/dut.sv:119:11: Syntax error: mismatched input 'SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!!' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
- int low = SURELOG_MACRO_NOT_DEFINED:RESET_ACTIVE_lOW!!! ; //declare variable low
-           ^-- $Source01/dut.sv:119:11:.
-[SNT:PA0207] $Source01/dut.sv:120:1: Syntax error: extraneous input 'end' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', SURELOG_MACRO_NOT_DEFINED},
- end
- ^-- $Source01/dut.sv:120:1:.
-[ERR:PA0203] $Source01/dut.sv:119: Unknown macro "RESET_ACTIVE_lOW".
-[WRN:PA0215] Invalid VObject location.
 [INF:CP0301] $Source01/dut.sv:29:1: Compile package "work@my_pkg".
 [INF:CP0303] $Source01/dut.sv:35:1: Compile module "work@top".
 [WRN:PA0205] $Source01/dut.sv:29:1: No timescale set for "work@my_pkg".
@@ -399,12 +410,14 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
 [  ERROR] : 9
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

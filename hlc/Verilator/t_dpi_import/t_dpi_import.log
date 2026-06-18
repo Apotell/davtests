@@ -1,4 +1,33 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:58:21
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_dpi_import.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_dpi_import
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_dpi_import.v".
+[INF:PA0201] Parsing source file "$Source01/t_dpi_import.v".
+[SNT:PA0207] $Source01/t_dpi_import.v:91:26: Syntax error: no viable alternative at input 'import "DPI-C" context task',
+   import "DPI-C" context task dpii_t_void_context ();
+                          ^-- $Source01/t_dpi_import.v:91:26:.
+[SNT:PA0207] $Source01/t_dpi_import.v:93:10: Syntax error: mismatched input '"DPI-C"' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+   import "DPI-C" task dpii_t_int (input int       i, output int       o);
+          ^-- $Source01/t_dpi_import.v:93:10:.
+[SNT:PA0207] $Source01/t_dpi_import.v:96:10: Syntax error: extraneous input '"DPI-C"' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
+          ^-- $Source01/t_dpi_import.v:96:10:.
+[SNT:PA0207] $Source01/t_dpi_import.v:96:30: Syntax error: mismatched input '=' expecting '::',
+   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
+                              ^-- $Source01/t_dpi_import.v:96:30:.
+[SNT:PA0207] $Source01/t_dpi_import.v:96:56: Syntax error: mismatched input '(' expecting ';',
+   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
+                                                        ^-- $Source01/t_dpi_import.v:96:56:.
+[SNT:PA0207] $Source01/t_dpi_import.v:96:68: Syntax error: extraneous input ')' expecting ';',
+   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
+                                                                    ^-- $Source01/t_dpi_import.v:96:68:.
 AST_DEBUG_BEGIN
 Count: 5026
 LIB: work
@@ -5029,24 +5058,6 @@ n<$Source01/t_dpi_import.v> u<5025> t<Top_level_rule> c<1> l<20:1> el<266:1>
                                 n<> u<5008> t<END> p<5009> l<263:4> el<263:7>
         n<> u<5021> t<ENDMODULE> p<5022> l<265:1> el<265:10>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_dpi_import.v:91:26: Syntax error: no viable alternative at input 'import "DPI-C" context task',
-   import "DPI-C" context task dpii_t_void_context ();
-                          ^-- $Source01/t_dpi_import.v:91:26:.
-[SNT:PA0207] $Source01/t_dpi_import.v:93:10: Syntax error: mismatched input '"DPI-C"' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-   import "DPI-C" task dpii_t_int (input int       i, output int       o);
-          ^-- $Source01/t_dpi_import.v:93:10:.
-[SNT:PA0207] $Source01/t_dpi_import.v:96:10: Syntax error: extraneous input '"DPI-C"' expecting {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
-          ^-- $Source01/t_dpi_import.v:96:10:.
-[SNT:PA0207] $Source01/t_dpi_import.v:96:30: Syntax error: mismatched input '=' expecting '::',
-   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
-                              ^-- $Source01/t_dpi_import.v:96:30:.
-[SNT:PA0207] $Source01/t_dpi_import.v:96:56: Syntax error: mismatched input '(' expecting ';',
-   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
-                                                        ^-- $Source01/t_dpi_import.v:96:56:.
-[SNT:PA0207] $Source01/t_dpi_import.v:96:68: Syntax error: extraneous input ')' expecting ';',
-   import "DPI-C" dpii_fa_bit =  function int oth_f_int1(input int i);
-                                                                    ^-- $Source01/t_dpi_import.v:96:68:.
 [INF:CP0303] $Source01/t_dpi_import.v:20:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_dpi_import.v:163:12: Illegal implicit net "id:1330, name:a".
@@ -11783,12 +11794,14 @@ Design name:unnamed:
     TimeTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 6
 [  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

@@ -1,4 +1,24 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:57:22
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_signed3.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_signed3
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_signed3.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_signed3.v".
+[SNT:PA0207] $Source01/t_math_signed3.v:42:14: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off WIDTH\n   wire [1:0]        bug729_au = ~0;\n   wire signed [1:0] bug729_as = ~0;\n   wire [2:0] \t     bug729_b = ~0;\n   // the $signed output is unsigned because the input is unsigned; the signedness does not change.\n   wire [0:0] \t     bug729_yuu = $signed(2'b11)  == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_ysu = $signed(2'sb11) == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_yus = $signed(2'b11)  == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_yss = $signed(2'sb11) == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zuu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zsu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zus = 2'sb11 == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zss = 2'sb11 == 3'sb111;  //1'b1\n\n   wire [3:0] \t     bug733_a = 4'b0010;\n   wire [3:0] \t     bug733_yu = $signed(|bug733_a); // 4'b1111 note | is always unsigned\n   wire signed [3:0] bug733_ys = $signed(|bug733_a); // 4'b1111\n\n   wire [3:0] \t     bug733_zu = $signed(2'b11);  // 4'b1111\n   wire signed [3:0] bug733_zs = $signed(2'sb11); // 4'b1111\n\n   // When RHS of assignment is fewer bits than lhs, RHS sign or zero extends based on RHS's sign\n\n   wire [3:0] \t     bug733_qu = 2'sb11;  // 4'b1111\n   wire signed [3:0] bug733_qs = 2'sb11; // 4'b1111\n   reg signed [32:0] bug349_s;\n   reg signed [32:0] bug349_u;\n\n   wire signed [1:0] sb11 = 2'sb11;\n\n   wire [3:0] \t     subout_u;\n   sub sub (.a(2'sb11), .z(subout_u));\n   initial do if',
+   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed3.v",0, (subout_u), (4'b1111)); $stop; end while(0);
+              ^-- $Source01/t_math_signed3.v:42:14:.
+[SNT:PA0207] $Source01/t_math_signed3.v:41:11: Syntax error: no viable alternative at input 'sub sub (',
+   sub sub (.a(2'sb11), .z(subout_u));
+           ^-- $Source01/t_math_signed3.v:41:11:.
+[SNT:PA0207] $Source01/t_math_signed3.v:42:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed3.v",0, (subout_u), (4'b1111)); $stop; end while(0);
+   ^-- $Source01/t_math_signed3.v:42:3:.
 AST_DEBUG_BEGIN
 Count: 680
 LIB: work
@@ -683,15 +703,6 @@ n<$Source01/t_math_signed3.v> u<679> t<Top_level_rule> c<1> l<8:1> el<100:10>
   n<// verilator lint_on WIDTH> u<677> t<LINE_COMMENT> p<679> s<678> l<50:7> el<50:33>
   n<// verilator lint_off WIDTH> u<678> t<LINE_COMMENT> p<679> l<70:7> el<70:34>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/t_math_signed3.v:42:14: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off WIDTH\n   wire [1:0]        bug729_au = ~0;\n   wire signed [1:0] bug729_as = ~0;\n   wire [2:0] \t     bug729_b = ~0;\n   // the $signed output is unsigned because the input is unsigned; the signedness does not change.\n   wire [0:0] \t     bug729_yuu = $signed(2'b11)  == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_ysu = $signed(2'sb11) == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_yus = $signed(2'b11)  == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_yss = $signed(2'sb11) == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zuu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zsu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zus = 2'sb11 == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zss = 2'sb11 == 3'sb111;  //1'b1\n\n   wire [3:0] \t     bug733_a = 4'b0010;\n   wire [3:0] \t     bug733_yu = $signed(|bug733_a); // 4'b1111 note | is always unsigned\n   wire signed [3:0] bug733_ys = $signed(|bug733_a); // 4'b1111\n\n   wire [3:0] \t     bug733_zu = $signed(2'b11);  // 4'b1111\n   wire signed [3:0] bug733_zs = $signed(2'sb11); // 4'b1111\n\n   // When RHS of assignment is fewer bits than lhs, RHS sign or zero extends based on RHS's sign\n\n   wire [3:0] \t     bug733_qu = 2'sb11;  // 4'b1111\n   wire signed [3:0] bug733_qs = 2'sb11; // 4'b1111\n   reg signed [32:0] bug349_s;\n   reg signed [32:0] bug349_u;\n\n   wire signed [1:0] sb11 = 2'sb11;\n\n   wire [3:0] \t     subout_u;\n   sub sub (.a(2'sb11), .z(subout_u));\n   initial do if',
-   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed3.v",0, (subout_u), (4'b1111)); $stop; end while(0);
-              ^-- $Source01/t_math_signed3.v:42:14:.
-[SNT:PA0207] $Source01/t_math_signed3.v:41:11: Syntax error: no viable alternative at input 'sub sub (',
-   sub sub (.a(2'sb11), .z(subout_u));
-           ^-- $Source01/t_math_signed3.v:41:11:.
-[SNT:PA0207] $Source01/t_math_signed3.v:42:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed3.v",0, (subout_u), (4'b1111)); $stop; end while(0);
-   ^-- $Source01/t_math_signed3.v:42:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -1511,12 +1522,14 @@ Design name:unnamed:
             vpiValue: 0
       vpiVector: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 

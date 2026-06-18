@@ -1,4 +1,21 @@
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+BUILT  : Jun 18 2026
+DATE   : 2026-06-18.18:56:55
+COMMAND: -wd ../../../../tests/Google/chapter-5 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 5.7.1--integers-signed-illegal.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-5/5.7.1--integers-signed-illegal
 [INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/5.7.1--integers-signed-illegal.sv".
+[INF:PA0201] Parsing source file "$Source01/5.7.1--integers-signed-illegal.sv".
+[SNT:PA0207] $Source01/5.7.1--integers-signed-illegal.sv:20:10: Syntax error: no viable alternative at input 'module top();\n  logic  [7:0] a;\n\n  initial begin\n    a = 8'd',
+    a = 8'd-6;
+          ^-- $Source01/5.7.1--integers-signed-illegal.sv:20:10:.
+[SNT:PA0207] $Source01/5.7.1--integers-signed-illegal.sv:19:2: Syntax error: mismatched input 'initial' expecting <EOF>,
+  initial begin
+  ^-- $Source01/5.7.1--integers-signed-illegal.sv:19:2:.
 AST_DEBUG_BEGIN
 Count: 45
 LIB: work
@@ -48,12 +65,6 @@ n<$Source01/5.7.1--integers-signed-illegal.sv> u<44> t<Top_level_rule> c<1> l<16
                 n<> u<36> t<Variable_decl_assignment> p<37> c<35> l<17:16> el<17:17>
                   n<a> u<35> t<SIMPLE_IDENTIFIER> p<36> l<17:16> el<17:17>
 AST_DEBUG_END
-[SNT:PA0207] $Source01/5.7.1--integers-signed-illegal.sv:20:10: Syntax error: no viable alternative at input 'module top();\n  logic  [7:0] a;\n\n  initial begin\n    a = 8'd',
-    a = 8'd-6;
-          ^-- $Source01/5.7.1--integers-signed-illegal.sv:20:10:.
-[SNT:PA0207] $Source01/5.7.1--integers-signed-illegal.sv:19:2: Syntax error: mismatched input 'initial' expecting <EOF>,
-  initial begin
-  ^-- $Source01/5.7.1--integers-signed-illegal.sv:19:2:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
@@ -106,12 +117,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
