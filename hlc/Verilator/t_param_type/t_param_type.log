@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:45
 COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_param_type.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_param_type
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_param_type.v".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns
 AST_DEBUG_BEGIN
 Count: 832
 LIB: work
-FILE: $Source01/t_param_type.v
+FILE: f<13>:$Source01/t_param_type.v
 n<$Source01/t_param_type.v> u<831> t<Top_level_rule> c<1> l<6:1> el<70:1>
   n<> u<1> t<Null_rule> p<831> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<831> s<3> l<1:1> el<1:47>
@@ -860,9 +858,9 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/t_param_type.v:47:15: Illegal implicit net "id:185, name:TYP".
 [ERR:EL0535] $Source01/t_param_type.v:48:20: Illegal implicit net "id:220, name:bit".
 [ERR:EL0535] $Source01/t_param_type.v:48:15: Illegal implicit net "id:222, name:TYP".
-[ERR:EL0535] $Source01/t_param_type.v:49:20: Illegal implicit net "id:263, name:bit".
-[ERR:EL0535] $Source01/t_param_type.v:49:15: Illegal implicit net "id:265, name:TYP".
-[ERR:EL0535] $Source01/t_param_type.v:55:25: Illegal implicit net "id:295, name:byte".
+[ERR:EL0535] $Source01/t_param_type.v:49:20: Illegal implicit net "id:264, name:bit".
+[ERR:EL0535] $Source01/t_param_type.v:49:15: Illegal implicit net "id:266, name:TYP".
+[ERR:EL0535] $Source01/t_param_type.v:55:25: Illegal implicit net "id:296, name:byte".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1697,31 +1695,57 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: TYP
                 vpiFullName: work@t.mod_ar2d.TYP
-              vpiRhs PartSelect name:bit[3:0] start:49:20 end:49:34:
+              vpiRhs PartSelect name:bit[3:0][3:0] start:49:20 end:49:34:
                 vpiParent: ParamAssign
-                vpiName: bit[3:0]
-                vpiFullName: work@t.mod_ar2d.bit[3:0]
-                vpiPrefix RefObj name:bit start:49:20 end:49:23:
-                  vpiParent: PartSelect name:bit[3:0]
-                  vpiName: bit
-                  vpiFullName: work@t.mod_ar2d.bit[3:0].bit
-                vpiRange Range start:49:25 end:49:28:
-                  vpiParent: PartSelect name:bit[3:0]
-                  vpiLeftRange Constant start:49:25 end:49:26:
+                vpiName: bit[3:0][3:0]
+                vpiFullName: work@t.mod_ar2d.bit[3:0][3:0]
+                vpiPrefix PartSelect name:bit[3:0] start:49:20 end:49:34:
+                  vpiParent: PartSelect name:bit[3:0][3:0]
+                  vpiName: bit[3:0]
+                  vpiFullName: work@t.mod_ar2d.bit[3:0][3:0].bit[3:0]
+                  vpiPrefix RefObj name:bit start:49:20 end:49:23:
+                    vpiParent: PartSelect name:bit[3:0]
+                    vpiName: bit
+                    vpiFullName: work@t.mod_ar2d.bit[3:0][3:0].bit[3:0].bit
+                  vpiRange Range start:49:25 end:49:28:
+                    vpiParent: PartSelect name:bit[3:0]
+                    vpiLeftRange Constant start:49:25 end:49:26:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@t.mod_ar2d.bit[3:0][3:0].bit[3:0]
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "3"
+                      vpiValue: 3
+                    vpiRightRange Constant start:49:27 end:49:28:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@t.mod_ar2d.bit[3:0][3:0].bit[3:0]
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiRange Range start:49:30 end:49:33:
+                  vpiParent: PartSelect name:bit[3:0][3:0]
+                  vpiLeftRange Constant start:49:30 end:49:31:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t.mod_ar2d.bit[3:0]
+                      vpiFullName: work@t.mod_ar2d.bit[3:0][3:0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "3"
                     vpiValue: 3
-                  vpiRightRange Constant start:49:27 end:49:28:
+                  vpiRightRange Constant start:49:32 end:49:33:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t.mod_ar2d.bit[3:0]
+                      vpiFullName: work@t.mod_ar2d.bit[3:0][3:0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2067,11 +2091,11 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_param_type/surelog.uhdm ${SURELOG
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            29      24       5        10
+Constant                            31      26       5        10
 Operation                           19      14       0         5
-RefTypespec                         55      50       5        10
+RefTypespec                         57      52       5        10
 ----------------------------------------------------------------
-Others                             191     191       0         0
+Others                             193     193       0         0
 ----------------------------------------------------------------
-                                   294     279      10        25
+                                   300     285      10        25
 ===================== END REDUCTION RESULT =====================
