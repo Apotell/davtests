@@ -47,13 +47,15 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
       run: |
-        # Most recent successful run in Apotell/artifacts - get id and run_number in one call
-        read -r run_id run_number < <(gh api "/repos/Apotell/artifacts/actions/runs?status=completed&per_page=20" \
-          --jq '[.workflow_runs[] | select(.conclusion == "success")] | first | "\(.id) \(.run_number)"')
-        echo "build_run_id=$run_id"         >> $GITHUB_OUTPUT
-        echo "build_run_number=$run_number" >> $GITHUB_OUTPUT
-        echo "Run ID    : $run_id"
-        echo "Run number: $run_number"
+        # .id              -> Apotell/artifacts run id, required by download-artifact
+        # .inputs.run_number -> hlc run number, used to construct artifact names
+        read -r build_run_id build_run_number < <(gh api "/repos/Apotell/artifacts/actions/runs?status=completed&per_page=20" \
+          --jq '[.workflow_runs[] | select(.conclusion == "success")] | first
+                | "\(.id) \(.inputs.run_number)"')
+        echo "build_run_id=$build_run_id"         >> $GITHUB_OUTPUT
+        echo "build_run_number=$build_run_number" >> $GITHUB_OUTPUT
+        echo "Run ID    : $build_run_id"
+        echo "Run number: $build_run_number"
 
 # Regression ##########################################################################################################
 
