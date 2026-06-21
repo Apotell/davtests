@@ -62,59 +62,66 @@ TEST_F(Sequence2, ModuleExists) {
 // Sequence declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence2, SequenceDeclaration) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
   const uhdm::SequenceDecl *seq2 = nullptr;
   for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
-    if (s->getName() == "seq2") { seq2 = s; break; }
+    if (s->getName() == "seq2") {
+      seq2 = s;
+      break;
+    }
   }
   ASSERT_NE(seq2, nullptr) << "sequence 'seq2' not found in tb";
 }
 
 TEST_F(Sequence2, SequenceHasExpression) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
   const uhdm::SequenceDecl *seq2 = nullptr;
   for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
-    if (s->getName() == "seq2") { seq2 = s; break; }
+    if (s->getName() == "seq2") {
+      seq2 = s;
+      break;
+    }
   }
   ASSERT_NE(seq2, nullptr) << "sequence 'seq2' not found";
   EXPECT_NE(seq2->getExpr(), nullptr) << "seq2 has no expression (expected a ##1 b ##2 c)";
 }
 
 TEST_F(Sequence2, SequenceExprIsUnaryCycleDelay) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
   const uhdm::SequenceDecl *seq2 = nullptr;
   for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
-    if (s->getName() == "seq2") { seq2 = s; break; }
+    if (s->getName() == "seq2") {
+      seq2 = s;
+      break;
+    }
   }
   ASSERT_NE(seq2, nullptr);
 
   const uhdm::Operation *const expr = seq2->getExpr<uhdm::Operation>();
   ASSERT_NE(expr, nullptr) << "seq2 expression is not an Operation";
-  EXPECT_EQ(expr->getOpType(), vpiUnaryCycleDelayOp)
-      << "seq2 top-level op is not vpiUnaryCycleDelayOp";
+  EXPECT_EQ(expr->getOpType(), vpiCycleDelayOp) << "seq2 top-level op is not vpiUnaryCycleDelayOp";
 }
 
 TEST_F(Sequence2, SequenceExprHasThreeOperands) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
   const uhdm::SequenceDecl *seq2 = nullptr;
   for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
-    if (s->getName() == "seq2") { seq2 = s; break; }
+    if (s->getName() == "seq2") {
+      seq2 = s;
+      break;
+    }
   }
   ASSERT_NE(seq2, nullptr);
 
@@ -122,30 +129,25 @@ TEST_F(Sequence2, SequenceExprHasThreeOperands) {
   ASSERT_NE(expr, nullptr) << "seq2 expression is not an Operation";
   ASSERT_NE(expr->getOperands(), nullptr) << "seq2 Operation has no operands";
   // a ##1 b ##2 c encodes as: UnaryCycleDelay(delay=1, lhs=a, rhs=UnaryCycleDelay(...))
-  EXPECT_EQ(expr->getOperands()->size(), 3u)
-      << "expected 3 operands (delay constant, 'a', nested b##2c op)";
+  EXPECT_EQ(expr->getOperands()->size(), 3u) << "expected 3 operands (delay constant, 'a', nested b##2c op)";
 }
 
 // ---------------------------------------------------------------------------
 // No separate property declaration (clocking event is inline in the assert)
 // ---------------------------------------------------------------------------
 TEST_F(Sequence2, NoSeparatePropertyDecl) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
-  const bool hasPropertyDecls =
-      tb->getPropertyDecls() != nullptr && !tb->getPropertyDecls()->empty();
-  EXPECT_FALSE(hasPropertyDecls)
-      << "tb should have no named property declaration — the assert property is inline";
+  const bool hasPropertyDecls = tb->getPropertyDecls() != nullptr && !tb->getPropertyDecls()->empty();
+  EXPECT_FALSE(hasPropertyDecls) << "tb should have no named property declaration — the assert property is inline";
 }
 
 // ---------------------------------------------------------------------------
 // Concurrent assertion — assert property(@(posedge clk) seq2)
 // ---------------------------------------------------------------------------
 TEST_F(Sequence2, ConcurrentAssertion) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";
@@ -161,8 +163,7 @@ TEST_F(Sequence2, ConcurrentAssertion) {
 }
 
 TEST_F(Sequence2, AssertHasInlineClockingEvent) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -182,8 +183,7 @@ TEST_F(Sequence2, AssertHasInlineClockingEvent) {
 }
 
 TEST_F(Sequence2, AssertPropertyExprReferencesSeq2) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -201,8 +201,7 @@ TEST_F(Sequence2, AssertPropertyExprReferencesSeq2) {
 
   const uhdm::RefObj *const propExpr = spec->getPropertyExpr<uhdm::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "inline assert property expression is not a RefObj";
-  EXPECT_EQ(propExpr->getName(), "seq2")
-      << "inline assert property expression does not reference 'seq2'";
+  EXPECT_EQ(propExpr->getName(), "seq2") << "inline assert property expression does not reference 'seq2'";
 }
 
 }  // namespace SURELOG
