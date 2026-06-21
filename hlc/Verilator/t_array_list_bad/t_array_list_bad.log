@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_array_list_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_array_list_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_array_list_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_array_list_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_array_list_bad.v".
 AST_DEBUG_BEGIN
 Count: 286
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v> u<285> t<Top_level_rule> c<1> l<6:1> el<42:1>
+FILE: f<13>:$Source01/t_array_list_bad.v
+n<$Source01/t_array_list_bad.v> u<285> t<Top_level_rule> c<1> l<6:1> el<42:1>
   n<> u<1> t<Null_rule> p<285> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<285> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<285> s<4> l<2:1> el<2:3>
@@ -289,31 +298,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v> u<285> t<Top_level_rule> c<
         n<> u<281> t<ENDMODULE> p<282> s<280> l<41:1> el<41:10>
         n<t> u<280> t<SIMPLE_IDENTIFIER> p<282> l<41:12> el<41:13>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:6:1: Compile package "work@pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:6:1: Unmached label "work@pkg",
-             ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:12:14: closing label "pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:14:1: Compile module "work@t".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:14:1: Unmached label "work@t",
-             ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:41:12: closing label "t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:14:1: Multiply defined typedef "pkg".
+[INF:CP0301] $Source01/t_array_list_bad.v:6:1: Compile package "work@pkg".
+[INF:CP0303] $Source01/t_array_list_bad.v:14:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_array_list_bad.v:14:1: Multiply defined typedef "pkg".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:32:22: Illegal implicit net "id:95, name:t1".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:32:37: Illegal implicit net "id:98, name:t1".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:33:22: Illegal implicit net "id:103, name:t2".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:33:37: Illegal implicit net "id:106, name:t2".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:34:22: Illegal implicit net "id:111, name:t3".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:34:37: Illegal implicit net "id:114, name:t3".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_array_list_bad.v file:${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_array_list_bad.v file:$Source01/t_array_list_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_array_list_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_array_list_bad/lib/work/t_array_list_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_array_list_bad.v"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pkg file:${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v start:6:1 end:12:17:
+    Package name:work@pkg file:$Source01/t_array_list_bad.v start:6:1 end:12:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg start:6:9 end:6:12:
         vpiParent: Package name:work@pkg
@@ -374,11 +373,16 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
       vpiEndLabel Identifier name:pkg start:12:14 end:12:17:
         vpiParent: Package name:work@pkg
         vpiName: pkg
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_array_list_bad.v start:14:1 end:41:13:
+    Module name:work@t file:$Source01/t_array_list_bad.v start:14:1 end:41:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:14:8 end:14:9:
         vpiParent: Module name:work@t
@@ -391,8 +395,8 @@ Design name:unnamed:
             vpiParent: Variable name:test_out
             vpiName: type_t
             vpiFullName: work@t.test_out.type_t
-            vpiPrefix: HierPath
-            vpiActual: UnsupportedTypespec name:type_t
+            vpiPrefix: HierPath name:pkg::type_t
+            vpiActual: TypedefTypespec name:type_t
           vpiName: test_out
           vpiFullName: work@t.test_out
           vpiNetType: none (12)
@@ -435,6 +439,11 @@ Design name:unnamed:
             vpiName: pkg
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (4 items):
         Net name:sys_clk start:16:16 end:16:23:
           vpiParent: Module name:work@t
@@ -472,8 +481,8 @@ Design name:unnamed:
             vpiParent: Net name:test_in
             vpiName: type_t
             vpiFullName: work@t.test_in.type_t
-            vpiPrefix: HierPath
-            vpiActual: UnsupportedTypespec name:type_t
+            vpiPrefix: HierPath name:pkg::type_t
+            vpiActual: TypedefTypespec name:type_t
           vpiName: test_in
           vpiFullName: work@t.test_in
           vpiNetType: wire (1)
@@ -529,13 +538,14 @@ Design name:unnamed:
             vpiParent: Port name:test_in
             vpiName: type_t
             vpiFullName: work@t.test_in.type_t
-            vpiPrefix HierPath start:20:16 end:20:21:
+            vpiPrefix HierPath name:pkg::type_t start:20:16 end:20:21:
               vpiParent: RefTypespec name:type_t
-              vpiFullName: work@t.test_in.type_t
-              vpiActual (2 items):
-                ClassTypespec name:pkg
-                UnsupportedTypespec name:type_t
-            vpiActual: UnsupportedTypespec name:type_t
+              vpiName: pkg::type_t
+              vpiFullName: work@t.test_in.type_t.pkg::type_t
+              vpiPathElem (2 items):
+                ClassTypespec name:pkg:
+                UnsupportedTypespec name:type_t:
+            vpiActual: TypedefTypespec name:type_t
         Port name:test_out start:21:28 end:21:36:
           vpiParent: Module name:work@t
           vpiName: test_out
@@ -548,13 +558,14 @@ Design name:unnamed:
             vpiParent: Port name:test_out
             vpiName: type_t
             vpiFullName: work@t.test_out.type_t
-            vpiPrefix HierPath start:21:16 end:21:21:
+            vpiPrefix HierPath name:pkg::type_t start:21:16 end:21:21:
               vpiParent: RefTypespec name:type_t
-              vpiFullName: work@t.test_out.type_t
-              vpiActual (2 items):
-                ClassTypespec name:pkg
-                UnsupportedTypespec name:type_t
-            vpiActual: UnsupportedTypespec name:type_t
+              vpiName: pkg::type_t
+              vpiFullName: work@t.test_out.type_t.pkg::type_t
+              vpiPathElem (2 items):
+                ClassTypespec name:pkg:
+                UnsupportedTypespec name:type_t:
+            vpiActual: TypedefTypespec name:type_t
       vpiProcess (1 items):
         Always start:26:4 end:40:7:
           vpiParent: Module name:work@t
@@ -613,7 +624,7 @@ Design name:unnamed:
                           vpiActual: Variable name:test_out
                         vpiRhs Operation start:28:22 end:28:35:
                           vpiParent: Assignment
-                          vpiOpType: assign pattern (75)
+                          vpiOpType: assign pattern (87)
                           vpiOperand (3 items):
                             Constant start:28:24 end:28:26:
                               vpiParent: Operation
@@ -624,7 +635,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "'0"
-                              vpiValue: 0
+                              vpiValue: "0"
                             Constant start:28:28 end:28:30:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -634,7 +645,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "'0"
-                              vpiValue: 0
+                              vpiValue: "0"
                             Constant start:28:32 end:28:34:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -644,7 +655,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "'0"
-                              vpiValue: 0
+                              vpiValue: "0"
                   vpiElseStmt Begin start:30:12 end:39:10:
                     vpiParent: IfElse
                     vpiFullName: work@t
@@ -666,7 +677,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: test_out.t1
                                 vpiFullName: work@t.test_out.t1
-                                vpiActual (2 items):
+                                vpiPathElem (2 items):
                                   RefObj name:test_out start:32:13 end:32:21:
                                     vpiParent: HierPath name:test_out.t1
                                     vpiName: test_out
@@ -676,6 +687,7 @@ Design name:unnamed:
                                     vpiParent: HierPath name:test_out.t1
                                     vpiName: t1
                                     vpiFullName: work@t.t1
+                                    vpiActual: TypespecMember name:t1
                               vpiRhs Operation start:32:28 end:32:39:
                                 vpiParent: Assignment
                                 vpiOpType: bitwise negation (4)
@@ -684,7 +696,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: test_in.t1
                                     vpiFullName: work@t.test_in.t1
-                                    vpiActual (2 items):
+                                    vpiPathElem (2 items):
                                       RefObj name:test_in start:32:29 end:32:36:
                                         vpiParent: HierPath name:test_in.t1
                                         vpiName: test_in
@@ -694,13 +706,14 @@ Design name:unnamed:
                                         vpiParent: HierPath name:test_in.t1
                                         vpiName: t1
                                         vpiFullName: work@t.t1
+                                        vpiActual: TypespecMember name:t1
                             Assignment start:33:13 end:33:39:
                               vpiParent: Begin
                               vpiLhs HierPath name:test_out.t2 start:33:13 end:33:24:
                                 vpiParent: Assignment
                                 vpiName: test_out.t2
                                 vpiFullName: work@t.test_out.t2
-                                vpiActual (2 items):
+                                vpiPathElem (2 items):
                                   RefObj name:test_out start:33:13 end:33:21:
                                     vpiParent: HierPath name:test_out.t2
                                     vpiName: test_out
@@ -710,6 +723,7 @@ Design name:unnamed:
                                     vpiParent: HierPath name:test_out.t2
                                     vpiName: t2
                                     vpiFullName: work@t.t2
+                                    vpiActual: TypespecMember name:t2
                               vpiRhs Operation start:33:28 end:33:39:
                                 vpiParent: Assignment
                                 vpiOpType: bitwise negation (4)
@@ -718,7 +732,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: test_in.t2
                                     vpiFullName: work@t.test_in.t2
-                                    vpiActual (2 items):
+                                    vpiPathElem (2 items):
                                       RefObj name:test_in start:33:29 end:33:36:
                                         vpiParent: HierPath name:test_in.t2
                                         vpiName: test_in
@@ -728,13 +742,14 @@ Design name:unnamed:
                                         vpiParent: HierPath name:test_in.t2
                                         vpiName: t2
                                         vpiFullName: work@t.t2
+                                        vpiActual: TypespecMember name:t2
                             Assignment start:34:13 end:34:39:
                               vpiParent: Begin
                               vpiLhs HierPath name:test_out.t3 start:34:13 end:34:24:
                                 vpiParent: Assignment
                                 vpiName: test_out.t3
                                 vpiFullName: work@t.test_out.t3
-                                vpiActual (2 items):
+                                vpiPathElem (2 items):
                                   RefObj name:test_out start:34:13 end:34:21:
                                     vpiParent: HierPath name:test_out.t3
                                     vpiName: test_out
@@ -744,6 +759,7 @@ Design name:unnamed:
                                     vpiParent: HierPath name:test_out.t3
                                     vpiName: t3
                                     vpiFullName: work@t.t3
+                                    vpiActual: TypespecMember name:t3
                               vpiRhs Operation start:34:28 end:34:39:
                                 vpiParent: Assignment
                                 vpiOpType: bitwise negation (4)
@@ -752,7 +768,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: test_in.t3
                                     vpiFullName: work@t.test_in.t3
-                                    vpiActual (2 items):
+                                    vpiPathElem (2 items):
                                       RefObj name:test_in start:34:29 end:34:36:
                                         vpiParent: HierPath name:test_in.t3
                                         vpiName: test_in
@@ -762,6 +778,7 @@ Design name:unnamed:
                                         vpiParent: HierPath name:test_in.t3
                                         vpiName: t3
                                         vpiFullName: work@t.t3
+                                        vpiActual: TypespecMember name:t3
                         vpiElseStmt Begin start:36:15 end:38:13:
                           vpiParent: IfElse
                           vpiFullName: work@t
@@ -778,7 +795,7 @@ Design name:unnamed:
                                 vpiActual: Variable name:test_out
                               vpiRhs Operation start:37:25 end:37:34:
                                 vpiParent: Assignment
-                                vpiOpType: assign pattern (75)
+                                vpiOpType: assign pattern (87)
                                 vpiOperand (2 items):
                                   Constant start:37:27 end:37:29:
                                     vpiParent: Operation
@@ -789,7 +806,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "'0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
                                   Constant start:37:31 end:37:33:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -799,7 +816,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "'0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
           vpiAlwaysType: ff (3)
       vpiEndLabel Identifier name:t start:41:12 end:41:13:
         vpiParent: Module name:work@t
@@ -812,37 +829,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_array_list_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_array_list_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_array_list_bad/surelog.uhdm
+      test-name: Verilator/t_array_list_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_array_list_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_array_list_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_array_list_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_array_list_bad/lib/work/t_array_list_bad.v'): {'post_len': 0,
-                                                                                                                                           'pre_len': 525}},
+            'files': {'$Output/lib/work/t_array_list_bad.v': {'post_len': 0,
+                                                              'pre_len': 525}},
             'post_len': 0,
             'pre_len': 525,
             'test_name': 'Verilator/t_array_list_bad'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/t_array_list_bad.v |      525 |         0 |
-+=============================+==========+===========+
-|                             |      525 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/t_array_list_bad.v |      525 |         0 |
++=====================================+==========+===========+
+|                                     |      525 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -856,7 +876,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_array_list_bad/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             126     126       0         0
+Others                             128     128       0         0
 ----------------------------------------------------------------
-                                   126     126       0         0
+                                   128     128       0         0
 ===================== END REDUCTION RESULT =====================

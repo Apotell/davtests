@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PkgImportPkg -parse -d uhdm -nobuiltin -d ast dut.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 76
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv
-n<${SURELOG_DIR}/tests/PkgImportPkg/dut.sv> u<75> t<Top_level_rule> c<1> l<1:1> el<18:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<75> t<Top_level_rule> c<1> l<1:1> el<18:1>
   n<> u<1> t<Null_rule> p<75> s<74> l<1:1>
   n<> u<74> t<Source_text> p<75> c<33> l<1:1> el<17:21>
     n<> u<33> t<Description> p<74> c<32> s<45> l<1:1> el<5:26>
@@ -79,29 +88,23 @@ n<${SURELOG_DIR}/tests/PkgImportPkg/dut.sv> u<75> t<Top_level_rule> c<1> l<1:1> 
         n<> u<71> t<ENDMODULE> p<72> s<70> l<17:1> el<17:10>
         n<otp_ctrl> u<70> t<SIMPLE_IDENTIFIER> p<72> l<17:13> el<17:21>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:1:1: Compile package "work@otp_ctrl_pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:1:1: Unmached label "work@otp_ctrl_pkg",
-             ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:5:14: closing label "otp_ctrl_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:7:1: Compile package "work@otp_ctrl_part_pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:7:1: Unmached label "work@otp_ctrl_part_pkg",
-             ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:9:14: closing label "otp_ctrl_part_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:11:1: Compile module "work@otp_ctrl".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:11:1: Unmached label "work@otp_ctrl",
-             ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:17:13: closing label "otp_ctrl".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:1:1: No timescale set for "work@otp_ctrl_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:7:1: No timescale set for "work@otp_ctrl_part_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:11:1: No timescale set for "work@otp_ctrl".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@otp_ctrl_pkg".
+[INF:CP0301] $Source01/dut.sv:7:1: Compile package "work@otp_ctrl_part_pkg".
+[INF:CP0303] $Source01/dut.sv:11:1: Compile module "work@otp_ctrl".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@otp_ctrl_pkg".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@otp_ctrl_part_pkg".
+[WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@otp_ctrl".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PkgImportPkg/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@otp_ctrl_pkg file:${SURELOG_DIR}/tests/PkgImportPkg/dut.sv start:1:1 end:5:26:
+    Package name:work@otp_ctrl_pkg file:$Source01/dut.sv start:1:1 end:5:26:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@otp_ctrl_pkg start:1:9 end:1:21:
         vpiParent: Package name:work@otp_ctrl_pkg
@@ -156,10 +159,15 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@otp_ctrl_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@otp_ctrl_pkg
+        vpiName: work
+        vpiFullName: work@otp_ctrl_pkg::work
+      vpiCell: otp_ctrl_pkg
       vpiEndLabel Identifier name:otp_ctrl_pkg start:5:14 end:5:26:
         vpiParent: Package name:work@otp_ctrl_pkg
         vpiName: otp_ctrl_pkg
-    Package name:work@otp_ctrl_part_pkg file:${SURELOG_DIR}/tests/PkgImportPkg/dut.sv start:7:1 end:9:31:
+    Package name:work@otp_ctrl_part_pkg file:$Source01/dut.sv start:7:1 end:9:31:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@otp_ctrl_part_pkg start:7:9 end:7:26:
         vpiParent: Package name:work@otp_ctrl_part_pkg
@@ -173,11 +181,16 @@ Design name:unnamed:
             vpiName: otp_ctrl_pkg
       vpiDefName: work@otp_ctrl_part_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@otp_ctrl_part_pkg
+        vpiName: work
+        vpiFullName: work@otp_ctrl_part_pkg::work
+      vpiCell: otp_ctrl_part_pkg
       vpiEndLabel Identifier name:otp_ctrl_part_pkg start:9:14 end:9:31:
         vpiParent: Package name:work@otp_ctrl_part_pkg
         vpiName: otp_ctrl_part_pkg
   vpiAllModules (1 items):
-    Module name:work@otp_ctrl file:${SURELOG_DIR}/tests/PkgImportPkg/dut.sv start:11:1 end:17:21:
+    Module name:work@otp_ctrl file:$Source01/dut.sv start:11:1 end:17:21:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@otp_ctrl start:11:8 end:11:16:
         vpiParent: Module name:work@otp_ctrl
@@ -190,21 +203,16 @@ Design name:unnamed:
             vpiParent: Variable name:otp_ast_pwr_seq_o
             vpiName: otp_ast_req_t
             vpiFullName: work@otp_ctrl.otp_ast_pwr_seq_o.otp_ast_req_t
-            vpiActual: UnsupportedTypespec name:otp_ast_req_t
+            vpiActual: TypedefTypespec name:otp_ast_req_t
           vpiName: otp_ast_pwr_seq_o
           vpiFullName: work@otp_ctrl.otp_ast_pwr_seq_o
           vpiNetType: none (12)
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         ImportTypespec name:otp_ctrl_pkg start:12:10 end:12:25:
           vpiParent: Module name:work@otp_ctrl
           vpiName Identifier name:otp_ctrl_pkg start:12:10 end:12:22:
             vpiParent: ImportTypespec name:otp_ctrl_pkg
             vpiName: otp_ctrl_pkg
-        UnsupportedTypespec name:otp_ast_req_t start:14:10 end:14:23:
-          vpiParent: Module name:work@otp_ctrl
-          vpiName Identifier name:otp_ast_req_t:
-            vpiParent: UnsupportedTypespec name:otp_ast_req_t
-            vpiName: otp_ast_req_t
         UnsupportedTypespec name:otp_ast_rsp_t start:15:10 end:15:23:
           vpiParent: Module name:work@otp_ctrl
           vpiName Identifier name:otp_ast_rsp_t:
@@ -212,6 +220,11 @@ Design name:unnamed:
             vpiName: otp_ast_rsp_t
       vpiDefName: work@otp_ctrl
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@otp_ctrl
+        vpiName: work
+        vpiFullName: work@otp_ctrl.work
+      vpiCell: otp_ctrl
       vpiNet (1 items):
         Net name:otp_ast_pwr_seq_h_i start:15:24 end:15:43:
           vpiParent: Module name:work@otp_ctrl
@@ -236,7 +249,7 @@ Design name:unnamed:
             vpiParent: Port name:otp_ast_pwr_seq_o
             vpiName: otp_ast_req_t
             vpiFullName: work@otp_ctrl.otp_ast_pwr_seq_o.otp_ast_req_t
-            vpiActual: UnsupportedTypespec name:otp_ast_req_t
+            vpiActual: TypedefTypespec name:otp_ast_req_t
         Port name:otp_ast_pwr_seq_h_i start:15:24 end:15:43:
           vpiParent: Module name:work@otp_ctrl
           vpiName: otp_ast_pwr_seq_h_i
@@ -264,37 +277,40 @@ Design name:unnamed:
         vpiName: work@otp_ctrl
       vpiModule: Module name:work@otp_ctrl
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PkgImportPkg/PkgImportPkg
- test-dirpath: ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg
-uhdm-filepath: ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/surelog.uhdm
+      test-name: PkgImportPkg/PkgImportPkg
+   test-dirpath: ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg
+  uhdm-filepath: ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 324}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 324}},
             'post_len': 0,
             'pre_len': 324,
             'test_name': 'PkgImportPkg/PkgImportPkg'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      324 |         0 |
-+=================+==========+===========+
-|                 |      324 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      324 |         0 |
++=========================+==========+===========+
+|                         |      324 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -308,7 +324,7 @@ COMMAND: ${SURELOG_DIR}/regression/PkgImportPkg/PkgImportPkg/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

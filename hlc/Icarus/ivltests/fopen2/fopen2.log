@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm fopen2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/fopen2.v".
+[INF:PA0201] Parsing source file "$Source01/fopen2.v".
 AST_DEBUG_BEGIN
 Count: 624
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/fopen2.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/fopen2.v> u<623> t<Top_level_rule> c<1> l<4:1> el<57:1>
+FILE: f<13>:$Source01/fopen2.v
+n<$Source01/fopen2.v> u<623> t<Top_level_rule> c<1> l<4:1> el<57:1>
   n<> u<1> t<Null_rule> p<623> s<2> l<4:1> el<4:1>
   n</* fopen2 - test $fopen and $fclose system tasks */> u<2> t<BLOCK_COMMENT> p<623> s<622> l<4:1> el<54:10>
   n<> u<622> t<Source_text> p<623> c<621> l<4:1> el<54:10>
@@ -627,19 +636,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/fopen2.v> u<623> t<Top_level_rule> c<1> l
         n<// checkfp> u<618> t<LINE_COMMENT> p<620> s<619> l<52:12> el<52:22>
         n<> u<619> t<ENDMODULE> p<620> l<54:1> el<54:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/fopen2.v:4:1: Compile module "work@fopen2".
+[INF:CP0303] $Source01/fopen2.v:4:1: Compile module "work@fopen2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:fopen2.v file:${SURELOG_DIR}/tests/Icarus/ivltests/fopen2.v:
+  vpiSourceFile (1 items):
+    SourceFile name:fopen2.v file:$Source01/fopen2.v:
       vpiParent: Design name:unnamed
       vpiName: fopen2.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/lib/work/fopen2.v"
+      vpiPreprocFile: "$Output/lib/work/fopen2.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@fopen2 file:${SURELOG_DIR}/tests/Icarus/ivltests/fopen2.v start:4:1 end:54:10:
+    Module name:work@fopen2 file:$Source01/fopen2.v start:4:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@fopen2 start:4:8 end:4:14:
         vpiParent: Module name:work@fopen2
@@ -679,6 +688,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@fopen2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@fopen2
+        vpiName: work
+        vpiFullName: work@fopen2.work
+      vpiCell: fopen2
       vpiTaskFunc (1 items):
         Task name:checkfp start:44:4 end:52:11:
           vpiParent: Module name:work@fopen2
@@ -1456,37 +1470,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/fopen2
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/surelog.uhdm
+      test-name: Icarus/ivltests/fopen2
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/lib/work/fopen2.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 730}},
+            'files': {'$Output/lib/work/fopen2.v': {'post_len': 0,
+                                                    'pre_len': 730}},
             'post_len': 0,
             'pre_len': 730,
             'test_name': 'Icarus/ivltests/fopen2'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/fopen2.v |      730 |         0 |
-+===================+==========+===========+
-|                   |      730 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/fopen2.v |      730 |         0 |
++===========================+==========+===========+
+|                           |      730 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1500,7 +1517,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/fopen2/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             198     198       0         0
+Others                             199     199       0         0
 ----------------------------------------------------------------
-                                   198     198       0         0
+                                   199     199       0         0
 ===================== END REDUCTION RESULT =====================

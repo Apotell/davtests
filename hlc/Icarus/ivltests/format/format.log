@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/format/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm format.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/format
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/format.v".
+[INF:PA0201] Parsing source file "$Source01/format.v".
 AST_DEBUG_BEGIN
 Count: 138
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/format.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/format.v> u<137> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/format.v
+n<$Source01/format.v> u<137> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<137> s<136> l<1:1>
   n<> u<136> t<Source_text> p<137> c<135> l<1:1> el<15:10>
     n<> u<135> t<Description> p<136> c<134> l<1:1> el<15:10>
@@ -141,19 +150,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/format.v> u<137> t<Top_level_rule> c<1> l
                         n<> u<124> t<END> p<125> l<13:6> el<13:9>
         n<> u<133> t<ENDMODULE> p<134> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/format.v:1:1: Compile module "work@test".
+[INF:CP0303] $Source01/format.v:1:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:format.v file:${SURELOG_DIR}/tests/Icarus/ivltests/format.v:
+  vpiSourceFile (1 items):
+    SourceFile name:format.v file:$Source01/format.v:
       vpiParent: Design name:unnamed
       vpiName: format.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/format/lib/work/format.v"
+      vpiPreprocFile: "$Output/lib/work/format.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/format.v start:1:1 end:15:10:
+    Module name:work@test file:$Source01/format.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:8 end:1:12:
         vpiParent: Module name:work@test
@@ -188,6 +197,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (1 items):
         Net name:a start:3:16 end:3:17:
           vpiParent: Module name:work@test
@@ -207,7 +221,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 7
             vpiDecompile: "7'd16"
-            vpiValue: 16
+            vpiValue: "16"
       vpiProcess (1 items):
         Initial start:5:4 end:13:9:
           vpiParent: Module name:work@test
@@ -242,7 +256,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 40
                     vpiDecompile: "\">%0d<\""
-                    vpiValue: >%0d<
+                    vpiValue: ">%0d<"
                   RefObj name:a start:8:27 end:8:28:
                     vpiParent: SysFuncCall name:$display
                     vpiName: a
@@ -263,7 +277,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 40
                     vpiDecompile: "\">%4d<\""
-                    vpiValue: >%4d<
+                    vpiValue: ">%4d<"
                   RefObj name:a start:9:27 end:9:28:
                     vpiParent: SysFuncCall name:$display
                     vpiName: a
@@ -284,7 +298,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 32
                     vpiDecompile: "\">%h<\""
-                    vpiValue: >%h<
+                    vpiValue: ">%h<"
                   RefObj name:a start:10:26 end:10:27:
                     vpiParent: SysFuncCall name:$display
                     vpiName: a
@@ -305,7 +319,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 40
                     vpiDecompile: "\">%4h<\""
-                    vpiValue: >%4h<
+                    vpiValue: ">%4h<"
                   RefObj name:a start:11:27 end:11:28:
                     vpiParent: SysFuncCall name:$display
                     vpiName: a
@@ -326,7 +340,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\"%d, %d\""
-                    vpiValue: %d, %d
+                    vpiValue: "%d, %d"
                   RefObj name:a start:12:28 end:12:29:
                     vpiParent: SysFuncCall name:$display
                     vpiName: a
@@ -345,37 +359,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/format
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/format
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/format/surelog.uhdm
+      test-name: Icarus/ivltests/format
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/format
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/format/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/format/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/format/lib/work/format.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 166}},
+            'files': {'$Output/lib/work/format.v': {'post_len': 0,
+                                                    'pre_len': 166}},
             'post_len': 0,
             'pre_len': 166,
             'test_name': 'Icarus/ivltests/format'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/format.v |      166 |         0 |
-+===================+==========+===========+
-|                   |      166 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/format.v |      166 |         0 |
++===========================+==========+===========+
+|                           |      166 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -389,7 +406,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/format/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    48      48       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

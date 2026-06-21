@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/insbuf -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm testbench.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/testbench.v".
+[INF:PA0201] Parsing source file "$Source01/testbench.v".
 AST_DEBUG_BEGIN
 Count: 361
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v> u<360> t<Top_level_rule> c<1> l<1:1> el<49:1>
+FILE: f<13>:$Source01/testbench.v
+n<$Source01/testbench.v> u<360> t<Top_level_rule> c<1> l<1:1> el<49:1>
   n<> u<1> t<Null_rule> p<360> s<359> l<1:1>
   n<> u<359> t<Source_text> p<360> c<258> l<1:1> el<48:10>
     n<> u<258> t<Description> p<359> c<257> s<358> l<1:1> el<35:10>
@@ -364,22 +373,22 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v> u<360> t<Top_level_ru
                               n<> u<344> t<END> p<345> l<47:5> el<47:8>
         n<> u<356> t<ENDMODULE> p<357> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v:1:1: Compile module "work@testbench".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v:38:1: Compile module "work@assert_expr".
+[INF:CP0303] $Source01/testbench.v:1:1: Compile module "work@testbench".
+[INF:CP0303] $Source01/testbench.v:38:1: Compile module "work@assert_expr".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v:24:16: Illegal implicit net "id:72, name:out".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v:33:33: Illegal implicit net "id:99, name:A".
+[ERR:EL0535] $Source01/testbench.v:24:16: Illegal implicit net "id:74, name:out".
+[ERR:EL0535] $Source01/testbench.v:33:33: Illegal implicit net "id:101, name:A".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:testbench.v file:${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v:
+  vpiSourceFile (1 items):
+    SourceFile name:testbench.v file:$Source01/testbench.v:
       vpiParent: Design name:unnamed
       vpiName: testbench.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/lib/work/testbench.v"
+      vpiPreprocFile: "$Output/lib/work/testbench.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@testbench file:${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v start:1:1 end:35:10:
+    Module name:work@testbench file:$Source01/testbench.v start:1:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@testbench start:1:8 end:1:17:
         vpiParent: Module name:work@testbench
@@ -426,6 +435,11 @@ Design name:unnamed:
             vpiName: work@assert_expr
       vpiDefName: work@testbench
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@testbench
+        vpiName: work
+        vpiFullName: work@testbench.work
+      vpiCell: testbench
       vpiNet (3 items):
         Net name:clk start:2:9 end:2:12:
           vpiParent: Module name:work@testbench
@@ -718,7 +732,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-    Module name:work@assert_expr file:${SURELOG_DIR}/tests/YosysTests/misc/insbuf/testbench.v start:38:1 end:48:10:
+    Module name:work@assert_expr file:$Source01/testbench.v start:38:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@assert_expr start:38:8 end:38:19:
         vpiParent: Module name:work@assert_expr
@@ -729,6 +743,11 @@ Design name:unnamed:
           vpiParent: Module name:work@assert_expr
       vpiDefName: work@assert_expr
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@assert_expr
+        vpiName: work
+        vpiFullName: work@assert_expr.work
+      vpiCell: assert_expr
       vpiNet (2 items):
         Net name:clk start:38:26 end:38:29:
           vpiParent: Module name:work@assert_expr
@@ -831,7 +850,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 240
                             vpiDecompile: "\"ERROR: ASSERTION FAILED in %m:\""
-                            vpiValue: ERROR: ASSERTION FAILED in %m:
+                            vpiValue: "ERROR: ASSERTION FAILED in %m:"
                           SysTaskCall name:$time start:44:55 end:44:60:
                             vpiParent: SysFuncCall name:$display
                             vpiName Identifier name:$time start:44:55 end:44:60:
@@ -846,7 +865,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 8
                             vpiDecompile: "\" \""
-                            vpiValue: 
+                            vpiValue: ""
                           RefObj name:A start:44:65 end:44:66:
                             vpiParent: SysFuncCall name:$display
                             vpiName: A
@@ -879,37 +898,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/insbuf/testbench
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/surelog.uhdm
+      test-name: YosysTests/misc/insbuf/testbench
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/lib/work/testbench.v'): {'post_len': 0,
-                                                                                                                                          'pre_len': 422}},
+            'files': {'$Output/lib/work/testbench.v': {'post_len': 0,
+                                                       'pre_len': 422}},
             'post_len': 0,
             'pre_len': 422,
             'test_name': 'YosysTests/misc/insbuf/testbench'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/testbench.v |      422 |         0 |
-+======================+==========+===========+
-|                      |      422 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/testbench.v |      422 |         0 |
++==============================+==========+===========+
+|                              |      422 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -923,7 +945,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/insbuf/testbench/surelog.uhdm
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             128     128       0         0
+Others                             130     130       0         0
 ----------------------------------------------------------------
-                                   128     128       0         0
+                                   130     130       0         0
 ===================== END REDUCTION RESULT =====================

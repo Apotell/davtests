@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_enum_name3/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_enum_name3.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_enum_name3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_enum_name3.v".
+[INF:PA0201] Parsing source file "$Source01/t_enum_name3.v".
 AST_DEBUG_BEGIN
 Count: 117
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_enum_name3.v
-n<${SURELOG_DIR}/tests/Verilator/t_enum_name3.v> u<116> t<Top_level_rule> c<1> l<7:1> el<24:1>
+FILE: f<13>:$Source01/t_enum_name3.v
+n<$Source01/t_enum_name3.v> u<116> t<Top_level_rule> c<1> l<7:1> el<24:1>
   n<> u<1> t<Null_rule> p<116> s<2> l<7:1> el<7:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<116> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<116> s<4> l<2:1> el<2:3>
@@ -120,20 +129,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_enum_name3.v> u<116> t<Top_level_rule> c<1> l
                         n<> u<103> t<END> p<104> l<21:4> el<21:7>
         n<> u<112> t<ENDMODULE> p<113> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_enum_name3.v:7:1: Compile module "work@our".
+[INF:CP0303] $Source01/t_enum_name3.v:7:1: Compile module "work@our".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_enum_name3.v:18:30: Illegal implicit net "id:39, name:name".
+[ERR:EL0535] $Source01/t_enum_name3.v:18:30: Illegal implicit net "id:40, name:name".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_enum_name3.v file:${SURELOG_DIR}/tests/Verilator/t_enum_name3.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_enum_name3.v file:$Source01/t_enum_name3.v:
       vpiParent: Design name:unnamed
       vpiName: t_enum_name3.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_enum_name3/lib/work/t_enum_name3.v"
+      vpiPreprocFile: "$Output/lib/work/t_enum_name3.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@our file:${SURELOG_DIR}/tests/Verilator/t_enum_name3.v start:7:1 end:23:10:
+    Module name:work@our file:$Source01/t_enum_name3.v start:7:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@our start:7:8 end:7:11:
         vpiParent: Module name:work@our
@@ -159,7 +168,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
       vpiTypespec (6 items):
         UnsupportedTypespec name:logic start:9:17 end:9:22:
           vpiParent: Module name:work@our
@@ -217,6 +226,11 @@ Design name:unnamed:
           vpiParent: Module name:work@our
       vpiDefName: work@our
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@our
+        vpiName: work
+        vpiFullName: work@our.work
+      vpiCell: our
       vpiProcess (1 items):
         Initial start:17:4 end:21:7:
           vpiParent: Module name:work@our
@@ -244,7 +258,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$write
                     vpiName: PS.N.name
                     vpiFullName: work@our.PS.N.name
-                    vpiActual (3 items):
+                    vpiPathElem (3 items):
                       RefObj name:PS start:18:25 end:18:27:
                         vpiParent: HierPath name:PS.N.name
                         vpiName: PS
@@ -274,7 +288,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
@@ -290,37 +304,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_enum_name3
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_enum_name3
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_enum_name3/surelog.uhdm
+      test-name: Verilator/t_enum_name3
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_enum_name3
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_enum_name3/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_enum_name3/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_enum_name3/lib/work/t_enum_name3.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 202}},
+            'files': {'$Output/lib/work/t_enum_name3.v': {'post_len': 0,
+                                                          'pre_len': 202}},
             'post_len': 0,
             'pre_len': 202,
             'test_name': 'Verilator/t_enum_name3'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_enum_name3.v |      202 |         0 |
-+=========================+==========+===========+
-|                         |      202 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_enum_name3.v |      202 |         0 |
++=================================+==========+===========+
+|                                 |      202 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -334,7 +351,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_enum_name3/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    45      45       0         0
+                                    46      46       0         0
 ===================== END REDUCTION RESULT =====================

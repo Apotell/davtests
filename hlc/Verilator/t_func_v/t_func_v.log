@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_v.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_v.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_v.v".
 AST_DEBUG_BEGIN
 Count: 157
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_v.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_v.v> u<156> t<Top_level_rule> c<1> l<8:1> el<35:1>
+FILE: f<13>:$Source01/t_func_v.v
+n<$Source01/t_func_v.v> u<156> t<Top_level_rule> c<1> l<8:1> el<35:1>
   n<> u<1> t<Null_rule> p<156> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<156> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<156> s<4> l<2:1> el<2:3>
@@ -160,22 +169,22 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_v.v> u<156> t<Top_level_rule> c<1> l<8:1
                             n<mem> u<141> t<SIMPLE_IDENTIFIER> p<142> l<33:16> el<33:19>
         n<> u<152> t<ENDMODULE> p<153> l<34:1> el<34:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_v.v:8:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_v.v:16:1: Compile module "work@level1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_v.v:29:1: Compile module "work@level2".
+[INF:CP0303] $Source01/t_func_v.v:8:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_v.v:16:1: Compile module "work@level1".
+[INF:CP0303] $Source01/t_func_v.v:29:1: Compile module "work@level2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_func_v.v:23:11: Illegal implicit net "id:46, name:mem".
+[ERR:EL0535] $Source01/t_func_v.v:23:11: Illegal implicit net "id:49, name:mem".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_v.v file:${SURELOG_DIR}/tests/Verilator/t_func_v.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_v.v file:$Source01/t_func_v.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_v.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_v/lib/work/t_func_v.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_v.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_v.v start:8:1 end:14:10:
+    Module name:work@t file:$Source01/t_func_v.v start:8:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:8:8 end:8:9:
         vpiParent: Module name:work@t
@@ -189,6 +198,11 @@ Design name:unnamed:
             vpiName: work@level1
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:13:4 end:13:27:
           vpiParent: Module name:work@t
@@ -196,7 +210,7 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName: "ul1.doit(4'b0)"
             vpiFullName: "work@t.ul1.doit(4'b0)"
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:ul1 start:13:12 end:13:15:
                 vpiParent: "HierPath name:ul1.doit(4'b0)"
                 vpiName: ul1
@@ -217,7 +231,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 4
                     vpiDecompile: "4'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
       vpiRefInstance (1 items):
         RefInstance name:ul1 start:12:11 end:12:14:
           vpiParent: Module name:work@t
@@ -227,7 +241,7 @@ Design name:unnamed:
             vpiName: work@level1
             vpiFullName: work@t.ul1.work@level1
             vpiActual: ModuleTypespec name:work@level1
-    Module name:work@level1 file:${SURELOG_DIR}/tests/Verilator/t_func_v.v start:16:1 end:27:10:
+    Module name:work@level1 file:$Source01/t_func_v.v start:16:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@level1 start:16:8 end:16:14:
         vpiParent: Module name:work@level1
@@ -241,6 +255,11 @@ Design name:unnamed:
             vpiName: work@level2
       vpiDefName: work@level1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@level1
+        vpiName: work
+        vpiFullName: work@level1.work
+      vpiCell: level1
       vpiTaskFunc (1 items):
         Task name:doit start:22:4 end:26:11:
           vpiParent: Module name:work@level1
@@ -305,7 +324,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: ul2.mem
                   vpiFullName: work@level1.doit.ul2.mem
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:ul2 start:23:7 end:23:10:
                       vpiParent: HierPath name:ul2.mem
                       vpiName: ul2
@@ -335,7 +354,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:25:7 end:25:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:25:7 end:25:14:
@@ -350,7 +369,7 @@ Design name:unnamed:
             vpiName: work@level2
             vpiFullName: work@level1.ul2.work@level2
             vpiActual: ModuleTypespec name:work@level2
-    Module name:work@level2 file:${SURELOG_DIR}/tests/Verilator/t_func_v.v start:29:1 end:34:10:
+    Module name:work@level2 file:$Source01/t_func_v.v start:29:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@level2 start:29:8 end:29:14:
         vpiParent: Module name:work@level2
@@ -395,6 +414,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@level2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@level2
+        vpiName: work
+        vpiFullName: work@level2.work
+      vpiCell: level2
       vpiNet (1 items):
         Net name:mem start:33:16 end:33:19:
           vpiParent: Module name:work@level2
@@ -432,37 +456,40 @@ Design name:unnamed:
         vpiName: work@level2
       vpiModule: Module name:work@level2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_v
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_v
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_v/surelog.uhdm
+      test-name: Verilator/t_func_v
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_v/lib/work/t_func_v.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 226}},
+            'files': {'$Output/lib/work/t_func_v.v': {'post_len': 0,
+                                                      'pre_len': 226}},
             'post_len': 0,
             'pre_len': 226,
             'test_name': 'Verilator/t_func_v'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/t_func_v.v |      226 |         0 |
-+=====================+==========+===========+
-|                     |      226 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/t_func_v.v |      226 |         0 |
++=============================+==========+===========+
+|                             |      226 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -476,7 +503,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_v/surelog.uhdm ${SURELOG_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

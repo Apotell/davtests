@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_defparam/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_defparam.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_defparam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_defparam.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_defparam.v".
 AST_DEBUG_BEGIN
 Count: 61
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v> u<60> t<Top_level_rule> c<1> l<6:1> el<16:1>
+FILE: f<13>:$Source01/t_lint_defparam.v
+n<$Source01/t_lint_defparam.v> u<60> t<Top_level_rule> c<1> l<6:1> el<16:1>
   n<> u<1> t<Null_rule> p<60> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<60> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<60> s<4> l<2:1> el<2:3>
@@ -64,21 +73,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v> u<60> t<Top_level_rule> c<1>
                                   n<6> u<42> t<INTEGRAL_NUMBER> p<43> l<14:18> el<14:19>
         n<> u<56> t<ENDMODULE> p<57> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v:13:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_lint_defparam.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_lint_defparam.v:13:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v:9:17: Illegal implicit net "id:15, name:P".
+[ERR:EL0535] $Source01/t_lint_defparam.v:9:17: Illegal implicit net "id:17, name:P".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_defparam.v file:${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_defparam.v file:$Source01/t_lint_defparam.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_defparam.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_defparam/lib/work/t_lint_defparam.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_defparam.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v start:6:1 end:11:10:
+    Module name:work@t file:$Source01/t_lint_defparam.v start:6:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -92,20 +101,26 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiDefParam (1 items):
         DefParam start:9:13 end:9:22:
           vpiParent: Module name:work@t
-          vpiLhs HierPath start:9:13 end:9:18:
+          vpiLhs HierPath name:sub.P start:9:13 end:9:18:
             vpiParent: DefParam
-            vpiFullName: work@t
-            vpiActual (2 items):
+            vpiName: sub.P
+            vpiFullName: work@t.sub.P
+            vpiPathElem (2 items):
               RefObj name:sub start:9:13 end:9:16:
-                vpiParent: HierPath
+                vpiParent: HierPath name:sub.P
                 vpiName: sub
                 vpiFullName: work@t.sub
                 vpiActual: RefInstance name:sub
               RefObj name:P start:9:17 end:9:18:
-                vpiParent: HierPath
+                vpiParent: HierPath name:sub.P
                 vpiName: P
                 vpiFullName: work@t.P
           vpiRhs Constant start:9:21 end:9:22:
@@ -127,7 +142,7 @@ Design name:unnamed:
             vpiName: work@sub
             vpiFullName: work@t.sub.work@sub
             vpiActual: ModuleTypespec name:work@sub
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_lint_defparam.v start:13:1 end:15:10:
+    Module name:work@sub file:$Source01/t_lint_defparam.v start:13:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:13:8 end:13:11:
         vpiParent: Module name:work@sub
@@ -165,6 +180,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
   vpiTypespec (3 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -182,37 +202,40 @@ Design name:unnamed:
         vpiName: work@sub
       vpiModule: Module name:work@sub
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_defparam
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_defparam
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_defparam/surelog.uhdm
+      test-name: Verilator/t_lint_defparam
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_defparam
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_defparam/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_defparam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_defparam/lib/work/t_lint_defparam.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 84}},
+            'files': {'$Output/lib/work/t_lint_defparam.v': {'post_len': 0,
+                                                             'pre_len': 84}},
             'post_len': 0,
             'pre_len': 84,
             'test_name': 'Verilator/t_lint_defparam'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_lint_defparam.v |       84 |         0 |
-+============================+==========+===========+
-|                            |       84 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_lint_defparam.v |       84 |         0 |
++====================================+==========+===========+
+|                                    |       84 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -226,7 +249,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_defparam/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackEnumVal -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 109
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackEnumVal/dut.sv
-n<${SURELOG_DIR}/tests/PackEnumVal/dut.sv> u<108> t<Top_level_rule> c<1> l<2:1> el<20:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<108> t<Top_level_rule> c<1> l<2:1> el<20:1>
   n<> u<1> t<Null_rule> p<108> s<107> l<2:1> el<2:1>
   n<> u<107> t<Source_text> p<108> c<59> l<2:1> el<18:10>
     n<> u<59> t<Description> p<107> c<58> s<106> l<2:1> el<13:11>
@@ -112,21 +121,21 @@ n<${SURELOG_DIR}/tests/PackEnumVal/dut.sv> u<108> t<Top_level_rule> c<1> l<2:1> 
                                   n<i> u<90> t<SIMPLE_IDENTIFIER> p<91> l<17:38> el<17:39>
         n<> u<104> t<ENDMODULE> p<105> l<18:1> el<18:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackEnumVal/dut.sv:2:1: Compile package "work@test_package".
-[INF:CP0303] ${SURELOG_DIR}/tests/PackEnumVal/dut.sv:16:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackEnumVal/dut.sv:2:1: No timescale set for "work@test_package".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackEnumVal/dut.sv:16:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@test_package".
+[INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@test_package".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackEnumVal/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@test_package file:${SURELOG_DIR}/tests/PackEnumVal/dut.sv start:2:1 end:13:11:
+    Package name:work@test_package file:$Source01/dut.sv start:2:1 end:13:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test_package start:2:9 end:2:21:
         vpiParent: Package name:work@test_package
@@ -183,6 +192,11 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@test_package
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@test_package
+        vpiName: work
+        vpiFullName: work@test_package::work
+      vpiCell: test_package
       vpiTaskFunc (1 items):
         Function name:test_true start:9:3 end:11:26:
           vpiParent: Package name:work@test_package
@@ -233,7 +247,7 @@ Design name:unnamed:
             vpiFullName: work@test_package::test_true
             vpiActual: LogicTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/PackEnumVal/dut.sv start:16:1 end:18:10:
+    Module name:work@top file:$Source01/dut.sv start:16:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -257,6 +271,11 @@ Design name:unnamed:
           vpiName: test_package
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:i start:16:24 end:16:25:
           vpiParent: Module name:work@top
@@ -304,8 +323,8 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: test_package::test_true(i)
             vpiFullName: work@top.test_package::test_true(i)
-            vpiActual (2 items):
-              ClassTypespec name:test_package
+            vpiPathElem (2 items):
+              ClassTypespec name:test_package:
               FuncCall name:test_true start:17:28 end:17:40:
                 vpiParent: HierPath name:test_package::test_true(i)
                 vpiName Identifier name:test_true start:17:28 end:17:37:
@@ -328,37 +347,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackEnumVal/PackEnumVal
- test-dirpath: ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal
-uhdm-filepath: ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/surelog.uhdm
+      test-name: PackEnumVal/PackEnumVal
+   test-dirpath: ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal
+  uhdm-filepath: ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 253}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 253}},
             'post_len': 0,
             'pre_len': 253,
             'test_name': 'PackEnumVal/PackEnumVal'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      253 |         0 |
-+=================+==========+===========+
-|                 |      253 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      253 |         0 |
++=========================+==========+===========+
+|                         |      253 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -372,7 +394,7 @@ COMMAND: ${SURELOG_DIR}/regression/PackEnumVal/PackEnumVal/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    56      56       0         0
 ===================== END REDUCTION RESULT =====================

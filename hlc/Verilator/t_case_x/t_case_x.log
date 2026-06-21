@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_case_x/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_case_x.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_case_x
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_case_x.v".
+[INF:PA0201] Parsing source file "$Source01/t_case_x.v".
 AST_DEBUG_BEGIN
 Count: 420
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_case_x.v
-n<${SURELOG_DIR}/tests/Verilator/t_case_x.v> u<419> t<Top_level_rule> c<1> l<6:1> el<66:1>
+FILE: f<13>:$Source01/t_case_x.v
+n<$Source01/t_case_x.v> u<419> t<Top_level_rule> c<1> l<6:1> el<66:1>
   n<> u<1> t<Null_rule> p<419> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<419> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<419> s<4> l<2:1> el<2:3>
@@ -423,19 +432,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_case_x.v> u<419> t<Top_level_rule> c<1> l<6:1
                           n<> u<405> t<END> p<406> l<63:4> el<63:7>
         n<> u<415> t<ENDMODULE> p<416> l<65:1> el<65:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_case_x.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_case_x.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_case_x.v file:${SURELOG_DIR}/tests/Verilator/t_case_x.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_case_x.v file:$Source01/t_case_x.v:
       vpiParent: Design name:unnamed
       vpiName: t_case_x.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_case_x/lib/work/t_case_x.v"
+      vpiPreprocFile: "$Output/lib/work/t_case_x.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_case_x.v start:6:1 end:65:10:
+    Module name:work@t file:$Source01/t_case_x.v start:6:1 end:65:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -496,6 +505,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:value start:8:14 end:8:19:
           vpiParent: Module name:work@t
@@ -537,7 +551,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b1001"
-                  vpiValue: 1001
+                  vpiValue: "1001"
               Assignment start:19:7 end:19:23:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -555,7 +569,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b1xxx"
-                  vpiValue: 1xxx
+                  vpiValue: "1xxx"
               CaseStmt start:20:7 end:25:14:
                 vpiParent: Begin
                 vpiCaseType: exact (1)
@@ -577,7 +591,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1xxx"
-                        vpiValue: 1xxx
+                        vpiValue: "1xxx"
                     vpiStmt SysFuncCall name:$stop start:21:11 end:21:16:
                       vpiParent: CaseItem
                       vpiName Identifier name:$stop start:21:11 end:21:16:
@@ -595,7 +609,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1???"
-                        vpiValue: 1???
+                        vpiValue: "1???"
                     vpiStmt SysFuncCall name:$stop start:22:11 end:22:16:
                       vpiParent: CaseItem
                       vpiName Identifier name:$stop start:22:11 end:22:16:
@@ -613,7 +627,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1001"
-                        vpiValue: 1001
+                        vpiValue: "1001"
                   CaseItem start:24:2 end:24:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:24:11 end:24:16:
@@ -642,7 +656,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1???"
-                        vpiValue: 1???
+                        vpiValue: "1???"
                     vpiStmt SysFuncCall name:$stop start:27:11 end:27:16:
                       vpiParent: CaseItem
                       vpiName Identifier name:$stop start:27:11 end:27:16:
@@ -660,7 +674,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1xxx"
-                        vpiValue: 1xxx
+                        vpiValue: "1xxx"
                   CaseItem start:29:2 end:29:12:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -673,7 +687,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1001"
-                        vpiValue: 1001
+                        vpiValue: "1001"
                   CaseItem start:30:2 end:30:12:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -686,7 +700,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1000"
-                        vpiValue: 1000
+                        vpiValue: "1000"
                   CaseItem start:31:2 end:31:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:31:11 end:31:16:
@@ -715,7 +729,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b100x"
-                        vpiValue: 100x
+                        vpiValue: "100x"
                   CaseItem start:36:2 end:36:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:36:11 end:36:16:
@@ -744,7 +758,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b100?"
-                        vpiValue: 100?
+                        vpiValue: "100?"
                   CaseItem start:40:2 end:40:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:40:11 end:40:16:
@@ -773,7 +787,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b100x"
-                        vpiValue: 100x
+                        vpiValue: "100x"
                   CaseItem start:44:2 end:44:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:44:11 end:44:16:
@@ -802,7 +816,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b100?"
-                        vpiValue: 100?
+                        vpiValue: "100?"
                   CaseItem start:48:2 end:48:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:48:11 end:48:16:
@@ -849,7 +863,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b100?"
-                        vpiValue: 100?
+                        vpiValue: "100?"
                   CaseItem start:54:2 end:54:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:54:11 end:54:16:
@@ -878,7 +892,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b1xx?"
-                        vpiValue: 1xx?
+                        vpiValue: "1xx?"
                   CaseItem start:58:2 end:58:12:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -891,7 +905,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 4
                         vpiDecompile: "4'b100?"
-                        vpiValue: 100?
+                        vpiValue: "100?"
                   CaseItem start:59:2 end:59:17:
                     vpiParent: CaseStmt
                     vpiStmt SysFuncCall name:$stop start:59:11 end:59:16:
@@ -914,7 +928,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:62:7 end:62:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:62:7 end:62:14:
@@ -935,37 +949,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_case_x
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_case_x
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_case_x/surelog.uhdm
+      test-name: Verilator/t_case_x
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_case_x
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_case_x/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_case_x/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_case_x/lib/work/t_case_x.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 608}},
+            'files': {'$Output/lib/work/t_case_x.v': {'post_len': 0,
+                                                      'pre_len': 608}},
             'post_len': 0,
             'pre_len': 608,
             'test_name': 'Verilator/t_case_x'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/t_case_x.v |      608 |         0 |
-+=====================+==========+===========+
-|                     |      608 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/t_case_x.v |      608 |         0 |
++=============================+==========+===========+
+|                             |      608 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -979,7 +996,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_case_x/surelog.uhdm ${SURELOG_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             134     134       0         0
+Others                             135     135       0         0
 ----------------------------------------------------------------
-                                   134     134       0         0
+                                   135     135       0         0
 ===================== END REDUCTION RESULT =====================

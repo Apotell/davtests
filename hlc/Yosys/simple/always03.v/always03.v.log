@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/always03.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/always03.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/always03.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/always03.v".
+[INF:PA0201] Parsing source file "$Source01/simple/always03.v".
 AST_DEBUG_BEGIN
 Count: 282
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/always03.v
-n<${SURELOG_DIR}/tests/Yosys/simple/always03.v> u<281> t<Top_level_rule> c<1> l<1:1> el<23:1>
+FILE: f<13>:$Source01/simple/always03.v
+n<$Source01/simple/always03.v> u<281> t<Top_level_rule> c<1> l<1:1> el<23:1>
   n<> u<1> t<Null_rule> p<281> s<280> l<1:1>
   n<> u<280> t<Source_text> p<281> c<279> l<1:1> el<22:10>
     n<> u<279> t<Description> p<280> c<278> l<1:1> el<22:10>
@@ -285,19 +294,19 @@ n<${SURELOG_DIR}/tests/Yosys/simple/always03.v> u<281> t<Top_level_rule> c<1> l<
                                 n<> u<264> t<END> p<265> l<20:1> el<20:4>
         n<> u<277> t<ENDMODULE> p<278> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/always03.v:1:1: Compile module "work@uut_always03".
+[INF:CP0303] $Source01/simple/always03.v:1:1: Compile module "work@uut_always03".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:always03.v file:${SURELOG_DIR}/tests/Yosys/simple/always03.v:
+  vpiSourceFile (1 items):
+    SourceFile name:always03.v file:$Source01/simple/always03.v:
       vpiParent: Design name:unnamed
       vpiName: always03.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/always03.v/lib/work/simple/always03.v"
+      vpiPreprocFile: "$Output/lib/work/simple/always03.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@uut_always03 file:${SURELOG_DIR}/tests/Yosys/simple/always03.v start:1:1 end:22:10:
+    Module name:work@uut_always03 file:$Source01/simple/always03.v start:1:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@uut_always03 start:1:8 end:1:20:
         vpiParent: Module name:work@uut_always03
@@ -308,6 +317,11 @@ Design name:unnamed:
           vpiParent: Module name:work@uut_always03
       vpiDefName: work@uut_always03
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@uut_always03
+        vpiName: work
+        vpiFullName: work@uut_always03.work
+      vpiCell: uut_always03
       vpiNet (11 items):
         Net name:clock start:3:7 end:3:12:
           vpiParent: Module name:work@uut_always03
@@ -696,37 +710,40 @@ Design name:unnamed:
         vpiName: work@uut_always03
       vpiModule: Module name:work@uut_always03
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/always03.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/always03.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/always03.v/surelog.uhdm
+      test-name: Yosys/simple/always03.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/always03.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/always03.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/always03.v/mounts.json
 
 
 {'result': {'coverage': 95.91,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/always03.v/lib/work/simple/always03.v'): {'post_len': 14,
-                                                                                                                                       'pre_len': 342}},
+            'files': {'$Output/lib/work/simple/always03.v': {'post_len': 14,
+                                                             'pre_len': 342}},
             'post_len': 14,
             'pre_len': 342,
             'test_name': 'Yosys/simple/always03.v'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/simple/always03.v |      342 |        14 |
-+============================+==========+===========+
-|                            |      342 |        14 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/simple/always03.v |      342 |        14 |
++====================================+==========+===========+
+|                                    |      342 |        14 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 95.91
@@ -740,7 +757,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/simple/always03.v/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              99      99       0         0
+Others                             100     100       0         0
 ----------------------------------------------------------------
-                                    99      99       0         0
+                                   100     100       0         0
 ===================== END REDUCTION RESULT =====================

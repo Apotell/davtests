@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/AssumeProp/AssumeProp/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/AssumeProp -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/AssumeProp/AssumeProp
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 85
 LIB: work
-FILE: ${SURELOG_DIR}/tests/AssumeProp/dut.sv
-n<${SURELOG_DIR}/tests/AssumeProp/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<84> s<83> l<1:1>
   n<> u<83> t<Source_text> p<84> c<82> l<1:1> el<10:10>
     n<> u<82> t<Description> p<83> c<81> l<1:1> el<10:10>
@@ -88,26 +97,26 @@ n<${SURELOG_DIR}/tests/AssumeProp/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el
                                               n<NoMstPorts> u<59> t<SIMPLE_IDENTIFIER> p<60> l<7:52> el<7:62>
         n<> u<80> t<ENDMODULE> p<81> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:1:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:4:43: Illegal implicit net "id:7, name:clk_i".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:4:51: Illegal implicit net "id:10, name:slv_req_i".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:4:61: Illegal implicit net "id:11, name:aw_valid".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:5:51: Illegal implicit net "id:12, name:slv_aw_select_i".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:5:69: Illegal implicit net "id:13, name:NoMstPorts".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:7:35: Illegal implicit net "id:23, name:slv_aw_select_i".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssumeProp/dut.sv:7:52: Illegal implicit net "id:24, name:NoMstPorts".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:4:43: Illegal implicit net "id:8, name:clk_i".
+[ERR:EL0535] $Source01/dut.sv:4:51: Illegal implicit net "id:11, name:slv_req_i".
+[ERR:EL0535] $Source01/dut.sv:4:61: Illegal implicit net "id:12, name:aw_valid".
+[ERR:EL0535] $Source01/dut.sv:5:51: Illegal implicit net "id:13, name:slv_aw_select_i".
+[ERR:EL0535] $Source01/dut.sv:5:69: Illegal implicit net "id:14, name:NoMstPorts".
+[ERR:EL0535] $Source01/dut.sv:7:35: Illegal implicit net "id:24, name:slv_aw_select_i".
+[ERR:EL0535] $Source01/dut.sv:7:52: Illegal implicit net "id:25, name:NoMstPorts".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/AssumeProp/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/AssumeProp/AssumeProp/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/AssumeProp/dut.sv start:1:1 end:10:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -137,7 +146,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: slv_req_i.aw_valid
                   vpiFullName: work@dut.slv_req_i.aw_valid
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:slv_req_i start:4:51 end:4:60:
                       vpiParent: HierPath name:slv_req_i.aw_valid
                       vpiName: slv_req_i
@@ -184,8 +193,8 @@ Design name:unnamed:
                 vpiSize: 800
                 vpiDecompile: "\"slv_aw_select_i is %d: AW has selected a slave that is not defined.\\
                  NoMstPorts: %d\""
-                vpiValue: slv_aw_select_i is %d: AW has selected a slave that is not defined.\
-                 NoMstPorts: %d
+                vpiValue: "slv_aw_select_i is %d: AW has selected a slave that is not defined.\\
+                 NoMstPorts: %d"
               RefObj name:slv_aw_select_i start:7:35 end:7:50:
                 vpiParent: SysFuncCall name:$fatal
                 vpiName: slv_aw_select_i
@@ -196,6 +205,11 @@ Design name:unnamed:
                 vpiFullName: work@dut.NoMstPorts
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
   vpiTypespec (3 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -209,37 +223,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 7
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: AssumeProp/AssumeProp
- test-dirpath: ${SURELOG_DIR}/regression/AssumeProp/AssumeProp
-uhdm-filepath: ${SURELOG_DIR}/regression/AssumeProp/AssumeProp/surelog.uhdm
+      test-name: AssumeProp/AssumeProp
+   test-dirpath: ${SURELOG_DIR}/regression/AssumeProp/AssumeProp
+  uhdm-filepath: ${SURELOG_DIR}/regression/AssumeProp/AssumeProp/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/AssumeProp/AssumeProp/mounts.json
 
 
 {'result': {'coverage': 69.05,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/AssumeProp/AssumeProp/lib/work/dut.sv'): {'post_len': 78,
-                                                                                                                          'pre_len': 252}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 78,
+                                                  'pre_len': 252}},
             'post_len': 78,
             'pre_len': 252,
             'test_name': 'AssumeProp/AssumeProp'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      252 |        78 |
-+=================+==========+===========+
-|                 |      252 |        78 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      252 |        78 |
++=========================+==========+===========+
+|                         |      252 |        78 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 69.05
@@ -253,7 +270,7 @@ COMMAND: ${SURELOG_DIR}/regression/AssumeProp/AssumeProp/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    29      29       0         0
 ===================== END REDUCTION RESULT =====================

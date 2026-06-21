@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm escape4b.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/escape4b.v".
+[INF:PA0201] Parsing source file "$Source01/escape4b.v".
 AST_DEBUG_BEGIN
 Count: 323
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v> u<322> t<Top_level_rule> c<1> l<20:1> el<55:1>
+FILE: f<13>:$Source01/escape4b.v
+n<$Source01/escape4b.v> u<322> t<Top_level_rule> c<1> l<20:1> el<55:1>
   n<> u<1> t<Null_rule> p<322> s<2> l<20:1> el<20:1>
   n</*\n * Copyright (c) 2002 Michael Ruff (mruff @chiaro.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<322> s<321> l<20:1> el<54:10>
   n<> u<321> t<Source_text> p<322> c<252> l<20:1> el<54:10>
@@ -326,22 +335,22 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v> u<322> t<Top_level_rule> c<1>
                         n<> u<309> t<END> p<310> l<53:4> el<53:7>
         n<> u<318> t<ENDMODULE> p<319> l<54:1> el<54:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v:20:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v:47:1: Compile module "work@bot".
+[INF:CP0303] $Source01/escape4b.v:20:1: Compile module "work@top".
+[INF:CP0303] $Source01/escape4b.v:47:1: Compile module "work@bot".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v:31:38: Illegal implicit net "id:70, name:m".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v:38:15: Illegal implicit net "id:97, name:m".
+[ERR:EL0535] $Source01/escape4b.v:31:38: Illegal implicit net "id:72, name:m".
+[ERR:EL0535] $Source01/escape4b.v:38:15: Illegal implicit net "id:99, name:m".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:escape4b.v file:${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v:
+  vpiSourceFile (1 items):
+    SourceFile name:escape4b.v file:$Source01/escape4b.v:
       vpiParent: Design name:unnamed
       vpiName: escape4b.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/lib/work/escape4b.v"
+      vpiPreprocFile: "$Output/lib/work/escape4b.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v start:20:1 end:45:10:
+    Module name:work@top file:$Source01/escape4b.v start:20:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:20:8 end:20:11:
         vpiParent: Module name:work@top
@@ -410,6 +419,11 @@ Design name:unnamed:
             vpiName: work@bot
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:bot.m start:22:14 end:22:25:
           vpiParent: Module name:work@top
@@ -469,7 +483,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 2
                   vpiDecompile: "2'b11"
-                  vpiValue: 11
+                  vpiValue: "11"
               DelayControl start:29:7 end:29:9:
                 vpiParent: Begin
                 vpiDelay Constant start:29:8 end:29:9:
@@ -497,7 +511,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 136
                     vpiDecompile: "\"\\\\bot.m [0] == %b\""
-                    vpiValue: \\bot.m [0] == %b
+                    vpiValue: "\\\\bot.m [0] == %b"
                   BitSelect name:bot.m[0] start:30:37 end:30:51:
                     vpiParent: SysFuncCall name:$display
                     vpiName: bot.m[0]
@@ -537,7 +551,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: bot.m[0]
                     vpiFullName: work@top.bot.m[0]
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:bot start:31:34 end:31:37:
                         vpiParent: HierPath name:bot.m[0]
                         vpiName: bot
@@ -595,7 +609,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 2
                       vpiDecompile: "2'b11"
-                      vpiValue: 11
+                      vpiValue: "11"
                 vpiStmt Begin start:33:37 end:36:10:
                   vpiParent: IfStmt
                   vpiFullName: work@top
@@ -615,7 +629,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 248
                           vpiDecompile: "\"FAILED -- \\\\bot.m [0] !== 2'b11\""
-                          vpiValue: FAILED -- \\bot.m [0] !== 2'b11
+                          vpiValue: "FAILED -- \\\\bot.m [0] !== 2'b11"
                     SysFuncCall name:$finish start:35:3 end:35:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:35:3 end:35:10:
@@ -631,7 +645,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: bot.m[0]
                       vpiFullName: work@top.bot.m[0]
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         RefObj name:bot start:38:11 end:38:14:
                           vpiParent: HierPath name:bot.m[0]
                           vpiName: bot
@@ -664,7 +678,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 2
                       vpiDecompile: "2'b00"
-                      vpiValue: 00
+                      vpiValue: "00"
                 vpiStmt Begin start:38:31 end:41:10:
                   vpiParent: IfStmt
                   vpiFullName: work@top
@@ -684,7 +698,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 224
                           vpiDecompile: "\"FAILED -- bot.m[0] !== 2'b00\""
-                          vpiValue: FAILED -- bot.m[0] !== 2'b00
+                          vpiValue: "FAILED -- bot.m[0] !== 2'b00"
                     SysFuncCall name:$finish start:40:3 end:40:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:40:3 end:40:10:
@@ -715,7 +729,7 @@ Design name:unnamed:
             vpiName: work@bot
             vpiFullName: work@top.bot.work@bot
             vpiActual: ModuleTypespec name:work@bot
-    Module name:work@bot file:${SURELOG_DIR}/tests/Icarus/ivltests/escape4b.v start:47:1 end:54:10:
+    Module name:work@bot file:$Source01/escape4b.v start:47:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bot start:47:8 end:47:11:
         vpiParent: Module name:work@bot
@@ -779,6 +793,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@bot
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bot
+        vpiName: work
+        vpiFullName: work@bot.work
+      vpiCell: bot
       vpiNet (1 items):
         Net name:m start:49:14 end:49:15:
           vpiParent: Module name:work@bot
@@ -826,7 +845,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 2
                   vpiDecompile: "2'b00"
-                  vpiValue: 00
+                  vpiValue: "00"
   vpiTypespec (5 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -848,37 +867,40 @@ Design name:unnamed:
         vpiName: work@bot
       vpiModule: Module name:work@bot
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/escape4b
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/surelog.uhdm
+      test-name: Icarus/ivltests/escape4b
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/lib/work/escape4b.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 442}},
+            'files': {'$Output/lib/work/escape4b.v': {'post_len': 0,
+                                                      'pre_len': 442}},
             'post_len': 0,
             'pre_len': 442,
             'test_name': 'Icarus/ivltests/escape4b'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/escape4b.v |      442 |         0 |
-+=====================+==========+===========+
-|                     |      442 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/escape4b.v |      442 |         0 |
++=============================+==========+===========+
+|                             |      442 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -892,7 +914,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4b/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             125     125       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   125     125       0         0
+                                   127     127       0         0
 ===================== END REDUCTION RESULT =====================

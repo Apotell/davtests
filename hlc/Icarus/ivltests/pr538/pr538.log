@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr538/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr538.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr538
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr538.v".
+[INF:PA0201] Parsing source file "$Source01/pr538.v".
 AST_DEBUG_BEGIN
 Count: 391
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr538.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr538.v> u<390> t<Top_level_rule> c<1> l<13:1> el<44:1>
+FILE: f<13>:$Source01/pr538.v
+n<$Source01/pr538.v> u<390> t<Top_level_rule> c<1> l<13:1> el<44:1>
   n<> u<1> t<Null_rule> p<390> s<2> l<13:1> el<13:1>
   n<//////////////////////////////////////////////////////////////////////////////> u<2> t<LINE_COMMENT> p<390> s<3> l<1:1> el<1:79>
   n<//> u<3> t<LINE_COMMENT> p<390> s<4> l<2:1> el<2:3>
@@ -394,21 +403,21 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr538.v> u<390> t<Top_level_rule> c<1> l<
                         n<> u<377> t<END> p<378> l<42:3> el<42:6>
         n<> u<386> t<ENDMODULE> p<387> l<43:1> el<43:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr538.v:15:1: Compile module "work@test".
+[INF:CP0303] $Source01/pr538.v:15:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr538.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr538.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr538.v file:$Source01/pr538.v:
       vpiParent: Design name:unnamed
       vpiName: pr538.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr538/lib/work/pr538.v"
+      vpiPreprocFile: "$Output/lib/work/pr538.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -8
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/pr538.v start:15:1 end:43:10:
+    Module name:work@test file:$Source01/pr538.v start:15:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:15:8 end:15:12:
         vpiParent: Module name:work@test
@@ -474,6 +483,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -8
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (3 items):
         Net name:set start:16:7 end:16:10:
           vpiParent: Module name:work@test
@@ -804,7 +818,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 416
                     vpiDecompile: "\"\\n\\t\\t**********************************************\""
-                    vpiValue: \n\t\t**********************************************
+                    vpiValue: "\\n\\t\\t**********************************************"
               IfElse start:38:5 end:39:77:
                 vpiParent: Begin
                 vpiCondition RefObj name:fail start:38:8 end:38:12:
@@ -827,7 +841,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 400
                       vpiDecompile: "\"\\t\\t********** timescale test FAILED *************\""
-                      vpiValue: \t\t********** timescale test FAILED *************
+                      vpiValue: "\\t\\t********** timescale test FAILED *************"
                 vpiElseStmt SysFuncCall name:$display start:39:14 end:39:76:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:39:14 end:39:22:
@@ -843,7 +857,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 400
                       vpiDecompile: "\"\\t\\t********** timescale test PASSED *************\""
-                      vpiValue: \t\t********** timescale test PASSED *************
+                      vpiValue: "\\t\\t********** timescale test PASSED *************"
               SysFuncCall name:$display start:40:5 end:40:69:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:40:5 end:40:13:
@@ -859,7 +873,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 416
                     vpiDecompile: "\"\\t\\t**********************************************\\n\""
-                    vpiValue: \t\t**********************************************\n
+                    vpiValue: "\\t\\t**********************************************\\n"
               SysFuncCall name:$finish start:41:5 end:41:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:41:5 end:41:12:
@@ -880,37 +894,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr538
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr538
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr538/surelog.uhdm
+      test-name: Icarus/ivltests/pr538
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr538
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr538/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr538/mounts.json
 
 
 {'result': {'coverage': 96.23,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr538/lib/work/pr538.v'): {'post_len': 21,
-                                                                                                                           'pre_len': 557}},
+            'files': {'$Output/lib/work/pr538.v': {'post_len': 21,
+                                                   'pre_len': 557}},
             'post_len': 21,
             'pre_len': 557,
             'test_name': 'Icarus/ivltests/pr538'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr538.v |      557 |        21 |
-+==================+==========+===========+
-|                  |      557 |        21 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr538.v |      557 |        21 |
++==========================+==========+===========+
+|                          |      557 |        21 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.23
@@ -924,7 +941,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr538/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   116     116       0         0
 ===================== END REDUCTION RESULT =====================

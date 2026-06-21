@@ -1,20 +1,27 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/RangeSelect/RangeSelect/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/RangeSelect dut.sv -parse -verbose -fileunit -d uhdm -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/RangeSelect/RangeSelect
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "${SURELOG_DIR}/tests/RangeSelect/dut.sv".
-[INF:PA0201] Parsing source file "${SURELOG_DIR}/tests/RangeSelect/dut.sv".
-[INF:CP0303] ${SURELOG_DIR}/tests/RangeSelect/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/RangeSelect/dut.sv:1:1: No timescale set for "work@top".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/RangeSelect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/RangeSelect/RangeSelect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/RangeSelect/dut.sv start:1:1 end:11:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -141,6 +148,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:c start:8:10 end:8:11:
           vpiParent: Module name:work@top
@@ -154,7 +166,7 @@ Design name:unnamed:
             vpiParent: Net name:c
             vpiName: a[0].source[6-:2]
             vpiFullName: work@top.c.a[0].source[6-:2]
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               BitSelect name:a[0] start:8:14 end:8:17:
                 vpiParent: HierPath name:a[0].source[6-:2]
                 vpiName: a[0]
@@ -216,7 +228,7 @@ Design name:unnamed:
             vpiParent: Net name:d
             vpiName: b.source[6-:2]
             vpiFullName: work@top.d.b.source[6-:2]
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:b start:9:20 end:9:21:
                 vpiParent: HierPath name:b.source[6-:2]
                 vpiName: b
@@ -263,37 +275,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: RangeSelect/RangeSelect
- test-dirpath: ${SURELOG_DIR}/regression/RangeSelect/RangeSelect
-uhdm-filepath: ${SURELOG_DIR}/regression/RangeSelect/RangeSelect/surelog.uhdm
+      test-name: RangeSelect/RangeSelect
+   test-dirpath: ${SURELOG_DIR}/regression/RangeSelect/RangeSelect
+  uhdm-filepath: ${SURELOG_DIR}/regression/RangeSelect/RangeSelect/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/RangeSelect/RangeSelect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/RangeSelect/RangeSelect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 161}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 161}},
             'post_len': 0,
             'pre_len': 161,
             'test_name': 'RangeSelect/RangeSelect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      161 |         0 |
-+=================+==========+===========+
-|                 |      161 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      161 |         0 |
++=========================+==========+===========+
+|                         |      161 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -307,7 +322,7 @@ COMMAND: ${SURELOG_DIR}/regression/RangeSelect/RangeSelect/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    60      60       0         0
 ===================== END REDUCTION RESULT =====================

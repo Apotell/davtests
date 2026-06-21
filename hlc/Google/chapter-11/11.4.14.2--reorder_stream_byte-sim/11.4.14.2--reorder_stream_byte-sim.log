@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-11 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 11.4.14.2--reorder_stream_byte-sim.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/11.4.14.2--reorder_stream_byte-sim.sv".
+[INF:PA0201] Parsing source file "$Source01/11.4.14.2--reorder_stream_byte-sim.sv".
 AST_DEBUG_BEGIN
 Count: 116
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv
-n<${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv> u<115> t<Top_level_rule> c<1> l<16:1> el<27:1>
+FILE: f<14>:$Source01/11.4.14.2--reorder_stream_byte-sim.sv
+n<$Source01/11.4.14.2--reorder_stream_byte-sim.sv> u<115> t<Top_level_rule> c<1> l<16:1> el<27:1>
   n<> u<1> t<Null_rule> p<115> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<115> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<115> s<4> l<2:1> el<2:3>
@@ -119,20 +128,19 @@ n<${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv> 
                           n<> u<101> t<END> p<102> l<24:1> el<24:4>
         n<> u<111> t<ENDMODULE> p<112> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv:16:1: Compile module "work@top".
-[ERR:CP0347] ${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv:1:1: Call to "ByteTypespec::setParent" failed.
+[INF:CP0303] $Source01/11.4.14.2--reorder_stream_byte-sim.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:11.4.14.2--reorder_stream_byte-sim.sv file:${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:11.4.14.2--reorder_stream_byte-sim.sv file:$Source01/11.4.14.2--reorder_stream_byte-sim.sv:
       vpiParent: Design name:unnamed
       vpiName: "11.4.14.2--reorder_stream_byte-sim.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim/lib/work/11.4.14.2--reorder_stream_byte-sim.sv"
+      vpiPreprocFile: "$Output/lib/work/11.4.14.2--reorder_stream_byte-sim.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim.sv start:16:1 end:26:10:
+    Module name:work@top file:$Source01/11.4.14.2--reorder_stream_byte-sim.sv start:16:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -140,6 +148,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:a start:18:5 end:18:6:
           vpiParent: Module name:work@top
@@ -222,9 +235,12 @@ Design name:unnamed:
                   vpiActual: Net name:b
                 vpiRhs Operation start:22:6 end:22:19:
                   vpiParent: Assignment
-                  vpiOpType: stream-rl (72)
+                  vpiOpType: stream-rl (69)
                   vpiOperand (2 items):
-                    ByteTypespec
+                    RefTypespec start:22:10 end:22:14:
+                      vpiParent: Operation
+                      vpiFullName: work@top
+                      vpiActual: ByteTypespec
                     Operation start:22:15 end:22:18:
                       vpiParent: Operation
                       vpiOpType: list (37)
@@ -249,7 +265,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 232
                     vpiDecompile: "\":assert: (0x44434241 == 0x%x)\""
-                    vpiValue: :assert: (0x44434241 == 0x%x)
+                    vpiValue: ":assert: (0x44434241 == 0x%x)"
                   RefObj name:b start:23:47 end:23:48:
                     vpiParent: SysFuncCall name:$display
                     vpiName: b
@@ -268,37 +284,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-11/11.4.14.2--reorder_stream_byte-sim
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim/surelog.uhdm
+      test-name: Google/chapter-11/11.4.14.2--reorder_stream_byte-sim
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-11/11.4.14.2--reorder_stream_byte-sim/lib/work/11.4.14.2--reorder_stream_byte-sim.sv'): {'post_len': 0,
-                                                                                                                                                                                        'pre_len': 136}},
+            'files': {'$Output/lib/work/11.4.14.2--reorder_stream_byte-sim.sv': {'post_len': 0,
+                                                                                 'pre_len': 136}},
             'post_len': 0,
             'pre_len': 136,
             'test_name': 'Google/chapter-11/11.4.14.2--reorder_stream_byte-sim'}}
 
-+------------------------------------------------+----------+-----------+
-| INPUT                                          |   PRELEN |   POSTLEN |
-+================================================+==========+===========+
-| lib/work/11.4.14.2--reorder_stream_byte-sim.sv |      136 |         0 |
-+================================================+==========+===========+
-|                                                |      136 |         0 |
-+------------------------------------------------+----------+-----------+
++--------------------------------------------------------+----------+-----------+
+| INPUT                                                  |   PRELEN |   POSTLEN |
++========================================================+==========+===========+
+| $Output/lib/work/11.4.14.2--reorder_stream_byte-sim.sv |      136 |         0 |
++========================================================+==========+===========+
+|                                                        |      136 |         0 |
++--------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -313,9 +332,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       2       1         4
 Operation                            3       2       0         1
-RefTypespec                          7       3       0         4
+RefTypespec                          8       4       0         4
 ----------------------------------------------------------------
-Others                              19      19       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    34      26       1         9
+                                    36      28       1         9
 ===================== END REDUCTION RESULT =====================

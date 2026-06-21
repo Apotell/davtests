@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/EnumConst/EnumConst/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/EnumConst -fileunit -writepp -parse -d ast -d uhdm dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/EnumConst/EnumConst
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 60
 LIB: work
-FILE: ${SURELOG_DIR}/tests/EnumConst/dut.sv
-n<${SURELOG_DIR}/tests/EnumConst/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<14>:$Source01/dut.sv
+n<$Source01/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<59> s<58> l<1:1>
   n<> u<58> t<Source_text> p<59> c<57> l<1:1> el<7:10>
     n<> u<57> t<Description> p<58> c<56> l<1:1> el<7:10>
@@ -64,19 +73,19 @@ n<${SURELOG_DIR}/tests/EnumConst/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<
                         n<exc_cause_e> u<46> t<SIMPLE_IDENTIFIER> p<47> l<5:3> el<5:14>
         n<> u<55> t<ENDMODULE> p<56> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/EnumConst/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/EnumConst/dut.sv:1:1: No timescale set for "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/EnumConst/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/EnumConst/EnumConst/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/EnumConst/dut.sv start:1:1 end:7:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -140,7 +149,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   Constant start:3:41 end:3:46:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -150,7 +159,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 5
                     vpiDecompile: "5'd03"
-                    vpiValue: 03
+                    vpiValue: "03"
             EnumConst name:EXC_CAUSE_IRQ_TIMER_M start:4:3 end:4:47:
               vpiParent: EnumTypespec
               vpiName Identifier name:EXC_CAUSE_IRQ_TIMER_M start:4:3 end:4:24:
@@ -173,7 +182,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   Constant start:4:41 end:4:46:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -183,7 +192,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 5
                     vpiDecompile: "5'd07"
-                    vpiValue: 07
+                    vpiValue: "07"
         TypedefTypespec name:exc_cause_e start:2:1 end:5:15:
           vpiParent: Module name:work@dut
           vpiName Identifier name:exc_cause_e start:5:3 end:5:14:
@@ -195,6 +204,11 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
   vpiTypespec (2 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -206,37 +220,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: EnumConst/EnumConst
- test-dirpath: ${SURELOG_DIR}/regression/EnumConst/EnumConst
-uhdm-filepath: ${SURELOG_DIR}/regression/EnumConst/EnumConst/surelog.uhdm
+      test-name: EnumConst/EnumConst
+   test-dirpath: ${SURELOG_DIR}/regression/EnumConst/EnumConst
+  uhdm-filepath: ${SURELOG_DIR}/regression/EnumConst/EnumConst/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/EnumConst/EnumConst/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/EnumConst/EnumConst/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 152}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 152}},
             'post_len': 0,
             'pre_len': 152,
             'test_name': 'EnumConst/EnumConst'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      152 |         0 |
-+=================+==========+===========+
-|                 |      152 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      152 |         0 |
++=========================+==========+===========+
+|                         |      152 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -253,7 +270,7 @@ Constant                             6       4       2         4
 Operation                            2       0       0         2
 RefTypespec                         10       4       0         6
 ----------------------------------------------------------------
-Others                              17      17       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    35      25       2        12
+                                    36      26       2        12
 ===================== END REDUCTION RESULT =====================

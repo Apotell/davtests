@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/basic/package_v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+basic+lex+lib+relong+resolve -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm basic/package.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Zachjs/basic/package_v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic/package.v".
+[INF:PA0201] Parsing source file "$Source01/basic/package.v".
 AST_DEBUG_BEGIN
 Count: 627
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/basic/package.v
-n<${SURELOG_DIR}/tests/Zachjs/basic/package.v> u<626> t<Top_level_rule> c<1> l<1:1> el<45:1>
+FILE: f<18>:$Source01/basic/package.v
+n<$Source01/basic/package.v> u<626> t<Top_level_rule> c<1> l<1:1> el<45:1>
   n<> u<1> t<Null_rule> p<626> s<625> l<1:1>
   n<> u<625> t<Source_text> p<626> c<624> l<1:1> el<44:10>
     n<> u<624> t<Description> p<625> c<623> l<1:1> el<44:10>
@@ -630,19 +639,19 @@ n<${SURELOG_DIR}/tests/Zachjs/basic/package.v> u<626> t<Top_level_rule> c<1> l<1
                         n<> u<613> t<END> p<614> l<43:5> el<43:8>
         n<> u<622> t<ENDMODULE> p<623> l<44:1> el<44:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/basic/package.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/basic/package.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:package.v file:${SURELOG_DIR}/tests/Zachjs/basic/package.v:
+  vpiSourceFile (1 items):
+    SourceFile name:package.v file:$Source01/basic/package.v:
       vpiParent: Design name:unnamed
       vpiName: package.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/basic/package_v/lib/work/basic/package.v"
+      vpiPreprocFile: "$Output/lib/work/basic/package.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Zachjs/basic/package.v start:1:1 end:44:10:
+    Module name:work@top file:$Source01/basic/package.v start:1:1 end:44:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -823,6 +832,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (2 items):
         Function name:D_pack start:8:5 end:11:16:
           vpiParent: Module name:work@top
@@ -1096,7 +1110,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 16
                     vpiDecompile: "\"%d\""
-                    vpiValue: %d
+                    vpiValue: "%d"
                   FuncCall name:D_pack start:23:24 end:23:33:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:D_pack start:23:24 end:23:30:
@@ -1128,7 +1142,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 16
                     vpiDecompile: "\"%d\""
-                    vpiValue: %d
+                    vpiValue: "%d"
                   FuncCall name:D_pack start:24:24 end:24:33:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:D_pack start:24:24 end:24:30:
@@ -1160,7 +1174,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 16
                     vpiDecompile: "\"%d\""
-                    vpiValue: %d
+                    vpiValue: "%d"
                   FuncCall name:E_pack start:25:24 end:25:33:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:E_pack start:25:24 end:25:30:
@@ -1192,7 +1206,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 16
                     vpiDecompile: "\"%d\""
-                    vpiValue: %d
+                    vpiValue: "%d"
                   FuncCall name:E_pack start:26:24 end:26:33:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:E_pack start:26:24 end:26:30:
@@ -1594,37 +1608,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/basic/package_v
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/package_v
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/package_v/surelog.uhdm
+      test-name: Zachjs/basic/package_v
+   test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/package_v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/package_v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/package_v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/basic/package_v/lib/work/basic/package.v'): {'post_len': 0,
-                                                                                                                                    'pre_len': 940}},
+            'files': {'$Output/lib/work/basic/package.v': {'post_len': 0,
+                                                           'pre_len': 940}},
             'post_len': 0,
             'pre_len': 940,
             'test_name': 'Zachjs/basic/package_v'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/basic/package.v |      940 |         0 |
-+==========================+==========+===========+
-|                          |      940 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/basic/package.v |      940 |         0 |
++==================================+==========+===========+
+|                                  |      940 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1641,7 +1658,7 @@ Constant                            44      44      15        15
 Operation                           19       4       0        15
 RefTypespec                         56      56      15        15
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   232     217      30        45
+                                   233     218      30        45
 ===================== END REDUCTION RESULT =====================

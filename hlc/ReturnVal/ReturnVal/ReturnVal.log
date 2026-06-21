@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ReturnVal/ReturnVal/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ReturnVal -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ReturnVal/ReturnVal
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 40
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ReturnVal/dut.sv
-n<${SURELOG_DIR}/tests/ReturnVal/dut.sv> u<39> t<Top_level_rule> c<1> l<1:1> el<10:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<39> t<Top_level_rule> c<1> l<1:1> el<10:1>
   n<> u<1> t<Null_rule> p<39> s<38> l<1:1>
   n<> u<38> t<Source_text> p<39> c<37> l<1:1> el<9:11>
     n<> u<37> t<Description> p<38> c<36> l<1:1> el<9:11>
@@ -43,19 +52,19 @@ n<${SURELOG_DIR}/tests/ReturnVal/dut.sv> u<39> t<Top_level_rule> c<1> l<1:1> el<
                 n<> u<30> t<ENDFUNCTION> p<31> l<7:4> el<7:15>
         n<> u<35> t<ENDPACKAGE> p<36> l<9:1> el<9:11>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/ReturnVal/dut.sv:1:1: Compile package "work@my_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ReturnVal/dut.sv:1:1: No timescale set for "work@my_pkg".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@my_pkg".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_pkg".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ReturnVal/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ReturnVal/ReturnVal/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@my_pkg file:${SURELOG_DIR}/tests/ReturnVal/dut.sv start:1:1 end:9:11:
+    Package name:work@my_pkg file:$Source01/dut.sv start:1:1 end:9:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_pkg start:1:9 end:1:15:
         vpiParent: Package name:work@my_pkg
@@ -63,6 +72,11 @@ Design name:unnamed:
       vpiFullName: work@my_pkg
       vpiDefName: work@my_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@my_pkg
+        vpiName: work
+        vpiFullName: work@my_pkg::work
+      vpiCell: my_pkg
       vpiTaskFunc (3 items):
         Function name:assign_1 start:2:4 end:3:15:
           vpiParent: Package name:work@my_pkg
@@ -110,37 +124,40 @@ Design name:unnamed:
     VoidTypespec start:2:23 end:2:27:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ReturnVal/ReturnVal
- test-dirpath: ${SURELOG_DIR}/regression/ReturnVal/ReturnVal
-uhdm-filepath: ${SURELOG_DIR}/regression/ReturnVal/ReturnVal/surelog.uhdm
+      test-name: ReturnVal/ReturnVal
+   test-dirpath: ${SURELOG_DIR}/regression/ReturnVal/ReturnVal
+  uhdm-filepath: ${SURELOG_DIR}/regression/ReturnVal/ReturnVal/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ReturnVal/ReturnVal/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ReturnVal/ReturnVal/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 159}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 159}},
             'post_len': 0,
             'pre_len': 159,
             'test_name': 'ReturnVal/ReturnVal'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      159 |         0 |
-+=================+==========+===========+
-|                 |      159 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      159 |         0 |
++=========================+==========+===========+
+|                         |      159 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -154,7 +171,7 @@ COMMAND: ${SURELOG_DIR}/regression/ReturnVal/ReturnVal/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              16      16       0         0
+Others                              17      17       0         0
 ----------------------------------------------------------------
-                                    16      16       0         0
+                                    17      17       0         0
 ===================== END REDUCTION RESULT =====================

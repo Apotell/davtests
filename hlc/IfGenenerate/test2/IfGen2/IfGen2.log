@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/IfGenenerate/test2 -parse -d uhdm -d ast dut2.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut2.sv".
+[INF:PA0201] Parsing source file "$Source01/dut2.sv".
 AST_DEBUG_BEGIN
 Count: 162
 LIB: work
-FILE: ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv
-n<${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv> u<161> t<Top_level_rule> c<1> l<1:1> el<19:1>
+FILE: f<13>:$Source01/dut2.sv
+n<$Source01/dut2.sv> u<161> t<Top_level_rule> c<1> l<1:1> el<19:1>
   n<> u<1> t<Null_rule> p<161> s<160> l<1:1>
   n<> u<160> t<Source_text> p<161> c<159> l<1:1> el<17:16>
     n<> u<159> t<Description> p<160> c<158> l<1:1> el<17:16>
@@ -165,24 +174,22 @@ n<${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv> u<161> t<Top_level_rule> c<1>
         n<> u<157> t<ENDMODULE> p<158> s<156> l<17:1> el<17:10>
         n<lzc> u<156> t<SIMPLE_IDENTIFIER> p<158> l<17:13> el<17:16>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:1:1: Compile module "work@lzc".
-[ERR:CP0341] ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:1:1: Unmached label "work@lzc",
-             ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:17:13: closing label "lzc".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:10:40: Compile generate block "g_last_level".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:11:23: Compile generate block "else_level".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:13:55: Compile generate block "g_level".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:1:1: No timescale set for "work@lzc".
+[INF:CP0303] $Source01/dut2.sv:1:1: Compile module "work@lzc".
+[INF:CP0335] $Source01/dut2.sv:10:40: Compile generate block "g_last_level".
+[INF:CP0335] $Source01/dut2.sv:11:23: Compile generate block "else_level".
+[INF:CP0335] $Source01/dut2.sv:13:55: Compile generate block "g_level".
+[WRN:PA0205] $Source01/dut2.sv:1:1: No timescale set for "work@lzc".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut2.sv file:${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut2.sv file:$Source01/dut2.sv:
       vpiParent: Design name:unnamed
       vpiName: dut2.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2/lib/work/dut2.sv"
+      vpiPreprocFile: "$Output/lib/work/dut2.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@lzc file:${SURELOG_DIR}/tests/IfGenenerate/test2/dut2.sv start:1:1 end:17:16:
+    Module name:work@lzc file:$Source01/dut2.sv start:1:1 end:17:16:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@lzc start:1:8 end:1:11:
         vpiParent: Module name:work@lzc
@@ -270,6 +277,11 @@ Design name:unnamed:
             vpiValue: 4
       vpiDefName: work@lzc
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@lzc
+        vpiName: work
+        vpiFullName: work@lzc.work
+      vpiCell: lzc
       vpiGenStmt (1 items):
         GenIfElse start:10:5 end:15:8:
           vpiParent: Module name:work@lzc
@@ -351,8 +363,8 @@ Design name:unnamed:
                       vpiFullName: work@lzc.else_level.level
                       vpiActual: Parameter name:level
             vpiStmt (3 items):
-              Parameter name:POWER
-              ParamAssign
+              Parameter name:POWER:
+              ParamAssign:
               GenFor start:13:9 end:14:12:
                 vpiParent: Begin name:else_level
                 vpiFullName: work@lzc.else_level
@@ -378,7 +390,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:13:42 end:13:45:
                     vpiParent: GenFor
-                    vpiOpType: post inc (62)
+                    vpiOpType: post inc (64)
                     vpiOperand (1 items):
                       RefObj name:l start:13:42 end:13:43:
                         vpiParent: Operation
@@ -435,37 +447,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: IfGenenerate/test2/IfGen2
- test-dirpath: ${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2
-uhdm-filepath: ${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2/surelog.uhdm
+      test-name: IfGenenerate/test2/IfGen2
+   test-dirpath: ${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2
+  uhdm-filepath: ${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/IfGenenerate/test2/IfGen2/lib/work/dut2.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 301}},
+            'files': {'$Output/lib/work/dut2.sv': {'post_len': 0,
+                                                   'pre_len': 301}},
             'post_len': 0,
             'pre_len': 301,
             'test_name': 'IfGenenerate/test2/IfGen2'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/dut2.sv |      301 |         0 |
-+==================+==========+===========+
-|                  |      301 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/dut2.sv |      301 |         0 |
++==========================+==========+===========+
+|                          |      301 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -482,11 +497,11 @@ Constant                             6       7       4         3
 Identifier                           7       6       0         1
 Operation                            6       2       0         4
 RealTypespec                         0       1       1         0
-RefObj                              11       6       0         5
+RefObj                              12       7       0         5
 RefTypespec                         10      10       3         3
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    62      53       8        17
+                                    63      54       8        17
 ===================== END REDUCTION RESULT =====================

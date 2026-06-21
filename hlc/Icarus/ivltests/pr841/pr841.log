@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr841/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr841.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr841
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr841.v".
+[INF:PA0201] Parsing source file "$Source01/pr841.v".
 AST_DEBUG_BEGIN
 Count: 180
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v> u<179> t<Top_level_rule> c<1> l<5:1> el<38:1>
+FILE: f<13>:$Source01/pr841.v
+n<$Source01/pr841.v> u<179> t<Top_level_rule> c<1> l<5:1> el<38:1>
   n<> u<1> t<Null_rule> p<179> s<2> l<5:1> el<5:1>
   n</*\n * Based on bug report PR#841\n */> u<2> t<BLOCK_COMMENT> p<179> s<174> l<5:1> el<30:10>
   n<> u<174> t<Source_text> p<179> c<140> s<175> l<5:1> el<30:10>
@@ -183,20 +192,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v> u<179> t<Top_level_rule> c<1> l<
   n<//you will get an error ("./a.out:7: parse error")> u<177> t<LINE_COMMENT> p<179> s<178> l<34:1> el<34:51>
   n<//from some unknown reason line 11 solve this problem.> u<178> t<LINE_COMMENT> p<179> l<35:1> el<35:55>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v:5:1: Compile module "work@err".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v:25:1: Compile module "work@pll".
+[INF:CP0303] $Source01/pr841.v:5:1: Compile module "work@err".
+[INF:CP0303] $Source01/pr841.v:25:1: Compile module "work@pll".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr841.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr841.v file:$Source01/pr841.v:
       vpiParent: Design name:unnamed
       vpiName: pr841.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr841/lib/work/pr841.v"
+      vpiPreprocFile: "$Output/lib/work/pr841.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@err file:${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v start:5:1 end:18:10:
+    Module name:work@err file:$Source01/pr841.v start:5:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@err start:5:8 end:5:11:
         vpiParent: Module name:work@err
@@ -212,6 +221,11 @@ Design name:unnamed:
             vpiName: work@pll
       vpiDefName: work@err
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@err
+        vpiName: work
+        vpiFullName: work@err.work
+      vpiCell: err
       vpiNet (1 items):
         Net name:clk start:7:5 end:7:8:
           vpiParent: Module name:work@err
@@ -248,7 +262,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
               DelayControl start:10:7 end:10:31:
                 vpiParent: Begin
                 vpiStmt ForeverStmt start:10:10 end:10:31:
@@ -351,7 +365,7 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: work@err.pll.clk
                 vpiActual: Net name:clk
-    Module name:work@pll file:${SURELOG_DIR}/tests/Icarus/ivltests/pr841.v start:25:1 end:30:10:
+    Module name:work@pll file:$Source01/pr841.v start:25:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pll start:25:8 end:25:11:
         vpiParent: Module name:work@pll
@@ -362,6 +376,11 @@ Design name:unnamed:
           vpiParent: Module name:work@pll
       vpiDefName: work@pll
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@pll
+        vpiName: work
+        vpiFullName: work@pll.work
+      vpiCell: pll
       vpiNet (1 items):
         Net name:inclk0 start:26:8 end:26:14:
           vpiParent: Module name:work@pll
@@ -405,37 +424,40 @@ Design name:unnamed:
         vpiName: work@pll
       vpiModule: Module name:work@pll
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr841
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr841
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr841/surelog.uhdm
+      test-name: Icarus/ivltests/pr841
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr841
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr841/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr841/mounts.json
 
 
 {'result': {'coverage': 97.16,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr841/lib/work/pr841.v'): {'post_len': 6,
-                                                                                                                           'pre_len': 211}},
+            'files': {'$Output/lib/work/pr841.v': {'post_len': 6,
+                                                   'pre_len': 211}},
             'post_len': 6,
             'pre_len': 211,
             'test_name': 'Icarus/ivltests/pr841'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr841.v |      211 |         6 |
-+==================+==========+===========+
-|                  |      211 |         6 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr841.v |      211 |         6 |
++==========================+==========+===========+
+|                          |      211 |         6 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.16
@@ -449,7 +471,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr841/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              57      57       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    57      57       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

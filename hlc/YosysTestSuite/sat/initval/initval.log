@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/sat -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm initval.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/initval.v".
+[INF:PA0201] Parsing source file "$Source01/initval.v".
 AST_DEBUG_BEGIN
 Count: 385
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/sat/initval.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/sat/initval.v> u<384> t<Top_level_rule> c<1> l<1:1> el<22:1>
+FILE: f<13>:$Source01/initval.v
+n<$Source01/initval.v> u<384> t<Top_level_rule> c<1> l<1:1> el<22:1>
   n<> u<1> t<Null_rule> p<384> s<383> l<1:1>
   n<> u<383> t<Source_text> p<384> c<382> l<1:1> el<21:10>
     n<> u<382> t<Description> p<383> c<381> l<1:1> el<21:10>
@@ -388,19 +397,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/sat/initval.v> u<384> t<Top_level_rule> c<
                         n<> u<371> t<Statement_or_null> p<372> l<20:53> el<20:54>
         n<> u<380> t<ENDMODULE> p<381> l<21:1> el<21:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/sat/initval.v:1:1: Compile module "work@test".
+[INF:CP0303] $Source01/initval.v:1:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:initval.v file:${SURELOG_DIR}/tests/YosysTestSuite/sat/initval.v:
+  vpiSourceFile (1 items):
+    SourceFile name:initval.v file:$Source01/initval.v:
       vpiParent: Design name:unnamed
       vpiName: initval.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/lib/work/initval.v"
+      vpiPreprocFile: "$Output/lib/work/initval.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/YosysTestSuite/sat/initval.v start:1:1 end:21:10:
+    Module name:work@test file:$Source01/initval.v start:1:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:8 end:1:12:
         vpiParent: Module name:work@test
@@ -621,6 +630,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (5 items):
         Net name:clk start:1:19 end:1:22:
           vpiParent: Module name:work@test
@@ -677,7 +691,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 4
             vpiDecompile: "4'b1xxx"
-            vpiValue: 1xxx
+            vpiValue: "1xxx"
         Net name:last_bar start:3:13 end:3:21:
           vpiParent: Module name:work@test
           vpiTypespec RefTypespec start:3:3 end:3:12:
@@ -1020,7 +1034,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 3
                 vpiDecompile: "3'b111"
-                vpiValue: 111
+                vpiValue: "111"
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:work@test:
@@ -1035,37 +1049,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/sat/initval
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/surelog.uhdm
+      test-name: YosysTestSuite/sat/initval
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/mounts.json
 
 
 {'result': {'coverage': 98.09,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/lib/work/initval.v'): {'post_len': 7,
-                                                                                                                                  'pre_len': 366}},
+            'files': {'$Output/lib/work/initval.v': {'post_len': 7,
+                                                     'pre_len': 366}},
             'post_len': 7,
             'pre_len': 366,
             'test_name': 'YosysTestSuite/sat/initval'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/initval.v |      366 |         7 |
-+====================+==========+===========+
-|                    |      366 |         7 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/initval.v |      366 |         7 |
++============================+==========+===========+
+|                            |      366 |         7 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 98.09
@@ -1079,7 +1096,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/sat/initval/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             154     154       0         0
+Others                             155     155       0         0
 ----------------------------------------------------------------
-                                   154     154       0         0
+                                   155     155       0         0
 ===================== END REDUCTION RESULT =====================

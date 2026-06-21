@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/eval_error -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm top_err_1.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top_err_1.v".
+[INF:PA0201] Parsing source file "$Source01/top_err_1.v".
 AST_DEBUG_BEGIN
 Count: 275
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v> u<274> t<Top_level_rule> c<1> l<1:1> el<47:1>
+FILE: f<13>:$Source01/top_err_1.v
+n<$Source01/top_err_1.v> u<274> t<Top_level_rule> c<1> l<1:1> el<47:1>
   n<> u<1> t<Null_rule> p<274> s<273> l<1:1>
   n<> u<273> t<Source_text> p<274> c<189> l<1:1> el<46:10>
     n<> u<189> t<Description> p<273> c<188> s<225> l<1:1> el<26:10>
@@ -278,21 +287,21 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v> u<274> t<Top_leve
                             n<y> u<258> t<SIMPLE_IDENTIFIER> p<259> l<45:16> el<45:17>
         n<> u<270> t<ENDMODULE> p<271> l<46:1> el<46:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v:28:1: Compile module "work@middle".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v:38:1: Compile module "work@u_rtl".
+[INF:CP0303] $Source01/top_err_1.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top_err_1.v:28:1: Compile module "work@middle".
+[INF:CP0303] $Source01/top_err_1.v:38:1: Compile module "work@u_rtl".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top_err_1.v file:${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top_err_1.v file:$Source01/top_err_1.v:
       vpiParent: Design name:unnamed
       vpiName: top_err_1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/lib/work/top_err_1.v"
+      vpiPreprocFile: "$Output/lib/work/top_err_1.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v start:1:1 end:26:10:
+    Module name:work@top file:$Source01/top_err_1.v start:1:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -352,6 +361,11 @@ Design name:unnamed:
             vpiName: work@u_rtl
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (6 items):
         Net name:x start:3:8 end:3:9:
           vpiParent: Module name:work@top
@@ -572,7 +586,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
-                vpiValue: 0
+                vpiValue: "0"
         RefInstance name:inst_u_rtl start:21:7 end:21:17:
           vpiParent: Module name:work@top
           vpiName: inst_u_rtl
@@ -606,7 +620,7 @@ Design name:unnamed:
                 vpiName: o
                 vpiFullName: work@top.inst_u_rtl.o
                 vpiActual: Net name:o
-    Module name:work@middle file:${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v start:28:1 end:36:10:
+    Module name:work@middle file:$Source01/top_err_1.v start:28:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@middle start:28:8 end:28:14:
         vpiParent: Module name:work@middle
@@ -617,6 +631,11 @@ Design name:unnamed:
           vpiParent: Module name:work@middle
       vpiDefName: work@middle
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@middle
+        vpiName: work
+        vpiFullName: work@middle.work
+      vpiCell: middle
       vpiNet (2 items):
         Net name:x start:30:8 end:30:9:
           vpiParent: Module name:work@middle
@@ -674,7 +693,7 @@ Design name:unnamed:
             vpiName: x
             vpiFullName: work@middle.x
             vpiActual: Net name:x
-    Module name:work@u_rtl file:${SURELOG_DIR}/tests/YosysTests/misc/eval_error/top_err_1.v start:38:1 end:46:10:
+    Module name:work@u_rtl file:$Source01/top_err_1.v start:38:1 end:46:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@u_rtl start:38:8 end:38:13:
         vpiParent: Module name:work@u_rtl
@@ -685,6 +704,11 @@ Design name:unnamed:
           vpiParent: Module name:work@u_rtl
       vpiDefName: work@u_rtl
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@u_rtl
+        vpiName: work
+        vpiFullName: work@u_rtl.work
+      vpiCell: u_rtl
       vpiNet (3 items):
         Net name:x start:40:8 end:40:9:
           vpiParent: Module name:work@u_rtl
@@ -795,37 +819,40 @@ Design name:unnamed:
         vpiName: work@u_rtl
       vpiModule: Module name:work@u_rtl
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/eval_error/top_err_1
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/surelog.uhdm
+      test-name: YosysTests/misc/eval_error/top_err_1
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/lib/work/top_err_1.v'): {'post_len': 0,
-                                                                                                                                              'pre_len': 342}},
+            'files': {'$Output/lib/work/top_err_1.v': {'post_len': 0,
+                                                       'pre_len': 342}},
             'post_len': 0,
             'pre_len': 342,
             'test_name': 'YosysTests/misc/eval_error/top_err_1'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/top_err_1.v |      342 |         0 |
-+======================+==========+===========+
-|                      |      342 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/top_err_1.v |      342 |         0 |
++==============================+==========+===========+
+|                              |      342 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -839,7 +866,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/eval_error/top_err_1/surelog.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             124     124       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   124     124       0         0
+                                   127     127       0         0
 ===================== END REDUCTION RESULT =====================

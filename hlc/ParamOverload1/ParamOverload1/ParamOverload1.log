@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamOverload1 -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 178
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamOverload1/dut.sv
-n<${SURELOG_DIR}/tests/ParamOverload1/dut.sv> u<177> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<177> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<177> s<175> l<1:1>
   n<> u<175> t<Source_text> p<177> c<82> s<176> l<1:1> el<10:10>
     n<> u<82> t<Description> p<175> c<81> s<174> l<1:1> el<4:10>
@@ -181,27 +190,28 @@ n<${SURELOG_DIR}/tests/ParamOverload1/dut.sv> u<177> t<Top_level_rule> c<1> l<1:
         n<> u<172> t<ENDMODULE> p<173> l<10:1> el<10:10>
   n<// top> u<176> t<LINE_COMMENT> p<177> l<10:11> el<10:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:1:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:6:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:6:1: Multiply defined typedef "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:1:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:6:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:7:11: Illegal implicit net "id:66, name:P".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:7:37: Illegal implicit net "id:69, name:x".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:8:16: Illegal implicit net "id:76, name:x".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:9:11: Illegal implicit net "id:85, name:P".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamOverload1/dut.sv:9:28: Illegal implicit net "id:88, name:x".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:6:1: Multiply defined typedef "work@dut".
+[WRN:CP0323] $Source01/dut.sv:6:1: Multiply defined typedef "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:7:11: Illegal implicit net "id:68, name:P".
+[ERR:EL0535] $Source01/dut.sv:7:37: Illegal implicit net "id:71, name:x".
+[ERR:EL0535] $Source01/dut.sv:8:16: Illegal implicit net "id:78, name:x".
+[ERR:EL0535] $Source01/dut.sv:9:11: Illegal implicit net "id:87, name:P".
+[ERR:EL0535] $Source01/dut.sv:9:28: Illegal implicit net "id:90, name:x".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamOverload1/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/ParamOverload1/dut.sv start:1:1 end:4:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -236,7 +246,7 @@ Design name:unnamed:
             vpiActual: Parameter name:P
           vpiRhs Operation start:2:26 end:2:42:
             vpiParent: ParamAssign
-            vpiOpType: assign pattern (75)
+            vpiOpType: assign pattern (87)
             vpiOperand (5 items):
               Constant start:2:28 end:2:29:
                 vpiParent: Operation
@@ -314,6 +324,11 @@ Design name:unnamed:
             vpiActual: IntTypespec
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiPort (1 items):
         Port name:x start:1:23 end:1:24:
           vpiParent: Module name:work@dut
@@ -354,7 +369,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "2"
               vpiValue: 2
-    Module name:work@top file:${SURELOG_DIR}/tests/ParamOverload1/dut.sv start:6:1 end:10:10:
+    Module name:work@top file:$Source01/dut.sv start:6:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:6:8 end:6:11:
         vpiParent: Module name:work@top
@@ -388,6 +403,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiPort (1 items):
         Port name:o start:6:23 end:6:24:
           vpiParent: Module name:work@top
@@ -420,7 +440,7 @@ Design name:unnamed:
                 vpiFullName: work@top.u_dut1.P
               vpiRhs Operation start:7:13 end:7:26:
                 vpiParent: ParamAssign
-                vpiOpType: assign pattern (75)
+                vpiOpType: assign pattern (87)
                 vpiOperand (2 items):
                   Constant start:7:15 end:7:19:
                     vpiParent: Operation
@@ -529,37 +549,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamOverload1/ParamOverload1
- test-dirpath: ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/surelog.uhdm
+      test-name: ParamOverload1/ParamOverload1
+   test-dirpath: ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1
+  uhdm-filepath: ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 210}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 210}},
             'post_len': 0,
             'pre_len': 210,
             'test_name': 'ParamOverload1/ParamOverload1'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      210 |         0 |
-+=================+==========+===========+
-|                 |      210 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      210 |         0 |
++=========================+==========+===========+
+|                         |      210 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -573,7 +596,7 @@ COMMAND: ${SURELOG_DIR}/regression/ParamOverload1/ParamOverload1/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                    80      80       0         0
+                                    82      82       0         0
 ===================== END REDUCTION RESULT =====================

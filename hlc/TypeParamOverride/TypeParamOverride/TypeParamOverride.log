@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/TypeParamOverride -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 116
 LIB: work
-FILE: ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv
-n<${SURELOG_DIR}/tests/TypeParamOverride/dut.sv> u<115> t<Top_level_rule> c<1> l<1:1> el<32:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<115> t<Top_level_rule> c<1> l<1:1> el<32:1>
   n<> u<1> t<Null_rule> p<115> s<114> l<1:1>
   n<> u<114> t<Source_text> p<115> c<29> l<1:1> el<31:10>
     n<> u<29> t<Description> p<114> c<28> s<80> l<1:1> el<8:11>
@@ -119,26 +128,26 @@ n<${SURELOG_DIR}/tests/TypeParamOverride/dut.sv> u<115> t<Top_level_rule> c<1> l
                     n<> u<104> t<Ordered_port_connection> p<105> l<28:1> el<28:1>
         n<> u<111> t<ENDMODULE> p<112> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:1:1: Compile package "work@ariane_axi_soc".
-[INF:CP0303] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:10:1: Compile module "work@axi_err_slv".
-[INF:CP0303] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:23:1: Compile module "work@ariane_testharness".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:1:1: No timescale set for "work@ariane_axi_soc".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:10:1: No timescale set for "work@axi_err_slv".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:23:1: No timescale set for "work@ariane_testharness".
-[ERR:EL0535] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:17:14: Illegal implicit net "id:32, name:w_ready".
-[ERR:EL0535] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:26:33: Illegal implicit net "id:42, name:resp_slv_t".
-[ERR:EL0535] ${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:26:4: Illegal implicit net "id:44, name:resp_t".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@ariane_axi_soc".
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@axi_err_slv".
+[INF:CP0303] $Source01/dut.sv:23:1: Compile module "work@ariane_testharness".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@ariane_axi_soc".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@axi_err_slv".
+[WRN:PA0205] $Source01/dut.sv:23:1: No timescale set for "work@ariane_testharness".
+[ERR:EL0535] $Source01/dut.sv:17:14: Illegal implicit net "id:35, name:w_ready".
+[ERR:EL0535] $Source01/dut.sv:26:33: Illegal implicit net "id:45, name:resp_slv_t".
+[ERR:EL0535] $Source01/dut.sv:26:4: Illegal implicit net "id:47, name:resp_t".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/TypeParamOverride/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@ariane_axi_soc file:${SURELOG_DIR}/tests/TypeParamOverride/dut.sv start:1:1 end:8:11:
+    Package name:work@ariane_axi_soc file:$Source01/dut.sv start:1:1 end:8:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ariane_axi_soc start:1:9 end:1:23:
         vpiParent: Package name:work@ariane_axi_soc
@@ -176,8 +185,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@ariane_axi_soc
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@ariane_axi_soc
+        vpiName: work
+        vpiFullName: work@ariane_axi_soc::work
+      vpiCell: ariane_axi_soc
   vpiAllModules (2 items):
-    Module name:work@axi_err_slv file:${SURELOG_DIR}/tests/TypeParamOverride/dut.sv start:10:1 end:20:10:
+    Module name:work@axi_err_slv file:$Source01/dut.sv start:10:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@axi_err_slv start:10:8 end:10:19:
         vpiParent: Module name:work@axi_err_slv
@@ -214,9 +228,14 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@axi_err_slv
-        TypeParameter name:resp_t
+        TypeParameter name:resp_t:
       vpiDefName: work@axi_err_slv
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@axi_err_slv
+        vpiName: work
+        vpiFullName: work@axi_err_slv.work
+      vpiCell: axi_err_slv
       vpiProcess (1 items):
         Always start:16:3 end:19:6:
           vpiParent: Module name:work@axi_err_slv
@@ -237,7 +256,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: err_resp.w_ready
                   vpiFullName: work@axi_err_slv.proc_w_channel.err_resp.w_ready
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:err_resp start:17:5 end:17:13:
                       vpiParent: HierPath name:err_resp.w_ready
                       vpiName: err_resp
@@ -256,9 +275,9 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
           vpiAlwaysType: comb (2)
-    Module name:work@ariane_testharness file:${SURELOG_DIR}/tests/TypeParamOverride/dut.sv start:23:1 end:31:10:
+    Module name:work@ariane_testharness file:$Source01/dut.sv start:23:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ariane_testharness start:23:9 end:23:27:
         vpiParent: Module name:work@ariane_testharness
@@ -275,6 +294,11 @@ Design name:unnamed:
             vpiName: work@axi_err_slv
       vpiDefName: work@ariane_testharness
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ariane_testharness
+        vpiName: work
+        vpiFullName: work@ariane_testharness.work
+      vpiCell: ariane_testharness
       vpiRefInstance (1 items):
         RefInstance name:i_gpio_err_slv start:27:3 end:27:17:
           vpiParent: Module name:work@ariane_testharness
@@ -296,8 +320,8 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: ariane_axi_soc::resp_slv_t
                 vpiFullName: work@ariane_testharness.i_gpio_err_slv.ariane_axi_soc::resp_slv_t
-                vpiActual (2 items):
-                  ClassTypespec name:ariane_axi_soc
+                vpiPathElem (2 items):
+                  ClassTypespec name:ariane_axi_soc:
                   RefObj name:resp_slv_t start:26:33 end:26:43:
                     vpiParent: HierPath name:ariane_axi_soc::resp_slv_t
                     vpiName: resp_slv_t
@@ -316,37 +340,40 @@ Design name:unnamed:
         vpiName: work@ariane_testharness
       vpiModule: Module name:work@ariane_testharness
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: TypeParamOverride/TypeParamOverride
- test-dirpath: ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride
-uhdm-filepath: ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/surelog.uhdm
+      test-name: TypeParamOverride/TypeParamOverride
+   test-dirpath: ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride
+  uhdm-filepath: ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                        'pre_len': 373}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 373}},
             'post_len': 0,
             'pre_len': 373,
             'test_name': 'TypeParamOverride/TypeParamOverride'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      373 |         0 |
-+=================+==========+===========+
-|                 |      373 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      373 |         0 |
++=========================+==========+===========+
+|                         |      373 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -360,7 +387,7 @@ COMMAND: ${SURELOG_DIR}/regression/TypeParamOverride/TypeParamOverride/surelog.u
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    50      50       0         0
 ===================== END REDUCTION RESULT =====================

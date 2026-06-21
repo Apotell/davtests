@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/IfElseIf/test1 -parse -d uhdm -d ast -d inst dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 121
 LIB: work
-FILE: ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv
-n<${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv> u<120> t<Top_level_rule> c<1> l<1:1> el<23:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<120> t<Top_level_rule> c<1> l<1:1> el<23:1>
   n<> u<1> t<Null_rule> p<120> s<119> l<1:1>
   n<> u<119> t<Source_text> p<120> c<9> l<1:1> el<21:10>
     n<> u<9> t<Description> p<119> c<8> s<118> l<1:1> el<2:10>
@@ -124,24 +133,24 @@ n<${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv> u<120> t<Top_level_rule> c<1> l<1:
               n<> u<112> t<ENDGENERATE> p<113> l<19:5> el<19:16>
         n<> u<116> t<ENDMODULE> p<117> l<21:1> el<21:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:1:1: Compile module "work@GOOD".
-[INF:CP0303] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:4:1: Compile module "work@axi".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:13:50: Compile generate block "MIDDLE_NODES".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:16:24: Compile generate block "LEAF_NODES".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:11:29: Compile generate block "LAST_NODE".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:1:1: No timescale set for "work@GOOD".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:4:1: No timescale set for "work@axi".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@GOOD".
+[INF:CP0303] $Source01/dut.sv:4:1: Compile module "work@axi".
+[INF:CP0335] $Source01/dut.sv:13:50: Compile generate block "MIDDLE_NODES".
+[INF:CP0335] $Source01/dut.sv:16:24: Compile generate block "LEAF_NODES".
+[INF:CP0335] $Source01/dut.sv:11:29: Compile generate block "LAST_NODE".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@GOOD".
+[WRN:PA0205] $Source01/dut.sv:4:1: No timescale set for "work@axi".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@GOOD file:${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv start:1:1 end:2:10:
+    Module name:work@GOOD file:$Source01/dut.sv start:1:1 end:2:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@GOOD start:1:8 end:1:12:
         vpiParent: Module name:work@GOOD
@@ -149,7 +158,12 @@ Design name:unnamed:
       vpiFullName: work@GOOD
       vpiDefName: work@GOOD
       vpiDefNetType: none (12)
-    Module name:work@axi file:${SURELOG_DIR}/tests/IfElseIf/test1/dut.sv start:4:1 end:21:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@GOOD
+        vpiName: work
+        vpiFullName: work@GOOD.work
+      vpiCell: GOOD
+    Module name:work@axi file:$Source01/dut.sv start:4:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@axi start:4:8 end:4:11:
         vpiParent: Module name:work@axi
@@ -212,6 +226,11 @@ Design name:unnamed:
           vpiParent: Module name:work@axi
       vpiDefName: work@axi
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@axi
+        vpiName: work
+        vpiFullName: work@axi.work
+      vpiCell: axi
       vpiGenStmt (1 items):
         GenRegion start:9:5 end:19:16:
           vpiParent: Module name:work@axi
@@ -321,37 +340,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: IfElseIf/test1/IfElseIf1
- test-dirpath: ${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1
-uhdm-filepath: ${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1/surelog.uhdm
+      test-name: IfElseIf/test1/IfElseIf1
+   test-dirpath: ${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1
+  uhdm-filepath: ${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/IfElseIf/test1/IfElseIf1/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                             'pre_len': 237}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 237}},
             'post_len': 0,
             'pre_len': 237,
             'test_name': 'IfElseIf/test1/IfElseIf1'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      237 |         0 |
-+=================+==========+===========+
-|                 |      237 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      237 |         0 |
++=========================+==========+===========+
+|                         |      237 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -366,10 +388,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             4       4       2         2
 Operation                            3       0       0         3
-RefObj                               5       2       0         3
+RefObj                               7       4       0         3
 RefTypespec                          7       7       2         2
 ----------------------------------------------------------------
 Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    48      42       4        10
+                                    50      44       4        10
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ImplicitPorts2 -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 113
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv
-n<${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv> u<112> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<112> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<112> s<111> l<1:1>
   n<> u<111> t<Source_text> p<112> c<55> l<1:1> el<15:10>
     n<> u<55> t<Description> p<111> c<54> s<56> l<1:1> el<8:10>
@@ -116,21 +125,21 @@ n<${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv> u<112> t<Top_level_rule> c<1> l<1:
                             n<q> u<97> t<SIMPLE_IDENTIFIER> p<98> l<14:7> el<14:8>
         n<> u<108> t<ENDMODULE> p<109> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv:1:1: Compile module "work@implicit".
-[INF:CP0303] ${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv:11:1: Compile module "work@dff".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv:1:1: No timescale set for "work@implicit".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv:11:1: No timescale set for "work@dff".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@implicit".
+[INF:CP0303] $Source01/dut.sv:11:1: Compile module "work@dff".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@implicit".
+[WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@dff".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@implicit file:${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv start:1:1 end:8:10:
+    Module name:work@implicit file:$Source01/dut.sv start:1:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@implicit start:1:8 end:1:16:
         vpiParent: Module name:work@implicit
@@ -146,6 +155,11 @@ Design name:unnamed:
             vpiName: work@dff
       vpiDefName: work@implicit
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@implicit
+        vpiName: work
+        vpiFullName: work@implicit.work
+      vpiCell: implicit
       vpiNet (2 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@implicit
@@ -196,7 +210,7 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: work@implicit.u0.clk
                 vpiActual: Net name:clk
-    Module name:work@dff file:${SURELOG_DIR}/tests/ImplicitPorts2/dut.sv start:11:1 end:15:10:
+    Module name:work@dff file:$Source01/dut.sv start:11:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dff start:11:8 end:11:11:
         vpiParent: Module name:work@dff
@@ -207,6 +221,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dff
       vpiDefName: work@dff
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dff
+        vpiName: work
+        vpiFullName: work@dff.work
+      vpiCell: dff
       vpiNet (3 items):
         Net name:q start:13:10 end:13:11:
           vpiParent: Module name:work@dff
@@ -286,37 +305,40 @@ Design name:unnamed:
         vpiName: work@dff
       vpiModule: Module name:work@dff
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ImplicitPorts2/ImplicitPorts2
- test-dirpath: ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2
-uhdm-filepath: ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/surelog.uhdm
+      test-name: ImplicitPorts2/ImplicitPorts2
+   test-dirpath: ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2
+  uhdm-filepath: ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/mounts.json
 
 
 {'result': {'coverage': 99.21,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/lib/work/dut.sv'): {'post_len': 1,
-                                                                                                                                  'pre_len': 127}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
+                                                  'pre_len': 127}},
             'post_len': 1,
             'pre_len': 127,
             'test_name': 'ImplicitPorts2/ImplicitPorts2'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      127 |         1 |
-+=================+==========+===========+
-|                 |      127 |         1 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      127 |         1 |
++=========================+==========+===========+
+|                         |      127 |         1 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.21
@@ -330,7 +352,7 @@ COMMAND: ${SURELOG_DIR}/regression/ImplicitPorts2/ImplicitPorts2/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    44      44       0         0
 ===================== END REDUCTION RESULT =====================

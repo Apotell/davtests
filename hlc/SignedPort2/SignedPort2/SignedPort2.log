@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SignedPort2/SignedPort2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/SignedPort2 -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/SignedPort2/SignedPort2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 68
 LIB: work
-FILE: ${SURELOG_DIR}/tests/SignedPort2/dut.sv
-n<${SURELOG_DIR}/tests/SignedPort2/dut.sv> u<67> t<Top_level_rule> c<1> l<1:1> el<7:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<67> t<Top_level_rule> c<1> l<1:1> el<7:1>
   n<> u<1> t<Null_rule> p<67> s<66> l<1:1>
   n<> u<66> t<Source_text> p<67> c<65> l<1:1> el<6:10>
     n<> u<65> t<Description> p<66> c<64> l<1:1> el<6:10>
@@ -71,19 +80,19 @@ n<${SURELOG_DIR}/tests/SignedPort2/dut.sv> u<67> t<Top_level_rule> c<1> l<1:1> e
                             n<inp> u<52> t<SIMPLE_IDENTIFIER> p<53> l<5:17> el<5:20>
         n<> u<63> t<ENDMODULE> p<64> l<6:1> el<6:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/SignedPort2/dut.sv:1:1: Compile module "work@wire_top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SignedPort2/dut.sv:1:1: No timescale set for "work@wire_top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@wire_top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@wire_top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/SignedPort2/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/SignedPort2/SignedPort2/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@wire_top file:${SURELOG_DIR}/tests/SignedPort2/dut.sv start:1:1 end:6:10:
+    Module name:work@wire_top file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@wire_top start:1:8 end:1:16:
         vpiParent: Module name:work@wire_top
@@ -120,6 +129,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@wire_top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@wire_top
+        vpiName: work
+        vpiFullName: work@wire_top.work
+      vpiCell: wire_top
       vpiNet (2 items):
         Net name:inp start:2:23 end:2:26:
           vpiParent: Module name:work@wire_top
@@ -190,37 +204,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SignedPort2/SignedPort2
- test-dirpath: ${SURELOG_DIR}/regression/SignedPort2/SignedPort2
-uhdm-filepath: ${SURELOG_DIR}/regression/SignedPort2/SignedPort2/surelog.uhdm
+      test-name: SignedPort2/SignedPort2
+   test-dirpath: ${SURELOG_DIR}/regression/SignedPort2/SignedPort2
+  uhdm-filepath: ${SURELOG_DIR}/regression/SignedPort2/SignedPort2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/SignedPort2/SignedPort2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/SignedPort2/SignedPort2/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 92}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 92}},
             'post_len': 0,
             'pre_len': 92,
             'test_name': 'SignedPort2/SignedPort2'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       92 |         0 |
-+=================+==========+===========+
-|                 |       92 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       92 |         0 |
++=========================+==========+===========+
+|                         |       92 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -234,7 +251,7 @@ COMMAND: ${SURELOG_DIR}/regression/SignedPort2/SignedPort2/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              27      27       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    27      27       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

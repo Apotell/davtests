@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Loop/Loop/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Loop -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Loop/Loop
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 114
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Loop/dut.sv
-n<${SURELOG_DIR}/tests/Loop/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<113> s<112> l<1:1>
   n<> u<112> t<Source_text> p<113> c<29> l<1:1> el<16:10>
     n<> u<29> t<Description> p<112> c<28> s<47> l<1:1> el<4:10>
@@ -117,23 +126,23 @@ n<${SURELOG_DIR}/tests/Loop/dut.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<17:1
                         n<> u<99> t<END> p<100> l<15:4> el<15:7>
         n<> u<109> t<ENDMODULE> p<110> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Loop/dut.sv:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Loop/dut.sv:6:1: Compile module "work@loop".
-[INF:CP0303] ${SURELOG_DIR}/tests/Loop/dut.sv:10:1: Compile module "work@test".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Loop/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Loop/dut.sv:6:1: No timescale set for "work@loop".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Loop/dut.sv:10:1: No timescale set for "work@test".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@loop".
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@test".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@loop".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@test".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/Loop/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Loop/Loop/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Loop/dut.sv start:1:1 end:4:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -152,6 +161,11 @@ Design name:unnamed:
             vpiName: work@loop
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (2 items):
         RefInstance name:u1 start:2:9 end:2:11:
           vpiParent: Module name:work@top
@@ -169,7 +183,7 @@ Design name:unnamed:
             vpiName: work@loop
             vpiFullName: work@top.u2.work@loop
             vpiActual: ModuleTypespec name:work@loop
-    Module name:work@loop file:${SURELOG_DIR}/tests/Loop/dut.sv start:6:1 end:8:10:
+    Module name:work@loop file:$Source01/dut.sv start:6:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@loop start:6:8 end:6:12:
         vpiParent: Module name:work@loop
@@ -183,6 +197,11 @@ Design name:unnamed:
             vpiName: work@loop
       vpiDefName: work@loop
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@loop
+        vpiName: work
+        vpiFullName: work@loop.work
+      vpiCell: loop
       vpiRefInstance (1 items):
         RefInstance name:u1 start:7:9 end:7:11:
           vpiParent: Module name:work@loop
@@ -192,7 +211,7 @@ Design name:unnamed:
             vpiName: work@loop
             vpiFullName: work@loop.u1.work@loop
             vpiActual: ModuleTypespec name:work@loop
-    Module name:work@test file:${SURELOG_DIR}/tests/Loop/dut.sv start:10:1 end:16:10:
+    Module name:work@test file:$Source01/dut.sv start:10:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:10:8 end:10:12:
         vpiParent: Module name:work@test
@@ -230,6 +249,11 @@ Design name:unnamed:
           vpiParent: Module name:work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiGenStmt (1 items):
         GenIf start:13:4 end:15:7:
           vpiParent: Module name:work@test
@@ -307,37 +331,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Loop/Loop
- test-dirpath: ${SURELOG_DIR}/regression/Loop/Loop
-uhdm-filepath: ${SURELOG_DIR}/regression/Loop/Loop/surelog.uhdm
+      test-name: Loop/Loop
+   test-dirpath: ${SURELOG_DIR}/regression/Loop/Loop
+  uhdm-filepath: ${SURELOG_DIR}/regression/Loop/Loop/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Loop/Loop/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Loop/Loop/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                              'pre_len': 206}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 206}},
             'post_len': 0,
             'pre_len': 206,
             'test_name': 'Loop/Loop'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      206 |         0 |
-+=================+==========+===========+
-|                 |      206 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      206 |         0 |
++=========================+==========+===========+
+|                         |      206 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -352,10 +379,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             2       2       1         1
 Operation                            1       0       0         1
-RefObj                               4       3       0         1
+RefObj                               7       6       0         1
 RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
 Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    47      45       2         4
+                                    50      48       2         4
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_v2k/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_inst_v2k.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_inst_v2k
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_v2k.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_v2k.v".
 AST_DEBUG_BEGIN
 Count: 666
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
+FILE: f<13>:$Source01/t_inst_v2k.v
+n<$Source01/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
   n<> u<1> t<Null_rule> p<665> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<665> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<665> s<4> l<2:1> el<2:3>
@@ -669,23 +678,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6
                       n<4'b1010> u<653> t<INTEGRAL_NUMBER> p<654> l<67:33> el<67:40>
         n<> u<661> t<ENDMODULE> p<662> l<69:1> el<69:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v:65:1: Compile module "work@hello".
+[INF:CP0303] $Source01/t_inst_v2k.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_v2k.v:65:1: Compile module "work@hello".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v:36:21: Illegal implicit net "id:104, name:oonewire".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v:36:8: Illegal implicit net "id:106, name:oonewire".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v:53:10: Illegal implicit net "id:192, name:oonewire".
+[ERR:EL0535] $Source01/t_inst_v2k.v:36:21: Illegal implicit net "id:106, name:oonewire".
+[ERR:EL0535] $Source01/t_inst_v2k.v:36:8: Illegal implicit net "id:108, name:oonewire".
+[ERR:EL0535] $Source01/t_inst_v2k.v:53:10: Illegal implicit net "id:194, name:oonewire".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_v2k.v file:${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_v2k.v file:$Source01/t_inst_v2k.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_v2k.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_v2k/lib/work/t_inst_v2k.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_v2k.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v start:6:1 end:63:10:
+    Module name:work@t file:$Source01/t_inst_v2k.v start:6:1 end:63:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -865,6 +874,11 @@ Design name:unnamed:
             vpiName: work@t_inst_v2k__sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (9 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -1090,7 +1104,7 @@ Design name:unnamed:
                                 vpiConstType: binary (3)
                                 vpiSize: 1
                                 vpiDecompile: "1'b1"
-                                vpiValue: 1
+                                vpiValue: "1"
                             Assignment start:48:6 end:48:24:
                               vpiParent: Begin
                               vpiLhs RefObj name:isizedwire start:48:6 end:48:16:
@@ -1107,7 +1121,7 @@ Design name:unnamed:
                                 vpiConstType: decimal (1)
                                 vpiSize: 8
                                 vpiDecompile: "8'd8"
-                                vpiValue: 8
+                                vpiValue: "8"
                       IfStmt start:50:3 end:59:6:
                         vpiParent: Begin
                         vpiCondition Operation start:50:7 end:50:13:
@@ -1156,7 +1170,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 2
                                     vpiDecompile: "2'b00"
-                                    vpiValue: 00
+                                    vpiValue: "00"
                               vpiStmt SysFuncCall name:$stop start:51:24 end:51:29:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:51:24 end:51:29:
@@ -1182,7 +1196,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 2
                                     vpiDecompile: "2'b11"
-                                    vpiValue: 11
+                                    vpiValue: "11"
                               vpiStmt SysFuncCall name:$stop start:52:25 end:52:30:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:52:25 end:52:30:
@@ -1207,7 +1221,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "1'b1"
-                                    vpiValue: 1
+                                    vpiValue: "1"
                               vpiStmt SysFuncCall name:$stop start:53:29 end:53:34:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:53:29 end:53:34:
@@ -1233,7 +1247,7 @@ Design name:unnamed:
                                     vpiConstType: decimal (1)
                                     vpiSize: 8
                                     vpiDecompile: "8'd8"
-                                    vpiValue: 8
+                                    vpiValue: "8"
                               vpiStmt SysFuncCall name:$stop start:54:31 end:54:36:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:54:31 end:54:36:
@@ -1259,7 +1273,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 2
                                     vpiDecompile: "2'b10"
-                                    vpiValue: 10
+                                    vpiValue: "10"
                               vpiStmt SysFuncCall name:$stop start:55:25 end:55:30:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:55:25 end:55:30:
@@ -1285,7 +1299,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 4
                                     vpiDecompile: "4'b1010"
-                                    vpiValue: 1010
+                                    vpiValue: "1010"
                               vpiStmt SysFuncCall name:$stop start:56:32 end:56:37:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:56:32 end:56:37:
@@ -1306,7 +1320,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:58:6 end:58:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:58:6 end:58:13:
@@ -1475,7 +1489,7 @@ Design name:unnamed:
                 vpiName: ionewire
                 vpiFullName: work@t.sub.ionewire
                 vpiActual: Net name:ionewire
-    Module name:work@hello file:${SURELOG_DIR}/tests/Verilator/t_inst_v2k.v start:65:1 end:69:10:
+    Module name:work@hello file:$Source01/t_inst_v2k.v start:65:1 end:69:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@hello start:65:8 end:65:13:
         vpiParent: Module name:work@hello
@@ -1510,6 +1524,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@hello
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@hello
+        vpiName: work
+        vpiFullName: work@hello.work
+      vpiCell: hello
       vpiNet (1 items):
         Net name:tied_also start:65:14 end:65:23:
           vpiParent: Module name:work@hello
@@ -1529,7 +1548,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 4
             vpiDecompile: "4'b1010"
-            vpiValue: 1010
+            vpiValue: "1010"
       vpiPort (1 items):
         Port name:tied_also start:65:14 end:65:23:
           vpiParent: Module name:work@hello
@@ -1583,37 +1602,40 @@ Design name:unnamed:
         vpiName: work@hello
       vpiModule: Module name:work@hello
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_v2k
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_v2k
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_v2k/surelog.uhdm
+      test-name: Verilator/t_inst_v2k
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_v2k
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_v2k/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_v2k/mounts.json
 
 
 {'result': {'coverage': 98.9,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_v2k/lib/work/t_inst_v2k.v'): {'post_len': 9,
-                                                                                                                               'pre_len': 815}},
+            'files': {'$Output/lib/work/t_inst_v2k.v': {'post_len': 9,
+                                                        'pre_len': 815}},
             'post_len': 9,
             'pre_len': 815,
             'test_name': 'Verilator/t_inst_v2k'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/t_inst_v2k.v |      815 |         9 |
-+=======================+==========+===========+
-|                       |      815 |         9 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/t_inst_v2k.v |      815 |         9 |
++===============================+==========+===========+
+|                               |      815 |         9 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 98.9
@@ -1627,7 +1649,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_inst_v2k/surelog.uhdm ${SURELOG_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             225     225       0         0
+Others                             227     227       0         0
 ----------------------------------------------------------------
-                                   225     225       0         0
+                                   227     227       0         0
 ===================== END REDUCTION RESULT =====================

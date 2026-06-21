@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageVar/PackageVar/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageVar -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PackageVar/PackageVar
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 210
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackageVar/dut.sv
-n<${SURELOG_DIR}/tests/PackageVar/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> el<44:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> el<44:1>
   n<> u<1> t<Null_rule> p<209> s<208> l<1:1>
   n<> u<208> t<Source_text> p<209> c<207> l<1:1> el<42:11>
     n<> u<207> t<Description> p<208> c<206> l<1:1> el<42:11>
@@ -213,22 +222,21 @@ n<${SURELOG_DIR}/tests/PackageVar/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> e
                 n<> u<200> t<ENDFUNCTION> p<201> l<39:1> el<39:12>
         n<> u<205> t<ENDPACKAGE> p<206> l<42:1> el<42:11>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageVar/dut.sv:1:1: Compile package "work@pack".
-[WRN:CP0323] ${SURELOG_DIR}/tests/PackageVar/dut.sv:1:1: Multiply defined typedef "ovm_options_container".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageVar/dut.sv:1:1: No timescale set for "work@pack".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackageVar/dut.sv:26:15: Illegal implicit net "id:47, name:ovm_default_printer".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackageVar/dut.sv:35:30: Illegal implicit net "id:70, name:OVM_PRINT".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pack".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pack".
+[ERR:EL0535] $Source01/dut.sv:26:15: Illegal implicit net "id:51, name:ovm_default_printer".
+[ERR:EL0535] $Source01/dut.sv:35:30: Illegal implicit net "id:73, name:OVM_PRINT".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageVar/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageVar/PackageVar/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pack file:${SURELOG_DIR}/tests/PackageVar/dut.sv start:1:1 end:42:11:
+    Package name:work@pack file:$Source01/dut.sv start:1:1 end:42:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pack start:1:9 end:1:13:
         vpiParent: Package name:work@pack
@@ -241,7 +249,7 @@ Design name:unnamed:
             vpiParent: Variable name:ovm_auto_options_object
             vpiName: ovm_options_container
             vpiFullName: work@pack::ovm_auto_options_object::ovm_options_container
-            vpiActual: ClassTypespec name:ovm_options_container
+            vpiActual: ClassTypespec name:work@ovm_options_container
           vpiName: ovm_auto_options_object
           vpiFullName: work@pack::ovm_auto_options_object
           vpiNetType: none (12)
@@ -249,74 +257,97 @@ Design name:unnamed:
             vpiParent: Variable name:ovm_auto_options_object
             vpiName: ovm_options_container::init()
             vpiFullName: work@pack::ovm_auto_options_object::ovm_options_container::init()
-            vpiActual (2 items):
-              ClassTypespec name:ovm_options_container
+            vpiPathElem (2 items):
+              ClassTypespec name:ovm_options_container:
               FuncCall name:init start:11:72 end:11:78:
                 vpiParent: HierPath name:ovm_options_container::init()
                 vpiName Identifier name:init start:11:72 end:11:76:
                   vpiParent: FuncCall name:init
                   vpiName: init
       vpiTypespec (4 items):
-        ClassTypespec name:ovm_printer:
+        ClassTypespec name:work@ovm_printer:
           vpiParent: Package name:work@pack
-          vpiName: ovm_printer
-          vpiClassDefn: ClassDefn name:ovm_printer
-        ClassTypespec name:ovm_options_container:
+          vpiName: work@ovm_printer
+          vpiClassDefn: ClassDefn name:work@ovm_printer
+        ClassTypespec name:work@ovm_options_container:
           vpiParent: Package name:work@pack
-          vpiName: ovm_options_container
-          vpiClassDefn: ClassDefn name:ovm_options_container
+          vpiName: work@ovm_options_container
+          vpiClassDefn: ClassDefn name:work@ovm_options_container
         ClassTypespec name:ovm_options_container start:11:49 end:11:70:
           vpiParent: Package name:work@pack
           vpiName: ovm_options_container
-          vpiClassDefn: ClassDefn name:ovm_options_container
-        ClassTypespec name:ovm_object:
+          vpiClassDefn: ClassDefn name:work@ovm_options_container
+        ClassTypespec name:work@ovm_object:
           vpiParent: Package name:work@pack
-          vpiName: ovm_object
-          vpiClassDefn: ClassDefn name:ovm_object
+          vpiName: work@ovm_object
+          vpiClassDefn: ClassDefn name:work@ovm_object
       vpiDefName: work@pack
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pack
+        vpiName: work
+        vpiFullName: work@pack::work
+      vpiCell: pack
       vpiClassDefn (3 items):
-        ClassDefn name:ovm_printer file:${SURELOG_DIR}/tests/PackageVar/dut.sv start:3:1 end:4:9:
+        ClassDefn name:work@ovm_printer file:$Source01/dut.sv start:3:1 end:4:9:
           vpiParent: Package name:work@pack
-          vpiName Identifier name:ovm_printer start:3:7 end:3:18:
-            vpiParent: ClassDefn name:ovm_printer
-            vpiName: ovm_printer
-          vpiFullName: work@pack::ovm_printer
-        ClassDefn name:ovm_options_container file:${SURELOG_DIR}/tests/PackageVar/dut.sv start:6:1 end:8:9:
+          vpiName Identifier name:work@ovm_printer start:3:7 end:3:18:
+            vpiParent: ClassDefn name:work@ovm_printer
+            vpiName: work@ovm_printer
+          vpiFullName: work@pack::work@ovm_printer
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@ovm_printer
+            vpiName: work
+            vpiFullName: work@pack::work@ovm_printer::work
+          vpiCell: ovm_printer
+        ClassDefn name:work@ovm_options_container file:$Source01/dut.sv start:6:1 end:8:9:
           vpiParent: Package name:work@pack
-          vpiName Identifier name:ovm_options_container start:6:7 end:6:28:
-            vpiParent: ClassDefn name:ovm_options_container
-            vpiName: ovm_options_container
-          vpiFullName: work@pack::ovm_options_container
+          vpiName Identifier name:work@ovm_options_container start:6:7 end:6:28:
+            vpiParent: ClassDefn name:work@ovm_options_container
+            vpiName: work@ovm_options_container
+          vpiFullName: work@pack::work@ovm_options_container
           vpiVariable (1 items):
             Variable name:printer start:7:17 end:7:24:
-              vpiParent: ClassDefn name:ovm_options_container
+              vpiParent: ClassDefn name:work@ovm_options_container
               vpiTypespec RefTypespec name:ovm_printer start:7:1 end:7:12:
                 vpiParent: Variable name:printer
                 vpiName: ovm_printer
-                vpiFullName: work@pack::ovm_options_container::printer::ovm_printer
-                vpiActual: ClassTypespec name:ovm_printer
+                vpiFullName: work@pack::work@ovm_options_container::printer::ovm_printer
+                vpiActual: ClassTypespec name:work@ovm_printer
               vpiName: printer
-              vpiFullName: work@pack::ovm_options_container::printer
-        ClassDefn name:ovm_object file:${SURELOG_DIR}/tests/PackageVar/dut.sv start:13:1 end:21:9:
+              vpiFullName: work@pack::work@ovm_options_container::printer
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@ovm_options_container
+            vpiName: work
+            vpiFullName: work@pack::work@ovm_options_container::work
+          vpiCell: ovm_options_container
+        ClassDefn name:work@ovm_object file:$Source01/dut.sv start:13:1 end:21:9:
           vpiParent: Package name:work@pack
-          vpiName Identifier name:ovm_object start:13:7 end:13:17:
-            vpiParent: ClassDefn name:ovm_object
-            vpiName: ovm_object
-          vpiFullName: work@pack::ovm_object
+          vpiName Identifier name:work@ovm_object start:13:7 end:13:17:
+            vpiParent: ClassDefn name:work@ovm_object
+            vpiName: work@ovm_object
+          vpiFullName: work@pack::work@ovm_object
           vpiTypespec (1 items):
             UnsupportedTypespec name:ovm_printer start:15:28 end:15:39:
-              vpiParent: ClassDefn name:ovm_object
+              vpiParent: ClassDefn name:work@ovm_object
               vpiName Identifier name:ovm_printer:
                 vpiParent: UnsupportedTypespec name:ovm_printer
                 vpiName: ovm_printer
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@ovm_object
+            vpiName: work
+            vpiFullName: work@pack::work@ovm_object::work
+          vpiCell: ovm_object
           vpiMethod (1 items):
             Function name:print start:23:1 end:39:12:
-              vpiParent: ClassDefn name:ovm_object
+              vpiParent: ClassDefn name:work@ovm_object
               vpiName Identifier name:print start:23:27 end:23:32:
                 vpiParent: Function name:print
                 vpiName: print
-              vpiFullName: work@pack::ovm_object::print
+              vpiFullName: work@pack::work@ovm_object::print
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:printer start:23:45 end:23:52:
@@ -326,14 +357,14 @@ Design name:unnamed:
                   vpiExpr RefObj name:null start:23:53 end:23:57:
                     vpiParent: IODecl name:printer
                     vpiName: null
-                    vpiFullName: work@pack::ovm_object::print::printer::null
+                    vpiFullName: work@pack::work@ovm_object::print::printer::null
                   vpiTypespec RefTypespec start:23:33 end:23:44:
                     vpiParent: IODecl name:printer
-                    vpiFullName: work@pack::ovm_object::print::printer
+                    vpiFullName: work@pack::work@ovm_object::print::printer
                     vpiActual: UnsupportedTypespec name:ovm_printer
               vpiStmt Begin:
                 vpiParent: Function name:print
-                vpiFullName: work@pack::ovm_object::print
+                vpiFullName: work@pack::work@ovm_object::print
                 vpiTypespec (1 items):
                   UnsupportedTypespec name:ovm_printer start:23:33 end:23:44:
                     vpiParent: Begin
@@ -350,35 +381,35 @@ Design name:unnamed:
                         RefObj name:printer start:25:6 end:25:13:
                           vpiParent: Operation
                           vpiName: printer
-                          vpiFullName: work@pack::ovm_object::print::printer
+                          vpiFullName: work@pack::work@ovm_object::print::printer
                           vpiActual: IODecl name:printer
                         RefObj name:null start:25:15 end:25:19:
                           vpiParent: Operation
                           vpiName: null
-                          vpiFullName: work@pack::ovm_object::print::null
+                          vpiFullName: work@pack::work@ovm_object::print::null
                     vpiStmt Assignment start:26:5 end:26:34:
                       vpiParent: IfStmt
                       vpiBlocking: true
                       vpiLhs RefObj name:printer start:26:5 end:26:12:
                         vpiParent: Assignment
                         vpiName: printer
-                        vpiFullName: work@pack::ovm_object::print::printer
+                        vpiFullName: work@pack::work@ovm_object::print::printer
                         vpiActual: IODecl name:printer
                       vpiRhs RefObj name:ovm_default_printer start:26:15 end:26:34:
                         vpiParent: Assignment
                         vpiName: ovm_default_printer
-                        vpiFullName: work@pack::ovm_object::print::ovm_default_printer
+                        vpiFullName: work@pack::work@ovm_object::print::ovm_default_printer
                   IfElse start:28:3 end:38:6:
                     vpiParent: Begin
                     vpiCondition HierPath name:printer.istop() start:28:6 end:28:20:
                       vpiParent: IfElse
                       vpiName: printer.istop()
-                      vpiFullName: work@pack::ovm_object::print::printer.istop()
-                      vpiActual (2 items):
+                      vpiFullName: work@pack::work@ovm_object::print::printer.istop()
+                      vpiPathElem (2 items):
                         RefObj name:printer start:28:6 end:28:13:
                           vpiParent: HierPath name:printer.istop()
                           vpiName: printer
-                          vpiFullName: work@pack::ovm_object::print::printer
+                          vpiFullName: work@pack::work@ovm_object::print::printer
                           vpiActual: IODecl name:printer
                         FuncCall name:istop start:28:14 end:28:21:
                           vpiParent: HierPath name:printer.istop()
@@ -387,24 +418,24 @@ Design name:unnamed:
                             vpiName: istop
                     vpiStmt Begin start:28:23 end:30:6:
                       vpiParent: IfElse
-                      vpiFullName: work@pack::ovm_object::print
+                      vpiFullName: work@pack::work@ovm_object::print
                       vpiStmt (1 items):
-                        HierPath name:printer.print_object(get_name(), this, this) start:29:5 end:29:42:
+                        HierPath name:printer.print_object(get_name(), this) start:29:5 end:29:42:
                           vpiParent: Begin
-                          vpiName: printer.print_object(get_name(), this, this)
-                          vpiFullName: work@pack::ovm_object::print::printer.print_object(get_name(), this, this)
-                          vpiActual (2 items):
+                          vpiName: printer.print_object(get_name(), this)
+                          vpiFullName: work@pack::work@ovm_object::print::printer.print_object(get_name(), this)
+                          vpiPathElem (2 items):
                             RefObj name:printer start:29:5 end:29:12:
-                              vpiParent: HierPath name:printer.print_object(get_name(), this, this)
+                              vpiParent: HierPath name:printer.print_object(get_name(), this)
                               vpiName: printer
-                              vpiFullName: work@pack::ovm_object::print::printer
+                              vpiFullName: work@pack::work@ovm_object::print::printer
                               vpiActual: IODecl name:printer
                             FuncCall name:print_object start:29:13 end:29:43:
-                              vpiParent: HierPath name:printer.print_object(get_name(), this, this)
+                              vpiParent: HierPath name:printer.print_object(get_name(), this)
                               vpiName Identifier name:print_object start:29:13 end:29:25:
                                 vpiParent: FuncCall name:print_object
                                 vpiName: print_object
-                              vpiArgument (3 items):
+                              vpiArgument (2 items):
                                 FuncCall name:get_name start:29:26 end:29:36:
                                   vpiParent: FuncCall name:print_object
                                   vpiName Identifier name:get_name start:29:26 end:29:34:
@@ -413,16 +444,11 @@ Design name:unnamed:
                                 RefObj name:this start:29:38 end:29:42:
                                   vpiParent: FuncCall name:print_object
                                   vpiName: this
-                                  vpiFullName: work@pack::ovm_object::print::printer.print_object(get_name(), this, this)::this
-                                  vpiActual: ClassDefn name:ovm_object
-                                RefObj name:this start:29:38 end:29:42:
-                                  vpiParent: FuncCall name:print_object
-                                  vpiName: this
-                                  vpiFullName: work@pack::ovm_object::print::printer.print_object(get_name(), this, this)::this
-                                  vpiActual: ClassDefn name:ovm_object
+                                  vpiFullName: work@pack::work@ovm_object::print::printer.print_object(get_name(), this)::this
+                                  vpiActual: ClassDefn name:work@ovm_object
                     vpiElseStmt Begin start:31:8 end:38:6:
                       vpiParent: IfElse
-                      vpiFullName: work@pack::ovm_object::print
+                      vpiFullName: work@pack::work@ovm_object::print
                       vpiStmt (3 items):
                         Assignment start:34:5 end:34:46:
                           vpiParent: Begin
@@ -430,22 +456,22 @@ Design name:unnamed:
                           vpiLhs HierPath name:ovm_auto_options_object.printer start:34:5 end:34:36:
                             vpiParent: Assignment
                             vpiName: ovm_auto_options_object.printer
-                            vpiFullName: work@pack::ovm_object::print::ovm_auto_options_object.printer
-                            vpiActual (2 items):
+                            vpiFullName: work@pack::work@ovm_object::print::ovm_auto_options_object.printer
+                            vpiPathElem (2 items):
                               RefObj name:ovm_auto_options_object start:34:5 end:34:28:
                                 vpiParent: HierPath name:ovm_auto_options_object.printer
                                 vpiName: ovm_auto_options_object
-                                vpiFullName: work@pack::ovm_object::print::ovm_auto_options_object
+                                vpiFullName: work@pack::work@ovm_object::print::ovm_auto_options_object
                                 vpiActual: Variable name:ovm_auto_options_object
                               RefObj name:printer start:34:29 end:34:36:
                                 vpiParent: HierPath name:ovm_auto_options_object.printer
                                 vpiName: printer
-                                vpiFullName: work@pack::ovm_object::print::printer
+                                vpiFullName: work@pack::work@ovm_object::print::printer
                                 vpiActual: Variable name:printer
                           vpiRhs RefObj name:printer start:34:39 end:34:46:
                             vpiParent: Assignment
                             vpiName: printer
-                            vpiFullName: work@pack::ovm_object::print::printer
+                            vpiFullName: work@pack::work@ovm_object::print::printer
                             vpiActual: IODecl name:printer
                         FuncCall name:m_field_automation start:35:5 end:35:44:
                           vpiParent: Begin
@@ -456,20 +482,20 @@ Design name:unnamed:
                             RefObj name:null start:35:24 end:35:28:
                               vpiParent: FuncCall name:m_field_automation
                               vpiName: null
-                              vpiFullName: work@pack::ovm_object::print::null
+                              vpiFullName: work@pack::work@ovm_object::print::null
                             RefObj name:OVM_PRINT start:35:30 end:35:39:
                               vpiParent: FuncCall name:m_field_automation
                               vpiName: OVM_PRINT
-                              vpiFullName: work@pack::ovm_object::print::OVM_PRINT
+                              vpiFullName: work@pack::work@ovm_object::print::OVM_PRINT
                             Constant start:35:41 end:35:43:
                               vpiParent: FuncCall name:m_field_automation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@pack::ovm_object::print
+                                vpiFullName: work@pack::work@ovm_object::print
                                 vpiActual: StringTypespec
                               vpiConstType: string (6)
                               vpiDecompile: "\"\""
-                              vpiValue: 
+                              vpiValue: ""
                         FuncCall name:do_print start:37:5 end:37:22:
                           vpiParent: Begin
                           vpiName Identifier name:do_print start:37:5 end:37:13:
@@ -479,19 +505,19 @@ Design name:unnamed:
                             RefObj name:printer start:37:14 end:37:21:
                               vpiParent: FuncCall name:do_print
                               vpiName: printer
-                              vpiFullName: work@pack::ovm_object::print::printer
+                              vpiFullName: work@pack::work@ovm_object::print::printer
                               vpiActual: IODecl name:printer
               vpiReturn RefTypespec start:23:10 end:23:14:
                 vpiParent: Function name:print
-                vpiFullName: work@pack::ovm_object::print
+                vpiFullName: work@pack::work@ovm_object::print
                 vpiActual: VoidTypespec
           vpiTaskFuncDecl (1 items):
             FunctionDecl name:print start:15:8 end:15:53:
-              vpiParent: ClassDefn name:ovm_object
+              vpiParent: ClassDefn name:work@ovm_object
               vpiName Identifier name:print start:15:22 end:15:27:
                 vpiParent: FunctionDecl name:print
                 vpiName: print
-              vpiFullName: work@pack::ovm_object::print
+              vpiFullName: work@pack::work@ovm_object::print
               vpiIODecl (1 items):
                 IODecl name:printer start:15:40 end:15:47:
                   vpiParent: FunctionDecl name:print
@@ -500,14 +526,14 @@ Design name:unnamed:
                   vpiExpr RefObj name:null start:15:48 end:15:52:
                     vpiParent: IODecl name:printer
                     vpiName: null
-                    vpiFullName: work@pack::ovm_object::print::printer::null
+                    vpiFullName: work@pack::work@ovm_object::print::printer::null
                   vpiTypespec RefTypespec start:15:28 end:15:39:
                     vpiParent: IODecl name:printer
-                    vpiFullName: work@pack::ovm_object::print::printer
+                    vpiFullName: work@pack::work@ovm_object::print::printer
                     vpiActual: UnsupportedTypespec name:ovm_printer
               vpiReturn RefTypespec start:15:17 end:15:21:
                 vpiParent: FunctionDecl name:print
-                vpiFullName: work@pack::ovm_object::print
+                vpiFullName: work@pack::work@ovm_object::print
                 vpiActual: VoidTypespec
   vpiTypespec (2 items):
     VoidTypespec start:15:17 end:15:21:
@@ -515,37 +541,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageVar/PackageVar
- test-dirpath: ${SURELOG_DIR}/regression/PackageVar/PackageVar
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageVar/PackageVar/surelog.uhdm
+      test-name: PackageVar/PackageVar
+   test-dirpath: ${SURELOG_DIR}/regression/PackageVar/PackageVar
+  uhdm-filepath: ${SURELOG_DIR}/regression/PackageVar/PackageVar/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PackageVar/PackageVar/mounts.json
 
 
 {'result': {'coverage': 98.22,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageVar/PackageVar/lib/work/dut.sv'): {'post_len': 10,
-                                                                                                                          'pre_len': 561}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 10,
+                                                  'pre_len': 561}},
             'post_len': 10,
             'pre_len': 561,
             'test_name': 'PackageVar/PackageVar'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      561 |        10 |
-+=================+==========+===========+
-|                 |      561 |        10 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      561 |        10 |
++=========================+==========+===========+
+|                         |      561 |        10 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 98.22
@@ -559,7 +588,7 @@ COMMAND: ${SURELOG_DIR}/regression/PackageVar/PackageVar/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    79      79       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr224a/surelog.log".
-[ERR:PP0101] ${SURELOG_DIR}/tests/Icarus/ivltests/pr224a.v:2: Cannot open include file "${SURELOG_DIR}/tests/Icarus/ivltests/ivltests/pr224.v".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr224a.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr224a
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr224a.v".
+[ERR:PP0101] $Source01/pr224a.v:2: Cannot open include file "$Source01/ivltests/pr224.v".
+[INF:PA0201] Parsing source file "$Source01/pr224a.v".
 AST_DEBUG_BEGIN
 Count: 4
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr224a.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr224a.v> u<3> t<Top_level_rule> c<1> l<3:1> el<3:1>
+FILE: f<13>:$Source01/pr224a.v
+n<$Source01/pr224a.v> u<3> t<Top_level_rule> c<1> l<3:1> el<3:1>
   n<> u<1> t<Null_rule> p<3> s<2> l<3:1> el<3:1>
   n<> u<2> t<Source_text> p<3> l<3:1> el<3:1>
 AST_DEBUG_END
@@ -12,13 +21,13 @@ AST_DEBUG_END
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr224a.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr224a.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr224a.v file:$Source01/pr224a.v:
       vpiParent: Design name:unnamed
       vpiName: pr224a.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr224a/lib/work/pr224a.v"
+      vpiPreprocFile: "$Output/lib/work/pr224a.v"
       vpiIncludes (1 items):
-        SourceFile name:ivltests/pr224.v file:${SURELOG_DIR}/tests/Icarus/ivltests/ivltests/pr224.v start:2:1 end:2:28:
+        SourceFile name:ivltests/pr224.v file:$Source01/ivltests/pr224.v start:2:1 end:2:28:
           vpiParent: SourceFile name:pr224a.v
           vpiName: ivltests/pr224.v
           vpiDefNetType: none (12)
@@ -29,37 +38,40 @@ Design name:unnamed:
           vpiNameStartColumn: 9
       vpiDefNetType: none (12)
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr224a
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr224a
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr224a/surelog.uhdm
+      test-name: Icarus/ivltests/pr224a
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr224a
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr224a/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr224a/mounts.json
 
 
 {'result': {'coverage': 0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr224a/lib/work/pr224a.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 0}},
+            'files': {'$Output/lib/work/pr224a.v': {'post_len': 0,
+                                                    'pre_len': 0}},
             'post_len': 0,
             'pre_len': 0,
             'test_name': 'Icarus/ivltests/pr224a'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/pr224a.v |        0 |         0 |
-+===================+==========+===========+
-|                   |        0 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/pr224a.v |        0 |         0 |
++===========================+==========+===========+
+|                           |        0 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 0

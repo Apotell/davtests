@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-9 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 9.3.3--event.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/9.3.3--event.sv".
+[INF:PA0201] Parsing source file "$Source01/9.3.3--event.sv".
 AST_DEBUG_BEGIN
 Count: 130
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--event.sv
-n<${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--event.sv> u<129> t<Top_level_rule> c<1> l<15:1> el<30:1>
+FILE: f<14>:$Source01/9.3.3--event.sv
+n<$Source01/9.3.3--event.sv> u<129> t<Top_level_rule> c<1> l<15:1> el<30:1>
   n<> u<1> t<Null_rule> p<129> s<2> l<15:1> el<15:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<129> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<129> s<4> l<2:1> el<2:3>
@@ -133,19 +142,19 @@ n<${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--event.sv> u<129> t<Top_level_rule
                           n<> u<115> t<Join_keyword> p<116> l<28:2> el<28:6>
         n<> u<125> t<ENDMODULE> p<126> l<29:1> el<29:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--event.sv:15:1: Compile module "work@block_tb".
+[INF:CP0303] $Source01/9.3.3--event.sv:15:1: Compile module "work@block_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:9.3.3--event.sv file:${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--event.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:9.3.3--event.sv file:$Source01/9.3.3--event.sv:
       vpiParent: Design name:unnamed
       vpiName: "9.3.3--event.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/lib/work/9.3.3--event.sv"
+      vpiPreprocFile: "$Output/lib/work/9.3.3--event.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@block_tb file:${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--event.sv start:15:1 end:29:10:
+    Module name:work@block_tb file:$Source01/9.3.3--event.sv start:15:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@block_tb start:15:8 end:15:16:
         vpiParent: Module name:work@block_tb
@@ -182,6 +191,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@block_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@block_tb
+        vpiName: work
+        vpiFullName: work@block_tb.work
+      vpiCell: block_tb
       vpiNet (2 items):
         Net name:ev start:16:8 end:16:10:
           vpiParent: Module name:work@block_tb
@@ -215,6 +229,67 @@ Design name:unnamed:
           vpiStmt ForkStmt start:18:10 end:28:6:
             vpiParent: Initial
             vpiFullName: work@block_tb
+            vpiStmt (2 items):
+              Begin start:19:3 end:23:6:
+                vpiParent: ForkStmt
+                vpiFullName: work@block_tb
+                vpiStmt (3 items):
+                  Assignment start:20:4 end:20:11:
+                    vpiParent: Begin
+                    vpiBlocking: true
+                    vpiLhs RefObj name:a start:20:4 end:20:5:
+                      vpiParent: Assignment
+                      vpiName: a
+                      vpiFullName: work@block_tb.a
+                      vpiActual: Net name:a
+                    vpiRhs Constant start:20:8 end:20:11:
+                      vpiParent: Assignment
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@block_tb
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: -1
+                      vpiDecompile: "'h3"
+                      vpiValue: "3"
+                  DelayControl start:21:4 end:21:7:
+                    vpiParent: Begin
+                    vpiDelay Constant start:21:5 end:21:7:
+                      vpiParent: DelayControl
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@block_tb
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "20"
+                      vpiValue: 20
+                  EventStmt start:22:4 end:22:9:
+                    vpiParent: Begin
+              Begin start:24:3 end:27:6:
+                vpiParent: ForkStmt
+                vpiFullName: work@block_tb
+                vpiStmt (1 items):
+                  EventControl start:25:4 end:26:12:
+                    vpiParent: Begin
+                    vpiStmt Assignment start:26:4 end:26:11:
+                      vpiParent: EventControl
+                      vpiBlocking: true
+                      vpiLhs RefObj name:a start:26:4 end:26:5:
+                        vpiParent: Assignment
+                        vpiName: a
+                        vpiFullName: work@block_tb.a
+                        vpiActual: Net name:a
+                      vpiRhs Constant start:26:8 end:26:11:
+                        vpiParent: Assignment
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@block_tb
+                          vpiActual: IntTypespec
+                        vpiConstType: hexadecimal (5)
+                        vpiSize: -1
+                        vpiDecompile: "'h4"
+                        vpiValue: "4"
   vpiTypespec (3 items):
     ModuleTypespec name:work@block_tb:
       vpiParent: Design name:unnamed
@@ -228,40 +303,43 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-9/9.3.3--event
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/surelog.uhdm
+      test-name: Google/chapter-9/9.3.3--event
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/mounts.json
 
 
-{'result': {'coverage': 85.84,
+{'result': {'coverage': 98.23,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/lib/work/9.3.3--event.sv'): {'post_len': 16,
-                                                                                                                                           'pre_len': 113}},
-            'post_len': 16,
+            'files': {'$Output/lib/work/9.3.3--event.sv': {'post_len': 2,
+                                                           'pre_len': 113}},
+            'post_len': 2,
             'pre_len': 113,
             'test_name': 'Google/chapter-9/9.3.3--event'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/9.3.3--event.sv |      113 |        16 |
-+==========================+==========+===========+
-|                          |      113 |        16 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/9.3.3--event.sv |      113 |         2 |
++==================================+==========+===========+
+|                                  |      113 |         2 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 85.84
+[COVERAGE] : 98.23
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -272,7 +350,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--event/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    39      39       0         0
 ===================== END REDUCTION RESULT =====================

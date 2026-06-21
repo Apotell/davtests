@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamList/ParamList/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamList -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ParamList/ParamList
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 39
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamList/dut.sv
-n<${SURELOG_DIR}/tests/ParamList/dut.sv> u<38> t<Top_level_rule> c<1> l<2:1> el<11:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<38> t<Top_level_rule> c<1> l<2:1> el<11:1>
   n<> u<1> t<Null_rule> p<38> s<37> l<2:1> el<2:1>
   n<> u<37> t<Source_text> p<38> c<36> l<2:1> el<10:10>
     n<> u<36> t<Description> p<37> c<35> l<2:1> el<10:10>
@@ -42,19 +51,19 @@ n<${SURELOG_DIR}/tests/ParamList/dut.sv> u<38> t<Top_level_rule> c<1> l<2:1> el<
           n<> u<32> t<Port_list> p<33> l<7:2> el<9:2>
         n<> u<34> t<ENDMODULE> p<35> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamList/dut.sv:2:1: Compile module "work@r5p_soc_top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamList/dut.sv:2:1: No timescale set for "work@r5p_soc_top".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@r5p_soc_top".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@r5p_soc_top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamList/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamList/ParamList/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@r5p_soc_top file:${SURELOG_DIR}/tests/ParamList/dut.sv start:2:1 end:10:10:
+    Module name:work@r5p_soc_top file:$Source01/dut.sv start:2:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@r5p_soc_top start:2:8 end:2:19:
         vpiParent: Module name:work@r5p_soc_top
@@ -114,6 +123,11 @@ Design name:unnamed:
             vpiValue: 32
       vpiDefName: work@r5p_soc_top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@r5p_soc_top
+        vpiName: work
+        vpiFullName: work@r5p_soc_top.work
+      vpiCell: r5p_soc_top
   vpiTypespec (3 items):
     ModuleTypespec name:work@r5p_soc_top:
       vpiParent: Design name:unnamed
@@ -127,37 +141,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamList/ParamList
- test-dirpath: ${SURELOG_DIR}/regression/ParamList/ParamList
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamList/ParamList/surelog.uhdm
+      test-name: ParamList/ParamList
+   test-dirpath: ${SURELOG_DIR}/regression/ParamList/ParamList
+  uhdm-filepath: ${SURELOG_DIR}/regression/ParamList/ParamList/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ParamList/ParamList/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamList/ParamList/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 77}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 77}},
             'post_len': 0,
             'pre_len': 77,
             'test_name': 'ParamList/ParamList'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       77 |         0 |
-+=================+==========+===========+
-|                 |       77 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       77 |         0 |
++=========================+==========+===========+
+|                         |       77 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -171,7 +188,7 @@ COMMAND: ${SURELOG_DIR}/regression/ParamList/ParamList/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              20      20       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    20      20       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================

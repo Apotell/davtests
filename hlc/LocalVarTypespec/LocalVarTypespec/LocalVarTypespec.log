@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LocalVarTypespec -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 121
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv
-n<${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv> u<120> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<120> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<120> s<118> l<1:1>
   n<> u<118> t<Source_text> p<120> c<117> s<119> l<1:1> el<7:10>
     n<> u<117> t<Description> p<118> c<116> l<1:1> el<7:10>
@@ -124,19 +133,19 @@ n<${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv> u<120> t<Top_level_rule> c<1> l<
         n<> u<115> t<ENDMODULE> p<116> l<7:1> el<7:10>
   n<// shift> u<119> t<LINE_COMMENT> p<120> l<7:11> el<7:19>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv:1:1: Compile module "work@shift".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv:1:1: No timescale set for "work@shift".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@shift".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@shift".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@shift file:${SURELOG_DIR}/tests/LocalVarTypespec/dut.sv start:1:1 end:7:10:
+    Module name:work@shift file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@shift start:1:8 end:1:13:
         vpiParent: Module name:work@shift
@@ -144,6 +153,11 @@ Design name:unnamed:
       vpiFullName: work@shift
       vpiDefName: work@shift
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@shift
+        vpiName: work
+        vpiFullName: work@shift.work
+      vpiCell: shift
       vpiTaskFunc (1 items):
         Function name:fshr_u start:2:1 end:6:12:
           vpiParent: Module name:work@shift
@@ -151,194 +165,197 @@ Design name:unnamed:
             vpiParent: Function name:fshr_u
             vpiName: fshr_u
           vpiFullName: work@shift.fshr_u
-          vpiVariable (3 items):
-            Variable name:signed_result start:3:22 end:3:35:
-              vpiParent: Function name:fshr_u
-              vpiTypespec RefTypespec start:3:3 end:3:21:
-                vpiParent: Variable name:signed_result
-                vpiFullName: work@shift.fshr_u.signed_result
-                vpiActual: LogicTypespec
-              vpiName: signed_result
-              vpiFullName: work@shift.fshr_u.signed_result
-            Variable name:unsigned_result start:4:24 end:4:39:
-              vpiParent: Function name:fshr_u
-              vpiTypespec RefTypespec start:4:3 end:4:23:
-                vpiParent: Variable name:unsigned_result
-                vpiFullName: work@shift.fshr_u.unsigned_result
-                vpiActual: LogicTypespec
-              vpiName: unsigned_result
-              vpiFullName: work@shift.fshr_u.unsigned_result
-            Variable name:nosign_result start:5:15 end:5:28:
-              vpiParent: Function name:fshr_u
-              vpiTypespec RefTypespec start:5:3 end:5:14:
-                vpiParent: Variable name:nosign_result
-                vpiFullName: work@shift.fshr_u.nosign_result
-                vpiActual: LogicTypespec
-              vpiName: nosign_result
-              vpiFullName: work@shift.fshr_u.nosign_result
-          vpiTypespec (4 items):
-            LogicTypespec:
-              vpiParent: Function name:fshr_u
-              vpiRange (1 items):
-                Range start:2:16 end:2:23:
-                  vpiParent: LogicTypespec
-                  vpiLeftRange Operation start:2:17 end:2:20:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      Constant start:2:17 end:2:18:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                      Constant start:2:19 end:2:20:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  vpiRightRange Constant start:2:21 end:2:22:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@shift.fshr_u
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-              vpiVector: true
-            LogicTypespec:
-              vpiParent: Function name:fshr_u
-              vpiRange (1 items):
-                Range start:3:14 end:3:21:
-                  vpiParent: LogicTypespec
-                  vpiLeftRange Operation start:3:15 end:3:18:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      Constant start:3:15 end:3:16:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "2"
-                        vpiValue: 2
-                      Constant start:3:17 end:3:18:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  vpiRightRange Constant start:3:19 end:3:20:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@shift.fshr_u
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-              vpiSigned: true
-              vpiVector: true
-            LogicTypespec:
-              vpiParent: Function name:fshr_u
-              vpiRange (1 items):
-                Range start:4:16 end:4:23:
-                  vpiParent: LogicTypespec
-                  vpiLeftRange Operation start:4:17 end:4:20:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      Constant start:4:17 end:4:18:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "3"
-                        vpiValue: 3
-                      Constant start:4:19 end:4:20:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  vpiRightRange Constant start:4:21 end:4:22:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@shift.fshr_u
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-              vpiVector: true
-            LogicTypespec:
-              vpiParent: Function name:fshr_u
-              vpiRange (1 items):
-                Range start:5:7 end:5:14:
-                  vpiParent: LogicTypespec
-                  vpiLeftRange Operation start:5:8 end:5:11:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      Constant start:5:8 end:5:9:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "4"
-                        vpiValue: 4
-                      Constant start:5:10 end:5:11:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@shift.fshr_u
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  vpiRightRange Constant start:5:12 end:5:13:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@shift.fshr_u
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-              vpiVector: true
           vpiVisibility: public (1)
+          vpiStmt Begin:
+            vpiParent: Function name:fshr_u
+            vpiFullName: work@shift.fshr_u
+            vpiVariable (3 items):
+              Variable name:signed_result start:3:22 end:3:35:
+                vpiParent: Begin
+                vpiTypespec RefTypespec start:3:3 end:3:21:
+                  vpiParent: Variable name:signed_result
+                  vpiFullName: work@shift.fshr_u.signed_result
+                  vpiActual: LogicTypespec
+                vpiName: signed_result
+                vpiFullName: work@shift.fshr_u.signed_result
+              Variable name:unsigned_result start:4:24 end:4:39:
+                vpiParent: Begin
+                vpiTypespec RefTypespec start:4:3 end:4:23:
+                  vpiParent: Variable name:unsigned_result
+                  vpiFullName: work@shift.fshr_u.unsigned_result
+                  vpiActual: LogicTypespec
+                vpiName: unsigned_result
+                vpiFullName: work@shift.fshr_u.unsigned_result
+              Variable name:nosign_result start:5:15 end:5:28:
+                vpiParent: Begin
+                vpiTypespec RefTypespec start:5:3 end:5:14:
+                  vpiParent: Variable name:nosign_result
+                  vpiFullName: work@shift.fshr_u.nosign_result
+                  vpiActual: LogicTypespec
+                vpiName: nosign_result
+                vpiFullName: work@shift.fshr_u.nosign_result
+            vpiTypespec (4 items):
+              LogicTypespec:
+                vpiParent: Begin
+                vpiRange (1 items):
+                  Range start:2:16 end:2:23:
+                    vpiParent: LogicTypespec
+                    vpiLeftRange Operation start:2:17 end:2:20:
+                      vpiParent: Range
+                      vpiOpType: subtract (11)
+                      vpiOperand (2 items):
+                        Constant start:2:17 end:2:18:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                        Constant start:2:19 end:2:20:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                    vpiRightRange Constant start:2:21 end:2:22:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@shift.fshr_u
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiVector: true
+              LogicTypespec:
+                vpiParent: Begin
+                vpiRange (1 items):
+                  Range start:3:14 end:3:21:
+                    vpiParent: LogicTypespec
+                    vpiLeftRange Operation start:3:15 end:3:18:
+                      vpiParent: Range
+                      vpiOpType: subtract (11)
+                      vpiOperand (2 items):
+                        Constant start:3:15 end:3:16:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "2"
+                          vpiValue: 2
+                        Constant start:3:17 end:3:18:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                    vpiRightRange Constant start:3:19 end:3:20:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@shift.fshr_u
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiSigned: true
+                vpiVector: true
+              LogicTypespec:
+                vpiParent: Begin
+                vpiRange (1 items):
+                  Range start:4:16 end:4:23:
+                    vpiParent: LogicTypespec
+                    vpiLeftRange Operation start:4:17 end:4:20:
+                      vpiParent: Range
+                      vpiOpType: subtract (11)
+                      vpiOperand (2 items):
+                        Constant start:4:17 end:4:18:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "3"
+                          vpiValue: 3
+                        Constant start:4:19 end:4:20:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                    vpiRightRange Constant start:4:21 end:4:22:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@shift.fshr_u
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiVector: true
+              LogicTypespec:
+                vpiParent: Begin
+                vpiRange (1 items):
+                  Range start:5:7 end:5:14:
+                    vpiParent: LogicTypespec
+                    vpiLeftRange Operation start:5:8 end:5:11:
+                      vpiParent: Range
+                      vpiOpType: subtract (11)
+                      vpiOperand (2 items):
+                        Constant start:5:8 end:5:9:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "4"
+                          vpiValue: 4
+                        Constant start:5:10 end:5:11:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@shift.fshr_u
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                    vpiRightRange Constant start:5:12 end:5:13:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@shift.fshr_u
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiVector: true
           vpiReturn RefTypespec start:2:10 end:2:23:
             vpiParent: Function name:fshr_u
             vpiFullName: work@shift.fshr_u
@@ -354,37 +371,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LocalVarTypespec/LocalVarTypespec
- test-dirpath: ${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec
-uhdm-filepath: ${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec/surelog.uhdm
+      test-name: LocalVarTypespec/LocalVarTypespec
+   test-dirpath: ${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec
+  uhdm-filepath: ${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LocalVarTypespec/LocalVarTypespec/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 161}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 161}},
             'post_len': 0,
             'pre_len': 161,
             'test_name': 'LocalVarTypespec/LocalVarTypespec'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      161 |         0 |
-+=================+==========+===========+
-|                 |      161 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      161 |         0 |
++=========================+==========+===========+
+|                         |      161 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -401,7 +421,7 @@ Constant                            12       8       4         8
 Operation                            4       0       0         4
 RefTypespec                         16      12       4         8
 ----------------------------------------------------------------
-Others                              20      20       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    52      40       8        20
+                                    54      42       8        20
 ===================== END REDUCTION RESULT =====================

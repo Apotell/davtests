@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm forloops.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/forloops.v".
+[INF:PA0201] Parsing source file "$Source01/forloops.v".
 AST_DEBUG_BEGIN
 Count: 619
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v> u<618> t<Top_level_rule> c<1> l<1:1> el<26:1>
+FILE: f<13>:$Source01/forloops.v
+n<$Source01/forloops.v> u<618> t<Top_level_rule> c<1> l<1:1> el<26:1>
   n<> u<1> t<Null_rule> p<618> s<617> l<1:1>
   n<> u<617> t<Source_text> p<618> c<356> l<1:1> el<25:10>
     n<> u<356> t<Description> p<617> c<355> s<616> l<1:1> el<13:10>
@@ -622,20 +631,20 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v> u<618> t<Top_level_rule
                                   n<b> u<599> t<SIMPLE_IDENTIFIER> p<600> l<24:21> el<24:22>
         n<> u<614> t<ENDMODULE> p<615> l<25:1> el<25:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v:1:1: Compile module "work@forloops01".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v:15:1: Compile module "work@forloops02".
+[INF:CP0303] $Source01/forloops.v:1:1: Compile module "work@forloops01".
+[INF:CP0303] $Source01/forloops.v:15:1: Compile module "work@forloops02".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:forloops.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v:
+  vpiSourceFile (1 items):
+    SourceFile name:forloops.v file:$Source01/forloops.v:
       vpiParent: Design name:unnamed
       vpiName: forloops.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/lib/work/forloops.v"
+      vpiPreprocFile: "$Output/lib/work/forloops.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@forloops01 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v start:1:1 end:13:10:
+    Module name:work@forloops01 file:$Source01/forloops.v start:1:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@forloops01 start:1:8 end:1:18:
         vpiParent: Module name:work@forloops01
@@ -685,6 +694,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@forloops01
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@forloops01
+        vpiName: work
+        vpiFullName: work@forloops01.work
+      vpiCell: forloops01
       vpiNet (7 items):
         Net name:clk start:1:26 end:1:29:
           vpiParent: Module name:work@forloops01
@@ -1227,7 +1241,7 @@ Design name:unnamed:
                             vpiFullName: work@forloops01.b
                             vpiActual: Net name:b
           vpiAlwaysType: always (1)
-    Module name:work@forloops02 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/forloops.v start:15:1 end:25:10:
+    Module name:work@forloops02 file:$Source01/forloops.v start:15:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@forloops02 start:15:8 end:15:18:
         vpiParent: Module name:work@forloops02
@@ -1303,6 +1317,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@forloops02
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@forloops02
+        vpiName: work
+        vpiFullName: work@forloops02.work
+      vpiCell: forloops02
       vpiNet (6 items):
         Net name:clk start:15:26 end:15:29:
           vpiParent: Module name:work@forloops02
@@ -1681,37 +1700,40 @@ Design name:unnamed:
         vpiName: work@forloops02
       vpiModule: Module name:work@forloops02
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/forloops
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/surelog.uhdm
+      test-name: YosysTestSuite/simple/forloops
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/lib/work/forloops.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 487}},
+            'files': {'$Output/lib/work/forloops.v': {'post_len': 0,
+                                                      'pre_len': 487}},
             'post_len': 0,
             'pre_len': 487,
             'test_name': 'YosysTestSuite/simple/forloops'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/forloops.v |      487 |         0 |
-+=====================+==========+===========+
-|                     |      487 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/forloops.v |      487 |         0 |
++=============================+==========+===========+
+|                             |      487 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1725,7 +1747,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/forloops/surelog.uhdm $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             245     245       0         0
+Others                             247     247       0         0
 ----------------------------------------------------------------
-                                   245     245       0         0
+                                   247     247       0         0
 ===================== END REDUCTION RESULT =====================

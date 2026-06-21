@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_mem_slice/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_mem_slice.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_mem_slice
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_mem_slice.v".
+[INF:PA0201] Parsing source file "$Source01/t_mem_slice.v".
 AST_DEBUG_BEGIN
 Count: 1847
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_mem_slice.v
-n<${SURELOG_DIR}/tests/Verilator/t_mem_slice.v> u<1846> t<Top_level_rule> c<1> l<6:1> el<124:1>
+FILE: f<13>:$Source01/t_mem_slice.v
+n<$Source01/t_mem_slice.v> u<1846> t<Top_level_rule> c<1> l<6:1> el<124:1>
   n<> u<1> t<Null_rule> p<1846> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<1846> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<1846> s<4> l<2:1> el<2:3>
@@ -1850,21 +1859,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_mem_slice.v> u<1846> t<Top_level_rule> c<1> l
         n<> u<1842> t<ENDMODULE> p<1843> s<1841> l<123:1> el<123:10>
         n<t> u<1841> t<SIMPLE_IDENTIFIER> p<1843> l<123:13> el<123:14>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mem_slice.v:6:1: Compile module "work@t".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_mem_slice.v:6:1: Unmached label "work@t",
-             ${SURELOG_DIR}/tests/Verilator/t_mem_slice.v:123:13: closing label "t".
+[INF:CP0303] $Source01/t_mem_slice.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_mem_slice.v file:${SURELOG_DIR}/tests/Verilator/t_mem_slice.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_mem_slice.v file:$Source01/t_mem_slice.v:
       vpiParent: Design name:unnamed
       vpiName: t_mem_slice.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_mem_slice/lib/work/t_mem_slice.v"
+      vpiPreprocFile: "$Output/lib/work/t_mem_slice.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_mem_slice.v start:6:1 end:123:14:
+    Module name:work@t file:$Source01/t_mem_slice.v start:6:1 end:123:14:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -3216,6 +3223,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (22 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -3667,7 +3679,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:63:30 end:63:33:
                     vpiParent: ForStmt
-                    vpiOpType: pre inc (63)
+                    vpiOpType: pre inc (65)
                     vpiOperand (1 items):
                       RefObj name:i start:63:32 end:63:33:
                         vpiParent: Operation
@@ -3723,7 +3735,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b00"
-                        vpiValue: 00
+                        vpiValue: "00"
                     Assignment start:65:3 end:65:23:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -3750,7 +3762,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b11"
-                        vpiValue: 11
+                        vpiValue: "11"
                     Assignment start:66:3 end:66:24:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -3777,7 +3789,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b00"
-                        vpiValue: 00
+                        vpiValue: "00"
                     Assignment start:67:3 end:67:24:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -3804,7 +3816,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b11"
-                        vpiValue: 11
+                        vpiValue: "11"
                     Assignment start:68:3 end:68:21:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -3822,7 +3834,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 9
                         vpiDecompile: "9'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
               ForStmt start:70:7 end:77:10:
                 vpiParent: Begin
                 vpiFullName: work@t
@@ -3852,7 +3864,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:70:30 end:70:33:
                     vpiParent: ForStmt
-                    vpiOpType: pre inc (63)
+                    vpiOpType: pre inc (65)
                     vpiOperand (1 items):
                       RefObj name:i start:70:32 end:70:33:
                         vpiParent: Operation
@@ -3911,7 +3923,7 @@ Design name:unnamed:
                       vpiForIncStmt (1 items):
                         Operation start:71:26 end:71:29:
                           vpiParent: ForStmt
-                          vpiOpType: pre inc (63)
+                          vpiOpType: pre inc (65)
                           vpiOperand (1 items):
                             RefObj name:j start:71:28 end:71:29:
                               vpiParent: Operation
@@ -3970,7 +3982,7 @@ Design name:unnamed:
                             vpiForIncStmt (1 items):
                               Operation start:72:29 end:72:32:
                                 vpiParent: ForStmt
-                                vpiOpType: pre inc (63)
+                                vpiOpType: pre inc (65)
                                 vpiOperand (1 items):
                                   RefObj name:k start:72:31 end:72:32:
                                     vpiParent: Operation
@@ -4044,7 +4056,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 2
                                     vpiDecompile: "2'b00"
-                                    vpiValue: 00
+                                    vpiValue: "00"
                                 Assignment start:74:9 end:74:36:
                                   vpiParent: Begin
                                   vpiBlocking: true
@@ -4089,7 +4101,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 2
                                     vpiDecompile: "2'b11"
-                                    vpiValue: 11
+                                    vpiValue: "11"
         Always start:80:4 end:102:7:
           vpiParent: Module name:work@t
           vpiStmt EventControl start:80:11 end:102:7:
@@ -4194,7 +4206,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 2
                               vpiDecompile: "2'b00"
-                              vpiValue: 00
+                              vpiValue: "00"
                         vpiStmt Begin start:84:35 end:86:6:
                           vpiParent: IfStmt
                           vpiFullName: work@t
@@ -4238,7 +4250,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 2
                               vpiDecompile: "2'b00"
-                              vpiValue: 00
+                              vpiValue: "00"
                         vpiStmt Begin start:87:36 end:89:6:
                           vpiParent: IfStmt
                           vpiFullName: work@t
@@ -4310,7 +4322,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 2
                               vpiDecompile: "2'b00"
-                              vpiValue: 00
+                              vpiValue: "00"
                         vpiStmt Begin start:90:42 end:92:6:
                           vpiParent: IfStmt
                           vpiFullName: work@t
@@ -4369,7 +4381,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 2
                               vpiDecompile: "2'b11"
-                              vpiValue: 11
+                              vpiValue: "11"
                         vpiStmt Begin start:95:35 end:97:6:
                           vpiParent: IfStmt
                           vpiFullName: work@t
@@ -4413,7 +4425,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 2
                               vpiDecompile: "2'b11"
-                              vpiValue: 11
+                              vpiValue: "11"
                         vpiStmt Begin start:98:36 end:100:6:
                           vpiParent: IfStmt
                           vpiFullName: work@t
@@ -4619,7 +4631,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:119:3 end:119:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:119:3 end:119:10:
@@ -4940,37 +4952,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_mem_slice
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mem_slice
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_slice/surelog.uhdm
+      test-name: Verilator/t_mem_slice
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mem_slice
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_slice/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_slice/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_mem_slice/lib/work/t_mem_slice.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 2072}},
+            'files': {'$Output/lib/work/t_mem_slice.v': {'post_len': 0,
+                                                         'pre_len': 2072}},
             'post_len': 0,
             'pre_len': 2072,
             'test_name': 'Verilator/t_mem_slice'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/t_mem_slice.v |     2072 |         0 |
-+========================+==========+===========+
-|                        |     2072 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/t_mem_slice.v |     2072 |         0 |
++================================+==========+===========+
+|                                |     2072 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -4984,7 +4999,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_mem_slice/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             738     738       0         0
+Others                             739     739       0         0
 ----------------------------------------------------------------
-                                   738     738       0         0
+                                   739     739       0         0
 ===================== END REDUCTION RESULT =====================

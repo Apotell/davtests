@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/StructStructHierPath -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 242
 LIB: work
-FILE: ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv
-n<${SURELOG_DIR}/tests/StructStructHierPath/dut.sv> u<241> t<Top_level_rule> c<1> l<2:1> el<38:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<241> t<Top_level_rule> c<1> l<2:1> el<38:1>
   n<> u<1> t<Null_rule> p<241> s<239> l<2:1> el<2:1>
   n<> u<239> t<Source_text> p<241> c<149> s<240> l<2:1> el<37:10>
     n<> u<149> t<Description> p<239> c<148> s<238> l<2:1> el<26:26>
@@ -245,28 +254,23 @@ n<${SURELOG_DIR}/tests/StructStructHierPath/dut.sv> u<241> t<Top_level_rule> c<1
         n<> u<236> t<ENDMODULE> p<237> l<37:1> el<37:10>
   n<// r5p_wbu> u<240> t<LINE_COMMENT> p<241> l<37:11> el<37:21>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:2:1: Compile package "work@riscv_isa_pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:2:1: Unmached label "work@riscv_isa_pkg",
-             ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:26:13: closing label "riscv_isa_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:28:1: Compile module "work@r5p_wbu".
-[WRN:PA0205] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:2:1: No timescale set for "work@riscv_isa_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:28:1: No timescale set for "work@r5p_wbu".
-[ERR:EL0535] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:31:23: Illegal implicit net "id:91, name:clk".
-[ERR:EL0535] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:32:7: Illegal implicit net "id:94, name:rst".
-[ERR:EL0535] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:33:16: Illegal implicit net "id:99, name:gpr".
-[ERR:EL0535] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:33:20: Illegal implicit net "id:100, name:e".
-[ERR:EL0535] ${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:33:22: Illegal implicit net "id:101, name:rd".
+[INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@riscv_isa_pkg".
+[INF:CP0303] $Source01/dut.sv:28:1: Compile module "work@r5p_wbu".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@riscv_isa_pkg".
+[WRN:PA0205] $Source01/dut.sv:28:1: No timescale set for "work@r5p_wbu".
+[ERR:EL0535] $Source01/dut.sv:31:23: Illegal implicit net "id:93, name:clk".
+[ERR:EL0535] $Source01/dut.sv:32:7: Illegal implicit net "id:96, name:rst".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/StructStructHierPath/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@riscv_isa_pkg file:${SURELOG_DIR}/tests/StructStructHierPath/dut.sv start:2:1 end:26:26:
+    Package name:work@riscv_isa_pkg file:$Source01/dut.sv start:2:1 end:26:26:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@riscv_isa_pkg start:2:9 end:2:22:
         vpiParent: Package name:work@riscv_isa_pkg
@@ -495,22 +499,22 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@riscv_isa_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@riscv_isa_pkg
+        vpiName: work
+        vpiFullName: work@riscv_isa_pkg::work
+      vpiCell: riscv_isa_pkg
       vpiEndLabel Identifier name:riscv_isa_pkg start:26:13 end:26:26:
         vpiParent: Package name:work@riscv_isa_pkg
         vpiName: riscv_isa_pkg
   vpiAllModules (1 items):
-    Module name:work@r5p_wbu file:${SURELOG_DIR}/tests/StructStructHierPath/dut.sv start:28:1 end:37:10:
+    Module name:work@r5p_wbu file:$Source01/dut.sv start:28:1 end:37:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@r5p_wbu start:28:8 end:28:15:
         vpiParent: Module name:work@r5p_wbu
         vpiName: work@r5p_wbu
       vpiFullName: work@r5p_wbu
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:ctl_t start:28:24 end:28:29:
-          vpiParent: Module name:work@r5p_wbu
-          vpiName Identifier name:ctl_t:
-            vpiParent: UnsupportedTypespec name:ctl_t
-            vpiName: ctl_t
+      vpiTypespec (2 items):
         ImportTypespec name:riscv_isa_pkg start:29:10 end:29:26:
           vpiParent: Module name:work@r5p_wbu
           vpiName Identifier name:riscv_isa_pkg start:29:10 end:29:23:
@@ -520,6 +524,11 @@ Design name:unnamed:
           vpiParent: Module name:work@r5p_wbu
       vpiDefName: work@r5p_wbu
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@r5p_wbu
+        vpiName: work
+        vpiFullName: work@r5p_wbu.work
+      vpiCell: r5p_wbu
       vpiNet (2 items):
         Net name:ctl start:28:31 end:28:34:
           vpiParent: Module name:work@r5p_wbu
@@ -527,7 +536,7 @@ Design name:unnamed:
             vpiParent: Net name:ctl
             vpiName: ctl_t
             vpiFullName: work@r5p_wbu.ctl.ctl_t
-            vpiActual: UnsupportedTypespec name:ctl_t
+            vpiActual: TypedefTypespec name:ctl_t
           vpiName: ctl
           vpiFullName: work@r5p_wbu.ctl
           vpiNetType: wire (1)
@@ -552,7 +561,7 @@ Design name:unnamed:
             vpiParent: Port name:ctl
             vpiName: ctl_t
             vpiFullName: work@r5p_wbu.ctl.ctl_t
-            vpiActual: UnsupportedTypespec name:ctl_t
+            vpiActual: TypedefTypespec name:ctl_t
       vpiProcess (1 items):
         Always start:31:3 end:34:6:
           vpiParent: Module name:work@r5p_wbu
@@ -587,7 +596,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: ctl.gpr.e.rd
                       vpiFullName: work@r5p_wbu.ctl.gpr.e.rd
-                      vpiActual (4 items):
+                      vpiPathElem (4 items):
                         RefObj name:ctl start:33:12 end:33:15:
                           vpiParent: HierPath name:ctl.gpr.e.rd
                           vpiName: ctl
@@ -597,14 +606,17 @@ Design name:unnamed:
                           vpiParent: HierPath name:ctl.gpr.e.rd
                           vpiName: gpr
                           vpiFullName: work@r5p_wbu.gpr
+                          vpiActual: TypespecMember name:gpr
                         RefObj name:e start:33:20 end:33:21:
                           vpiParent: HierPath name:ctl.gpr.e.rd
                           vpiName: e
                           vpiFullName: work@r5p_wbu.e
+                          vpiActual: TypespecMember name:e
                         RefObj name:rd start:33:22 end:33:24:
                           vpiParent: HierPath name:ctl.gpr.e.rd
                           vpiName: rd
                           vpiFullName: work@r5p_wbu.rd
+                          vpiActual: TypespecMember name:rd
           vpiAlwaysType: ff (3)
   vpiTypespec (2 items):
     IntTypespec:
@@ -617,37 +629,40 @@ Design name:unnamed:
         vpiName: work@r5p_wbu
       vpiModule: Module name:work@r5p_wbu
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: StructStructHierPath/StructStructHierPath
- test-dirpath: ${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath
-uhdm-filepath: ${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath/surelog.uhdm
+      test-name: StructStructHierPath/StructStructHierPath
+   test-dirpath: ${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath
+  uhdm-filepath: ${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/StructStructHierPath/StructStructHierPath/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                              'pre_len': 406}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 406}},
             'post_len': 0,
             'pre_len': 406,
             'test_name': 'StructStructHierPath/StructStructHierPath'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      406 |         0 |
-+=================+==========+===========+
-|                 |      406 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      406 |         0 |
++=========================+==========+===========+
+|                         |      406 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0

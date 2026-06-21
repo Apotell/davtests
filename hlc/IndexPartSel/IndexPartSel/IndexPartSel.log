@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/IndexPartSel -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 147
 LIB: work
-FILE: ${SURELOG_DIR}/tests/IndexPartSel/dut.sv
-n<${SURELOG_DIR}/tests/IndexPartSel/dut.sv> u<146> t<Top_level_rule> c<1> l<2:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<146> t<Top_level_rule> c<1> l<2:1> el<9:1>
   n<> u<1> t<Null_rule> p<146> s<145> l<2:1> el<2:1>
   n<> u<145> t<Source_text> p<146> c<144> l<2:1> el<8:10>
     n<> u<144> t<Description> p<145> c<143> l<2:1> el<8:10>
@@ -150,19 +159,19 @@ n<${SURELOG_DIR}/tests/IndexPartSel/dut.sv> u<146> t<Top_level_rule> c<1> l<2:1>
                                         n<16> u<125> t<INTEGRAL_NUMBER> p<126> l<7:68> el<7:70>
         n<> u<142> t<ENDMODULE> p<143> l<8:1> el<8:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/IndexPartSel/dut.sv:2:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IndexPartSel/dut.sv:2:1: No timescale set for "work@dut".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@dut".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/IndexPartSel/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/IndexPartSel/dut.sv start:2:1 end:8:10:
+    Module name:work@dut file:$Source01/dut.sv start:2:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:2:8 end:2:11:
         vpiParent: Module name:work@dut
@@ -249,6 +258,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (3 items):
         Net name:hw2reg_wrap start:3:14 end:3:25:
           vpiParent: Module name:work@dut
@@ -399,37 +413,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: IndexPartSel/IndexPartSel
- test-dirpath: ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel
-uhdm-filepath: ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/surelog.uhdm
+      test-name: IndexPartSel/IndexPartSel
+   test-dirpath: ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel
+  uhdm-filepath: ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 245}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 245}},
             'post_len': 0,
             'pre_len': 245,
             'test_name': 'IndexPartSel/IndexPartSel'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      245 |         0 |
-+=================+==========+===========+
-|                 |      245 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      245 |         0 |
++=========================+==========+===========+
+|                         |      245 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -443,7 +460,7 @@ COMMAND: ${SURELOG_DIR}/regression/IndexPartSel/IndexPartSel/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    56      56       0         0
 ===================== END REDUCTION RESULT =====================

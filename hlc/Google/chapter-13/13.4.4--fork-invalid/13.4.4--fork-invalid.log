@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-13 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 13.4.4--fork-invalid.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/13.4.4--fork-invalid.sv".
+[INF:PA0201] Parsing source file "$Source01/13.4.4--fork-invalid.sv".
 AST_DEBUG_BEGIN
 Count: 111
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-13/13.4.4--fork-invalid.sv
-n<${SURELOG_DIR}/tests/Google/chapter-13/13.4.4--fork-invalid.sv> u<110> t<Top_level_rule> c<1> l<17:1> el<31:1>
+FILE: f<14>:$Source01/13.4.4--fork-invalid.sv
+n<$Source01/13.4.4--fork-invalid.sv> u<110> t<Top_level_rule> c<1> l<17:1> el<31:1>
   n<> u<1> t<Null_rule> p<110> s<2> l<17:1> el<17:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<110> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<110> s<4> l<2:1> el<2:3>
@@ -114,19 +123,19 @@ n<${SURELOG_DIR}/tests/Google/chapter-13/13.4.4--fork-invalid.sv> u<110> t<Top_l
                                               n<2> u<86> t<INTEGRAL_NUMBER> p<87> l<28:21> el<28:22>
         n<> u<106> t<ENDMODULE> p<107> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-13/13.4.4--fork-invalid.sv:17:1: Compile module "work@top".
+[INF:CP0303] $Source01/13.4.4--fork-invalid.sv:17:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:13.4.4--fork-invalid.sv file:${SURELOG_DIR}/tests/Google/chapter-13/13.4.4--fork-invalid.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:13.4.4--fork-invalid.sv file:$Source01/13.4.4--fork-invalid.sv:
       vpiParent: Design name:unnamed
       vpiName: "13.4.4--fork-invalid.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/lib/work/13.4.4--fork-invalid.sv"
+      vpiPreprocFile: "$Output/lib/work/13.4.4--fork-invalid.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-13/13.4.4--fork-invalid.sv start:17:1 end:30:10:
+    Module name:work@top file:$Source01/13.4.4--fork-invalid.sv start:17:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:17:8 end:17:11:
         vpiParent: Module name:work@top
@@ -134,6 +143,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (1 items):
         Function name:fun start:19:1 end:25:12:
           vpiParent: Module name:work@top
@@ -154,43 +168,44 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:fun
             vpiFullName: work@top.fun
-            vpiStmt (4 items):
+            vpiStmt (2 items):
               ForkStmt start:20:2 end:23:10:
                 vpiParent: Begin
                 vpiFullName: work@top.fun
                 vpiJoinType: any (2)
-              SysFuncCall name:$display start:21:3 end:21:18:
-                vpiParent: Begin
-                vpiName Identifier name:$display start:21:3 end:21:11:
-                  vpiParent: SysFuncCall name:$display
-                  vpiName: "$display"
-                vpiArgument (1 items):
-                  Constant start:21:12 end:21:17:
-                    vpiParent: SysFuncCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@top.fun
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 24
-                    vpiDecompile: "\"abc\""
-                    vpiValue: abc
-              SysFuncCall name:$display start:22:3 end:22:18:
-                vpiParent: Begin
-                vpiName Identifier name:$display start:22:3 end:22:11:
-                  vpiParent: SysFuncCall name:$display
-                  vpiName: "$display"
-                vpiArgument (1 items):
-                  Constant start:22:12 end:22:17:
-                    vpiParent: SysFuncCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@top.fun
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 24
-                    vpiDecompile: "\"def\""
-                    vpiValue: def
+                vpiStmt (2 items):
+                  SysFuncCall name:$display start:21:3 end:21:18:
+                    vpiParent: ForkStmt
+                    vpiName Identifier name:$display start:21:3 end:21:11:
+                      vpiParent: SysFuncCall name:$display
+                      vpiName: "$display"
+                    vpiArgument (1 items):
+                      Constant start:21:12 end:21:17:
+                        vpiParent: SysFuncCall name:$display
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@top.fun
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 24
+                        vpiDecompile: "\"abc\""
+                        vpiValue: abc
+                  SysFuncCall name:$display start:22:3 end:22:18:
+                    vpiParent: ForkStmt
+                    vpiName Identifier name:$display start:22:3 end:22:11:
+                      vpiParent: SysFuncCall name:$display
+                      vpiName: "$display"
+                    vpiArgument (1 items):
+                      Constant start:22:12 end:22:17:
+                        vpiParent: SysFuncCall name:$display
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@top.fun
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 24
+                        vpiDecompile: "\"def\""
+                        vpiValue: def
               ReturnStmt start:24:2 end:24:17:
                 vpiParent: Begin
                 vpiCondition Operation start:24:9 end:24:16:
@@ -234,7 +249,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 16
                 vpiDecompile: "\"$d\""
-                vpiValue: $d
+                vpiValue: "$d"
               FuncCall name:fun start:28:17 end:28:23:
                 vpiParent: SysFuncCall name:$display
                 vpiName Identifier name:fun start:28:17 end:28:20:
@@ -264,37 +279,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-13/13.4.4--fork-invalid
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/surelog.uhdm
+      test-name: Google/chapter-13/13.4.4--fork-invalid
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/lib/work/13.4.4--fork-invalid.sv'): {'post_len': 0,
-                                                                                                                                                            'pre_len': 148}},
+            'files': {'$Output/lib/work/13.4.4--fork-invalid.sv': {'post_len': 0,
+                                                                   'pre_len': 148}},
             'post_len': 0,
             'pre_len': 148,
             'test_name': 'Google/chapter-13/13.4.4--fork-invalid'}}
 
-+----------------------------------+----------+-----------+
-| INPUT                            |   PRELEN |   POSTLEN |
-+==================================+==========+===========+
-| lib/work/13.4.4--fork-invalid.sv |      148 |         0 |
-+==================================+==========+===========+
-|                                  |      148 |         0 |
-+----------------------------------+----------+-----------+
++------------------------------------------+----------+-----------+
+| INPUT                                    |   PRELEN |   POSTLEN |
++==========================================+==========+===========+
+| $Output/lib/work/13.4.4--fork-invalid.sv |      148 |         0 |
++==========================================+==========+===========+
+|                                          |      148 |         0 |
++------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -308,7 +326,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-13/13.4.4--fork-invalid/surelo
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

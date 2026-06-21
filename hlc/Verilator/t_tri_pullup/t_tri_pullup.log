@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_tri_pullup/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_tri_pullup.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_tri_pullup
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_tri_pullup.v".
+[INF:PA0201] Parsing source file "$Source01/t_tri_pullup.v".
 AST_DEBUG_BEGIN
 Count: 299
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v
-n<${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
+FILE: f<13>:$Source01/t_tri_pullup.v
+n<$Source01/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l<4:1> el<27:1>
   n<> u<1> t<Null_rule> p<298> s<2> l<4:1> el<4:1>
   n<// This file ONLY is placed into the Public Domain, for any use,> u<2> t<LINE_COMMENT> p<298> s<3> l<1:1> el<1:65>
   n<// without warranty, 2008 by Lane Brooks> u<3> t<LINE_COMMENT> p<298> s<297> l<2:1> el<2:41>
@@ -302,22 +311,22 @@ n<${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v> u<298> t<Top_level_rule> c<1> l
                     n<> u<286> t<Constant_bit_select> p<287> l<25:15> el<25:15>
         n<> u<294> t<ENDMODULE> p<295> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v:4:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v:16:1: Compile module "work@pass".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v:20:1: Compile module "work@io".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v:24:1: Compile module "work@pullup_module".
+[INF:CP0303] $Source01/t_tri_pullup.v:4:1: Compile module "work@top".
+[INF:CP0303] $Source01/t_tri_pullup.v:16:1: Compile module "work@pass".
+[INF:CP0303] $Source01/t_tri_pullup.v:20:1: Compile module "work@io".
+[INF:CP0303] $Source01/t_tri_pullup.v:24:1: Compile module "work@pullup_module".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_tri_pullup.v file:${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_tri_pullup.v file:$Source01/t_tri_pullup.v:
       vpiParent: Design name:unnamed
       vpiName: t_tri_pullup.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_tri_pullup/lib/work/t_tri_pullup.v"
+      vpiPreprocFile: "$Output/lib/work/t_tri_pullup.v"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v start:4:1 end:14:10:
+    Module name:work@top file:$Source01/t_tri_pullup.v start:4:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:4:8 end:4:11:
         vpiParent: Module name:work@top
@@ -338,6 +347,11 @@ Design name:unnamed:
             vpiName: work@pullup_module
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:A start:4:19 end:4:20:
           vpiParent: Module name:work@top
@@ -608,7 +622,7 @@ Design name:unnamed:
                 vpiName: X
                 vpiFullName: work@top.p.X
                 vpiActual: Net name:X
-    Module name:work@pass file:${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v start:16:1 end:18:10:
+    Module name:work@pass file:$Source01/t_tri_pullup.v start:16:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pass start:16:8 end:16:12:
         vpiParent: Module name:work@pass
@@ -624,6 +638,11 @@ Design name:unnamed:
             vpiName: work@io
       vpiDefName: work@pass
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@pass
+        vpiName: work
+        vpiFullName: work@pass.work
+      vpiCell: pass
       vpiNet (3 items):
         Net name:A start:16:20 end:16:21:
           vpiParent: Module name:work@pass
@@ -735,7 +754,7 @@ Design name:unnamed:
                 vpiName: X
                 vpiFullName: work@pass.io.X
                 vpiActual: Net name:X
-    Module name:work@io file:${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v start:20:1 end:22:10:
+    Module name:work@io file:$Source01/t_tri_pullup.v start:20:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@io start:20:8 end:20:10:
         vpiParent: Module name:work@io
@@ -746,6 +765,11 @@ Design name:unnamed:
           vpiParent: Module name:work@io
       vpiDefName: work@io
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@io
+        vpiName: work
+        vpiFullName: work@io.work
+      vpiCell: io
       vpiNet (3 items):
         Net name:A start:20:18 end:20:19:
           vpiParent: Module name:work@io
@@ -843,7 +867,7 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'bz"
                 vpiValue: z
-    Module name:work@pullup_module file:${SURELOG_DIR}/tests/Verilator/t_tri_pullup.v start:24:1 end:26:10:
+    Module name:work@pullup_module file:$Source01/t_tri_pullup.v start:24:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pullup_module start:24:8 end:24:21:
         vpiParent: Module name:work@pullup_module
@@ -854,6 +878,11 @@ Design name:unnamed:
           vpiParent: Module name:work@pullup_module
       vpiDefName: work@pullup_module
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@pullup_module
+        vpiName: work
+        vpiFullName: work@pullup_module.work
+      vpiCell: pullup_module
       vpiNet (1 items):
         Net name:X start:24:30 end:24:31:
           vpiParent: Module name:work@pullup_module
@@ -923,37 +952,40 @@ Design name:unnamed:
         vpiName: work@pullup_module
       vpiModule: Module name:work@pullup_module
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_tri_pullup
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_pullup
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_pullup/surelog.uhdm
+      test-name: Verilator/t_tri_pullup
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_pullup
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_pullup/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_pullup/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_tri_pullup/lib/work/t_tri_pullup.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 408}},
+            'files': {'$Output/lib/work/t_tri_pullup.v': {'post_len': 0,
+                                                          'pre_len': 408}},
             'post_len': 0,
             'pre_len': 408,
             'test_name': 'Verilator/t_tri_pullup'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_tri_pullup.v |      408 |         0 |
-+=========================+==========+===========+
-|                         |      408 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_tri_pullup.v |      408 |         0 |
++=================================+==========+===========+
+|                                 |      408 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -967,7 +999,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_tri_pullup/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             149     149       0         0
+Others                             153     153       0         0
 ----------------------------------------------------------------
-                                   149     149       0         0
+                                   153     153       0         0
 ===================== END REDUCTION RESULT =====================

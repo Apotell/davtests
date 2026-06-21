@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_numones/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_numones.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_numones
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_numones.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_numones.v".
 AST_DEBUG_BEGIN
 Count: 576
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_numones.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_numones.v> u<575> t<Top_level_rule> c<1> l<6:1> el<50:1>
+FILE: f<13>:$Source01/t_func_numones.v
+n<$Source01/t_func_numones.v> u<575> t<Top_level_rule> c<1> l<6:1> el<50:1>
   n<> u<1> t<Null_rule> p<575> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<575> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<575> s<4> l<2:1> el<2:3>
@@ -579,19 +588,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_numones.v> u<575> t<Top_level_rule> c<1>
                                 n<> u<558> t<END> p<559> l<47:4> el<47:7>
         n<> u<571> t<ENDMODULE> p<572> l<49:1> el<49:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_numones.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_numones.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_numones.v file:${SURELOG_DIR}/tests/Verilator/t_func_numones.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_numones.v file:$Source01/t_func_numones.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_numones.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_numones/lib/work/t_func_numones.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_numones.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_numones.v start:6:1 end:49:10:
+    Module name:work@t file:$Source01/t_func_numones.v start:6:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -683,6 +692,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiTaskFunc (2 items):
         Function name:NUMONES_8 start:17:4 end:23:15:
           vpiParent: Module name:work@t
@@ -821,7 +835,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
           vpiReturn RefTypespec start:17:13 end:17:18:
             vpiParent: Function name:NUMONES_8
             vpiFullName: work@t.NUMONES_8
@@ -1223,7 +1237,7 @@ Design name:unnamed:
                                 vpiConstType: hexadecimal (5)
                                 vpiSize: 32
                                 vpiDecompile: "32'h12345678"
-                                vpiValue: 12345678
+                                vpiValue: "12345678"
                       IfStmt start:40:3 end:45:6:
                         vpiParent: Begin
                         vpiCondition Operation start:40:7 end:40:13:
@@ -1316,7 +1330,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:44:6 end:44:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:44:6 end:44:13:
@@ -1429,37 +1443,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_numones
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_numones
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_numones/surelog.uhdm
+      test-name: Verilator/t_func_numones
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_numones
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_numones/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_numones/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_numones/lib/work/t_func_numones.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 671}},
+            'files': {'$Output/lib/work/t_func_numones.v': {'post_len': 0,
+                                                            'pre_len': 671}},
             'post_len': 0,
             'pre_len': 671,
             'test_name': 'Verilator/t_func_numones'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_func_numones.v |      671 |         0 |
-+===========================+==========+===========+
-|                           |      671 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_func_numones.v |      671 |         0 |
++===================================+==========+===========+
+|                                   |      671 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1473,7 +1490,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_numones/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             206     206       0         0
+Others                             207     207       0         0
 ----------------------------------------------------------------
-                                   206     206       0         0
+                                   207     207       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm disp_parm.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/disp_parm.v".
+[INF:PA0201] Parsing source file "$Source01/disp_parm.v".
 AST_DEBUG_BEGIN
 Count: 118
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/disp_parm.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/disp_parm.v> u<117> t<Top_level_rule> c<1> l<2:1> el<15:1>
+FILE: f<13>:$Source01/disp_parm.v
+n<$Source01/disp_parm.v> u<117> t<Top_level_rule> c<1> l<2:1> el<15:1>
   n<> u<1> t<Null_rule> p<117> s<2> l<2:1> el<2:1>
   n</* From PR#516 */> u<2> t<BLOCK_COMMENT> p<117> s<116> l<2:1> el<14:10>
   n<> u<116> t<Source_text> p<117> c<115> l<2:1> el<14:10>
@@ -121,19 +130,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/disp_parm.v> u<117> t<Top_level_rule> c<1
                           n<> u<103> t<END> p<104> l<12:3> el<12:6>
         n<> u<113> t<ENDMODULE> p<114> l<14:1> el<14:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/disp_parm.v:2:1: Compile module "work@top".
+[INF:CP0303] $Source01/disp_parm.v:2:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:disp_parm.v file:${SURELOG_DIR}/tests/Icarus/ivltests/disp_parm.v:
+  vpiSourceFile (1 items):
+    SourceFile name:disp_parm.v file:$Source01/disp_parm.v:
       vpiParent: Design name:unnamed
       vpiName: disp_parm.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/lib/work/disp_parm.v"
+      vpiPreprocFile: "$Output/lib/work/disp_parm.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/disp_parm.v start:2:1 end:14:10:
+    Module name:work@top file:$Source01/disp_parm.v start:2:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:2:8 end:2:11:
         vpiParent: Module name:work@top
@@ -173,7 +182,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 8
             vpiDecompile: "8'd5"
-            vpiValue: 5
+            vpiValue: "5"
         ParamAssign start:5:13 end:5:23:
           vpiParent: Module name:work@top
           vpiLhs RefObj name:HARRY start:5:13 end:5:18:
@@ -196,6 +205,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:7:3 end:12:6:
           vpiParent: Module name:work@top
@@ -230,7 +244,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 248
                     vpiDecompile: "\"decimal GEORGE: %0d, HARRY: %0d\""
-                    vpiValue: decimal GEORGE: %0d, HARRY: %0d
+                    vpiValue: "decimal GEORGE: %0d, HARRY: %0d"
                   RefObj name:GEORGE start:9:48 end:9:54:
                     vpiParent: SysFuncCall name:$display
                     vpiName: GEORGE
@@ -256,7 +270,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 272
                     vpiDecompile: "\"binary GEORGE: 'b%0b, HARRY: 'b%0b\""
-                    vpiValue: binary GEORGE: 'b%0b, HARRY: 'b%0b
+                    vpiValue: "binary GEORGE: 'b%0b, HARRY: 'b%0b"
                   RefObj name:GEORGE start:10:51 end:10:57:
                     vpiParent: SysFuncCall name:$display
                     vpiName: GEORGE
@@ -285,37 +299,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/disp_parm
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/surelog.uhdm
+      test-name: Icarus/ivltests/disp_parm
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/lib/work/disp_parm.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 214}},
+            'files': {'$Output/lib/work/disp_parm.v': {'post_len': 0,
+                                                       'pre_len': 214}},
             'post_len': 0,
             'pre_len': 214,
             'test_name': 'Icarus/ivltests/disp_parm'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/disp_parm.v |      214 |         0 |
-+======================+==========+===========+
-|                      |      214 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/disp_parm.v |      214 |         0 |
++==============================+==========+===========+
+|                              |      214 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -329,7 +346,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/disp_parm/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

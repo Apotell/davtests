@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/TopFunc/TopFunc/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/TopFunc -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/TopFunc/TopFunc
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 60
 LIB: work
-FILE: ${SURELOG_DIR}/tests/TopFunc/dut.sv
-n<${SURELOG_DIR}/tests/TopFunc/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<59> s<57> l<1:1>
   n<> u<57> t<Source_text> p<59> c<23> s<58> l<1:1> el<7:10>
     n<> u<23> t<Description> p<57> c<22> s<24> l<1:1> el<3:12>
@@ -63,19 +72,19 @@ n<${SURELOG_DIR}/tests/TopFunc/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<8:
         n<> u<54> t<ENDMODULE> p<55> l<7:1> el<7:10>
   n<// top> u<58> t<LINE_COMMENT> p<59> l<7:11> el<7:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/TopFunc/dut.sv:5:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TopFunc/dut.sv:5:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/TopFunc/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/TopFunc/TopFunc/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/TopFunc/dut.sv start:5:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:5:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:5:8 end:5:11:
         vpiParent: Module name:work@top
@@ -93,6 +102,11 @@ Design name:unnamed:
           vpiNetType: none (12)
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiPort (1 items):
         Port name:o start:5:23 end:5:24:
           vpiParent: Module name:work@top
@@ -155,37 +169,40 @@ Design name:unnamed:
         vpiFullName: get_1
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: TopFunc/TopFunc
- test-dirpath: ${SURELOG_DIR}/regression/TopFunc/TopFunc
-uhdm-filepath: ${SURELOG_DIR}/regression/TopFunc/TopFunc/surelog.uhdm
+      test-name: TopFunc/TopFunc
+   test-dirpath: ${SURELOG_DIR}/regression/TopFunc/TopFunc
+  uhdm-filepath: ${SURELOG_DIR}/regression/TopFunc/TopFunc/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/TopFunc/TopFunc/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/TopFunc/TopFunc/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                    'pre_len': 104}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 104}},
             'post_len': 0,
             'pre_len': 104,
             'test_name': 'TopFunc/TopFunc'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      104 |         0 |
-+=================+==========+===========+
-|                 |      104 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      104 |         0 |
++=========================+==========+===========+
+|                         |      104 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -199,7 +216,7 @@ COMMAND: ${SURELOG_DIR}/regression/TopFunc/TopFunc/surelog.uhdm ${SURELOG_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    23      23       0         0
 ===================== END REDUCTION RESULT =====================

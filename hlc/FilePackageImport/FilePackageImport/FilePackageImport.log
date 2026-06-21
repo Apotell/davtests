@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FilePackageImport -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 66
 LIB: work
-FILE: ${SURELOG_DIR}/tests/FilePackageImport/dut.sv
-n<${SURELOG_DIR}/tests/FilePackageImport/dut.sv> u<65> t<Top_level_rule> c<1> l<2:1> el<12:12>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<65> t<Top_level_rule> c<1> l<2:1> el<12:12>
   n<> u<1> t<Null_rule> p<65> s<64> l<2:1> el<2:1>
   n<> u<64> t<Source_text> p<65> c<24> l<2:1> el<12:12>
     n<> u<24> t<Description> p<64> c<23> s<31> l<2:1> el<5:19>
@@ -69,22 +78,20 @@ n<${SURELOG_DIR}/tests/FilePackageImport/dut.sv> u<65> t<Top_level_rule> c<1> l<
                             n<we> u<49> t<SIMPLE_IDENTIFIER> p<50> l<11:12> el<11:14>
               n<> u<58> t<ENDFUNCTION> p<59> l<12:1> el<12:12>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/FilePackageImport/dut.sv:2:1: Compile package "work@pkg_b".
-[ERR:CP0341] ${SURELOG_DIR}/tests/FilePackageImport/dut.sv:2:1: Unmached label "work@pkg_b",
-             ${SURELOG_DIR}/tests/FilePackageImport/dut.sv:5:14: closing label "pkg_b".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FilePackageImport/dut.sv:2:1: No timescale set for "work@pkg_b".
-[ERR:EL0535] ${SURELOG_DIR}/tests/FilePackageImport/dut.sv:11:12: Illegal implicit net "id:31, name:we".
+[INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@pkg_b".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@pkg_b".
+[ERR:EL0535] $Source01/dut.sv:11:12: Illegal implicit net "id:32, name:we".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FilePackageImport/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pkg_b file:${SURELOG_DIR}/tests/FilePackageImport/dut.sv start:2:1 end:5:19:
+    Package name:work@pkg_b file:$Source01/dut.sv start:2:1 end:5:19:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg_b start:2:9 end:2:14:
         vpiParent: Package name:work@pkg_b
@@ -128,6 +135,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@pkg_b
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg_b
+        vpiName: work
+        vpiFullName: work@pkg_b::work
+      vpiCell: pkg_b
       vpiEndLabel Identifier name:pkg_b start:5:14 end:5:19:
         vpiParent: Package name:work@pkg_b
         vpiName: pkg_b
@@ -185,37 +197,40 @@ Design name:unnamed:
         vpiFullName: TreeLRU_CalcWriteEnable
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FilePackageImport/FilePackageImport
- test-dirpath: ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport
-uhdm-filepath: ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/surelog.uhdm
+      test-name: FilePackageImport/FilePackageImport
+   test-dirpath: ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport
+  uhdm-filepath: ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                        'pre_len': 180}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 180}},
             'post_len': 0,
             'pre_len': 180,
             'test_name': 'FilePackageImport/FilePackageImport'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      180 |         0 |
-+=================+==========+===========+
-|                 |      180 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      180 |         0 |
++=========================+==========+===========+
+|                         |      180 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -229,7 +244,7 @@ COMMAND: ${SURELOG_DIR}/regression/FilePackageImport/FilePackageImport/surelog.u
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    29      29       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

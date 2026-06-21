@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/HierPathStruct -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 103
 LIB: work
-FILE: ${SURELOG_DIR}/tests/HierPathStruct/dut.sv
-n<${SURELOG_DIR}/tests/HierPathStruct/dut.sv> u<102> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<102> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<102> s<101> l<1:1>
   n<> u<101> t<Source_text> p<102> c<55> l<1:1> el<19:10>
     n<> u<55> t<Description> p<101> c<54> s<100> l<1:1> el<11:11>
@@ -106,23 +115,23 @@ n<${SURELOG_DIR}/tests/HierPathStruct/dut.sv> u<102> t<Top_level_rule> c<1> l<1:
                             n<> u<87> t<ONE_TICK_b1> p<88> l<17:28> el<17:32>
         n<> u<98> t<ENDMODULE> p<99> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/HierPathStruct/dut.sv:1:1: Compile package "work@gpio_reg_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/HierPathStruct/dut.sv:13:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierPathStruct/dut.sv:1:1: No timescale set for "work@gpio_reg_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierPathStruct/dut.sv:13:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HierPathStruct/dut.sv:17:15: Illegal implicit net "id:43, name:data_in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HierPathStruct/dut.sv:17:23: Illegal implicit net "id:44, name:de".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@gpio_reg_pkg".
+[INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@gpio_reg_pkg".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:17:15: Illegal implicit net "id:45, name:data_in".
+[ERR:EL0535] $Source01/dut.sv:17:23: Illegal implicit net "id:46, name:de".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/HierPathStruct/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@gpio_reg_pkg file:${SURELOG_DIR}/tests/HierPathStruct/dut.sv start:1:1 end:11:11:
+    Package name:work@gpio_reg_pkg file:$Source01/dut.sv start:1:1 end:11:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@gpio_reg_pkg start:1:9 end:1:21:
         vpiParent: Package name:work@gpio_reg_pkg
@@ -207,8 +216,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@gpio_reg_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@gpio_reg_pkg
+        vpiName: work
+        vpiFullName: work@gpio_reg_pkg::work
+      vpiCell: gpio_reg_pkg
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/HierPathStruct/dut.sv start:13:1 end:19:10:
+    Module name:work@dut file:$Source01/dut.sv start:13:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:13:8 end:13:11:
         vpiParent: Module name:work@dut
@@ -226,6 +240,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (1 items):
         Net name:hw2reg start:16:15 end:16:21:
           vpiParent: Module name:work@dut
@@ -243,7 +262,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: hw2reg.data_in.de
             vpiFullName: work@dut.hw2reg.data_in.de
-            vpiActual (3 items):
+            vpiPathElem (3 items):
               RefObj name:hw2reg start:17:8 end:17:14:
                 vpiParent: HierPath name:hw2reg.data_in.de
                 vpiName: hw2reg
@@ -266,7 +285,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -278,37 +297,40 @@ Design name:unnamed:
         vpiName: work@dut
       vpiModule: Module name:work@dut
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: HierPathStruct/HierPathStruct
- test-dirpath: ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct
-uhdm-filepath: ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/surelog.uhdm
+      test-name: HierPathStruct/HierPathStruct
+   test-dirpath: ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct
+  uhdm-filepath: ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 262}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 262}},
             'post_len': 0,
             'pre_len': 262,
             'test_name': 'HierPathStruct/HierPathStruct'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      262 |         0 |
-+=================+==========+===========+
-|                 |      262 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      262 |         0 |
++=========================+==========+===========+
+|                         |      262 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -322,7 +344,7 @@ COMMAND: ${SURELOG_DIR}/regression/HierPathStruct/HierPathStruct/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

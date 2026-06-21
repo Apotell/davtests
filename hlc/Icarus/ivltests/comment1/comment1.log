@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/comment1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm comment1.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/comment1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/comment1.v".
+[INF:PA0201] Parsing source file "$Source01/comment1.v".
 AST_DEBUG_BEGIN
 Count: 31
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/comment1.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/comment1.v> u<30> t<Top_level_rule> c<1> l<3:1> el<6:1>
+FILE: f<13>:$Source01/comment1.v
+n<$Source01/comment1.v> u<30> t<Top_level_rule> c<1> l<3:1> el<6:1>
   n<> u<1> t<Null_rule> p<30> s<2> l<3:1> el<3:1>
   n</* )* */> u<2> t<BLOCK_COMMENT> p<30> s<3> l<3:1> el<5:10>
   n</* (* /* *) */> u<3> t<BLOCK_COMMENT> p<30> s<29> l<3:1> el<5:10>
@@ -34,19 +43,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/comment1.v> u<30> t<Top_level_rule> c<1> 
                                     n<"PASSED"> u<11> t<QUOTED_STRING> p<12> l<4:18> el<4:26>
         n<> u<26> t<ENDMODULE> p<27> l<5:1> el<5:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/comment1.v:3:1: Compile module "work@test".
+[INF:CP0303] $Source01/comment1.v:3:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:comment1.v file:${SURELOG_DIR}/tests/Icarus/ivltests/comment1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:comment1.v file:$Source01/comment1.v:
       vpiParent: Design name:unnamed
       vpiName: comment1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/comment1/lib/work/comment1.v"
+      vpiPreprocFile: "$Output/lib/work/comment1.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/comment1.v start:3:1 end:5:10:
+    Module name:work@test file:$Source01/comment1.v start:3:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:3:8 end:3:12:
         vpiParent: Module name:work@test
@@ -54,6 +63,11 @@ Design name:unnamed:
       vpiFullName: work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiProcess (1 items):
         Initial start:4:1 end:4:28:
           vpiParent: Module name:work@test
@@ -83,37 +97,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/comment1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/comment1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/comment1/surelog.uhdm
+      test-name: Icarus/ivltests/comment1
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/comment1
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/comment1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/comment1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/comment1/lib/work/comment1.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 50}},
+            'files': {'$Output/lib/work/comment1.v': {'post_len': 0,
+                                                      'pre_len': 50}},
             'post_len': 0,
             'pre_len': 50,
             'test_name': 'Icarus/ivltests/comment1'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/comment1.v |       50 |         0 |
-+=====================+==========+===========+
-|                     |       50 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/comment1.v |       50 |         0 |
++=============================+==========+===========+
+|                             |       50 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -127,7 +144,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/comment1/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              12      12       0         0
+Others                              13      13       0         0
 ----------------------------------------------------------------
-                                    12      12       0         0
+                                    13      13       0         0
 ===================== END REDUCTION RESULT =====================

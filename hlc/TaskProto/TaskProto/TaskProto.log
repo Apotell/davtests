@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/TaskProto/TaskProto/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/TaskProto -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/TaskProto/TaskProto
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 57
 LIB: work
-FILE: ${SURELOG_DIR}/tests/TaskProto/dut.sv
-n<${SURELOG_DIR}/tests/TaskProto/dut.sv> u<56> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<56> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<56> s<55> l<1:1>
   n<> u<55> t<Source_text> p<56> c<54> l<1:1> el<7:10>
     n<> u<54> t<Description> p<55> c<53> l<1:1> el<7:10>
@@ -60,19 +69,19 @@ n<${SURELOG_DIR}/tests/TaskProto/dut.sv> u<56> t<Top_level_rule> c<1> l<1:1> el<
                         n<> u<43> t<END> p<44> l<6:4> el<6:7>
         n<> u<52> t<ENDMODULE> p<53> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/TaskProto/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TaskProto/dut.sv:1:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/TaskProto/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/TaskProto/TaskProto/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/TaskProto/dut.sv start:1:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -90,22 +99,27 @@ Design name:unnamed:
           vpiNetType: none (12)
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFuncDecl (1 items):
-        TaskDecl name:test_output_argument start:2:4 end:2:59:
+        TaskDecl name:work@test_output_argument start:2:4 end:2:59:
           vpiParent: Module name:work@top
-          vpiName Identifier name:test_output_argument start:2:24 end:2:44:
-            vpiParent: TaskDecl name:test_output_argument
-            vpiName: test_output_argument
-          vpiFullName: work@top.test_output_argument
+          vpiName Identifier name:work@test_output_argument start:2:24 end:2:44:
+            vpiParent: TaskDecl name:work@test_output_argument
+            vpiName: work@test_output_argument
+          vpiFullName: work@top.work@test_output_argument
           vpiDPICStr: <<invalid>> (1)
           vpiIODecl (1 items):
             IODecl name:o start:2:56 end:2:57:
-              vpiParent: TaskDecl name:test_output_argument
+              vpiParent: TaskDecl name:work@test_output_argument
               vpiName: o
               vpiDirection: output (2)
               vpiTypespec RefTypespec start:2:52 end:2:55:
                 vpiParent: IODecl name:o
-                vpiFullName: work@top.test_output_argument.o
+                vpiFullName: work@top.work@test_output_argument.o
                 vpiActual: IntTypespec
       vpiPort (1 items):
         Port name:a start:1:23 end:1:24:
@@ -149,37 +163,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: TaskProto/TaskProto
- test-dirpath: ${SURELOG_DIR}/regression/TaskProto/TaskProto
-uhdm-filepath: ${SURELOG_DIR}/regression/TaskProto/TaskProto/surelog.uhdm
+      test-name: TaskProto/TaskProto
+   test-dirpath: ${SURELOG_DIR}/regression/TaskProto/TaskProto
+  uhdm-filepath: ${SURELOG_DIR}/regression/TaskProto/TaskProto/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/TaskProto/TaskProto/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/TaskProto/TaskProto/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 129}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 129}},
             'post_len': 0,
             'pre_len': 129,
             'test_name': 'TaskProto/TaskProto'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      129 |         0 |
-+=================+==========+===========+
-|                 |      129 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      129 |         0 |
++=========================+==========+===========+
+|                         |      129 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -193,7 +210,7 @@ COMMAND: ${SURELOG_DIR}/regression/TaskProto/TaskProto/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                    22      22       0         0
 ===================== END REDUCTION RESULT =====================

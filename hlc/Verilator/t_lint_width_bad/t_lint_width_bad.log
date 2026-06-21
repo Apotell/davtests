@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_width_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_width_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_width_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_width_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_width_bad.v".
 AST_DEBUG_BEGIN
 Count: 419
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v> u<418> t<Top_level_rule> c<1> l<6:1> el<40:1>
+FILE: f<13>:$Source01/t_lint_width_bad.v
+n<$Source01/t_lint_width_bad.v> u<418> t<Top_level_rule> c<1> l<6:1> el<40:1>
   n<> u<1> t<Null_rule> p<418> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<418> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<418> s<4> l<2:1> el<2:3>
@@ -422,23 +431,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v> u<418> t<Top_level_rule> c<
                               n<in> u<402> t<SIMPLE_IDENTIFIER> p<403> l<38:21> el<38:23>
         n<> u<414> t<ENDMODULE> p<415> l<39:1> el<39:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v:6:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v:6:1: Multiply defined typedef "work@p".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v:35:1: Compile module "work@p".
+[INF:CP0303] $Source01/t_lint_width_bad.v:6:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_lint_width_bad.v:6:1: Multiply defined typedef "work@p".
+[INF:CP0303] $Source01/t_lint_width_bad.v:35:1: Compile module "work@p".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v:12:24: Illegal implicit net "id:18, name:in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v:13:24: Illegal implicit net "id:32, name:in".
+[ERR:EL0535] $Source01/t_lint_width_bad.v:12:24: Illegal implicit net "id:20, name:in".
+[ERR:EL0535] $Source01/t_lint_width_bad.v:13:24: Illegal implicit net "id:34, name:in".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_width_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_width_bad.v file:$Source01/t_lint_width_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_width_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_width_bad/lib/work/t_lint_width_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_width_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v start:6:1 end:33:10:
+    Module name:work@t file:$Source01/t_lint_width_bad.v start:6:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -680,6 +689,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (7 items):
         Net name:c start:19:15 end:19:16:
           vpiParent: Module name:work@t
@@ -703,7 +717,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
               Constant start:19:27 end:19:28:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -740,7 +754,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   Constant start:20:28 end:20:29:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -760,7 +774,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 5
                 vpiDecompile: "5'b1"
-                vpiValue: 1
+                vpiValue: "1"
         Net name:one_bit start:24:25 end:24:32:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec start:24:25 end:24:25:
@@ -828,7 +842,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b0"
-                            vpiValue: 0
+                            vpiValue: "0"
                   RefObj name:one_bit start:26:54 end:26:61:
                     vpiParent: Operation
                     vpiName: one_bit
@@ -943,7 +957,7 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 4
                 vpiDecompile: "4'd0"
-                vpiValue: 0
+                vpiValue: "0"
         RefInstance name:p5 start:13:19 end:13:21:
           vpiParent: Module name:work@t
           vpiName: p5
@@ -987,8 +1001,8 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 5
                 vpiDecompile: "5'd0"
-                vpiValue: 0
-    Module name:work@p file:${SURELOG_DIR}/tests/Verilator/t_lint_width_bad.v start:35:1 end:39:10:
+                vpiValue: "0"
+    Module name:work@p file:$Source01/t_lint_width_bad.v start:35:1 end:39:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@p start:35:8 end:35:9:
         vpiParent: Module name:work@p
@@ -1087,6 +1101,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@p
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@p
+        vpiName: work
+        vpiFullName: work@p.work
+      vpiCell: p
       vpiNet (2 items):
         Net name:in start:37:23 end:37:25:
           vpiParent: Module name:work@p
@@ -1145,37 +1164,40 @@ Design name:unnamed:
         vpiName: work@p
       vpiModule: Module name:work@p
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_width_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_width_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_width_bad/surelog.uhdm
+      test-name: Verilator/t_lint_width_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_width_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_width_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_width_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_width_bad/lib/work/t_lint_width_bad.v'): {'post_len': 0,
-                                                                                                                                           'pre_len': 497}},
+            'files': {'$Output/lib/work/t_lint_width_bad.v': {'post_len': 0,
+                                                              'pre_len': 497}},
             'post_len': 0,
             'pre_len': 497,
             'test_name': 'Verilator/t_lint_width_bad'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/t_lint_width_bad.v |      497 |         0 |
-+=============================+==========+===========+
-|                             |      497 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/t_lint_width_bad.v |      497 |         0 |
++=====================================+==========+===========+
+|                                     |      497 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1190,10 +1212,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            31      32       4         3
 Operation                           12       5       0         7
-RefObj                              18      11       0         7
+RefObj                              20      13       0         7
 RefTypespec                         46      46       3         3
 ----------------------------------------------------------------
 Others                              58      58       0         0
 ----------------------------------------------------------------
-                                   165     152       7        20
+                                   167     154       7        20
 ===================== END REDUCTION RESULT =====================

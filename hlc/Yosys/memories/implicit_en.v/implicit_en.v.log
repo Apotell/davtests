@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm memories/implicit_en.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/memories/implicit_en.v".
+[INF:PA0201] Parsing source file "$Source01/memories/implicit_en.v".
 AST_DEBUG_BEGIN
 Count: 487
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/memories/implicit_en.v
-n<${SURELOG_DIR}/tests/Yosys/memories/implicit_en.v> u<486> t<Top_level_rule> c<1> l<4:1> el<25:1>
+FILE: f<13>:$Source01/memories/implicit_en.v
+n<$Source01/memories/implicit_en.v> u<486> t<Top_level_rule> c<1> l<4:1> el<25:1>
   n<> u<1> t<Null_rule> p<486> s<2> l<4:1> el<4:1>
   n<// expect-wr-ports 1> u<2> t<LINE_COMMENT> p<486> s<3> l<1:1> el<1:21>
   n<// expect-rd-ports 1> u<3> t<LINE_COMMENT> p<486> s<485> l<2:1> el<2:21>
@@ -490,19 +499,19 @@ n<${SURELOG_DIR}/tests/Yosys/memories/implicit_en.v> u<486> t<Top_level_rule> c<
                                 n<> u<469> t<END> p<470> l<22:1> el<22:4>
         n<> u<482> t<ENDMODULE> p<483> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/memories/implicit_en.v:4:1: Compile module "work@test".
+[INF:CP0303] $Source01/memories/implicit_en.v:4:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:implicit_en.v file:${SURELOG_DIR}/tests/Yosys/memories/implicit_en.v:
+  vpiSourceFile (1 items):
+    SourceFile name:implicit_en.v file:$Source01/memories/implicit_en.v:
       vpiParent: Design name:unnamed
       vpiName: implicit_en.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/lib/work/memories/implicit_en.v"
+      vpiPreprocFile: "$Output/lib/work/memories/implicit_en.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Yosys/memories/implicit_en.v start:4:1 end:24:10:
+    Module name:work@test file:$Source01/memories/implicit_en.v start:4:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:4:8 end:4:12:
         vpiParent: Module name:work@test
@@ -672,6 +681,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (7 items):
         Net name:clk start:6:7 end:6:10:
           vpiParent: Module name:work@test
@@ -1404,37 +1418,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/memories/implicit_en.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/surelog.uhdm
+      test-name: Yosys/memories/implicit_en.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/lib/work/memories/implicit_en.v'): {'post_len': 0,
-                                                                                                                                                 'pre_len': 533}},
+            'files': {'$Output/lib/work/memories/implicit_en.v': {'post_len': 0,
+                                                                  'pre_len': 533}},
             'post_len': 0,
             'pre_len': 533,
             'test_name': 'Yosys/memories/implicit_en.v'}}
 
-+---------------------------------+----------+-----------+
-| INPUT                           |   PRELEN |   POSTLEN |
-+=================================+==========+===========+
-| lib/work/memories/implicit_en.v |      533 |         0 |
-+=================================+==========+===========+
-|                                 |      533 |         0 |
-+---------------------------------+----------+-----------+
++-----------------------------------------+----------+-----------+
+| INPUT                                   |   PRELEN |   POSTLEN |
++=========================================+==========+===========+
+| $Output/lib/work/memories/implicit_en.v |      533 |         0 |
++=========================================+==========+===========+
+|                                         |      533 |         0 |
++-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1448,7 +1465,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/memories/implicit_en.v/surelog.uhdm ${S
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             211     211       0         0
+Others                             212     212       0         0
 ----------------------------------------------------------------
-                                   211     211       0         0
+                                   212     212       0         0
 ===================== END REDUCTION RESULT =====================

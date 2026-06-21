@@ -1,9 +1,27 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_math_signed3/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_signed3.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_signed3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_signed3.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_signed3.v".
+[SNT:PA0207] $Source01/t_math_signed3.v:42:14: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off WIDTH\n   wire [1:0]        bug729_au = ~0;\n   wire signed [1:0] bug729_as = ~0;\n   wire [2:0] \t     bug729_b = ~0;\n   // the $signed output is unsigned because the input is unsigned; the signedness does not change.\n   wire [0:0] \t     bug729_yuu = $signed(2'b11)  == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_ysu = $signed(2'sb11) == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_yus = $signed(2'b11)  == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_yss = $signed(2'sb11) == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zuu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zsu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zus = 2'sb11 == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zss = 2'sb11 == 3'sb111;  //1'b1\n\n   wire [3:0] \t     bug733_a = 4'b0010;\n   wire [3:0] \t     bug733_yu = $signed(|bug733_a); // 4'b1111 note | is always unsigned\n   wire signed [3:0] bug733_ys = $signed(|bug733_a); // 4'b1111\n\n   wire [3:0] \t     bug733_zu = $signed(2'b11);  // 4'b1111\n   wire signed [3:0] bug733_zs = $signed(2'sb11); // 4'b1111\n\n   // When RHS of assignment is fewer bits than lhs, RHS sign or zero extends based on RHS's sign\n\n   wire [3:0] \t     bug733_qu = 2'sb11;  // 4'b1111\n   wire signed [3:0] bug733_qs = 2'sb11; // 4'b1111\n   reg signed [32:0] bug349_s;\n   reg signed [32:0] bug349_u;\n\n   wire signed [1:0] sb11 = 2'sb11;\n\n   wire [3:0] \t     subout_u;\n   sub sub (.a(2'sb11), .z(subout_u));\n   initial do if',
+   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed3.v",0, (subout_u), (4'b1111)); $stop; end while(0);
+              ^-- $Source01/t_math_signed3.v:42:14:.
+[SNT:PA0207] $Source01/t_math_signed3.v:41:11: Syntax error: no viable alternative at input 'sub sub (',
+   sub sub (.a(2'sb11), .z(subout_u));
+           ^-- $Source01/t_math_signed3.v:41:11:.
+[SNT:PA0207] $Source01/t_math_signed3.v:42:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed3.v",0, (subout_u), (4'b1111)); $stop; end while(0);
+   ^-- $Source01/t_math_signed3.v:42:3:.
 AST_DEBUG_BEGIN
 Count: 680
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v
-n<${SURELOG_DIR}/tests/Verilator/t_math_signed3.v> u<679> t<Top_level_rule> c<1> l<8:1> el<100:10>
+FILE: f<13>:$Source01/t_math_signed3.v
+n<$Source01/t_math_signed3.v> u<679> t<Top_level_rule> c<1> l<8:1> el<100:10>
   n<> u<1> t<Null_rule> p<679> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<679> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<679> s<4> l<2:1> el<2:3>
@@ -683,24 +701,15 @@ n<${SURELOG_DIR}/tests/Verilator/t_math_signed3.v> u<679> t<Top_level_rule> c<1>
   n<// verilator lint_on WIDTH> u<677> t<LINE_COMMENT> p<679> s<678> l<50:7> el<50:33>
   n<// verilator lint_off WIDTH> u<678> t<LINE_COMMENT> p<679> l<70:7> el<70:34>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:42:14: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off WIDTH\n   wire [1:0]        bug729_au = ~0;\n   wire signed [1:0] bug729_as = ~0;\n   wire [2:0] \t     bug729_b = ~0;\n   // the $signed output is unsigned because the input is unsigned; the signedness does not change.\n   wire [0:0] \t     bug729_yuu = $signed(2'b11)  == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_ysu = $signed(2'sb11) == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_yus = $signed(2'b11)  == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_yss = $signed(2'sb11) == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zuu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zsu = 2'sb11 == 3'b111;   //1'b0\n   wire [0:0] \t     bug729_zus = 2'sb11 == 3'sb111;  //1'b1\n   wire [0:0] \t     bug729_zss = 2'sb11 == 3'sb111;  //1'b1\n\n   wire [3:0] \t     bug733_a = 4'b0010;\n   wire [3:0] \t     bug733_yu = $signed(|bug733_a); // 4'b1111 note | is always unsigned\n   wire signed [3:0] bug733_ys = $signed(|bug733_a); // 4'b1111\n\n   wire [3:0] \t     bug733_zu = $signed(2'b11);  // 4'b1111\n   wire signed [3:0] bug733_zs = $signed(2'sb11); // 4'b1111\n\n   // When RHS of assignment is fewer bits than lhs, RHS sign or zero extends based on RHS's sign\n\n   wire [3:0] \t     bug733_qu = 2'sb11;  // 4'b1111\n   wire signed [3:0] bug733_qs = 2'sb11; // 4'b1111\n   reg signed [32:0] bug349_s;\n   reg signed [32:0] bug349_u;\n\n   wire signed [1:0] sb11 = 2'sb11;\n\n   wire [3:0] \t     subout_u;\n   sub sub (.a(2'sb11), .z(subout_u));\n   initial do if',
-   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "${SURELOG_DIR}/tests/Verilator/t_math_signed3.v",42, (subout_u), (4'b1111)); $stop; end while(0);
-              ^-- ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:42:14:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:41:11: Syntax error: no viable alternative at input 'sub sub (',
-   sub sub (.a(2'sb11), .z(subout_u));
-           ^-- ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:41:11:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:42:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial do if ((subout_u) !== (4'b1111)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "${SURELOG_DIR}/tests/Verilator/t_math_signed3.v",42, (subout_u), (4'b1111)); $stop; end while(0);
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:42:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_math_signed3.v file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_math_signed3.v file:$Source01/t_math_signed3.v:
       vpiParent: Design name:unnamed
       vpiName: t_math_signed3.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_math_signed3/lib/work/t_math_signed3.v"
+      vpiPreprocFile: "$Output/lib/work/t_math_signed3.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:checkh start:6:1 end:6:164:
           vpiParent: SourceFile name:t_math_signed3.v
@@ -708,264 +717,264 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 27
       vpiPreprocMacroInstance (21 items):
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:42:12 end:42:38:
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:42:12 end:42:38:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 232
+          vpiSectionEndColumn: 189
           vpiSourceStartLine: 42
           vpiSourceStartColumn: 12
           vpiSourceEndLine: 42
-          vpiSourceEndColumn: 217
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:45:12 end:45:38:
+          vpiSourceEndColumn: 174
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:45:12 end:45:38:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 232
+          vpiSectionEndColumn: 189
           vpiSourceStartLine: 45
           vpiSourceStartColumn: 12
           vpiSourceEndLine: 45
-          vpiSourceEndColumn: 217
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:47:12 end:47:38:
+          vpiSourceEndColumn: 174
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:47:12 end:47:38:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 232
+          vpiSectionEndColumn: 189
           vpiSourceStartLine: 47
           vpiSourceStartColumn: 12
           vpiSourceEndLine: 47
-          vpiSourceEndColumn: 217
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:51:7 end:51:32:
+          vpiSourceEndColumn: 174
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:51:7 end:51:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 51
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 51
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:52:7 end:52:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:52:7 end:52:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 52
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 52
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:53:7 end:53:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:53:7 end:53:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 53
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 53
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:54:7 end:54:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:54:7 end:54:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 54
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 54
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:56:7 end:56:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:56:7 end:56:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 56
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 56
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:57:7 end:57:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:57:7 end:57:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 57
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 57
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:58:7 end:58:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:58:7 end:58:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 58
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 58
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:59:7 end:59:32:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:59:7 end:59:32:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 230
+          vpiSectionEndColumn: 187
           vpiSourceStartLine: 59
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 59
-          vpiSourceEndColumn: 210
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:61:7 end:61:34:
+          vpiSourceEndColumn: 167
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:61:7 end:61:34:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 234
+          vpiSectionEndColumn: 191
           vpiSourceStartLine: 61
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 61
-          vpiSourceEndColumn: 214
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:62:7 end:62:34:
+          vpiSourceEndColumn: 171
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:62:7 end:62:34:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 234
+          vpiSectionEndColumn: 191
           vpiSourceStartLine: 62
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 62
-          vpiSourceEndColumn: 214
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:64:7 end:64:34:
+          vpiSourceEndColumn: 171
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:64:7 end:64:34:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 234
+          vpiSectionEndColumn: 191
           vpiSourceStartLine: 64
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 64
-          vpiSourceEndColumn: 214
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:65:7 end:65:34:
+          vpiSourceEndColumn: 171
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:65:7 end:65:34:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 234
+          vpiSectionEndColumn: 191
           vpiSourceStartLine: 65
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 65
-          vpiSourceEndColumn: 214
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:67:7 end:67:34:
+          vpiSourceEndColumn: 171
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:67:7 end:67:34:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 234
+          vpiSectionEndColumn: 191
           vpiSourceStartLine: 67
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 67
-          vpiSourceEndColumn: 214
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:68:7 end:68:34:
+          vpiSourceEndColumn: 171
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:68:7 end:68:34:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 234
+          vpiSectionEndColumn: 191
           vpiSourceStartLine: 68
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 68
-          vpiSourceEndColumn: 214
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:72:7 end:72:39:
+          vpiSourceEndColumn: 171
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:72:7 end:72:39:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 72
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 72
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:74:7 end:74:39:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:74:7 end:74:39:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 74
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 74
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:77:7 end:77:30:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:77:7 end:77:30:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 228
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 77
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 77
-          vpiSourceEndColumn: 208
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:80:7 end:80:30:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed3.v start:80:7 end:80:30:
           vpiParent: SourceFile name:t_math_signed3.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 228
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 80
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 80
-          vpiSourceEndColumn: 208
+          vpiSourceEndColumn: 165
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:8:1 end:8:1:
+    Module file:$Source01/t_math_signed3.v start:8:1 end:8:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_math_signed3.v start:8:1 end:8:7:
+    Module file:$Source01/t_math_signed3.v start:8:1 end:8:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
   vpiTypespec (26 items):
@@ -1511,40 +1520,43 @@ Design name:unnamed:
             vpiValue: 0
       vpiVector: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 3
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_math_signed3
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_signed3
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed3/surelog.uhdm
+      test-name: Verilator/t_math_signed3
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_signed3
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed3/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed3/mounts.json
 
 
-{'result': {'coverage': 29.78,
+{'result': {'coverage': 35.31,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_math_signed3/lib/work/t_math_signed3.v'): {'post_len': 4047,
-                                                                                                                                       'pre_len': 5763}},
-            'post_len': 4047,
-            'pre_len': 5763,
+            'files': {'$Output/lib/work/t_math_signed3.v': {'post_len': 3144,
+                                                            'pre_len': 4860}},
+            'post_len': 3144,
+            'pre_len': 4860,
             'test_name': 'Verilator/t_math_signed3'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_math_signed3.v |     5763 |      4047 |
-+===========================+==========+===========+
-|                           |     5763 |      4047 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_math_signed3.v |     4860 |      3144 |
++===================================+==========+===========+
+|                                   |     4860 |      3144 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 29.78
+[COVERAGE] : 35.31
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

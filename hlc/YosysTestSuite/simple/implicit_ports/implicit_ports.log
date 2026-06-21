@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm implicit_ports.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/implicit_ports.v".
+[INF:PA0201] Parsing source file "$Source01/implicit_ports.v".
 AST_DEBUG_BEGIN
 Count: 215
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v> u<214> t<Top_level_rule> c<1> l<2:1> el<17:1>
+FILE: f<13>:$Source01/implicit_ports.v
+n<$Source01/implicit_ports.v> u<214> t<Top_level_rule> c<1> l<2:1> el<17:1>
   n<> u<1> t<Null_rule> p<214> s<2> l<2:1> el<2:1>
   n<// Test implicit port connections> u<2> t<LINE_COMMENT> p<214> s<213> l<1:1> el<1:34>
   n<> u<213> t<Source_text> p<214> c<106> l<2:1> el<16:10>
@@ -218,21 +227,21 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v> u<214> t<Top_leve
                     n<> u<203> t<CLOSE_PARENS> p<204> l<14:21> el<14:22>
         n<> u<210> t<ENDMODULE> p<211> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v:2:1: Compile module "work@alu".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v:7:1: Compile module "work@named_ports".
+[INF:CP0303] $Source01/implicit_ports.v:2:1: Compile module "work@alu".
+[INF:CP0303] $Source01/implicit_ports.v:7:1: Compile module "work@named_ports".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v:14:4: Illegal implicit net "id:126, name:result".
+[ERR:EL0535] $Source01/implicit_ports.v:14:4: Illegal implicit net "id:128, name:result".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:implicit_ports.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v:
+  vpiSourceFile (1 items):
+    SourceFile name:implicit_ports.v file:$Source01/implicit_ports.v:
       vpiParent: Design name:unnamed
       vpiName: implicit_ports.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/lib/work/implicit_ports.v"
+      vpiPreprocFile: "$Output/lib/work/implicit_ports.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@alu file:${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v start:2:1 end:5:10:
+    Module name:work@alu file:$Source01/implicit_ports.v start:2:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@alu start:2:8 end:2:11:
         vpiParent: Module name:work@alu
@@ -321,6 +330,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@alu
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@alu
+        vpiName: work
+        vpiFullName: work@alu.work
+      vpiCell: alu
       vpiNet (5 items):
         Net name:a start:2:25 end:2:26:
           vpiParent: Module name:work@alu
@@ -462,7 +476,7 @@ Design name:unnamed:
                 vpiName: b
                 vpiFullName: work@alu.b
                 vpiActual: Net name:b
-    Module name:work@named_ports file:${SURELOG_DIR}/tests/YosysTestSuite/simple/implicit_ports.v start:7:1 end:16:10:
+    Module name:work@named_ports file:$Source01/implicit_ports.v start:7:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@named_ports start:7:8 end:7:19:
         vpiParent: Module name:work@named_ports
@@ -530,6 +544,11 @@ Design name:unnamed:
             vpiName: work@alu
       vpiDefName: work@named_ports
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@named_ports
+        vpiName: work
+        vpiFullName: work@named_ports.work
+      vpiCell: named_ports
       vpiNet (5 items):
         Net name:a start:7:32 end:7:33:
           vpiParent: Module name:work@named_ports
@@ -711,37 +730,40 @@ Design name:unnamed:
         vpiName: work@named_ports
       vpiModule: Module name:work@named_ports
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/implicit_ports
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/surelog.uhdm
+      test-name: YosysTestSuite/simple/implicit_ports
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/lib/work/implicit_ports.v'): {'post_len': 0,
-                                                                                                                                                   'pre_len': 291}},
+            'files': {'$Output/lib/work/implicit_ports.v': {'post_len': 0,
+                                                            'pre_len': 291}},
             'post_len': 0,
             'pre_len': 291,
             'test_name': 'YosysTestSuite/simple/implicit_ports'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/implicit_ports.v |      291 |         0 |
-+===========================+==========+===========+
-|                           |      291 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/implicit_ports.v |      291 |         0 |
++===================================+==========+===========+
+|                                   |      291 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -755,7 +777,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/implicit_ports/surelog.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             117     117       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   117     117       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

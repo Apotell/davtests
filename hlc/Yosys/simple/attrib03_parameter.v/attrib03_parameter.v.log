@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/attrib03_parameter.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/attrib03_parameter.v".
+[INF:PA0201] Parsing source file "$Source01/simple/attrib03_parameter.v".
 AST_DEBUG_BEGIN
 Count: 327
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v
-n<${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v> u<326> t<Top_level_rule> c<1> l<1:1> el<29:1>
+FILE: f<13>:$Source01/simple/attrib03_parameter.v
+n<$Source01/simple/attrib03_parameter.v> u<326> t<Top_level_rule> c<1> l<1:1> el<29:1>
   n<> u<1> t<Null_rule> p<326> s<325> l<1:1>
   n<> u<325> t<Source_text> p<326> c<201> l<1:1> el<27:10>
     n<> u<201> t<Description> p<325> c<200> s<324> l<1:1> el<18:10>
@@ -330,21 +339,21 @@ n<${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v> u<326> t<Top_level_rul
                             n<out> u<311> t<SIMPLE_IDENTIFIER> p<312> l<26:50> el<26:53>
         n<> u<322> t<ENDMODULE> p<323> l<27:1> el<27:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v:1:1: Compile module "work@bar".
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v:20:1: Compile module "work@foo".
+[INF:CP0303] $Source01/simple/attrib03_parameter.v:1:1: Compile module "work@bar".
+[INF:CP0303] $Source01/simple/attrib03_parameter.v:20:1: Compile module "work@foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v:26:11: Illegal implicit net "id:132, name:WIDTH".
+[ERR:EL0535] $Source01/simple/attrib03_parameter.v:26:11: Illegal implicit net "id:134, name:WIDTH".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:attrib03_parameter.v file:${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v:
+  vpiSourceFile (1 items):
+    SourceFile name:attrib03_parameter.v file:$Source01/simple/attrib03_parameter.v:
       vpiParent: Design name:unnamed
       vpiName: attrib03_parameter.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v/lib/work/simple/attrib03_parameter.v"
+      vpiPreprocFile: "$Output/lib/work/simple/attrib03_parameter.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@bar file:${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v start:1:1 end:18:10:
+    Module name:work@bar file:$Source01/simple/attrib03_parameter.v start:1:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bar start:1:8 end:1:11:
         vpiParent: Module name:work@bar
@@ -495,6 +504,11 @@ Design name:unnamed:
             vpiValue: 55
       vpiDefName: work@bar
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bar
+        vpiName: work
+        vpiFullName: work@bar.work
+      vpiCell: bar
       vpiNet (4 items):
         Net name:clk start:9:15 end:9:18:
           vpiParent: Module name:work@bar
@@ -645,7 +659,7 @@ Design name:unnamed:
                       vpiFullName: work@bar.INCREMENT
                       vpiActual: Parameter name:INCREMENT
           vpiAlwaysType: always (1)
-    Module name:work@foo file:${SURELOG_DIR}/tests/Yosys/simple/attrib03_parameter.v start:20:1 end:27:10:
+    Module name:work@foo file:$Source01/simple/attrib03_parameter.v start:20:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:20:8 end:20:11:
         vpiParent: Module name:work@foo
@@ -713,6 +727,11 @@ Design name:unnamed:
             vpiName: work@bar
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiNet (4 items):
         Net name:clk start:21:15 end:21:18:
           vpiParent: Module name:work@foo
@@ -888,37 +907,40 @@ Design name:unnamed:
         vpiName: work@foo
       vpiModule: Module name:work@foo
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/attrib03_parameter.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v/surelog.uhdm
+      test-name: Yosys/simple/attrib03_parameter.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/attrib03_parameter.v/lib/work/simple/attrib03_parameter.v'): {'post_len': 0,
-                                                                                                                                                           'pre_len': 464}},
+            'files': {'$Output/lib/work/simple/attrib03_parameter.v': {'post_len': 0,
+                                                                       'pre_len': 464}},
             'post_len': 0,
             'pre_len': 464,
             'test_name': 'Yosys/simple/attrib03_parameter.v'}}
 
-+--------------------------------------+----------+-----------+
-| INPUT                                |   PRELEN |   POSTLEN |
-+======================================+==========+===========+
-| lib/work/simple/attrib03_parameter.v |      464 |         0 |
-+======================================+==========+===========+
-|                                      |      464 |         0 |
-+--------------------------------------+----------+-----------+
++----------------------------------------------+----------+-----------+
+| INPUT                                        |   PRELEN |   POSTLEN |
++==============================================+==========+===========+
+| $Output/lib/work/simple/attrib03_parameter.v |      464 |         0 |
++==============================================+==========+===========+
+|                                              |      464 |         0 |
++----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -933,10 +955,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       2         2
 Operation                            4       2       0         2
-RefObj                              27      25       0         2
+RefObj                              29      27       0         2
 RefTypespec                         32      32       2         2
 ----------------------------------------------------------------
 Others                              56      56       0         0
 ----------------------------------------------------------------
-                                   132     128       4         8
+                                   134     130       4         8
 ===================== END REDUCTION RESULT =====================

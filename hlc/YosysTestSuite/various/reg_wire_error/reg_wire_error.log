@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/various -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm reg_wire_error.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/reg_wire_error.sv".
+[INF:PA0201] Parsing source file "$Source01/reg_wire_error.sv".
 AST_DEBUG_BEGIN
 Count: 790
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv
-n<${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv> u<789> t<Top_level_rule> c<1> l<1:1> el<75:1>
+FILE: f<13>:$Source01/reg_wire_error.sv
+n<$Source01/reg_wire_error.sv> u<789> t<Top_level_rule> c<1> l<1:1> el<75:1>
   n<> u<1> t<Null_rule> p<789> s<788> l<1:1>
   n<> u<788> t<Source_text> p<789> c<36> l<1:1> el<73:10>
     n<> u<36> t<Description> p<788> c<35> s<787> l<1:1> el<3:10>
@@ -793,22 +802,22 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv> u<789> t<Top_le
                                 n<> u<772> t<END> p<773> l<71:1> el<71:4>
         n<> u<785> t<ENDMODULE> p<786> l<73:1> el<73:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv:1:1: Compile module "work@sub_mod".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv:5:1: Compile module "work@test".
+[INF:CP0303] $Source01/reg_wire_error.sv:1:1: Compile module "work@sub_mod".
+[INF:CP0303] $Source01/reg_wire_error.sv:5:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv:38:4: Illegal implicit net "id:111, name:i_in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv:39:4: Illegal implicit net "id:114, name:o_out".
+[ERR:EL0535] $Source01/reg_wire_error.sv:38:4: Illegal implicit net "id:113, name:i_in".
+[ERR:EL0535] $Source01/reg_wire_error.sv:39:4: Illegal implicit net "id:116, name:o_out".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:reg_wire_error.sv file:${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:reg_wire_error.sv file:$Source01/reg_wire_error.sv:
       vpiParent: Design name:unnamed
       vpiName: reg_wire_error.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/lib/work/reg_wire_error.sv"
+      vpiPreprocFile: "$Output/lib/work/reg_wire_error.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@sub_mod file:${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv start:1:1 end:3:10:
+    Module name:work@sub_mod file:$Source01/reg_wire_error.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub_mod start:1:8 end:1:15:
         vpiParent: Module name:work@sub_mod
@@ -819,6 +828,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub_mod
       vpiDefName: work@sub_mod
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub_mod
+        vpiName: work
+        vpiFullName: work@sub_mod.work
+      vpiCell: sub_mod
       vpiNet (2 items):
         Net name:i_in start:1:22 end:1:26:
           vpiParent: Module name:work@sub_mod
@@ -876,7 +890,7 @@ Design name:unnamed:
             vpiName: i_in
             vpiFullName: work@sub_mod.i_in
             vpiActual: Net name:i_in
-    Module name:work@test file:${SURELOG_DIR}/tests/YosysTestSuite/various/reg_wire_error.sv start:5:1 end:73:10:
+    Module name:work@test file:$Source01/reg_wire_error.sv start:5:1 end:73:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:5:8 end:5:12:
         vpiParent: Module name:work@test
@@ -1155,6 +1169,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (18 items):
         Net name:i_clk start:6:7 end:6:12:
           vpiParent: Module name:work@test
@@ -1428,7 +1447,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b0"
-              vpiValue: 0
+              vpiValue: "0"
         Always start:27:1 end:31:4:
           vpiParent: Module name:work@test
           vpiStmt EventControl start:27:8 end:31:4:
@@ -1530,7 +1549,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
                 Assignment start:62:3 end:62:16:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -1562,7 +1581,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
                 Assignment start:63:3 end:63:16:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -1594,7 +1613,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
           vpiAlwaysType: always (1)
         Always start:66:1 end:71:4:
           vpiParent: Module name:work@test
@@ -1646,7 +1665,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
                 Assignment start:69:3 end:69:17:
                   vpiParent: Begin
                   vpiLhs BitSelect name:mw3[0] start:69:3 end:69:9:
@@ -1677,7 +1696,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
                 Assignment start:70:3 end:70:17:
                   vpiParent: Begin
                   vpiLhs BitSelect name:ml3[0] start:70:3 end:70:9:
@@ -1708,7 +1727,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
           vpiAlwaysType: always (1)
       vpiContAssign (8 items):
         ContAssign start:25:8 end:25:22:
@@ -1852,7 +1871,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
         ContAssign start:58:8 end:58:21:
           vpiParent: Module name:work@test
           vpiLhs BitSelect name:ml1[1] start:58:8 end:58:14:
@@ -1883,7 +1902,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
       vpiRefInstance (1 items):
         RefInstance name:sm_inst start:37:9 end:37:16:
           vpiParent: Module name:work@test
@@ -1909,7 +1928,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             Port start:39:3 end:39:16:
               vpiParent: RefInstance name:sm_inst
               vpiLowConn RefObj name:o_out start:39:4 end:39:9:
@@ -1938,37 +1957,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/various/reg_wire_error
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/surelog.uhdm
+      test-name: YosysTestSuite/various/reg_wire_error
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/mounts.json
 
 
 {'result': {'coverage': 99.29,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/lib/work/reg_wire_error.sv'): {'post_len': 6,
-                                                                                                                                                     'pre_len': 842}},
+            'files': {'$Output/lib/work/reg_wire_error.sv': {'post_len': 6,
+                                                             'pre_len': 842}},
             'post_len': 6,
             'pre_len': 842,
             'test_name': 'YosysTestSuite/various/reg_wire_error'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/reg_wire_error.sv |      842 |         6 |
-+============================+==========+===========+
-|                            |      842 |         6 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/reg_wire_error.sv |      842 |         6 |
++====================================+==========+===========+
+|                                    |      842 |         6 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.29
@@ -1982,7 +2004,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/various/reg_wire_error/surelog
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             274     274       0         0
+Others                             276     276       0         0
 ----------------------------------------------------------------
-                                   274     274       0         0
+                                   276     276       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,38 +1,49 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/surelog.log".
-[INF:CP0301] ${SURELOG_DIR}/tests/SimpleClass2/top.v:8:1: Compile package "work@p1".
-[INF:CP0301] ${SURELOG_DIR}/tests/SimpleClass2/top.v:26:1: Compile package "work@p3".
-[INF:CP0301] ${SURELOG_DIR}/tests/SimpleClass2/top.v:31:1: Compile package "work@p2".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SimpleClass2/top.v:8:1: No timescale set for "work@p1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SimpleClass2/top.v:26:1: No timescale set for "work@p3".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SimpleClass2/top.v:31:1: No timescale set for "work@p2".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:36:30: Illegal implicit net "id:183, name:uvm_action".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:43:25: Illegal implicit net "id:221, name:id".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:43:29: Illegal implicit net "id:222, name:action".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:44:21: Illegal implicit net "id:226, name:id".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:44:25: Illegal implicit net "id:227, name:action".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:45:11: Illegal implicit net "id:234, name:toto".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SimpleClass2/top.v:46:16: Illegal implicit net "id:240, name:toto".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -parse -d inst top.v -wd ${SURELOG_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/top.v".
+[INF:CP0301] $Source01/top.v:8:1: Compile package "work@p1".
+[INF:CP0301] $Source01/top.v:26:1: Compile package "work@p3".
+[INF:CP0301] $Source01/top.v:31:1: Compile package "work@p2".
+[WRN:PA0205] $Source01/top.v:8:1: No timescale set for "work@p1".
+[WRN:PA0205] $Source01/top.v:26:1: No timescale set for "work@p3".
+[WRN:PA0205] $Source01/top.v:31:1: No timescale set for "work@p2".
+[ERR:EL0535] $Source01/top.v:36:30: Illegal implicit net "id:196, name:uvm_action".
+[ERR:EL0535] $Source01/top.v:43:25: Illegal implicit net "id:234, name:id".
+[ERR:EL0535] $Source01/top.v:43:29: Illegal implicit net "id:235, name:action".
+[ERR:EL0535] $Source01/top.v:44:21: Illegal implicit net "id:239, name:id".
+[ERR:EL0535] $Source01/top.v:44:25: Illegal implicit net "id:240, name:action".
+[ERR:EL0535] $Source01/top.v:45:11: Illegal implicit net "id:247, name:toto".
+[ERR:EL0535] $Source01/top.v:46:16: Illegal implicit net "id:253, name:toto".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/SimpleClass2/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllPackages (4 items):
-    Package name:work@p1 file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:8:1 end:24:11:
+    Package name:work@p1 file:$Source01/top.v start:8:1 end:24:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@p1 start:8:9 end:8:11:
         vpiParent: Package name:work@p1
         vpiName: work@p1
       vpiFullName: work@p1
       vpiTypespec (3 items):
-        ClassTypespec name:c1:
+        ClassTypespec name:work@c1:
           vpiParent: Package name:work@p1
-          vpiName: c1
-          vpiClassDefn: ClassDefn name:c1
+          vpiName: work@c1
+          vpiClassDefn: ClassDefn name:work@c1
         UnsupportedTypespec name:c1 start:22:9 end:22:11:
           vpiParent: Package name:work@p1
           vpiName Identifier name:c1:
@@ -49,36 +60,51 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:c1
       vpiDefName: work@p1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@p1
+        vpiName: work
+        vpiFullName: work@p1::work
+      vpiCell: p1
       vpiClassDefn (1 items):
-        ClassDefn name:c1 file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:10:1 end:19:9:
+        ClassDefn name:work@c1 file:$Source01/top.v start:10:1 end:19:9:
           vpiParent: Package name:work@p1
-          vpiName Identifier name:c1 start:10:7 end:10:9:
-            vpiParent: ClassDefn name:c1
-            vpiName: c1
-          vpiFullName: work@p1::c1
+          vpiName Identifier name:work@c1 start:10:7 end:10:9:
+            vpiParent: ClassDefn name:work@c1
+            vpiName: work@c1
+          vpiFullName: work@p1::work@c1
           vpiVariable (1 items):
             Variable name:toto start:11:10 end:11:14:
-              vpiParent: ClassDefn name:c1
+              vpiParent: ClassDefn name:work@c1
               vpiTypespec RefTypespec name:string start:11:3 end:11:9:
                 vpiParent: Variable name:toto
                 vpiName: string
-                vpiFullName: work@p1::c1::toto::string
+                vpiFullName: work@p1::work@c1::toto::string
                 vpiActual: StringTypespec
               vpiName: toto
-              vpiFullName: work@p1::c1::toto
-          vpiTypespec (1 items):
+              vpiFullName: work@p1::work@c1::toto
+          vpiTypespec (2 items):
             UnsupportedTypespec name:uvm_component start:13:37 end:13:50:
-              vpiParent: ClassDefn name:c1
+              vpiParent: ClassDefn name:work@c1
               vpiName Identifier name:uvm_component:
                 vpiParent: UnsupportedTypespec name:uvm_component
                 vpiName: uvm_component
+            ClassTypespec name:work@c1:
+              vpiParent: ClassDefn name:work@c1
+              vpiName: work@c1
+              vpiClassDefn: ClassDefn name:work@c1
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@c1
+            vpiName: work
+            vpiFullName: work@p1::work@c1::work
+          vpiCell: c1
           vpiMethod (1 items):
             Function name:foo start:15:3 end:17:16:
-              vpiParent: ClassDefn name:c1
+              vpiParent: ClassDefn name:work@c1
               vpiName Identifier name:foo start:15:12 end:15:15:
                 vpiParent: Function name:foo
                 vpiName: foo
-              vpiFullName: work@p1::c1::foo
+              vpiFullName: work@p1::work@c1::foo
               vpiTypespec (1 items):
                 LogicTypespec start:15:12 end:15:12:
                   vpiParent: Function name:foo
@@ -92,26 +118,26 @@ Design name:unnamed:
                     vpiParent: IODecl name:name
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p1::c1::foo::name
+                      vpiFullName: work@p1::work@c1::foo::name
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiDecompile: "\"\""
-                    vpiValue: 
+                    vpiValue: ""
                   vpiTypespec RefTypespec start:15:16 end:15:22:
                     vpiParent: IODecl name:name
-                    vpiFullName: work@p1::c1::foo::name
+                    vpiFullName: work@p1::work@c1::foo::name
                     vpiActual: StringTypespec
               vpiReturn RefTypespec start:15:12 end:15:12:
                 vpiParent: Function name:foo
-                vpiFullName: work@p1::c1::foo
+                vpiFullName: work@p1::work@c1::foo
                 vpiActual: LogicTypespec
           vpiTaskFuncDecl (1 items):
             FunctionDecl name:new start:13:10 end:13:58:
-              vpiParent: ClassDefn name:c1
+              vpiParent: ClassDefn name:work@c1
               vpiName Identifier name:new:
                 vpiParent: FunctionDecl name:new
                 vpiName: new
-              vpiFullName: work@p1::c1::new
+              vpiFullName: work@p1::work@c1::new
               vpiIODecl (2 items):
                 IODecl name:name start:13:31 end:13:35:
                   vpiParent: FunctionDecl name:new
@@ -119,7 +145,7 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiTypespec RefTypespec start:13:24 end:13:30:
                     vpiParent: IODecl name:name
-                    vpiFullName: work@p1::c1::new::name
+                    vpiFullName: work@p1::work@c1::new::name
                     vpiActual: StringTypespec
                 IODecl name:parent start:13:51 end:13:57:
                   vpiParent: FunctionDecl name:new
@@ -127,29 +153,45 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiTypespec RefTypespec start:13:37 end:13:50:
                     vpiParent: IODecl name:parent
-                    vpiFullName: work@p1::c1::new::parent
+                    vpiFullName: work@p1::work@c1::new::parent
                     vpiActual: UnsupportedTypespec name:uvm_component
-    Package name:work@p3 file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:26:1 end:29:11:
+              vpiReturn RefTypespec name:work@c1:
+                vpiParent: FunctionDecl name:new
+                vpiName: work@c1
+                vpiFullName: work@p1::work@c1::new::work@c1
+                vpiActual: ClassTypespec name:work@c1
+    Package name:work@p3 file:$Source01/top.v start:26:1 end:29:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@p3 start:26:9 end:26:11:
         vpiParent: Package name:work@p3
         vpiName: work@p3
       vpiFullName: work@p3
       vpiTypespec (1 items):
-        ClassTypespec name:c33:
+        ClassTypespec name:work@c33:
           vpiParent: Package name:work@p3
-          vpiName: c33
-          vpiClassDefn: ClassDefn name:c33
+          vpiName: work@c33
+          vpiClassDefn: ClassDefn name:work@c33
       vpiDefName: work@p3
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@p3
+        vpiName: work
+        vpiFullName: work@p3::work
+      vpiCell: p3
       vpiClassDefn (1 items):
-        ClassDefn name:c33 file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:27:1 end:28:9:
+        ClassDefn name:work@c33 file:$Source01/top.v start:27:1 end:28:9:
           vpiParent: Package name:work@p3
-          vpiName Identifier name:c33 start:27:7 end:27:10:
-            vpiParent: ClassDefn name:c33
-            vpiName: c33
-          vpiFullName: work@p3::c33
-    Package name:work@p2 file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:31:1 end:52:11:
+          vpiName Identifier name:work@c33 start:27:7 end:27:10:
+            vpiParent: ClassDefn name:work@c33
+            vpiName: work@c33
+          vpiFullName: work@p3::work@c33
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@c33
+            vpiName: work
+            vpiFullName: work@p3::work@c33::work
+          vpiCell: c33
+    Package name:work@p2 file:$Source01/top.v start:31:1 end:52:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@p2 start:31:9 end:31:11:
         vpiParent: Package name:work@p2
@@ -161,44 +203,49 @@ Design name:unnamed:
           vpiName Identifier name:p1 start:33:8 end:33:10:
             vpiParent: ImportTypespec name:p1
             vpiName: p1
-        ClassTypespec name:c2:
+        ClassTypespec name:work@c2:
           vpiParent: Package name:work@p2
-          vpiName: c2
-          vpiClassDefn: ClassDefn name:c2
+          vpiName: work@c2
+          vpiClassDefn: ClassDefn name:work@c2
       vpiDefName: work@p2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@p2
+        vpiName: work
+        vpiFullName: work@p2::work
+      vpiCell: p2
       vpiClassDefn (1 items):
-        ClassDefn name:c2 file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:35:1 end:50:9:
+        ClassDefn name:work@c2 file:$Source01/top.v start:35:1 end:50:9:
           vpiParent: Package name:work@p2
-          vpiName Identifier name:c2 start:35:7 end:35:9:
-            vpiParent: ClassDefn name:c2
-            vpiName: c2
-          vpiFullName: work@p2::c2
+          vpiName Identifier name:work@c2 start:35:7 end:35:9:
+            vpiParent: ClassDefn name:work@c2
+            vpiName: work@c2
+          vpiFullName: work@p2::work@c2
           vpiVariable (2 items):
             Variable name:id_actions start:37:26 end:37:36:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiTypespec RefTypespec name:uvm_id_actions_array start:37:5 end:37:25:
                 vpiParent: Variable name:id_actions
                 vpiName: uvm_id_actions_array
-                vpiFullName: work@p2::c2::id_actions::uvm_id_actions_array
+                vpiFullName: work@p2::work@c2::id_actions::uvm_id_actions_array
                 vpiActual: TypedefTypespec name:uvm_id_actions_array
               vpiName: id_actions
-              vpiFullName: work@p2::c2::id_actions
+              vpiFullName: work@p2::work@c2::id_actions
             Variable name:inst1 start:38:12 end:38:17:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiTypespec RefTypespec name:p3::c33 start:38:4 end:38:11:
                 vpiParent: Variable name:inst1
                 vpiName: p3::c33
-                vpiFullName: work@p2::c2::inst1::p3::c33
-                vpiActual: ClassTypespec name:c33
+                vpiFullName: work@p2::work@c2::inst1::p3::c33
+                vpiActual: ClassTypespec name:work@c33
               vpiName: inst1
-              vpiFullName: work@p2::c2::inst1
-          vpiTypespec (4 items):
+              vpiFullName: work@p2::work@c2::inst1
+          vpiTypespec (5 items):
             ClassTypespec name:c3 start:35:18 end:35:20:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiName: c3
             UnsupportedTypespec name:uvm_pool start:36:12 end:36:41:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiName Identifier name:uvm_pool:
                 vpiParent: UnsupportedTypespec name:uvm_pool
                 vpiName: uvm_pool
@@ -207,40 +254,51 @@ Design name:unnamed:
                   vpiParent: UnsupportedTypespec name:uvm_pool
                   vpiRhs RefTypespec start:36:22 end:36:28:
                     vpiParent: ParamAssign
-                    vpiFullName: work@p2::c2::uvm_pool
+                    vpiFullName: work@p2::work@c2::uvm_pool
                     vpiActual: StringTypespec
                 ParamAssign start:36:30 end:36:40:
                   vpiParent: UnsupportedTypespec name:uvm_pool
                   vpiRhs RefObj name:uvm_action start:36:30 end:36:40:
                     vpiParent: ParamAssign
                     vpiName: uvm_action
-                    vpiFullName: work@p2::c2::uvm_pool::uvm_action
+                    vpiFullName: work@p2::work@c2::uvm_pool::uvm_action
             TypedefTypespec name:uvm_id_actions_array start:36:4 end:36:63:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiName Identifier name:uvm_id_actions_array start:36:42 end:36:62:
                 vpiParent: TypedefTypespec name:uvm_id_actions_array
                 vpiName: uvm_id_actions_array
               vpiTypedefAlias RefTypespec start:36:12 end:36:41:
                 vpiParent: TypedefTypespec name:uvm_id_actions_array
-                vpiFullName: work@p2::c2::uvm_id_actions_array
+                vpiFullName: work@p2::work@c2::uvm_id_actions_array
                 vpiActual: UnsupportedTypespec name:uvm_pool
             ClassTypespec name:p3 start:38:4 end:38:6:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiName: p3
+            ClassTypespec name:work@c2:
+              vpiParent: ClassDefn name:work@c2
+              vpiName: work@c2
+              vpiClassDefn: ClassDefn name:work@c2
+          vpiClassType: userdefined class (3)
           vpiExtends Extends start:35:10 end:35:17:
-            vpiParent: ClassDefn name:c2
+            vpiParent: ClassDefn name:work@c2
             vpiClassTypespec RefTypespec name:c3 start:35:18 end:35:20:
               vpiParent: Extends
               vpiName: c3
-              vpiFullName: work@p2::c2::c3
+              vpiFullName: work@p2::work@c2::c3
               vpiActual: ClassTypespec name:c3
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@c2
+            vpiName: work
+            vpiFullName: work@p2::work@c2::work
+          vpiCell: c2
           vpiMethod (1 items):
             Function name:new start:40:2 end:47:15:
-              vpiParent: ClassDefn name:c2
+              vpiParent: ClassDefn name:work@c2
               vpiName Identifier name:new:
                 vpiParent: Function name:new
                 vpiName: new
-              vpiFullName: work@p2::c2::new
+              vpiFullName: work@p2::work@c2::new
+              vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:name start:40:22 end:40:26:
                   vpiParent: Function name:new
@@ -250,7 +308,7 @@ Design name:unnamed:
                     vpiParent: IODecl name:name
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@p2::c2::new::name
+                      vpiFullName: work@p2::work@c2::new::name
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 136
@@ -258,22 +316,23 @@ Design name:unnamed:
                     vpiValue: svaunit_sequencer
                   vpiTypespec RefTypespec start:40:15 end:40:21:
                     vpiParent: IODecl name:name
-                    vpiFullName: work@p2::c2::new::name
+                    vpiFullName: work@p2::work@c2::new::name
                     vpiActual: StringTypespec
               vpiStmt Begin:
                 vpiParent: Function name:new
-                vpiFullName: work@p2::c2::new
+                vpiFullName: work@p2::work@c2::new
                 vpiStmt (6 items):
-                  HierPath start:41:5 end:41:14:
+                  HierPath name:super.new(name) start:41:5 end:41:14:
                     vpiParent: Begin
-                    vpiFullName: work@p2::c2::new
-                    vpiActual (2 items):
+                    vpiName: super.new(name)
+                    vpiFullName: work@p2::work@c2::new::super.new(name)
+                    vpiPathElem (2 items):
                       RefObj name:super:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:super.new(name)
                         vpiName: super
-                        vpiFullName: work@p2::c2::new::super
+                        vpiFullName: work@p2::work@c2::new::super
                       FuncCall name:new:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:super.new(name)
                         vpiName Identifier name:new:
                           vpiParent: FuncCall name:new
                           vpiName: new
@@ -281,17 +340,17 @@ Design name:unnamed:
                           RefObj name:name start:41:15 end:41:19:
                             vpiParent: FuncCall name:new
                             vpiName: name
-                            vpiFullName: work@p2::c2::new::name
+                            vpiFullName: work@p2::work@c2::new::super.new(name)::name
                             vpiActual: IODecl name:name
                   HierPath name:super.foo(name) start:42:5 end:42:19:
                     vpiParent: Begin
                     vpiName: super.foo(name)
-                    vpiFullName: work@p2::c2::new::super.foo(name)
-                    vpiActual (2 items):
+                    vpiFullName: work@p2::work@c2::new::super.foo(name)
+                    vpiPathElem (2 items):
                       RefObj name:super start:42:5 end:42:10:
                         vpiParent: HierPath name:super.foo(name)
                         vpiName: super
-                        vpiFullName: work@p2::c2::new::super
+                        vpiFullName: work@p2::work@c2::new::super
                       FuncCall name:foo start:42:11 end:42:20:
                         vpiParent: HierPath name:super.foo(name)
                         vpiName Identifier name:foo start:42:11 end:42:14:
@@ -301,22 +360,22 @@ Design name:unnamed:
                           RefObj name:name start:42:15 end:42:19:
                             vpiParent: FuncCall name:foo
                             vpiName: name
-                            vpiFullName: work@p2::c2::new::super.foo(name)::name
+                            vpiFullName: work@p2::work@c2::new::super.foo(name)::name
                             vpiActual: IODecl name:name
                   HierPath name:this.id_actions.add(id, action) start:43:5 end:43:35:
                     vpiParent: Begin
                     vpiName: this.id_actions.add(id, action)
-                    vpiFullName: work@p2::c2::new::this.id_actions.add(id, action)
-                    vpiActual (3 items):
+                    vpiFullName: work@p2::work@c2::new::this.id_actions.add(id, action)
+                    vpiPathElem (3 items):
                       RefObj name:this start:43:5 end:43:9:
                         vpiParent: HierPath name:this.id_actions.add(id, action)
                         vpiName: this
-                        vpiFullName: work@p2::c2::new::this
-                        vpiActual: ClassDefn name:c2
+                        vpiFullName: work@p2::work@c2::new::this
+                        vpiActual: ClassDefn name:work@c2
                       RefObj name:id_actions start:43:10 end:43:20:
                         vpiParent: HierPath name:this.id_actions.add(id, action)
                         vpiName: id_actions
-                        vpiFullName: work@p2::c2::new::id_actions
+                        vpiFullName: work@p2::work@c2::new::id_actions
                         vpiActual: Variable name:id_actions
                       FuncCall name:add start:43:21 end:43:36:
                         vpiParent: HierPath name:this.id_actions.add(id, action)
@@ -327,20 +386,20 @@ Design name:unnamed:
                           RefObj name:id start:43:25 end:43:27:
                             vpiParent: FuncCall name:add
                             vpiName: id
-                            vpiFullName: work@p2::c2::new::this.id_actions.add(id, action)::id
+                            vpiFullName: work@p2::work@c2::new::this.id_actions.add(id, action)::id
                           RefObj name:action start:43:29 end:43:35:
                             vpiParent: FuncCall name:add
                             vpiName: action
-                            vpiFullName: work@p2::c2::new::this.id_actions.add(id, action)::action
+                            vpiFullName: work@p2::work@c2::new::this.id_actions.add(id, action)::action
                   HierPath name:id_actions.addq(id, action) start:44:5 end:44:31:
                     vpiParent: Begin
                     vpiName: id_actions.addq(id, action)
-                    vpiFullName: work@p2::c2::new::id_actions.addq(id, action)
-                    vpiActual (2 items):
+                    vpiFullName: work@p2::work@c2::new::id_actions.addq(id, action)
+                    vpiPathElem (2 items):
                       RefObj name:id_actions start:44:5 end:44:15:
                         vpiParent: HierPath name:id_actions.addq(id, action)
                         vpiName: id_actions
-                        vpiFullName: work@p2::c2::new::id_actions
+                        vpiFullName: work@p2::work@c2::new::id_actions
                         vpiActual: Variable name:id_actions
                       FuncCall name:addq start:44:16 end:44:32:
                         vpiParent: HierPath name:id_actions.addq(id, action)
@@ -351,24 +410,24 @@ Design name:unnamed:
                           RefObj name:id start:44:21 end:44:23:
                             vpiParent: FuncCall name:addq
                             vpiName: id
-                            vpiFullName: work@p2::c2::new::id_actions.addq(id, action)::id
+                            vpiFullName: work@p2::work@c2::new::id_actions.addq(id, action)::id
                           RefObj name:action start:44:25 end:44:31:
                             vpiParent: FuncCall name:addq
                             vpiName: action
-                            vpiFullName: work@p2::c2::new::id_actions.addq(id, action)::action
+                            vpiFullName: work@p2::work@c2::new::id_actions.addq(id, action)::action
                   HierPath name:super.toto.len() start:45:5 end:45:20:
                     vpiParent: Begin
                     vpiName: super.toto.len()
-                    vpiFullName: work@p2::c2::new::super.toto.len()
-                    vpiActual (3 items):
+                    vpiFullName: work@p2::work@c2::new::super.toto.len()
+                    vpiPathElem (3 items):
                       RefObj name:super start:45:5 end:45:10:
                         vpiParent: HierPath name:super.toto.len()
                         vpiName: super
-                        vpiFullName: work@p2::c2::new::super
+                        vpiFullName: work@p2::work@c2::new::super
                       RefObj name:toto start:45:11 end:45:15:
                         vpiParent: HierPath name:super.toto.len()
                         vpiName: toto
-                        vpiFullName: work@p2::c2::new::toto
+                        vpiFullName: work@p2::work@c2::new::toto
                       FuncCall name:len start:45:16 end:45:21:
                         vpiParent: HierPath name:super.toto.len()
                         vpiName Identifier name:len start:45:16 end:45:19:
@@ -377,26 +436,31 @@ Design name:unnamed:
                   HierPath name:this.super.toto.len1() start:46:5 end:46:26:
                     vpiParent: Begin
                     vpiName: this.super.toto.len1()
-                    vpiFullName: work@p2::c2::new::this.super.toto.len1()
-                    vpiActual (4 items):
+                    vpiFullName: work@p2::work@c2::new::this.super.toto.len1()
+                    vpiPathElem (4 items):
                       RefObj name:this:
                         vpiParent: HierPath name:this.super.toto.len1()
                         vpiName: this
-                        vpiFullName: work@p2::c2::new::this
-                        vpiActual: ClassDefn name:c2
+                        vpiFullName: work@p2::work@c2::new::this
+                        vpiActual: ClassDefn name:work@c2
                       RefObj name:super:
                         vpiParent: HierPath name:this.super.toto.len1()
                         vpiName: super
-                        vpiFullName: work@p2::c2::new::super
+                        vpiFullName: work@p2::work@c2::new::super
                       RefObj name:toto start:46:16 end:46:20:
                         vpiParent: HierPath name:this.super.toto.len1()
                         vpiName: toto
-                        vpiFullName: work@p2::c2::new::toto
+                        vpiFullName: work@p2::work@c2::new::toto
                       FuncCall name:len1 start:46:21 end:46:27:
                         vpiParent: HierPath name:this.super.toto.len1()
                         vpiName Identifier name:len1 start:46:21 end:46:25:
                           vpiParent: FuncCall name:len1
                           vpiName: len1
+              vpiReturn RefTypespec name:work@c2:
+                vpiParent: Function name:new
+                vpiName: work@c2
+                vpiFullName: work@p2::work@c2::new::work@c2
+                vpiActual: ClassTypespec name:work@c2
     Package name:builtin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin:
@@ -1950,12 +2014,19 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (4 items):
-    ClassDefn name:mailbox file:${SURELOG_DIR}/hlc/SimpleClass2/SimpleClass2/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
         vpiName: mailbox
       vpiFullName: mailbox
+      vpiTypespec (1 items):
+        ClassTypespec name:mailbox:
+          vpiParent: ClassDefn name:mailbox
+          vpiName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+      vpiClassType: mailbox class (1)
+      vpiCell: mailbox
       vpiMethod (8 items):
         Function name:new start:3:3 end:4:14:
           vpiParent: ClassDefn name:mailbox
@@ -1963,6 +2034,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
               vpiParent: Function name:new
@@ -1982,6 +2054,11 @@ Design name:unnamed:
                 vpiParent: IODecl name:bound
                 vpiFullName: mailbox::new::bound
                 vpiActual: IntTypespec
+          vpiReturn RefTypespec name:mailbox:
+            vpiParent: Function name:new
+            vpiName: mailbox
+            vpiFullName: mailbox::new::mailbox
+            vpiActual: ClassTypespec name:mailbox
         Function name:num start:6:3 end:7:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:num start:6:16 end:6:19:
@@ -2002,6 +2079,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
               vpiParent: Task name:put
@@ -2045,6 +2123,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:get
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
               vpiParent: Task name:get
@@ -2086,6 +2165,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:peek
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
               vpiParent: Task name:peek
@@ -2118,7 +2198,7 @@ Design name:unnamed:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:${SURELOG_DIR}/hlc/SimpleClass2/SimpleClass2/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -2162,6 +2242,8 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiClassType: process class (4)
+      vpiCell: process
       vpiMethod (6 items):
         Function name:self start:34:10 end:35:14:
           vpiParent: ClassDefn name:process
@@ -2203,30 +2285,41 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:await start:43:8 end:43:13:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:suspend start:46:8 end:46:15:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:resume start:49:8 end:49:14:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
-    ClassDefn name:semaphore file:${SURELOG_DIR}/hlc/SimpleClass2/SimpleClass2/builtin.sv start:55:1 end:69:9:
+          vpiVisibility: public (1)
+    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
         vpiName: semaphore
       vpiFullName: semaphore
+      vpiTypespec (1 items):
+        ClassTypespec name:semaphore:
+          vpiParent: ClassDefn name:semaphore
+          vpiName: semaphore
+          vpiClassDefn: ClassDefn name:semaphore
+      vpiClassType: semaphore class (2)
+      vpiCell: semaphore
       vpiMethod (4 items):
         Function name:new start:57:3 end:58:14:
           vpiParent: ClassDefn name:semaphore
@@ -2234,6 +2327,7 @@ Design name:unnamed:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
               vpiParent: Function name:new
@@ -2253,12 +2347,18 @@ Design name:unnamed:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::new::keyCount
                 vpiActual: IntTypespec
+          vpiReturn RefTypespec name:semaphore:
+            vpiParent: Function name:new
+            vpiName: semaphore
+            vpiFullName: semaphore::new::semaphore
+            vpiActual: ClassTypespec name:semaphore
         Task name:put start:60:3 end:61:10:
           vpiParent: ClassDefn name:semaphore
           vpiName Identifier name:put start:60:8 end:60:11:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
               vpiParent: Task name:put
@@ -2284,6 +2384,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
               vpiParent: Task name:get
@@ -2333,26 +2434,32 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
-    ClassDefn name:uvm_pool file:${SURELOG_DIR}/tests/SimpleClass2/top.v start:2:1 end:6:9:
+    ClassDefn name:work@uvm_pool file:$Source01/top.v start:2:1 end:6:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_pool start:2:7 end:2:15:
-        vpiParent: ClassDefn name:uvm_pool
-        vpiName: uvm_pool
-      vpiFullName: uvm_pool
+      vpiName Identifier name:work@uvm_pool start:2:7 end:2:15:
+        vpiParent: ClassDefn name:work@uvm_pool
+        vpiName: work@uvm_pool
+      vpiFullName: work@uvm_pool
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@uvm_pool
+        vpiName: work
+        vpiFullName: work@uvm_pool::work
+      vpiCell: uvm_pool
       vpiMethod (1 items):
         Function name:add start:3:3 end:4:14:
-          vpiParent: ClassDefn name:uvm_pool
+          vpiParent: ClassDefn name:work@uvm_pool
           vpiName Identifier name:add start:3:12 end:3:15:
             vpiParent: Function name:add
             vpiName: add
-          vpiFullName: uvm_pool::add
+          vpiFullName: work@uvm_pool::add
           vpiTypespec (1 items):
             LogicTypespec start:3:12 end:3:12:
               vpiParent: Function name:add
           vpiVisibility: public (1)
           vpiReturn RefTypespec start:3:12 end:3:12:
             vpiParent: Function name:add
-            vpiFullName: uvm_pool::add
+            vpiFullName: work@uvm_pool::add
             vpiActual: LogicTypespec
   vpiTypespec (8 items):
     ClassTypespec name:mailbox:
@@ -2370,10 +2477,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ClassTypespec name:uvm_pool:
+    ClassTypespec name:work@uvm_pool:
       vpiParent: Design name:unnamed
-      vpiName: uvm_pool
-      vpiClassDefn: ClassDefn name:uvm_pool
+      vpiName: work@uvm_pool
+      vpiClassDefn: ClassDefn name:work@uvm_pool
     StringTypespec:
       vpiParent: Design name:unnamed
     VoidTypespec:
@@ -2381,37 +2488,40 @@ Design name:unnamed:
     RealTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 7
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SimpleClass2/SimpleClass2
- test-dirpath: ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2
-uhdm-filepath: ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/surelog.uhdm
+      test-name: SimpleClass2/SimpleClass2
+   test-dirpath: ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2
+  uhdm-filepath: ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/lib/work/top.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 608}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 608}},
             'post_len': 0,
             'pre_len': 608,
             'test_name': 'SimpleClass2/SimpleClass2'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      608 |         0 |
-+================+==========+===========+
-|                |      608 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      608 |         0 |
++========================+==========+===========+
+|                        |      608 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2425,7 +2535,7 @@ COMMAND: ${SURELOG_DIR}/regression/SimpleClass2/SimpleClass2/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             685     685       0         0
+Others                             700     700       0         0
 ----------------------------------------------------------------
-                                   685     685       0         0
+                                   700     700       0         0
 ===================== END REDUCTION RESULT =====================

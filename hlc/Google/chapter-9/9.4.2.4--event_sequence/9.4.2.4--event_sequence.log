@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-9 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 9.4.2.4--event_sequence.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/9.4.2.4--event_sequence.sv".
+[INF:PA0201] Parsing source file "$Source01/9.4.2.4--event_sequence.sv".
 AST_DEBUG_BEGIN
 Count: 369
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-9/9.4.2.4--event_sequence.sv
-n<${SURELOG_DIR}/tests/Google/chapter-9/9.4.2.4--event_sequence.sv> u<368> t<Top_level_rule> c<1> l<16:1> el<47:1>
+FILE: f<14>:$Source01/9.4.2.4--event_sequence.sv
+n<$Source01/9.4.2.4--event_sequence.sv> u<368> t<Top_level_rule> c<1> l<16:1> el<47:1>
   n<> u<1> t<Null_rule> p<368> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<368> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<368> s<4> l<2:1> el<2:3>
@@ -372,19 +381,19 @@ n<${SURELOG_DIR}/tests/Google/chapter-9/9.4.2.4--event_sequence.sv> u<368> t<Top
                           n<> u<354> t<END> p<355> l<45:2> el<45:5>
         n<> u<364> t<ENDMODULE> p<365> l<46:1> el<46:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-9/9.4.2.4--event_sequence.sv:16:1: Compile module "work@seq_tb".
+[INF:CP0303] $Source01/9.4.2.4--event_sequence.sv:16:1: Compile module "work@seq_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:9.4.2.4--event_sequence.sv file:${SURELOG_DIR}/tests/Google/chapter-9/9.4.2.4--event_sequence.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:9.4.2.4--event_sequence.sv file:$Source01/9.4.2.4--event_sequence.sv:
       vpiParent: Design name:unnamed
       vpiName: "9.4.2.4--event_sequence.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/lib/work/9.4.2.4--event_sequence.sv"
+      vpiPreprocFile: "$Output/lib/work/9.4.2.4--event_sequence.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@seq_tb file:${SURELOG_DIR}/tests/Google/chapter-9/9.4.2.4--event_sequence.sv start:16:1 end:46:10:
+    Module name:work@seq_tb file:$Source01/9.4.2.4--event_sequence.sv start:16:1 end:46:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@seq_tb start:16:8 end:16:14:
         vpiParent: Module name:work@seq_tb
@@ -408,10 +417,15 @@ Design name:unnamed:
                   vpiName: clk
                   vpiFullName: work@seq_tb.seq.clk
                   vpiActual: Net name:clk
-            vpiSequenceExpr Operation start:24:20 end:24:31:
+            vpiSequenceExpr Operation start:24:18 end:24:31:
               vpiParent: ClockedSeq
-              vpiOpType: unary cycle delay (53)
+              vpiOpType: binary cycle delay (71)
               vpiOperand (3 items):
+                RefObj name:a start:24:18 end:24:19:
+                  vpiParent: Operation
+                  vpiName: a
+                  vpiFullName: work@seq_tb.seq.a
+                  vpiActual: Net name:a
                 Constant start:24:22 end:24:23:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -422,15 +436,15 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-                RefObj name:a start:24:18 end:24:19:
+                Operation start:24:24 end:24:31:
                   vpiParent: Operation
-                  vpiName: a
-                  vpiFullName: work@seq_tb.seq.a
-                  vpiActual: Net name:a
-                Operation start:24:26 end:24:31:
-                  vpiParent: Operation
-                  vpiOpType: unary cycle delay (53)
+                  vpiOpType: binary cycle delay (71)
                   vpiOperand (3 items):
+                    RefObj name:b start:24:24 end:24:25:
+                      vpiParent: Operation
+                      vpiName: b
+                      vpiFullName: work@seq_tb.seq.b
+                      vpiActual: Net name:b
                     Constant start:24:28 end:24:29:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -441,11 +455,6 @@ Design name:unnamed:
                       vpiSize: 32
                       vpiDecompile: "1"
                       vpiValue: 1
-                    RefObj name:b start:24:24 end:24:25:
-                      vpiParent: Operation
-                      vpiName: b
-                      vpiFullName: work@seq_tb.seq.b
-                      vpiActual: Net name:b
                     RefObj name:c start:24:30 end:24:31:
                       vpiParent: Operation
                       vpiName: c
@@ -456,6 +465,11 @@ Design name:unnamed:
           vpiParent: Module name:work@seq_tb
       vpiDefName: work@seq_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@seq_tb
+        vpiName: work
+        vpiFullName: work@seq_tb.work
+      vpiCell: seq_tb
       vpiNet (5 items):
         Net name:a start:17:7 end:17:8:
           vpiParent: Module name:work@seq_tb
@@ -558,288 +572,289 @@ Design name:unnamed:
           vpiStmt Begin start:27:10 end:45:5:
             vpiParent: Initial
             vpiFullName: work@seq_tb
-            vpiStmt (3 items):
+            vpiStmt (1 items):
               ForkStmt start:28:3 end:44:7:
                 vpiParent: Begin
                 vpiFullName: work@seq_tb
-              Begin start:29:4 end:32:7:
-                vpiParent: Begin
-                vpiFullName: work@seq_tb
                 vpiStmt (2 items):
-                  EventControl start:30:5 end:30:16:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:30:10 end:30:15:
-                      vpiParent: EventControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:y start:30:10 end:30:11:
-                        vpiParent: Assignment
-                        vpiName: y
-                        vpiFullName: work@seq_tb.y
-                        vpiActual: Net name:y
-                      vpiRhs Constant start:30:14 end:30:15:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  SysFuncCall name:$display start:31:5 end:31:31:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:31:5 end:31:13:
-                      vpiParent: SysFuncCall name:$display
-                      vpiName: "$display"
-                    vpiArgument (1 items):
-                      Constant start:31:14 end:31:30:
-                        vpiParent: SysFuncCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 112
-                        vpiDecompile: "\":assert:(True)\""
-                        vpiValue: :assert:(True)
-              Begin start:33:4 end:43:7:
-                vpiParent: Begin
-                vpiFullName: work@seq_tb
-                vpiStmt (9 items):
-                  Assignment start:34:5 end:34:10:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:a start:34:5 end:34:6:
-                      vpiParent: Assignment
-                      vpiName: a
-                      vpiFullName: work@seq_tb.a
-                      vpiActual: Net name:a
-                    vpiRhs Constant start:34:9 end:34:10:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                  DelayControl start:35:5 end:35:17:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:35:9 end:35:16:
-                      vpiParent: DelayControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:clk start:35:9 end:35:12:
-                        vpiParent: Assignment
-                        vpiName: clk
-                        vpiFullName: work@seq_tb.clk
-                        vpiActual: Net name:clk
-                      vpiRhs Constant start:35:15 end:35:16:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                    vpiDelay Constant start:35:6 end:35:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "10"
-                      vpiValue: 10
-                  DelayControl start:36:5 end:36:17:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:36:9 end:36:16:
-                      vpiParent: DelayControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:clk start:36:9 end:36:12:
-                        vpiParent: Assignment
-                        vpiName: clk
-                        vpiFullName: work@seq_tb.clk
-                        vpiActual: Net name:clk
-                      vpiRhs Constant start:36:15 end:36:16:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                    vpiDelay Constant start:36:6 end:36:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "10"
-                      vpiValue: 10
-                  Assignment start:37:5 end:37:10:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:b start:37:5 end:37:6:
-                      vpiParent: Assignment
-                      vpiName: b
-                      vpiFullName: work@seq_tb.b
-                      vpiActual: Net name:b
-                    vpiRhs Constant start:37:9 end:37:10:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                  DelayControl start:38:5 end:38:17:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:38:9 end:38:16:
-                      vpiParent: DelayControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:clk start:38:9 end:38:12:
-                        vpiParent: Assignment
-                        vpiName: clk
-                        vpiFullName: work@seq_tb.clk
-                        vpiActual: Net name:clk
-                      vpiRhs Constant start:38:15 end:38:16:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                    vpiDelay Constant start:38:6 end:38:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "10"
-                      vpiValue: 10
-                  DelayControl start:39:5 end:39:17:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:39:9 end:39:16:
-                      vpiParent: DelayControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:clk start:39:9 end:39:12:
-                        vpiParent: Assignment
-                        vpiName: clk
-                        vpiFullName: work@seq_tb.clk
-                        vpiActual: Net name:clk
-                      vpiRhs Constant start:39:15 end:39:16:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                    vpiDelay Constant start:39:6 end:39:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "10"
-                      vpiValue: 10
-                  Assignment start:40:5 end:40:10:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:c start:40:5 end:40:6:
-                      vpiParent: Assignment
-                      vpiName: c
-                      vpiFullName: work@seq_tb.c
-                      vpiActual: Net name:c
-                    vpiRhs Constant start:40:9 end:40:10:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                  DelayControl start:41:5 end:41:17:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:41:9 end:41:16:
-                      vpiParent: DelayControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:clk start:41:9 end:41:12:
-                        vpiParent: Assignment
-                        vpiName: clk
-                        vpiFullName: work@seq_tb.clk
-                        vpiActual: Net name:clk
-                      vpiRhs Constant start:41:15 end:41:16:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                    vpiDelay Constant start:41:6 end:41:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "10"
-                      vpiValue: 10
-                  DelayControl start:42:5 end:42:17:
-                    vpiParent: Begin
-                    vpiStmt Assignment start:42:9 end:42:16:
-                      vpiParent: DelayControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:clk start:42:9 end:42:12:
-                        vpiParent: Assignment
-                        vpiName: clk
-                        vpiFullName: work@seq_tb.clk
-                        vpiActual: Net name:clk
-                      vpiRhs Constant start:42:15 end:42:16:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@seq_tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                    vpiDelay Constant start:42:6 end:42:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@seq_tb
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "10"
-                      vpiValue: 10
+                  Begin start:29:4 end:32:7:
+                    vpiParent: ForkStmt
+                    vpiFullName: work@seq_tb
+                    vpiStmt (2 items):
+                      EventControl start:30:5 end:30:16:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:30:10 end:30:15:
+                          vpiParent: EventControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:y start:30:10 end:30:11:
+                            vpiParent: Assignment
+                            vpiName: y
+                            vpiFullName: work@seq_tb.y
+                            vpiActual: Net name:y
+                          vpiRhs Constant start:30:14 end:30:15:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                      SysFuncCall name:$display start:31:5 end:31:31:
+                        vpiParent: Begin
+                        vpiName Identifier name:$display start:31:5 end:31:13:
+                          vpiParent: SysFuncCall name:$display
+                          vpiName: "$display"
+                        vpiArgument (1 items):
+                          Constant start:31:14 end:31:30:
+                            vpiParent: SysFuncCall name:$display
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 112
+                            vpiDecompile: "\":assert:(True)\""
+                            vpiValue: ":assert:(True)"
+                  Begin start:33:4 end:43:7:
+                    vpiParent: ForkStmt
+                    vpiFullName: work@seq_tb
+                    vpiStmt (9 items):
+                      Assignment start:34:5 end:34:10:
+                        vpiParent: Begin
+                        vpiBlocking: true
+                        vpiLhs RefObj name:a start:34:5 end:34:6:
+                          vpiParent: Assignment
+                          vpiName: a
+                          vpiFullName: work@seq_tb.a
+                          vpiActual: Net name:a
+                        vpiRhs Constant start:34:9 end:34:10:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      DelayControl start:35:5 end:35:17:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:35:9 end:35:16:
+                          vpiParent: DelayControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:clk start:35:9 end:35:12:
+                            vpiParent: Assignment
+                            vpiName: clk
+                            vpiFullName: work@seq_tb.clk
+                            vpiActual: Net name:clk
+                          vpiRhs Constant start:35:15 end:35:16:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                        vpiDelay Constant start:35:6 end:35:8:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                      DelayControl start:36:5 end:36:17:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:36:9 end:36:16:
+                          vpiParent: DelayControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:clk start:36:9 end:36:12:
+                            vpiParent: Assignment
+                            vpiName: clk
+                            vpiFullName: work@seq_tb.clk
+                            vpiActual: Net name:clk
+                          vpiRhs Constant start:36:15 end:36:16:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                        vpiDelay Constant start:36:6 end:36:8:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                      Assignment start:37:5 end:37:10:
+                        vpiParent: Begin
+                        vpiBlocking: true
+                        vpiLhs RefObj name:b start:37:5 end:37:6:
+                          vpiParent: Assignment
+                          vpiName: b
+                          vpiFullName: work@seq_tb.b
+                          vpiActual: Net name:b
+                        vpiRhs Constant start:37:9 end:37:10:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      DelayControl start:38:5 end:38:17:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:38:9 end:38:16:
+                          vpiParent: DelayControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:clk start:38:9 end:38:12:
+                            vpiParent: Assignment
+                            vpiName: clk
+                            vpiFullName: work@seq_tb.clk
+                            vpiActual: Net name:clk
+                          vpiRhs Constant start:38:15 end:38:16:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                        vpiDelay Constant start:38:6 end:38:8:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                      DelayControl start:39:5 end:39:17:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:39:9 end:39:16:
+                          vpiParent: DelayControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:clk start:39:9 end:39:12:
+                            vpiParent: Assignment
+                            vpiName: clk
+                            vpiFullName: work@seq_tb.clk
+                            vpiActual: Net name:clk
+                          vpiRhs Constant start:39:15 end:39:16:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                        vpiDelay Constant start:39:6 end:39:8:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                      Assignment start:40:5 end:40:10:
+                        vpiParent: Begin
+                        vpiBlocking: true
+                        vpiLhs RefObj name:c start:40:5 end:40:6:
+                          vpiParent: Assignment
+                          vpiName: c
+                          vpiFullName: work@seq_tb.c
+                          vpiActual: Net name:c
+                        vpiRhs Constant start:40:9 end:40:10:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      DelayControl start:41:5 end:41:17:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:41:9 end:41:16:
+                          vpiParent: DelayControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:clk start:41:9 end:41:12:
+                            vpiParent: Assignment
+                            vpiName: clk
+                            vpiFullName: work@seq_tb.clk
+                            vpiActual: Net name:clk
+                          vpiRhs Constant start:41:15 end:41:16:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                        vpiDelay Constant start:41:6 end:41:8:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                      DelayControl start:42:5 end:42:17:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:42:9 end:42:16:
+                          vpiParent: DelayControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:clk start:42:9 end:42:12:
+                            vpiParent: Assignment
+                            vpiName: clk
+                            vpiFullName: work@seq_tb.clk
+                            vpiActual: Net name:clk
+                          vpiRhs Constant start:42:15 end:42:16:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@seq_tb
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                        vpiDelay Constant start:42:6 end:42:8:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@seq_tb
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "10"
+                          vpiValue: 10
   vpiTypespec (3 items):
     ModuleTypespec name:work@seq_tb:
       vpiParent: Design name:unnamed
@@ -853,37 +868,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-9/9.4.2.4--event_sequence
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/surelog.uhdm
+      test-name: Google/chapter-9/9.4.2.4--event_sequence
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/lib/work/9.4.2.4--event_sequence.sv'): {'post_len': 0,
-                                                                                                                                                                 'pre_len': 304}},
+            'files': {'$Output/lib/work/9.4.2.4--event_sequence.sv': {'post_len': 0,
+                                                                      'pre_len': 304}},
             'post_len': 0,
             'pre_len': 304,
             'test_name': 'Google/chapter-9/9.4.2.4--event_sequence'}}
 
-+-------------------------------------+----------+-----------+
-| INPUT                               |   PRELEN |   POSTLEN |
-+=====================================+==========+===========+
-| lib/work/9.4.2.4--event_sequence.sv |      304 |         0 |
-+=====================================+==========+===========+
-|                                     |      304 |         0 |
-+-------------------------------------+----------+-----------+
++---------------------------------------------+----------+-----------+
+| INPUT                                       |   PRELEN |   POSTLEN |
++=============================================+==========+===========+
+| $Output/lib/work/9.4.2.4--event_sequence.sv |      304 |         0 |
++=============================================+==========+===========+
+|                                             |      304 |         0 |
++---------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -897,7 +915,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-9/9.4.2.4--event_sequence/sure
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             111     111       0         0
+Others                             112     112       0         0
 ----------------------------------------------------------------
-                                   111     111       0         0
+                                   112     112       0         0
 ===================== END REDUCTION RESULT =====================

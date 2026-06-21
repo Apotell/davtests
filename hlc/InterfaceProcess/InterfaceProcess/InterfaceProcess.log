@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/InterfaceProcess -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 92
 LIB: work
-FILE: ${SURELOG_DIR}/tests/InterfaceProcess/dut.sv
-n<${SURELOG_DIR}/tests/InterfaceProcess/dut.sv> u<91> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<91> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<91> s<89> l<1:1>
   n<> u<89> t<Source_text> p<91> c<71> s<90> l<1:1> el<15:10>
     n<> u<71> t<Description> p<89> c<70> s<88> l<1:1> el<11:13>
@@ -95,21 +104,21 @@ n<${SURELOG_DIR}/tests/InterfaceProcess/dut.sv> u<91> t<Top_level_rule> c<1> l<1
         n<> u<86> t<ENDMODULE> p<87> l<15:1> el<15:10>
   n<// top> u<90> t<LINE_COMMENT> p<91> l<15:11> el<15:17>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/InterfaceProcess/dut.sv:1:1: Compile interface "work@sw_test_status_if".
-[INF:CP0303] ${SURELOG_DIR}/tests/InterfaceProcess/dut.sv:13:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfaceProcess/dut.sv:13:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfaceProcess/dut.sv:1:1: No timescale set for "work@sw_test_status_if".
+[INF:CP0304] $Source01/dut.sv:1:1: Compile interface "work@sw_test_status_if".
+[INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@sw_test_status_if".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/InterfaceProcess/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@sw_test_status_if file:${SURELOG_DIR}/tests/InterfaceProcess/dut.sv start:1:1 end:11:13:
+    Interface name:work@sw_test_status_if file:$Source01/dut.sv start:1:1 end:11:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sw_test_status_if start:1:11 end:1:28:
         vpiParent: Interface name:work@sw_test_status_if
@@ -138,6 +147,11 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Interface name:work@sw_test_status_if
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@sw_test_status_if
+        vpiName: work
+        vpiFullName: work@sw_test_status_if.work
+      vpiCell: sw_test_status_if
       vpiContAssign (1 items):
         ContAssign start:3:10 end:3:27:
           vpiParent: Interface name:work@sw_test_status_if
@@ -155,7 +169,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
       vpiProcess (1 items):
         Initial start:6:3 end:8:6:
           vpiParent: Interface name:work@sw_test_status_if
@@ -183,9 +197,9 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/InterfaceProcess/dut.sv start:13:1 end:15:10:
+    Module name:work@top file:$Source01/dut.sv start:13:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:13:8 end:13:11:
         vpiParent: Module name:work@top
@@ -199,6 +213,11 @@ Design name:unnamed:
             vpiName: work@sw_test_status_if
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:u_sw start:14:22 end:14:26:
           vpiParent: Module name:work@top
@@ -222,37 +241,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: InterfaceProcess/InterfaceProcess
- test-dirpath: ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess
-uhdm-filepath: ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/surelog.uhdm
+      test-name: InterfaceProcess/InterfaceProcess
+   test-dirpath: ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess
+  uhdm-filepath: ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 180}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 180}},
             'post_len': 0,
             'pre_len': 180,
             'test_name': 'InterfaceProcess/InterfaceProcess'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      180 |         0 |
-+=================+==========+===========+
-|                 |      180 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      180 |         0 |
++=========================+==========+===========+
+|                         |      180 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -266,7 +288,7 @@ COMMAND: ${SURELOG_DIR}/regression/InterfaceProcess/InterfaceProcess/surelog.uhd
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    31      31       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

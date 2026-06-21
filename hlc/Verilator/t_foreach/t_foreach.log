@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_foreach/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_foreach.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_foreach
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_foreach.v".
+[INF:PA0201] Parsing source file "$Source01/t_foreach.v".
+[SNT:PA0207] $Source01/t_foreach.v:36:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off LITENDIAN\n   // verilator lint_off WIDTH\n\n   reg [63:0] sum;\n   reg [2:1] [4:3] array [5:6] [7:8];\n   reg [1:2] [3:4] larray [6:5] [8:7];\n   bit [31:0]      depth1_array [0:0];\n\n   function [63:0] crc (input [63:0] sum, input [31:0] a, input [31:0] b, input [31:0] c, input [31:0] d);\n      crc = {sum[62:0],sum[63]} ^ {4'b0,a[7:0], 4'h0,b[7:0], 4'h0,c[7:0], 4'h0,d[7:0]};\n   endfunction\n\n   initial begin\n      sum = 0;\n      // We use 'index_' as the prefix for all loop vars,\n      // this allows t_foreach.pl to confirm that all loops\n      // have been unrolled and flattened away and no loop vars\n      // remain in the generated .cpp\n      foreach (depth1_array[index_a]) begin\n         sum = crc(sum, index_a, 0, 0, 0);\n\n         // Ensure the index never goes out of bounds.\n         // We used to get this wrong for an array of depth 1.\n         assert (index_a != -1);\n         assert (index_a != 1);\n      end\n      do if',
+      do if ((sum) !== (64'h0)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_foreach.v",0, (sum), (64'h0)); $stop; end while(0);;
+         ^-- $Source01/t_foreach.v:36:9:.
+[SNT:PA0207] $Source01/t_foreach.v:22:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_foreach.v:22:3:.
 AST_DEBUG_BEGIN
 Count: 399
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_foreach.v
-n<${SURELOG_DIR}/tests/Verilator/t_foreach.v> u<398> t<Top_level_rule> c<1> l<8:1> el<92:10>
+FILE: f<13>:$Source01/t_foreach.v
+n<$Source01/t_foreach.v> u<398> t<Top_level_rule> c<1> l<8:1> el<92:10>
   n<> u<1> t<Null_rule> p<398> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<398> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<398> s<4> l<2:1> el<2:3>
@@ -402,21 +417,15 @@ n<${SURELOG_DIR}/tests/Verilator/t_foreach.v> u<398> t<Top_level_rule> c<1> l<8:
   n<// We used to get this wrong for an array of depth 1.> u<396> t<LINE_COMMENT> p<398> s<397> l<32:10> el<32:63>
   n<//> u<397> t<LINE_COMMENT> p<398> l<62:7> el<62:9>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_foreach.v:36:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off LITENDIAN\n   // verilator lint_off WIDTH\n\n   reg [63:0] sum;\n   reg [2:1] [4:3] array [5:6] [7:8];\n   reg [1:2] [3:4] larray [6:5] [8:7];\n   bit [31:0]      depth1_array [0:0];\n\n   function [63:0] crc (input [63:0] sum, input [31:0] a, input [31:0] b, input [31:0] c, input [31:0] d);\n      crc = {sum[62:0],sum[63]} ^ {4'b0,a[7:0], 4'h0,b[7:0], 4'h0,c[7:0], 4'h0,d[7:0]};\n   endfunction\n\n   initial begin\n      sum = 0;\n      // We use 'index_' as the prefix for all loop vars,\n      // this allows t_foreach.pl to confirm that all loops\n      // have been unrolled and flattened away and no loop vars\n      // remain in the generated .cpp\n      foreach (depth1_array[index_a]) begin\n         sum = crc(sum, index_a, 0, 0, 0);\n\n         // Ensure the index never goes out of bounds.\n         // We used to get this wrong for an array of depth 1.\n         assert (index_a != -1);\n         assert (index_a != 1);\n      end\n      do if',
-      do if ((sum) !== (64'h0)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "${SURELOG_DIR}/tests/Verilator/t_foreach.v",36, (sum), (64'h0)); $stop; end while(0);;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_foreach.v:36:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_foreach.v:22:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_foreach.v:22:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_foreach.v file:${SURELOG_DIR}/tests/Verilator/t_foreach.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_foreach.v file:$Source01/t_foreach.v:
       vpiParent: Design name:unnamed
       vpiName: t_foreach.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_foreach/lib/work/t_foreach.v"
+      vpiPreprocFile: "$Output/lib/work/t_foreach.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:checkh start:6:1 end:6:165:
           vpiParent: SourceFile name:t_foreach.v
@@ -424,123 +433,123 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 27
       vpiPreprocMacroInstance (9 items):
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:36:7 end:36:26:
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:36:7 end:36:26:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 214
+          vpiSectionEndColumn: 171
           vpiSourceStartLine: 36
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 36
-          vpiSourceEndColumn: 194
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:42:7 end:42:41:
+          vpiSourceEndColumn: 151
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:42:7 end:42:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 42
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 42
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:48:7 end:48:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:48:7 end:48:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 48
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 48
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:54:7 end:54:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:54:7 end:54:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 54
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 54
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:60:7 end:60:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:60:7 end:60:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 60
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 60
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:68:7 end:68:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:68:7 end:68:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 68
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 68
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:75:7 end:75:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:75:7 end:75:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 75
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 75
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:81:7 end:81:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:81:7 end:81:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 81
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 81
-          vpiSourceEndColumn: 224
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:87:7 end:87:41:
+          vpiSourceEndColumn: 181
+        PreprocMacroInstance name:checkh file:$Source01/t_foreach.v start:87:7 end:87:41:
           vpiParent: SourceFile name:t_foreach.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 244
+          vpiSectionEndColumn: 201
           vpiSourceStartLine: 87
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 87
-          vpiSourceEndColumn: 224
+          vpiSourceEndColumn: 181
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:8:1 end:8:1:
+    Module file:$Source01/t_foreach.v start:8:1 end:8:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_foreach.v start:8:1 end:8:7:
+    Module file:$Source01/t_foreach.v start:8:1 end:8:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-  vpiTypespec (10 items):
+  vpiTypespec (15 items):
     ModuleTypespec:
       vpiParent: Design name:unnamed
       vpiModule: Module
@@ -618,6 +627,58 @@ Design name:unnamed:
             vpiDecompile: "3"
             vpiValue: 3
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:14:26 end:14:31:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:14:27 end:14:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "5"
+          vpiValue: 5
+        vpiRightRange Constant start:14:29 end:14:30:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "6"
+          vpiValue: 6
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:14:32 end:14:37:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:14:33 end:14:34:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "7"
+          vpiValue: 7
+        vpiRightRange Constant start:14:35 end:14:36:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "8"
+          vpiValue: 8
+      vpiElemTypespec RefTypespec start:14:4 end:14:19:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (2 items):
@@ -662,6 +723,58 @@ Design name:unnamed:
             vpiDecompile: "4"
             vpiValue: 4
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:15:27 end:15:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:15:28 end:15:29:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "6"
+          vpiValue: 6
+        vpiRightRange Constant start:15:30 end:15:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "5"
+          vpiValue: 5
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:15:33 end:15:38:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:15:34 end:15:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "8"
+          vpiValue: 8
+        vpiRightRange Constant start:15:36 end:15:37:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "7"
+          vpiValue: 7
+      vpiElemTypespec RefTypespec start:15:4 end:15:19:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     UnsupportedTypespec name:bit start:16:4 end:16:7:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bit:
@@ -696,6 +809,34 @@ Design name:unnamed:
         vpiName: bit
         vpiFullName: bit
         vpiActual: UnsupportedTypespec name:bit
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:16:33 end:16:38:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:16:34 end:16:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+        vpiRightRange Constant start:16:36 end:16:37:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec name:bit start:16:4 end:16:14:
+        vpiParent: ArrayTypespec
+        vpiName: bit
+        vpiFullName: bit
+        vpiActual: ArrayTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
     IntTypespec:
@@ -985,7 +1126,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
                 PartSelect name:a[7:0] start:19:41 end:19:47:
                   vpiParent: Operation
                   vpiName: a[7:0]
@@ -1026,7 +1167,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
                   vpiDecompile: "4'h0"
-                  vpiValue: 0
+                  vpiValue: "0"
                 PartSelect name:b[7:0] start:19:54 end:19:60:
                   vpiParent: Operation
                   vpiName: b[7:0]
@@ -1067,7 +1208,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
                   vpiDecompile: "4'h0"
-                  vpiValue: 0
+                  vpiValue: "0"
                 PartSelect name:c[7:0] start:19:67 end:19:73:
                   vpiParent: Operation
                   vpiName: c[7:0]
@@ -1108,7 +1249,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
                   vpiDecompile: "4'h0"
-                  vpiValue: 0
+                  vpiValue: "0"
                 PartSelect name:d[7:0] start:19:80 end:19:86:
                   vpiParent: Operation
                   vpiName: d[7:0]
@@ -1145,40 +1286,43 @@ Design name:unnamed:
         vpiFullName: crc
         vpiActual: LogicTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_foreach
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_foreach
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_foreach/surelog.uhdm
+      test-name: Verilator/t_foreach
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_foreach
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_foreach/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_foreach/mounts.json
 
 
-{'result': {'coverage': 32.05,
+{'result': {'coverage': 37.04,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_foreach/lib/work/t_foreach.v'): {'post_len': 2226,
-                                                                                                                             'pre_len': 3276}},
-            'post_len': 2226,
-            'pre_len': 3276,
+            'files': {'$Output/lib/work/t_foreach.v': {'post_len': 1819,
+                                                       'pre_len': 2889}},
+            'post_len': 1819,
+            'pre_len': 2889,
             'test_name': 'Verilator/t_foreach'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_foreach.v |     3276 |      2226 |
-+======================+==========+===========+
-|                      |     3276 |      2226 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_foreach.v |     2889 |      1819 |
++==============================+==========+===========+
+|                              |     2889 |      1819 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 32.05
+[COVERAGE] : 37.04
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1189,7 +1333,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_foreach/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             157     157       0         0
+Others                             192     192       0         0
 ----------------------------------------------------------------
-                                   157     157       0         0
+                                   192     192       0         0
 ===================== END REDUCTION RESULT =====================

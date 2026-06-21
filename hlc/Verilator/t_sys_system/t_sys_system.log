@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_sys_system/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_sys_system.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_sys_system
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_sys_system.v".
+[INF:PA0201] Parsing source file "$Source01/t_sys_system.v".
 AST_DEBUG_BEGIN
 Count: 226
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_sys_system.v
-n<${SURELOG_DIR}/tests/Verilator/t_sys_system.v> u<225> t<Top_level_rule> c<1> l<6:1> el<34:1>
+FILE: f<13>:$Source01/t_sys_system.v
+n<$Source01/t_sys_system.v> u<225> t<Top_level_rule> c<1> l<6:1> el<34:1>
   n<> u<1> t<Null_rule> p<225> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<225> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<225> s<4> l<2:1> el<2:3>
@@ -229,19 +238,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_sys_system.v> u<225> t<Top_level_rule> c<1> l
                         n<> u<212> t<END> p<213> l<31:4> el<31:7>
         n<> u<221> t<ENDMODULE> p<222> l<33:1> el<33:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_sys_system.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_sys_system.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_sys_system.v file:${SURELOG_DIR}/tests/Verilator/t_sys_system.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_sys_system.v file:$Source01/t_sys_system.v:
       vpiParent: Design name:unnamed
       vpiName: t_sys_system.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_sys_system/lib/work/t_sys_system.v"
+      vpiPreprocFile: "$Output/lib/work/t_sys_system.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_sys_system.v start:6:1 end:33:10:
+    Module name:work@t file:$Source01/t_sys_system.v start:6:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -253,6 +262,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:i start:8:12 end:8:13:
           vpiParent: Module name:work@t
@@ -471,7 +485,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:30:7 end:30:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:30:7 end:30:14:
@@ -490,37 +504,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_sys_system
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sys_system
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sys_system/surelog.uhdm
+      test-name: Verilator/t_sys_system
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sys_system
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sys_system/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_sys_system/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_sys_system/lib/work/t_sys_system.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 260}},
+            'files': {'$Output/lib/work/t_sys_system.v': {'post_len': 0,
+                                                          'pre_len': 260}},
             'post_len': 0,
             'pre_len': 260,
             'test_name': 'Verilator/t_sys_system'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_sys_system.v |      260 |         0 |
-+=========================+==========+===========+
-|                         |      260 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_sys_system.v |      260 |         0 |
++=================================+==========+===========+
+|                                 |      260 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -534,7 +551,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_sys_system/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              69      69       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    69      69       0         0
 ===================== END REDUCTION RESULT =====================

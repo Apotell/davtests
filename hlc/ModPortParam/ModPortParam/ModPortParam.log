@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ModPortParam/ModPortParam/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ModPortParam -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ModPortParam/ModPortParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 71
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ModPortParam/dut.sv
-n<${SURELOG_DIR}/tests/ModPortParam/dut.sv> u<70> t<Top_level_rule> c<1> l<1:1> el<18:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<70> t<Top_level_rule> c<1> l<1:1> el<18:1>
   n<> u<1> t<Null_rule> p<70> s<69> l<1:1>
   n<> u<69> t<Source_text> p<70> c<20> l<1:1> el<17:10>
     n<> u<20> t<Description> p<69> c<19> s<35> l<1:1> el<6:13>
@@ -74,30 +83,35 @@ n<${SURELOG_DIR}/tests/ModPortParam/dut.sv> u<70> t<Top_level_rule> c<1> l<1:1> 
                             n<perfCounterIF> u<55> t<SIMPLE_IDENTIFIER> p<56> l<16:19> el<16:32>
         n<> u<66> t<ENDMODULE> p<67> l<17:1> el<17:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:1:1: Compile interface "work@PerformanceCounterIF".
-[ERR:CP0311] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:4:9: Undefined net used in modport: "perfCounter".
-[INF:CP0303] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:8:1: Compile module "work@CSR_Unit".
-[INF:CP0303] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:13:1: Compile module "work@Core".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:8:1: No timescale set for "work@CSR_Unit".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:13:1: No timescale set for "work@Core".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ModPortParam/dut.sv:1:1: No timescale set for "work@PerformanceCounterIF".
+[INF:CP0304] $Source01/dut.sv:1:1: Compile interface "work@PerformanceCounterIF".
+[ERR:CP0311] $Source01/dut.sv:4:9: Undefined net used in modport: "perfCounter".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@CSR_Unit".
+[INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@Core".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@CSR_Unit".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@Core".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@PerformanceCounterIF".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ModPortParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ModPortParam/ModPortParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@PerformanceCounterIF file:${SURELOG_DIR}/tests/ModPortParam/dut.sv start:1:1 end:6:13:
+    Interface name:work@PerformanceCounterIF file:$Source01/dut.sv start:1:1 end:6:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@PerformanceCounterIF start:1:11 end:1:31:
         vpiParent: Interface name:work@PerformanceCounterIF
         vpiName: work@PerformanceCounterIF
       vpiFullName: work@PerformanceCounterIF
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@PerformanceCounterIF
+        vpiName: work
+        vpiFullName: work@PerformanceCounterIF.work
+      vpiCell: PerformanceCounterIF
       vpiModport (1 items):
         Modport name:CSR start:2:13 end:2:16:
           vpiParent: Interface name:work@PerformanceCounterIF
@@ -114,7 +128,7 @@ Design name:unnamed:
                 vpiFullName: work@PerformanceCounterIF.CSR.perfCounter
           vpiInterface: Interface name:work@PerformanceCounterIF
   vpiAllModules (2 items):
-    Module name:work@CSR_Unit file:${SURELOG_DIR}/tests/ModPortParam/dut.sv start:8:1 end:11:10:
+    Module name:work@CSR_Unit file:$Source01/dut.sv start:8:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@CSR_Unit start:8:8 end:8:16:
         vpiParent: Module name:work@CSR_Unit
@@ -122,6 +136,11 @@ Design name:unnamed:
       vpiFullName: work@CSR_Unit
       vpiDefName: work@CSR_Unit
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@CSR_Unit
+        vpiName: work
+        vpiFullName: work@CSR_Unit.work
+      vpiCell: CSR_Unit
       vpiNet (1 items):
         Net name:perfCounter start:9:30 end:9:41:
           vpiParent: Module name:work@CSR_Unit
@@ -150,7 +169,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:PerformanceCounterIF.CSR
               vpiName: PerformanceCounterIF.CSR
               vpiFullName: work@CSR_Unit.perfCounter.PerformanceCounterIF.CSR.PerformanceCounterIF.CSR
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:PerformanceCounterIF start:9:5 end:9:25:
                   vpiParent: HierPath name:PerformanceCounterIF.CSR
                   vpiName: PerformanceCounterIF
@@ -161,7 +180,7 @@ Design name:unnamed:
                   vpiName: CSR
                   vpiFullName: work@CSR_Unit.perfCounter.PerformanceCounterIF.CSR.CSR
                   vpiActual: Modport name:CSR
-    Module name:work@Core file:${SURELOG_DIR}/tests/ModPortParam/dut.sv start:13:1 end:17:10:
+    Module name:work@Core file:$Source01/dut.sv start:13:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Core start:13:8 end:13:12:
         vpiParent: Module name:work@Core
@@ -180,6 +199,11 @@ Design name:unnamed:
             vpiName: work@CSR_Unit
       vpiDefName: work@Core
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Core
+        vpiName: work
+        vpiFullName: work@Core.work
+      vpiCell: Core
       vpiRefInstance (2 items):
         RefInstance name:perfCounterIF start:14:23 end:14:36:
           vpiParent: Module name:work@Core
@@ -228,37 +252,40 @@ Design name:unnamed:
         vpiName: work@Core
       vpiModule: Module name:work@Core
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ModPortParam/ModPortParam
- test-dirpath: ${SURELOG_DIR}/regression/ModPortParam/ModPortParam
-uhdm-filepath: ${SURELOG_DIR}/regression/ModPortParam/ModPortParam/surelog.uhdm
+      test-name: ModPortParam/ModPortParam
+   test-dirpath: ${SURELOG_DIR}/regression/ModPortParam/ModPortParam
+  uhdm-filepath: ${SURELOG_DIR}/regression/ModPortParam/ModPortParam/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ModPortParam/ModPortParam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ModPortParam/ModPortParam/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 233}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 233}},
             'post_len': 0,
             'pre_len': 233,
             'test_name': 'ModPortParam/ModPortParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      233 |         0 |
-+=================+==========+===========+
-|                 |      233 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      233 |         0 |
++=========================+==========+===========+
+|                         |      233 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -272,7 +299,7 @@ COMMAND: ${SURELOG_DIR}/regression/ModPortParam/ModPortParam/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

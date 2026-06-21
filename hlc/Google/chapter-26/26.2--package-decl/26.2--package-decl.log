@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-26 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 26.2--package-decl.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/26.2--package-decl.sv".
+[INF:PA0201] Parsing source file "$Source01/26.2--package-decl.sv".
 AST_DEBUG_BEGIN
 Count: 60
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv
-n<${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv> u<59> t<Top_level_rule> c<1> l<15:1> el<26:1>
+FILE: f<14>:$Source01/26.2--package-decl.sv
+n<$Source01/26.2--package-decl.sv> u<59> t<Top_level_rule> c<1> l<15:1> el<26:1>
   n<> u<1> t<Null_rule> p<59> s<2> l<15:1> el<15:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<59> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<59> s<4> l<2:1> el<2:3>
@@ -63,22 +72,20 @@ n<${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv> u<59> t<Top_leve
         n<> u<55> t<ENDPACKAGE> p<56> s<54> l<25:1> el<25:11>
         n<mypkg> u<54> t<SIMPLE_IDENTIFIER> p<56> l<25:14> el<25:19>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv:15:1: Compile module "work@top".
-[INF:CP0301] ${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv:19:1: Compile package "work@mypkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv:19:1: Unmached label "work@mypkg",
-             ${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv:25:14: closing label "mypkg".
+[INF:CP0303] $Source01/26.2--package-decl.sv:15:1: Compile module "work@top".
+[INF:CP0301] $Source01/26.2--package-decl.sv:19:1: Compile package "work@mypkg".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:26.2--package-decl.sv file:${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:26.2--package-decl.sv file:$Source01/26.2--package-decl.sv:
       vpiParent: Design name:unnamed
       vpiName: "26.2--package-decl.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/lib/work/26.2--package-decl.sv"
+      vpiPreprocFile: "$Output/lib/work/26.2--package-decl.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@mypkg file:${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv start:19:1 end:25:19:
+    Package name:work@mypkg file:$Source01/26.2--package-decl.sv start:19:1 end:25:19:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@mypkg start:19:9 end:19:14:
         vpiParent: Package name:work@mypkg
@@ -86,6 +93,11 @@ Design name:unnamed:
       vpiFullName: work@mypkg
       vpiDefName: work@mypkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@mypkg
+        vpiName: work
+        vpiFullName: work@mypkg::work
+      vpiCell: mypkg
       vpiTaskFunc (1 items):
         Function name:add start:21:1 end:23:12:
           vpiParent: Package name:work@mypkg
@@ -138,7 +150,7 @@ Design name:unnamed:
         vpiParent: Package name:work@mypkg
         vpiName: mypkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-26/26.2--package-decl.sv start:15:1 end:17:10:
+    Module name:work@top file:$Source01/26.2--package-decl.sv start:15:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:15:8 end:15:11:
         vpiParent: Module name:work@top
@@ -146,6 +158,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -157,37 +174,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-26/26.2--package-decl
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/surelog.uhdm
+      test-name: Google/chapter-26/26.2--package-decl
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/lib/work/26.2--package-decl.sv'): {'post_len': 0,
-                                                                                                                                                        'pre_len': 105}},
+            'files': {'$Output/lib/work/26.2--package-decl.sv': {'post_len': 0,
+                                                                 'pre_len': 105}},
             'post_len': 0,
             'pre_len': 105,
             'test_name': 'Google/chapter-26/26.2--package-decl'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/26.2--package-decl.sv |      105 |         0 |
-+================================+==========+===========+
-|                                |      105 |         0 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/26.2--package-decl.sv |      105 |         0 |
++========================================+==========+===========+
+|                                        |      105 |         0 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -201,7 +221,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-26/26.2--package-decl/surelog.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

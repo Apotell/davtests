@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../../tests/Google/chapter-7/arrays/associative -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin alloc.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/alloc.sv".
+[INF:PA0201] Parsing source file "$Source01/alloc.sv".
 AST_DEBUG_BEGIN
 Count: 107
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv
-n<${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv> u<106> t<Top_level_rule> c<1> l<16:1> el<27:1>
+FILE: f<14>:$Source01/alloc.sv
+n<$Source01/alloc.sv> u<106> t<Top_level_rule> c<1> l<16:1> el<27:1>
   n<> u<1> t<Null_rule> p<106> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<106> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<106> s<4> l<2:1> el<2:3>
@@ -110,21 +119,21 @@ n<${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv> u<106> t<To
                           n<> u<92> t<END> p<93> l<24:1> el<24:4>
         n<> u<102> t<ENDMODULE> p<103> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv:16:1: Compile module "work@top".
+[INF:CP0303] $Source01/alloc.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv:21:37: Illegal implicit net "id:21, name:size".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv:23:37: Illegal implicit net "id:38, name:size".
+[ERR:EL0535] $Source01/alloc.sv:21:37: Illegal implicit net "id:22, name:size".
+[ERR:EL0535] $Source01/alloc.sv:23:37: Illegal implicit net "id:39, name:size".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:alloc.sv file:${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:alloc.sv file:$Source01/alloc.sv:
       vpiParent: Design name:unnamed
       vpiName: alloc.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/lib/work/alloc.sv"
+      vpiPreprocFile: "$Output/lib/work/alloc.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-7/arrays/associative/alloc.sv start:16:1 end:26:10:
+    Module name:work@top file:$Source01/alloc.sv start:16:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -144,6 +153,11 @@ Design name:unnamed:
             vpiActual: IntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:arr start:18:5 end:18:8:
           vpiParent: Module name:work@top
@@ -175,12 +189,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 0)\""
-                    vpiValue: :assert: (%d == 0)
+                    vpiValue: ":assert: (%d == 0)"
                   HierPath name:arr.size start:21:33 end:21:41:
                     vpiParent: SysFuncCall name:$display
                     vpiName: arr.size
                     vpiFullName: work@top.arr.size
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:arr start:21:33 end:21:36:
                         vpiParent: HierPath name:arr.size
                         vpiName: arr
@@ -237,12 +251,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 1)\""
-                    vpiValue: :assert: (%d == 1)
+                    vpiValue: ":assert: (%d == 1)"
                   HierPath name:arr.size start:23:33 end:23:41:
                     vpiParent: SysFuncCall name:$display
                     vpiName: arr.size
                     vpiFullName: work@top.arr.size
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:arr start:23:33 end:23:36:
                         vpiParent: HierPath name:arr.size
                         vpiName: arr
@@ -265,37 +279,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-7/arrays/associative/alloc
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/surelog.uhdm
+      test-name: Google/chapter-7/arrays/associative/alloc
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/lib/work/alloc.sv'): {'post_len': 0,
-                                                                                                                                                'pre_len': 150}},
+            'files': {'$Output/lib/work/alloc.sv': {'post_len': 0,
+                                                    'pre_len': 150}},
             'post_len': 0,
             'pre_len': 150,
             'test_name': 'Google/chapter-7/arrays/associative/alloc'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/alloc.sv |      150 |         0 |
-+===================+==========+===========+
-|                   |      150 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/alloc.sv |      150 |         0 |
++===========================+==========+===========+
+|                           |      150 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -309,7 +326,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/associative/alloc/sur
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    37      37       0         0
 ===================== END REDUCTION RESULT =====================

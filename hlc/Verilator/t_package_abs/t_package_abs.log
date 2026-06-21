@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_package_abs/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_package_abs.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_package_abs
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_package_abs.v".
+[INF:PA0201] Parsing source file "$Source01/t_package_abs.v".
 AST_DEBUG_BEGIN
 Count: 312
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_package_abs.v
-n<${SURELOG_DIR}/tests/Verilator/t_package_abs.v> u<311> t<Top_level_rule> c<1> l<8:1> el<33:1>
+FILE: f<13>:$Source01/t_package_abs.v
+n<$Source01/t_package_abs.v> u<311> t<Top_level_rule> c<1> l<8:1> el<33:1>
   n<> u<1> t<Null_rule> p<311> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<311> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<311> s<4> l<2:1> el<2:3>
@@ -315,20 +324,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_package_abs.v> u<311> t<Top_level_rule> c<1> 
               n<> u<303> t<ENDGENERATE> p<304> l<31:4> el<31:15>
         n<> u<307> t<ENDMODULE> p<308> l<32:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/Verilator/t_package_abs.v:8:1: Compile package "work@functions".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_package_abs.v:17:1: Compile module "work@t".
+[INF:CP0301] $Source01/t_package_abs.v:8:1: Compile package "work@functions".
+[INF:CP0303] $Source01/t_package_abs.v:17:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_package_abs.v file:${SURELOG_DIR}/tests/Verilator/t_package_abs.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_package_abs.v file:$Source01/t_package_abs.v:
       vpiParent: Design name:unnamed
       vpiName: t_package_abs.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_package_abs/lib/work/t_package_abs.v"
+      vpiPreprocFile: "$Output/lib/work/t_package_abs.v"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@functions file:${SURELOG_DIR}/tests/Verilator/t_package_abs.v start:8:1 end:15:11:
+    Package name:work@functions file:$Source01/t_package_abs.v start:8:1 end:15:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@functions start:8:9 end:8:18:
         vpiParent: Package name:work@functions
@@ -336,6 +345,11 @@ Design name:unnamed:
       vpiFullName: work@functions
       vpiDefName: work@functions
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@functions
+        vpiName: work
+        vpiFullName: work@functions::work
+      vpiCell: functions
       vpiTaskFunc (2 items):
         Function name:abs start:9:4 end:11:15:
           vpiParent: Package name:work@functions
@@ -440,7 +454,7 @@ Design name:unnamed:
             vpiFullName: work@functions::neg
             vpiActual: RealTypespec
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_package_abs.v start:17:1 end:32:10:
+    Module name:work@t file:$Source01/t_package_abs.v start:17:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:17:8 end:17:9:
         vpiParent: Module name:work@t
@@ -484,6 +498,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiGenStmt (1 items):
         GenRegion start:20:4 end:31:15:
           vpiParent: Module name:work@t
@@ -698,7 +717,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:28:6 end:28:13:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:28:6 end:28:13:
@@ -719,37 +738,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_package_abs
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_package_abs
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_abs/surelog.uhdm
+      test-name: Verilator/t_package_abs
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_package_abs
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_abs/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_abs/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_package_abs/lib/work/t_package_abs.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 419}},
+            'files': {'$Output/lib/work/t_package_abs.v': {'post_len': 0,
+                                                           'pre_len': 419}},
             'post_len': 0,
             'pre_len': 419,
             'test_name': 'Verilator/t_package_abs'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_package_abs.v |      419 |         0 |
-+==========================+==========+===========+
-|                          |      419 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_package_abs.v |      419 |         0 |
++==================================+==========+===========+
+|                                  |      419 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -764,10 +786,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      12       5         5
 Operation                           13       8       0         5
-RefObj                               7       6       0         1
+RefObj                               9       8       0         1
 RefTypespec                         17      17       5         5
 ----------------------------------------------------------------
 Others                              55      55       0         0
 ----------------------------------------------------------------
-                                   104      98      10        16
+                                   106     100      10        16
 ===================== END REDUCTION RESULT =====================

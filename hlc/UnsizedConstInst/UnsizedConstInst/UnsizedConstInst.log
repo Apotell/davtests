@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UnsizedConstInst -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 135
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv
-n<${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv> u<134> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<134> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<134> s<133> l<1:1>
   n<> u<133> t<Source_text> p<134> c<84> l<1:1> el<12:10>
     n<> u<84> t<Description> p<133> c<83> s<132> l<1:1> el<7:10>
@@ -138,25 +147,25 @@ n<${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv> u<134> t<Top_level_rule> c<1> l<
                     n<> u<123> t<Ordered_port_connection> p<124> l<11:22> el<11:22>
         n<> u<130> t<ENDMODULE> p<131> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:1:1: Compile module "work@bottom".
-[INF:CP0303] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:9:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:9:1: Multiply defined typedef "work@bottom".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:1:1: No timescale set for "work@bottom".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:9:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:5:10: Illegal implicit net "id:29, name:p".
-[ERR:EL0535] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:10:13: Illegal implicit net "id:48, name:P".
-[ERR:EL0535] ${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:11:13: Illegal implicit net "id:57, name:P".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@bottom".
+[INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:9:1: Multiply defined typedef "work@bottom".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@bottom".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:5:10: Illegal implicit net "id:31, name:p".
+[ERR:EL0535] $Source01/dut.sv:10:13: Illegal implicit net "id:50, name:P".
+[ERR:EL0535] $Source01/dut.sv:11:13: Illegal implicit net "id:59, name:P".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@bottom file:${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv start:1:1 end:7:10:
+    Module name:work@bottom file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bottom start:1:8 end:1:14:
         vpiParent: Module name:work@bottom
@@ -225,6 +234,11 @@ Design name:unnamed:
           vpiParent: Module name:work@bottom
       vpiDefName: work@bottom
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bottom
+        vpiName: work
+        vpiFullName: work@bottom.work
+      vpiCell: bottom
       vpiNet (1 items):
         Net name:product_exponent start:3:9 end:3:25:
           vpiParent: Module name:work@bottom
@@ -280,8 +294,8 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "'1"
-                vpiValue: 1
-    Module name:work@top file:${SURELOG_DIR}/tests/UnsizedConstInst/dut.sv start:9:1 end:12:10:
+                vpiValue: "1"
+    Module name:work@top file:$Source01/dut.sv start:9:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:9:8 end:9:11:
         vpiParent: Module name:work@top
@@ -300,6 +314,11 @@ Design name:unnamed:
             vpiName: work@bottom
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (2 items):
         RefInstance name:u1 start:10:19 end:10:21:
           vpiParent: Module name:work@top
@@ -370,37 +389,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UnsizedConstInst/UnsizedConstInst
- test-dirpath: ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst
-uhdm-filepath: ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/surelog.uhdm
+      test-name: UnsizedConstInst/UnsizedConstInst
+   test-dirpath: ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst
+  uhdm-filepath: ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 173}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 173}},
             'post_len': 0,
             'pre_len': 173,
             'test_name': 'UnsizedConstInst/UnsizedConstInst'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      173 |         0 |
-+=================+==========+===========+
-|                 |      173 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      173 |         0 |
++=========================+==========+===========+
+|                         |      173 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -414,7 +436,7 @@ COMMAND: ${SURELOG_DIR}/regression/UnsizedConstInst/UnsizedConstInst/surelog.uhd
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

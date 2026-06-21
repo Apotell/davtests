@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_public/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_public.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_public
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_public.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_public.v".
 AST_DEBUG_BEGIN
 Count: 1655
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_public.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_public.v> u<1654> t<Top_level_rule> c<1> l<6:1> el<229:1>
+FILE: f<13>:$Source01/t_func_public.v
+n<$Source01/t_func_public.v> u<1654> t<Top_level_rule> c<1> l<6:1> el<229:1>
   n<> u<1> t<Null_rule> p<1654> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<1654> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<1654> s<4> l<2:1> el<2:3>
@@ -1658,23 +1667,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_public.v> u<1654> t<Top_level_rule> c<1>
                       n<> u<1642> t<ENDFUNCTION> p<1643> l<219:4> el<219:15>
         n<> u<1650> t<ENDMODULE> p<1651> l<228:1> el<228:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_public.v:6:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_func_public.v:6:1: Multiply defined typedef "work@tpub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_public.v:36:1: Compile module "work@tpub".
+[INF:CP0303] $Source01/t_func_public.v:6:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_func_public.v:6:1: Multiply defined typedef "work@tpub".
+[INF:CP0303] $Source01/t_func_public.v:36:1: Compile module "work@tpub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_func_public.v:9:25: Illegal implicit net "id:22, name:i".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_func_public.v:10:25: Illegal implicit net "id:34, name:i".
+[ERR:EL0535] $Source01/t_func_public.v:9:25: Illegal implicit net "id:24, name:i".
+[ERR:EL0535] $Source01/t_func_public.v:10:25: Illegal implicit net "id:36, name:i".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_public.v file:${SURELOG_DIR}/tests/Verilator/t_func_public.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_public.v file:$Source01/t_func_public.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_public.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_public/lib/work/t_func_public.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_public.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_public.v start:6:1 end:34:10:
+    Module name:work@t file:$Source01/t_func_public.v start:6:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -1698,6 +1707,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiTaskFunc (1 items):
         Task name:publicTop start:28:4 end:32:11:
           vpiParent: Module name:work@t
@@ -1705,26 +1719,22 @@ Design name:unnamed:
             vpiParent: Task name:publicTop
             vpiName: publicTop
           vpiFullName: work@t.publicTop
-          vpiStmt Begin:
+          vpiStmt SysFuncCall name:$write start:31:7 end:31:37:
             vpiParent: Task name:publicTop
-            vpiFullName: work@t.publicTop
-            vpiStmt (1 items):
-              SysFuncCall name:$write start:31:7 end:31:37:
-                vpiParent: Begin
-                vpiName Identifier name:$write start:31:7 end:31:13:
-                  vpiParent: SysFuncCall name:$write
-                  vpiName: "$write"
-                vpiArgument (1 items):
-                  Constant start:31:14 end:31:36:
-                    vpiParent: SysFuncCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@t.publicTop
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 160
-                    vpiDecompile: "\"Hello in publicTop\\n\""
-                    vpiValue: Hello in publicTop\n
+            vpiName Identifier name:$write start:31:7 end:31:13:
+              vpiParent: SysFuncCall name:$write
+              vpiName: "$write"
+            vpiArgument (1 items):
+              Constant start:31:14 end:31:36:
+                vpiParent: SysFuncCall name:$write
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@t.publicTop
+                  vpiActual: StringTypespec
+                vpiConstType: string (6)
+                vpiSize: 160
+                vpiDecompile: "\"Hello in publicTop\\n\""
+                vpiValue: Hello in publicTop\n
       vpiNet (2 items):
         Net name:clk start:7:10 end:7:13:
           vpiParent: Module name:work@t
@@ -1909,7 +1919,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:23:6 end:23:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:23:6 end:23:13:
@@ -1953,7 +1963,7 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 32
                 vpiDecompile: "32'd1"
-                vpiValue: 1
+                vpiValue: "1"
         RefInstance name:p2 start:10:9 end:10:11:
           vpiParent: Module name:work@t
           vpiName: p2
@@ -1990,8 +2000,8 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 32
                 vpiDecompile: "32'd2"
-                vpiValue: 2
-    Module name:work@tpub file:${SURELOG_DIR}/tests/Verilator/t_func_public.v start:36:1 end:228:10:
+                vpiValue: "2"
+    Module name:work@tpub file:$Source01/t_func_public.v start:36:1 end:228:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tpub start:36:8 end:36:12:
         vpiParent: Module name:work@tpub
@@ -2213,6 +2223,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@tpub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tpub
+        vpiName: work
+        vpiFullName: work@tpub.work
+      vpiCell: tpub
       vpiTaskFunc (15 items):
         Task name:publicEmpty start:117:4 end:120:11:
           vpiParent: Module name:work@tpub
@@ -2220,39 +2235,31 @@ Design name:unnamed:
             vpiParent: Task name:publicEmpty
             vpiName: publicEmpty
           vpiFullName: work@tpub.publicEmpty
-          vpiStmt Begin:
+          vpiStmt Begin start:119:7 end:119:16:
             vpiParent: Task name:publicEmpty
             vpiFullName: work@tpub.publicEmpty
-            vpiStmt (1 items):
-              Begin start:119:7 end:119:16:
-                vpiParent: Begin
-                vpiFullName: work@tpub.publicEmpty
         Task name:publicNoArgs start:122:4 end:125:11:
           vpiParent: Module name:work@tpub
           vpiName Identifier name:publicNoArgs start:122:9 end:122:21:
             vpiParent: Task name:publicNoArgs
             vpiName: publicNoArgs
           vpiFullName: work@tpub.publicNoArgs
-          vpiStmt Begin:
+          vpiStmt SysFuncCall name:$write start:124:7 end:124:40:
             vpiParent: Task name:publicNoArgs
-            vpiFullName: work@tpub.publicNoArgs
-            vpiStmt (1 items):
-              SysFuncCall name:$write start:124:7 end:124:40:
-                vpiParent: Begin
-                vpiName Identifier name:$write start:124:7 end:124:13:
-                  vpiParent: SysFuncCall name:$write
-                  vpiName: "$write"
-                vpiArgument (1 items):
-                  Constant start:124:14 end:124:39:
-                    vpiParent: SysFuncCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@tpub.publicNoArgs
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 184
-                    vpiDecompile: "\"Hello in publicNoArgs\\n\""
-                    vpiValue: Hello in publicNoArgs\n
+            vpiName Identifier name:$write start:124:7 end:124:13:
+              vpiParent: SysFuncCall name:$write
+              vpiName: "$write"
+            vpiArgument (1 items):
+              Constant start:124:14 end:124:39:
+                vpiParent: SysFuncCall name:$write
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@tpub.publicNoArgs
+                  vpiActual: StringTypespec
+                vpiConstType: string (6)
+                vpiSize: 184
+                vpiDecompile: "\"Hello in publicNoArgs\\n\""
+                vpiValue: Hello in publicNoArgs\n
         Task name:publicSetBool start:127:4 end:131:11:
           vpiParent: Module name:work@tpub
           vpiName Identifier name:publicSetBool start:127:9 end:127:22:
@@ -3541,7 +3548,7 @@ Design name:unnamed:
                                   vpiConstType: binary (3)
                                   vpiSize: 1
                                   vpiDecompile: "1'b1"
-                                  vpiValue: 1
+                                  vpiValue: "1"
                             FuncCall name:publicSetLong start:62:6 end:62:29:
                               vpiParent: Begin
                               vpiName Identifier name:publicSetLong start:62:6 end:62:19:
@@ -3573,7 +3580,7 @@ Design name:unnamed:
                                   vpiConstType: hexadecimal (5)
                                   vpiSize: 60
                                   vpiDecompile: "60'h444433332222"
-                                  vpiValue: 444433332222
+                                  vpiValue: "444433332222"
                             FuncCall name:publicSetWide start:64:6 end:64:47:
                               vpiParent: Begin
                               vpiName Identifier name:publicSetWide start:64:6 end:64:19:
@@ -3589,7 +3596,7 @@ Design name:unnamed:
                                   vpiConstType: hexadecimal (5)
                                   vpiSize: 72
                                   vpiDecompile: "72'h125678912312452352"
-                                  vpiValue: 125678912312452352
+                                  vpiValue: "125678912312452352"
                             Assignment start:65:6 end:65:25:
                               vpiParent: Begin
                               vpiLhs RefObj name:var_flop start:65:6 end:65:14:
@@ -3650,7 +3657,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "1'b1"
-                                    vpiValue: 1
+                                    vpiValue: "1"
                                   FuncCall name:publicGetSetBool start:68:18 end:68:40:
                                     vpiParent: Operation
                                     vpiName Identifier name:publicGetSetBool start:68:18 end:68:34:
@@ -3666,7 +3673,7 @@ Design name:unnamed:
                                         vpiConstType: binary (3)
                                         vpiSize: 1
                                         vpiDecompile: "1'b0"
-                                        vpiValue: 0
+                                        vpiValue: "0"
                               vpiStmt SysFuncCall name:$stop start:68:42 end:68:47:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:68:42 end:68:47:
@@ -3703,7 +3710,7 @@ Design name:unnamed:
                                         vpiConstType: hexadecimal (5)
                                         vpiSize: 24
                                         vpiDecompile: "24'h1234"
-                                        vpiValue: 1234
+                                        vpiValue: "1234"
                               vpiStmt SysFuncCall name:$stop start:69:50 end:69:55:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:69:50 end:69:55:
@@ -3724,7 +3731,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 60
                                     vpiDecompile: "60'h444433332222"
-                                    vpiValue: 444433332222
+                                    vpiValue: "444433332222"
                                   FuncCall name:publicGetSetQuad start:70:32 end:70:67:
                                     vpiParent: Operation
                                     vpiName Identifier name:publicGetSetQuad start:70:32 end:70:48:
@@ -3740,7 +3747,7 @@ Design name:unnamed:
                                         vpiConstType: hexadecimal (5)
                                         vpiSize: 60
                                         vpiDecompile: "60'h123456789ab"
-                                        vpiValue: 123456789ab
+                                        vpiValue: "123456789ab"
                               vpiStmt SysFuncCall name:$stop start:70:69 end:70:74:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:70:69 end:70:74:
@@ -3761,7 +3768,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 72
                                     vpiDecompile: "72'h125678912312452352"
-                                    vpiValue: 125678912312452352
+                                    vpiValue: "125678912312452352"
                                   FuncCall name:publicGetSetWide start:71:40 end:71:84:
                                     vpiParent: Operation
                                     vpiName Identifier name:publicGetSetWide start:71:40 end:71:56:
@@ -3837,7 +3844,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "1'b0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
                                   RefObj name:got_bool start:75:18 end:75:26:
                                     vpiParent: Operation
                                     vpiName: got_bool
@@ -3874,7 +3881,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 24
                                     vpiDecompile: "24'h1234"
-                                    vpiValue: 1234
+                                    vpiValue: "1234"
                                   RefObj name:got_long start:77:22 end:77:30:
                                     vpiParent: Operation
                                     vpiName: got_long
@@ -3911,7 +3918,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 60
                                     vpiDecompile: "60'h123456789ab"
-                                    vpiValue: 123456789ab
+                                    vpiValue: "123456789ab"
                                   RefObj name:got_quad start:79:31 end:79:39:
                                     vpiParent: Operation
                                     vpiName: got_quad
@@ -3983,37 +3990,40 @@ Design name:unnamed:
     LongIntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_public
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_public
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_public/surelog.uhdm
+      test-name: Verilator/t_func_public
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_public
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_public/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_public/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_public/lib/work/t_func_public.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 2638}},
+            'files': {'$Output/lib/work/t_func_public.v': {'post_len': 0,
+                                                           'pre_len': 2638}},
             'post_len': 0,
             'pre_len': 2638,
             'test_name': 'Verilator/t_func_public'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_func_public.v |     2638 |         0 |
-+==========================+==========+===========+
-|                          |     2638 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_func_public.v |     2638 |         0 |
++==================================+==========+===========+
+|                                  |     2638 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -4027,7 +4037,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_public/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             573     573       0         0
+Others                             572     572       0         0
 ----------------------------------------------------------------
-                                   573     573       0         0
+                                   572     572       0         0
 ===================== END REDUCTION RESULT =====================

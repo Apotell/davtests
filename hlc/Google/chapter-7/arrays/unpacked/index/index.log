@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../../tests/Google/chapter-7/arrays/unpacked -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin index.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/index.sv".
+[INF:PA0201] Parsing source file "$Source01/index.sv".
 AST_DEBUG_BEGIN
 Count: 171
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv
-n<${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv> u<170> t<Top_level_rule> c<1> l<16:1> el<28:1>
+FILE: f<14>:$Source01/index.sv
+n<$Source01/index.sv> u<170> t<Top_level_rule> c<1> l<16:1> el<28:1>
   n<> u<1> t<Null_rule> p<170> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<170> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<170> s<4> l<2:1> el<2:3>
@@ -174,23 +183,23 @@ n<${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv> u<170> t<Top_l
                           n<> u<156> t<END> p<157> l<25:1> el<25:4>
         n<> u<166> t<ENDMODULE> p<167> l<27:1> el<27:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv:16:1: Compile module "work@top".
+[INF:CP0303] $Source01/index.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv:22:22: Illegal implicit net "id:39, name:item".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv:22:30: Illegal implicit net "id:41, name:item".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv:22:35: Illegal implicit net "id:42, name:index".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv:24:5: Illegal implicit net "id:54, name:size".
+[ERR:EL0535] $Source01/index.sv:22:22: Illegal implicit net "id:40, name:item".
+[ERR:EL0535] $Source01/index.sv:22:30: Illegal implicit net "id:42, name:item".
+[ERR:EL0535] $Source01/index.sv:22:35: Illegal implicit net "id:43, name:index".
+[ERR:EL0535] $Source01/index.sv:24:5: Illegal implicit net "id:55, name:size".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:index.sv file:${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:index.sv file:$Source01/index.sv:
       vpiParent: Design name:unnamed
       vpiName: index.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index/lib/work/index.sv"
+      vpiPreprocFile: "$Output/lib/work/index.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-7/arrays/unpacked/index.sv start:16:1 end:27:10:
+    Module name:work@top file:$Source01/index.sv start:16:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -221,13 +230,18 @@ Design name:unnamed:
                     vpiActual: StringTypespec
                   vpiConstType: unbounded (11)
                   vpiDecompile: "$"
-                  vpiValue: $
+                  vpiValue: "$"
           vpiElemTypespec RefTypespec start:19:1 end:19:4:
             vpiParent: ArrayTypespec
             vpiFullName: work@top
             vpiActual: IntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:arr start:18:5 end:18:8:
           vpiParent: Module name:work@top
@@ -308,7 +322,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: arr.find
                   vpiFullName: work@top.arr.find
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:arr start:22:6 end:22:9:
                       vpiParent: HierPath name:arr.find
                       vpiName: arr
@@ -331,7 +345,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: item.index
                             vpiFullName: work@top.arr.find.item.index
-                            vpiActual (2 items):
+                            vpiPathElem (2 items):
                               RefObj name:item start:22:30 end:22:34:
                                 vpiParent: HierPath name:item.index
                                 vpiName: item
@@ -355,12 +369,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 496
                     vpiDecompile: "\":assert: ((%d == 3) and (%d == 0) and (%d == 1) and (%d == 3))\""
-                    vpiValue: :assert: ((%d == 3) and (%d == 0) and (%d == 1) and (%d == 3))
+                    vpiValue: ":assert: ((%d == 3) and (%d == 0) and (%d == 1) and (%d == 3))"
                   HierPath name:q.size start:24:3 end:24:9:
                     vpiParent: SysFuncCall name:$display
                     vpiName: q.size
                     vpiFullName: work@top.q.size
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:q start:24:3 end:24:4:
                         vpiParent: HierPath name:q.size
                         vpiName: q
@@ -440,37 +454,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-7/arrays/unpacked/index
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index/surelog.uhdm
+      test-name: Google/chapter-7/arrays/unpacked/index
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-7/arrays/unpacked/index/lib/work/index.sv'): {'post_len': 0,
-                                                                                                                                             'pre_len': 216}},
+            'files': {'$Output/lib/work/index.sv': {'post_len': 0,
+                                                    'pre_len': 216}},
             'post_len': 0,
             'pre_len': 216,
             'test_name': 'Google/chapter-7/arrays/unpacked/index'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/index.sv |      216 |         0 |
-+===================+==========+===========+
-|                   |      216 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/index.sv |      216 |         0 |
++===========================+==========+===========+
+|                           |      216 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -487,7 +504,7 @@ Constant                             9       6       1         4
 Operation                            3       2       0         1
 RefTypespec                         13       9       0         4
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    61      53       1         9
+                                    62      54       1         9
 ===================== END REDUCTION RESULT =====================

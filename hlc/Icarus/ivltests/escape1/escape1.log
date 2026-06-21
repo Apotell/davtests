@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/escape1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm escape1.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/escape1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/escape1.v".
+[INF:PA0201] Parsing source file "$Source01/escape1.v".
 AST_DEBUG_BEGIN
 Count: 441
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v> u<440> t<Top_level_rule> c<1> l<21:1> el<74:1>
+FILE: f<13>:$Source01/escape1.v
+n<$Source01/escape1.v> u<440> t<Top_level_rule> c<1> l<21:1> el<74:1>
   n<> u<1> t<Null_rule> p<440> s<2> l<21:1> el<21:1>
   n<//> u<2> t<LINE_COMMENT> p<440> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 2001  Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<440> s<4> l<2:1> el<2:55>
@@ -444,27 +453,28 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v> u<440> t<Top_level_rule> c<1> 
                           n<> u<426> t<END> p<427> l<69:3> el<69:6>
         n<> u<436> t<ENDMODULE> p<437> l<71:1> el<71:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:21:1: Compile module "work@test".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:35:1: Compile module "work@$I178".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:35:1: Multiply defined typedef "work@test".
+[INF:CP0303] $Source01/escape1.v:21:1: Compile module "work@test".
+[INF:CP0303] $Source01/escape1.v:35:1: Compile module "work@$I178".
+[WRN:CP0323] $Source01/escape1.v:35:1: Multiply defined typedef "work@test".
+[WRN:CP0323] $Source01/escape1.v:35:1: Multiply defined typedef "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:37:24: Illegal implicit net "id:47, name:init".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:38:24: Illegal implicit net "id:55, name:init".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:39:24: Illegal implicit net "id:63, name:init".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:52:23: Illegal implicit net "id:97, name:rcv".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:57:23: Illegal implicit net "id:117, name:rcv".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:62:23: Illegal implicit net "id:137, name:rcv".
+[ERR:EL0535] $Source01/escape1.v:37:24: Illegal implicit net "id:49, name:init".
+[ERR:EL0535] $Source01/escape1.v:38:24: Illegal implicit net "id:57, name:init".
+[ERR:EL0535] $Source01/escape1.v:39:24: Illegal implicit net "id:65, name:init".
+[ERR:EL0535] $Source01/escape1.v:52:23: Illegal implicit net "id:99, name:rcv".
+[ERR:EL0535] $Source01/escape1.v:57:23: Illegal implicit net "id:119, name:rcv".
+[ERR:EL0535] $Source01/escape1.v:62:23: Illegal implicit net "id:139, name:rcv".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:escape1.v file:${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:escape1.v file:$Source01/escape1.v:
       vpiParent: Design name:unnamed
       vpiName: escape1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/escape1/lib/work/escape1.v"
+      vpiPreprocFile: "$Output/lib/work/escape1.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v start:21:1 end:33:10:
+    Module name:work@test file:$Source01/escape1.v start:21:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:21:8 end:21:12:
         vpiParent: Module name:work@test
@@ -496,7 +506,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 16
             vpiDecompile: "16'h1234"
-            vpiValue: 1234
+            vpiValue: "1234"
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@test
@@ -528,6 +538,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (1 items):
         Net name:rcv start:24:12 end:24:15:
           vpiParent: Module name:work@test
@@ -590,7 +605,7 @@ Design name:unnamed:
                     vpiName: rcv
                     vpiFullName: work@test.rcv
                     vpiActual: Net name:rcv
-    Module name:work@$I178 file:${SURELOG_DIR}/tests/Icarus/ivltests/escape1.v start:35:1 end:71:10:
+    Module name:work@$I178 file:$Source01/escape1.v start:35:1 end:71:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@$I178 start:35:8 end:35:19:
         vpiParent: Module name:work@$I178
@@ -616,6 +631,11 @@ Design name:unnamed:
           vpiParent: Module name:work@$I178
       vpiDefName: work@$I178
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@$I178
+        vpiName: work
+        vpiFullName: work@$I178.work
+      vpiCell: "$I178"
       vpiNet (1 items):
         Net name:error start:46:5 end:46:10:
           vpiParent: Module name:work@$I178
@@ -672,7 +692,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: "$I178::a.rcv"
                       vpiFullName: work@$I178.$I178::a.rcv
-                      vpiActual (3 items):
+                      vpiPathElem (3 items):
                         RefObj name:$I178 start:52:9 end:52:20:
                           vpiParent: HierPath name:$I178::a.rcv
                           vpiName: "$I178"
@@ -696,7 +716,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h0040"
-                      vpiValue: 0040
+                      vpiValue: "0040"
                 vpiStmt Begin start:53:10 end:56:13:
                   vpiParent: IfStmt
                   vpiFullName: work@$I178
@@ -745,7 +765,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: "$I178::b.rcv"
                       vpiFullName: work@$I178.$I178::b.rcv
-                      vpiActual (3 items):
+                      vpiPathElem (3 items):
                         RefObj name:$I178 start:57:9 end:57:20:
                           vpiParent: HierPath name:$I178::b.rcv
                           vpiName: "$I178"
@@ -769,7 +789,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h0041"
-                      vpiValue: 0041
+                      vpiValue: "0041"
                 vpiStmt Begin start:58:10 end:61:13:
                   vpiParent: IfStmt
                   vpiFullName: work@$I178
@@ -818,7 +838,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: "$I178::c.rcv"
                       vpiFullName: work@$I178.$I178::c.rcv
-                      vpiActual (3 items):
+                      vpiPathElem (3 items):
                         RefObj name:$I178 start:62:9 end:62:20:
                           vpiParent: HierPath name:$I178::c.rcv
                           vpiName: "$I178"
@@ -842,7 +862,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h0042"
-                      vpiValue: 0042
+                      vpiValue: "0042"
                 vpiStmt Begin start:63:10 end:66:13:
                   vpiParent: IfStmt
                   vpiFullName: work@$I178
@@ -921,22 +941,23 @@ Design name:unnamed:
       vpiDefParam (3 items):
         DefParam start:37:10 end:37:39:
           vpiParent: Module name:work@$I178
-          vpiLhs HierPath start:37:10 end:37:28:
+          vpiLhs HierPath name:$I178::a.init start:37:10 end:37:28:
             vpiParent: DefParam
-            vpiFullName: work@$I178
-            vpiActual (3 items):
+            vpiName: "$I178::a.init"
+            vpiFullName: work@$I178.$I178::a.init
+            vpiPathElem (3 items):
               RefObj name:$I178 start:37:10 end:37:21:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::a.init
                 vpiName: "$I178"
                 vpiFullName: work@$I178.$I178
                 vpiActual: Module name:work@$I178
               RefObj name:a start:37:22 end:37:23:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::a.init
                 vpiName: a
                 vpiFullName: work@$I178.a
                 vpiActual: RefInstance name:a
               RefObj name:init start:37:24 end:37:28:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::a.init
                 vpiName: init
                 vpiFullName: work@$I178.init
           vpiRhs Constant start:37:31 end:37:39:
@@ -948,25 +969,26 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 16
             vpiDecompile: "16'h0040"
-            vpiValue: 0040
+            vpiValue: "0040"
         DefParam start:38:10 end:38:39:
           vpiParent: Module name:work@$I178
-          vpiLhs HierPath start:38:10 end:38:28:
+          vpiLhs HierPath name:$I178::b.init start:38:10 end:38:28:
             vpiParent: DefParam
-            vpiFullName: work@$I178
-            vpiActual (3 items):
+            vpiName: "$I178::b.init"
+            vpiFullName: work@$I178.$I178::b.init
+            vpiPathElem (3 items):
               RefObj name:$I178 start:38:10 end:38:21:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::b.init
                 vpiName: "$I178"
                 vpiFullName: work@$I178.$I178
                 vpiActual: Module name:work@$I178
               RefObj name:b start:38:22 end:38:23:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::b.init
                 vpiName: b
                 vpiFullName: work@$I178.b
                 vpiActual: RefInstance name:b
               RefObj name:init start:38:24 end:38:28:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::b.init
                 vpiName: init
                 vpiFullName: work@$I178.init
           vpiRhs Constant start:38:31 end:38:39:
@@ -978,25 +1000,26 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 16
             vpiDecompile: "16'h0041"
-            vpiValue: 0041
+            vpiValue: "0041"
         DefParam start:39:10 end:39:39:
           vpiParent: Module name:work@$I178
-          vpiLhs HierPath start:39:10 end:39:28:
+          vpiLhs HierPath name:$I178::c.init start:39:10 end:39:28:
             vpiParent: DefParam
-            vpiFullName: work@$I178
-            vpiActual (3 items):
+            vpiName: "$I178::c.init"
+            vpiFullName: work@$I178.$I178::c.init
+            vpiPathElem (3 items):
               RefObj name:$I178 start:39:10 end:39:21:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::c.init
                 vpiName: "$I178"
                 vpiFullName: work@$I178.$I178
                 vpiActual: Module name:work@$I178
               RefObj name:c start:39:22 end:39:23:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::c.init
                 vpiName: c
                 vpiFullName: work@$I178.c
                 vpiActual: RefInstance name:c
               RefObj name:init start:39:24 end:39:28:
-                vpiParent: HierPath
+                vpiParent: HierPath name:$I178::c.init
                 vpiName: init
                 vpiFullName: work@$I178.init
           vpiRhs Constant start:39:31 end:39:39:
@@ -1008,7 +1031,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 16
             vpiDecompile: "16'h0042"
-            vpiValue: 0042
+            vpiValue: "0042"
       vpiRefInstance (3 items):
         RefInstance name:a start:42:6 end:42:7:
           vpiParent: Module name:work@$I178
@@ -1055,37 +1078,40 @@ Design name:unnamed:
         vpiName: work@$I178
       vpiModule: Module name:work@$I178
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/escape1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape1/surelog.uhdm
+      test-name: Icarus/ivltests/escape1
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape1
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/escape1/lib/work/escape1.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 592}},
+            'files': {'$Output/lib/work/escape1.v': {'post_len': 0,
+                                                     'pre_len': 592}},
             'post_len': 0,
             'pre_len': 592,
             'test_name': 'Icarus/ivltests/escape1'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/escape1.v |      592 |         0 |
-+====================+==========+===========+
-|                    |      592 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/escape1.v |      592 |         0 |
++============================+==========+===========+
+|                            |      592 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1099,7 +1125,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/escape1/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             146     146       0         0
+Others                             148     148       0         0
 ----------------------------------------------------------------
-                                   146     146       0         0
+                                   148     148       0         0
 ===================== END REDUCTION RESULT =====================

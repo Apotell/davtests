@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/param_test1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm param_test1.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/param_test1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/param_test1.v".
+[INF:PA0201] Parsing source file "$Source01/param_test1.v".
 AST_DEBUG_BEGIN
 Count: 447
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/param_test1.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/param_test1.v> u<446> t<Top_level_rule> c<1> l<22:1> el<56:1>
+FILE: f<13>:$Source01/param_test1.v
+n<$Source01/param_test1.v> u<446> t<Top_level_rule> c<1> l<22:1> el<56:1>
   n<> u<1> t<Null_rule> p<446> s<2> l<22:1> el<22:1>
   n</*\n * Copyright (c) 2001 Peter Bain\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<446> s<3> l<22:1> el<54:10>
   n</* This is based on PR#124. */> u<3> t<BLOCK_COMMENT> p<446> s<445> l<22:1> el<54:10>
@@ -450,21 +459,21 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/param_test1.v> u<446> t<Top_level_rule> c
                           n<> u<432> t<END> p<433> l<53:4> el<53:7>
         n<> u<442> t<ENDMODULE> p<443> l<54:1> el<54:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/param_test1.v:23:1: Compile module "work@paramtest".
+[INF:CP0303] $Source01/param_test1.v:23:1: Compile module "work@paramtest".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:param_test1.v file:${SURELOG_DIR}/tests/Icarus/ivltests/param_test1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:param_test1.v file:$Source01/param_test1.v:
       vpiParent: Design name:unnamed
       vpiName: param_test1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/param_test1/lib/work/param_test1.v"
+      vpiPreprocFile: "$Output/lib/work/param_test1.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
   vpiAllModules (1 items):
-    Module name:work@paramtest file:${SURELOG_DIR}/tests/Icarus/ivltests/param_test1.v start:23:1 end:54:10:
+    Module name:work@paramtest file:$Source01/param_test1.v start:23:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@paramtest start:23:8 end:23:17:
         vpiParent: Module name:work@paramtest
@@ -545,7 +554,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 32
             vpiDecompile: "32'h01020304"
-            vpiValue: 01020304
+            vpiValue: "01020304"
         ParamAssign start:31:18 end:31:40:
           vpiParent: Module name:work@paramtest
           vpiLhs RefObj name:pay_inc start:31:18 end:31:25:
@@ -562,7 +571,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 32
             vpiDecompile: "32'h01010101"
-            vpiValue: 01010101
+            vpiValue: "01010101"
         ParamAssign start:33:18 end:33:38:
           vpiParent: Module name:work@paramtest
           vpiLhs RefObj name:cell_size start:33:18 end:33:27:
@@ -774,6 +783,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@paramtest
+        vpiName: work
+        vpiFullName: work@paramtest.work
+      vpiCell: paramtest
       vpiNet (3 items):
         Net name:clk start:25:14 end:25:17:
           vpiParent: Module name:work@paramtest
@@ -1009,7 +1023,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 232
                                   vpiDecompile: "\"ERROR: dat = %h, exp_dat = %h\""
-                                  vpiValue: ERROR: dat = %h, exp_dat = %h
+                                  vpiValue: "ERROR: dat = %h, exp_dat = %h"
                                 RefObj name:dat start:48:57 end:48:60:
                                   vpiParent: SysFuncCall name:$display
                                   vpiName: dat
@@ -1039,7 +1053,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 224
                                   vpiDecompile: "\"OKAY: dat = %h, exp_dat = %h\""
-                                  vpiValue: OKAY: dat = %h, exp_dat = %h
+                                  vpiValue: "OKAY: dat = %h, exp_dat = %h"
                                 RefObj name:dat start:50:56 end:50:59:
                                   vpiParent: SysFuncCall name:$display
                                   vpiName: dat
@@ -1075,37 +1089,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/param_test1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/param_test1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/param_test1/surelog.uhdm
+      test-name: Icarus/ivltests/param_test1
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/param_test1
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/param_test1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/param_test1/mounts.json
 
 
 {'result': {'coverage': 96.77,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/param_test1/lib/work/param_test1.v'): {'post_len': 21,
-                                                                                                                                       'pre_len': 650}},
+            'files': {'$Output/lib/work/param_test1.v': {'post_len': 21,
+                                                         'pre_len': 650}},
             'post_len': 21,
             'pre_len': 650,
             'test_name': 'Icarus/ivltests/param_test1'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/param_test1.v |      650 |        21 |
-+========================+==========+===========+
-|                        |      650 |        21 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/param_test1.v |      650 |        21 |
++================================+==========+===========+
+|                                |      650 |        21 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.77
@@ -1120,10 +1137,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            23      20       5         8
 Operation                           11       3       0         8
-RefObj                              27      21       0         6
+RefObj                              28      22       0         6
 RefTypespec                         33      30       5         8
 ----------------------------------------------------------------
 Others                              51      51       0         0
 ----------------------------------------------------------------
-                                   145     125      10        30
+                                   146     126      10        30
 ===================== END REDUCTION RESULT =====================

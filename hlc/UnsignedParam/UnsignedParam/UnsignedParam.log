@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UnsignedParam -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 173
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UnsignedParam/dut.sv
-n<${SURELOG_DIR}/tests/UnsignedParam/dut.sv> u<172> t<Top_level_rule> c<1> l<1:1> el<15:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<172> t<Top_level_rule> c<1> l<1:1> el<15:1>
   n<> u<1> t<Null_rule> p<172> s<171> l<1:1>
   n<> u<171> t<Source_text> p<172> c<9> l<1:1> el<13:10>
     n<> u<9> t<Description> p<171> c<8> s<170> l<1:1> el<2:10>
@@ -176,21 +185,21 @@ n<${SURELOG_DIR}/tests/UnsignedParam/dut.sv> u<172> t<Top_level_rule> c<1> l<1:1
                         n<> u<158> t<END> p<159> l<12:3> el<12:6>
         n<> u<168> t<ENDMODULE> p<169> l<13:1> el<13:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/UnsignedParam/dut.sv:1:1: Compile module "work@GOOD".
-[INF:CP0303] ${SURELOG_DIR}/tests/UnsignedParam/dut.sv:4:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnsignedParam/dut.sv:1:1: No timescale set for "work@GOOD".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnsignedParam/dut.sv:4:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@GOOD".
+[INF:CP0303] $Source01/dut.sv:4:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@GOOD".
+[WRN:PA0205] $Source01/dut.sv:4:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/UnsignedParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@GOOD file:${SURELOG_DIR}/tests/UnsignedParam/dut.sv start:1:1 end:2:10:
+    Module name:work@GOOD file:$Source01/dut.sv start:1:1 end:2:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@GOOD start:1:8 end:1:12:
         vpiParent: Module name:work@GOOD
@@ -198,7 +207,12 @@ Design name:unnamed:
       vpiFullName: work@GOOD
       vpiDefName: work@GOOD
       vpiDefNetType: none (12)
-    Module name:work@top file:${SURELOG_DIR}/tests/UnsignedParam/dut.sv start:4:1 end:13:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@GOOD
+        vpiName: work
+        vpiFullName: work@GOOD.work
+      vpiCell: GOOD
+    Module name:work@top file:$Source01/dut.sv start:4:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:4:8 end:4:11:
         vpiParent: Module name:work@top
@@ -258,7 +272,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 32
             vpiDecompile: "32'h80000000"
-            vpiValue: 80000000
+            vpiValue: "80000000"
         ParamAssign start:6:28 end:6:41:
           vpiParent: Module name:work@top
           vpiLhs RefObj name:n2 start:6:28 end:6:30:
@@ -284,7 +298,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
         ParamAssign start:7:28 end:7:56:
           vpiParent: Module name:work@top
           vpiLhs RefObj name:n3 start:7:28 end:7:30:
@@ -301,7 +315,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 64
             vpiDecompile: "64'h8FFFFFFFFFFF0000"
-            vpiValue: 8FFFFFFFFFFF0000
+            vpiValue: "8FFFFFFFFFFF0000"
         ParamAssign start:8:28 end:8:61:
           vpiParent: Module name:work@top
           vpiLhs RefObj name:n4 start:8:28 end:8:30:
@@ -327,7 +341,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 64
                 vpiDecompile: "64'h000000000000FFFF"
-                vpiValue: 000000000000FFFF
+                vpiValue: "000000000000FFFF"
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:work@top
@@ -437,6 +451,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiGenStmt (1 items):
         GenIf start:10:3 end:12:6:
           vpiParent: Module name:work@top
@@ -458,7 +477,7 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: -1
                 vpiDecompile: "10376293541461622783"
-                vpiValue: 10376293541461622783
+                vpiValue: "10376293541461622783"
           vpiStmt Begin start:10:35 end:12:6:
             vpiParent: GenIf
             vpiFullName: work@top
@@ -501,37 +520,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UnsignedParam/UnsignedParam
- test-dirpath: ${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam
-uhdm-filepath: ${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam/surelog.uhdm
+      test-name: UnsignedParam/UnsignedParam
+   test-dirpath: ${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam
+  uhdm-filepath: ${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UnsignedParam/UnsignedParam/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 292}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 292}},
             'post_len': 0,
             'pre_len': 292,
             'test_name': 'UnsignedParam/UnsignedParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      292 |         0 |
-+=================+==========+===========+
-|                 |      292 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      292 |         0 |
++=========================+==========+===========+
+|                         |      292 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -546,10 +568,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       1         1
 Operation                            3       2       0         1
-RefObj                               7       6       0         1
+RefObj                               9       8       0         1
 RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
 Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    77      75       2         4
+                                    79      77       2         4
 ===================== END REDUCTION RESULT =====================

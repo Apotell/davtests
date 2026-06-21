@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_static_elab/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_static_elab.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_static_elab
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_static_elab.v".
+[INF:PA0201] Parsing source file "$Source01/t_static_elab.v".
 AST_DEBUG_BEGIN
 Count: 333
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_static_elab.v
-n<${SURELOG_DIR}/tests/Verilator/t_static_elab.v> u<332> t<Top_level_rule> c<1> l<6:1> el<52:1>
+FILE: f<13>:$Source01/t_static_elab.v
+n<$Source01/t_static_elab.v> u<332> t<Top_level_rule> c<1> l<6:1> el<52:1>
   n<> u<1> t<Null_rule> p<332> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Simple static elaboration case> u<2> t<LINE_COMMENT> p<332> s<3> l<1:1> el<1:58>
   n<//> u<3> t<LINE_COMMENT> p<332> s<4> l<2:1> el<2:3>
@@ -336,19 +345,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_static_elab.v> u<332> t<Top_level_rule> c<1> 
                           n<> u<318> t<END> p<319> l<49:4> el<49:7>
         n<> u<328> t<ENDMODULE> p<329> l<51:1> el<51:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_static_elab.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_static_elab.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_static_elab.v file:${SURELOG_DIR}/tests/Verilator/t_static_elab.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_static_elab.v file:$Source01/t_static_elab.v:
       vpiParent: Design name:unnamed
       vpiName: t_static_elab.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_static_elab/lib/work/t_static_elab.v"
+      vpiPreprocFile: "$Output/lib/work/t_static_elab.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_static_elab.v start:6:1 end:51:10:
+    Module name:work@t file:$Source01/t_static_elab.v start:6:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -492,6 +501,11 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiTaskFunc (2 items):
         Function name:gimme_five start:17:4 end:23:15:
           vpiParent: Module name:work@t
@@ -527,7 +541,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: result._five
                   vpiFullName: work@t.gimme_five.result._five
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:result start:20:7 end:20:13:
                       vpiParent: HierPath name:result._five
                       vpiName: result
@@ -627,7 +641,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: FIVE._five
                       vpiFullName: work@t.FIVE._five
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         RefObj name:FIVE start:37:11 end:37:15:
                           vpiParent: HierPath name:FIVE._five
                           vpiName: FIVE
@@ -667,12 +681,12 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 240
                           vpiDecompile: "\"%%Error: Got 0b%b instead of 5\""
-                          vpiValue: %%Error: Got 0b%b instead of 5
+                          vpiValue: "%%Error: Got 0b%b instead of 5"
                         HierPath name:FIVE._five start:38:53 end:38:63:
                           vpiParent: SysFuncCall name:$display
                           vpiName: FIVE._five
                           vpiFullName: work@t.FIVE._five
-                          vpiActual (2 items):
+                          vpiPathElem (2 items):
                             RefObj name:FIVE start:38:53 end:38:57:
                               vpiParent: HierPath name:FIVE._five
                               vpiName: FIVE
@@ -723,7 +737,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 304
                           vpiDecompile: "\"%%Error: Got 0b%b instead of HIGH_FIVE\""
-                          vpiValue: %%Error: Got 0b%b instead of HIGH_FIVE
+                          vpiValue: "%%Error: Got 0b%b instead of HIGH_FIVE"
                         RefObj name:THE_HIGH_FIVE start:43:61 end:43:74:
                           vpiParent: SysFuncCall name:$display
                           vpiName: THE_HIGH_FIVE
@@ -749,7 +763,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:48:7 end:48:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:48:7 end:48:14:
@@ -770,37 +784,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_static_elab
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_static_elab
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_static_elab/surelog.uhdm
+      test-name: Verilator/t_static_elab
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_static_elab
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_static_elab/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_static_elab/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_static_elab/lib/work/t_static_elab.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 715}},
+            'files': {'$Output/lib/work/t_static_elab.v': {'post_len': 0,
+                                                           'pre_len': 715}},
             'post_len': 0,
             'pre_len': 715,
             'test_name': 'Verilator/t_static_elab'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_static_elab.v |      715 |         0 |
-+==========================+==========+===========+
-|                          |      715 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_static_elab.v |      715 |         0 |
++==================================+==========+===========+
+|                                  |      715 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -814,7 +831,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_static_elab/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             112     112       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   112     112       0         0
+                                   113     113       0         0
 ===================== END REDUCTION RESULT =====================

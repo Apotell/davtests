@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/DatQuery01/DatQuery01/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/DatQuery01 -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/DatQuery01/DatQuery01
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 228
 LIB: work
-FILE: ${SURELOG_DIR}/tests/DatQuery01/dut.sv
-n<${SURELOG_DIR}/tests/DatQuery01/dut.sv> u<227> t<Top_level_rule> c<1> l<1:1> el<25:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<227> t<Top_level_rule> c<1> l<1:1> el<25:1>
   n<> u<1> t<Null_rule> p<227> s<226> l<1:1>
   n<> u<226> t<Source_text> p<227> c<225> l<1:1> el<23:10>
     n<> u<225> t<Description> p<226> c<224> l<1:1> el<23:10>
@@ -231,19 +240,19 @@ n<${SURELOG_DIR}/tests/DatQuery01/dut.sv> u<227> t<Top_level_rule> c<1> l<1:1> e
                         n<> u<214> t<END> p<215> l<21:3> el<21:6>
         n<> u<223> t<ENDMODULE> p<224> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/DatQuery01/dut.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/DatQuery01/dut.sv:1:1: No timescale set for "work@tb".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@tb".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/DatQuery01/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/DatQuery01/DatQuery01/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/DatQuery01/dut.sv start:1:1 end:23:10:
+    Module name:work@tb file:$Source01/dut.sv start:1:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -278,6 +287,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (6 items):
         Net name:i start:3:7 end:3:8:
           vpiParent: Module name:work@tb
@@ -474,37 +488,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: DatQuery01/DatQuery01
- test-dirpath: ${SURELOG_DIR}/regression/DatQuery01/DatQuery01
-uhdm-filepath: ${SURELOG_DIR}/regression/DatQuery01/DatQuery01/surelog.uhdm
+      test-name: DatQuery01/DatQuery01
+   test-dirpath: ${SURELOG_DIR}/regression/DatQuery01/DatQuery01
+  uhdm-filepath: ${SURELOG_DIR}/regression/DatQuery01/DatQuery01/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/DatQuery01/DatQuery01/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/DatQuery01/DatQuery01/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 258}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 258}},
             'post_len': 0,
             'pre_len': 258,
             'test_name': 'DatQuery01/DatQuery01'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      258 |         0 |
-+=================+==========+===========+
-|                 |      258 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      258 |         0 |
++=========================+==========+===========+
+|                         |      258 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -519,10 +536,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             3       4       1         0
 Identifier                           8       7       0         1
-RefObj                              10       9       0         1
+RefObj                              11      10       0         1
 SysFuncCall                          4       3       0         1
 ----------------------------------------------------------------
 Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    62      60       1         3
+                                    63      61       1         3
 ===================== END REDUCTION RESULT =====================

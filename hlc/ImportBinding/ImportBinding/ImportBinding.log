@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ImportBinding/ImportBinding/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ImportBinding -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ImportBinding/ImportBinding
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 100
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ImportBinding/dut.sv
-n<${SURELOG_DIR}/tests/ImportBinding/dut.sv> u<99> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<99> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<99> s<98> l<1:1>
   n<> u<98> t<Source_text> p<99> c<79> l<1:1> el<19:10>
     n<> u<79> t<Description> p<98> c<78> s<97> l<1:1> el<13:11>
@@ -103,21 +112,21 @@ n<${SURELOG_DIR}/tests/ImportBinding/dut.sv> u<99> t<Top_level_rule> c<1> l<1:1>
                           n<lc_ctrl_pkg> u<85> t<SIMPLE_IDENTIFIER> p<86> l<16:8> el<16:19>
         n<> u<95> t<ENDMODULE> p<96> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/ImportBinding/dut.sv:1:1: Compile package "work@lc_ctrl_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/ImportBinding/dut.sv:15:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ImportBinding/dut.sv:1:1: No timescale set for "work@lc_ctrl_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ImportBinding/dut.sv:15:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@lc_ctrl_pkg".
+[INF:CP0303] $Source01/dut.sv:15:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@lc_ctrl_pkg".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ImportBinding/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ImportBinding/ImportBinding/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@lc_ctrl_pkg file:${SURELOG_DIR}/tests/ImportBinding/dut.sv start:1:1 end:13:11:
+    Package name:work@lc_ctrl_pkg file:$Source01/dut.sv start:1:1 end:13:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@lc_ctrl_pkg start:1:9 end:1:20:
         vpiParent: Package name:work@lc_ctrl_pkg
@@ -228,7 +237,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b1010"
-                vpiValue: 1010
+                vpiValue: "1010"
             EnumConst name:Off start:6:6 end:6:19:
               vpiParent: EnumTypespec
               vpiName Identifier name:Off start:6:6 end:6:9:
@@ -243,7 +252,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b0101"
-                vpiValue: 0101
+                vpiValue: "0101"
         TypedefTypespec name:lc_tx_e start:4:4 end:7:15:
           vpiParent: Package name:work@lc_ctrl_pkg
           vpiName Identifier name:lc_tx_e start:7:7 end:7:14:
@@ -269,8 +278,13 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:lc_tx_e
       vpiDefName: work@lc_ctrl_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@lc_ctrl_pkg
+        vpiName: work
+        vpiFullName: work@lc_ctrl_pkg::work
+      vpiCell: lc_ctrl_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/ImportBinding/dut.sv start:15:1 end:19:10:
+    Module name:work@top file:$Source01/dut.sv start:15:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:15:8 end:15:11:
         vpiParent: Module name:work@top
@@ -284,6 +298,11 @@ Design name:unnamed:
             vpiName: lc_ctrl_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
   vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -297,37 +316,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ImportBinding/ImportBinding
- test-dirpath: ${SURELOG_DIR}/regression/ImportBinding/ImportBinding
-uhdm-filepath: ${SURELOG_DIR}/regression/ImportBinding/ImportBinding/surelog.uhdm
+      test-name: ImportBinding/ImportBinding
+   test-dirpath: ${SURELOG_DIR}/regression/ImportBinding/ImportBinding
+  uhdm-filepath: ${SURELOG_DIR}/regression/ImportBinding/ImportBinding/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ImportBinding/ImportBinding/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ImportBinding/ImportBinding/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 233}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 233}},
             'post_len': 0,
             'pre_len': 233,
             'test_name': 'ImportBinding/ImportBinding'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      233 |         0 |
-+=================+==========+===========+
-|                 |      233 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      233 |         0 |
++=========================+==========+===========+
+|                         |      233 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -342,10 +364,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       1         1
 Operation                            1       0       0         1
-RefObj                               4       3       0         1
+RefObj                               6       5       0         1
 RefTypespec                         10      10       1         1
 ----------------------------------------------------------------
 Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    49      47       2         4
+                                    51      49       2         4
 ===================== END REDUCTION RESULT =====================

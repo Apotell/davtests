@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PoundDelayTask -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 52
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PoundDelayTask/dut.sv
-n<${SURELOG_DIR}/tests/PoundDelayTask/dut.sv> u<51> t<Top_level_rule> c<1> l<1:1> el<10:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<51> t<Top_level_rule> c<1> l<1:1> el<10:1>
   n<> u<1> t<Null_rule> p<51> s<50> l<1:1>
   n<> u<50> t<Source_text> p<51> c<49> l<1:1> el<9:10>
     n<> u<49> t<Description> p<50> c<48> l<1:1> el<9:10>
@@ -55,19 +64,19 @@ n<${SURELOG_DIR}/tests/PoundDelayTask/dut.sv> u<51> t<Top_level_rule> c<1> l<1:1
                         n<> u<38> t<END> p<39> l<8:5> el<8:8>
         n<> u<47> t<ENDMODULE> p<48> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/PoundDelayTask/dut.sv:1:1: Compile module "work@m".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PoundDelayTask/dut.sv:1:1: No timescale set for "work@m".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@m".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@m".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PoundDelayTask/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@m file:${SURELOG_DIR}/tests/PoundDelayTask/dut.sv start:1:1 end:9:10:
+    Module name:work@m file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@m start:1:8 end:1:9:
         vpiParent: Module name:work@m
@@ -75,6 +84,11 @@ Design name:unnamed:
       vpiFullName: work@m
       vpiDefName: work@m
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@m
+        vpiName: work
+        vpiFullName: work@m.work
+      vpiCell: m
       vpiTaskFunc (1 items):
         Task name:t start:2:5 end:4:12:
           vpiParent: Module name:work@m
@@ -82,26 +96,22 @@ Design name:unnamed:
             vpiParent: Task name:t
             vpiName: t
           vpiFullName: work@m.t
-          vpiStmt Begin:
+          vpiStmt SysFuncCall name:$display start:3:9 end:3:32:
             vpiParent: Task name:t
-            vpiFullName: work@m.t
-            vpiStmt (1 items):
-              SysFuncCall name:$display start:3:9 end:3:32:
-                vpiParent: Begin
-                vpiName Identifier name:$display start:3:9 end:3:17:
-                  vpiParent: SysFuncCall name:$display
-                  vpiName: "$display"
-                vpiArgument (1 items):
-                  Constant start:3:18 end:3:31:
-                    vpiParent: SysFuncCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@m.t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"I'm task t!\""
-                    vpiValue: I'm task t!
+            vpiName Identifier name:$display start:3:9 end:3:17:
+              vpiParent: SysFuncCall name:$display
+              vpiName: "$display"
+            vpiArgument (1 items):
+              Constant start:3:18 end:3:31:
+                vpiParent: SysFuncCall name:$display
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@m.t
+                  vpiActual: StringTypespec
+                vpiConstType: string (6)
+                vpiSize: 88
+                vpiDecompile: "\"I'm task t!\""
+                vpiValue: "I'm task t!"
       vpiProcess (1 items):
         Initial start:6:5 end:8:8:
           vpiParent: Module name:work@m
@@ -134,37 +144,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PoundDelayTask/PoundDelayTask
- test-dirpath: ${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask
-uhdm-filepath: ${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask/surelog.uhdm
+      test-name: PoundDelayTask/PoundDelayTask
+   test-dirpath: ${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask
+  uhdm-filepath: ${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PoundDelayTask/PoundDelayTask/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 77}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 77}},
             'post_len': 0,
             'pre_len': 77,
             'test_name': 'PoundDelayTask/PoundDelayTask'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       77 |         0 |
-+=================+==========+===========+
-|                 |       77 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       77 |         0 |
++=========================+==========+===========+
+|                         |       77 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0

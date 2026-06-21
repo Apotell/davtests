@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_modport_dir_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_modport_dir_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_modport_dir_bad.v".
 AST_DEBUG_BEGIN
 Count: 207
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v> u<206> t<Top_level_rule> c<1> l<6:1> el<50:1>
+FILE: f<13>:$Source01/t_lint_modport_dir_bad.v
+n<$Source01/t_lint_modport_dir_bad.v> u<206> t<Top_level_rule> c<1> l<6:1> el<50:1>
   n<> u<1> t<Null_rule> p<206> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<206> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<206> s<4> l<2:1> el<2:3>
@@ -210,27 +219,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v> u<206> t<Top_level_ru
                       n<> u<194> t<CLOSE_PARENS> p<195> l<46:26> el<46:27>
         n<> u<202> t<ENDMODULE> p<203> l<49:1> el<49:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:6:1: Compile interface "work@dummy_if".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:6:11: Unmached label "dummy_if",
-             ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:14:15: closing label "dummy_if".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:16:1: Compile module "work@sub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:30:1: Compile module "work@t".
+[INF:CP0304] $Source01/t_lint_modport_dir_bad.v:6:1: Compile interface "work@dummy_if".
+[INF:CP0303] $Source01/t_lint_modport_dir_bad.v:16:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_lint_modport_dir_bad.v:30:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:25:20: Illegal implicit net "id:57, name:signal".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:26:32: Illegal implicit net "id:63, name:signal".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:45:8: Illegal implicit net "id:92, name:dummy_in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:46:8: Illegal implicit net "id:95, name:dummy_out".
+[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:25:20: Illegal implicit net "id:60, name:signal".
+[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:26:32: Illegal implicit net "id:66, name:signal".
+[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:45:8: Illegal implicit net "id:95, name:dummy_in".
+[ERR:EL0535] $Source01/t_lint_modport_dir_bad.v:46:8: Illegal implicit net "id:98, name:dummy_out".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_modport_dir_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_modport_dir_bad.v file:$Source01/t_lint_modport_dir_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_modport_dir_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/lib/work/t_lint_modport_dir_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_modport_dir_bad.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@dummy_if file:${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v start:6:1 end:14:23:
+    Interface name:work@dummy_if file:$Source01/t_lint_modport_dir_bad.v start:6:1 end:14:23:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dummy_if start:6:11 end:6:19:
         vpiParent: Interface name:work@dummy_if
@@ -250,6 +257,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@dummy_if
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@dummy_if
+        vpiName: work
+        vpiFullName: work@dummy_if.work
+      vpiCell: dummy_if
       vpiModport (2 items):
         Modport name:slave start:9:12 end:9:17:
           vpiParent: Interface name:work@dummy_if
@@ -283,7 +295,7 @@ Design name:unnamed:
         vpiParent: Interface name:work@dummy_if
         vpiName: dummy_if
   vpiAllModules (2 items):
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v start:16:1 end:27:10:
+    Module name:work@sub file:$Source01/t_lint_modport_dir_bad.v start:16:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:16:8 end:16:11:
         vpiParent: Module name:work@sub
@@ -294,6 +306,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (4 items):
         Net name:signal_i start:18:16 end:18:24:
           vpiParent: Module name:work@sub
@@ -374,7 +391,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:dummy_if.master
               vpiName: dummy_if.master
               vpiFullName: work@sub.dummy_in.dummy_if.master.dummy_if.master
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:dummy_if start:21:4 end:21:12:
                   vpiParent: HierPath name:dummy_if.master
                   vpiName: dummy_if
@@ -401,7 +418,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:dummy_if.slave
               vpiName: dummy_if.slave
               vpiFullName: work@sub.dummy_out.dummy_if.slave.dummy_if.slave
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:dummy_if start:22:4 end:22:12:
                   vpiParent: HierPath name:dummy_if.slave
                   vpiName: dummy_if
@@ -419,7 +436,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dummy_in.signal
             vpiFullName: work@sub.dummy_in.signal
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:dummy_in start:25:11 end:25:19:
                 vpiParent: HierPath name:dummy_in.signal
                 vpiName: dummy_in
@@ -445,7 +462,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dummy_out.signal
             vpiFullName: work@sub.dummy_out.signal
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:dummy_out start:26:22 end:26:31:
                 vpiParent: HierPath name:dummy_out.signal
                 vpiName: dummy_out
@@ -455,7 +472,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:dummy_out.signal
                 vpiName: signal
                 vpiFullName: work@sub.signal
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_modport_dir_bad.v start:30:1 end:49:10:
+    Module name:work@t file:$Source01/t_lint_modport_dir_bad.v start:30:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:30:8 end:30:9:
         vpiParent: Module name:work@t
@@ -476,6 +493,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:signal_o start:37:11 end:37:19:
           vpiParent: Module name:work@t
@@ -604,37 +626,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_modport_dir_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/surelog.uhdm
+      test-name: Verilator/t_lint_modport_dir_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/lib/work/t_lint_modport_dir_bad.v'): {'post_len': 0,
-                                                                                                                                                       'pre_len': 477}},
+            'files': {'$Output/lib/work/t_lint_modport_dir_bad.v': {'post_len': 0,
+                                                                    'pre_len': 477}},
             'post_len': 0,
             'pre_len': 477,
             'test_name': 'Verilator/t_lint_modport_dir_bad'}}
 
-+-----------------------------------+----------+-----------+
-| INPUT                             |   PRELEN |   POSTLEN |
-+===================================+==========+===========+
-| lib/work/t_lint_modport_dir_bad.v |      477 |         0 |
-+===================================+==========+===========+
-|                                   |      477 |         0 |
-+-----------------------------------+----------+-----------+
++-------------------------------------------+----------+-----------+
+| INPUT                                     |   PRELEN |   POSTLEN |
++===========================================+==========+===========+
+| $Output/lib/work/t_lint_modport_dir_bad.v |      477 |         0 |
++===========================================+==========+===========+
+|                                           |      477 |         0 |
++-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -648,7 +673,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_modport_dir_bad/surelog.uhdm
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              94      94       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                    94      94       0         0
+                                    97      97       0         0
 ===================== END REDUCTION RESULT =====================

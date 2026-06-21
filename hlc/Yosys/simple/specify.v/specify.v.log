@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/specify.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/specify.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/specify.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/specify.v".
+[INF:PA0201] Parsing source file "$Source01/simple/specify.v".
 AST_DEBUG_BEGIN
 Count: 299
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/specify.v
-n<${SURELOG_DIR}/tests/Yosys/simple/specify.v> u<298> t<Top_level_rule> c<1> l<1:1> el<32:1>
+FILE: f<13>:$Source01/simple/specify.v
+n<$Source01/simple/specify.v> u<298> t<Top_level_rule> c<1> l<1:1> el<32:1>
   n<> u<1> t<Null_rule> p<298> s<297> l<1:1>
   n<> u<297> t<Source_text> p<298> c<296> l<1:1> el<30:10>
     n<> u<296> t<Description> p<297> c<295> l<1:1> el<30:10>
@@ -302,22 +311,22 @@ n<${SURELOG_DIR}/tests/Yosys/simple/specify.v> u<298> t<Top_level_rule> c<1> l<1
             n<> u<291> t<ENDSPECIFY> p<292> l<28:1> el<28:11>
         n<> u<294> t<ENDMODULE> p<295> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/specify.v:1:1: Compile module "work@test_specify".
-[WRN:CP0348] ${SURELOG_DIR}/tests/Yosys/simple/specify.v:5:1: Feature not yet implemented.
-[WRN:CP0348] ${SURELOG_DIR}/tests/Yosys/simple/specify.v:8:1: Feature not yet implemented.
-[WRN:CP0348] ${SURELOG_DIR}/tests/Yosys/simple/specify.v:26:1: Feature not yet implemented.
+[INF:CP0303] $Source01/simple/specify.v:1:1: Compile module "work@test_specify".
+[WRN:CP0348] $Source01/simple/specify.v:5:1: Feature not yet implemented.
+[WRN:CP0348] $Source01/simple/specify.v:8:1: Feature not yet implemented.
+[WRN:CP0348] $Source01/simple/specify.v:26:1: Feature not yet implemented.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:specify.v file:${SURELOG_DIR}/tests/Yosys/simple/specify.v:
+  vpiSourceFile (1 items):
+    SourceFile name:specify.v file:$Source01/simple/specify.v:
       vpiParent: Design name:unnamed
       vpiName: specify.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/specify.v/lib/work/simple/specify.v"
+      vpiPreprocFile: "$Output/lib/work/simple/specify.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test_specify file:${SURELOG_DIR}/tests/Yosys/simple/specify.v start:1:1 end:30:10:
+    Module name:work@test_specify file:$Source01/simple/specify.v start:1:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test_specify start:1:8 end:1:20:
         vpiParent: Module name:work@test_specify
@@ -325,6 +334,11 @@ Design name:unnamed:
       vpiFullName: work@test_specify
       vpiDefName: work@test_specify
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test_specify
+        vpiName: work
+        vpiFullName: work@test_specify.work
+      vpiCell: test_specify
   vpiTypespec (2 items):
     ModuleTypespec name:work@test_specify:
       vpiParent: Design name:unnamed
@@ -336,37 +350,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/specify.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/specify.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/specify.v/surelog.uhdm
+      test-name: Yosys/simple/specify.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/specify.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/specify.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/specify.v/mounts.json
 
 
 {'result': {'coverage': 67.1,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/specify.v/lib/work/simple/specify.v'): {'post_len': 102,
-                                                                                                                                     'pre_len': 310}},
+            'files': {'$Output/lib/work/simple/specify.v': {'post_len': 102,
+                                                            'pre_len': 310}},
             'post_len': 102,
             'pre_len': 310,
             'test_name': 'Yosys/simple/specify.v'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/simple/specify.v |      310 |       102 |
-+===========================+==========+===========+
-|                           |      310 |       102 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/simple/specify.v |      310 |       102 |
++===================================+==========+===========+
+|                                   |      310 |       102 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 67.1
@@ -380,7 +397,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/simple/specify.v/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               7       7       0         0
+Others                               8       8       0         0
 ----------------------------------------------------------------
-                                     7       7       0         0
+                                     8       8       0         0
 ===================== END REDUCTION RESULT =====================

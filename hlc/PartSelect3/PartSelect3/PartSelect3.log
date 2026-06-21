@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PartSelect3/PartSelect3/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PartSelect3 -parse -d uhdm -nobuiltin -d ast dut.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PartSelect3/PartSelect3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 89
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PartSelect3/dut.sv
-n<${SURELOG_DIR}/tests/PartSelect3/dut.sv> u<88> t<Top_level_rule> c<1> l<1:1> el<5:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<88> t<Top_level_rule> c<1> l<1:1> el<5:1>
   n<> u<1> t<Null_rule> p<88> s<87> l<1:1>
   n<> u<87> t<Source_text> p<88> c<86> l<1:1> el<4:10>
     n<> u<86> t<Description> p<87> c<85> l<1:1> el<4:10>
@@ -92,19 +101,19 @@ n<${SURELOG_DIR}/tests/PartSelect3/dut.sv> u<88> t<Top_level_rule> c<1> l<1:1> e
                             n<8'b10101010> u<73> t<INTEGRAL_NUMBER> p<74> l<3:29> el<3:40>
         n<> u<84> t<ENDMODULE> p<85> l<4:1> el<4:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/PartSelect3/dut.sv:1:1: Compile module "work@t".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PartSelect3/dut.sv:1:1: No timescale set for "work@t".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@t".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@t".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PartSelect3/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PartSelect3/PartSelect3/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/PartSelect3/dut.sv start:1:1 end:4:10:
+    Module name:work@t file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:1:8 end:1:9:
         vpiParent: Module name:work@t
@@ -183,6 +192,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:state_d start:2:23 end:2:30:
           vpiParent: Module name:work@t
@@ -263,7 +277,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 8
             vpiDecompile: "8'b10101010"
-            vpiValue: 10101010
+            vpiValue: "10101010"
   vpiTypespec (3 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -277,37 +291,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PartSelect3/PartSelect3
- test-dirpath: ${SURELOG_DIR}/regression/PartSelect3/PartSelect3
-uhdm-filepath: ${SURELOG_DIR}/regression/PartSelect3/PartSelect3/surelog.uhdm
+      test-name: PartSelect3/PartSelect3
+   test-dirpath: ${SURELOG_DIR}/regression/PartSelect3/PartSelect3
+  uhdm-filepath: ${SURELOG_DIR}/regression/PartSelect3/PartSelect3/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PartSelect3/PartSelect3/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PartSelect3/PartSelect3/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 90}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 90}},
             'post_len': 0,
             'pre_len': 90,
             'test_name': 'PartSelect3/PartSelect3'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       90 |         0 |
-+=================+==========+===========+
-|                 |       90 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       90 |         0 |
++=========================+==========+===========+
+|                         |       90 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -321,7 +338,7 @@ COMMAND: ${SURELOG_DIR}/regression/PartSelect3/PartSelect3/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

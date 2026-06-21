@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/BitSelect/BitSelect/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/BitSelect -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/BitSelect/BitSelect
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 172
 LIB: work
-FILE: ${SURELOG_DIR}/tests/BitSelect/dut.sv
-n<${SURELOG_DIR}/tests/BitSelect/dut.sv> u<171> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<171> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<171> s<170> l<1:1>
   n<> u<170> t<Source_text> p<171> c<24> l<1:1> el<15:10>
     n<> u<24> t<Description> p<170> c<23> s<169> l<1:1> el<5:10>
@@ -175,23 +184,23 @@ n<${SURELOG_DIR}/tests/BitSelect/dut.sv> u<171> t<Top_level_rule> c<1> l<1:1> el
                       n<> u<159> t<END> p<160> l<14:1> el<14:4>
         n<> u<167> t<ENDMODULE> p<168> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/BitSelect/dut.sv:1:1: Compile module "work@alert_sender".
-[INF:CP0303] ${SURELOG_DIR}/tests/BitSelect/dut.sv:6:1: Compile module "work@dut".
-[INF:CP0335] ${SURELOG_DIR}/tests/BitSelect/dut.sv:10:47: Compile generate block "gen_alert_tx".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitSelect/dut.sv:1:1: No timescale set for "work@alert_sender".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitSelect/dut.sv:6:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitSelect/dut.sv:12:6: Illegal implicit net "id:74, name:AsyncOn".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@alert_sender".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@dut".
+[INF:CP0335] $Source01/dut.sv:10:47: Compile generate block "gen_alert_tx".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@alert_sender".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:12:6: Illegal implicit net "id:76, name:AsyncOn".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/BitSelect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/BitSelect/BitSelect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@alert_sender file:${SURELOG_DIR}/tests/BitSelect/dut.sv start:1:1 end:5:10:
+    Module name:work@alert_sender file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@alert_sender start:1:8 end:1:20:
         vpiParent: Module name:work@alert_sender
@@ -223,13 +232,18 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
-            vpiValue: 0
+            vpiValue: "0"
       vpiTypespec (1 items):
         BitTypespec:
           vpiParent: Module name:work@alert_sender
       vpiDefName: work@alert_sender
       vpiDefNetType: none (12)
-    Module name:work@dut file:${SURELOG_DIR}/tests/BitSelect/dut.sv start:6:1 end:15:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@alert_sender
+        vpiName: work
+        vpiFullName: work@alert_sender.work
+      vpiCell: alert_sender
+    Module name:work@dut file:$Source01/dut.sv start:6:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:6:8 end:6:11:
         vpiParent: Module name:work@dut
@@ -307,7 +321,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
         ParamAssign start:9:11 end:9:33:
           vpiParent: Module name:work@dut
           vpiLhs RefObj name:res start:9:11 end:9:14:
@@ -376,6 +390,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiGenStmt (1 items):
         GenFor start:10:1 end:14:4:
           vpiParent: Module name:work@dut
@@ -402,7 +421,7 @@ Design name:unnamed:
           vpiForIncStmt (1 items):
             Operation start:10:35 end:10:38:
               vpiParent: GenFor
-              vpiOpType: post inc (62)
+              vpiOpType: post inc (64)
               vpiOperand (1 items):
                 RefObj name:i start:10:35 end:10:36:
                   vpiParent: Operation
@@ -483,37 +502,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: BitSelect/BitSelect
- test-dirpath: ${SURELOG_DIR}/regression/BitSelect/BitSelect
-uhdm-filepath: ${SURELOG_DIR}/regression/BitSelect/BitSelect/surelog.uhdm
+      test-name: BitSelect/BitSelect
+   test-dirpath: ${SURELOG_DIR}/regression/BitSelect/BitSelect
+  uhdm-filepath: ${SURELOG_DIR}/regression/BitSelect/BitSelect/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/BitSelect/BitSelect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/BitSelect/BitSelect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 350}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 350}},
             'post_len': 0,
             'pre_len': 350,
             'test_name': 'BitSelect/BitSelect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      350 |         0 |
-+=================+==========+===========+
-|                 |      350 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      350 |         0 |
++=========================+==========+===========+
+|                         |      350 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -528,10 +550,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       2         2
 Operation                            5       2       0         3
-RefObj                              13      11       0         2
+RefObj                              15      13       0         2
 RefTypespec                         12      11       1         2
 ----------------------------------------------------------------
 Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    72      66       3         9
+                                    74      68       3         9
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/VirtualClass/VirtualClass/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/VirtualClass -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/VirtualClass/VirtualClass
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 247
 LIB: work
-FILE: ${SURELOG_DIR}/tests/VirtualClass/dut.sv
-n<${SURELOG_DIR}/tests/VirtualClass/dut.sv> u<246> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<246> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<246> s<245> l<1:1>
   n<> u<245> t<Source_text> p<246> c<122> l<1:1> el<15:10>
     n<> u<122> t<Description> p<245> c<121> s<244> l<1:1> el<8:9>
@@ -250,64 +259,65 @@ n<${SURELOG_DIR}/tests/VirtualClass/dut.sv> u<246> t<Top_level_rule> c<1> l<1:1>
                             n<s0> u<231> t<SIMPLE_IDENTIFIER> p<232> l<14:25> el<14:27>
         n<> u<242> t<ENDMODULE> p<243> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/VirtualClass/dut.sv:11:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/VirtualClass/dut.sv:11:1: Multiply defined typedef "C".
-[WRN:PA0205] ${SURELOG_DIR}/tests/VirtualClass/dut.sv:11:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/VirtualClass/dut.sv:13:8: Illegal implicit net "id:90, name:t_t0".
-[ERR:EL0535] ${SURELOG_DIR}/tests/VirtualClass/dut.sv:13:33: Illegal implicit net "id:102, name:t_t0".
+[INF:CP0303] $Source01/dut.sv:11:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:11:1: Multiply defined typedef "C".
+[WRN:CP0323] $Source01/dut.sv:11:1: Multiply defined typedef "C".
+[WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:13:8: Illegal implicit net "id:92, name:t_t0".
+[ERR:EL0535] $Source01/dut.sv:13:33: Illegal implicit net "id:104, name:t_t0".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/VirtualClass/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/VirtualClass/VirtualClass/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:C file:${SURELOG_DIR}/tests/VirtualClass/dut.sv start:1:1 end:8:9:
+    ClassDefn name:work@C file:$Source01/dut.sv start:1:1 end:8:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:C start:1:15 end:1:16:
-        vpiParent: ClassDefn name:C
-        vpiName: C
-      vpiFullName: C
+      vpiName Identifier name:work@C start:1:15 end:1:16:
+        vpiParent: ClassDefn name:work@C
+        vpiName: work@C
+      vpiFullName: work@C
       vpiParameter (2 items):
         TypeParameter name:T start:1:33 end:1:34:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiName: T
-          vpiFullName: C::T
+          vpiFullName: work@C::T
         Parameter name:SIZE start:1:54 end:1:58:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiTypespec RefTypespec start:1:54 end:1:54:
             vpiParent: Parameter name:SIZE
-            vpiFullName: C::SIZE
+            vpiFullName: work@C::SIZE
             vpiActual: LogicTypespec
           vpiName: SIZE
-          vpiFullName: C::SIZE
+          vpiFullName: work@C::SIZE
       vpiParamAssign (2 items):
         ParamAssign start:1:33 end:1:42:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiLhs RefTypespec name:T start:1:33 end:1:34:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: C::T
+            vpiFullName: work@C::T
             vpiActual: TypeParameter name:T
           vpiRhs RefTypespec start:1:37 end:1:42:
             vpiParent: ParamAssign
-            vpiFullName: C
+            vpiFullName: work@C
             vpiActual: LogicTypespec
         ParamAssign start:1:54 end:1:62:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiLhs RefObj name:SIZE start:1:54 end:1:58:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: C::SIZE
+            vpiFullName: work@C::SIZE
             vpiActual: Parameter name:SIZE
           vpiRhs Constant start:1:61 end:1:62:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: C
+              vpiFullName: work@C
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -315,9 +325,9 @@ Design name:unnamed:
             vpiValue: 1
       vpiTypespec (9 items):
         LogicTypespec:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
         LogicTypespec:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiRange (1 items):
             Range start:2:19 end:2:29:
               vpiParent: LogicTypespec
@@ -328,13 +338,13 @@ Design name:unnamed:
                   RefObj name:SIZE start:2:20 end:2:24:
                     vpiParent: Operation
                     vpiName: SIZE
-                    vpiFullName: C::SIZE
+                    vpiFullName: work@C::SIZE
                     vpiActual: Parameter name:SIZE
                   Constant start:2:25 end:2:26:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: C
+                      vpiFullName: work@C
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -344,7 +354,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: C
+                  vpiFullName: work@C
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -352,16 +362,16 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         TypedefTypespec name:t_vector start:2:5 end:2:39:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiName Identifier name:t_vector start:2:30 end:2:38:
             vpiParent: TypedefTypespec name:t_vector
             vpiName: t_vector
           vpiTypedefAlias RefTypespec start:2:13 end:2:29:
             vpiParent: TypedefTypespec name:t_vector
-            vpiFullName: C::t_vector
+            vpiFullName: work@C::t_vector
             vpiActual: LogicTypespec
         ArrayTypespec:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiArrayType: static (1)
           vpiRange Range start:3:23 end:3:33:
             vpiParent: ArrayTypespec
@@ -372,13 +382,13 @@ Design name:unnamed:
                 RefObj name:SIZE start:3:24 end:3:28:
                   vpiParent: Operation
                   vpiName: SIZE
-                  vpiFullName: C::SIZE
+                  vpiFullName: work@C::SIZE
                   vpiActual: Parameter name:SIZE
                 Constant start:3:29 end:3:30:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: C
+                    vpiFullName: work@C
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -388,7 +398,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: C
+                vpiFullName: work@C
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -397,19 +407,19 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:T start:3:13 end:3:14:
             vpiParent: ArrayTypespec
             vpiName: T
-            vpiFullName: C::T
+            vpiFullName: work@C::T
             vpiActual: TypeParameter name:T
         TypedefTypespec name:t_array start:3:5 end:3:34:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiName Identifier name:t_array start:3:15 end:3:22:
             vpiParent: TypedefTypespec name:t_array
             vpiName: t_array
           vpiTypedefAlias RefTypespec start:3:13 end:3:14:
             vpiParent: TypedefTypespec name:t_array
-            vpiFullName: C::t_array
+            vpiFullName: work@C::t_array
             vpiActual: ArrayTypespec
         ArrayTypespec:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiArrayType: static (1)
           vpiRange Range start:5:21 end:5:33:
             vpiParent: ArrayTypespec
@@ -425,7 +435,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: C
+                        vpiFullName: work@C
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -434,13 +444,13 @@ Design name:unnamed:
                     RefObj name:SIZE start:5:24 end:5:28:
                       vpiParent: Operation
                       vpiName: SIZE
-                      vpiFullName: C::SIZE
+                      vpiFullName: work@C::SIZE
                       vpiActual: Parameter name:SIZE
                 Constant start:5:29 end:5:30:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: C
+                    vpiFullName: work@C
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -450,7 +460,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: C
+                vpiFullName: work@C
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -459,10 +469,10 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:t_vector start:5:9 end:5:17:
             vpiParent: ArrayTypespec
             vpiName: t_vector
-            vpiFullName: C::t_vector
+            vpiFullName: work@C::t_vector
             vpiActual: TypedefTypespec name:t_vector
         StructTypespec start:4:13 end:7:6:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiTypespecMember (2 items):
             TypespecMember name:m0 start:5:18 end:5:20:
               vpiParent: StructTypespec
@@ -470,7 +480,7 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:t_vector start:5:9 end:5:17:
                 vpiParent: TypespecMember name:m0
                 vpiName: t_vector
-                vpiFullName: C::m0::t_vector
+                vpiFullName: work@C::m0::t_vector
                 vpiActual: ArrayTypespec
             TypespecMember name:m1 start:6:17 end:6:19:
               vpiParent: StructTypespec
@@ -478,21 +488,27 @@ Design name:unnamed:
               vpiTypespec RefTypespec name:t_array start:6:9 end:6:16:
                 vpiParent: TypespecMember name:m1
                 vpiName: t_array
-                vpiFullName: C::m1::t_array
+                vpiFullName: work@C::m1::t_array
                 vpiActual: TypedefTypespec name:t_array
         TypedefTypespec name:t_struct start:4:5 end:7:16:
-          vpiParent: ClassDefn name:C
+          vpiParent: ClassDefn name:work@C
           vpiName Identifier name:t_struct start:7:7 end:7:15:
             vpiParent: TypedefTypespec name:t_struct
             vpiName: t_struct
           vpiTypedefAlias RefTypespec start:4:13 end:7:6:
             vpiParent: TypedefTypespec name:t_struct
-            vpiFullName: C::t_struct
+            vpiFullName: work@C::t_struct
             vpiActual: StructTypespec
-        TypeParameter name:T
+        TypeParameter name:T:
       vpiVirtual: true
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@C
+        vpiName: work
+        vpiFullName: work@C::work
+      vpiCell: C
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/VirtualClass/dut.sv start:11:1 end:15:10:
+    Module name:work@top file:$Source01/dut.sv start:11:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:11:8 end:11:11:
         vpiParent: Module name:work@top
@@ -604,6 +620,11 @@ Design name:unnamed:
                 vpiValue: 4
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:v0 start:13:26 end:13:28:
           vpiParent: Module name:work@top
@@ -633,10 +654,10 @@ Design name:unnamed:
           vpiName: s0
           vpiFullName: work@top.s0
   vpiTypespec (3 items):
-    ClassTypespec name:C:
+    ClassTypespec name:work@C:
       vpiParent: Design name:unnamed
-      vpiName: C
-      vpiClassDefn: ClassDefn name:C
+      vpiName: work@C
+      vpiClassDefn: ClassDefn name:work@C
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -647,37 +668,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: VirtualClass/VirtualClass
- test-dirpath: ${SURELOG_DIR}/regression/VirtualClass/VirtualClass
-uhdm-filepath: ${SURELOG_DIR}/regression/VirtualClass/VirtualClass/surelog.uhdm
+      test-name: VirtualClass/VirtualClass
+   test-dirpath: ${SURELOG_DIR}/regression/VirtualClass/VirtualClass
+  uhdm-filepath: ${SURELOG_DIR}/regression/VirtualClass/VirtualClass/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/VirtualClass/VirtualClass/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/VirtualClass/VirtualClass/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 316}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 316}},
             'post_len': 0,
             'pre_len': 316,
             'test_name': 'VirtualClass/VirtualClass'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      316 |         0 |
-+=================+==========+===========+
-|                 |      316 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      316 |         0 |
++=========================+==========+===========+
+|                         |      316 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -692,10 +716,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      12       3         4
 Operation                            4       0       0         4
-RefObj                               6       3       0         3
+RefObj                               8       5       0         3
 RefTypespec                         28      27       3         4
 ----------------------------------------------------------------
 Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    98      89       6        15
+                                   100      91       6        15
 ===================== END REDUCTION RESULT =====================

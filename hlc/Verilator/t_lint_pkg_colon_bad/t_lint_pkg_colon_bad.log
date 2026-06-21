@@ -1,9 +1,21 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_pkg_colon_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_pkg_colon_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_pkg_colon_bad.v".
+[SNT:PA0207] $Source01/t_lint_pkg_colon_bad.v:7:14: Syntax error: mismatched input '::' expecting ';',
+   reg mispkgb::bar_t b;
+              ^-- $Source01/t_lint_pkg_colon_bad.v:7:14:.
 AST_DEBUG_BEGIN
 Count: 49
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v> u<48> t<Top_level_rule> c<1> l<6:1> el<9:1>
+FILE: f<13>:$Source01/t_lint_pkg_colon_bad.v
+n<$Source01/t_lint_pkg_colon_bad.v> u<48> t<Top_level_rule> c<1> l<6:1> el<9:1>
   n<> u<1> t<Null_rule> p<48> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<48> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<48> s<4> l<2:1> el<2:3>
@@ -52,22 +64,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v> u<48> t<Top_level_rule>
                         n<b> u<35> t<SIMPLE_IDENTIFIER> p<36> l<7:23> el<7:24>
         n<> u<44> t<ENDMODULE> p<45> l<8:1> el<8:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v:7:14: Syntax error: mismatched input '::' expecting ';',
-   reg mispkgb::bar_t b;
-              ^-- ${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v:7:14:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_lint_pkg_colon_bad.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_pkg_colon_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_pkg_colon_bad.v file:$Source01/t_lint_pkg_colon_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_pkg_colon_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/lib/work/t_lint_pkg_colon_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_pkg_colon_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_pkg_colon_bad.v start:6:1 end:8:10:
+    Module name:work@t file:$Source01/t_lint_pkg_colon_bad.v start:6:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -96,6 +105,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:a start:6:31 end:6:32:
           vpiParent: Module name:work@t
@@ -103,7 +117,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiName: foo_t
             vpiFullName: work@t.a.foo_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:mispkg::foo_t
             vpiActual: UnsupportedTypespec name:foo_t
           vpiName: a
           vpiFullName: work@t.a
@@ -129,12 +143,13 @@ Design name:unnamed:
             vpiParent: Port name:a
             vpiName: foo_t
             vpiFullName: work@t.a.foo_t
-            vpiPrefix HierPath start:6:17 end:6:25:
+            vpiPrefix HierPath name:mispkg::foo_t start:6:17 end:6:25:
               vpiParent: RefTypespec name:foo_t
-              vpiFullName: work@t.a.foo_t
-              vpiActual (2 items):
-                ClassTypespec name:mispkg
-                UnsupportedTypespec name:foo_t
+              vpiName: mispkg::foo_t
+              vpiFullName: work@t.a.foo_t.mispkg::foo_t
+              vpiPathElem (2 items):
+                ClassTypespec name:mispkg:
+                UnsupportedTypespec name:foo_t:
             vpiActual: UnsupportedTypespec name:foo_t
   vpiTypespec (1 items):
     ModuleTypespec name:work@t:
@@ -144,37 +159,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_pkg_colon_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/surelog.uhdm
+      test-name: Verilator/t_lint_pkg_colon_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/lib/work/t_lint_pkg_colon_bad.v'): {'post_len': 0,
-                                                                                                                                                   'pre_len': 63}},
+            'files': {'$Output/lib/work/t_lint_pkg_colon_bad.v': {'post_len': 0,
+                                                                  'pre_len': 63}},
             'post_len': 0,
             'pre_len': 63,
             'test_name': 'Verilator/t_lint_pkg_colon_bad'}}
 
-+---------------------------------+----------+-----------+
-| INPUT                           |   PRELEN |   POSTLEN |
-+=================================+==========+===========+
-| lib/work/t_lint_pkg_colon_bad.v |       63 |         0 |
-+=================================+==========+===========+
-|                                 |       63 |         0 |
-+---------------------------------+----------+-----------+
++-----------------------------------------+----------+-----------+
+| INPUT                                   |   PRELEN |   POSTLEN |
++=========================================+==========+===========+
+| $Output/lib/work/t_lint_pkg_colon_bad.v |       63 |         0 |
++=========================================+==========+===========+
+|                                         |       63 |         0 |
++-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -188,7 +206,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_pkg_colon_bad/surelog.uhdm $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              20      20       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    20      20       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================

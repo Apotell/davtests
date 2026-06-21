@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_ccall/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_inst_ccall.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_inst_ccall
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_ccall.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_ccall.v".
 AST_DEBUG_BEGIN
 Count: 600
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v> u<599> t<Top_level_rule> c<1> l<6:1> el<55:1>
+FILE: f<13>:$Source01/t_inst_ccall.v
+n<$Source01/t_inst_ccall.v> u<599> t<Top_level_rule> c<1> l<6:1> el<55:1>
   n<> u<1> t<Null_rule> p<599> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<599> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<599> s<4> l<2:1> el<2:3>
@@ -603,20 +612,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v> u<599> t<Top_level_rule> c<1> l
                             n<64'd1> u<583> t<INTEGRAL_NUMBER> p<584> l<52:28> el<52:33>
         n<> u<595> t<ENDMODULE> p<596> l<54:1> el<54:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v:45:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_inst_ccall.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_ccall.v:45:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_ccall.v file:${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_ccall.v file:$Source01/t_inst_ccall.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_ccall.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_ccall/lib/work/t_inst_ccall.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_ccall.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v start:6:1 end:43:10:
+    Module name:work@t file:$Source01/t_inst_ccall.v start:6:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -765,6 +774,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (7 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -1000,7 +1014,7 @@ Design name:unnamed:
                                 vpiConstType: hexadecimal (5)
                                 vpiSize: 32
                                 vpiDecompile: "32'h12345678"
-                                vpiValue: 12345678
+                                vpiValue: "12345678"
                             Assignment start:33:6 end:33:35:
                               vpiParent: Begin
                               vpiLhs RefObj name:quad start:33:6 end:33:10:
@@ -1017,7 +1031,7 @@ Design name:unnamed:
                                 vpiConstType: hexadecimal (5)
                                 vpiSize: 64
                                 vpiDecompile: "64'h12345678abcdef12"
-                                vpiValue: 12345678abcdef12
+                                vpiValue: "12345678abcdef12"
                       IfStmt start:35:3 end:40:6:
                         vpiParent: Begin
                         vpiCondition Operation start:35:7 end:35:13:
@@ -1063,7 +1077,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 32
                                     vpiDecompile: "32'h79"
-                                    vpiValue: 79
+                                    vpiValue: "79"
                               vpiStmt SysFuncCall name:$stop start:36:30 end:36:35:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:36:30 end:36:35:
@@ -1089,7 +1103,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 64
                                     vpiDecompile: "64'h12345678abcdef13"
-                                    vpiValue: 12345678abcdef13
+                                    vpiValue: "12345678abcdef13"
                               vpiStmt SysFuncCall name:$stop start:37:45 end:37:50:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:37:45 end:37:50:
@@ -1110,7 +1124,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:39:6 end:39:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:39:6 end:39:13:
@@ -1279,7 +1293,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_inst_ccall.v start:45:1 end:54:10:
+    Module name:work@sub file:$Source01/t_inst_ccall.v start:45:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:45:8 end:45:11:
         vpiParent: Module name:work@sub
@@ -1392,6 +1406,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (4 items):
         Net name:narrow start:45:25 end:45:31:
           vpiParent: Module name:work@sub
@@ -1504,7 +1523,7 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 8
                 vpiDecompile: "8'd1"
-                vpiValue: 1
+                vpiValue: "1"
         ContAssign start:52:11 end:52:33:
           vpiParent: Module name:work@sub
           vpiLhs RefObj name:quadout start:52:11 end:52:18:
@@ -1530,7 +1549,7 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 64
                 vpiDecompile: "64'd1"
-                vpiValue: 1
+                vpiValue: "1"
   vpiTypespec (6 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -1554,37 +1573,40 @@ Design name:unnamed:
         vpiName: work@sub
       vpiModule: Module name:work@sub
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_ccall
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_ccall
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_ccall/surelog.uhdm
+      test-name: Verilator/t_inst_ccall
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_ccall
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_ccall/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_ccall/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_ccall/lib/work/t_inst_ccall.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 712}},
+            'files': {'$Output/lib/work/t_inst_ccall.v': {'post_len': 0,
+                                                          'pre_len': 712}},
             'post_len': 0,
             'pre_len': 712,
             'test_name': 'Verilator/t_inst_ccall'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_inst_ccall.v |      712 |         0 |
-+=========================+==========+===========+
-|                         |      712 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_inst_ccall.v |      712 |         0 |
++=================================+==========+===========+
+|                                 |      712 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1598,7 +1620,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_inst_ccall/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             230     230       0         0
 ----------------------------------------------------------------
-                                   228     228       0         0
+                                   230     230       0         0
 ===================== END REDUCTION RESULT =====================

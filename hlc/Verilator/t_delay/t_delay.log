@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_delay/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_delay.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_delay
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_delay.v".
+[INF:PA0201] Parsing source file "$Source01/t_delay.v".
 AST_DEBUG_BEGIN
 Count: 388
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_delay.v
-n<${SURELOG_DIR}/tests/Verilator/t_delay.v> u<387> t<Top_level_rule> c<1> l<6:1> el<38:1>
+FILE: f<13>:$Source01/t_delay.v
+n<$Source01/t_delay.v> u<387> t<Top_level_rule> c<1> l<6:1> el<38:1>
   n<> u<1> t<Null_rule> p<387> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<387> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<387> s<4> l<2:1> el<2:3>
@@ -391,19 +400,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_delay.v> u<387> t<Top_level_rule> c<1> l<6:1>
                                 n<> u<370> t<END> p<371> l<35:4> el<35:7>
         n<> u<383> t<ENDMODULE> p<384> l<37:1> el<37:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_delay.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_delay.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_delay.v file:${SURELOG_DIR}/tests/Verilator/t_delay.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_delay.v file:$Source01/t_delay.v:
       vpiParent: Design name:unnamed
       vpiName: t_delay.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_delay/lib/work/t_delay.v"
+      vpiPreprocFile: "$Output/lib/work/t_delay.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_delay.v start:6:1 end:37:10:
+    Module name:work@t file:$Source01/t_delay.v start:6:1 end:37:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -522,6 +531,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (5 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:work@t
@@ -593,7 +607,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 32
                 vpiDecompile: "32'h1"
-                vpiValue: 1
+                vpiValue: "1"
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:work@t
@@ -695,7 +709,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 32
                             vpiDecompile: "32'h11"
-                            vpiValue: 11
+                            vpiValue: "11"
                           vpiDelay Constant start:24:19 end:24:20:
                             vpiParent: DelayControl
                             vpiTypespec RefTypespec:
@@ -753,7 +767,7 @@ Design name:unnamed:
                                   vpiConstType: hexadecimal (5)
                                   vpiSize: 32
                                   vpiDecompile: "32'h12"
-                                  vpiValue: 12
+                                  vpiValue: "12"
                             vpiDelay Constant start:27:19 end:27:28:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -809,7 +823,7 @@ Design name:unnamed:
                                   vpiConstType: hexadecimal (5)
                                   vpiSize: 32
                                   vpiDecompile: "32'h23"
-                                  vpiValue: 23
+                                  vpiValue: "23"
                             vpiStmt SysFuncCall name:$stop start:30:31 end:30:36:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:30:31 end:30:36:
@@ -835,7 +849,7 @@ Design name:unnamed:
                                   vpiConstType: hexadecimal (5)
                                   vpiSize: 32
                                   vpiDecompile: "32'h25"
-                                  vpiValue: 25
+                                  vpiValue: "25"
                             vpiStmt SysFuncCall name:$stop start:31:31 end:31:36:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:31:31 end:31:36:
@@ -856,7 +870,7 @@ Design name:unnamed:
                                 vpiConstType: string (6)
                                 vpiSize: 176
                                 vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                vpiValue: *-* All Finished *-*\n
+                                vpiValue: "*-* All Finished *-*\\n"
                           DelayControl start:33:10 end:33:23:
                             vpiParent: Begin
                             vpiStmt SysFuncCall name:$finish start:33:15 end:33:22:
@@ -901,7 +915,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 32
                 vpiDecompile: "32'h1"
-                vpiValue: 1
+                vpiValue: "1"
   vpiTypespec (5 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -919,37 +933,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_delay
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_delay
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_delay/surelog.uhdm
+      test-name: Verilator/t_delay
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_delay
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_delay/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_delay/mounts.json
 
 
 {'result': {'coverage': 95.93,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_delay/lib/work/t_delay.v'): {'post_len': 18,
-                                                                                                                         'pre_len': 442}},
+            'files': {'$Output/lib/work/t_delay.v': {'post_len': 18,
+                                                     'pre_len': 442}},
             'post_len': 18,
             'pre_len': 442,
             'test_name': 'Verilator/t_delay'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/t_delay.v |      442 |        18 |
-+====================+==========+===========+
-|                    |      442 |        18 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/t_delay.v |      442 |        18 |
++============================+==========+===========+
+|                            |      442 |        18 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 95.93
@@ -964,10 +981,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            22      22       5         5
 Operation                           10       5       0         5
-RefObj                              15      11       0         4
+RefObj                              16      12       0         4
 RefTypespec                         29      29       5         5
 ----------------------------------------------------------------
 Others                              52      52       0         0
 ----------------------------------------------------------------
-                                   128     119      10        19
+                                   129     120      10        19
 ===================== END REDUCTION RESULT =====================

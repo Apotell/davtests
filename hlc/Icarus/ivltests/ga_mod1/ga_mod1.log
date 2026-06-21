@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm ga_mod1.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/ga_mod1.v".
+[INF:PA0201] Parsing source file "$Source01/ga_mod1.v".
 AST_DEBUG_BEGIN
 Count: 490
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v> u<489> t<Top_level_rule> c<1> l<22:1> el<66:1>
+FILE: f<13>:$Source01/ga_mod1.v
+n<$Source01/ga_mod1.v> u<489> t<Top_level_rule> c<1> l<22:1> el<66:1>
   n<> u<1> t<Null_rule> p<489> s<2> l<22:1> el<22:1>
   n<//> u<2> t<LINE_COMMENT> p<489> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 1999 Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<489> s<4> l<2:1> el<2:54>
@@ -493,20 +502,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v> u<489> t<Top_level_rule> c<1> 
         n<> u<484> t<ENDMODULE> p<485> l<65:1> el<65:10>
   n<// main> u<488> t<LINE_COMMENT> p<489> l<65:11> el<65:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v:22:1: Compile module "work@my_and".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v:30:1: Compile module "work@main".
+[INF:CP0303] $Source01/ga_mod1.v:22:1: Compile module "work@my_and".
+[INF:CP0303] $Source01/ga_mod1.v:30:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:ga_mod1.v file:${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:ga_mod1.v file:$Source01/ga_mod1.v:
       vpiParent: Design name:unnamed
       vpiName: ga_mod1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/lib/work/ga_mod1.v"
+      vpiPreprocFile: "$Output/lib/work/ga_mod1.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@my_and file:${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v start:22:1 end:28:10:
+    Module name:work@my_and file:$Source01/ga_mod1.v start:22:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_and start:22:8 end:22:14:
         vpiParent: Module name:work@my_and
@@ -517,6 +526,11 @@ Design name:unnamed:
           vpiParent: Module name:work@my_and
       vpiDefName: work@my_and
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@my_and
+        vpiName: work
+        vpiFullName: work@my_and.work
+      vpiCell: my_and
       vpiNet (3 items):
         Net name:out start:24:8 end:24:11:
           vpiParent: Module name:work@my_and
@@ -618,7 +632,7 @@ Design name:unnamed:
                 vpiName: b
                 vpiFullName: work@my_and.u0.b
                 vpiActual: Net name:b
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/ga_mod1.v start:30:1 end:65:10:
+    Module name:work@main file:$Source01/ga_mod1.v start:30:1 end:65:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:30:8 end:30:12:
         vpiParent: Module name:work@main
@@ -716,6 +730,11 @@ Design name:unnamed:
             vpiName: work@my_and
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (6 items):
         Net name:globvar start:32:5 end:32:12:
           vpiParent: Module name:work@main
@@ -865,7 +884,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiForIncStmt (1 items):
                   Assignment start:49:35 end:49:51:
                     vpiParent: ForStmt
@@ -999,7 +1018,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
                             vpiDecompile: "16'h0"
-                            vpiValue: 0
+                            vpiValue: "0"
                       vpiStmt Begin start:52:11 end:60:14:
                         vpiParent: ForStmt
                         vpiFullName: work@main
@@ -1188,37 +1207,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/ga_mod1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/surelog.uhdm
+      test-name: Icarus/ivltests/ga_mod1
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/lib/work/ga_mod1.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 484}},
+            'files': {'$Output/lib/work/ga_mod1.v': {'post_len': 0,
+                                                     'pre_len': 484}},
             'post_len': 0,
             'pre_len': 484,
             'test_name': 'Icarus/ivltests/ga_mod1'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/ga_mod1.v |      484 |         0 |
-+====================+==========+===========+
-|                    |      484 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/ga_mod1.v |      484 |         0 |
++============================+==========+===========+
+|                            |      484 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1232,7 +1254,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/ga_mod1/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             165     165       0         0
+Others                             167     167       0         0
 ----------------------------------------------------------------
-                                   165     165       0         0
+                                   167     167       0         0
 ===================== END REDUCTION RESULT =====================

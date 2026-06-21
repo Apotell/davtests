@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/DecValue/DecValue/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/DecValue -parse -d uhdm -d ast dut.sv -nobuiltin "-PA=\"\'d7_200\"" "-PB=\"\'d1_800\"" -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/DecValue/DecValue
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 99
 LIB: work
-FILE: ${SURELOG_DIR}/tests/DecValue/dut.sv
-n<${SURELOG_DIR}/tests/DecValue/dut.sv> u<98> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<98> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<98> s<96> l<1:1>
   n<> u<96> t<Source_text> p<98> c<95> s<97> l<1:1> el<7:10>
     n<> u<95> t<Description> p<96> c<94> l<1:1> el<7:10>
@@ -102,19 +111,19 @@ n<${SURELOG_DIR}/tests/DecValue/dut.sv> u<98> t<Top_level_rule> c<1> l<1:1> el<9
         n<> u<93> t<ENDMODULE> p<94> l<7:1> el<7:10>
   n<// top> u<97> t<LINE_COMMENT> p<98> l<7:11> el<7:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/DecValue/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/DecValue/dut.sv:1:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/DecValue/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/DecValue/DecValue/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/DecValue/dut.sv start:1:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -197,6 +206,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiPort (1 items):
         Port name:o start:1:23 end:1:24:
           vpiParent: Module name:work@top
@@ -224,7 +238,7 @@ Design name:unnamed:
               vpiParent: Operation
               vpiFullName: work@top
               vpiActual: IntTypespec
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (1 items):
               RefObj name:C start:6:20 end:6:21:
                 vpiParent: Operation
@@ -242,37 +256,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: DecValue/DecValue
- test-dirpath: ${SURELOG_DIR}/regression/DecValue/DecValue
-uhdm-filepath: ${SURELOG_DIR}/regression/DecValue/DecValue/surelog.uhdm
+      test-name: DecValue/DecValue
+   test-dirpath: ${SURELOG_DIR}/regression/DecValue/DecValue
+  uhdm-filepath: ${SURELOG_DIR}/regression/DecValue/DecValue/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/DecValue/DecValue/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/DecValue/DecValue/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                      'pre_len': 112}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 112}},
             'post_len': 0,
             'pre_len': 112,
             'test_name': 'DecValue/DecValue'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      112 |         0 |
-+=================+==========+===========+
-|                 |      112 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      112 |         0 |
++=========================+==========+===========+
+|                         |      112 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -286,7 +303,7 @@ COMMAND: ${SURELOG_DIR}/regression/DecValue/DecValue/surelog.uhdm ${SURELOG_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    34      34       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamOverloadProp -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 89
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv
-n<${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv> u<88> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<88> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<88> s<87> l<1:1>
   n<> u<87> t<Source_text> p<88> c<27> l<1:1> el<10:10>
     n<> u<27> t<Description> p<87> c<26> s<86> l<1:1> el<5:10>
@@ -92,22 +101,22 @@ n<${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv> u<88> t<Top_level_rule> c<1> l<
                                   n<Width> u<70> t<SIMPLE_IDENTIFIER> p<71> l<9:45> el<9:50>
         n<> u<84> t<ENDMODULE> p<85> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv:7:1: Compile module "work@prim_flop".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv:7:1: No timescale set for "work@prim_flop".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv:3:8: Illegal implicit net "id:13, name:Width".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:7:1: Compile module "work@prim_flop".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@prim_flop".
+[ERR:EL0535] $Source01/dut.sv:3:8: Illegal implicit net "id:15, name:Width".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv start:1:1 end:5:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -121,6 +130,11 @@ Design name:unnamed:
             vpiName: work@prim_flop
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:u_prim_flop start:4:6 end:4:17:
           vpiParent: Module name:work@top
@@ -148,7 +162,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "22"
                 vpiValue: 22
-    Module name:work@prim_flop file:${SURELOG_DIR}/tests/ParamOverloadProp/dut.sv start:7:1 end:10:10:
+    Module name:work@prim_flop file:$Source01/dut.sv start:7:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@prim_flop start:7:8 end:7:17:
         vpiParent: Module name:work@prim_flop
@@ -239,6 +253,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@prim_flop
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@prim_flop
+        vpiName: work
+        vpiFullName: work@prim_flop.work
+      vpiCell: prim_flop
   vpiTypespec (3 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -256,37 +275,40 @@ Design name:unnamed:
         vpiName: work@prim_flop
       vpiModule: Module name:work@prim_flop
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamOverloadProp/ParamOverloadProp
- test-dirpath: ${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp/surelog.uhdm
+      test-name: ParamOverloadProp/ParamOverloadProp
+   test-dirpath: ${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp
+  uhdm-filepath: ${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamOverloadProp/ParamOverloadProp/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                        'pre_len': 155}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 155}},
             'post_len': 0,
             'pre_len': 155,
             'test_name': 'ParamOverloadProp/ParamOverloadProp'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      155 |         0 |
-+=================+==========+===========+
-|                 |      155 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      155 |         0 |
++=========================+==========+===========+
+|                         |      155 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -301,10 +323,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             4       4       1         1
 Operation                            1       0       0         1
-RefObj                               5       4       0         1
+RefObj                               7       6       0         1
 RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
 Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    38      36       2         4
+                                    40      38       2         4
 ===================== END REDUCTION RESULT =====================

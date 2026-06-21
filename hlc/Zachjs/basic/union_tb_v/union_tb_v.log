@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+basic+lex+lib+relong+resolve -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm basic/union_tb.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic/union_tb.v".
+[INF:PA0201] Parsing source file "$Source01/basic/union_tb.v".
 AST_DEBUG_BEGIN
 Count: 20
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/basic/union_tb.v
-n<${SURELOG_DIR}/tests/Zachjs/basic/union_tb.v> u<19> t<Top_level_rule> c<1> l<1:1> el<4:1>
+FILE: f<18>:$Source01/basic/union_tb.v
+n<$Source01/basic/union_tb.v> u<19> t<Top_level_rule> c<1> l<1:1> el<4:1>
   n<> u<1> t<Null_rule> p<19> s<18> l<1:1>
   n<> u<18> t<Source_text> p<19> c<17> l<1:1> el<3:10>
     n<> u<17> t<Description> p<18> c<16> l<1:1> el<3:10>
@@ -23,19 +32,19 @@ n<${SURELOG_DIR}/tests/Zachjs/basic/union_tb.v> u<19> t<Top_level_rule> c<1> l<1
                   n<> u<9> t<Ordered_port_connection> p<10> l<2:15> el<2:15>
         n<> u<15> t<ENDMODULE> p<16> l<3:1> el<3:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/basic/union_tb.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/basic/union_tb.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:union_tb.v file:${SURELOG_DIR}/tests/Zachjs/basic/union_tb.v:
+  vpiSourceFile (1 items):
+    SourceFile name:union_tb.v file:$Source01/basic/union_tb.v:
       vpiParent: Design name:unnamed
       vpiName: union_tb.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/lib/work/basic/union_tb.v"
+      vpiPreprocFile: "$Output/lib/work/basic/union_tb.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Zachjs/basic/union_tb.v start:1:1 end:3:10:
+    Module name:work@top file:$Source01/basic/union_tb.v start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -49,6 +58,11 @@ Design name:unnamed:
             vpiName: work@wrap
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:wrap start:2:10 end:2:14:
           vpiParent: Module name:work@top
@@ -66,37 +80,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/basic/union_tb_v
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/surelog.uhdm
+      test-name: Zachjs/basic/union_tb_v
+   test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/lib/work/basic/union_tb.v'): {'post_len': 0,
-                                                                                                                                      'pre_len': 32}},
+            'files': {'$Output/lib/work/basic/union_tb.v': {'post_len': 0,
+                                                            'pre_len': 32}},
             'post_len': 0,
             'pre_len': 32,
             'test_name': 'Zachjs/basic/union_tb_v'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/basic/union_tb.v |       32 |         0 |
-+===========================+==========+===========+
-|                           |       32 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/basic/union_tb.v |       32 |         0 |
++===================================+==========+===========+
+|                                   |       32 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -110,7 +127,7 @@ COMMAND: ${SURELOG_DIR}/regression/Zachjs/basic/union_tb_v/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              10      10       0         0
+Others                              11      11       0         0
 ----------------------------------------------------------------
-                                    10      10       0         0
+                                    11      11       0         0
 ===================== END REDUCTION RESULT =====================

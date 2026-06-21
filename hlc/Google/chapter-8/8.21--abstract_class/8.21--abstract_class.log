@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-8 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 8.21--abstract_class.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/8.21--abstract_class.sv".
+[INF:PA0201] Parsing source file "$Source01/8.21--abstract_class.sv".
 AST_DEBUG_BEGIN
 Count: 123
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv
-n<${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv> u<122> t<Top_level_rule> c<1> l<15:1> el<35:1>
+FILE: f<14>:$Source01/8.21--abstract_class.sv
+n<$Source01/8.21--abstract_class.sv> u<122> t<Top_level_rule> c<1> l<15:1> el<35:1>
   n<> u<1> t<Null_rule> p<122> s<2> l<15:1> el<15:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<122> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<122> s<4> l<2:1> el<2:3>
@@ -126,76 +135,87 @@ n<${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv> u<122> t<Top_le
                           n<> u<108> t<END> p<109> l<33:2> el<33:5>
         n<> u<118> t<ENDMODULE> p<119> l<34:1> el<34:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv:15:1: Compile module "work@class_tb".
+[INF:CP0303] $Source01/8.21--abstract_class.sv:15:1: Compile module "work@class_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:8.21--abstract_class.sv file:${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:8.21--abstract_class.sv file:$Source01/8.21--abstract_class.sv:
       vpiParent: Design name:unnamed
       vpiName: "8.21--abstract_class.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/lib/work/8.21--abstract_class.sv"
+      vpiPreprocFile: "$Output/lib/work/8.21--abstract_class.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@class_tb file:${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv start:15:1 end:34:10:
+    Module name:work@class_tb file:$Source01/8.21--abstract_class.sv start:15:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@class_tb start:15:8 end:15:16:
         vpiParent: Module name:work@class_tb
         vpiName: work@class_tb
       vpiFullName: work@class_tb
       vpiTypespec (3 items):
-        ClassTypespec name:base_cls:
+        ClassTypespec name:work@base_cls:
           vpiParent: Module name:work@class_tb
-          vpiName: base_cls
-          vpiClassDefn: ClassDefn name:base_cls
-        ClassTypespec name:test_cls:
+          vpiName: work@base_cls
+          vpiClassDefn: ClassDefn name:work@base_cls
+        ClassTypespec name:work@test_cls:
           vpiParent: Module name:work@class_tb
-          vpiName: test_cls
-          vpiClassDefn: ClassDefn name:test_cls
+          vpiName: work@test_cls
+          vpiClassDefn: ClassDefn name:work@test_cls
         LogicTypespec:
           vpiParent: Module name:work@class_tb
       vpiDefName: work@class_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@class_tb
+        vpiName: work
+        vpiFullName: work@class_tb.work
+      vpiCell: class_tb
       vpiClassDefn (2 items):
-        ClassDefn name:base_cls file:${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv start:16:2 end:18:10:
+        ClassDefn name:work@base_cls file:$Source01/8.21--abstract_class.sv start:16:2 end:18:10:
           vpiParent: Module name:work@class_tb
-          vpiName Identifier name:base_cls start:16:16 end:16:24:
-            vpiParent: ClassDefn name:base_cls
-            vpiName: base_cls
-          vpiFullName: work@class_tb::base_cls
+          vpiName Identifier name:work@base_cls start:16:16 end:16:24:
+            vpiParent: ClassDefn name:work@base_cls
+            vpiName: work@base_cls
+          vpiFullName: work@class_tb::work@base_cls
           vpiVirtual: true
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@base_cls
+            vpiName: work
+            vpiFullName: work@class_tb::work@base_cls::work
+          vpiCell: base_cls
           vpiTaskFuncDecl (1 items):
             FunctionDecl name:print start:17:16 end:17:37:
-              vpiParent: ClassDefn name:base_cls
+              vpiParent: ClassDefn name:work@base_cls
               vpiName Identifier name:print start:17:30 end:17:35:
                 vpiParent: FunctionDecl name:print
                 vpiName: print
-              vpiFullName: work@class_tb::base_cls::print
+              vpiFullName: work@class_tb::work@base_cls::print
               vpiReturn RefTypespec start:17:25 end:17:29:
                 vpiParent: FunctionDecl name:print
-                vpiFullName: work@class_tb::base_cls::print
+                vpiFullName: work@class_tb::work@base_cls::print
                 vpiActual: VoidTypespec
-        ClassDefn name:test_cls file:${SURELOG_DIR}/tests/Google/chapter-8/8.21--abstract_class.sv start:20:2 end:25:10:
+        ClassDefn name:work@test_cls file:$Source01/8.21--abstract_class.sv start:20:2 end:25:10:
           vpiParent: Module name:work@class_tb
-          vpiName Identifier name:test_cls start:20:8 end:20:16:
-            vpiParent: ClassDefn name:test_cls
-            vpiName: test_cls
-          vpiFullName: work@class_tb::test_cls
+          vpiName Identifier name:work@test_cls start:20:8 end:20:16:
+            vpiParent: ClassDefn name:work@test_cls
+            vpiName: work@test_cls
+          vpiFullName: work@class_tb::work@test_cls
           vpiVariable (1 items):
             Variable name:a start:21:7 end:21:8:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiTypespec RefTypespec start:21:3 end:21:6:
                 vpiParent: Variable name:a
-                vpiFullName: work@class_tb::test_cls::a
+                vpiFullName: work@class_tb::work@test_cls::a
                 vpiActual: IntTypespec
               vpiName: a
-              vpiFullName: work@class_tb::test_cls::a
+              vpiFullName: work@class_tb::work@test_cls::a
               vpiValue Constant start:21:11 end:21:12:
                 vpiParent: Variable name:a
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@class_tb::test_cls::a
+                  vpiFullName: work@class_tb::work@test_cls::a
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -203,23 +223,29 @@ Design name:unnamed:
                 vpiValue: 2
           vpiTypespec (1 items):
             ClassTypespec name:base_cls start:20:25 end:20:33:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiName: base_cls
-              vpiClassDefn: ClassDefn name:base_cls
+              vpiClassDefn: ClassDefn name:work@base_cls
+          vpiClassType: userdefined class (3)
           vpiExtends Extends start:20:17 end:20:24:
-            vpiParent: ClassDefn name:test_cls
+            vpiParent: ClassDefn name:work@test_cls
             vpiClassTypespec RefTypespec name:base_cls start:20:25 end:20:33:
               vpiParent: Extends
               vpiName: base_cls
-              vpiFullName: work@class_tb::test_cls::base_cls
+              vpiFullName: work@class_tb::work@test_cls::base_cls
               vpiActual: ClassTypespec name:base_cls
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@test_cls
+            vpiName: work
+            vpiFullName: work@class_tb::work@test_cls::work
+          vpiCell: test_cls
           vpiMethod (1 items):
             Function name:print start:22:11 end:24:14:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiName Identifier name:print start:22:25 end:22:30:
                 vpiParent: Function name:print
                 vpiName: print
-              vpiFullName: work@class_tb::test_cls::print
+              vpiFullName: work@class_tb::work@test_cls::print
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiStmt SysFuncCall name:$display start:23:4 end:23:15:
@@ -231,11 +257,11 @@ Design name:unnamed:
                   RefObj name:a start:23:13 end:23:14:
                     vpiParent: SysFuncCall name:$display
                     vpiName: a
-                    vpiFullName: work@class_tb::test_cls::print::a
+                    vpiFullName: work@class_tb::work@test_cls::print::a
                     vpiActual: Variable name:a
               vpiReturn RefTypespec start:22:20 end:22:24:
                 vpiParent: Function name:print
-                vpiFullName: work@class_tb::test_cls::print
+                vpiFullName: work@class_tb::work@test_cls::print
                 vpiActual: VoidTypespec
       vpiNet (1 items):
         Net name:test_obj start:27:11 end:27:19:
@@ -271,7 +297,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: test_obj.print()
                 vpiFullName: work@class_tb.test_obj.print()
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:test_obj start:32:3 end:32:11:
                     vpiParent: HierPath name:test_obj.print()
                     vpiName: test_obj
@@ -295,37 +321,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-8/8.21--abstract_class
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/surelog.uhdm
+      test-name: Google/chapter-8/8.21--abstract_class
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/lib/work/8.21--abstract_class.sv'): {'post_len': 0,
-                                                                                                                                                           'pre_len': 263}},
+            'files': {'$Output/lib/work/8.21--abstract_class.sv': {'post_len': 0,
+                                                                   'pre_len': 263}},
             'post_len': 0,
             'pre_len': 263,
             'test_name': 'Google/chapter-8/8.21--abstract_class'}}
 
-+----------------------------------+----------+-----------+
-| INPUT                            |   PRELEN |   POSTLEN |
-+==================================+==========+===========+
-| lib/work/8.21--abstract_class.sv |      263 |         0 |
-+==================================+==========+===========+
-|                                  |      263 |         0 |
-+----------------------------------+----------+-----------+
++------------------------------------------+----------+-----------+
+| INPUT                                    |   PRELEN |   POSTLEN |
++==========================================+==========+===========+
+| $Output/lib/work/8.21--abstract_class.sv |      263 |         0 |
++==========================================+==========+===========+
+|                                          |      263 |         0 |
++------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -339,7 +368,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-8/8.21--abstract_class/surelog
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    46      46       0         0
 ===================== END REDUCTION RESULT =====================

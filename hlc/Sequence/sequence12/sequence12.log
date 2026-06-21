@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence12/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence12.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence12
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence12.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence12.sv".
 AST_DEBUG_BEGIN
 Count: 148
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence12.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence12.sv> u<147> t<Top_level_rule> c<1> l<1:1> el<15:10>
+FILE: f<13>:$Source01/sequence12.sv
+n<$Source01/sequence12.sv> u<147> t<Top_level_rule> c<1> l<1:1> el<15:10>
   n<> u<1> t<Null_rule> p<147> s<146> l<1:1>
   n<> u<146> t<Source_text> p<147> c<145> l<1:1> el<15:10>
     n<> u<145> t<Description> p<146> c<144> l<1:1> el<15:10>
@@ -151,20 +160,20 @@ n<${SURELOG_DIR}/tests/Sequence/sequence12.sv> u<147> t<Top_level_rule> c<1> l<1
                         n<> u<134> t<END> p<135> l<14:3> el<14:6>
         n<> u<143> t<ENDMODULE> p<144> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence12.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence12.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence12.sv:9:19: Illegal implicit net "id:28, name:seq12".
+[INF:CP0303] $Source01/sequence12.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/sequence12.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence12.sv:9:19: Illegal implicit net "id:29, name:seq12".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence12.sv file:${SURELOG_DIR}/tests/Sequence/sequence12.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence12.sv file:$Source01/sequence12.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence12.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence12/lib/work/sequence12.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence12.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence12.sv start:1:1 end:15:10:
+    Module name:work@tb file:$Source01/sequence12.sv start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -207,6 +216,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (2 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -321,37 +335,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence12
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence12
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence12/surelog.uhdm
+      test-name: Sequence/sequence12
+   test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence12
+  uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence12/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Sequence/sequence12/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence12/lib/work/sequence12.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 157}},
+            'files': {'$Output/lib/work/sequence12.sv': {'post_len': 0,
+                                                         'pre_len': 157}},
             'post_len': 0,
             'pre_len': 157,
             'test_name': 'Sequence/sequence12'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sequence12.sv |      157 |         0 |
-+========================+==========+===========+
-|                        |      157 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sequence12.sv |      157 |         0 |
++================================+==========+===========+
+|                                |      157 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -365,7 +382,7 @@ COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence12/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    44      44       0         0
 ===================== END REDUCTION RESULT =====================

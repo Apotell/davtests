@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_math_signed_wire/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_signed_wire.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_signed_wire
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_signed_wire.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_signed_wire.v".
 AST_DEBUG_BEGIN
 Count: 443
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v
-n<${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v> u<442> t<Top_level_rule> c<1> l<7:1> el<54:1>
+FILE: f<13>:$Source01/t_math_signed_wire.v
+n<$Source01/t_math_signed_wire.v> u<442> t<Top_level_rule> c<1> l<7:1> el<54:1>
   n<> u<1> t<Null_rule> p<442> s<2> l<7:1> el<7:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<442> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<442> s<4> l<2:1> el<2:3>
@@ -446,21 +455,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v> u<442> t<Top_level_rule> 
         n<// verilator lint_on WIDTH> u<437> t<LINE_COMMENT> p<439> s<438> l<52:4> el<52:30>
         n<> u<438> t<ENDMODULE> p<439> l<53:1> el<53:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v:7:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v:32:1: Compile module "work@Test1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v:44:1: Compile module "work@Test2".
+[INF:CP0303] $Source01/t_math_signed_wire.v:7:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_math_signed_wire.v:32:1: Compile module "work@Test1".
+[INF:CP0303] $Source01/t_math_signed_wire.v:44:1: Compile module "work@Test2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_math_signed_wire.v file:${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_math_signed_wire.v file:$Source01/t_math_signed_wire.v:
       vpiParent: Design name:unnamed
       vpiName: t_math_signed_wire.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_math_signed_wire/lib/work/t_math_signed_wire.v"
+      vpiPreprocFile: "$Output/lib/work/t_math_signed_wire.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v start:7:1 end:30:10:
+    Module name:work@t file:$Source01/t_math_signed_wire.v start:7:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:7:8 end:7:9:
         vpiParent: Module name:work@t
@@ -533,6 +542,11 @@ Design name:unnamed:
             vpiName: work@Test2
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -612,7 +626,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: -1
                         vpiDecompile: "'h12"
-                        vpiValue: 12
+                        vpiValue: "12"
                   vpiStmt SysFuncCall name:$stop start:24:23 end:24:28:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:24:23 end:24:28:
@@ -638,7 +652,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: -1
                         vpiDecompile: "'h02"
-                        vpiValue: 02
+                        vpiValue: "02"
                   vpiStmt SysFuncCall name:$stop start:25:23 end:25:28:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:25:23 end:25:28:
@@ -659,7 +673,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 176
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: *-* All Finished *-*\n
+                      vpiValue: "*-* All Finished *-*\\n"
                 SysFuncCall name:$finish start:27:7 end:27:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:27:7 end:27:14:
@@ -699,7 +713,7 @@ Design name:unnamed:
                 vpiName: as
                 vpiFullName: work@t.test2.as
                 vpiActual: Net name:as
-    Module name:work@Test1 file:${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v start:32:1 end:41:10:
+    Module name:work@Test1 file:$Source01/t_math_signed_wire.v start:32:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test1 start:32:8 end:32:13:
         vpiParent: Module name:work@Test1
@@ -786,6 +800,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Test1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test1
+        vpiName: work
+        vpiFullName: work@Test1.work
+      vpiCell: Test1
       vpiNet (3 items):
         Net name:au start:32:28 end:32:30:
           vpiParent: Module name:work@Test1
@@ -887,7 +906,7 @@ Design name:unnamed:
                 vpiName: c
                 vpiFullName: work@Test1.c
                 vpiActual: Net name:c
-    Module name:work@Test2 file:${SURELOG_DIR}/tests/Verilator/t_math_signed_wire.v start:44:1 end:53:10:
+    Module name:work@Test2 file:$Source01/t_math_signed_wire.v start:44:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test2 start:44:8 end:44:13:
         vpiParent: Module name:work@Test2
@@ -974,6 +993,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Test2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test2
+        vpiName: work
+        vpiFullName: work@Test2.work
+      vpiCell: Test2
       vpiNet (3 items):
         Net name:as start:44:28 end:44:30:
           vpiParent: Module name:work@Test2
@@ -1102,37 +1126,40 @@ Design name:unnamed:
         vpiName: work@Test2
       vpiModule: Module name:work@Test2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_math_signed_wire
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_signed_wire
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed_wire/surelog.uhdm
+      test-name: Verilator/t_math_signed_wire
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_signed_wire
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed_wire/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed_wire/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_math_signed_wire/lib/work/t_math_signed_wire.v'): {'post_len': 0,
-                                                                                                                                               'pre_len': 446}},
+            'files': {'$Output/lib/work/t_math_signed_wire.v': {'post_len': 0,
+                                                                'pre_len': 446}},
             'post_len': 0,
             'pre_len': 446,
             'test_name': 'Verilator/t_math_signed_wire'}}
 
-+-------------------------------+----------+-----------+
-| INPUT                         |   PRELEN |   POSTLEN |
-+===============================+==========+===========+
-| lib/work/t_math_signed_wire.v |      446 |         0 |
-+===============================+==========+===========+
-|                               |      446 |         0 |
-+-------------------------------+----------+-----------+
++---------------------------------------+----------+-----------+
+| INPUT                                 |   PRELEN |   POSTLEN |
++=======================================+==========+===========+
+| $Output/lib/work/t_math_signed_wire.v |      446 |         0 |
++=======================================+==========+===========+
+|                                       |      446 |         0 |
++---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1149,7 +1176,7 @@ Constant                            23      23       2         2
 Operation                            7       5       0         2
 RefTypespec                         37      37       2         2
 ----------------------------------------------------------------
-Others                              91      91       0         0
+Others                              94      94       0         0
 ----------------------------------------------------------------
-                                   158     156       4         6
+                                   161     159       4         6
 ===================== END REDUCTION RESULT =====================

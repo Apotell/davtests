@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_math_swap/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_swap.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_swap
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_swap.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_swap.v".
 AST_DEBUG_BEGIN
 Count: 2306
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_math_swap.v
-n<${SURELOG_DIR}/tests/Verilator/t_math_swap.v> u<2305> t<Top_level_rule> c<1> l<6:1> el<165:1>
+FILE: f<13>:$Source01/t_math_swap.v
+n<$Source01/t_math_swap.v> u<2305> t<Top_level_rule> c<1> l<6:1> el<165:1>
   n<> u<1> t<Null_rule> p<2305> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<2305> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<2305> s<4> l<2:1> el<2:3>
@@ -2309,18 +2318,18 @@ n<${SURELOG_DIR}/tests/Verilator/t_math_swap.v> u<2305> t<Top_level_rule> c<1> l
                                 n<> u<2288> t<END> p<2289> l<162:4> el<162:7>
         n<> u<2301> t<ENDMODULE> p<2302> l<164:1> el<164:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_math_swap.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_math_swap.v:79:1: Compile module "work@Test".
+[INF:CP0303] $Source01/t_math_swap.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_math_swap.v:79:1: Compile module "work@Test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_math_swap.v:53:28: Illegal implicit net "id:228, name:Iteration".
+[ERR:EL0535] $Source01/t_math_swap.v:53:28: Illegal implicit net "id:230, name:Iteration".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_math_swap.v file:${SURELOG_DIR}/tests/Verilator/t_math_swap.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_math_swap.v file:$Source01/t_math_swap.v:
       vpiParent: Design name:unnamed
       vpiName: t_math_swap.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_math_swap/lib/work/t_math_swap.v"
+      vpiPreprocFile: "$Output/lib/work/t_math_swap.v"
       vpiPreprocMacroDefinition (2 items):
         PreprocMacroDefinition name:EXPECTED_SUM start:45:1 end:45:42:
           vpiParent: SourceFile name:t_math_swap.v
@@ -2332,7 +2341,7 @@ Design name:unnamed:
           vpiName: BUG1
           vpiNameStartColumn: 9
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:EXPECTED_SUM file:${SURELOG_DIR}/tests/Verilator/t_math_swap.v start:71:15 end:71:28:
+        PreprocMacroInstance name:EXPECTED_SUM file:$Source01/t_math_swap.v start:71:15 end:71:28:
           vpiParent: SourceFile name:t_math_swap.v
           vpiName: EXPECTED_SUM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:EXPECTED_SUM
@@ -2346,7 +2355,7 @@ Design name:unnamed:
           vpiSourceEndColumn: 35
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_math_swap.v start:6:1 end:77:10:
+    Module name:work@t file:$Source01/t_math_swap.v start:6:1 end:77:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -2592,6 +2601,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (11 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -2791,7 +2805,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 32
                 vpiDecompile: "32'h0"
-                vpiValue: 0
+                vpiValue: "0"
               RefObj name:Quotient start:42:33 end:42:41:
                 vpiParent: Operation
                 vpiName: Quotient
@@ -2893,7 +2907,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: test.Iteration
                             vpiFullName: work@t.test.Iteration
-                            vpiActual (2 items):
+                            vpiPathElem (2 items):
                               RefObj name:test start:53:23 end:53:27:
                                 vpiParent: HierPath name:test.Iteration
                                 vpiName: test
@@ -2912,7 +2926,7 @@ Design name:unnamed:
                             vpiConstType: decimal (1)
                             vpiSize: 4
                             vpiDecompile: "4'd15"
-                            vpiValue: 15
+                            vpiValue: "15"
                   vpiStmt Begin start:53:46 end:55:10:
                     vpiParent: IfStmt
                     vpiFullName: work@t
@@ -3184,7 +3198,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 64
                           vpiDecompile: "64'h5aef0c8dd70a4497"
-                          vpiValue: 5aef0c8dd70a4497
+                          vpiValue: "5aef0c8dd70a4497"
                       Assignment start:60:3 end:60:14:
                         vpiParent: Begin
                         vpiLhs RefObj name:rst start:60:3 end:60:6:
@@ -3201,7 +3215,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
                   vpiElseStmt IfElse start:62:12 end:74:10:
                     vpiParent: IfElse
                     vpiCondition Operation start:62:16 end:62:22:
@@ -3246,7 +3260,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 64
                             vpiDecompile: "64'h0"
-                            vpiValue: 0
+                            vpiValue: "0"
                         Assignment start:64:3 end:64:14:
                           vpiParent: Begin
                           vpiLhs RefObj name:rst start:64:3 end:64:6:
@@ -3263,7 +3277,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b0"
-                            vpiValue: 0
+                            vpiValue: "0"
                     vpiElseStmt IfElse start:66:12 end:74:10:
                       vpiParent: IfElse
                       vpiCondition Operation start:66:16 end:66:22:
@@ -3328,7 +3342,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 240
                                   vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: [%0t] cyc==%0d crc=%x sum=%x\n
+                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
                                 SysTaskCall name:$time start:69:43 end:69:48:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName Identifier name:$time start:69:43 end:69:48:
@@ -3369,7 +3383,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 64
                                     vpiDecompile: "64'h8dd70a44972ad809"
-                                    vpiValue: 8dd70a44972ad809
+                                    vpiValue: "8dd70a44972ad809"
                               vpiStmt SysFuncCall name:$stop start:70:37 end:70:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:70:37 end:70:42:
@@ -3395,7 +3409,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 64
                                     vpiDecompile: "64'h98d41f89a8be5693"
-                                    vpiValue: 98d41f89a8be5693
+                                    vpiValue: "98d41f89a8be5693"
                               vpiStmt SysFuncCall name:$stop start:71:30 end:71:35:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:71:30 end:71:35:
@@ -3416,7 +3430,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:73:3 end:73:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:73:3 end:73:10:
@@ -3671,7 +3685,7 @@ Design name:unnamed:
                 vpiName: Unsigned
                 vpiFullName: work@t.test.Unsigned
                 vpiActual: Net name:Unsigned
-    Module name:work@Test file:${SURELOG_DIR}/tests/Verilator/t_math_swap.v start:79:1 end:164:10:
+    Module name:work@Test file:$Source01/t_math_swap.v start:79:1 end:164:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test start:79:8 end:79:12:
         vpiParent: Module name:work@Test
@@ -3950,6 +3964,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test
+        vpiName: work
+        vpiFullName: work@Test.work
+      vpiCell: Test
       vpiNet (24 items):
         Net name:clk start:85:10 end:85:13:
           vpiParent: Module name:work@Test
@@ -5050,7 +5069,7 @@ Design name:unnamed:
                                       vpiConstType: binary (3)
                                       vpiSize: 1
                                       vpiDecompile: "1'b1"
-                                      vpiValue: 1
+                                      vpiValue: "1"
                                     RefObj name:op start:138:78 end:138:80:
                                       vpiParent: Operation
                                       vpiName: op
@@ -5091,7 +5110,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "1'b0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
                                   RefObj name:sub_quot start:141:35 end:141:43:
                                     vpiParent: Operation
                                     vpiName: sub_quot
@@ -5372,7 +5391,7 @@ Design name:unnamed:
                                           vpiConstType: hexadecimal (5)
                                           vpiSize: 16
                                           vpiDecompile: "16'h8001"
-                                          vpiValue: 8001
+                                          vpiValue: "8001"
                                         Operation start:154:44 end:154:65:
                                           vpiParent: Operation
                                           vpiOpType: concatenation (33)
@@ -5409,7 +5428,7 @@ Design name:unnamed:
                                                       vpiConstType: binary (3)
                                                       vpiSize: 1
                                                       vpiDecompile: "1'b1"
-                                                      vpiValue: 1
+                                                      vpiValue: "1"
                                   Assignment start:155:13 end:155:56:
                                     vpiParent: Begin
                                     vpiLhs RefObj name:Remainder start:155:13 end:155:22:
@@ -5445,7 +5464,7 @@ Design name:unnamed:
                                           vpiConstType: hexadecimal (5)
                                           vpiSize: 16
                                           vpiDecompile: "16'h8000"
-                                          vpiValue: 8000
+                                          vpiValue: "8000"
                                   Assignment start:156:13 end:156:21:
                                     vpiParent: Begin
                                     vpiBlocking: true
@@ -5532,37 +5551,40 @@ Design name:unnamed:
         vpiName: work@Test
       vpiModule: Module name:work@Test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_math_swap
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_swap
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_swap/surelog.uhdm
+      test-name: Verilator/t_math_swap
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_swap
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_swap/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_swap/mounts.json
 
 
 {'result': {'coverage': 99.26,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_math_swap/lib/work/t_math_swap.v'): {'post_len': 18,
-                                                                                                                                 'pre_len': 2434}},
+            'files': {'$Output/lib/work/t_math_swap.v': {'post_len': 18,
+                                                         'pre_len': 2434}},
             'post_len': 18,
             'pre_len': 2434,
             'test_name': 'Verilator/t_math_swap'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/t_math_swap.v |     2434 |        18 |
-+========================+==========+===========+
-|                        |     2434 |        18 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/t_math_swap.v |     2434 |        18 |
++================================+==========+===========+
+|                                |     2434 |        18 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.26
@@ -5577,10 +5599,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           112     109      22        25
 Operation                           78      53       0        25
-RefObj                             159     138       0        21
+RefObj                             161     140       0        21
 RefTypespec                        158     154      21        25
 ----------------------------------------------------------------
 Others                             251     251       0         0
 ----------------------------------------------------------------
-                                   758     705      43        96
+                                   760     707      43        96
 ===================== END REDUCTION RESULT =====================

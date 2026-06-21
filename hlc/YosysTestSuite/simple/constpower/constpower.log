@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm constpower.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/constpower.v".
+[INF:PA0201] Parsing source file "$Source01/constpower.v".
 AST_DEBUG_BEGIN
 Count: 323
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v> u<322> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/constpower.v
+n<$Source01/constpower.v> u<322> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<322> s<321> l<1:1>
   n<> u<321> t<Source_text> p<322> c<320> l<1:1> el<15:10>
     n<> u<320> t<Description> p<321> c<319> l<1:1> el<15:10>
@@ -326,20 +335,20 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v> u<322> t<Top_level_ru
               n<> u<314> t<ENDGENERATE> p<315> l<13:1> el<13:12>
         n<> u<318> t<ENDMODULE> p<319> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v:1:1: Compile module "work@constpower".
-[INF:CP0335] ${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v:9:36: Compile generate block "V".
+[INF:CP0303] $Source01/constpower.v:1:1: Compile module "work@constpower".
+[INF:CP0335] $Source01/constpower.v:9:36: Compile generate block "V".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:constpower.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v:
+  vpiSourceFile (1 items):
+    SourceFile name:constpower.v file:$Source01/constpower.v:
       vpiParent: Design name:unnamed
       vpiName: constpower.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower/lib/work/constpower.v"
+      vpiPreprocFile: "$Output/lib/work/constpower.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@constpower file:${SURELOG_DIR}/tests/YosysTestSuite/simple/constpower.v start:1:1 end:15:10:
+    Module name:work@constpower file:$Source01/constpower.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@constpower start:1:8 end:1:18:
         vpiParent: Module name:work@constpower
@@ -416,6 +425,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@constpower
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@constpower
+        vpiName: work
+        vpiFullName: work@constpower.work
+      vpiCell: constpower
       vpiNet (4 items):
         Net name:ys start:3:20 end:3:22:
           vpiParent: Module name:work@constpower
@@ -936,37 +950,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/constpower
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower/surelog.uhdm
+      test-name: YosysTestSuite/simple/constpower
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/constpower/lib/work/constpower.v'): {'post_len': 0,
-                                                                                                                                           'pre_len': 297}},
+            'files': {'$Output/lib/work/constpower.v': {'post_len': 0,
+                                                        'pre_len': 297}},
             'post_len': 0,
             'pre_len': 297,
             'test_name': 'YosysTestSuite/simple/constpower'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/constpower.v |      297 |         0 |
-+=======================+==========+===========+
-|                       |      297 |         0 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/constpower.v |      297 |         0 |
++===============================+==========+===========+
+|                               |      297 |         0 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -983,7 +1000,7 @@ Constant                            23      20       1         4
 Operation                           25      22       0         3
 RefTypespec                         29      26       1         4
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                   139     130       2        11
+                                   140     131       2        11
 ===================== END REDUCTION RESULT =====================

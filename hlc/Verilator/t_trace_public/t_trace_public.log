@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_trace_public/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_trace_public.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_trace_public
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_trace_public.v".
+[INF:PA0201] Parsing source file "$Source01/t_trace_public.v".
 AST_DEBUG_BEGIN
 Count: 722
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_trace_public.v
-n<${SURELOG_DIR}/tests/Verilator/t_trace_public.v> u<721> t<Top_level_rule> c<1> l<6:1> el<76:1>
+FILE: f<13>:$Source01/t_trace_public.v
+n<$Source01/t_trace_public.v> u<721> t<Top_level_rule> c<1> l<6:1> el<76:1>
   n<> u<1> t<Null_rule> p<721> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<721> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<721> s<4> l<2:1> el<2:3>
@@ -725,25 +734,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_trace_public.v> u<721> t<Top_level_rule> c<1>
                               n<> u<705> t<END> p<706> l<74:4> el<74:7>
         n<> u<717> t<ENDMODULE> p<718> l<75:1> el<75:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:32:1: Compile module "work@glbl".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:45:1: Compile module "work@neg".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:60:1: Compile module "work@little".
+[INF:CP0303] $Source01/t_trace_public.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_trace_public.v:32:1: Compile module "work@glbl".
+[INF:CP0303] $Source01/t_trace_public.v:45:1: Compile module "work@neg".
+[INF:CP0303] $Source01/t_trace_public.v:60:1: Compile module "work@little".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:11:14: Illegal implicit net "id:27, name:clk".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:12:20: Illegal implicit net "id:34, name:clk".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_trace_public.v:28:20: Illegal implicit net "id:132, name:GSR".
+[ERR:EL0535] $Source01/t_trace_public.v:11:14: Illegal implicit net "id:31, name:clk".
+[ERR:EL0535] $Source01/t_trace_public.v:12:20: Illegal implicit net "id:38, name:clk".
+[ERR:EL0535] $Source01/t_trace_public.v:28:20: Illegal implicit net "id:136, name:GSR".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_trace_public.v file:${SURELOG_DIR}/tests/Verilator/t_trace_public.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_trace_public.v file:$Source01/t_trace_public.v:
       vpiParent: Design name:unnamed
       vpiName: t_trace_public.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_trace_public/lib/work/t_trace_public.v"
+      vpiPreprocFile: "$Output/lib/work/t_trace_public.v"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_trace_public.v start:6:1 end:30:10:
+    Module name:work@t file:$Source01/t_trace_public.v start:6:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -850,6 +859,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:CLK start:7:17 end:7:20:
           vpiParent: Module name:work@t
@@ -1103,7 +1117,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b1"
-              vpiValue: 1
+              vpiValue: "1"
         Always start:27:4 end:28:24:
           vpiParent: Module name:work@t
           vpiStmt EventControl start:27:11 end:28:24:
@@ -1128,7 +1142,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: glbl.GSR
                 vpiFullName: work@t.glbl.GSR
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:glbl start:28:15 end:28:19:
                     vpiParent: HierPath name:glbl.GSR
                     vpiName: glbl
@@ -1188,7 +1202,7 @@ Design name:unnamed:
             vpiName: work@glbl
             vpiFullName: work@t.glbl.work@glbl
             vpiActual: ModuleTypespec name:work@glbl
-    Module name:work@glbl file:${SURELOG_DIR}/tests/Verilator/t_trace_public.v start:32:1 end:43:10:
+    Module name:work@glbl file:$Source01/t_trace_public.v start:32:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@glbl start:32:8 end:32:12:
         vpiParent: Module name:work@glbl
@@ -1199,6 +1213,11 @@ Design name:unnamed:
           vpiParent: Module name:work@glbl
       vpiDefName: work@glbl
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@glbl
+        vpiName: work
+        vpiFullName: work@glbl.work
+      vpiCell: glbl
       vpiNet (1 items):
         Net name:GSR start:41:8 end:41:11:
           vpiParent: Module name:work@glbl
@@ -1208,7 +1227,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: GSR
           vpiFullName: work@glbl.GSR
-    Module name:work@neg file:${SURELOG_DIR}/tests/Verilator/t_trace_public.v start:45:1 end:58:10:
+    Module name:work@neg file:$Source01/t_trace_public.v start:45:1 end:58:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@neg start:45:8 end:45:11:
         vpiParent: Module name:work@neg
@@ -1315,6 +1334,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@neg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@neg
+        vpiName: work
+        vpiFullName: work@neg.work
+      vpiCell: neg
       vpiNet (4 items):
         Net name:clk start:46:10 end:46:13:
           vpiParent: Module name:work@neg
@@ -1382,7 +1406,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "'0"
-              vpiValue: 0
+              vpiValue: "0"
         Initial start:50:22 end:50:39:
           vpiParent: Module name:work@neg
           vpiStmt Assignment start:50:30 end:50:38:
@@ -1402,7 +1426,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "'0"
-              vpiValue: 0
+              vpiValue: "0"
         Initial start:51:23 end:51:41:
           vpiParent: Module name:work@neg
           vpiStmt Assignment start:51:31 end:51:40:
@@ -1422,7 +1446,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "'0"
-              vpiValue: 0
+              vpiValue: "0"
         Always start:53:4 end:57:7:
           vpiParent: Module name:work@neg
           vpiStmt EventControl start:53:11 end:57:7:
@@ -1489,7 +1513,7 @@ Design name:unnamed:
                         vpiFullName: work@neg.i128
                         vpiActual: Net name:i128
           vpiAlwaysType: always (1)
-    Module name:work@little file:${SURELOG_DIR}/tests/Verilator/t_trace_public.v start:60:1 end:75:10:
+    Module name:work@little file:$Source01/t_trace_public.v start:60:1 end:75:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@little start:60:8 end:60:14:
         vpiParent: Module name:work@little
@@ -1580,6 +1604,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@little
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@little
+        vpiName: work
+        vpiFullName: work@little.work
+      vpiCell: little
       vpiNet (4 items):
         Net name:clk start:61:10 end:61:13:
           vpiParent: Module name:work@little
@@ -1647,7 +1676,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "'0"
-              vpiValue: 0
+              vpiValue: "0"
         Initial start:66:20 end:66:37:
           vpiParent: Module name:work@little
           vpiStmt Assignment start:66:28 end:66:36:
@@ -1667,7 +1696,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "'0"
-              vpiValue: 0
+              vpiValue: "0"
         Initial start:67:23 end:67:41:
           vpiParent: Module name:work@little
           vpiStmt Assignment start:67:31 end:67:40:
@@ -1687,7 +1716,7 @@ Design name:unnamed:
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "'0"
-              vpiValue: 0
+              vpiValue: "0"
         Always start:70:4 end:74:7:
           vpiParent: Module name:work@little
           vpiStmt EventControl start:70:11 end:74:7:
@@ -1783,37 +1812,40 @@ Design name:unnamed:
         vpiName: work@little
       vpiModule: Module name:work@little
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_trace_public
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_trace_public
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_trace_public/surelog.uhdm
+      test-name: Verilator/t_trace_public
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_trace_public
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_trace_public/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_trace_public/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_trace_public/lib/work/t_trace_public.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 781}},
+            'files': {'$Output/lib/work/t_trace_public.v': {'post_len': 0,
+                                                            'pre_len': 781}},
             'post_len': 0,
             'pre_len': 781,
             'test_name': 'Verilator/t_trace_public'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_trace_public.v |      781 |         0 |
-+===========================+==========+===========+
-|                           |      781 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_trace_public.v |      781 |         0 |
++===================================+==========+===========+
+|                                   |      781 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1828,10 +1860,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      32       5         5
 Operation                           15      10       0         5
-RefObj                              42      41       0         1
+RefObj                              46      45       0         1
 RefTypespec                         54      54       5         5
 ----------------------------------------------------------------
 Others                             117     117       0         0
 ----------------------------------------------------------------
-                                   260     254      10        16
+                                   264     258      10        16
 ===================== END REDUCTION RESULT =====================

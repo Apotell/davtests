@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_display_merge/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_display_merge.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_display_merge
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_display_merge.v".
+[INF:PA0201] Parsing source file "$Source01/t_display_merge.v".
 AST_DEBUG_BEGIN
 Count: 612
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_display_merge.v
-n<${SURELOG_DIR}/tests/Verilator/t_display_merge.v> u<611> t<Top_level_rule> c<1> l<6:1> el<46:1>
+FILE: f<13>:$Source01/t_display_merge.v
+n<$Source01/t_display_merge.v> u<611> t<Top_level_rule> c<1> l<6:1> el<46:1>
   n<> u<1> t<Null_rule> p<611> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<611> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<611> s<4> l<2:1> el<2:3>
@@ -615,19 +624,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_display_merge.v> u<611> t<Top_level_rule> c<1
                           n<> u<597> t<END> p<598> l<44:4> el<44:7>
         n<> u<607> t<ENDMODULE> p<608> l<45:1> el<45:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_display_merge.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_display_merge.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_display_merge.v file:${SURELOG_DIR}/tests/Verilator/t_display_merge.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_display_merge.v file:$Source01/t_display_merge.v:
       vpiParent: Design name:unnamed
       vpiName: t_display_merge.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_display_merge/lib/work/t_display_merge.v"
+      vpiPreprocFile: "$Output/lib/work/t_display_merge.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_display_merge.v start:6:1 end:45:10:
+    Module name:work@t file:$Source01/t_display_merge.v start:6:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -635,6 +644,11 @@ Design name:unnamed:
       vpiFullName: work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:7:4 end:44:7:
           vpiParent: Module name:work@t
@@ -657,7 +671,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\"Merge:\""
-                    vpiValue: Merge:
+                    vpiValue: "Merge:"
               SysFuncCall name:$write start:9:7 end:9:22:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:9:7 end:9:13:
@@ -673,7 +687,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 40
                     vpiDecompile: "\"This \""
-                    vpiValue: This 
+                    vpiValue: This
               SysFuncCall name:$write start:10:7 end:10:24:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:10:7 end:10:13:
@@ -689,7 +703,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 56
                     vpiDecompile: "\"should \""
-                    vpiValue: should 
+                    vpiValue: should
               SysFuncCall name:$display start:11:7 end:11:24:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:11:7 end:11:15:
@@ -1008,7 +1022,7 @@ Design name:unnamed:
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiDecompile: "\"\""
-                    vpiValue: 
+                    vpiValue: ""
               SysFuncCall name:$write start:28:7 end:28:18:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:28:7 end:28:13:
@@ -1312,7 +1326,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 192
                     vpiDecompile: "\"\\n*-* All Finished *-*\\n\""
-                    vpiValue: \n*-* All Finished *-*\n
+                    vpiValue: "\\n*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:43:7 end:43:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:43:7 end:43:14:
@@ -1328,37 +1342,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_display_merge
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_display_merge
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_display_merge/surelog.uhdm
+      test-name: Verilator/t_display_merge
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_display_merge
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_display_merge/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_display_merge/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_display_merge/lib/work/t_display_merge.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 931}},
+            'files': {'$Output/lib/work/t_display_merge.v': {'post_len': 0,
+                                                             'pre_len': 931}},
             'post_len': 0,
             'pre_len': 931,
             'test_name': 'Verilator/t_display_merge'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_display_merge.v |      931 |         0 |
-+============================+==========+===========+
-|                            |      931 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_display_merge.v |      931 |         0 |
++====================================+==========+===========+
+|                                    |      931 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1372,7 +1389,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_display_merge/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             203     203       0         0
+Others                             204     204       0         0
 ----------------------------------------------------------------
-                                   203     203       0         0
+                                   204     204       0         0
 ===================== END REDUCTION RESULT =====================

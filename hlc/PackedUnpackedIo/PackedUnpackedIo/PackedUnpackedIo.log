@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackedUnpackedIo -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 158
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv
-n<${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv> u<157> t<Top_level_rule> c<1> l<1:1> el<14:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<157> t<Top_level_rule> c<1> l<1:1> el<14:1>
   n<> u<1> t<Null_rule> p<157> s<156> l<1:1>
   n<> u<156> t<Source_text> p<157> c<155> l<1:1> el<13:11>
     n<> u<155> t<Description> p<156> c<154> l<1:1> el<13:11>
@@ -161,19 +170,19 @@ n<${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv> u<157> t<Top_level_rule> c<1> l<
                 n<> u<148> t<ENDFUNCTION> p<149> l<12:1> el<12:12>
         n<> u<153> t<ENDPACKAGE> p<154> l<13:1> el<13:11>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv:1:1: Compile package "work@hmac_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv:1:1: No timescale set for "work@hmac_pkg".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@hmac_pkg".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@hmac_pkg".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@hmac_pkg file:${SURELOG_DIR}/tests/PackedUnpackedIo/dut.sv start:1:1 end:13:11:
+    Package name:work@hmac_pkg file:$Source01/dut.sv start:1:1 end:13:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@hmac_pkg start:1:9 end:1:17:
         vpiParent: Package name:work@hmac_pkg
@@ -217,6 +226,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@hmac_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@hmac_pkg
+        vpiName: work
+        vpiFullName: work@hmac_pkg::work
+      vpiCell: hmac_pkg
       vpiTaskFunc (1 items):
         Function name:compress start:3:1 end:12:12:
           vpiParent: Package name:work@hmac_pkg
@@ -528,37 +542,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackedUnpackedIo/PackedUnpackedIo
- test-dirpath: ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo
-uhdm-filepath: ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/surelog.uhdm
+      test-name: PackedUnpackedIo/PackedUnpackedIo
+   test-dirpath: ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo
+  uhdm-filepath: ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 274}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 274}},
             'post_len': 0,
             'pre_len': 274,
             'test_name': 'PackedUnpackedIo/PackedUnpackedIo'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      274 |         0 |
-+=================+==========+===========+
-|                 |      274 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      274 |         0 |
++=========================+==========+===========+
+|                         |      274 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -572,7 +589,7 @@ COMMAND: ${SURELOG_DIR}/regression/PackedUnpackedIo/PackedUnpackedIo/surelog.uhd
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                    87      87       0         0
+                                    88      88       0         0
 ===================== END REDUCTION RESULT =====================

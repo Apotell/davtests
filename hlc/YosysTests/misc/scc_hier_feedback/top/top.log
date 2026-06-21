@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/scc_hier_feedback -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm top.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 358
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v> u<357> t<Top_level_rule> c<1> l<1:1> el<49:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<357> t<Top_level_rule> c<1> l<1:1> el<49:1>
   n<> u<1> t<Null_rule> p<357> s<356> l<1:1>
   n<> u<356> t<Source_text> p<357> c<163> l<1:1> el<48:10>
     n<> u<163> t<Description> p<356> c<162> s<259> l<1:1> el<19:10>
@@ -361,23 +370,23 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v> u<357> t<Top_lev
                           n<o1> u<343> t<SIMPLE_IDENTIFIER> p<344> l<47:12> el<47:14>
         n<> u<353> t<ENDMODULE> p<354> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v:21:1: Compile module "work@middle".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v:35:1: Compile module "work@u_rtl".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:21:1: Compile module "work@middle".
+[INF:CP0303] $Source01/top.v:35:1: Compile module "work@u_rtl".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v:16:32: Illegal implicit net "id:69, name:o".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v:17:36: Illegal implicit net "id:82, name:o".
+[ERR:EL0535] $Source01/top.v:16:32: Illegal implicit net "id:72, name:o".
+[ERR:EL0535] $Source01/top.v:17:36: Illegal implicit net "id:85, name:o".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v start:1:1 end:19:10:
+    Module name:work@top file:$Source01/top.v start:1:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -435,6 +444,11 @@ Design name:unnamed:
             vpiName: work@u_rtl
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (6 items):
         Net name:x start:3:8 end:3:9:
           vpiParent: Module name:work@top
@@ -667,7 +681,7 @@ Design name:unnamed:
                 vpiName: o_rtl
                 vpiFullName: work@top.inst_u_rtl.o_rtl
                 vpiActual: Net name:o_rtl
-    Module name:work@middle file:${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v start:21:1 end:33:10:
+    Module name:work@middle file:$Source01/top.v start:21:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@middle start:21:8 end:21:14:
         vpiParent: Module name:work@middle
@@ -678,6 +692,11 @@ Design name:unnamed:
           vpiParent: Module name:work@middle
       vpiDefName: work@middle
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@middle
+        vpiName: work
+        vpiFullName: work@middle.work
+      vpiCell: middle
       vpiNet (5 items):
         Net name:x start:23:8 end:23:9:
           vpiParent: Module name:work@middle
@@ -816,7 +835,7 @@ Design name:unnamed:
             vpiName: o1
             vpiFullName: work@middle.o1
             vpiActual: Net name:o1
-    Module name:work@u_rtl file:${SURELOG_DIR}/tests/YosysTests/misc/scc_hier_feedback/top.v start:35:1 end:48:10:
+    Module name:work@u_rtl file:$Source01/top.v start:35:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@u_rtl start:35:8 end:35:13:
         vpiParent: Module name:work@u_rtl
@@ -827,6 +846,11 @@ Design name:unnamed:
           vpiParent: Module name:work@u_rtl
       vpiDefName: work@u_rtl
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@u_rtl
+        vpiName: work
+        vpiFullName: work@u_rtl.work
+      vpiCell: u_rtl
       vpiNet (5 items):
         Net name:x start:37:8 end:37:9:
           vpiParent: Module name:work@u_rtl
@@ -988,37 +1012,40 @@ Design name:unnamed:
         vpiName: work@u_rtl
       vpiModule: Module name:work@u_rtl
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/scc_hier_feedback/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/surelog.uhdm
+      test-name: YosysTests/misc/scc_hier_feedback/top
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 446}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 446}},
             'post_len': 0,
             'pre_len': 446,
             'test_name': 'YosysTests/misc/scc_hier_feedback/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      446 |         0 |
-+================+==========+===========+
-|                |      446 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      446 |         0 |
++========================+==========+===========+
+|                        |      446 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1032,7 +1059,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/scc_hier_feedback/top/surelog
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             150     150       0         0
+Others                             153     153       0         0
 ----------------------------------------------------------------
-                                   150     150       0         0
+                                   153     153       0         0
 ===================== END REDUCTION RESULT =====================

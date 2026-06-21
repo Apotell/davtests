@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_endian/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_endian.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_endian
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_endian.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_endian.v".
 AST_DEBUG_BEGIN
 Count: 1276
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_endian.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_endian.v> u<1275> t<Top_level_rule> c<1> l<6:1> el<99:1>
+FILE: f<13>:$Source01/t_func_endian.v
+n<$Source01/t_func_endian.v> u<1275> t<Top_level_rule> c<1> l<6:1> el<99:1>
   n<> u<1> t<Null_rule> p<1275> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<1275> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<1275> s<4> l<2:1> el<2:3>
@@ -1279,20 +1288,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_endian.v> u<1275> t<Top_level_rule> c<1>
                                                       n<0> u<1246> t<INTEGRAL_NUMBER> p<1247> l<97:30> el<97:31>
         n<> u<1271> t<ENDMODULE> p<1272> l<98:1> el<98:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_endian.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_endian.v:66:1: Compile module "work@Test".
+[INF:CP0303] $Source01/t_func_endian.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_endian.v:66:1: Compile module "work@Test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_endian.v file:${SURELOG_DIR}/tests/Verilator/t_func_endian.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_endian.v file:$Source01/t_func_endian.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_endian.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_endian/lib/work/t_func_endian.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_endian.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_endian.v start:6:1 end:64:10:
+    Module name:work@t file:$Source01/t_func_endian.v start:6:1 end:64:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -1441,6 +1450,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (9 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -1611,7 +1625,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 32
                 vpiDecompile: "32'h0"
-                vpiValue: 0
+                vpiValue: "0"
               RefObj name:out start:36:33 end:36:36:
                 vpiParent: Operation
                 vpiName: out
@@ -1939,7 +1953,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 64
                           vpiDecompile: "64'h5aef0c8dd70a4497"
-                          vpiValue: 5aef0c8dd70a4497
+                          vpiValue: "5aef0c8dd70a4497"
                   vpiElseStmt IfElse start:50:12 end:61:10:
                     vpiParent: IfElse
                     vpiCondition Operation start:50:16 end:50:22:
@@ -1981,7 +1995,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 64
                             vpiDecompile: "64'h0"
-                            vpiValue: 0
+                            vpiValue: "0"
                     vpiElseStmt IfElse start:53:12 end:61:10:
                       vpiParent: IfElse
                       vpiCondition Operation start:53:16 end:53:22:
@@ -2046,7 +2060,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$write start:57:3 end:57:64:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:57:3 end:57:9:
@@ -2062,7 +2076,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 240
                                   vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: [%0t] cyc==%0d crc=%x sum=%x\n
+                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
                                 SysTaskCall name:$time start:57:43 end:57:48:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName Identifier name:$time start:57:43 end:57:48:
@@ -2129,7 +2143,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 64
                                     vpiDecompile: "64'h89522c3f5e5ca324"
-                                    vpiValue: 89522c3f5e5ca324
+                                    vpiValue: "89522c3f5e5ca324"
                               vpiStmt SysFuncCall name:$stop start:59:37 end:59:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:59:37 end:59:42:
@@ -2263,7 +2277,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@Test file:${SURELOG_DIR}/tests/Verilator/t_func_endian.v start:66:1 end:98:10:
+    Module name:work@Test file:$Source01/t_func_endian.v start:66:1 end:98:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test start:66:8 end:66:12:
         vpiParent: Module name:work@Test
@@ -2326,6 +2340,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test
+        vpiName: work
+        vpiFullName: work@Test.work
+      vpiCell: Test
       vpiTaskFunc (1 items):
         Function name:EndianSwap start:80:4 end:88:15:
           vpiParent: Module name:work@Test
@@ -2615,7 +2634,7 @@ Design name:unnamed:
                               vpiConstType: hexadecimal (5)
                               vpiSize: 4
                               vpiDecompile: "4'h0"
-                              vpiValue: 0
+                              vpiValue: "0"
                             BitSelect name:Data[0] start:86:34 end:86:41:
                               vpiParent: Operation
                               vpiName: Data[0]
@@ -3287,37 +3306,40 @@ Design name:unnamed:
         vpiName: work@Test
       vpiModule: Module name:work@Test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_endian
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_endian
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_endian/surelog.uhdm
+      test-name: Verilator/t_func_endian
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_endian
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_endian/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_endian/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_endian/lib/work/t_func_endian.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 1389}},
+            'files': {'$Output/lib/work/t_func_endian.v': {'post_len': 0,
+                                                           'pre_len': 1389}},
             'post_len': 0,
             'pre_len': 1389,
             'test_name': 'Verilator/t_func_endian'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_func_endian.v |     1389 |         0 |
-+==========================+==========+===========+
-|                          |     1389 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_func_endian.v |     1389 |         0 |
++==================================+==========+===========+
+|                                  |     1389 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -3332,10 +3354,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            86      86       5         5
 Operation                           23      18       0         5
-RefObj                              79      74       0         5
+RefObj                              81      76       0         5
 RefTypespec                        112     112       5         5
 ----------------------------------------------------------------
 Others                             169     169       0         0
 ----------------------------------------------------------------
-                                   469     459      10        20
+                                   471     461      10        20
 ===================== END REDUCTION RESULT =====================

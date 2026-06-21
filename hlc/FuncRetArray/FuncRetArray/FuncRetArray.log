@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FuncRetArray -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 302
 LIB: work
-FILE: ${SURELOG_DIR}/tests/FuncRetArray/dut.sv
-n<${SURELOG_DIR}/tests/FuncRetArray/dut.sv> u<301> t<Top_level_rule> c<1> l<1:1> el<26:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<301> t<Top_level_rule> c<1> l<1:1> el<26:1>
   n<> u<1> t<Null_rule> p<301> s<300> l<1:1>
   n<> u<300> t<Source_text> p<301> c<282> l<1:1> el<24:10>
     n<> u<282> t<Description> p<300> c<281> s<299> l<1:1> el<20:10>
@@ -305,21 +314,21 @@ n<${SURELOG_DIR}/tests/FuncRetArray/dut.sv> u<301> t<Top_level_rule> c<1> l<1:1>
                   n<> u<291> t<Ordered_port_connection> p<292> l<23:18> el<23:18>
         n<> u<297> t<ENDMODULE> p<298> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/FuncRetArray/dut.sv:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/FuncRetArray/dut.sv:22:1: Compile module "work@main".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FuncRetArray/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FuncRetArray/dut.sv:22:1: No timescale set for "work@main".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:22:1: Compile module "work@main".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:22:1: No timescale set for "work@main".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FuncRetArray/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/FuncRetArray/dut.sv start:1:1 end:20:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -406,6 +415,11 @@ Design name:unnamed:
             vpiActual: IntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (1 items):
         Function name:ASSIGN_VADDR start:3:5 end:7:16:
           vpiParent: Module name:work@top
@@ -449,7 +463,7 @@ Design name:unnamed:
             vpiForIncStmt (1 items):
               Operation start:4:32 end:4:35:
                 vpiParent: ForStmt
-                vpiOpType: post inc (62)
+                vpiOpType: post inc (64)
                 vpiOperand (1 items):
                   RefObj name:i start:4:32 end:4:33:
                     vpiParent: Operation
@@ -565,7 +579,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"--[0] (%d) should be 5\""
-                    vpiValue: --[0] (%d) should be 5
+                    vpiValue: "--[0] (%d) should be 5"
                   BitSelect name:VADDR[0] start:12:34 end:12:42:
                     vpiParent: SysTaskCall name:info
                     vpiName: VADDR[0]
@@ -639,7 +653,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"--[1] (%d) should be 5\""
-                    vpiValue: --[1] (%d) should be 5
+                    vpiValue: "--[1] (%d) should be 5"
                   BitSelect name:VADDR[1] start:15:34 end:15:42:
                     vpiParent: SysTaskCall name:info
                     vpiName: VADDR[1]
@@ -713,7 +727,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 144
                     vpiDecompile: "\"--[1] (%d) is 5!!!\""
-                    vpiValue: --[1] (%d) is 5!!!
+                    vpiValue: "--[1] (%d) is 5!!!"
                   BitSelect name:VADDR[1] start:18:30 end:18:38:
                     vpiParent: SysTaskCall name:info
                     vpiName: VADDR[1]
@@ -733,7 +747,7 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
-    Module name:work@main file:${SURELOG_DIR}/tests/FuncRetArray/dut.sv start:22:1 end:24:10:
+    Module name:work@main file:$Source01/dut.sv start:22:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:22:8 end:22:12:
         vpiParent: Module name:work@main
@@ -747,6 +761,11 @@ Design name:unnamed:
             vpiName: work@top
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiRefInstance (1 items):
         RefInstance name:top1 start:23:12 end:23:16:
           vpiParent: Module name:work@main
@@ -777,37 +796,40 @@ Design name:unnamed:
         vpiName: work@main
       vpiModule: Module name:work@main
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FuncRetArray/FuncRetArray
- test-dirpath: ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray
-uhdm-filepath: ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/surelog.uhdm
+      test-name: FuncRetArray/FuncRetArray
+   test-dirpath: ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray
+  uhdm-filepath: ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 476}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 476}},
             'post_len': 0,
             'pre_len': 476,
             'test_name': 'FuncRetArray/FuncRetArray'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      476 |         0 |
-+=================+==========+===========+
-|                 |      476 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      476 |         0 |
++=========================+==========+===========+
+|                         |      476 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -821,7 +843,7 @@ COMMAND: ${SURELOG_DIR}/regression/FuncRetArray/FuncRetArray/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   113     113       0         0
+                                   115     115       0         0
 ===================== END REDUCTION RESULT =====================

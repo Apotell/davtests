@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm task_func.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/task_func.v".
+[INF:PA0201] Parsing source file "$Source01/task_func.v".
 AST_DEBUG_BEGIN
 Count: 1900
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v> u<1899> t<Top_level_rule> c<1> l<2:1> el<142:1>
+FILE: f<13>:$Source01/task_func.v
+n<$Source01/task_func.v> u<1899> t<Top_level_rule> c<1> l<2:1> el<142:1>
   n<> u<1> t<Null_rule> p<1899> s<1898> l<2:1> el<2:1>
   n<> u<1898> t<Source_text> p<1899> c<519> l<2:1> el<141:10>
     n<> u<519> t<Description> p<1898> c<518> s<520> l<2:1> el<34:10>
@@ -1903,23 +1912,23 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v> u<1899> t<Top_level_ru
                                 n<> u<1882> t<END> p<1883> l<140:2> el<140:5>
         n<> u<1895> t<ENDMODULE> p<1896> l<141:1> el<141:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v:2:1: Compile module "work@task_func_test01".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v:38:1: Compile module "work@task_func_test02".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v:71:1: Compile module "work@task_func_test03".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v:86:1: Compile module "work@task_func_test04".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v:127:1: Compile module "work@task_func_test05".
+[INF:CP0303] $Source01/task_func.v:2:1: Compile module "work@task_func_test01".
+[INF:CP0303] $Source01/task_func.v:38:1: Compile module "work@task_func_test02".
+[INF:CP0303] $Source01/task_func.v:71:1: Compile module "work@task_func_test03".
+[INF:CP0303] $Source01/task_func.v:86:1: Compile module "work@task_func_test04".
+[INF:CP0303] $Source01/task_func.v:127:1: Compile module "work@task_func_test05".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:task_func.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v:
+  vpiSourceFile (1 items):
+    SourceFile name:task_func.v file:$Source01/task_func.v:
       vpiParent: Design name:unnamed
       vpiName: task_func.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func/lib/work/task_func.v"
+      vpiPreprocFile: "$Output/lib/work/task_func.v"
       vpiDefNetType: none (12)
   vpiAllModules (5 items):
-    Module name:work@task_func_test01 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v start:2:1 end:34:10:
+    Module name:work@task_func_test01 file:$Source01/task_func.v start:2:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@task_func_test01 start:2:8 end:2:24:
         vpiParent: Module name:work@task_func_test01
@@ -1982,6 +1991,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@task_func_test01
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@task_func_test01
+        vpiName: work
+        vpiFullName: work@task_func_test01.work
+      vpiCell: task_func_test01
       vpiTaskFunc (3 items):
         Function name:sum_shift start:8:1 end:11:12:
           vpiParent: Module name:work@task_func_test01
@@ -2163,28 +2177,24 @@ Design name:unnamed:
             vpiParent: Task name:reset_w
             vpiName: reset_w
           vpiFullName: work@task_func_test01.reset_w
-          vpiStmt Begin:
+          vpiStmt Assignment start:14:1 end:14:6:
             vpiParent: Task name:reset_w
-            vpiFullName: work@task_func_test01.reset_w
-            vpiStmt (1 items):
-              Assignment start:14:1 end:14:6:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:w start:14:1 end:14:2:
-                  vpiParent: Assignment
-                  vpiName: w
-                  vpiFullName: work@task_func_test01.reset_w.w
-                  vpiActual: Net name:w
-                vpiRhs Constant start:14:5 end:14:6:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@task_func_test01.reset_w
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
+            vpiBlocking: true
+            vpiLhs RefObj name:w start:14:1 end:14:2:
+              vpiParent: Assignment
+              vpiName: w
+              vpiFullName: work@task_func_test01.reset_w.w
+              vpiActual: Net name:w
+            vpiRhs Constant start:14:5 end:14:6:
+              vpiParent: Assignment
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: work@task_func_test01.reset_w
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
         Task name:add_to start:17:1 end:21:8:
           vpiParent: Module name:work@task_func_test01
           vpiName Identifier name:add_to start:17:6 end:17:12:
@@ -2807,7 +2817,7 @@ Design name:unnamed:
                       vpiFullName: work@task_func_test01.z
                       vpiActual: Net name:z
           vpiAlwaysType: always (1)
-    Module name:work@task_func_test02 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v start:38:1 end:67:10:
+    Module name:work@task_func_test02 file:$Source01/task_func.v start:38:1 end:67:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@task_func_test02 start:38:8 end:38:24:
         vpiParent: Module name:work@task_func_test02
@@ -2870,6 +2880,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@task_func_test02
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@task_func_test02
+        vpiName: work
+        vpiFullName: work@task_func_test02.work
+      vpiCell: task_func_test02
       vpiTaskFunc (3 items):
         Function name:sum_shift start:44:1 end:46:12:
           vpiParent: Module name:work@task_func_test02
@@ -3027,28 +3042,24 @@ Design name:unnamed:
             vpiParent: Task name:reset_w
             vpiName: reset_w
           vpiFullName: work@task_func_test02.reset_w
-          vpiStmt Begin:
+          vpiStmt Assignment start:49:1 end:49:6:
             vpiParent: Task name:reset_w
-            vpiFullName: work@task_func_test02.reset_w
-            vpiStmt (1 items):
-              Assignment start:49:1 end:49:6:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:w start:49:1 end:49:2:
-                  vpiParent: Assignment
-                  vpiName: w
-                  vpiFullName: work@task_func_test02.reset_w.w
-                  vpiActual: Net name:w
-                vpiRhs Constant start:49:5 end:49:6:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@task_func_test02.reset_w
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
+            vpiBlocking: true
+            vpiLhs RefObj name:w start:49:1 end:49:2:
+              vpiParent: Assignment
+              vpiName: w
+              vpiFullName: work@task_func_test02.reset_w.w
+              vpiActual: Net name:w
+            vpiRhs Constant start:49:5 end:49:6:
+              vpiParent: Assignment
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: work@task_func_test02.reset_w
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
         Task name:add_to start:52:1 end:54:8:
           vpiParent: Module name:work@task_func_test02
           vpiName Identifier name:add_to start:52:6 end:52:12:
@@ -3652,7 +3663,7 @@ Design name:unnamed:
                       vpiFullName: work@task_func_test02.z
                       vpiActual: Net name:z
           vpiAlwaysType: always (1)
-    Module name:work@task_func_test03 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v start:71:1 end:82:10:
+    Module name:work@task_func_test03 file:$Source01/task_func.v start:71:1 end:82:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@task_func_test03 start:71:8 end:71:24:
         vpiParent: Module name:work@task_func_test03
@@ -3739,6 +3750,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@task_func_test03
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@task_func_test03
+        vpiName: work
+        vpiFullName: work@task_func_test03.work
+      vpiCell: task_func_test03
       vpiTaskFunc (1 items):
         Function name:test start:73:2 end:81:13:
           vpiParent: Module name:work@task_func_test03
@@ -4093,7 +4109,7 @@ Design name:unnamed:
                 vpiName: din_b
                 vpiFullName: work@task_func_test03.din_b
                 vpiActual: Net name:din_b
-    Module name:work@task_func_test04 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v start:86:1 end:122:10:
+    Module name:work@task_func_test04 file:$Source01/task_func.v start:86:1 end:122:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@task_func_test04 start:86:8 end:86:24:
         vpiParent: Module name:work@task_func_test04
@@ -4208,6 +4224,11 @@ Design name:unnamed:
           vpiParent: Module name:work@task_func_test04
       vpiDefName: work@task_func_test04
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@task_func_test04
+        vpiName: work
+        vpiFullName: work@task_func_test04.work
+      vpiCell: task_func_test04
       vpiTaskFunc (4 items):
         Function name:test1 start:89:2 end:95:13:
           vpiParent: Module name:work@task_func_test04
@@ -4319,8 +4340,8 @@ Design name:unnamed:
               LogicTypespec:
                 vpiParent: Begin
             vpiStmt (3 items):
-              Parameter name:p
-              ParamAssign
+              Parameter name:p:
+              ParamAssign:
               Begin start:92:3 end:94:6:
                 vpiParent: Begin
                 vpiFullName: work@task_func_test04.test1
@@ -4470,8 +4491,8 @@ Design name:unnamed:
               LogicTypespec:
                 vpiParent: Begin
             vpiStmt (3 items):
-              Parameter name:p2
-              ParamAssign
+              Parameter name:p2:
+              ParamAssign:
               Begin start:99:3 end:101:6:
                 vpiParent: Begin
                 vpiFullName: work@task_func_test04.test2
@@ -4795,12 +4816,12 @@ Design name:unnamed:
               LogicTypespec:
                 vpiParent: Begin
             vpiStmt (7 items):
-              Parameter name:px
-              ParamAssign
-              Parameter name:p3
-              ParamAssign
-              Parameter name:p4
-              ParamAssign
+              Parameter name:px:
+              ParamAssign:
+              Parameter name:p3:
+              ParamAssign:
+              Parameter name:p4:
+              ParamAssign:
               Begin start:114:3 end:116:6:
                 vpiParent: Begin
                 vpiFullName: work@task_func_test04.test4
@@ -5011,7 +5032,7 @@ Design name:unnamed:
                 vpiName: in
                 vpiFullName: work@task_func_test04.in
                 vpiActual: Net name:in
-    Module name:work@task_func_test05 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/task_func.v start:127:1 end:141:10:
+    Module name:work@task_func_test05 file:$Source01/task_func.v start:127:1 end:141:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@task_func_test05 start:127:8 end:127:24:
         vpiParent: Module name:work@task_func_test05
@@ -5022,6 +5043,11 @@ Design name:unnamed:
           vpiParent: Module name:work@task_func_test05
       vpiDefName: work@task_func_test05
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@task_func_test05
+        vpiName: work
+        vpiFullName: work@task_func_test05.work
+      vpiCell: task_func_test05
       vpiTaskFunc (1 items):
         Task name:myTask start:132:2 end:136:9:
           vpiParent: Module name:work@task_func_test05
@@ -5217,37 +5243,40 @@ Design name:unnamed:
         vpiName: work@task_func_test05
       vpiModule: Module name:work@task_func_test05
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/task_func
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func/surelog.uhdm
+      test-name: YosysTestSuite/simple/task_func
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/task_func/lib/work/task_func.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 2067}},
+            'files': {'$Output/lib/work/task_func.v': {'post_len': 0,
+                                                       'pre_len': 2067}},
             'post_len': 0,
             'pre_len': 2067,
             'test_name': 'YosysTestSuite/simple/task_func'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/task_func.v |     2067 |         0 |
-+======================+==========+===========+
-|                      |     2067 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/task_func.v |     2067 |         0 |
++==============================+==========+===========+
+|                              |     2067 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -5262,10 +5291,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            97      98       4         3
 Operation                           28      24       0         4
-RefObj                             133     128       0         5
+RefObj                             138     133       0         5
 RefTypespec                        197     198       4         3
 ----------------------------------------------------------------
-Others                             325     325       0         0
+Others                             323     323       0         0
 ----------------------------------------------------------------
-                                   780     773       8        15
+                                   783     776       8        15
 ===================== END REDUCTION RESULT =====================

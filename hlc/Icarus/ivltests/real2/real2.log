@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/real2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm real2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/real2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/real2.v".
+[INF:PA0201] Parsing source file "$Source01/real2.v".
 AST_DEBUG_BEGIN
 Count: 174
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/real2.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/real2.v> u<173> t<Top_level_rule> c<1> l<20:1> el<37:1>
+FILE: f<13>:$Source01/real2.v
+n<$Source01/real2.v> u<173> t<Top_level_rule> c<1> l<20:1> el<37:1>
   n<> u<1> t<Null_rule> p<173> s<2> l<20:1> el<20:1>
   n<//> u<2> t<LINE_COMMENT> p<173> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 2003 Steve Williams> u<3> t<LINE_COMMENT> p<173> s<4> l<2:1> el<2:37>
@@ -177,19 +186,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/real2.v> u<173> t<Top_level_rule> c<1> l<
                         n<> u<160> t<END> p<161> l<34:4> el<34:7>
         n<> u<169> t<ENDMODULE> p<170> l<36:1> el<36:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/real2.v:20:1: Compile module "work@main".
+[INF:CP0303] $Source01/real2.v:20:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:real2.v file:${SURELOG_DIR}/tests/Icarus/ivltests/real2.v:
+  vpiSourceFile (1 items):
+    SourceFile name:real2.v file:$Source01/real2.v:
       vpiParent: Design name:unnamed
       vpiName: real2.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/real2/lib/work/real2.v"
+      vpiPreprocFile: "$Output/lib/work/real2.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/real2.v start:20:1 end:36:10:
+    Module name:work@main file:$Source01/real2.v start:20:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:20:8 end:20:12:
         vpiParent: Module name:work@main
@@ -227,6 +236,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (1 items):
         Net name:result start:23:14 end:23:20:
           vpiParent: Module name:work@main
@@ -318,7 +332,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 64
                       vpiDecompile: "64'd16"
-                      vpiValue: 16
+                      vpiValue: "16"
                 vpiStmt Begin start:27:30 end:30:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -382,37 +396,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/real2
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/real2
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/real2/surelog.uhdm
+      test-name: Icarus/ivltests/real2
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/real2
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/real2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/real2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/real2/lib/work/real2.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 241}},
+            'files': {'$Output/lib/work/real2.v': {'post_len': 0,
+                                                   'pre_len': 241}},
             'post_len': 0,
             'pre_len': 241,
             'test_name': 'Icarus/ivltests/real2'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/real2.v |      241 |         0 |
-+==================+==========+===========+
-|                  |      241 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/real2.v |      241 |         0 |
++==========================+==========+===========+
+|                          |      241 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -426,7 +443,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/real2/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

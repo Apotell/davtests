@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm sva/basic02.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sva/basic02.sv".
+[INF:PA0201] Parsing source file "$Source01/sva/basic02.sv".
 AST_DEBUG_BEGIN
 Count: 225
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/sva/basic02.sv
-n<${SURELOG_DIR}/tests/Yosys/sva/basic02.sv> u<224> t<Top_level_rule> c<1> l<1:1> el<21:1>
+FILE: f<13>:$Source01/sva/basic02.sv
+n<$Source01/sva/basic02.sv> u<224> t<Top_level_rule> c<1> l<1:1> el<21:1>
   n<> u<1> t<Null_rule> p<224> s<223> l<1:1>
   n<> u<223> t<Source_text> p<224> c<112> l<1:1> el<20:46>
     n<> u<112> t<Description> p<223> c<111> s<210> l<1:1> el<9:10>
@@ -228,20 +237,20 @@ n<${SURELOG_DIR}/tests/Yosys/sva/basic02.sv> u<224> t<Top_level_rule> c<1> l<1:1
                 n<> u<216> t<Named_port_connection> p<217> c<215> l<20:42> el<20:44>
                   n<> u<215> t<DOTSTAR> p<216> l<20:42> el<20:44>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/sva/basic02.sv:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/sva/basic02.sv:11:1: Compile module "work@top_properties".
+[INF:CP0303] $Source01/sva/basic02.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/sva/basic02.sv:11:1: Compile module "work@top_properties".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:basic02.sv file:${SURELOG_DIR}/tests/Yosys/sva/basic02.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:basic02.sv file:$Source01/sva/basic02.sv:
       vpiParent: Design name:unnamed
       vpiName: basic02.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/lib/work/sva/basic02.sv"
+      vpiPreprocFile: "$Output/lib/work/sva/basic02.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Yosys/sva/basic02.sv start:1:1 end:9:10:
+    Module name:work@top file:$Source01/sva/basic02.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -252,6 +261,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:clock start:1:25 end:1:30:
           vpiParent: Module name:work@top
@@ -409,7 +423,7 @@ Design name:unnamed:
                     vpiFullName: work@top.write
                     vpiActual: Net name:write
           vpiAlwaysType: always (1)
-    Module name:work@top_properties file:${SURELOG_DIR}/tests/Yosys/sva/basic02.sv start:11:1 end:18:10:
+    Module name:work@top_properties file:$Source01/sva/basic02.sv start:11:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top_properties start:11:8 end:11:22:
         vpiParent: Module name:work@top_properties
@@ -485,6 +499,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top_properties
       vpiDefName: work@top_properties
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top_properties
+        vpiName: work
+        vpiFullName: work@top_properties.work
+      vpiCell: top_properties
       vpiNet (4 items):
         Net name:clock start:11:36 end:11:41:
           vpiParent: Module name:work@top_properties
@@ -615,37 +634,40 @@ Design name:unnamed:
               vpiParent: Port
               vpiFullName: properties_inst
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/sva/basic02.sv
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/surelog.uhdm
+      test-name: Yosys/sva/basic02.sv
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/lib/work/sva/basic02.sv'): {'post_len': 0,
-                                                                                                                                 'pre_len': 393}},
+            'files': {'$Output/lib/work/sva/basic02.sv': {'post_len': 0,
+                                                          'pre_len': 393}},
             'post_len': 0,
             'pre_len': 393,
             'test_name': 'Yosys/sva/basic02.sv'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/sva/basic02.sv |      393 |         0 |
-+=========================+==========+===========+
-|                         |      393 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/sva/basic02.sv |      393 |         0 |
++=================================+==========+===========+
+|                                 |      393 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -659,7 +681,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/sva/basic02.sv/surelog.uhdm ${SURELOG_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    97      97       0         0
 ===================== END REDUCTION RESULT =====================

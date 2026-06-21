@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_alw_dly/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_alw_dly.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_alw_dly
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_alw_dly.v".
+[INF:PA0201] Parsing source file "$Source01/t_alw_dly.v".
 AST_DEBUG_BEGIN
 Count: 693
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_alw_dly.v
-n<${SURELOG_DIR}/tests/Verilator/t_alw_dly.v> u<692> t<Top_level_rule> c<1> l<6:1> el<64:1>
+FILE: f<13>:$Source01/t_alw_dly.v
+n<$Source01/t_alw_dly.v> u<692> t<Top_level_rule> c<1> l<6:1> el<64:1>
   n<> u<1> t<Null_rule> p<692> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<692> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<692> s<4> l<2:1> el<2:3>
@@ -696,19 +705,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_alw_dly.v> u<692> t<Top_level_rule> c<1> l<6:
                                 n<> u<675> t<END> p<676> l<62:4> el<62:7>
         n<> u<688> t<ENDMODULE> p<689> l<63:1> el<63:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_alw_dly.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_alw_dly.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_alw_dly.v file:${SURELOG_DIR}/tests/Verilator/t_alw_dly.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_alw_dly.v file:$Source01/t_alw_dly.v:
       vpiParent: Design name:unnamed
       vpiName: t_alw_dly.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_alw_dly/lib/work/t_alw_dly.v"
+      vpiPreprocFile: "$Output/lib/work/t_alw_dly.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_alw_dly.v start:6:1 end:63:10:
+    Module name:work@t file:$Source01/t_alw_dly.v start:6:1 end:63:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -774,6 +783,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (8 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -1009,7 +1023,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
           vpiAlwaysType: always (1)
         Always start:31:4 end:38:7:
           vpiParent: Module name:work@t
@@ -1208,7 +1222,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 48
                                   vpiDecompile: "\"  %x\\n\""
-                                  vpiValue: %x\n
+                                  vpiValue: "%x\\n"
                                 RefObj name:comb_pos_1 start:44:22 end:44:32:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName: comb_pos_1
@@ -1271,7 +1285,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 48
                                   vpiDecompile: "\"  %x\\n\""
-                                  vpiValue: %x\n
+                                  vpiValue: "%x\\n"
                                 RefObj name:comb_pos_1 start:48:22 end:48:32:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName: comb_pos_1
@@ -1351,7 +1365,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 48
                                   vpiDecompile: "\"  %x\\n\""
-                                  vpiValue: %x\n
+                                  vpiValue: "%x\\n"
                                 RefObj name:comb_pos_1 start:53:22 end:53:32:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName: comb_pos_1
@@ -1449,7 +1463,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:59:6 end:59:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:59:6 end:59:13:
@@ -1471,37 +1485,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_alw_dly
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_alw_dly
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_alw_dly/surelog.uhdm
+      test-name: Verilator/t_alw_dly
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_alw_dly
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_alw_dly/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_alw_dly/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_alw_dly/lib/work/t_alw_dly.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 936}},
+            'files': {'$Output/lib/work/t_alw_dly.v': {'post_len': 0,
+                                                       'pre_len': 936}},
             'post_len': 0,
             'pre_len': 936,
             'test_name': 'Verilator/t_alw_dly'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_alw_dly.v |      936 |         0 |
-+======================+==========+===========+
-|                      |      936 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_alw_dly.v |      936 |         0 |
++==============================+==========+===========+
+|                              |      936 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1515,7 +1532,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_alw_dly/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             190     190       0         0
+Others                             191     191       0         0
 ----------------------------------------------------------------
-                                   190     190       0         0
+                                   191     191       0         0
 ===================== END REDUCTION RESULT =====================

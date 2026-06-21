@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence8/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence8.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence8
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence8.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence8.sv".
 AST_DEBUG_BEGIN
 Count: 178
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence8.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence8.sv> u<177> t<Top_level_rule> c<1> l<1:1> el<16:10>
+FILE: f<13>:$Source01/sequence8.sv
+n<$Source01/sequence8.sv> u<177> t<Top_level_rule> c<1> l<1:1> el<16:10>
   n<> u<1> t<Null_rule> p<177> s<176> l<1:1>
   n<> u<176> t<Source_text> p<177> c<175> l<1:1> el<16:10>
     n<> u<175> t<Description> p<176> c<174> l<1:1> el<16:10>
@@ -181,20 +190,20 @@ n<${SURELOG_DIR}/tests/Sequence/sequence8.sv> u<177> t<Top_level_rule> c<1> l<1:
                         n<> u<164> t<END> p<165> l<15:3> el<15:6>
         n<> u<173> t<ENDMODULE> p<174> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence8.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence8.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence8.sv:9:34: Illegal implicit net "id:31, name:seq8".
+[INF:CP0303] $Source01/sequence8.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/sequence8.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence8.sv:9:34: Illegal implicit net "id:32, name:seq8".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence8.sv file:${SURELOG_DIR}/tests/Sequence/sequence8.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence8.sv file:$Source01/sequence8.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence8.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence8/lib/work/sequence8.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence8.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence8.sv start:1:1 end:16:10:
+    Module name:work@tb file:$Source01/sequence8.sv start:1:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -244,6 +253,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (3 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -396,37 +410,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence8
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence8
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence8/surelog.uhdm
+      test-name: Sequence/sequence8
+   test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence8
+  uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence8/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Sequence/sequence8/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence8/lib/work/sequence8.sv'): {'post_len': 0,
-                                                                                                                             'pre_len': 170}},
+            'files': {'$Output/lib/work/sequence8.sv': {'post_len': 0,
+                                                        'pre_len': 170}},
             'post_len': 0,
             'pre_len': 170,
             'test_name': 'Sequence/sequence8'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/sequence8.sv |      170 |         0 |
-+=======================+==========+===========+
-|                       |      170 |         0 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/sequence8.sv |      170 |         0 |
++===============================+==========+===========+
+|                               |      170 |         0 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -440,7 +457,7 @@ COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence8/surelog.uhdm ${SURELOG_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

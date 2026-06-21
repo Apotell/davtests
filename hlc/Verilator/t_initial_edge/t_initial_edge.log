@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_initial_edge/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_initial_edge.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_initial_edge
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_initial_edge.v".
+[INF:PA0201] Parsing source file "$Source01/t_initial_edge.v".
 AST_DEBUG_BEGIN
 Count: 586
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v
-n<${SURELOG_DIR}/tests/Verilator/t_initial_edge.v> u<585> t<Top_level_rule> c<1> l<25:1> el<102:1>
+FILE: f<13>:$Source01/t_initial_edge.v
+n<$Source01/t_initial_edge.v> u<585> t<Top_level_rule> c<1> l<25:1> el<102:1>
   n<> u<1> t<Null_rule> p<585> s<2> l<25:1> el<25:1>
   n<// DESCRIPTION: Verilator: initial edge issue> u<2> t<LINE_COMMENT> p<585> s<3> l<1:1> el<1:46>
   n<//> u<3> t<LINE_COMMENT> p<585> s<4> l<2:1> el<2:3>
@@ -589,23 +598,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_initial_edge.v> u<585> t<Top_level_rule> c<1>
         n<> u<580> t<ENDMODULE> p<581> l<101:1> el<101:10>
   n<// initial_edge> u<584> t<LINE_COMMENT> p<585> l<101:11> el<101:26>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:27:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:72:1: Compile module "work@initial_edge_n".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:88:1: Compile module "work@initial_edge".
+[INF:CP0303] $Source01/t_initial_edge.v:27:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_initial_edge.v:72:1: Compile module "work@initial_edge_n".
+[INF:CP0303] $Source01/t_initial_edge.v:88:1: Compile module "work@initial_edge".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_initial_edge.v file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_initial_edge.v file:$Source01/t_initial_edge.v:
       vpiParent: Design name:unnamed
       vpiName: t_initial_edge.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_initial_edge/lib/work/t_initial_edge.v"
+      vpiPreprocFile: "$Output/lib/work/t_initial_edge.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v start:27:1 end:69:10:
+    Module name:work@t file:$Source01/t_initial_edge.v start:27:1 end:69:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:27:8 end:27:9:
         vpiParent: Module name:work@t
@@ -631,6 +640,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (6 items):
         Net name:clk start:31:10 end:31:13:
           vpiParent: Module name:work@t
@@ -912,7 +926,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:55:6 end:55:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:55:6 end:55:13:
@@ -1022,7 +1036,7 @@ Design name:unnamed:
                 vpiName: rst_n
                 vpiFullName: work@t.i_edge_n.rst_n
                 vpiActual: Net name:rst_n
-    Module name:work@initial_edge_n file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v start:72:1 end:85:10:
+    Module name:work@initial_edge_n file:$Source01/t_initial_edge.v start:72:1 end:85:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@initial_edge_n start:72:8 end:72:22:
         vpiParent: Module name:work@initial_edge_n
@@ -1037,6 +1051,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@initial_edge_n
+        vpiName: work
+        vpiFullName: work@initial_edge_n.work
+      vpiCell: initial_edge_n
       vpiNet (2 items):
         Net name:res_n start:74:12 end:74:17:
           vpiParent: Module name:work@initial_edge_n
@@ -1055,7 +1074,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
-            vpiValue: 0
+            vpiValue: "0"
         Net name:rst_n start:75:12 end:75:17:
           vpiParent: Module name:work@initial_edge_n
           vpiTypespec RefTypespec start:75:12 end:75:12:
@@ -1132,7 +1151,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                   vpiStmt Begin start:80:26 end:82:10:
                     vpiParent: IfStmt
                     vpiFullName: work@initial_edge_n
@@ -1156,9 +1175,9 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
           vpiAlwaysType: always (1)
-    Module name:work@initial_edge file:${SURELOG_DIR}/tests/Verilator/t_initial_edge.v start:88:1 end:101:10:
+    Module name:work@initial_edge file:$Source01/t_initial_edge.v start:88:1 end:101:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@initial_edge start:88:8 end:88:20:
         vpiParent: Module name:work@initial_edge
@@ -1173,6 +1192,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@initial_edge
+        vpiName: work
+        vpiFullName: work@initial_edge.work
+      vpiCell: initial_edge
       vpiNet (2 items):
         Net name:res start:90:12 end:90:15:
           vpiParent: Module name:work@initial_edge
@@ -1191,7 +1215,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
-            vpiValue: 0
+            vpiValue: "0"
         Net name:rst start:91:12 end:91:15:
           vpiParent: Module name:work@initial_edge
           vpiTypespec RefTypespec start:91:12 end:91:12:
@@ -1268,7 +1292,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt Begin start:96:24 end:98:10:
                     vpiParent: IfStmt
                     vpiFullName: work@initial_edge
@@ -1292,7 +1316,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
     IntTypespec:
@@ -1319,37 +1343,40 @@ Design name:unnamed:
         vpiName: work@initial_edge
       vpiModule: Module name:work@initial_edge
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_initial_edge
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge/surelog.uhdm
+      test-name: Verilator/t_initial_edge
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_initial_edge/mounts.json
 
 
 {'result': {'coverage': 96.59,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_initial_edge/lib/work/t_initial_edge.v'): {'post_len': 26,
-                                                                                                                                       'pre_len': 763}},
+            'files': {'$Output/lib/work/t_initial_edge.v': {'post_len': 26,
+                                                            'pre_len': 763}},
             'post_len': 26,
             'pre_len': 763,
             'test_name': 'Verilator/t_initial_edge'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_initial_edge.v |      763 |        26 |
-+===========================+==========+===========+
-|                           |      763 |        26 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_initial_edge.v |      763 |        26 |
++===================================+==========+===========+
+|                                   |      763 |        26 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.59
@@ -1364,10 +1391,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            18      12       2         8
 Operation                           14       8       0         6
-RefObj                              29      25       0         4
+RefObj                              32      28       0         4
 RefTypespec                         35      29       2         8
 ----------------------------------------------------------------
 Others                              80      80       0         0
 ----------------------------------------------------------------
-                                   176     154       4        26
+                                   179     157       4        26
 ===================== END REDUCTION RESULT =====================

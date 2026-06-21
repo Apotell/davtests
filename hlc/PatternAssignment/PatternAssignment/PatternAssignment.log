@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PatternAssignment -parse -d uhdm -d ast dut.sv -nobuiltin -synth -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 118
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PatternAssignment/dut.sv
-n<${SURELOG_DIR}/tests/PatternAssignment/dut.sv> u<117> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<117> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<117> s<116> l<1:1>
   n<> u<116> t<Source_text> p<117> c<115> l<1:1> el<15:10>
     n<> u<115> t<Description> p<116> c<114> l<1:1> el<15:10>
@@ -121,21 +130,21 @@ n<${SURELOG_DIR}/tests/PatternAssignment/dut.sv> u<117> t<Top_level_rule> c<1> l
                                       n<> u<96> t<ONE_TICK_b0> p<97> l<12:21> el<12:25>
         n<> u<113> t<ENDMODULE> p<114> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/PatternAssignment/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PatternAssignment/dut.sv:1:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PatternAssignment/dut.sv:11:3: Illegal implicit net "id:29, name:a".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PatternAssignment/dut.sv:12:3: Illegal implicit net "id:42, name:b".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:11:3: Illegal implicit net "id:30, name:a".
+[ERR:EL0535] $Source01/dut.sv:12:3: Illegal implicit net "id:43, name:b".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PatternAssignment/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/PatternAssignment/dut.sv start:1:1 end:15:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -175,6 +184,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (2 items):
         Net name:c start:8:16 end:8:17:
           vpiParent: Module name:work@dut
@@ -202,7 +216,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
       vpiContAssign (1 items):
         ContAssign start:10:8 end:13:2:
           vpiParent: Module name:work@dut
@@ -213,7 +227,7 @@ Design name:unnamed:
             vpiActual: Net name:c
           vpiRhs Operation start:10:12 end:13:2:
             vpiParent: ContAssign
-            vpiOpType: assign pattern (75)
+            vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               TaggedPattern start:11:3 end:11:33:
                 vpiParent: Operation
@@ -243,7 +257,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
                     Constant start:11:22 end:11:26:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -253,7 +267,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
                     Constant start:11:29 end:11:33:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -263,7 +277,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
               TaggedPattern start:12:3 end:12:25:
                 vpiParent: Operation
                 vpiTag RefObj name:b start:12:3 end:12:4:
@@ -283,7 +297,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                     Constant start:12:14 end:12:18:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -293,7 +307,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                     Constant start:12:21 end:12:25:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -303,7 +317,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
   vpiTypespec (1 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -312,37 +326,40 @@ Design name:unnamed:
         vpiName: work@dut
       vpiModule: Module name:work@dut
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PatternAssignment/PatternAssignment
- test-dirpath: ${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment
-uhdm-filepath: ${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment/surelog.uhdm
+      test-name: PatternAssignment/PatternAssignment
+   test-dirpath: ${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment
+  uhdm-filepath: ${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment/mounts.json
 
 
 {'result': {'coverage': 99.45,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PatternAssignment/PatternAssignment/lib/work/dut.sv'): {'post_len': 1,
-                                                                                                                                        'pre_len': 181}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
+                                                  'pre_len': 181}},
             'post_len': 1,
             'pre_len': 181,
             'test_name': 'PatternAssignment/PatternAssignment'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      181 |         1 |
-+=================+==========+===========+
-|                 |      181 |         1 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      181 |         1 |
++=========================+==========+===========+
+|                         |      181 |         1 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.45
@@ -358,10 +375,10 @@ Name                            Before   After   Added   Removed
 BitTypespec                          1       2       1         0
 Constant                             7       1       0         6
 Operation                            4       1       0         3
-RefObj                               4       3       0         1
+RefObj                               5       4       0         1
 RefTypespec                         12       6       0         6
 ----------------------------------------------------------------
 Others                              17      17       0         0
 ----------------------------------------------------------------
-                                    45      30       1        16
+                                    46      31       1        16
 ===================== END REDUCTION RESULT =====================

@@ -1,18 +1,27 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageDpi/PackageDpi/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageDpi -fileunit -writepp -parse -d uhdm -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PackageDpi/PackageDpi
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageDpi/dut.sv:1:1: Compile package "work@pack".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageDpi/dut.sv:1:1: No timescale set for "work@pack".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pack".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pack".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageDpi/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageDpi/PackageDpi/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pack file:${SURELOG_DIR}/tests/PackageDpi/dut.sv start:1:1 end:27:11:
+    Package name:work@pack file:$Source01/dut.sv start:1:1 end:27:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pack start:1:9 end:1:13:
         vpiParent: Package name:work@pack
@@ -110,43 +119,54 @@ Design name:unnamed:
                     vpiActual: StringTypespec
                   vpiConstType: unbounded (11)
                   vpiDecompile: "$"
-                  vpiValue: $
+                  vpiValue: "$"
           vpiElemTypespec RefTypespec name:uvm_object_wrapper start:17:1 end:17:19:
             vpiParent: ArrayTypespec
             vpiName: uvm_object_wrapper
             vpiFullName: work@pack::uvm_object_wrapper
-        ClassTypespec name:toto:
+        ClassTypespec name:work@toto:
           vpiParent: Package name:work@pack
-          vpiName: toto
-          vpiClassDefn: ClassDefn name:toto
+          vpiName: work@toto
+          vpiClassDefn: ClassDefn name:work@toto
       vpiDefName: work@pack
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pack
+        vpiName: work
+        vpiFullName: work@pack::work
+      vpiCell: pack
       vpiClassDefn (1 items):
-        ClassDefn name:toto file:${SURELOG_DIR}/tests/PackageDpi/dut.sv start:20:1 end:22:9:
+        ClassDefn name:work@toto file:$Source01/dut.sv start:20:1 end:22:9:
           vpiParent: Package name:work@pack
-          vpiName Identifier name:toto start:20:7 end:20:11:
-            vpiParent: ClassDefn name:toto
-            vpiName: toto
-          vpiFullName: work@pack::toto
+          vpiName Identifier name:work@toto start:20:7 end:20:11:
+            vpiParent: ClassDefn name:work@toto
+            vpiName: work@toto
+          vpiFullName: work@pack::work@toto
           vpiVariable (1 items):
             Variable name:DO_NOT_CATCH start:21:18 end:21:30:
-              vpiParent: ClassDefn name:toto
+              vpiParent: ClassDefn name:work@toto
               vpiTypespec RefTypespec start:21:14 end:21:17:
                 vpiParent: Variable name:DO_NOT_CATCH
-                vpiFullName: work@pack::toto::DO_NOT_CATCH
+                vpiFullName: work@pack::work@toto::DO_NOT_CATCH
                 vpiActual: IntTypespec
               vpiName: DO_NOT_CATCH
-              vpiFullName: work@pack::toto::DO_NOT_CATCH
+              vpiFullName: work@pack::work@toto::DO_NOT_CATCH
               vpiValue Constant start:21:38 end:21:39:
                 vpiParent: Variable name:DO_NOT_CATCH
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@pack::toto::DO_NOT_CATCH
+                  vpiFullName: work@pack::work@toto::DO_NOT_CATCH
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@toto
+            vpiName: work
+            vpiFullName: work@pack::work@toto::work
+          vpiCell: toto
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:uvm_hdl_check_path start:3:1 end:3:69:
           vpiParent: Package name:work@pack
@@ -176,37 +196,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageDpi/PackageDpi
- test-dirpath: ${SURELOG_DIR}/regression/PackageDpi/PackageDpi
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageDpi/PackageDpi/surelog.uhdm
+      test-name: PackageDpi/PackageDpi
+   test-dirpath: ${SURELOG_DIR}/regression/PackageDpi/PackageDpi
+  uhdm-filepath: ${SURELOG_DIR}/regression/PackageDpi/PackageDpi/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PackageDpi/PackageDpi/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageDpi/PackageDpi/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 382}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 382}},
             'post_len': 0,
             'pre_len': 382,
             'test_name': 'PackageDpi/PackageDpi'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      382 |         0 |
-+=================+==========+===========+
-|                 |      382 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      382 |         0 |
++=========================+==========+===========+
+|                         |      382 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -220,7 +243,7 @@ COMMAND: ${SURELOG_DIR}/regression/PackageDpi/PackageDpi/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

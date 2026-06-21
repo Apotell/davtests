@@ -1,23 +1,32 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PortByName/PortByName/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PortByName -fileunit -writepp -parse -d uhdm -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PortByName/PortByName
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0303] ${SURELOG_DIR}/tests/PortByName/dut.sv:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/PortByName/dut.sv:12:1: Compile module "work@ibex_id_stage".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortByName/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortByName/dut.sv:12:1: No timescale set for "work@ibex_id_stage".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PortByName/dut.sv:6:8: Illegal implicit net "id:55, name:third".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PortByName/dut.sv:7:8: Illegal implicit net "id:58, name:first".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PortByName/dut.sv:8:8: Illegal implicit net "id:61, name:second".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@ibex_id_stage".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@ibex_id_stage".
+[ERR:EL0535] $Source01/dut.sv:6:8: Illegal implicit net "id:57, name:third".
+[ERR:EL0535] $Source01/dut.sv:7:8: Illegal implicit net "id:60, name:first".
+[ERR:EL0535] $Source01/dut.sv:8:8: Illegal implicit net "id:63, name:second".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PortByName/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PortByName/PortByName/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/PortByName/dut.sv start:1:1 end:11:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -155,6 +164,11 @@ Design name:unnamed:
             vpiName: work@ibex_id_stage
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:top_second start:2:16 end:2:26:
           vpiParent: Module name:work@top
@@ -223,7 +237,7 @@ Design name:unnamed:
                 vpiName: top_second
                 vpiFullName: work@top.id_stage_i.top_second
                 vpiActual: Net name:top_second
-    Module name:work@ibex_id_stage file:${SURELOG_DIR}/tests/PortByName/dut.sv start:12:1 end:20:10:
+    Module name:work@ibex_id_stage file:$Source01/dut.sv start:12:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ibex_id_stage start:12:8 end:12:21:
         vpiParent: Module name:work@ibex_id_stage
@@ -415,6 +429,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@ibex_id_stage
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ibex_id_stage
+        vpiName: work
+        vpiFullName: work@ibex_id_stage.work
+      vpiCell: ibex_id_stage
       vpiNet (3 items):
         Net name:first start:13:39 end:13:44:
           vpiParent: Module name:work@ibex_id_stage
@@ -509,37 +528,40 @@ Design name:unnamed:
         vpiName: work@ibex_id_stage
       vpiModule: Module name:work@ibex_id_stage
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PortByName/PortByName
- test-dirpath: ${SURELOG_DIR}/regression/PortByName/PortByName
-uhdm-filepath: ${SURELOG_DIR}/regression/PortByName/PortByName/surelog.uhdm
+      test-name: PortByName/PortByName
+   test-dirpath: ${SURELOG_DIR}/regression/PortByName/PortByName
+  uhdm-filepath: ${SURELOG_DIR}/regression/PortByName/PortByName/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PortByName/PortByName/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PortByName/PortByName/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 464}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 464}},
             'post_len': 0,
             'pre_len': 464,
             'test_name': 'PortByName/PortByName'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      464 |         0 |
-+=================+==========+===========+
-|                 |      464 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      464 |         0 |
++=========================+==========+===========+
+|                         |      464 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -553,7 +575,7 @@ COMMAND: ${SURELOG_DIR}/regression/PortByName/PortByName/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             122     122       0         0
+Others                             124     124       0         0
 ----------------------------------------------------------------
-                                   122     122       0         0
+                                   124     124       0         0
 ===================== END REDUCTION RESULT =====================

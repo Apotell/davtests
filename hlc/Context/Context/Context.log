@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Context/Context/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Context -parse -d uhdm -nobuiltin -d ast dut.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Context/Context
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 39
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Context/dut.sv
-n<${SURELOG_DIR}/tests/Context/dut.sv> u<38> t<Top_level_rule> c<1> l<1:1> el<4:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<38> t<Top_level_rule> c<1> l<1:1> el<4:1>
   n<> u<1> t<Null_rule> p<38> s<36> l<1:1>
   n<> u<36> t<Source_text> p<38> c<35> s<37> l<1:1> el<3:10>
     n<> u<35> t<Description> p<36> c<34> l<1:1> el<3:10>
@@ -42,19 +51,19 @@ n<${SURELOG_DIR}/tests/Context/dut.sv> u<38> t<Top_level_rule> c<1> l<1:1> el<4:
         n<> u<33> t<ENDMODULE> p<34> l<3:1> el<3:10>
   n<// top> u<37> t<LINE_COMMENT> p<38> l<3:11> el<3:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Context/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Context/dut.sv:1:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/Context/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Context/Context/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Context/dut.sv start:1:1 end:3:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -72,23 +81,28 @@ Design name:unnamed:
           vpiNetType: none (12)
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFuncDecl (1 items):
-        TaskDecl name:get_2 start:2:4 end:2:52:
+        TaskDecl name:work@get_2 start:2:4 end:2:52:
           vpiParent: Module name:work@top
-          vpiName Identifier name:get_2 start:2:32 end:2:37:
-            vpiParent: TaskDecl name:get_2
-            vpiName: get_2
-          vpiFullName: work@top.get_2
+          vpiName Identifier name:work@get_2 start:2:32 end:2:37:
+            vpiParent: TaskDecl name:work@get_2
+            vpiName: work@get_2
+          vpiFullName: work@top.work@get_2
           vpiDPIContext: true
           vpiDPICStr: <<invalid>> (1)
           vpiIODecl (1 items):
             IODecl name:x start:2:49 end:2:50:
-              vpiParent: TaskDecl name:get_2
+              vpiParent: TaskDecl name:work@get_2
               vpiName: x
               vpiDirection: output (2)
               vpiTypespec RefTypespec start:2:45 end:2:48:
                 vpiParent: IODecl name:x
-                vpiFullName: work@top.get_2.x
+                vpiFullName: work@top.work@get_2.x
                 vpiActual: IntTypespec
       vpiPort (1 items):
         Port name:a start:1:23 end:1:24:
@@ -114,37 +128,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Context/Context
- test-dirpath: ${SURELOG_DIR}/regression/Context/Context
-uhdm-filepath: ${SURELOG_DIR}/regression/Context/Context/surelog.uhdm
+      test-name: Context/Context
+   test-dirpath: ${SURELOG_DIR}/regression/Context/Context
+  uhdm-filepath: ${SURELOG_DIR}/regression/Context/Context/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Context/Context/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Context/Context/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                    'pre_len': 82}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 82}},
             'post_len': 0,
             'pre_len': 82,
             'test_name': 'Context/Context'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       82 |         0 |
-+=================+==========+===========+
-|                 |       82 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       82 |         0 |
++=========================+==========+===========+
+|                         |       82 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -158,7 +175,7 @@ COMMAND: ${SURELOG_DIR}/regression/Context/Context/surelog.uhdm ${SURELOG_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              16      16       0         0
+Others                              17      17       0         0
 ----------------------------------------------------------------
-                                    16      16       0         0
+                                    17      17       0         0
 ===================== END REDUCTION RESULT =====================

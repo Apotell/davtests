@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+basic+lex+lib+relong+resolve -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm basic/tf_block.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic/tf_block.v".
+[INF:PA0201] Parsing source file "$Source01/basic/tf_block.v".
 AST_DEBUG_BEGIN
 Count: 170
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/basic/tf_block.v
-n<${SURELOG_DIR}/tests/Zachjs/basic/tf_block.v> u<169> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<18>:$Source01/basic/tf_block.v
+n<$Source01/basic/tf_block.v> u<169> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<169> s<168> l<1:1>
   n<> u<168> t<Source_text> p<169> c<167> l<1:1> el<15:10>
     n<> u<167> t<Description> p<168> c<166> l<1:1> el<15:10>
@@ -173,19 +182,19 @@ n<${SURELOG_DIR}/tests/Zachjs/basic/tf_block.v> u<169> t<Top_level_rule> c<1> l<
                                             n<1> u<146> t<INTEGRAL_NUMBER> p<147> l<14:35> el<14:36>
         n<> u<165> t<ENDMODULE> p<166> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/basic/tf_block.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/basic/tf_block.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:tf_block.v file:${SURELOG_DIR}/tests/Zachjs/basic/tf_block.v:
+  vpiSourceFile (1 items):
+    SourceFile name:tf_block.v file:$Source01/basic/tf_block.v:
       vpiParent: Design name:unnamed
       vpiName: tf_block.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v/lib/work/basic/tf_block.v"
+      vpiPreprocFile: "$Output/lib/work/basic/tf_block.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Zachjs/basic/tf_block.v start:1:1 end:15:10:
+    Module name:work@top file:$Source01/basic/tf_block.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -193,6 +202,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (2 items):
         Function name:f start:2:5 end:5:16:
           vpiParent: Module name:work@top
@@ -312,46 +326,42 @@ Design name:unnamed:
             vpiParent: Task name:t
             vpiName: t
           vpiFullName: work@top.t
-          vpiStmt Begin:
+          vpiStmt Begin start:7:9 end:10:12:
             vpiParent: Task name:t
             vpiFullName: work@top.t
-            vpiStmt (1 items):
-              Begin start:7:9 end:10:12:
+            vpiStmt (2 items):
+              SysFuncCall name:$display start:8:13 end:8:30:
                 vpiParent: Begin
-                vpiFullName: work@top.t
-                vpiStmt (2 items):
-                  SysFuncCall name:$display start:8:13 end:8:30:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:8:13 end:8:21:
-                      vpiParent: SysFuncCall name:$display
-                      vpiName: "$display"
-                    vpiArgument (1 items):
-                      Constant start:8:22 end:8:29:
-                        vpiParent: SysFuncCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@top.t
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 40
-                        vpiDecompile: "\"hello\""
-                        vpiValue: hello
-                  SysFuncCall name:$display start:9:13 end:9:30:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:9:13 end:9:21:
-                      vpiParent: SysFuncCall name:$display
-                      vpiName: "$display"
-                    vpiArgument (1 items):
-                      Constant start:9:22 end:9:29:
-                        vpiParent: SysFuncCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@top.t
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 40
-                        vpiDecompile: "\"world\""
-                        vpiValue: world
+                vpiName Identifier name:$display start:8:13 end:8:21:
+                  vpiParent: SysFuncCall name:$display
+                  vpiName: "$display"
+                vpiArgument (1 items):
+                  Constant start:8:22 end:8:29:
+                    vpiParent: SysFuncCall name:$display
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@top.t
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 40
+                    vpiDecompile: "\"hello\""
+                    vpiValue: hello
+              SysFuncCall name:$display start:9:13 end:9:30:
+                vpiParent: Begin
+                vpiName Identifier name:$display start:9:13 end:9:21:
+                  vpiParent: SysFuncCall name:$display
+                  vpiName: "$display"
+                vpiArgument (1 items):
+                  Constant start:9:22 end:9:29:
+                    vpiParent: SysFuncCall name:$display
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@top.t
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 40
+                    vpiDecompile: "\"world\""
+                    vpiValue: world
       vpiProcess (3 items):
         Initial start:12:5 end:12:17:
           vpiParent: Module name:work@top
@@ -377,7 +387,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 56
                 vpiDecompile: "\"f(0) = \""
-                vpiValue: f(0) = 
+                vpiValue: f(0) =
               FuncCall name:f start:13:33 end:13:37:
                 vpiParent: SysFuncCall name:$display
                 vpiName Identifier name:f start:13:33 end:13:34:
@@ -411,7 +421,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 56
                 vpiDecompile: "\"f(1) = \""
-                vpiValue: f(1) = 
+                vpiValue: f(1) =
               FuncCall name:f start:14:33 end:14:37:
                 vpiParent: SysFuncCall name:$display
                 vpiName Identifier name:f start:14:33 end:14:34:
@@ -441,37 +451,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/basic/tf_block_v
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v/surelog.uhdm
+      test-name: Zachjs/basic/tf_block_v
+   test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/basic/tf_block_v/lib/work/basic/tf_block.v'): {'post_len': 0,
-                                                                                                                                      'pre_len': 210}},
+            'files': {'$Output/lib/work/basic/tf_block.v': {'post_len': 0,
+                                                            'pre_len': 210}},
             'post_len': 0,
             'pre_len': 210,
             'test_name': 'Zachjs/basic/tf_block_v'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/basic/tf_block.v |      210 |         0 |
-+===========================+==========+===========+
-|                           |      210 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/basic/tf_block.v |      210 |         0 |
++===================================+==========+===========+
+|                                   |      210 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0

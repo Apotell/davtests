@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/sva -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm basic03.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic03.sv".
+[INF:PA0201] Parsing source file "$Source01/basic03.sv".
 AST_DEBUG_BEGIN
 Count: 242
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/sva/basic03.sv
-n<${SURELOG_DIR}/tests/YosysTestSuite/sva/basic03.sv> u<241> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<13>:$Source01/basic03.sv
+n<$Source01/basic03.sv> u<241> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<241> s<240> l<1:1>
   n<> u<240> t<Source_text> p<241> c<239> l<1:1> el<12:10>
     n<> u<239> t<Description> p<240> c<238> l<1:1> el<12:10>
@@ -245,19 +254,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/sva/basic03.sv> u<241> t<Top_level_rule> c
                         n<> u<228> t<Statement_or_null> p<229> l<10:66> el<10:67>
         n<> u<237> t<ENDMODULE> p<238> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/sva/basic03.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/basic03.sv:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:basic03.sv file:${SURELOG_DIR}/tests/YosysTestSuite/sva/basic03.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:basic03.sv file:$Source01/basic03.sv:
       vpiParent: Design name:unnamed
       vpiName: basic03.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/lib/work/basic03.sv"
+      vpiPreprocFile: "$Output/lib/work/basic03.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTestSuite/sva/basic03.sv start:1:1 end:12:10:
+    Module name:work@top file:$Source01/basic03.sv start:1:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -403,6 +412,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:clk start:1:25 end:1:28:
           vpiParent: Module name:work@top
@@ -587,37 +601,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/sva/basic03
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/surelog.uhdm
+      test-name: YosysTestSuite/sva/basic03
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/lib/work/basic03.sv'): {'post_len': 0,
-                                                                                                                                   'pre_len': 359}},
+            'files': {'$Output/lib/work/basic03.sv': {'post_len': 0,
+                                                      'pre_len': 359}},
             'post_len': 0,
             'pre_len': 359,
             'test_name': 'YosysTestSuite/sva/basic03'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/basic03.sv |      359 |         0 |
-+=====================+==========+===========+
-|                     |      359 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/basic03.sv |      359 |         0 |
++=============================+==========+===========+
+|                             |      359 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -631,7 +648,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/sva/basic03/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

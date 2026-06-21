@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_interface_top_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_interface_top_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_interface_top_bad.v".
 AST_DEBUG_BEGIN
 Count: 114
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v> u<113> t<Top_level_rule> c<1> l<6:1> el<22:1>
+FILE: f<13>:$Source01/t_interface_top_bad.v
+n<$Source01/t_interface_top_bad.v> u<113> t<Top_level_rule> c<1> l<6:1> el<22:1>
   n<> u<1> t<Null_rule> p<113> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<113> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<113> s<4> l<2:1> el<2:3>
@@ -117,20 +126,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v> u<113> t<Top_level_rule>
                                 n<1> u<96> t<INTEGRAL_NUMBER> p<97> l<19:16> el<19:17>
         n<> u<109> t<ENDMODULE> p<110> l<21:1> el<21:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v:6:1: Compile interface "work@ifc".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v:13:1: Compile module "work@t".
+[INF:CP0304] $Source01/t_interface_top_bad.v:6:1: Compile interface "work@ifc".
+[INF:CP0303] $Source01/t_interface_top_bad.v:13:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_interface_top_bad.v file:${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_interface_top_bad.v file:$Source01/t_interface_top_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_top_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/lib/work/t_interface_top_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_interface_top_bad.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@ifc file:${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v start:6:1 end:11:13:
+    Interface name:work@ifc file:$Source01/t_interface_top_bad.v start:6:1 end:11:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ifc start:6:11 end:6:14:
         vpiParent: Interface name:work@ifc
@@ -193,6 +202,11 @@ Design name:unnamed:
             vpiFullName: work@ifc.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@ifc
+        vpiName: work
+        vpiFullName: work@ifc.work
+      vpiCell: ifc
       vpiModport (2 items):
         Modport name:counter_mp start:9:12 end:9:22:
           vpiParent: Interface name:work@ifc
@@ -237,7 +251,7 @@ Design name:unnamed:
                 vpiFullName: work@ifc.core_mp.value
           vpiInterface: Interface name:work@ifc
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_interface_top_bad.v start:13:1 end:21:10:
+    Module name:work@t file:$Source01/t_interface_top_bad.v start:13:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:13:8 end:13:9:
         vpiParent: Module name:work@t
@@ -251,6 +265,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:clk start:15:10 end:15:13:
           vpiParent: Module name:work@t
@@ -318,7 +337,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:ifc.counter_mp
               vpiName: ifc.counter_mp
               vpiFullName: work@t.c_data.ifc.counter_mp.ifc.counter_mp
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:ifc start:16:4 end:16:7:
                   vpiParent: HierPath name:ifc.counter_mp
                   vpiName: ifc
@@ -346,37 +365,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_interface_top_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/surelog.uhdm
+      test-name: Verilator/t_interface_top_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/lib/work/t_interface_top_bad.v'): {'post_len': 0,
-                                                                                                                                                 'pre_len': 218}},
+            'files': {'$Output/lib/work/t_interface_top_bad.v': {'post_len': 0,
+                                                                 'pre_len': 218}},
             'post_len': 0,
             'pre_len': 218,
             'test_name': 'Verilator/t_interface_top_bad'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/t_interface_top_bad.v |      218 |         0 |
-+================================+==========+===========+
-|                                |      218 |         0 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/t_interface_top_bad.v |      218 |         0 |
++========================================+==========+===========+
+|                                        |      218 |         0 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -390,7 +412,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_interface_top_bad/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_gen_upscope/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_gen_upscope.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_gen_upscope
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_gen_upscope.v".
+[INF:PA0201] Parsing source file "$Source01/t_gen_upscope.v".
 AST_DEBUG_BEGIN
 Count: 607
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v
-n<${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v> u<606> t<Top_level_rule> c<1> l<33:1> el<85:1>
+FILE: f<13>:$Source01/t_gen_upscope.v
+n<$Source01/t_gen_upscope.v> u<606> t<Top_level_rule> c<1> l<33:1> el<85:1>
   n<> u<1> t<Null_rule> p<606> s<2> l<33:1> el<33:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<606> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<606> s<4> l<2:1> el<2:3>
@@ -610,24 +619,24 @@ n<${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v> u<606> t<Top_level_rule> c<1> 
                           n<> u<592> t<END> p<593> l<83:4> el<83:7>
         n<> u<602> t<ENDMODULE> p<603> l<84:1> el<84:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:33:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:57:1: Compile module "work@b".
-[INF:CP0335] ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:60:35: Compile generate block "gen".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:71:1: Compile module "work@c".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:78:1: Compile module "work@tag".
+[INF:CP0303] $Source01/t_gen_upscope.v:33:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_gen_upscope.v:57:1: Compile module "work@b".
+[INF:CP0335] $Source01/t_gen_upscope.v:60:35: Compile generate block "gen".
+[INF:CP0303] $Source01/t_gen_upscope.v:71:1: Compile module "work@c".
+[INF:CP0303] $Source01/t_gen_upscope.v:78:1: Compile module "work@tag".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:45:61: Illegal implicit net "id:63, name:scope".
+[ERR:EL0535] $Source01/t_gen_upscope.v:45:61: Illegal implicit net "id:67, name:scope".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_gen_upscope.v file:${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_gen_upscope.v file:$Source01/t_gen_upscope.v:
       vpiParent: Design name:unnamed
       vpiName: t_gen_upscope.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_gen_upscope/lib/work/t_gen_upscope.v"
+      vpiPreprocFile: "$Output/lib/work/t_gen_upscope.v"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v start:33:1 end:55:10:
+    Module name:work@t file:$Source01/t_gen_upscope.v start:33:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:33:8 end:33:9:
         vpiParent: Module name:work@t
@@ -651,6 +660,11 @@ Design name:unnamed:
             vpiName: work@b
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:clk start:37:10 end:37:13:
           vpiParent: Module name:work@t
@@ -701,7 +715,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: t.cyc
               vpiFullName: work@t.t.cyc
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:t start:43:14 end:43:15:
                   vpiParent: HierPath name:t.cyc
                   vpiName: t
@@ -726,7 +740,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: t.cyc
                         vpiFullName: work@t.t.cyc
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:t start:44:11 end:44:12:
                             vpiParent: HierPath name:t.cyc
                             vpiName: t
@@ -773,7 +787,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: t.cyc
                         vpiFullName: work@t.t.cyc
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:t start:45:11 end:45:12:
                             vpiParent: HierPath name:t.cyc
                             vpiName: t
@@ -814,7 +828,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$display
                         vpiName: tag.scope
                         vpiFullName: work@t.tag.scope
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:tag start:45:57 end:45:60:
                             vpiParent: HierPath name:tag.scope
                             vpiName: tag
@@ -908,7 +922,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:52:10 end:52:17:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:52:10 end:52:17:
@@ -932,7 +946,7 @@ Design name:unnamed:
             vpiName: work@b
             vpiFullName: work@t.b.work@b
             vpiActual: ModuleTypespec name:work@b
-    Module name:work@b file:${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v start:57:1 end:69:10:
+    Module name:work@b file:$Source01/t_gen_upscope.v start:57:1 end:69:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@b start:57:8 end:57:9:
         vpiParent: Module name:work@b
@@ -940,6 +954,11 @@ Design name:unnamed:
       vpiFullName: work@b
       vpiDefName: work@b
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@b
+        vpiName: work
+        vpiFullName: work@b.work
+      vpiCell: b
       vpiNet (1 items):
         Net name:g start:58:11 end:58:12:
           vpiParent: Module name:work@b
@@ -957,7 +976,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: t.cyc
               vpiFullName: work@b.t.cyc
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:t start:65:14 end:65:15:
                   vpiParent: HierPath name:t.cyc
                   vpiName: t
@@ -982,7 +1001,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: t.cyc
                         vpiFullName: work@b.t.cyc
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:t start:66:11 end:66:12:
                             vpiParent: HierPath name:t.cyc
                             vpiName: t
@@ -1029,7 +1048,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: t.cyc
                         vpiFullName: work@b.t.cyc
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:t start:67:11 end:67:12:
                             vpiParent: HierPath name:t.cyc
                             vpiName: t
@@ -1070,7 +1089,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$display
                         vpiName: tag.scope
                         vpiFullName: work@b.tag.scope
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:tag start:67:57 end:67:60:
                             vpiParent: HierPath name:tag.scope
                             vpiName: tag
@@ -1111,7 +1130,7 @@ Design name:unnamed:
             vpiForIncStmt (1 items):
               Operation start:60:22 end:60:25:
                 vpiParent: GenFor
-                vpiOpType: post inc (62)
+                vpiOpType: post inc (64)
                 vpiOperand (1 items):
                   RefObj name:g start:60:22 end:60:23:
                     vpiParent: Operation
@@ -1171,7 +1190,7 @@ Design name:unnamed:
                     vpiName: work@c
                     vpiFullName: work@b.gen.c.work@c
                     vpiActual: ModuleTypespec name:work@c
-    Module name:work@c file:${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v start:71:1 end:76:10:
+    Module name:work@c file:$Source01/t_gen_upscope.v start:71:1 end:76:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@c start:71:8 end:71:9:
         vpiParent: Module name:work@c
@@ -1179,6 +1198,11 @@ Design name:unnamed:
       vpiFullName: work@c
       vpiDefName: work@c
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@c
+        vpiName: work
+        vpiFullName: work@c.work
+      vpiCell: c
       vpiProcess (1 items):
         Always start:72:4 end:75:7:
           vpiParent: Module name:work@c
@@ -1188,7 +1212,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: t.cyc
               vpiFullName: work@c.t.cyc
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:t start:72:14 end:72:15:
                   vpiParent: HierPath name:t.cyc
                   vpiName: t
@@ -1213,7 +1237,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: t.cyc
                         vpiFullName: work@c.t.cyc
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:t start:73:11 end:73:12:
                             vpiParent: HierPath name:t.cyc
                             vpiName: t
@@ -1260,7 +1284,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: t.cyc
                         vpiFullName: work@c.t.cyc
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:t start:74:11 end:74:12:
                             vpiParent: HierPath name:t.cyc
                             vpiName: t
@@ -1301,7 +1325,7 @@ Design name:unnamed:
                         vpiParent: SysFuncCall name:$display
                         vpiName: tag.scope
                         vpiFullName: work@c.tag.scope
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           RefObj name:tag start:74:57 end:74:60:
                             vpiParent: HierPath name:tag.scope
                             vpiName: tag
@@ -1313,7 +1337,7 @@ Design name:unnamed:
                             vpiFullName: work@c.scope
                             vpiActual: Net name:scope
           vpiAlwaysType: always (1)
-    Module name:work@tag file:${SURELOG_DIR}/tests/Verilator/t_gen_upscope.v start:78:1 end:84:10:
+    Module name:work@tag file:$Source01/t_gen_upscope.v start:78:1 end:84:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tag start:78:8 end:78:11:
         vpiParent: Module name:work@tag
@@ -1386,6 +1410,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:bit
       vpiDefName: work@tag
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tag
+        vpiName: work
+        vpiFullName: work@tag.work
+      vpiCell: tag
       vpiNet (1 items):
         Net name:scope start:79:20 end:79:25:
           vpiParent: Module name:work@tag
@@ -1423,7 +1452,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 16
                     vpiDecompile: "\"%m\""
-                    vpiValue: %m
+                    vpiValue: "%m"
               SysFuncCall name:$display start:82:7 end:82:53:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:82:7 end:82:15:
@@ -1476,37 +1505,40 @@ Design name:unnamed:
         vpiName: work@tag
       vpiModule: Module name:work@tag
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_gen_upscope
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_upscope
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_upscope/surelog.uhdm
+      test-name: Verilator/t_gen_upscope
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_upscope
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_upscope/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_upscope/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_gen_upscope/lib/work/t_gen_upscope.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 834}},
+            'files': {'$Output/lib/work/t_gen_upscope.v': {'post_len': 0,
+                                                           'pre_len': 834}},
             'post_len': 0,
             'pre_len': 834,
             'test_name': 'Verilator/t_gen_upscope'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_gen_upscope.v |      834 |         0 |
-+==========================+==========+===========+
-|                          |      834 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_gen_upscope.v |      834 |         0 |
++==================================+==========+===========+
+|                                  |      834 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1521,10 +1553,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            24      22       3         5
 Operation                           13       9       0         4
-RefObj                              33      31       0         2
+RefObj                              37      35       0         2
 RefTypespec                         34      32       3         5
 ----------------------------------------------------------------
 Others                             104     104       0         0
 ----------------------------------------------------------------
-                                   208     198       6        16
+                                   212     202       6        16
 ===================== END REDUCTION RESULT =====================

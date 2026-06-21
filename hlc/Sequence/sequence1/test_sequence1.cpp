@@ -59,27 +59,31 @@ TEST_F(Sequence1, ModuleExists) {
 // Sequence declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, SequenceDeclaration) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
   const uhdm::SequenceDecl *seq1 = nullptr;
   for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
-    if (s->getName() == "seq1") { seq1 = s; break; }
+    if (s->getName() == "seq1") {
+      seq1 = s;
+      break;
+    }
   }
   ASSERT_NE(seq1, nullptr) << "sequence 'seq1' not found in tb";
 }
 
 TEST_F(Sequence1, SequenceHasExpression) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
   const uhdm::SequenceDecl *seq1 = nullptr;
   for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
-    if (s->getName() == "seq1") { seq1 = s; break; }
+    if (s->getName() == "seq1") {
+      seq1 = s;
+      break;
+    }
   }
   ASSERT_NE(seq1, nullptr) << "sequence 'seq1' not found";
   EXPECT_NE(seq1->getExpr(), nullptr) << "seq1 has no expression (expected ##1 a ##2 b)";
@@ -89,60 +93,63 @@ TEST_F(Sequence1, SequenceHasExpression) {
 // Property declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, PropertyDeclaration) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr) << "tb has no property declarations";
 
   const uhdm::PropertyDecl *prop_p = nullptr;
   for (const uhdm::PropertyDecl *const p : *tb->getPropertyDecls()) {
-    if (p->getName() == "p") { prop_p = p; break; }
+    if (p->getName() == "p") {
+      prop_p = p;
+      break;
+    }
   }
   ASSERT_NE(prop_p, nullptr) << "property 'p' not found in tb";
 }
 
 TEST_F(Sequence1, PropertyHasClockingEvent) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr);
 
   const uhdm::PropertyDecl *prop_p = nullptr;
   for (const uhdm::PropertyDecl *const p : *tb->getPropertyDecls()) {
-    if (p->getName() == "p") { prop_p = p; break; }
+    if (p->getName() == "p") {
+      prop_p = p;
+      break;
+    }
   }
   ASSERT_NE(prop_p, nullptr) << "property 'p' not found";
 
   const uhdm::PropertySpec *const spec = prop_p->getPropertySpec();
   ASSERT_NE(spec, nullptr) << "property 'p' has no PropertySpec";
-  EXPECT_NE(spec->getClockingEvent(), nullptr)
-      << "property 'p' has no clocking event (expected @(posedge clk))";
+  EXPECT_NE(spec->getClockingEvent(), nullptr) << "property 'p' has no clocking event (expected @(posedge clk))";
 }
 
 TEST_F(Sequence1, PropertyHasExpression) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr);
 
   const uhdm::PropertyDecl *prop_p = nullptr;
   for (const uhdm::PropertyDecl *const p : *tb->getPropertyDecls()) {
-    if (p->getName() == "p") { prop_p = p; break; }
+    if (p->getName() == "p") {
+      prop_p = p;
+      break;
+    }
   }
   ASSERT_NE(prop_p, nullptr) << "property 'p' not found";
 
   const uhdm::PropertySpec *const spec = prop_p->getPropertySpec();
   ASSERT_NE(spec, nullptr) << "property 'p' has no PropertySpec";
-  EXPECT_NE(spec->getPropertyExpr(), nullptr)
-      << "property 'p' has no property expression (expected seq1 reference)";
+  EXPECT_NE(spec->getPropertyExpr(), nullptr) << "property 'p' has no property expression (expected seq1 reference)";
 }
 
 // ---------------------------------------------------------------------------
 // Concurrent assertion (assert property(p))
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, ConcurrentAssertion) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";

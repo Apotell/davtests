@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UnitTest/UnitTest/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UnitTest +incdir+. -fileunit -writepp -parse -d ast -d uhdm top.v -nobuiltin -nocache -wd ${SURELOG_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/UnitTest/UnitTest
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 603
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UnitTest/top.v
-n<${SURELOG_DIR}/tests/UnitTest/top.v> u<602> t<Top_level_rule> c<1> l<3:1> el<69:1>
+FILE: f<15>:$Source01/top.v
+n<$Source01/top.v> u<602> t<Top_level_rule> c<1> l<3:1> el<69:1>
   n<> u<1> t<Null_rule> p<602> s<601> l<3:1> el<3:1>
   n<> u<601> t<Source_text> p<602> c<436> l<3:1> el<67:10>
     n<> u<436> t<Description> p<601> c<435> s<494> l<3:1> el<38:10>
@@ -607,32 +616,38 @@ n<${SURELOG_DIR}/tests/UnitTest/top.v> u<602> t<Top_level_rule> c<1> l<3:1> el<6
                           n<o1> u<588> t<SIMPLE_IDENTIFIER> p<589> l<65:5> el<65:7>
         n<> u<598> t<ENDMODULE> p<599> l<67:1> el<67:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/UnitTest/top.v:3:1: Compile module "work@tb_operators".
-[INF:CP0303] ${SURELOG_DIR}/tests/UnitTest/top.v:40:1: Compile module "work@top".
-[INF:CP0304] ${SURELOG_DIR}/tests/UnitTest/top.v:47:1: Compile interface "work@mem_if".
-[INF:CP0303] ${SURELOG_DIR}/tests/UnitTest/top.v:57:1: Compile module "work@memory_ctrl1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnitTest/top.v:3:1: No timescale set for "work@tb_operators".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnitTest/top.v:40:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnitTest/top.v:57:1: No timescale set for "work@memory_ctrl1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnitTest/top.v:47:1: No timescale set for "work@mem_if".
+[INF:CP0303] $Source01/top.v:3:1: Compile module "work@tb_operators".
+[INF:CP0303] $Source01/top.v:40:1: Compile module "work@top".
+[INF:CP0304] $Source01/top.v:47:1: Compile interface "work@mem_if".
+[INF:CP0303] $Source01/top.v:57:1: Compile module "work@memory_ctrl1".
+[WRN:PA0205] $Source01/top.v:3:1: No timescale set for "work@tb_operators".
+[WRN:PA0205] $Source01/top.v:40:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/top.v:57:1: No timescale set for "work@memory_ctrl1".
+[WRN:PA0205] $Source01/top.v:47:1: No timescale set for "work@mem_if".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/UnitTest/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UnitTest/UnitTest/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:DD2 file:${SURELOG_DIR}/tests/UnitTest/top.v start:54:1 end:55:9:
+    ClassDefn name:work@DD2 file:$Source01/top.v start:54:1 end:55:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:DD2 start:54:7 end:54:10:
-        vpiParent: ClassDefn name:DD2
-        vpiName: DD2
-      vpiFullName: DD2
+      vpiName Identifier name:work@DD2 start:54:7 end:54:10:
+        vpiParent: ClassDefn name:work@DD2
+        vpiName: work@DD2
+      vpiFullName: work@DD2
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@DD2
+        vpiName: work
+        vpiFullName: work@DD2::work
+      vpiCell: DD2
   vpiAllInterfaces (1 items):
-    Interface name:work@mem_if file:${SURELOG_DIR}/tests/UnitTest/top.v start:47:1 end:52:13:
+    Interface name:work@mem_if file:$Source01/top.v start:47:1 end:52:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@mem_if start:47:11 end:47:17:
         vpiParent: Interface name:work@mem_if
@@ -652,6 +667,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@mem_if
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@mem_if
+        vpiName: work
+        vpiFullName: work@mem_if.work
+      vpiCell: mem_if
       vpiModport (2 items):
         Modport name:system start:49:12 end:49:18:
           vpiParent: Interface name:work@mem_if
@@ -695,7 +715,7 @@ Design name:unnamed:
             vpiFullName: work@mem_if.clk
             vpiActual: LogicTypespec
   vpiAllModules (3 items):
-    Module name:work@tb_operators file:${SURELOG_DIR}/tests/UnitTest/top.v start:3:1 end:38:10:
+    Module name:work@tb_operators file:$Source01/top.v start:3:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb_operators start:3:8 end:3:20:
         vpiParent: Module name:work@tb_operators
@@ -756,6 +776,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@tb_operators
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb_operators
+        vpiName: work
+        vpiFullName: work@tb_operators.work
+      vpiCell: tb_operators
       vpiNet (2 items):
         Net name:shifter start:5:13 end:5:20:
           vpiParent: Module name:work@tb_operators
@@ -818,7 +843,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 32
                   vpiDecompile: "32'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
               Assignment start:13:5 end:13:26:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -925,7 +950,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
                         Constant start:16:20 end:16:25:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -935,7 +960,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 31
                           vpiDecompile: "31'b0"
-                          vpiValue: 0
+                          vpiValue: "0"
                     Constant start:16:31 end:16:33:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -971,7 +996,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b0"
-                          vpiValue: 0
+                          vpiValue: "0"
                         Constant start:17:20 end:17:25:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -981,7 +1006,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 31
                           vpiDecompile: "31'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
                     Constant start:17:31 end:17:33:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1255,7 +1280,7 @@ Design name:unnamed:
                       vpiName: result
                       vpiFullName: work@tb_operators.result
                       vpiActual: Net name:result
-    Module name:work@top file:${SURELOG_DIR}/tests/UnitTest/top.v start:40:1 end:44:10:
+    Module name:work@top file:$Source01/top.v start:40:1 end:44:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:40:8 end:40:11:
         vpiParent: Module name:work@top
@@ -1266,6 +1291,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:i start:40:19 end:40:20:
           vpiParent: Module name:work@top
@@ -1323,7 +1353,7 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: work@top.i
             vpiActual: Net name:i
-    Module name:work@memory_ctrl1 file:${SURELOG_DIR}/tests/UnitTest/top.v start:57:1 end:67:10:
+    Module name:work@memory_ctrl1 file:$Source01/top.v start:57:1 end:67:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@memory_ctrl1 start:57:8 end:57:20:
         vpiParent: Module name:work@memory_ctrl1
@@ -1345,7 +1375,7 @@ Design name:unnamed:
             vpiParent: Variable name:toto2
             vpiName: DD2
             vpiFullName: work@memory_ctrl1.toto2.DD2
-            vpiActual: ClassTypespec name:DD2
+            vpiActual: ClassTypespec name:work@DD2
           vpiName: toto2
           vpiFullName: work@memory_ctrl1.toto2
           vpiNetType: none (12)
@@ -1354,6 +1384,11 @@ Design name:unnamed:
           vpiParent: Module name:work@memory_ctrl1
       vpiDefName: work@memory_ctrl1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@memory_ctrl1
+        vpiName: work
+        vpiFullName: work@memory_ctrl1.work
+      vpiCell: memory_ctrl1
       vpiNet (4 items):
         Net name:sif1 start:57:29 end:57:33:
           vpiParent: Module name:work@memory_ctrl1
@@ -1422,7 +1457,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:mem_if.system
               vpiName: mem_if.system
               vpiFullName: work@memory_ctrl1.sif2.mem_if.system.mem_if.system
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:mem_if start:57:35 end:57:41:
                   vpiParent: HierPath name:mem_if.system
                   vpiName: mem_if
@@ -1459,10 +1494,10 @@ Design name:unnamed:
         vpiParent: InterfaceTypespec name:work@mem_if
         vpiName: work@mem_if
       vpiInterface: Interface name:work@mem_if
-    ClassTypespec name:DD2:
+    ClassTypespec name:work@DD2:
       vpiParent: Design name:unnamed
-      vpiName: DD2
-      vpiClassDefn: ClassDefn name:DD2
+      vpiName: work@DD2
+      vpiClassDefn: ClassDefn name:work@DD2
     ModuleTypespec name:work@memory_ctrl1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@memory_ctrl1 start:57:8 end:57:20:
@@ -1470,37 +1505,40 @@ Design name:unnamed:
         vpiName: work@memory_ctrl1
       vpiModule: Module name:work@memory_ctrl1
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UnitTest/UnitTest
- test-dirpath: ${SURELOG_DIR}/regression/UnitTest/UnitTest
-uhdm-filepath: ${SURELOG_DIR}/regression/UnitTest/UnitTest/surelog.uhdm
+      test-name: UnitTest/UnitTest
+   test-dirpath: ${SURELOG_DIR}/regression/UnitTest/UnitTest
+  uhdm-filepath: ${SURELOG_DIR}/regression/UnitTest/UnitTest/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/UnitTest/UnitTest/mounts.json
 
 
 {'result': {'coverage': 99.78,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UnitTest/UnitTest/lib/work/top.v'): {'post_len': 2,
-                                                                                                                     'pre_len': 895}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 2,
+                                                 'pre_len': 895}},
             'post_len': 2,
             'pre_len': 895,
             'test_name': 'UnitTest/UnitTest'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      895 |         2 |
-+================+==========+===========+
-|                |      895 |         2 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      895 |         2 |
++========================+==========+===========+
+|                        |      895 |         2 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.78
@@ -1517,7 +1555,7 @@ Constant                            20      16       2         6
 Operation                           16      12       0         4
 RefTypespec                         38      34       2         6
 ----------------------------------------------------------------
-Others                             128     128       0         0
+Others                             133     133       0         0
 ----------------------------------------------------------------
-                                   202     190       4        16
+                                   207     195       4        16
 ===================== END REDUCTION RESULT =====================

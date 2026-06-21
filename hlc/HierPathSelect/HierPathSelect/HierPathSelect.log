@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/HierPathSelect -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 72
 LIB: work
-FILE: ${SURELOG_DIR}/tests/HierPathSelect/dut.sv
-n<${SURELOG_DIR}/tests/HierPathSelect/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<71> s<70> l<1:1>
   n<> u<70> t<Source_text> p<71> c<69> l<1:1> el<10:10>
     n<> u<69> t<Description> p<70> c<68> l<1:1> el<10:10>
@@ -75,20 +84,20 @@ n<${SURELOG_DIR}/tests/HierPathSelect/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1
                             n<> u<56> t<ONE_TICK_b1> p<57> l<8:24> el<8:28>
         n<> u<67> t<ENDMODULE> p<68> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/HierPathSelect/dut.sv:1:1: Compile module "work@dut2".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierPathSelect/dut.sv:1:1: No timescale set for "work@dut2".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HierPathSelect/dut.sv:8:17: Illegal implicit net "id:32, name:q".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut2".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut2".
+[ERR:EL0535] $Source01/dut.sv:8:17: Illegal implicit net "id:33, name:q".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/HierPathSelect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut2 file:${SURELOG_DIR}/tests/HierPathSelect/dut.sv start:1:1 end:10:10:
+    Module name:work@dut2 file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut2 start:1:8 end:1:12:
         vpiParent: Module name:work@dut2
@@ -147,6 +156,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut2
       vpiDefName: work@dut2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut2
+        vpiName: work
+        vpiFullName: work@dut2.work
+      vpiCell: dut2
       vpiNet (1 items):
         Net name:read_buf start:6:16 end:6:24:
           vpiParent: Module name:work@dut2
@@ -164,7 +178,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: read_buf.q[1]
             vpiFullName: work@dut2.read_buf.q[1]
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:read_buf start:8:8 end:8:16:
                 vpiParent: HierPath name:read_buf.q[1]
                 vpiName: read_buf
@@ -197,7 +211,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
   vpiTypespec (2 items):
     ModuleTypespec name:work@dut2:
       vpiParent: Design name:unnamed
@@ -209,37 +223,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: HierPathSelect/HierPathSelect
- test-dirpath: ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect
-uhdm-filepath: ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/surelog.uhdm
+      test-name: HierPathSelect/HierPathSelect
+   test-dirpath: ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect
+  uhdm-filepath: ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 134}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 134}},
             'post_len': 0,
             'pre_len': 134,
             'test_name': 'HierPathSelect/HierPathSelect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      134 |         0 |
-+=================+==========+===========+
-|                 |      134 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      134 |         0 |
++=========================+==========+===========+
+|                         |      134 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -253,7 +270,7 @@ COMMAND: ${SURELOG_DIR}/regression/HierPathSelect/HierPathSelect/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

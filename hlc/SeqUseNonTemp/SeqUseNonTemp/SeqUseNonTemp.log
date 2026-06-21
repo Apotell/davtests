@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/SeqUseNonTemp -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 205
 LIB: work
-FILE: ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv
-n<${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv> u<204> t<Top_level_rule> c<1> l<2:1> el<55:3>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<204> t<Top_level_rule> c<1> l<2:1> el<55:3>
   n<> u<1> t<Null_rule> p<204> s<202> l<2:1> el<2:1>
   n<> u<202> t<Source_text> p<204> c<201> s<203> l<2:1> el<29:10>
     n<> u<201> t<Description> p<202> c<200> l<2:1> el<29:10>
@@ -208,24 +217,24 @@ n<${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv> u<204> t<Top_level_rule> c<1> l<2:1
         n<> u<199> t<ENDMODULE> p<200> l<29:1> el<29:10>
   n</*\nmodule system_assertion();\n\nlogic clk = 0;\nalways #1 clk = ~clk;\n\nlogic req, gnt;\n\n//-------------------------------------------------\n// Property Specification Layer\n//-------------------------------------------------\nsequence s_req;\n  @ (posedge clk)\n  $rose(req) ##1 $past(!req,1);\nendsequence\n\n\nproperty system_prop;\n  @ (posedge clk) \n  s_req |=> s_gnt;\nendproperty\n\nendmodule\n\n*/> u<203> t<BLOCK_COMMENT> p<204> l<2:1> el<29:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:2:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:2:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:11:3: Illegal implicit net "id:30, name:seq_count_increment".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:16:18: Illegal implicit net "id:38, name:seq_count_increment".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:21:28: Illegal implicit net "id:47, name:seq_count_increment".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:26:18: Illegal implicit net "id:54, name:seq_count_increment".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:26:42: Illegal implicit net "id:55, name:seq_count_increment".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:11:3: Illegal implicit net "id:31, name:seq_count_increment".
+[ERR:EL0535] $Source01/dut.sv:16:18: Illegal implicit net "id:39, name:seq_count_increment".
+[ERR:EL0535] $Source01/dut.sv:21:28: Illegal implicit net "id:48, name:seq_count_increment".
+[ERR:EL0535] $Source01/dut.sv:26:18: Illegal implicit net "id:55, name:seq_count_increment".
+[ERR:EL0535] $Source01/dut.sv:26:42: Illegal implicit net "id:56, name:seq_count_increment".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/SeqUseNonTemp/dut.sv start:2:1 end:29:10:
+    Module name:work@top file:$Source01/dut.sv start:2:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:2:8 end:2:11:
         vpiParent: Module name:work@top
@@ -382,7 +391,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 Operation start:6:35 end:6:51:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -401,7 +410,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1111"
-                      vpiValue: 1111
+                      vpiValue: "1111"
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@top
@@ -409,6 +418,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:count start:3:7 end:3:12:
           vpiParent: Module name:work@top
@@ -444,37 +458,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SeqUseNonTemp/SeqUseNonTemp
- test-dirpath: ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp
-uhdm-filepath: ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/surelog.uhdm
+      test-name: SeqUseNonTemp/SeqUseNonTemp
+   test-dirpath: ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp
+  uhdm-filepath: ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 474}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 474}},
             'post_len': 0,
             'pre_len': 474,
             'test_name': 'SeqUseNonTemp/SeqUseNonTemp'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      474 |         0 |
-+=================+==========+===========+
-|                 |      474 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      474 |         0 |
++=========================+==========+===========+
+|                         |      474 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -488,7 +505,7 @@ COMMAND: ${SURELOG_DIR}/regression/SeqUseNonTemp/SeqUseNonTemp/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    60      60       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/Google/chapter-7/queues -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin push_front_assign.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/push_front_assign.sv".
+[INF:PA0201] Parsing source file "$Source01/push_front_assign.sv".
 AST_DEBUG_BEGIN
 Count: 155
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv
-n<${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv> u<154> t<Top_level_rule> c<1> l<16:1> el<29:1>
+FILE: f<14>:$Source01/push_front_assign.sv
+n<$Source01/push_front_assign.sv> u<154> t<Top_level_rule> c<1> l<16:1> el<29:1>
   n<> u<1> t<Null_rule> p<154> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<154> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<154> s<4> l<2:1> el<2:3>
@@ -158,20 +167,20 @@ n<${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv> u<154> t<To
                           n<> u<140> t<END> p<141> l<26:1> el<26:4>
         n<> u<150> t<ENDMODULE> p<151> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv:16:1: Compile module "work@top".
+[INF:CP0303] $Source01/push_front_assign.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv:24:35: Illegal implicit net "id:45, name:size".
+[ERR:EL0535] $Source01/push_front_assign.sv:24:35: Illegal implicit net "id:46, name:size".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:push_front_assign.sv file:${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:push_front_assign.sv file:$Source01/push_front_assign.sv:
       vpiParent: Design name:unnamed
       vpiName: push_front_assign.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/lib/work/push_front_assign.sv"
+      vpiPreprocFile: "$Output/lib/work/push_front_assign.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-7/queues/push_front_assign.sv start:16:1 end:28:10:
+    Module name:work@top file:$Source01/push_front_assign.sv start:16:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -195,13 +204,18 @@ Design name:unnamed:
                     vpiActual: StringTypespec
                   vpiConstType: unbounded (11)
                   vpiDecompile: "$"
-                  vpiValue: $
+                  vpiValue: "$"
           vpiElemTypespec RefTypespec start:18:1 end:18:4:
             vpiParent: ArrayTypespec
             vpiFullName: work@top
             vpiActual: IntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:q start:18:5 end:18:6:
           vpiParent: Module name:work@top
@@ -314,12 +328,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 3)\""
-                    vpiValue: :assert: (%d == 3)
+                    vpiValue: ":assert: (%d == 3)"
                   HierPath name:q.size start:24:33 end:24:39:
                     vpiParent: SysFuncCall name:$display
                     vpiName: q.size
                     vpiFullName: work@top.q.size
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:q start:24:33 end:24:34:
                         vpiParent: HierPath name:q.size
                         vpiName: q
@@ -344,7 +358,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 4)\""
-                    vpiValue: :assert: (%d == 4)
+                    vpiValue: ":assert: (%d == 4)"
                   BitSelect name:q[0] start:25:33 end:25:37:
                     vpiParent: SysFuncCall name:$display
                     vpiName: q[0]
@@ -377,37 +391,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-7/queues/push_front_assign
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/surelog.uhdm
+      test-name: Google/chapter-7/queues/push_front_assign
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/lib/work/push_front_assign.sv'): {'post_len': 0,
-                                                                                                                                                            'pre_len': 163}},
+            'files': {'$Output/lib/work/push_front_assign.sv': {'post_len': 0,
+                                                                'pre_len': 163}},
             'post_len': 0,
             'pre_len': 163,
             'test_name': 'Google/chapter-7/queues/push_front_assign'}}
 
-+-------------------------------+----------+-----------+
-| INPUT                         |   PRELEN |   POSTLEN |
-+===============================+==========+===========+
-| lib/work/push_front_assign.sv |      163 |         0 |
-+===============================+==========+===========+
-|                               |      163 |         0 |
-+-------------------------------+----------+-----------+
++---------------------------------------+----------+-----------+
+| INPUT                                 |   PRELEN |   POSTLEN |
++=======================================+==========+===========+
+| $Output/lib/work/push_front_assign.sv |      163 |         0 |
++=======================================+==========+===========+
+|                                       |      163 |         0 |
++---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -421,7 +438,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-7/queues/push_front_assign/sur
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

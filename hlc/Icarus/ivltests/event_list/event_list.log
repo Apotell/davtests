@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/event_list/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm event_list.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/event_list
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/event_list.v".
+[INF:PA0201] Parsing source file "$Source01/event_list.v".
 AST_DEBUG_BEGIN
 Count: 559
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/event_list.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/event_list.v> u<558> t<Top_level_rule> c<1> l<22:1> el<83:1>
+FILE: f<13>:$Source01/event_list.v
+n<$Source01/event_list.v> u<558> t<Top_level_rule> c<1> l<22:1> el<83:1>
   n<> u<1> t<Null_rule> p<558> s<2> l<22:1> el<22:1>
   n<//> u<2> t<LINE_COMMENT> p<558> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 2000 Stephen Williams (steve@icarus.com)> u<3> t<LINE_COMMENT> p<558> s<4> l<2:1> el<2:58>
@@ -562,19 +571,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/event_list.v> u<558> t<Top_level_rule> c<
                           n<> u<544> t<END> p<545> l<80:4> el<80:7>
         n<> u<554> t<ENDMODULE> p<555> l<82:1> el<82:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/event_list.v:22:1: Compile module "work@main".
+[INF:CP0303] $Source01/event_list.v:22:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:event_list.v file:${SURELOG_DIR}/tests/Icarus/ivltests/event_list.v:
+  vpiSourceFile (1 items):
+    SourceFile name:event_list.v file:$Source01/event_list.v:
       vpiParent: Design name:unnamed
       vpiName: event_list.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/event_list/lib/work/event_list.v"
+      vpiPreprocFile: "$Output/lib/work/event_list.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/event_list.v start:22:1 end:82:10:
+    Module name:work@main file:$Source01/event_list.v start:22:1 end:82:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:22:8 end:22:12:
         vpiParent: Module name:work@main
@@ -587,6 +596,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (5 items):
         Net name:flag1 start:24:8 end:24:13:
           vpiParent: Module name:work@main
@@ -825,7 +839,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 304
                             vpiDecompile: "\"FAILED -- event_1 didn't trigger flag1\""
-                            vpiValue: FAILED -- event_1 didn't trigger flag1
+                            vpiValue: "FAILED -- event_1 didn't trigger flag1"
                       SysFuncCall name:$finish start:43:5 end:43:12:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:43:5 end:43:12:
@@ -927,7 +941,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 312
                           vpiDecompile: "\"FAILED -- event_1 didn't trigger flag12\""
-                          vpiValue: FAILED -- event_1 didn't trigger flag12
+                          vpiValue: "FAILED -- event_1 didn't trigger flag12"
                     SysFuncCall name:$finish start:53:5 end:53:12:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:53:5 end:53:12:
@@ -1099,7 +1113,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 304
                           vpiDecompile: "\"FAILED -- event_2 didn't trigger flag2\""
-                          vpiValue: FAILED -- event_2 didn't trigger flag2
+                          vpiValue: "FAILED -- event_2 didn't trigger flag2"
                     SysFuncCall name:$finish start:70:5 end:70:12:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:70:5 end:70:12:
@@ -1145,7 +1159,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 312
                           vpiDecompile: "\"FAILED -- event_1 didn't trigger flag12\""
-                          vpiValue: FAILED -- event_1 didn't trigger flag12
+                          vpiValue: "FAILED -- event_1 didn't trigger flag12"
                     SysFuncCall name:$finish start:75:5 end:75:12:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:75:5 end:75:12:
@@ -1180,37 +1194,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/event_list
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/event_list
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/event_list/surelog.uhdm
+      test-name: Icarus/ivltests/event_list
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/event_list
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/event_list/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/event_list/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/event_list/lib/work/event_list.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 817}},
+            'files': {'$Output/lib/work/event_list.v': {'post_len': 0,
+                                                        'pre_len': 817}},
             'post_len': 0,
             'pre_len': 817,
             'test_name': 'Icarus/ivltests/event_list'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/event_list.v |      817 |         0 |
-+=======================+==========+===========+
-|                       |      817 |         0 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/event_list.v |      817 |         0 |
++===============================+==========+===========+
+|                               |      817 |         0 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1224,7 +1241,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/event_list/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             157     157       0         0
+Others                             158     158       0         0
 ----------------------------------------------------------------
-                                   157     157       0         0
+                                   158     158       0         0
 ===================== END REDUCTION RESULT =====================

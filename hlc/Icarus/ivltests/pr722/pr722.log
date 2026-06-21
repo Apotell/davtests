@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr722/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr722.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr722
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr722.v".
+[INF:PA0201] Parsing source file "$Source01/pr722.v".
 AST_DEBUG_BEGIN
 Count: 163
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr722.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr722.v> u<162> t<Top_level_rule> c<1> l<5:1> el<23:1>
+FILE: f<13>:$Source01/pr722.v
+n<$Source01/pr722.v> u<162> t<Top_level_rule> c<1> l<5:1> el<23:1>
   n<> u<1> t<Null_rule> p<162> s<2> l<5:1> el<5:1>
   n</* From PR#722\n * If bounds checking is in a 16bit field, this will crash.\n */> u<2> t<BLOCK_COMMENT> p<162> s<161> l<5:1> el<20:10>
   n<> u<161> t<Source_text> p<162> c<160> l<5:1> el<20:10>
@@ -166,19 +175,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr722.v> u<162> t<Top_level_rule> c<1> l<
                         n<> u<149> t<END> p<150> l<18:5> el<18:8>
         n<> u<158> t<ENDMODULE> p<159> l<20:1> el<20:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr722.v:5:1: Compile module "work@test".
+[INF:CP0303] $Source01/pr722.v:5:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr722.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr722.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr722.v file:$Source01/pr722.v:
       vpiParent: Design name:unnamed
       vpiName: pr722.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr722/lib/work/pr722.v"
+      vpiPreprocFile: "$Output/lib/work/pr722.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/pr722.v start:5:1 end:20:10:
+    Module name:work@test file:$Source01/pr722.v start:5:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:5:8 end:5:12:
         vpiParent: Module name:work@test
@@ -216,6 +225,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (2 items):
         Net name:mem start:7:21 end:7:24:
           vpiParent: Module name:work@test
@@ -388,37 +402,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr722
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr722
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr722/surelog.uhdm
+      test-name: Icarus/ivltests/pr722
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr722
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr722/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr722/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr722/lib/work/pr722.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 188}},
+            'files': {'$Output/lib/work/pr722.v': {'post_len': 0,
+                                                   'pre_len': 188}},
             'post_len': 0,
             'pre_len': 188,
             'test_name': 'Icarus/ivltests/pr722'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr722.v |      188 |         0 |
-+==================+==========+===========+
-|                  |      188 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr722.v |      188 |         0 |
++==========================+==========+===========+
+|                          |      188 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -432,7 +449,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr722/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

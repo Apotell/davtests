@@ -1,24 +1,33 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember/surelog.log".
-[INF:CP0301] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:1:1: Compile package "work@keymgr_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:16:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:1:1: No timescale set for "work@keymgr_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:16:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:17:16: Illegal implicit net "id:65, name:MsgWidth".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:20:18: Illegal implicit net "id:80, name:mux_sel".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:21:7: Illegal implicit net "id:81, name:SelKeyMgr".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:22:50: Illegal implicit net "id:94, name:strb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitsStructMember/dut.sv:23:50: Illegal implicit net "id:118, name:strb".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/BitsStructMember -parse -d uhdm -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@keymgr_pkg".
+[INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@keymgr_pkg".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:17:16: Illegal implicit net "id:67, name:MsgWidth".
+[ERR:EL0535] $Source01/dut.sv:20:18: Illegal implicit net "id:82, name:mux_sel".
+[ERR:EL0535] $Source01/dut.sv:21:7: Illegal implicit net "id:83, name:SelKeyMgr".
+[ERR:EL0535] $Source01/dut.sv:22:50: Illegal implicit net "id:96, name:strb".
+[ERR:EL0535] $Source01/dut.sv:23:50: Illegal implicit net "id:120, name:strb".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/BitsStructMember/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@keymgr_pkg file:${SURELOG_DIR}/tests/BitsStructMember/dut.sv start:1:1 end:14:11:
+    Package name:work@keymgr_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@keymgr_pkg start:1:9 end:1:19:
         vpiParent: Package name:work@keymgr_pkg
@@ -181,8 +190,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@keymgr_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@keymgr_pkg
+        vpiName: work
+        vpiFullName: work@keymgr_pkg::work
+      vpiCell: keymgr_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/BitsStructMember/dut.sv start:16:1 end:28:10:
+    Module name:work@top file:$Source01/dut.sv start:16:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -243,6 +257,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:keymgr_data_i start:16:48 end:16:61:
           vpiParent: Module name:work@top
@@ -250,7 +269,7 @@ Design name:unnamed:
             vpiParent: Net name:keymgr_data_i
             vpiName: kmac_data_req_t
             vpiFullName: work@top.keymgr_data_i.kmac_data_req_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:keymgr_pkg::kmac_data_req_t
             vpiActual: UnsupportedTypespec name:kmac_data_req_t
           vpiName: keymgr_data_i
           vpiFullName: work@top.keymgr_data_i
@@ -268,12 +287,13 @@ Design name:unnamed:
             vpiParent: Port name:keymgr_data_i
             vpiName: kmac_data_req_t
             vpiFullName: work@top.keymgr_data_i.kmac_data_req_t
-            vpiPrefix HierPath start:16:20 end:16:32:
+            vpiPrefix HierPath name:keymgr_pkg::kmac_data_req_t start:16:20 end:16:32:
               vpiParent: RefTypespec name:kmac_data_req_t
-              vpiFullName: work@top.keymgr_data_i.kmac_data_req_t
-              vpiActual (2 items):
-                ClassTypespec name:keymgr_pkg
-                UnsupportedTypespec name:kmac_data_req_t
+              vpiName: keymgr_pkg::kmac_data_req_t
+              vpiFullName: work@top.keymgr_data_i.kmac_data_req_t.keymgr_pkg::kmac_data_req_t
+              vpiPathElem (2 items):
+                ClassTypespec name:keymgr_pkg:
+                UnsupportedTypespec name:kmac_data_req_t:
             vpiActual: UnsupportedTypespec name:kmac_data_req_t
         Port name:kmac_mask_o start:17:30 end:17:41:
           vpiParent: Module name:work@top
@@ -343,7 +363,7 @@ Design name:unnamed:
                           vpiForIncStmt (1 items):
                             Operation start:22:58 end:22:61:
                               vpiParent: ForStmt
-                              vpiOpType: post inc (62)
+                              vpiOpType: post inc (64)
                               vpiOperand (1 items):
                                 RefObj name:i start:22:58 end:22:59:
                                   vpiParent: Operation
@@ -369,7 +389,7 @@ Design name:unnamed:
                                     vpiParent: SysFuncCall name:$bits
                                     vpiName: keymgr_data_i.strb
                                     vpiFullName: work@top.keymgr_data_i.strb
-                                    vpiActual (2 items):
+                                    vpiPathElem (2 items):
                                       RefObj name:keymgr_data_i start:22:36 end:22:49:
                                         vpiParent: HierPath name:keymgr_data_i.strb
                                         vpiName: keymgr_data_i
@@ -447,7 +467,7 @@ Design name:unnamed:
                                           vpiParent: Operation
                                           vpiName: keymgr_data_i.strb[i]
                                           vpiFullName: work@top.keymgr_data_i.strb[i]
-                                          vpiActual (2 items):
+                                          vpiPathElem (2 items):
                                             RefObj name:keymgr_data_i start:23:36 end:23:49:
                                               vpiParent: HierPath name:keymgr_data_i.strb[i]
                                               vpiName: keymgr_data_i
@@ -478,37 +498,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: BitsStructMember/BitsStructMember
- test-dirpath: ${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember
-uhdm-filepath: ${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember/surelog.uhdm
+      test-name: BitsStructMember/BitsStructMember
+   test-dirpath: ${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember
+  uhdm-filepath: ${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/BitsStructMember/BitsStructMember/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 487}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 487}},
             'post_len': 0,
             'pre_len': 487,
             'test_name': 'BitsStructMember/BitsStructMember'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      487 |         0 |
-+=================+==========+===========+
-|                 |      487 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      487 |         0 |
++=========================+==========+===========+
+|                         |      487 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -523,10 +546,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      11       2         3
 Operation                            9       6       0         3
-RefObj                              17      15       0         2
+RefObj                              19      17       0         2
 RefTypespec                         23      22       2         3
 ----------------------------------------------------------------
 Others                              49      49       0         0
 ----------------------------------------------------------------
-                                   110     103       4        11
+                                   112     105       4        11
 ===================== END REDUCTION RESULT =====================

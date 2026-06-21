@@ -1,9 +1,45 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_cast/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_cast.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_cast
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_cast.v".
+[INF:PA0201] Parsing source file "$Source01/t_cast.v".
+[SNT:PA0207] $Source01/t_cast.v:28:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [14:0] samp0 = 15'h0000;
+         ^-- $Source01/t_cast.v:28:9:.
+[SNT:PA0207] $Source01/t_cast.v:29:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [14:0] samp1 = 15'h0000;
+         ^-- $Source01/t_cast.v:29:9:.
+[SNT:PA0207] $Source01/t_cast.v:30:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [14:0] samp2 = 15'h6000;
+         ^-- $Source01/t_cast.v:30:9:.
+[SNT:PA0207] $Source01/t_cast.v:31:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [11:0] coeff0 = 12'h009;
+         ^-- $Source01/t_cast.v:31:9:.
+[SNT:PA0207] $Source01/t_cast.v:32:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [11:0] coeff1 = 12'h280;
+         ^-- $Source01/t_cast.v:32:9:.
+[SNT:PA0207] $Source01/t_cast.v:33:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [11:0] coeff2 = 12'h4C5;
+         ^-- $Source01/t_cast.v:33:9:.
+[SNT:PA0207] $Source01/t_cast.v:34:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [26:0] mida =    ((27'(coeff2 * samp2) >>> 11));
+         ^-- $Source01/t_cast.v:34:9:.
+[SNT:PA0207] $Source01/t_cast.v:36:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [26:0] midb = 15'((27'(coeff2 * samp2) >>> 11));
+         ^-- $Source01/t_cast.v:36:9:.
+[SNT:PA0207] $Source01/t_cast.v:38:9: Syntax error: no viable alternative at input 'logic signed',
+   logic signed [14:0] outa = 15'((27'(coeff0 * samp0) >>> 11) + // 27' size casting in order for intermediate result to not be truncated to the width of LHS vector
+         ^-- $Source01/t_cast.v:38:9:.
 AST_DEBUG_BEGIN
 Count: 1169
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_cast.v
-n<${SURELOG_DIR}/tests/Verilator/t_cast.v> u<1168> t<Top_level_rule> c<1> l<6:1> el<68:1>
+FILE: f<13>:$Source01/t_cast.v
+n<$Source01/t_cast.v> u<1168> t<Top_level_rule> c<1> l<6:1> el<68:1>
   n<> u<1> t<Null_rule> p<1168> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<1168> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<1168> s<4> l<2:1> el<2:3>
@@ -1172,46 +1208,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_cast.v> u<1168> t<Top_level_rule> c<1> l<6:1>
                         n<> u<1155> t<END> p<1156> l<65:4> el<65:7>
         n<> u<1164> t<ENDMODULE> p<1165> l<67:1> el<67:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:28:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [14:0] samp0 = 15'h0000;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:28:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:29:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [14:0] samp1 = 15'h0000;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:29:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:30:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [14:0] samp2 = 15'h6000;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:30:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:31:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [11:0] coeff0 = 12'h009;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:31:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:32:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [11:0] coeff1 = 12'h280;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:32:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:33:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [11:0] coeff2 = 12'h4C5;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:33:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:34:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [26:0] mida =    ((27'(coeff2 * samp2) >>> 11));
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:34:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:36:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [26:0] midb = 15'((27'(coeff2 * samp2) >>> 11));
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:36:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_cast.v:38:9: Syntax error: no viable alternative at input 'logic signed',
-   logic signed [14:0] outa = 15'((27'(coeff0 * samp0) >>> 11) + // 27' size casting in order for intermediate result to not be truncated to the width of LHS vector
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_cast.v:38:9:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_cast.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_cast.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_cast.v file:${SURELOG_DIR}/tests/Verilator/t_cast.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_cast.v file:$Source01/t_cast.v:
       vpiParent: Design name:unnamed
       vpiName: t_cast.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_cast/lib/work/t_cast.v"
+      vpiPreprocFile: "$Output/lib/work/t_cast.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_cast.v start:6:1 end:67:10:
+    Module name:work@t file:$Source01/t_cast.v start:6:1 end:67:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -1283,7 +1292,7 @@ Design name:unnamed:
             vpiActual: Parameter name:RESULT
           vpiRhs Operation start:26:30 end:26:45:
             vpiParent: ParamAssign
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (2 items):
               Constant start:26:30 end:26:31:
                 vpiParent: Operation
@@ -1809,6 +1818,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (11 items):
         Net name:logic8bit start:17:16 end:17:25:
           vpiParent: Module name:work@t
@@ -1855,7 +1869,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 15
             vpiDecompile: "15'h0000"
-            vpiValue: 0000
+            vpiValue: "0000"
         Net name:samp1 start:29:24 end:29:29:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec:
@@ -1873,7 +1887,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 15
             vpiDecompile: "15'h0000"
-            vpiValue: 0000
+            vpiValue: "0000"
         Net name:samp2 start:30:24 end:30:29:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec:
@@ -1891,7 +1905,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 15
             vpiDecompile: "15'h6000"
-            vpiValue: 6000
+            vpiValue: "6000"
         Net name:coeff0 start:31:24 end:31:30:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec:
@@ -1909,7 +1923,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 12
             vpiDecompile: "12'h009"
-            vpiValue: 009
+            vpiValue: "009"
         Net name:coeff1 start:32:24 end:32:30:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec:
@@ -1927,7 +1941,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 12
             vpiDecompile: "12'h280"
-            vpiValue: 280
+            vpiValue: "280"
         Net name:coeff2 start:33:24 end:33:30:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec:
@@ -1945,7 +1959,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 12
             vpiDecompile: "12'h4C5"
-            vpiValue: 4C5
+            vpiValue: "4C5"
         Net name:mida start:34:24 end:34:28:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec:
@@ -1960,7 +1974,7 @@ Design name:unnamed:
             vpiOperand (2 items):
               Operation start:34:36 end:34:55:
                 vpiParent: Operation
-                vpiOpType: cast (67)
+                vpiOpType: cast (81)
                 vpiOperand (2 items):
                   Constant start:34:36 end:34:38:
                     vpiParent: Operation
@@ -2006,7 +2020,7 @@ Design name:unnamed:
           vpiFullName: work@t.midb
           vpiValue Operation start:36:31 end:36:64:
             vpiParent: Net name:midb
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (2 items):
               Constant start:36:31 end:36:33:
                 vpiParent: Operation
@@ -2024,7 +2038,7 @@ Design name:unnamed:
                 vpiOperand (2 items):
                   Operation start:36:36 end:36:55:
                     vpiParent: Operation
-                    vpiOpType: cast (67)
+                    vpiOpType: cast (81)
                     vpiOperand (2 items):
                       Constant start:36:36 end:36:38:
                         vpiParent: Operation
@@ -2070,7 +2084,7 @@ Design name:unnamed:
           vpiFullName: work@t.outa
           vpiValue Operation start:38:31 end:40:36:
             vpiParent: Net name:outa
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (2 items):
               Constant start:38:31 end:38:33:
                 vpiParent: Operation
@@ -2096,7 +2110,7 @@ Design name:unnamed:
                         vpiOperand (2 items):
                           Operation start:38:36 end:38:55:
                             vpiParent: Operation
-                            vpiOpType: cast (67)
+                            vpiOpType: cast (81)
                             vpiOperand (2 items):
                               Constant start:38:36 end:38:38:
                                 vpiParent: Operation
@@ -2138,7 +2152,7 @@ Design name:unnamed:
                         vpiOperand (2 items):
                           Operation start:39:8 end:39:27:
                             vpiParent: Operation
-                            vpiOpType: cast (67)
+                            vpiOpType: cast (81)
                             vpiOperand (2 items):
                               Constant start:39:8 end:39:10:
                                 vpiParent: Operation
@@ -2180,7 +2194,7 @@ Design name:unnamed:
                     vpiOperand (2 items):
                       Operation start:40:8 end:40:27:
                         vpiParent: Operation
-                        vpiOpType: cast (67)
+                        vpiOpType: cast (81)
                         vpiOperand (2 items):
                           Constant start:40:8 end:40:10:
                             vpiParent: Operation
@@ -2243,7 +2257,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'h12"
-                      vpiValue: 12
+                      vpiValue: "12"
                 vpiStmt SysFuncCall name:$stop start:43:31 end:43:36:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:43:31 end:43:36:
@@ -2274,7 +2288,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 4
                       vpiDecompile: "4'sh0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt SysFuncCall name:$stop start:44:26 end:44:31:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:44:26 end:44:31:
@@ -2288,7 +2302,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:45:11 end:45:24:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (1 items):
                         Constant start:45:19 end:45:23:
                           vpiParent: Operation
@@ -2309,7 +2323,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 4
                       vpiDecompile: "4'sh0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt SysFuncCall name:$stop start:45:34 end:45:39:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:45:34 end:45:39:
@@ -2340,7 +2354,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 4
                       vpiDecompile: "4'h0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt SysFuncCall name:$stop start:46:24 end:46:29:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:46:24 end:46:29:
@@ -2354,7 +2368,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:47:11 end:47:27:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (1 items):
                         Constant start:47:21 end:47:26:
                           vpiParent: Operation
@@ -2375,7 +2389,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 4
                       vpiDecompile: "4'h0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt SysFuncCall name:$stop start:47:36 end:47:41:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:47:36 end:47:41:
@@ -2389,7 +2403,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:48:11 end:48:22:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (2 items):
                         Constant start:48:11 end:48:12:
                           vpiParent: Operation
@@ -2429,7 +2443,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:49:11 end:49:22:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (2 items):
                         Constant start:49:11 end:49:12:
                           vpiParent: Operation
@@ -2455,7 +2469,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 6
                       vpiDecompile: "6'h3f"
-                      vpiValue: 3f
+                      vpiValue: "3f"
                 vpiStmt SysFuncCall name:$stop start:49:34 end:49:39:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:49:34 end:49:39:
@@ -2469,7 +2483,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:50:11 end:50:24:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (2 items):
                         Constant start:50:12 end:50:13:
                           vpiParent: Operation
@@ -2509,7 +2523,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:51:11 end:51:26:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (2 items):
                         Operation start:51:12 end:51:15:
                           vpiParent: Operation
@@ -2549,7 +2563,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 6
                       vpiDecompile: "6'h3f"
-                      vpiValue: 3f
+                      vpiValue: "3f"
                 vpiStmt SysFuncCall name:$stop start:51:38 end:51:43:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:51:38 end:51:43:
@@ -2563,7 +2577,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:52:11 end:52:26:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (2 items):
                         Operation start:52:12 end:52:15:
                           vpiParent: Operation
@@ -2603,7 +2617,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 2
                       vpiDecompile: "2'h3"
-                      vpiValue: 3
+                      vpiValue: "3"
                 vpiStmt SysFuncCall name:$stop start:52:37 end:52:42:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:52:37 end:52:42:
@@ -2617,7 +2631,7 @@ Design name:unnamed:
                   vpiOperand (2 items):
                     Operation start:53:11 end:53:29:
                       vpiParent: Operation
-                      vpiOpType: cast (67)
+                      vpiOpType: cast (81)
                       vpiOperand (2 items):
                         Operation start:53:12 end:53:18:
                           vpiParent: Operation
@@ -2652,7 +2666,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 6
                       vpiDecompile: "6'h3f"
-                      vpiValue: 3f
+                      vpiValue: "3f"
                 vpiStmt SysFuncCall name:$stop start:53:41 end:53:46:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:53:41 end:53:46:
@@ -2699,7 +2713,7 @@ Design name:unnamed:
                     vpiName: tocast_t
                     vpiFullName: work@t.tocast_t
                     vpiActual: TypedefTypespec name:tocast_t
-                  vpiOpType: cast (67)
+                  vpiOpType: cast (81)
                   vpiOperand (1 items):
                     Constant start:56:21 end:56:25:
                       vpiParent: Operation
@@ -2710,7 +2724,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
               IfStmt start:57:7 end:57:28:
                 vpiParent: Begin
                 vpiCondition Operation start:57:11 end:57:20:
@@ -2731,7 +2745,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt SysFuncCall name:$stop start:57:22 end:57:27:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:57:22 end:57:27:
@@ -2752,7 +2766,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 15
                       vpiDecompile: "15'h6cec"
-                      vpiValue: 6cec
+                      vpiValue: "6cec"
                     RefObj name:outa start:59:23 end:59:27:
                       vpiParent: Operation
                       vpiName: outa
@@ -2778,7 +2792,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 27
                       vpiDecompile: "27'h7ffecec"
-                      vpiValue: 7ffecec
+                      vpiValue: "7ffecec"
                     RefObj name:mida start:60:26 end:60:30:
                       vpiParent: Operation
                       vpiName: mida
@@ -2804,7 +2818,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 27
                       vpiDecompile: "27'h7ffecec"
-                      vpiValue: 7ffecec
+                      vpiValue: "7ffecec"
                     RefObj name:midb start:61:26 end:61:30:
                       vpiParent: Operation
                       vpiName: midb
@@ -2830,7 +2844,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:64:7 end:64:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:64:7 end:64:14:
@@ -2843,7 +2857,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: pdata.data
             vpiFullName: work@t.pdata.data
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:pdata start:16:11 end:16:16:
                 vpiParent: HierPath name:pdata.data
                 vpiName: pdata
@@ -2863,7 +2877,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 16
             vpiDecompile: "16'h1234"
-            vpiValue: 1234
+            vpiValue: "1234"
         ContAssign start:18:11 end:18:52:
           vpiParent: Module name:work@t
           vpiLhs RefObj name:logic8bit start:18:11 end:18:20:
@@ -2873,7 +2887,7 @@ Design name:unnamed:
             vpiActual: Net name:logic8bit
           vpiRhs Operation start:18:23 end:18:52:
             vpiParent: ContAssign
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (2 items):
               SysTaskCall name:$bits start:18:23 end:18:39:
                 vpiParent: Operation
@@ -2924,37 +2938,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 9
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_cast
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_cast
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_cast/surelog.uhdm
+      test-name: Verilator/t_cast
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_cast
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_cast/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_cast/mounts.json
 
 
 {'result': {'coverage': 99.93,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_cast/lib/work/t_cast.v'): {'post_len': 1,
-                                                                                                                       'pre_len': 1368}},
+            'files': {'$Output/lib/work/t_cast.v': {'post_len': 1,
+                                                    'pre_len': 1368}},
             'post_len': 1,
             'pre_len': 1368,
             'test_name': 'Verilator/t_cast'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/t_cast.v |     1368 |         1 |
-+===================+==========+===========+
-|                   |     1368 |         1 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/t_cast.v |     1368 |         1 |
++===========================+==========+===========+
+|                           |     1368 |         1 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.93
@@ -2969,10 +2986,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            85      83      11        13
 Operation                           53      40       0        13
-RefObj                              31      20       0        11
+RefObj                              32      21       0        11
 RefTypespec                        109     107      11        13
 ----------------------------------------------------------------
 Others                             135     135       0         0
 ----------------------------------------------------------------
-                                   413     385      22        50
+                                   414     386      22        50
 ===================== END REDUCTION RESULT =====================

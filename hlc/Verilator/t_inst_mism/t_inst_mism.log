@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_mism/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_inst_mism.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_inst_mism
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_mism.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_mism.v".
 AST_DEBUG_BEGIN
 Count: 306
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_mism.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_mism.v> u<305> t<Top_level_rule> c<1> l<8:1> el<42:1>
+FILE: f<13>:$Source01/t_inst_mism.v
+n<$Source01/t_inst_mism.v> u<305> t<Top_level_rule> c<1> l<8:1> el<42:1>
   n<> u<1> t<Null_rule> p<305> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<305> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<305> s<4> l<2:1> el<2:3>
@@ -309,22 +318,22 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_mism.v> u<305> t<Top_level_rule> c<1> l<
                               n<> u<289> t<END> p<290> l<40:4> el<40:7>
         n<> u<301> t<ENDMODULE> p<302> l<41:1> el<41:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_mism.v:8:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_mism.v:20:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_mism.v:33:1: Compile module "work@suba".
+[INF:CP0303] $Source01/t_inst_mism.v:8:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_mism.v:20:1: Compile module "work@dut".
+[INF:CP0303] $Source01/t_inst_mism.v:33:1: Compile module "work@suba".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_mism.v:16:11: Illegal implicit net "id:44, name:W".
+[ERR:EL0535] $Source01/t_inst_mism.v:16:11: Illegal implicit net "id:47, name:W".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_mism.v file:${SURELOG_DIR}/tests/Verilator/t_inst_mism.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_mism.v file:$Source01/t_inst_mism.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_mism.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_mism/lib/work/t_inst_mism.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_mism.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_mism.v start:8:1 end:18:10:
+    Module name:work@t file:$Source01/t_inst_mism.v start:8:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:8:8 end:8:9:
         vpiParent: Module name:work@t
@@ -390,6 +399,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:work@t
@@ -509,7 +523,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "16"
                     vpiValue: 16
-    Module name:work@dut file:${SURELOG_DIR}/tests/Verilator/t_inst_mism.v start:20:1 end:31:10:
+    Module name:work@dut file:$Source01/t_inst_mism.v start:20:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:20:8 end:20:11:
         vpiParent: Module name:work@dut
@@ -597,6 +611,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (3 items):
         Net name:clk start:22:18 end:22:21:
           vpiParent: Module name:work@dut
@@ -681,7 +700,7 @@ Design name:unnamed:
             vpiForIncStmt (1 items):
               Operation start:27:27 end:27:30:
                 vpiParent: GenFor
-                vpiOpType: post inc (62)
+                vpiOpType: post inc (64)
                 vpiOperand (1 items):
                   RefObj name:i start:27:27 end:27:28:
                     vpiParent: Operation
@@ -754,7 +773,7 @@ Design name:unnamed:
                           vpiName: i
                           vpiFullName: work@dut.ua.i
                           vpiActual: Variable name:i
-    Module name:work@suba file:${SURELOG_DIR}/tests/Verilator/t_inst_mism.v start:33:1 end:41:10:
+    Module name:work@suba file:$Source01/t_inst_mism.v start:33:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@suba start:33:8 end:33:12:
         vpiParent: Module name:work@suba
@@ -773,6 +792,11 @@ Design name:unnamed:
             vpiName: logic
       vpiDefName: work@suba
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@suba
+        vpiName: work
+        vpiFullName: work@suba.work
+      vpiCell: suba
       vpiNet (2 items):
         Net name:clk start:34:16 end:34:19:
           vpiParent: Module name:work@suba
@@ -854,7 +878,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 176
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: *-* All Finished *-*\n
+                      vpiValue: "*-* All Finished *-*\\n"
                 SysFuncCall name:$finish start:39:7 end:39:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:39:7 end:39:14:
@@ -886,37 +910,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_mism
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_mism
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_mism/surelog.uhdm
+      test-name: Verilator/t_inst_mism
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_mism
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_mism/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_mism/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_mism/lib/work/t_inst_mism.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 409}},
+            'files': {'$Output/lib/work/t_inst_mism.v': {'post_len': 0,
+                                                         'pre_len': 409}},
             'post_len': 0,
             'pre_len': 409,
             'test_name': 'Verilator/t_inst_mism'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/t_inst_mism.v |      409 |         0 |
-+========================+==========+===========+
-|                        |      409 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/t_inst_mism.v |      409 |         0 |
++================================+==========+===========+
+|                                |      409 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -931,10 +958,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      10       2         3
 Operation                            6       4       0         2
-RefObj                              22      21       0         1
+RefObj                              25      24       0         1
 RefTypespec                         28      27       2         3
 ----------------------------------------------------------------
 Others                              72      72       0         0
 ----------------------------------------------------------------
-                                   139     134       4         9
+                                   142     137       4         9
 ===================== END REDUCTION RESULT =====================

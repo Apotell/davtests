@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/HighLow/HighLow/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/HighLow -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/HighLow/HighLow
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 277
 LIB: work
-FILE: ${SURELOG_DIR}/tests/HighLow/dut.sv
-n<${SURELOG_DIR}/tests/HighLow/dut.sv> u<276> t<Top_level_rule> c<1> l<1:1> el<27:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<276> t<Top_level_rule> c<1> l<1:1> el<27:1>
   n<> u<1> t<Null_rule> p<276> s<275> l<1:1>
   n<> u<275> t<Source_text> p<276> c<9> l<1:1> el<26:10>
     n<> u<9> t<Description> p<275> c<8> s<274> l<1:1> el<2:10>
@@ -280,22 +289,22 @@ n<${SURELOG_DIR}/tests/HighLow/dut.sv> u<276> t<Top_level_rule> c<1> l<1:1> el<2
                         n<> u<262> t<END> p<263> l<25:3> el<25:6>
         n<> u<272> t<ENDMODULE> p<273> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/HighLow/dut.sv:1:1: Compile module "work@GOOD".
-[INF:CP0303] ${SURELOG_DIR}/tests/HighLow/dut.sv:4:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HighLow/dut.sv:1:1: No timescale set for "work@GOOD".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HighLow/dut.sv:4:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HighLow/dut.sv:12:10: Illegal implicit net "id:58, name:ccc".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@GOOD".
+[INF:CP0303] $Source01/dut.sv:4:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@GOOD".
+[WRN:PA0205] $Source01/dut.sv:4:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:12:10: Illegal implicit net "id:60, name:ccc".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/HighLow/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/HighLow/HighLow/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@GOOD file:${SURELOG_DIR}/tests/HighLow/dut.sv start:1:1 end:2:10:
+    Module name:work@GOOD file:$Source01/dut.sv start:1:1 end:2:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@GOOD start:1:8 end:1:12:
         vpiParent: Module name:work@GOOD
@@ -303,7 +312,12 @@ Design name:unnamed:
       vpiFullName: work@GOOD
       vpiDefName: work@GOOD
       vpiDefNetType: none (12)
-    Module name:work@top file:${SURELOG_DIR}/tests/HighLow/dut.sv start:4:1 end:26:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@GOOD
+        vpiName: work
+        vpiFullName: work@GOOD.work
+      vpiCell: GOOD
+    Module name:work@top file:$Source01/dut.sv start:4:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:4:8 end:4:11:
         vpiParent: Module name:work@top
@@ -471,6 +485,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiContAssign (1 items):
         ContAssign start:12:10 end:12:24:
           vpiParent: Module name:work@top
@@ -663,37 +682,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: HighLow/HighLow
- test-dirpath: ${SURELOG_DIR}/regression/HighLow/HighLow
-uhdm-filepath: ${SURELOG_DIR}/regression/HighLow/HighLow/surelog.uhdm
+      test-name: HighLow/HighLow
+   test-dirpath: ${SURELOG_DIR}/regression/HighLow/HighLow
+  uhdm-filepath: ${SURELOG_DIR}/regression/HighLow/HighLow/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/HighLow/HighLow/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/HighLow/HighLow/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                    'pre_len': 343}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 343}},
             'post_len': 0,
             'pre_len': 343,
             'test_name': 'HighLow/HighLow'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      343 |         0 |
-+=================+==========+===========+
-|                 |      343 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      343 |         0 |
++=========================+==========+===========+
+|                         |      343 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -707,7 +729,7 @@ COMMAND: ${SURELOG_DIR}/regression/HighLow/HighLow/surelog.uhdm ${SURELOG_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              97      97       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                    97      97       0         0
+                                    99      99       0         0
 ===================== END REDUCTION RESULT =====================

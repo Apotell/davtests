@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/AssignSubs/AssignSubs/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/AssignSubs -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/AssignSubs/AssignSubs
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 163
 LIB: work
-FILE: ${SURELOG_DIR}/tests/AssignSubs/dut.sv
-n<${SURELOG_DIR}/tests/AssignSubs/dut.sv> u<162> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<162> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<162> s<160> l<1:1>
   n<> u<160> t<Source_text> p<162> c<30> s<161> l<1:1> el<19:10>
     n<> u<30> t<Description> p<160> c<29> s<159> l<1:1> el<5:11>
@@ -166,22 +175,21 @@ n<${SURELOG_DIR}/tests/AssignSubs/dut.sv> u<162> t<Top_level_rule> c<1> l<1:1> e
         n<> u<157> t<ENDMODULE> p<158> l<19:1> el<19:10>
   n<// dut> u<161> t<LINE_COMMENT> p<162> l<19:11> el<19:17>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/AssignSubs/dut.sv:1:1: Compile package "work@pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/AssignSubs/dut.sv:7:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/AssignSubs/dut.sv:1:1: No timescale set for "work@pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/AssignSubs/dut.sv:7:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AssignSubs/dut.sv:16:12: Illegal implicit net "id:73, name:PRIV_LVL_M".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
+[INF:CP0303] $Source01/dut.sv:7:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@dut".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/AssignSubs/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/AssignSubs/AssignSubs/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pkg file:${SURELOG_DIR}/tests/AssignSubs/dut.sv start:1:1 end:5:11:
+    Package name:work@pkg file:$Source01/dut.sv start:1:1 end:5:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg start:1:9 end:1:12:
         vpiParent: Package name:work@pkg
@@ -235,7 +243,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b11"
-                vpiValue: 11
+                vpiValue: "11"
         TypedefTypespec name:priv_lvl_e start:2:2 end:4:16:
           vpiParent: Package name:work@pkg
           vpiName Identifier name:priv_lvl_e start:4:5 end:4:15:
@@ -247,8 +255,13 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/AssignSubs/dut.sv start:7:1 end:19:10:
+    Module name:work@dut file:$Source01/dut.sv start:7:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:7:8 end:7:11:
         vpiParent: Module name:work@dut
@@ -313,6 +326,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (2 items):
         Net name:a0 start:8:8 end:8:10:
           vpiParent: Module name:work@dut
@@ -370,7 +388,7 @@ Design name:unnamed:
           vpiForIncStmt (1 items):
             Operation start:14:28 end:14:31:
               vpiParent: GenFor
-              vpiOpType: post inc (62)
+              vpiOpType: post inc (64)
               vpiOperand (1 items):
                 RefObj name:i start:14:28 end:14:29:
                   vpiParent: Operation
@@ -442,6 +460,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: PRIV_LVL_M
                               vpiFullName: work@dut.PRIV_LVL_M
+                              vpiActual: EnumConst name:PRIV_LVL_M
                 vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     IntTypespec:
@@ -456,37 +475,40 @@ Design name:unnamed:
         vpiName: work@dut
       vpiModule: Module name:work@dut
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: AssignSubs/AssignSubs
- test-dirpath: ${SURELOG_DIR}/regression/AssignSubs/AssignSubs
-uhdm-filepath: ${SURELOG_DIR}/regression/AssignSubs/AssignSubs/surelog.uhdm
+      test-name: AssignSubs/AssignSubs
+   test-dirpath: ${SURELOG_DIR}/regression/AssignSubs/AssignSubs
+  uhdm-filepath: ${SURELOG_DIR}/regression/AssignSubs/AssignSubs/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/AssignSubs/AssignSubs/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/AssignSubs/AssignSubs/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 232}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 232}},
             'post_len': 0,
             'pre_len': 232,
             'test_name': 'AssignSubs/AssignSubs'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      232 |         0 |
-+=================+==========+===========+
-|                 |      232 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      232 |         0 |
++=========================+==========+===========+
+|                         |      232 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -499,8 +521,10 @@ COMMAND: ${SURELOG_DIR}/regression/AssignSubs/AssignSubs/surelog.uhdm ${SURELOG_
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Operation                            5       4       0         1
+RefObj                               9       8       0         1
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    72      70       0         2
 ===================== END REDUCTION RESULT =====================

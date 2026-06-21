@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTestSuite/arch/ice40 -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm macc.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/macc.v".
+[INF:PA0201] Parsing source file "$Source01/macc.v".
 AST_DEBUG_BEGIN
 Count: 693
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v> u<692> t<Top_level_rule> c<1> l<4:1> el<48:1>
+FILE: f<13>:$Source01/macc.v
+n<$Source01/macc.v> u<692> t<Top_level_rule> c<1> l<4:1> el<48:1>
   n<> u<1> t<Null_rule> p<692> s<2> l<4:1> el<4:1>
   n</*\nExample from: https://www.latticesemi.com/-/media/LatticeSemi/Documents/UserManuals/EI/iCEcube201701UserGuide.ashx?document_id=52071 [p. 77].\n*/> u<2> t<BLOCK_COMMENT> p<692> s<691> l<4:1> el<47:10>
   n<> u<691> t<Source_text> p<692> c<311> l<4:1> el<47:10>
@@ -696,20 +705,20 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v> u<692> t<Top_level_rule
                                 n<> u<675> t<END> p<676> l<46:1> el<46:4>
         n<> u<688> t<ENDMODULE> p<689> l<47:1> el<47:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v:4:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v:27:1: Compile module "work@top2".
+[INF:CP0303] $Source01/macc.v:4:1: Compile module "work@top".
+[INF:CP0303] $Source01/macc.v:27:1: Compile module "work@top2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:macc.v file:${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v:
+  vpiSourceFile (1 items):
+    SourceFile name:macc.v file:$Source01/macc.v:
       vpiParent: Design name:unnamed
       vpiName: macc.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc/lib/work/macc.v"
+      vpiPreprocFile: "$Output/lib/work/macc.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v start:4:1 end:25:10:
+    Module name:work@top file:$Source01/macc.v start:4:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:4:8 end:4:11:
         vpiParent: Module name:work@top
@@ -930,6 +939,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (6 items):
         Net name:clk start:8:7 end:8:10:
           vpiParent: Module name:work@top
@@ -1139,7 +1153,7 @@ Design name:unnamed:
             vpiName: reg_tmp_c
             vpiFullName: work@top.reg_tmp_c
             vpiActual: Net name:reg_tmp_c
-    Module name:work@top2 file:${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/macc.v start:27:1 end:47:10:
+    Module name:work@top2 file:$Source01/macc.v start:27:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top2 start:27:8 end:27:12:
         vpiParent: Module name:work@top2
@@ -1432,6 +1446,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top2
+        vpiName: work
+        vpiFullName: work@top2.work
+      vpiCell: top2
       vpiNet (8 items):
         Net name:clk start:31:7 end:31:10:
           vpiParent: Module name:work@top2
@@ -1681,37 +1700,40 @@ Design name:unnamed:
         vpiName: work@top2
       vpiModule: Module name:work@top2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/arch/ice40/macc
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc/surelog.uhdm
+      test-name: YosysTestSuite/arch/ice40/macc
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/macc/lib/work/macc.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 828}},
+            'files': {'$Output/lib/work/macc.v': {'post_len': 0,
+                                                  'pre_len': 828}},
             'post_len': 0,
             'pre_len': 828,
             'test_name': 'YosysTestSuite/arch/ice40/macc'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/macc.v |      828 |         0 |
-+=================+==========+===========+
-|                 |      828 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/macc.v |      828 |         0 |
++=========================+==========+===========+
+|                         |      828 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1726,10 +1748,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            25      25      10        10
 Operation                           21       7       0        14
-RefObj                              49      35       0        14
+RefObj                              51      37       0        14
 RefTypespec                         53      53      10        10
 ----------------------------------------------------------------
 Others                              83      83       0         0
 ----------------------------------------------------------------
-                                   231     203      20        48
+                                   233     205      20        48
 ===================== END REDUCTION RESULT =====================

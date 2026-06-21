@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm attrib04_net_var.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/attrib04_net_var.v".
+[INF:PA0201] Parsing source file "$Source01/attrib04_net_var.v".
 AST_DEBUG_BEGIN
 Count: 320
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v> u<319> t<Top_level_rule> c<1> l<1:1> el<33:1>
+FILE: f<13>:$Source01/attrib04_net_var.v
+n<$Source01/attrib04_net_var.v> u<319> t<Top_level_rule> c<1> l<1:1> el<33:1>
   n<> u<1> t<Null_rule> p<319> s<318> l<1:1>
   n<> u<318> t<Source_text> p<319> c<224> l<1:1> el<31:10>
     n<> u<224> t<Description> p<318> c<223> s<317> l<1:1> el<22:10>
@@ -323,20 +332,20 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v> u<319> t<Top_le
                             n<out> u<304> t<SIMPLE_IDENTIFIER> p<305> l<30:36> el<30:39>
         n<> u<315> t<ENDMODULE> p<316> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v:1:1: Compile module "work@bar".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v:24:1: Compile module "work@foo".
+[INF:CP0303] $Source01/attrib04_net_var.v:1:1: Compile module "work@bar".
+[INF:CP0303] $Source01/attrib04_net_var.v:24:1: Compile module "work@foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:attrib04_net_var.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v:
+  vpiSourceFile (1 items):
+    SourceFile name:attrib04_net_var.v file:$Source01/attrib04_net_var.v:
       vpiParent: Design name:unnamed
       vpiName: attrib04_net_var.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/lib/work/attrib04_net_var.v"
+      vpiPreprocFile: "$Output/lib/work/attrib04_net_var.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@bar file:${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v start:1:1 end:22:10:
+    Module name:work@bar file:$Source01/attrib04_net_var.v start:1:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bar start:1:8 end:1:11:
         vpiParent: Module name:work@bar
@@ -380,6 +389,11 @@ Design name:unnamed:
           vpiName: temp_wire
       vpiDefName: work@bar
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bar
+        vpiName: work
+        vpiFullName: work@bar.work
+      vpiCell: bar
       vpiNet (6 items):
         Net name:clk start:2:15 end:2:18:
           vpiParent: Module name:work@bar
@@ -564,7 +578,7 @@ Design name:unnamed:
                   vpiConstType: decimal (1)
                   vpiSize: 1
                   vpiDecompile: "1'd0"
-                  vpiValue: 0
+                  vpiValue: "0"
               vpiElseStmt Assignment start:20:14 end:20:28:
                 vpiParent: IfElse
                 vpiLhs RefObj name:out start:20:14 end:20:17:
@@ -614,7 +628,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
-    Module name:work@foo file:${SURELOG_DIR}/tests/YosysTestSuite/simple/attrib04_net_var.v start:24:1 end:31:10:
+    Module name:work@foo file:$Source01/attrib04_net_var.v start:24:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:24:8 end:24:11:
         vpiParent: Module name:work@foo
@@ -630,6 +644,11 @@ Design name:unnamed:
             vpiName: work@bar
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiNet (4 items):
         Net name:clk start:25:15 end:25:18:
           vpiParent: Module name:work@foo
@@ -787,37 +806,40 @@ Design name:unnamed:
         vpiName: work@foo
       vpiModule: Module name:work@foo
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/attrib04_net_var
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/surelog.uhdm
+      test-name: YosysTestSuite/simple/attrib04_net_var
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/lib/work/attrib04_net_var.v'): {'post_len': 0,
-                                                                                                                                                       'pre_len': 461}},
+            'files': {'$Output/lib/work/attrib04_net_var.v': {'post_len': 0,
+                                                              'pre_len': 461}},
             'post_len': 0,
             'pre_len': 461,
             'test_name': 'YosysTestSuite/simple/attrib04_net_var'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/attrib04_net_var.v |      461 |         0 |
-+=============================+==========+===========+
-|                             |      461 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/attrib04_net_var.v |      461 |         0 |
++=====================================+==========+===========+
+|                                     |      461 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -831,7 +853,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/surelo
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             112     112       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   112     112       0         0
+                                   114     114       0         0
 ===================== END REDUCTION RESULT =====================

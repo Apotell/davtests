@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/select_error -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm top.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 179
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v> u<178> t<Top_level_rule> c<1> l<1:1> el<34:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<178> t<Top_level_rule> c<1> l<1:1> el<34:1>
   n<> u<1> t<Null_rule> p<178> s<177> l<1:1>
   n<> u<177> t<Source_text> p<178> c<129> l<1:1> el<33:10>
     n<> u<129> t<Description> p<177> c<128> s<176> l<1:1> el<23:10>
@@ -182,20 +191,20 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v> u<178> t<Top_level_ru
                             n<y> u<162> t<SIMPLE_IDENTIFIER> p<163> l<32:16> el<32:17>
         n<> u<174> t<ENDMODULE> p<175> l<33:1> el<33:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v:25:1: Compile module "work@middle".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:25:1: Compile module "work@middle".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v start:1:1 end:23:10:
+    Module name:work@top file:$Source01/top.v start:1:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -221,6 +230,11 @@ Design name:unnamed:
             vpiName: work@middle
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:x start:3:8 end:3:9:
           vpiParent: Module name:work@top
@@ -422,7 +436,7 @@ Design name:unnamed:
                 vpiName: o
                 vpiFullName: work@top.u_mid.o
                 vpiActual: Net name:o
-    Module name:work@middle file:${SURELOG_DIR}/tests/YosysTests/misc/select_error/top.v start:25:1 end:33:10:
+    Module name:work@middle file:$Source01/top.v start:25:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@middle start:25:8 end:25:14:
         vpiParent: Module name:work@middle
@@ -433,6 +447,11 @@ Design name:unnamed:
           vpiParent: Module name:work@middle
       vpiDefName: work@middle
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@middle
+        vpiName: work
+        vpiFullName: work@middle.work
+      vpiCell: middle
       vpiNet (3 items):
         Net name:x start:27:8 end:27:9:
           vpiParent: Module name:work@middle
@@ -534,37 +553,40 @@ Design name:unnamed:
         vpiName: work@middle
       vpiModule: Module name:work@middle
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/select_error/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/surelog.uhdm
+      test-name: YosysTests/misc/select_error/top
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                                    'pre_len': 220}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 220}},
             'post_len': 0,
             'pre_len': 220,
             'test_name': 'YosysTests/misc/select_error/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      220 |         0 |
-+================+==========+===========+
-|                |      220 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      220 |         0 |
++========================+==========+===========+
+|                        |      220 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -578,7 +600,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/select_error/top/surelog.uhdm
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

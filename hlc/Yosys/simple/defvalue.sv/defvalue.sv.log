@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/defvalue.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/defvalue.sv".
+[INF:PA0201] Parsing source file "$Source01/simple/defvalue.sv".
 AST_DEBUG_BEGIN
 Count: 217
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv
-n<${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv> u<216> t<Top_level_rule> c<1> l<1:1> el<23:1>
+FILE: f<13>:$Source01/simple/defvalue.sv
+n<$Source01/simple/defvalue.sv> u<216> t<Top_level_rule> c<1> l<1:1> el<23:1>
   n<> u<1> t<Null_rule> p<216> s<215> l<1:1>
   n<> u<215> t<Source_text> p<216> c<108> l<1:1> el<22:10>
     n<> u<108> t<Description> p<215> c<107> s<214> l<1:1> el<4:10>
@@ -220,21 +229,21 @@ n<${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv> u<216> t<Top_level_rule> c<1> l
                                       n<delta> u<195> t<SIMPLE_IDENTIFIER> p<196> l<21:16> el<21:21>
         n<> u<212> t<ENDMODULE> p<213> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv:1:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv:1:1: Multiply defined typedef "work@cnt".
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv:6:1: Compile module "work@cnt".
+[INF:CP0303] $Source01/simple/defvalue.sv:1:1: Compile module "work@top".
+[WRN:CP0323] $Source01/simple/defvalue.sv:1:1: Multiply defined typedef "work@cnt".
+[INF:CP0303] $Source01/simple/defvalue.sv:6:1: Compile module "work@cnt".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:defvalue.sv file:${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:defvalue.sv file:$Source01/simple/defvalue.sv:
       vpiParent: Design name:unnamed
       vpiName: defvalue.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/lib/work/simple/defvalue.sv"
+      vpiPreprocFile: "$Output/lib/work/simple/defvalue.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv start:1:1 end:4:10:
+    Module name:work@top file:$Source01/simple/defvalue.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -307,6 +316,11 @@ Design name:unnamed:
             vpiName: work@cnt
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (4 items):
         Net name:clock start:1:18 end:1:23:
           vpiParent: Module name:work@top
@@ -483,7 +497,7 @@ Design name:unnamed:
                 vpiName: cnt2
                 vpiFullName: work@top.bar.cnt2
                 vpiActual: Net name:cnt2
-    Module name:work@cnt file:${SURELOG_DIR}/tests/Yosys/simple/defvalue.sv start:6:1 end:22:10:
+    Module name:work@cnt file:$Source01/simple/defvalue.sv start:6:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@cnt start:6:8 end:6:11:
         vpiParent: Module name:work@cnt
@@ -591,6 +605,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@cnt
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@cnt
+        vpiName: work
+        vpiFullName: work@cnt.work
+      vpiCell: cnt
       vpiNet (2 items):
         Net name:clock start:9:8 end:9:13:
           vpiParent: Module name:work@cnt
@@ -710,37 +729,40 @@ Design name:unnamed:
         vpiName: work@cnt
       vpiModule: Module name:work@cnt
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/defvalue.sv
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/surelog.uhdm
+      test-name: Yosys/simple/defvalue.sv
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/lib/work/simple/defvalue.sv'): {'post_len': 0,
-                                                                                                                                         'pre_len': 318}},
+            'files': {'$Output/lib/work/simple/defvalue.sv': {'post_len': 0,
+                                                              'pre_len': 318}},
             'post_len': 0,
             'pre_len': 318,
             'test_name': 'Yosys/simple/defvalue.sv'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/simple/defvalue.sv |      318 |         0 |
-+=============================+==========+===========+
-|                             |      318 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/simple/defvalue.sv |      318 |         0 |
++=====================================+==========+===========+
+|                                     |      318 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -754,7 +776,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/simple/defvalue.sv/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             117     117       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   117     117       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

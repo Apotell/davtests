@@ -1,9 +1,21 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm errors/syntax_err08.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/errors/syntax_err08.v".
+[INF:PA0201] Parsing source file "$Source01/errors/syntax_err08.v".
+[SNT:PA0207] $Source01/errors/syntax_err08.v:4:13: Syntax error: no viable alternative at input 'x 55',
+assign y = x 55;
+             ^-- $Source01/errors/syntax_err08.v:4:13:.
 AST_DEBUG_BEGIN
 Count: 75
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v
-n<${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v> u<74> t<Top_level_rule> c<1> l<1:1> el<7:1>
+FILE: f<13>:$Source01/errors/syntax_err08.v
+n<$Source01/errors/syntax_err08.v> u<74> t<Top_level_rule> c<1> l<1:1> el<7:1>
   n<> u<1> t<Null_rule> p<74> s<73> l<1:1>
   n<> u<73> t<Source_text> p<74> c<72> l<1:1> el<5:10>
     n<> u<72> t<Description> p<73> c<71> l<1:1> el<5:10>
@@ -78,22 +90,19 @@ n<${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v> u<74> t<Top_level_rule> c<1>
                 n<> u<65> t<Package_or_generate_item_declaration> p<66> l<4:16> el<4:17>
         n<> u<70> t<ENDMODULE> p<71> l<5:1> el<5:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v:4:13: Syntax error: no viable alternative at input 'x 55',
-assign y = x 55;
-             ^-- ${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v:4:13:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v:1:1: Compile module "work@a".
+[INF:CP0303] $Source01/errors/syntax_err08.v:1:1: Compile module "work@a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:syntax_err08.v file:${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v:
+  vpiSourceFile (1 items):
+    SourceFile name:syntax_err08.v file:$Source01/errors/syntax_err08.v:
       vpiParent: Design name:unnamed
       vpiName: syntax_err08.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/lib/work/errors/syntax_err08.v"
+      vpiPreprocFile: "$Output/lib/work/errors/syntax_err08.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@a file:${SURELOG_DIR}/tests/Yosys/errors/syntax_err08.v start:1:1 end:5:10:
+    Module name:work@a file:$Source01/errors/syntax_err08.v start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@a start:1:8 end:1:9:
         vpiParent: Module name:work@a
@@ -154,6 +163,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@a
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@a
+        vpiName: work
+        vpiFullName: work@a.work
+      vpiCell: a
       vpiNet (2 items):
         Net name:x start:2:11 end:2:12:
           vpiParent: Module name:work@a
@@ -192,37 +206,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/errors/syntax_err08.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/surelog.uhdm
+      test-name: Yosys/errors/syntax_err08.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/mounts.json
 
 
 {'result': {'coverage': 93.1,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/lib/work/errors/syntax_err08.v'): {'post_len': 4,
-                                                                                                                                               'pre_len': 58}},
+            'files': {'$Output/lib/work/errors/syntax_err08.v': {'post_len': 4,
+                                                                 'pre_len': 58}},
             'post_len': 4,
             'pre_len': 58,
             'test_name': 'Yosys/errors/syntax_err08.v'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/errors/syntax_err08.v |       58 |         4 |
-+================================+==========+===========+
-|                                |       58 |         4 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/errors/syntax_err08.v |       58 |         4 |
++========================================+==========+===========+
+|                                        |       58 |         4 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 93.1
@@ -236,7 +253,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err08.v/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    25      25       0         0
+                                    26      26       0         0
 ===================== END REDUCTION RESULT =====================

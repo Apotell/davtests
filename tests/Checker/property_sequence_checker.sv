@@ -130,18 +130,18 @@ module tb9;
     endproperty
     
     // -------------------------------------------------
-	// 10. Property using AND (both must pass)
-	// -------------------------------------------------
-	property p_and;
-  		req |-> ( req_to_gnt(3) and ##1 (gnt && !req) );
-	endproperty
+    // 10. Property using AND (both must pass)
+    // -------------------------------------------------
+    property p_and;
+        req |-> ( req_to_gnt(3) and ##1 (gnt && !req) );
+    endproperty
 
     // -------------------------------------------------
-	// 8. Property using OR (either can pass)
-	// -------------------------------------------------
-	property p_or;
-  		req |-> ( req_to_gnt(3) or ##1 gnt );
-	endproperty
+    // 8. Property using OR (either can pass)
+    // -------------------------------------------------
+    property p_or;
+        req |-> ( req_to_gnt(3) or ##1 gnt );
+    endproperty
 
     // ================= ASSERTIONS =================
     assert property (p1)
@@ -257,7 +257,7 @@ module tb9;
 
   endchecker
       
-        checker seq_multi_chk(input logic clk, input logic [3:0] a, b);
+  checker seq_multi_chk(input logic clk, input logic [3:0] a, b);
 
     // -----------------------------------------
     // Sequence with multiple arguments
@@ -274,20 +274,20 @@ module tb9;
       
   checker mix_chk(input logic clk, req, gnt);
 
-  // Sequence
-  sequence handshake_seq(event ev, logic r, g, int d);
-    @(ev) r ##[1:d] g;
-  endsequence
+    // Sequence
+    sequence handshake_seq(event ev, logic r, g, int d);
+      @(ev) r ##[1:d] g;
+    endsequence
 
-  // Property using sequence
-  property handshake_prop(event ev, logic r, g, int d);
-    handshake_seq(ev, r, g, d);
-  endproperty
+    // Property using sequence
+    property handshake_prop(event ev, logic r, g, int d);
+      handshake_seq(ev, r, g, d);
+    endproperty
 
-  assert property (handshake_prop(posedge clk, req, gnt, 3))
-    else $error("Handshake failed");
+    assert property (handshake_prop(posedge clk, req, gnt, 3))
+      else $error("Handshake failed");
 
-endchecker
+  endchecker
 
   seq_multi_chk chk1(clk, a, b);     
   clock_chk chk2(clk1, clk2, rst_n, req, gnt, a, b);     

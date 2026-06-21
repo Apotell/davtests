@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_concat_large/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_concat_large.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_concat_large
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_concat_large.v".
+[INF:PA0201] Parsing source file "$Source01/t_concat_large.v".
 AST_DEBUG_BEGIN
 Count: 126
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_concat_large.v
-n<${SURELOG_DIR}/tests/Verilator/t_concat_large.v> u<125> t<Top_level_rule> c<1> l<6:1> el<20:1>
+FILE: f<13>:$Source01/t_concat_large.v
+n<$Source01/t_concat_large.v> u<125> t<Top_level_rule> c<1> l<6:1> el<20:1>
   n<> u<1> t<Null_rule> p<125> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<125> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<125> s<4> l<2:1> el<2:3>
@@ -129,19 +138,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_concat_large.v> u<125> t<Top_level_rule> c<1>
                           n<> u<111> t<END> p<112> l<17:4> el<17:7>
         n<> u<121> t<ENDMODULE> p<122> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_concat_large.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_concat_large.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_concat_large.v file:${SURELOG_DIR}/tests/Verilator/t_concat_large.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_concat_large.v file:$Source01/t_concat_large.v:
       vpiParent: Design name:unnamed
       vpiName: t_concat_large.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_concat_large/lib/work/t_concat_large.v"
+      vpiPreprocFile: "$Output/lib/work/t_concat_large.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_concat_large.v start:6:1 end:19:10:
+    Module name:work@t file:$Source01/t_concat_large.v start:6:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -176,6 +185,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:a start:8:18 end:8:19:
           vpiParent: Module name:work@t
@@ -230,7 +244,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
               IfStmt start:14:7 end:14:35:
                 vpiParent: Begin
                 vpiCondition Operation start:14:11 end:14:27:
@@ -265,7 +279,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt SysFuncCall name:$stop start:14:29 end:14:34:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:14:29 end:14:34:
@@ -286,7 +300,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:16:7 end:16:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:16:7 end:16:14:
@@ -305,37 +319,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_concat_large
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_concat_large
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_concat_large/surelog.uhdm
+      test-name: Verilator/t_concat_large
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_concat_large
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_concat_large/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_concat_large/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_concat_large/lib/work/t_concat_large.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 151}},
+            'files': {'$Output/lib/work/t_concat_large.v': {'post_len': 0,
+                                                            'pre_len': 151}},
             'post_len': 0,
             'pre_len': 151,
             'test_name': 'Verilator/t_concat_large'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_concat_large.v |      151 |         0 |
-+===========================+==========+===========+
-|                           |      151 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_concat_large.v |      151 |         0 |
++===================================+==========+===========+
+|                                   |      151 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -352,7 +369,7 @@ Constant                             7       6       1         2
 Operation                            3       1       0         2
 RefTypespec                          8       6       0         2
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    43      38       1         6
+                                    44      39       1         6
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/sim_mem -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm top.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 309
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/sim_mem/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/sim_mem/top.v> u<308> t<Top_level_rule> c<1> l<1:1> el<48:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<308> t<Top_level_rule> c<1> l<1:1> el<48:1>
   n<> u<1> t<Null_rule> p<308> s<307> l<1:1>
   n<> u<307> t<Source_text> p<308> c<306> l<1:1> el<47:10>
     n<> u<306> t<Description> p<307> c<305> l<1:1> el<47:10>
@@ -312,19 +321,19 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/sim_mem/top.v> u<308> t<Top_level_rule> c
                               n<> u<292> t<END> p<293> l<45:2> el<45:5>
         n<> u<304> t<ENDMODULE> p<305> l<47:1> el<47:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/sim_mem/top.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/sim_mem/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/sim_mem/top.v start:1:1 end:47:10:
+    Module name:work@top file:$Source01/top.v start:1:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -478,6 +487,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (9 items):
         Net name:data_a start:3:14 end:3:20:
           vpiParent: Module name:work@top
@@ -854,37 +868,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/sim_mem/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/surelog.uhdm
+      test-name: YosysTests/misc/sim_mem/top
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 371}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 371}},
             'post_len': 0,
             'pre_len': 371,
             'test_name': 'YosysTests/misc/sim_mem/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      371 |         0 |
-+================+==========+===========+
-|                |      371 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      371 |         0 |
++========================+==========+===========+
+|                        |      371 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -898,7 +915,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/sim_mem/top/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             130     130       0         0
+Others                             131     131       0         0
 ----------------------------------------------------------------
-                                   130     130       0         0
+                                   131     131       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-16 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 16.9--sequence-noncons-repetition.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/16.9--sequence-noncons-repetition.sv".
+[INF:PA0201] Parsing source file "$Source01/16.9--sequence-noncons-repetition.sv".
 AST_DEBUG_BEGIN
 Count: 132
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv
-n<${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv> u<131> t<Top_level_rule> c<1> l<16:1> el<29:1>
+FILE: f<14>:$Source01/16.9--sequence-noncons-repetition.sv
+n<$Source01/16.9--sequence-noncons-repetition.sv> u<131> t<Top_level_rule> c<1> l<16:1> el<29:1>
   n<> u<1> t<Null_rule> p<131> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<131> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<131> s<4> l<2:1> el<2:3>
@@ -135,20 +144,20 @@ n<${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv> u
                           n<> u<117> t<Statement_or_null> p<118> l<26:22> el<26:23>
         n<> u<127> t<ENDMODULE> p<128> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv:16:1: Compile module "work@top".
+[INF:CP0303] $Source01/16.9--sequence-noncons-repetition.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv:26:18: Illegal implicit net "id:40, name:seq".
+[ERR:EL0535] $Source01/16.9--sequence-noncons-repetition.sv:26:18: Illegal implicit net "id:41, name:seq".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:16.9--sequence-noncons-repetition.sv file:${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:16.9--sequence-noncons-repetition.sv file:$Source01/16.9--sequence-noncons-repetition.sv:
       vpiParent: Design name:unnamed
       vpiName: "16.9--sequence-noncons-repetition.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition/lib/work/16.9--sequence-noncons-repetition.sv"
+      vpiPreprocFile: "$Output/lib/work/16.9--sequence-noncons-repetition.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-16/16.9--sequence-noncons-repetition.sv start:16:1 end:28:10:
+    Module name:work@top file:$Source01/16.9--sequence-noncons-repetition.sv start:16:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -172,10 +181,15 @@ Design name:unnamed:
                   vpiName: clk
                   vpiFullName: work@top.seq.clk
                   vpiActual: Net name:clk
-            vpiSequenceExpr Operation start:23:22 end:23:41:
+            vpiSequenceExpr Operation start:23:20 end:23:41:
               vpiParent: ClockedSeq
-              vpiOpType: unary cycle delay (53)
+              vpiOpType: binary cycle delay (71)
               vpiOperand (3 items):
+                RefObj name:b start:23:20 end:23:21:
+                  vpiParent: Operation
+                  vpiName: b
+                  vpiFullName: work@top.seq.b
+                  vpiActual: Net name:b
                 Constant start:23:24 end:23:25:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -186,29 +200,19 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-                RefObj name:b start:23:20 end:23:21:
+                Operation start:23:26 end:23:41:
                   vpiParent: Operation
-                  vpiName: b
-                  vpiFullName: work@top.seq.b
-                  vpiActual: Net name:b
-                Operation start:23:36 end:23:41:
-                  vpiParent: Operation
-                  vpiOpType: unary cycle delay (53)
+                  vpiOpType: binary cycle delay (71)
                   vpiOperand (3 items):
-                    Constant start:23:38 end:23:39:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@top.seq
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
                     Operation start:23:28 end:23:35:
                       vpiParent: Operation
-                      vpiOpType: repeat (59)
+                      vpiOpType: repeat (76)
                       vpiOperand (2 items):
+                        RefObj name:a start:23:26 end:23:27:
+                          vpiParent: Operation
+                          vpiName: a
+                          vpiFullName: work@top.seq.a
+                          vpiActual: Net name:a
                         Range start:23:30 end:23:34:
                           vpiParent: Operation
                           vpiLeftRange Constant start:23:30 end:23:31:
@@ -231,11 +235,16 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                        RefObj name:a start:23:26 end:23:27:
-                          vpiParent: Operation
-                          vpiName: a
-                          vpiFullName: work@top.seq.a
-                          vpiActual: Net name:a
+                    Constant start:23:38 end:23:39:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@top.seq
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
                     RefObj name:b start:23:40 end:23:41:
                       vpiParent: Operation
                       vpiName: b
@@ -255,6 +264,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:clk start:18:7 end:18:10:
           vpiParent: Module name:work@top
@@ -291,37 +305,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-16/16.9--sequence-noncons-repetition
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition/surelog.uhdm
+      test-name: Google/chapter-16/16.9--sequence-noncons-repetition
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repetition/lib/work/16.9--sequence-noncons-repetition.sv'): {'post_len': 0,
-                                                                                                                                                                                      'pre_len': 131}},
+            'files': {'$Output/lib/work/16.9--sequence-noncons-repetition.sv': {'post_len': 0,
+                                                                                'pre_len': 131}},
             'post_len': 0,
             'pre_len': 131,
             'test_name': 'Google/chapter-16/16.9--sequence-noncons-repetition'}}
 
-+-----------------------------------------------+----------+-----------+
-| INPUT                                         |   PRELEN |   POSTLEN |
-+===============================================+==========+===========+
-| lib/work/16.9--sequence-noncons-repetition.sv |      131 |         0 |
-+===============================================+==========+===========+
-|                                               |      131 |         0 |
-+-----------------------------------------------+----------+-----------+
++-------------------------------------------------------+----------+-----------+
+| INPUT                                                 |   PRELEN |   POSTLEN |
++=======================================================+==========+===========+
+| $Output/lib/work/16.9--sequence-noncons-repetition.sv |      131 |         0 |
++=======================================================+==========+===========+
+|                                                       |      131 |         0 |
++-------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -335,7 +352,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-16/16.9--sequence-noncons-repe
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

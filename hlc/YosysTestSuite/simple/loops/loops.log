@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm loops.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/loops.v".
+[INF:PA0201] Parsing source file "$Source01/loops.v".
 AST_DEBUG_BEGIN
 Count: 829
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/loops.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/loops.v> u<828> t<Top_level_rule> c<1> l<6:1> el<80:1>
+FILE: f<13>:$Source01/loops.v
+n<$Source01/loops.v> u<828> t<Top_level_rule> c<1> l<6:1> el<80:1>
   n<> u<1> t<Null_rule> p<828> s<2> l<6:1> el<6:1>
   n<// a simple test case extracted from systemcaes (as included in iwls2005)> u<2> t<LINE_COMMENT> p<828> s<3> l<2:1> el<2:74>
   n<// this design has latches (or logic loops) for the two temp variables.> u<3> t<LINE_COMMENT> p<828> s<4> l<3:1> el<3:72>
@@ -832,19 +841,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/loops.v> u<828> t<Top_level_rule> c
                               n<> u<812> t<END> p<813> l<76:1> el<76:4>
         n<> u<824> t<ENDMODULE> p<825> l<78:1> el<78:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/loops.v:6:1: Compile module "work@aes".
+[INF:CP0303] $Source01/loops.v:6:1: Compile module "work@aes".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:loops.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/loops.v:
+  vpiSourceFile (1 items):
+    SourceFile name:loops.v file:$Source01/loops.v:
       vpiParent: Design name:unnamed
       vpiName: loops.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/lib/work/loops.v"
+      vpiPreprocFile: "$Output/lib/work/loops.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@aes file:${SURELOG_DIR}/tests/YosysTestSuite/simple/loops.v start:6:1 end:78:10:
+    Module name:work@aes file:$Source01/loops.v start:6:1 end:78:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@aes start:6:8 end:6:11:
         vpiParent: Module name:work@aes
@@ -1257,6 +1266,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@aes
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@aes
+        vpiName: work
+        vpiFullName: work@aes.work
+      vpiCell: aes
       vpiNet (10 items):
         Net name:addroundkey_data_i start:8:14 end:8:32:
           vpiParent: Module name:work@aes
@@ -2160,37 +2174,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/loops
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/surelog.uhdm
+      test-name: YosysTestSuite/simple/loops
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/lib/work/loops.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 1728}},
+            'files': {'$Output/lib/work/loops.v': {'post_len': 0,
+                                                   'pre_len': 1728}},
             'post_len': 0,
             'pre_len': 1728,
             'test_name': 'YosysTestSuite/simple/loops'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/loops.v |     1728 |         0 |
-+==================+==========+===========+
-|                  |     1728 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/loops.v |     1728 |         0 |
++==========================+==========+===========+
+|                          |     1728 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2204,7 +2221,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/loops/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             308     308       0         0
+Others                             309     309       0         0
 ----------------------------------------------------------------
-                                   308     308       0         0
+                                   309     309       0         0
 ===================== END REDUCTION RESULT =====================

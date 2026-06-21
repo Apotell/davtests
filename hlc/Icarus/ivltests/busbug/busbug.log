@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/busbug/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm busbug.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/busbug
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/busbug.v".
+[INF:PA0201] Parsing source file "$Source01/busbug.v".
 AST_DEBUG_BEGIN
 Count: 153
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/busbug.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/busbug.v> u<152> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<13>:$Source01/busbug.v
+n<$Source01/busbug.v> u<152> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<152> s<151> l<1:1>
   n<> u<151> t<Source_text> p<152> c<150> l<1:1> el<12:10>
     n<> u<150> t<Description> p<151> c<149> l<1:1> el<12:10>
@@ -156,19 +165,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/busbug.v> u<152> t<Top_level_rule> c<1> l
                           n<> u<138> t<END> p<139> l<11:4> el<11:7>
         n<> u<148> t<ENDMODULE> p<149> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/busbug.v:1:1: Compile module "work@busbug".
+[INF:CP0303] $Source01/busbug.v:1:1: Compile module "work@busbug".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:busbug.v file:${SURELOG_DIR}/tests/Icarus/ivltests/busbug.v:
+  vpiSourceFile (1 items):
+    SourceFile name:busbug.v file:$Source01/busbug.v:
       vpiParent: Design name:unnamed
       vpiName: busbug.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/busbug/lib/work/busbug.v"
+      vpiPreprocFile: "$Output/lib/work/busbug.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@busbug file:${SURELOG_DIR}/tests/Icarus/ivltests/busbug.v start:1:1 end:12:10:
+    Module name:work@busbug file:$Source01/busbug.v start:1:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@busbug start:1:8 end:1:14:
         vpiParent: Module name:work@busbug
@@ -179,6 +188,11 @@ Design name:unnamed:
           vpiParent: Module name:work@busbug
       vpiDefName: work@busbug
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@busbug
+        vpiName: work
+        vpiFullName: work@busbug.work
+      vpiCell: busbug
       vpiNet (3 items):
         Net name:x start:2:15 end:2:16:
           vpiParent: Module name:work@busbug
@@ -231,7 +245,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:5:7 end:5:13:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -249,7 +263,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:6:7 end:6:13:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -267,7 +281,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
               SysFuncCall name:$display start:7:7 end:10:17:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:7:7 end:7:15:
@@ -283,7 +297,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 56
                     vpiDecompile: "\"%b%b=%b\""
-                    vpiValue: %b%b=%b
+                    vpiValue: "%b%b=%b"
                   Operation start:8:17 end:8:22:
                     vpiParent: SysFuncCall name:$display
                     vpiOpType: bitwise xor (30)
@@ -372,37 +386,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/busbug
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/busbug
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/busbug/surelog.uhdm
+      test-name: Icarus/ivltests/busbug
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/busbug
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/busbug/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/busbug/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/busbug/lib/work/busbug.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 140}},
+            'files': {'$Output/lib/work/busbug.v': {'post_len': 0,
+                                                    'pre_len': 140}},
             'post_len': 0,
             'pre_len': 140,
             'test_name': 'Icarus/ivltests/busbug'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/busbug.v |      140 |         0 |
-+===================+==========+===========+
-|                   |      140 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/busbug.v |      140 |         0 |
++===========================+==========+===========+
+|                           |      140 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -416,7 +433,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/busbug/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              51      51       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    51      51       0         0
 ===================== END REDUCTION RESULT =====================

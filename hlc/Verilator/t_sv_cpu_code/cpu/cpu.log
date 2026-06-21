@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Verilator/t_sv_cpu_code +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm cpu.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/cpu.sv".
+[INF:PA0201] Parsing source file "$Source01/cpu.sv".
 AST_DEBUG_BEGIN
 Count: 1654
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv
-n<${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv> u<1653> t<Top_level_rule> c<1> l<8:1> el<232:1>
+FILE: f<13>:$Source01/cpu.sv
+n<$Source01/cpu.sv> u<1653> t<Top_level_rule> c<1> l<8:1> el<232:1>
   n<> u<1> t<Null_rule> p<1653> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Large test for SystemVerilog> u<2> t<LINE_COMMENT> p<1653> s<3> l<1:1> el<1:56>
   n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<1653> s<4> l<3:1> el<3:65>
@@ -1657,23 +1666,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv> u<1653> t<Top_level_rule>
         n<> u<1648> t<ENDMODULE> p<1649> l<231:1> el<231:10>
   n<// cpu> u<1652> t<LINE_COMMENT> p<1653> l<231:11> el<231:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv:8:1: Compile module "work@cpu".
+[INF:CP0303] $Source01/cpu.sv:8:1: Compile module "work@cpu".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv:18:3: Illegal implicit net "id:16, name:genbus_if".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv:18:13: Illegal implicit net "id:17, name:master".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv:80:26: Illegal implicit net "id:198, name:rom".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv:81:23: Illegal implicit net "id:207, name:rom".
+[ERR:EL0535] $Source01/cpu.sv:18:3: Illegal implicit net "id:17, name:genbus_if".
+[ERR:EL0535] $Source01/cpu.sv:18:13: Illegal implicit net "id:18, name:master".
+[ERR:EL0535] $Source01/cpu.sv:80:26: Illegal implicit net "id:199, name:rom".
+[ERR:EL0535] $Source01/cpu.sv:81:23: Illegal implicit net "id:208, name:rom".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:cpu.sv file:${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:cpu.sv file:$Source01/cpu.sv:
       vpiParent: Design name:unnamed
       vpiName: cpu.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/lib/work/cpu.sv"
+      vpiPreprocFile: "$Output/lib/work/cpu.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@cpu file:${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/cpu.sv start:8:1 end:231:10:
+    Module name:work@cpu file:$Source01/cpu.sv start:8:1 end:231:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@cpu start:8:8 end:8:11:
         vpiParent: Module name:work@cpu
@@ -2010,6 +2019,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@cpu
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@cpu
+        vpiName: work
+        vpiFullName: work@cpu.work
+      vpiCell: cpu
       vpiNet (18 items):
         Net name:dbus start:18:22 end:18:26:
           vpiParent: Module name:work@cpu
@@ -2176,7 +2190,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:genbus_if.master
               vpiName: genbus_if.master
               vpiFullName: work@cpu.dbus.genbus_if.master.genbus_if.master
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:genbus_if start:18:3 end:18:12:
                   vpiParent: HierPath name:genbus_if.master
                   vpiName: genbus_if
@@ -2320,7 +2334,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:78:29 end:78:32:
                     vpiParent: ForStmt
-                    vpiOpType: post inc (62)
+                    vpiOpType: post inc (64)
                     vpiOperand (1 items):
                       RefObj name:i start:78:29 end:78:30:
                         vpiParent: Operation
@@ -2427,7 +2441,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 16
                           vpiDecompile: "16'h0000"
-                          vpiValue: 0000
+                          vpiValue: "0000"
               Assignment start:86:7 end:86:30:
                 vpiParent: Begin name:ROM
                 vpiBlocking: true
@@ -2535,7 +2549,7 @@ Design name:unnamed:
                   vpiForIncStmt (1 items):
                     Operation start:101:28 end:101:31:
                       vpiParent: ForStmt
-                      vpiOpType: post inc (62)
+                      vpiOpType: post inc (64)
                       vpiOperand (1 items):
                         RefObj name:i start:101:28 end:101:29:
                           vpiParent: Operation
@@ -2623,7 +2637,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 8
                             vpiDecompile: "8'h00"
-                            vpiValue: 00
+                            vpiValue: "00"
                         vpiElseStmt IfStmt start:105:16 end:106:35:
                           vpiParent: IfElse
                           vpiCondition Operation start:105:21 end:105:53:
@@ -2741,7 +2755,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 8
                           vpiDecompile: "8'h00"
-                          vpiValue: 00
+                          vpiValue: "00"
                       Assignment start:122:11 end:122:25:
                         vpiParent: Begin
                         vpiLhs RefObj name:ir start:122:11 end:122:13:
@@ -2758,7 +2772,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 16
                           vpiDecompile: "16'h0000"
-                          vpiValue: 0000
+                          vpiValue: "0000"
                   vpiElseStmt Begin start:125:9 end:136:12:
                     vpiParent: IfElse
                     vpiFullName: work@cpu
@@ -2848,7 +2862,7 @@ Design name:unnamed:
                                 vpiConstType: hexadecimal (5)
                                 vpiSize: 16
                                 vpiDecompile: "16'h0000"
-                                vpiValue: 0000
+                                vpiValue: "0000"
           vpiAlwaysType: ff (3)
         Always start:145:3 end:192:8:
           vpiParent: Module name:work@cpu
@@ -2876,7 +2890,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
                   vpiDecompile: "4'h0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:149:7 end:149:26:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -2894,7 +2908,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:150:7 end:150:27:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -2912,7 +2926,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 8
                   vpiDecompile: "8'h00"
-                  vpiValue: 00
+                  vpiValue: "00"
               Assignment start:151:7 end:151:26:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -2930,7 +2944,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
                   vpiDecompile: "4'h0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:153:7 end:153:27:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -2948,7 +2962,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 8
                   vpiDecompile: "8'h00"
-                  vpiValue: 00
+                  vpiValue: "00"
               Assignment start:154:7 end:154:26:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -2966,7 +2980,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:156:7 end:156:27:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -2984,7 +2998,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 8
                   vpiDecompile: "8'h00"
-                  vpiValue: 00
+                  vpiValue: "00"
               Assignment start:157:7 end:157:26:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -3002,7 +3016,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:158:7 end:158:26:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -3020,7 +3034,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               CaseStmt start:160:7 end:191:14:
                 vpiParent: Begin
                 vpiCaseType: z (3)
@@ -3042,7 +3056,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
                         vpiDecompile: "16'h0000"
-                        vpiValue: 0000
+                        vpiValue: "0000"
                   CaseItem start:163:9 end:167:14:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -3055,7 +3069,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
                         vpiDecompile: "16'h1???"
-                        vpiValue: 1???
+                        vpiValue: "1???"
                     vpiStmt Begin start:164:11 end:167:14:
                       vpiParent: CaseItem
                       vpiFullName: work@cpu
@@ -3119,7 +3133,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b1"
-                            vpiValue: 1
+                            vpiValue: "1"
                   CaseItem start:169:9 end:174:14:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -3132,7 +3146,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
                         vpiDecompile: "16'h4???"
-                        vpiValue: 4???
+                        vpiValue: "4???"
                     vpiStmt Begin start:170:11 end:174:14:
                       vpiParent: CaseItem
                       vpiFullName: work@cpu
@@ -3195,7 +3209,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b1"
-                            vpiValue: 1
+                            vpiValue: "1"
                         Assignment start:173:13 end:173:36:
                           vpiParent: Begin
                           vpiBlocking: true
@@ -3246,7 +3260,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
                         vpiDecompile: "16'h8???"
-                        vpiValue: 8???
+                        vpiValue: "8???"
                     vpiStmt Begin start:177:11 end:181:14:
                       vpiParent: CaseItem
                       vpiFullName: work@cpu
@@ -3309,7 +3323,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b1"
-                            vpiValue: 1
+                            vpiValue: "1"
                         Assignment start:180:13 end:180:36:
                           vpiParent: Begin
                           vpiBlocking: true
@@ -3360,7 +3374,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 16
                         vpiDecompile: "16'h9???"
-                        vpiValue: 9???
+                        vpiValue: "9???"
                     vpiStmt Begin start:184:11 end:190:14:
                       vpiParent: CaseItem
                       vpiFullName: work@cpu
@@ -3423,7 +3437,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b1"
-                            vpiValue: 1
+                            vpiValue: "1"
                         Assignment start:187:13 end:187:36:
                           vpiParent: Begin
                           vpiBlocking: true
@@ -3479,7 +3493,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b1"
-                            vpiValue: 1
+                            vpiValue: "1"
                         Assignment start:189:13 end:189:42:
                           vpiParent: Begin
                           vpiBlocking: true
@@ -3570,7 +3584,7 @@ Design name:unnamed:
                 vpiParent: Begin name:Conntect
                 vpiName: "dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
                 vpiFullName: "work@cpu.Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:dbus start:205:7 end:205:11:
                     vpiParent: "HierPath name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
                     vpiName: dbus
@@ -3642,7 +3656,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 8
                             vpiDecompile: "8'h00"
-                            vpiValue: 00
+                            vpiValue: "00"
                           PartSelect name:idec_mem_adr[7:1] start:211:19 end:211:36:
                             vpiParent: Operation
                             vpiName: idec_mem_adr[7:1]
@@ -3683,7 +3697,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b0"
-                            vpiValue: 0
+                            vpiValue: "0"
                       Operation start:213:11 end:213:64:
                         vpiParent: FuncCall name:mConnect
                         vpiOpType: bitwise and (28)
@@ -3945,7 +3959,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: dbus.mPreAdrDecode(0, idec_mem_adr)
                   vpiFullName: work@cpu.PreAdrDecode.dbus.mPreAdrDecode(0, idec_mem_adr)
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:dbus start:227:21 end:227:25:
                       vpiParent: HierPath name:dbus.mPreAdrDecode(0, idec_mem_adr)
                       vpiName: dbus
@@ -3986,37 +4000,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_sv_cpu_code/cpu
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/surelog.uhdm
+      test-name: Verilator/t_sv_cpu_code/cpu
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/lib/work/cpu.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 2049}},
+            'files': {'$Output/lib/work/cpu.sv': {'post_len': 0,
+                                                  'pre_len': 2049}},
             'post_len': 0,
             'pre_len': 2049,
             'test_name': 'Verilator/t_sv_cpu_code/cpu'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/cpu.sv |     2049 |         0 |
-+=================+==========+===========+
-|                 |     2049 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/cpu.sv |     2049 |         0 |
++=========================+==========+===========+
+|                         |     2049 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -4030,7 +4047,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/cpu/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             537     537       0         0
+Others                             538     538       0         0
 ----------------------------------------------------------------
-                                   537     537       0         0
+                                   538     538       0         0
 ===================== END REDUCTION RESULT =====================

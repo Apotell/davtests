@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/mem_arst.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/mem_arst.v".
+[INF:PA0201] Parsing source file "$Source01/simple/mem_arst.v".
 AST_DEBUG_BEGIN
 Count: 420
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/mem_arst.v
-n<${SURELOG_DIR}/tests/Yosys/simple/mem_arst.v> u<419> t<Top_level_rule> c<1> l<2:1> el<44:1>
+FILE: f<13>:$Source01/simple/mem_arst.v
+n<$Source01/simple/mem_arst.v> u<419> t<Top_level_rule> c<1> l<2:1> el<44:1>
   n<> u<1> t<Null_rule> p<419> s<418> l<2:1> el<2:1>
   n<> u<418> t<Source_text> p<419> c<417> l<2:1> el<42:10>
     n<> u<417> t<Description> p<418> c<416> l<2:1> el<42:10>
@@ -423,19 +432,19 @@ n<${SURELOG_DIR}/tests/Yosys/simple/mem_arst.v> u<419> t<Top_level_rule> c<1> l<
                               n<> u<403> t<END> p<404> l<40:3> el<40:6>
         n<> u<415> t<ENDMODULE> p<416> l<42:1> el<42:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/mem_arst.v:2:1: Compile module "work@MyMem".
+[INF:CP0303] $Source01/simple/mem_arst.v:2:1: Compile module "work@MyMem".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:mem_arst.v file:${SURELOG_DIR}/tests/Yosys/simple/mem_arst.v:
+  vpiSourceFile (1 items):
+    SourceFile name:mem_arst.v file:$Source01/simple/mem_arst.v:
       vpiParent: Design name:unnamed
       vpiName: mem_arst.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v/lib/work/simple/mem_arst.v"
+      vpiPreprocFile: "$Output/lib/work/simple/mem_arst.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@MyMem file:${SURELOG_DIR}/tests/Yosys/simple/mem_arst.v start:2:1 end:42:10:
+    Module name:work@MyMem file:$Source01/simple/mem_arst.v start:2:1 end:42:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@MyMem start:2:8 end:2:13:
         vpiParent: Module name:work@MyMem
@@ -753,6 +762,11 @@ Design name:unnamed:
           vpiName: mem2reg
       vpiDefName: work@MyMem
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@MyMem
+        vpiName: work
+        vpiFullName: work@MyMem.work
+      vpiCell: MyMem
       vpiNet (8 items):
         Net name:Reset_n_i start:6:26 end:6:35:
           vpiParent: Module name:work@MyMem
@@ -1139,37 +1153,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/mem_arst.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v/surelog.uhdm
+      test-name: Yosys/simple/mem_arst.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v/mounts.json
 
 
 {'result': {'coverage': 99.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/mem_arst.v/lib/work/simple/mem_arst.v'): {'post_len': 6,
-                                                                                                                                       'pre_len': 600}},
+            'files': {'$Output/lib/work/simple/mem_arst.v': {'post_len': 6,
+                                                             'pre_len': 600}},
             'post_len': 6,
             'pre_len': 600,
             'test_name': 'Yosys/simple/mem_arst.v'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/simple/mem_arst.v |      600 |         6 |
-+============================+==========+===========+
-|                            |      600 |         6 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/simple/mem_arst.v |      600 |         6 |
++====================================+==========+===========+
+|                                    |      600 |         6 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.0
@@ -1184,10 +1201,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      20       7         7
 Operation                           13       6       0         7
-RefObj                              34      27       0         7
+RefObj                              35      28       0         7
 RefTypespec                         38      38       7         7
 ----------------------------------------------------------------
 Others                              63      63       0         0
 ----------------------------------------------------------------
-                                   168     154      14        28
+                                   169     155      14        28
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_struct_unaligned/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_struct_unaligned.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_struct_unaligned
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_struct_unaligned.v".
+[INF:PA0201] Parsing source file "$Source01/t_struct_unaligned.v".
 AST_DEBUG_BEGIN
 Count: 292
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_struct_unaligned.v
-n<${SURELOG_DIR}/tests/Verilator/t_struct_unaligned.v> u<291> t<Top_level_rule> c<1> l<8:1> el<36:1>
+FILE: f<13>:$Source01/t_struct_unaligned.v
+n<$Source01/t_struct_unaligned.v> u<291> t<Top_level_rule> c<1> l<8:1> el<36:1>
   n<> u<1> t<Null_rule> p<291> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator:> u<2> t<LINE_COMMENT> p<291> s<3> l<1:1> el<1:27>
   n<//  Test an error where a shift amount was out of bounds and the compiler treats the> u<3> t<LINE_COMMENT> p<291> s<4> l<2:1> el<2:85>
@@ -295,19 +304,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_struct_unaligned.v> u<291> t<Top_level_rule> 
                                 n<> u<274> t<END> p<275> l<34:5> el<34:8>
         n<> u<287> t<ENDMODULE> p<288> l<35:1> el<35:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_struct_unaligned.v:8:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_struct_unaligned.v:8:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_struct_unaligned.v file:${SURELOG_DIR}/tests/Verilator/t_struct_unaligned.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_struct_unaligned.v file:$Source01/t_struct_unaligned.v:
       vpiParent: Design name:unnamed
       vpiName: t_struct_unaligned.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_struct_unaligned/lib/work/t_struct_unaligned.v"
+      vpiPreprocFile: "$Output/lib/work/t_struct_unaligned.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_struct_unaligned.v start:8:1 end:35:10:
+    Module name:work@t file:$Source01/t_struct_unaligned.v start:8:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:8:8 end:8:9:
         vpiParent: Module name:work@t
@@ -405,6 +414,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:clk start:12:11 end:12:14:
           vpiParent: Module name:work@t
@@ -504,7 +518,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: foo[0].data
                     vpiFullName: work@t.foo[0].data
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       BitSelect name:foo[0] start:24:2 end:24:7:
                         vpiParent: HierPath name:foo[0].data
                         vpiName: foo[0]
@@ -545,7 +559,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: foo[0].flag
                     vpiFullName: work@t.foo[0].flag
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       BitSelect name:foo[0] start:25:2 end:25:7:
                         vpiParent: HierPath name:foo[0].flag
                         vpiName: foo[0]
@@ -578,7 +592,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: foo[0].flag
                         vpiFullName: work@t.foo[0].flag
-                        vpiActual (2 items):
+                        vpiPathElem (2 items):
                           BitSelect name:foo[0] start:25:18 end:25:23:
                             vpiParent: HierPath name:foo[0].flag
                             vpiName: foo[0]
@@ -638,7 +652,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: foo[0].data
                               vpiFullName: work@t.foo[0].data
-                              vpiActual (2 items):
+                              vpiPathElem (2 items):
                                 BitSelect name:foo[0] start:27:9 end:27:14:
                                   vpiParent: HierPath name:foo[0].data
                                   vpiName: foo[0]
@@ -697,7 +711,7 @@ Design name:unnamed:
                                   vpiParent: SysFuncCall name:$display
                                   vpiName: foo[0].data
                                   vpiFullName: work@t.foo[0].data
-                                  vpiActual (2 items):
+                                  vpiPathElem (2 items):
                                     BitSelect name:foo[0] start:28:36 end:28:41:
                                       vpiParent: HierPath name:foo[0].data
                                       vpiName: foo[0]
@@ -742,7 +756,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:32:5 end:32:12:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:32:5 end:32:12:
@@ -762,37 +776,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_struct_unaligned
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_struct_unaligned
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_struct_unaligned/surelog.uhdm
+      test-name: Verilator/t_struct_unaligned
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_struct_unaligned
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_struct_unaligned/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_struct_unaligned/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_struct_unaligned/lib/work/t_struct_unaligned.v'): {'post_len': 0,
-                                                                                                                                               'pre_len': 334}},
+            'files': {'$Output/lib/work/t_struct_unaligned.v': {'post_len': 0,
+                                                                'pre_len': 334}},
             'post_len': 0,
             'pre_len': 334,
             'test_name': 'Verilator/t_struct_unaligned'}}
 
-+-------------------------------+----------+-----------+
-| INPUT                         |   PRELEN |   POSTLEN |
-+===============================+==========+===========+
-| lib/work/t_struct_unaligned.v |      334 |         0 |
-+===============================+==========+===========+
-|                               |      334 |         0 |
-+-------------------------------+----------+-----------+
++---------------------------------------+----------+-----------+
+| INPUT                                 |   PRELEN |   POSTLEN |
++=======================================+==========+===========+
+| $Output/lib/work/t_struct_unaligned.v |      334 |         0 |
++=======================================+==========+===========+
+|                                       |      334 |         0 |
++---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -807,10 +824,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            15      15       2         2
 Operation                            6       4       0         2
-RefObj                              15      13       0         2
+RefObj                              16      14       0         2
 RefTypespec                         23      23       2         2
 ----------------------------------------------------------------
 Others                              53      53       0         0
 ----------------------------------------------------------------
-                                   112     108       4         8
+                                   113     109       4         8
 ===================== END REDUCTION RESULT =====================

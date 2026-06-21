@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FileParam/FileParam/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FileParam -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FileParam/FileParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 74
 LIB: work
-FILE: ${SURELOG_DIR}/tests/FileParam/dut.sv
-n<${SURELOG_DIR}/tests/FileParam/dut.sv> u<73> t<Top_level_rule> c<1> l<1:1> el<14:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<73> t<Top_level_rule> c<1> l<1:1> el<14:1>
   n<> u<1> t<Null_rule> p<73> s<72> l<1:1>
   n<> u<72> t<Source_text> p<73> c<15> l<1:1> el<13:10>
     n<> u<15> t<Description> p<72> c<14> s<35> l<1:1> el<1:19>
@@ -77,19 +86,19 @@ n<${SURELOG_DIR}/tests/FileParam/dut.sv> u<73> t<Top_level_rule> c<1> l<1:1> el<
           n<> u<67> t<Port_list> p<68> l<12:11> el<12:13>
         n<> u<69> t<ENDMODULE> p<70> l<13:1> el<13:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/FileParam/dut.sv:12:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FileParam/dut.sv:12:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FileParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FileParam/FileParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/FileParam/dut.sv start:12:1 end:13:10:
+    Module name:work@top file:$Source01/dut.sv start:12:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:12:8 end:12:11:
         vpiParent: Module name:work@top
@@ -97,6 +106,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
   vpiTypespec (6 items):
     LogicTypespec:
       vpiParent: Design name:unnamed
@@ -125,7 +139,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: -1
             vpiDecompile: "'h0"
-            vpiValue: 0
+            vpiValue: "0"
         EnumConst name:SCR1_SCU_DR_SYSCTRL_OP_BIT_L start:7:5 end:7:57:
           vpiParent: EnumTypespec
           vpiName Identifier name:SCR1_SCU_DR_SYSCTRL_OP_BIT_L start:7:5 end:7:33:
@@ -231,37 +245,40 @@ Design name:unnamed:
             vpiDecompile: "2"
             vpiValue: 2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FileParam/FileParam
- test-dirpath: ${SURELOG_DIR}/regression/FileParam/FileParam
-uhdm-filepath: ${SURELOG_DIR}/regression/FileParam/FileParam/surelog.uhdm
+      test-name: FileParam/FileParam
+   test-dirpath: ${SURELOG_DIR}/regression/FileParam/FileParam
+  uhdm-filepath: ${SURELOG_DIR}/regression/FileParam/FileParam/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FileParam/FileParam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FileParam/FileParam/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 228}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 228}},
             'post_len': 0,
             'pre_len': 228,
             'test_name': 'FileParam/FileParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      228 |         0 |
-+=================+==========+===========+
-|                 |      228 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      228 |         0 |
++=========================+==========+===========+
+|                         |      228 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -275,7 +292,7 @@ COMMAND: ${SURELOG_DIR}/regression/FileParam/FileParam/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

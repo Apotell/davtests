@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm udp_sched.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/udp_sched.v".
+[INF:PA0201] Parsing source file "$Source01/udp_sched.v".
 AST_DEBUG_BEGIN
 Count: 349
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v> u<348> t<Top_level_rule> c<1> l<12:1> el<61:1>
+FILE: f<13>:$Source01/udp_sched.v
+n<$Source01/udp_sched.v> u<348> t<Top_level_rule> c<1> l<12:1> el<61:1>
   n<> u<1> t<Null_rule> p<348> s<2> l<12:1> el<12:1>
   n</*\n * This test tries to assure that all synchronous UDP outputs are\n * scheduled before any non-blocking assignment event. The reason\n * is that primitive outputs are scheduled in the active event\n * queue, which is supposed to empty before any non-blocking\n * assignments take effect.\n * \n * This is based on an example by Steve Sharp\n */> u<2> t<BLOCK_COMMENT> p<348> s<347> l<12:1> el<60:10>
   n<> u<347> t<Source_text> p<348> c<72> l<12:1> el<60:10>
@@ -352,17 +361,17 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v> u<348> t<Top_level_rule> c<1
                         n<> u<335> t<END> p<336> l<58:1> el<58:4>
         n<> u<344> t<ENDMODULE> p<345> l<60:1> el<60:10>
 AST_DEBUG_END
-[INF:CP0305] ${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v:12:11: Compile udp "u_dff".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v:26:1: Compile module "work@top".
+[INF:CP0305] $Source01/udp_sched.v:12:11: Compile udp "u_dff".
+[INF:CP0303] $Source01/udp_sched.v:26:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:udp_sched.v file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v:
+  vpiSourceFile (1 items):
+    SourceFile name:udp_sched.v file:$Source01/udp_sched.v:
       vpiParent: Design name:unnamed
       vpiName: udp_sched.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/lib/work/udp_sched.v"
+      vpiPreprocFile: "$Output/lib/work/udp_sched.v"
       vpiDefNetType: none (12)
   vpiAllUdps (1 items):
     UdpDefn name:work@u_dff start:12:1 end:23:13:
@@ -431,7 +440,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "0 p : ? : 0"
-            vpiValue: 0 p : ? : 0
+            vpiValue: "0 p : ? : 0"
         TableEntry start:19:3 end:19:16:
           vpiParent: UdpDefn name:work@u_dff
           vpiValue Constant start:19:3 end:19:16:
@@ -443,7 +452,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "1 p : ? : 1"
-            vpiValue: 1 p : ? : 1
+            vpiValue: "1 p : ? : 1"
         TableEntry start:20:3 end:20:16:
           vpiParent: UdpDefn name:work@u_dff
           vpiValue Constant start:20:3 end:20:16:
@@ -455,7 +464,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: "? n : ? : -"
-            vpiValue: ? n : ? : -
+            vpiValue: "? n : ? : -"
         TableEntry start:21:3 end:21:16:
           vpiParent: UdpDefn name:work@u_dff
           vpiValue Constant start:21:3 end:21:16:
@@ -467,9 +476,9 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 2
             vpiDecompile: " ? : ? : -"
-            vpiValue: ? : ? : -
+            vpiValue: "? : ? : -"
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v start:26:1 end:60:10:
+    Module name:work@top file:$Source01/udp_sched.v start:26:1 end:60:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:26:8 end:26:11:
         vpiParent: Module name:work@top
@@ -485,6 +494,11 @@ Design name:unnamed:
           vpiName: work@u_dff
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (8 items):
         Net name:rclk start:28:5 end:28:9:
           vpiParent: Module name:work@top
@@ -645,7 +659,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt Begin start:51:19 end:54:5:
                     vpiParent: IfStmt
                     vpiFullName: work@top
@@ -714,7 +728,7 @@ Design name:unnamed:
                     vpiDecompile: "\"PASSED\""
                     vpiValue: PASSED
       vpiPrimitive (5 items):
-        Udp name:ff0 file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v start:32:7 end:32:10:
+        Udp name:ff0 file:$Source01/udp_sched.v start:32:7 end:32:10:
           vpiParent: Module name:work@top
           vpiName: ff0
           vpiFullName: work@top.ff0
@@ -743,7 +757,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             PrimTerm start:32:21 end:32:24:
               vpiParent: Udp name:ff0
               vpiDirection: input (1)
@@ -753,7 +767,7 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: work@top.ff0.clk
                 vpiActual: Net name:clk
-        Udp name:ff1 file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v start:33:7 end:33:10:
+        Udp name:ff1 file:$Source01/udp_sched.v start:33:7 end:33:10:
           vpiParent: Module name:work@top
           vpiName: ff1
           vpiFullName: work@top.ff1
@@ -782,7 +796,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             PrimTerm start:33:21 end:33:23:
               vpiParent: Udp name:ff1
               vpiDirection: input (1)
@@ -792,7 +806,7 @@ Design name:unnamed:
                 vpiName: q0
                 vpiFullName: work@top.ff1.q0
                 vpiActual: Net name:q0
-        Udp name:ff2 file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v start:34:7 end:34:10:
+        Udp name:ff2 file:$Source01/udp_sched.v start:34:7 end:34:10:
           vpiParent: Module name:work@top
           vpiName: ff2
           vpiFullName: work@top.ff2
@@ -821,7 +835,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             PrimTerm start:34:21 end:34:23:
               vpiParent: Udp name:ff2
               vpiDirection: input (1)
@@ -831,7 +845,7 @@ Design name:unnamed:
                 vpiName: q1
                 vpiFullName: work@top.ff2.q1
                 vpiActual: Net name:q1
-        Udp name:ff3 file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v start:35:7 end:35:10:
+        Udp name:ff3 file:$Source01/udp_sched.v start:35:7 end:35:10:
           vpiParent: Module name:work@top
           vpiName: ff3
           vpiFullName: work@top.ff3
@@ -860,7 +874,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             PrimTerm start:35:21 end:35:23:
               vpiParent: Udp name:ff3
               vpiDirection: input (1)
@@ -870,7 +884,7 @@ Design name:unnamed:
                 vpiName: q2
                 vpiFullName: work@top.ff3.q2
                 vpiActual: Net name:q2
-        Udp name:ff4 file:${SURELOG_DIR}/tests/Icarus/ivltests/udp_sched.v start:36:7 end:36:10:
+        Udp name:ff4 file:$Source01/udp_sched.v start:36:7 end:36:10:
           vpiParent: Module name:work@top
           vpiName: ff4
           vpiFullName: work@top.ff4
@@ -899,7 +913,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             PrimTerm start:36:21 end:36:23:
               vpiParent: Udp name:ff4
               vpiDirection: input (1)
@@ -925,37 +939,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/udp_sched
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/surelog.uhdm
+      test-name: Icarus/ivltests/udp_sched
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/mounts.json
 
 
 {'result': {'coverage': 99.79,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/lib/work/udp_sched.v'): {'post_len': 1,
-                                                                                                                                   'pre_len': 473}},
+            'files': {'$Output/lib/work/udp_sched.v': {'post_len': 1,
+                                                       'pre_len': 473}},
             'post_len': 1,
             'pre_len': 473,
             'test_name': 'Icarus/ivltests/udp_sched'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/udp_sched.v |      473 |         1 |
-+======================+==========+===========+
-|                      |      473 |         1 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/udp_sched.v |      473 |         1 |
++==============================+==========+===========+
+|                              |      473 |         1 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.79
@@ -969,7 +986,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/udp_sched/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             139     139       0         0
+Others                             140     140       0         0
 ----------------------------------------------------------------
-                                   139     139       0         0
+                                   140     140       0         0
 ===================== END REDUCTION RESULT =====================

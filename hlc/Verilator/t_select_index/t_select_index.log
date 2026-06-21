@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_select_index/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_select_index.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_select_index
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_select_index.v".
+[INF:PA0201] Parsing source file "$Source01/t_select_index.v".
 AST_DEBUG_BEGIN
 Count: 451
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_select_index.v
-n<${SURELOG_DIR}/tests/Verilator/t_select_index.v> u<450> t<Top_level_rule> c<1> l<6:1> el<49:1>
+FILE: f<13>:$Source01/t_select_index.v
+n<$Source01/t_select_index.v> u<450> t<Top_level_rule> c<1> l<6:1> el<49:1>
   n<> u<1> t<Null_rule> p<450> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<450> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<450> s<4> l<2:1> el<2:3>
@@ -454,19 +463,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_select_index.v> u<450> t<Top_level_rule> c<1>
                                 n<> u<433> t<END> p<434> l<46:4> el<46:7>
         n<> u<446> t<ENDMODULE> p<447> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_select_index.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_select_index.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_select_index.v file:${SURELOG_DIR}/tests/Verilator/t_select_index.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_select_index.v file:$Source01/t_select_index.v:
       vpiParent: Design name:unnamed
       vpiName: t_select_index.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_select_index/lib/work/t_select_index.v"
+      vpiPreprocFile: "$Output/lib/work/t_select_index.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_select_index.v start:6:1 end:48:10:
+    Module name:work@t file:$Source01/t_select_index.v start:6:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -581,6 +590,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (5 items):
         Net name:clk start:13:11 end:13:14:
           vpiParent: Module name:work@t
@@ -702,7 +716,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 3
                         vpiDecompile: "3'd1"
-                        vpiValue: 1
+                        vpiValue: "1"
                 Assignment start:25:7 end:25:25:
                   vpiParent: Begin
                   vpiLhs BitSelect name:vvector[a] start:25:7 end:25:17:
@@ -728,7 +742,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                 Assignment start:26:7 end:26:31:
                   vpiParent: Begin
                   vpiLhs BitSelect name:vvector_flip[~a] start:26:7 end:26:23:
@@ -758,7 +772,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                 IfElse start:29:7 end:36:36:
                   vpiParent: Begin
                   vpiCondition Operation start:29:11 end:29:23:
@@ -779,7 +793,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 8
                         vpiDecompile: "8'd0"
-                        vpiValue: 0
+                        vpiValue: "0"
                   vpiStmt Begin start:29:25 end:35:10:
                     vpiParent: IfElse
                     vpiFullName: work@t
@@ -800,7 +814,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 8
                           vpiDecompile: "8'd1"
-                          vpiValue: 1
+                          vpiValue: "1"
                       SysFuncCall name:$write start:31:3 end:31:51:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:31:3 end:31:9:
@@ -816,7 +830,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 248
                             vpiDecompile: "\"[%0t] t_select_index: Running\\n\""
-                            vpiValue: [%0t] t_select_index: Running\n
+                            vpiValue: "[%0t] t_select_index: Running\\n"
                           SysTaskCall name:$time start:31:45 end:31:50:
                             vpiParent: SysFuncCall name:$write
                             vpiName Identifier name:$time start:31:45 end:31:50:
@@ -872,7 +886,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 3
                           vpiDecompile: "3'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
                   vpiElseStmt Assignment start:36:12 end:36:35:
                     vpiParent: IfElse
                     vpiLhs RefObj name:_ranit start:36:12 end:36:18:
@@ -898,7 +912,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 8
                           vpiDecompile: "8'd1"
-                          vpiValue: 1
+                          vpiValue: "1"
                 IfStmt start:38:7 end:45:10:
                   vpiParent: Begin
                   vpiCondition Operation start:38:11 end:38:23:
@@ -919,7 +933,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 8
                         vpiDecompile: "8'd3"
-                        vpiValue: 3
+                        vpiValue: "3"
                   vpiStmt Begin start:38:25 end:45:10:
                     vpiParent: IfStmt
                     vpiFullName: work@t
@@ -939,7 +953,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 56
                             vpiDecompile: "\"%x %x\\n\""
-                            vpiValue: %x %x\n
+                            vpiValue: "%x %x\\n"
                           RefObj name:vvector start:39:20 end:39:27:
                             vpiParent: SysFuncCall name:$write
                             vpiName: vvector
@@ -970,7 +984,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 8
                               vpiDecompile: "8'b0000110"
-                              vpiValue: 0000110
+                              vpiValue: "0000110"
                         vpiStmt SysFuncCall name:$stop start:40:31 end:40:36:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:40:31 end:40:36:
@@ -996,7 +1010,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 8
                               vpiDecompile: "8'b01100000"
-                              vpiValue: 01100000
+                              vpiValue: "01100000"
                         vpiStmt SysFuncCall name:$stop start:41:38 end:41:43:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:41:38 end:41:43:
@@ -1017,7 +1031,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:44:3 end:44:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:44:3 end:44:10:
@@ -1039,37 +1053,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_select_index
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_select_index
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_select_index/surelog.uhdm
+      test-name: Verilator/t_select_index
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_select_index
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_select_index/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_select_index/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_select_index/lib/work/t_select_index.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 553}},
+            'files': {'$Output/lib/work/t_select_index.v': {'post_len': 0,
+                                                            'pre_len': 553}},
             'post_len': 0,
             'pre_len': 553,
             'test_name': 'Verilator/t_select_index'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_select_index.v |      553 |         0 |
-+===========================+==========+===========+
-|                           |      553 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_select_index.v |      553 |         0 |
++===================================+==========+===========+
+|                                   |      553 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1083,7 +1100,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_select_index/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             143     143       0         0
+Others                             144     144       0         0
 ----------------------------------------------------------------
-                                   143     143       0         0
+                                   144     144       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LhsHierPath -parse dut.sv -nobuiltin -d ast -d uhdm -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 137
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LhsHierPath/dut.sv
-n<${SURELOG_DIR}/tests/LhsHierPath/dut.sv> u<136> t<Top_level_rule> c<1> l<1:1> el<18:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<136> t<Top_level_rule> c<1> l<1:1> el<18:1>
   n<> u<1> t<Null_rule> p<136> s<134> l<1:1>
   n<> u<134> t<Source_text> p<136> c<48> s<135> l<1:1> el<17:10>
     n<> u<48> t<Description> p<134> c<47> s<49> l<1:1> el<9:11>
@@ -140,21 +149,21 @@ n<${SURELOG_DIR}/tests/LhsHierPath/dut.sv> u<136> t<Top_level_rule> c<1> l<1:1> 
         n<> u<131> t<ENDMODULE> p<132> l<17:1> el<17:10>
   n<// top> u<135> t<LINE_COMMENT> p<136> l<17:11> el<17:17>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/LhsHierPath/dut.sv:1:1: Compile package "work@my_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/LhsHierPath/dut.sv:11:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LhsHierPath/dut.sv:1:1: No timescale set for "work@my_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LhsHierPath/dut.sv:11:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@my_pkg".
+[INF:CP0303] $Source01/dut.sv:11:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_pkg".
+[WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LhsHierPath/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@my_pkg file:${SURELOG_DIR}/tests/LhsHierPath/dut.sv start:1:1 end:9:11:
+    Package name:work@my_pkg file:$Source01/dut.sv start:1:1 end:9:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_pkg start:1:9 end:1:15:
         vpiParent: Package name:work@my_pkg
@@ -237,8 +246,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@my_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@my_pkg
+        vpiName: work
+        vpiFullName: work@my_pkg::work
+      vpiCell: my_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/LhsHierPath/dut.sv start:11:1 end:17:10:
+    Module name:work@top file:$Source01/dut.sv start:11:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:11:8 end:11:11:
         vpiParent: Module name:work@top
@@ -252,6 +266,11 @@ Design name:unnamed:
           vpiName: my_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:o start:11:19 end:11:20:
           vpiParent: Module name:work@top
@@ -301,7 +320,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: ast_alert_o.alerts_ack[0].p
                   vpiFullName: work@top.ast_alert_o.alerts_ack[0].p
-                  vpiActual (3 items):
+                  vpiPathElem (3 items):
                     RefObj name:ast_alert_o start:14:7 end:14:18:
                       vpiParent: HierPath name:ast_alert_o.alerts_ack[0].p
                       vpiName: ast_alert_o
@@ -340,7 +359,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
           vpiAlwaysType: comb (2)
       vpiContAssign (1 items):
         ContAssign start:16:11 end:16:42:
@@ -354,7 +373,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: ast_alert_o.alerts_ack[0].p
             vpiFullName: work@top.ast_alert_o.alerts_ack[0].p
-            vpiActual (3 items):
+            vpiPathElem (3 items):
               RefObj name:ast_alert_o start:16:15 end:16:26:
                 vpiParent: HierPath name:ast_alert_o.alerts_ack[0].p
                 vpiName: ast_alert_o
@@ -395,37 +414,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LhsHierPath/LhsHierPath
- test-dirpath: ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath
-uhdm-filepath: ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/surelog.uhdm
+      test-name: LhsHierPath/LhsHierPath
+   test-dirpath: ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath
+  uhdm-filepath: ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 296}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 296}},
             'post_len': 0,
             'pre_len': 296,
             'test_name': 'LhsHierPath/LhsHierPath'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      296 |         0 |
-+=================+==========+===========+
-|                 |      296 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      296 |         0 |
++=========================+==========+===========+
+|                         |      296 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -439,7 +461,7 @@ COMMAND: ${SURELOG_DIR}/regression/LhsHierPath/LhsHierPath/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

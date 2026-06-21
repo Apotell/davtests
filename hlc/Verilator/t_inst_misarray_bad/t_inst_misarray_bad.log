@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_inst_misarray_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_misarray_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_misarray_bad.v".
 AST_DEBUG_BEGIN
 Count: 271
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v> u<270> t<Top_level_rule> c<1> l<6:1> el<41:1>
+FILE: f<13>:$Source01/t_inst_misarray_bad.v
+n<$Source01/t_inst_misarray_bad.v> u<270> t<Top_level_rule> c<1> l<6:1> el<41:1>
   n<> u<1> t<Null_rule> p<270> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<270> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<270> s<4> l<2:1> el<2:3>
@@ -274,22 +283,22 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v> u<270> t<Top_level_rule>
                                           n<foo> u<248> t<SIMPLE_IDENTIFIER> p<249> l<38:25> el<38:28>
         n<> u<266> t<ENDMODULE> p<267> l<40:1> el<40:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v:20:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v:33:1: Compile module "work@suba".
+[INF:CP0303] $Source01/t_inst_misarray_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_misarray_bad.v:20:1: Compile module "work@dut".
+[INF:CP0303] $Source01/t_inst_misarray_bad.v:33:1: Compile module "work@suba".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v:15:11: Illegal implicit net "id:32, name:W".
+[ERR:EL0535] $Source01/t_inst_misarray_bad.v:15:11: Illegal implicit net "id:35, name:W".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_misarray_bad.v file:${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_misarray_bad.v file:$Source01/t_inst_misarray_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_misarray_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad/lib/work/t_inst_misarray_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_misarray_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v start:6:1 end:18:10:
+    Module name:work@t file:$Source01/t_inst_misarray_bad.v start:6:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -305,6 +314,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -410,7 +424,7 @@ Design name:unnamed:
                 vpiName: foo
                 vpiFullName: work@t.udut.foo
                 vpiActual: Net name:foo
-    Module name:work@dut file:${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v start:20:1 end:31:10:
+    Module name:work@dut file:$Source01/t_inst_misarray_bad.v start:20:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:20:8 end:20:11:
         vpiParent: Module name:work@dut
@@ -497,6 +511,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (3 items):
         Net name:clk start:22:18 end:22:21:
           vpiParent: Module name:work@dut
@@ -581,7 +600,7 @@ Design name:unnamed:
             vpiForIncStmt (1 items):
               Operation start:27:27 end:27:30:
                 vpiParent: GenFor
-                vpiOpType: post inc (62)
+                vpiOpType: post inc (64)
                 vpiOperand (1 items):
                   RefObj name:i start:27:27 end:27:28:
                     vpiParent: Operation
@@ -654,7 +673,7 @@ Design name:unnamed:
                           vpiName: i
                           vpiFullName: work@dut.ua.i
                           vpiActual: Variable name:i
-    Module name:work@suba file:${SURELOG_DIR}/tests/Verilator/t_inst_misarray_bad.v start:33:1 end:40:10:
+    Module name:work@suba file:$Source01/t_inst_misarray_bad.v start:33:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@suba start:33:8 end:33:12:
         vpiParent: Module name:work@suba
@@ -673,6 +692,11 @@ Design name:unnamed:
             vpiName: logic
       vpiDefName: work@suba
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@suba
+        vpiName: work
+        vpiFullName: work@suba.work
+      vpiCell: suba
       vpiNet (2 items):
         Net name:clk start:34:16 end:34:19:
           vpiParent: Module name:work@suba
@@ -782,37 +806,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_misarray_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad/surelog.uhdm
+      test-name: Verilator/t_inst_misarray_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_misarray_bad/lib/work/t_inst_misarray_bad.v'): {'post_len': 0,
-                                                                                                                                                 'pre_len': 370}},
+            'files': {'$Output/lib/work/t_inst_misarray_bad.v': {'post_len': 0,
+                                                                 'pre_len': 370}},
             'post_len': 0,
             'pre_len': 370,
             'test_name': 'Verilator/t_inst_misarray_bad'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/t_inst_misarray_bad.v |      370 |         0 |
-+================================+==========+===========+
-|                                |      370 |         0 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/t_inst_misarray_bad.v |      370 |         0 |
++========================================+==========+===========+
+|                                        |      370 |         0 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -827,10 +854,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            4       3       0         1
-RefObj                              23      22       0         1
+RefObj                              26      25       0         1
 RefTypespec                         23      23       1         1
 ----------------------------------------------------------------
 Others                              65      65       0         0
 ----------------------------------------------------------------
-                                   122     120       2         4
+                                   125     123       2         4
 ===================== END REDUCTION RESULT =====================

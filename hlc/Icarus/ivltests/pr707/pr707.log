@@ -1,9 +1,21 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr707/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr707.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr707
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr707.v".
+[INF:PA0201] Parsing source file "$Source01/pr707.v".
+[SNT:PA0207] $Source01/pr707.v:29:38: Syntax error: mismatched input ')' expecting {''b0', ''b1', ''B0', ''B1', ''0', ''1', ''x', ''X', ''z', ''Z', '1'b0', '1'b1', '1'bx', '1'bX', '1'B0', '1'B1', '1'Bx', '1'BX', INTEGRAL_NUMBER, REAL_NUMBER, QUOTED_STRING, '(', 'type', 'const', 'local', 'super', '{', 'string', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', '$', '++', '+', '--', '-', DOLLAR_UNIT, '!', 'tagged', ''', 'null', 'this', DOLLAR_ROOT, 'randomize', 'sample', '&', '|', '~|', '~&', '^~', ESCAPED_IDENTIFIER, '~', '^', '~^', SIMPLE_IDENTIFIER},
+    mux udp1(w1, r1, r2, r3, /* foo */);
+                                      ^-- $Source01/pr707.v:29:38:.
 AST_DEBUG_BEGIN
 Count: 230
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v> u<229> t<Top_level_rule> c<1> l<4:1> el<32:1>
+FILE: f<13>:$Source01/pr707.v
+n<$Source01/pr707.v> u<229> t<Top_level_rule> c<1> l<4:1> el<32:1>
   n<> u<1> t<Null_rule> p<229> s<2> l<4:1> el<4:1>
   n<//> u<2> t<LINE_COMMENT> p<229> s<3> l<1:1> el<1:3>
   n<// Test for PR#707, NULL UDP port connections> u<3> t<LINE_COMMENT> p<229> s<4> l<2:1> el<2:46>
@@ -233,20 +245,17 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v> u<229> t<Top_level_rule> c<1> l<
                 n<> u<220> t<Expression> p<221> l<29:39> el<29:39>
         n<> u<225> t<ENDMODULE> p<226> l<30:1> el<30:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v:29:38: Syntax error: mismatched input ')' expecting {''b0', ''b1', ''B0', ''B1', ''0', ''1', ''x', ''X', ''z', ''Z', '1'b0', '1'b1', '1'bx', '1'bX', '1'B0', '1'B1', '1'Bx', '1'BX', INTEGRAL_NUMBER, REAL_NUMBER, QUOTED_STRING, '(', 'type', 'const', 'local', 'super', '{', 'string', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'signed', 'unsigned', '$', '++', '+', '--', '-', DOLLAR_UNIT, '!', 'tagged', ''', 'null', 'this', DOLLAR_ROOT, 'randomize', 'sample', '&', '|', '~|', '~&', '^~', ESCAPED_IDENTIFIER, '~', '^', '~^', SIMPLE_IDENTIFIER},
-    mux udp1(w1, r1, r2, r3, /* foo */);
-                                      ^-- ${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v:29:38:.
-[INF:CP0305] ${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v:4:11: Compile udp "mux".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v:18:1: Compile module "work@test".
+[INF:CP0305] $Source01/pr707.v:4:11: Compile udp "mux".
+[INF:CP0303] $Source01/pr707.v:18:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr707.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr707.v file:$Source01/pr707.v:
       vpiParent: Design name:unnamed
       vpiName: pr707.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr707/lib/work/pr707.v"
+      vpiPreprocFile: "$Output/lib/work/pr707.v"
       vpiDefNetType: none (12)
   vpiAllUdps (1 items):
     UdpDefn name:work@mux start:4:1 end:16:13:
@@ -338,7 +347,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 4
             vpiDecompile: "0 1 ? ? : 1"
-            vpiValue: 0 1 ? ? : 1
+            vpiValue: "0 1 ? ? : 1"
         TableEntry start:10:5 end:10:18:
           vpiParent: UdpDefn name:work@mux
           vpiValue Constant start:10:5 end:10:18:
@@ -350,7 +359,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 4
             vpiDecompile: "0 0 ? ? : 0"
-            vpiValue: 0 0 ? ? : 0
+            vpiValue: "0 0 ? ? : 0"
         TableEntry start:11:5 end:11:18:
           vpiParent: UdpDefn name:work@mux
           vpiValue Constant start:11:5 end:11:18:
@@ -362,7 +371,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 4
             vpiDecompile: "1 ? 1 ? : 1"
-            vpiValue: 1 ? 1 ? : 1
+            vpiValue: "1 ? 1 ? : 1"
         TableEntry start:12:5 end:12:18:
           vpiParent: UdpDefn name:work@mux
           vpiValue Constant start:12:5 end:12:18:
@@ -374,7 +383,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 4
             vpiDecompile: "1 ? 0 ? : 0"
-            vpiValue: 1 ? 0 ? : 0
+            vpiValue: "1 ? 0 ? : 0"
         TableEntry start:13:5 end:13:18:
           vpiParent: UdpDefn name:work@mux
           vpiValue Constant start:13:5 end:13:18:
@@ -386,7 +395,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 4
             vpiDecompile: "x 0 0 ? : 0"
-            vpiValue: x 0 0 ? : 0
+            vpiValue: "x 0 0 ? : 0"
         TableEntry start:14:5 end:14:18:
           vpiParent: UdpDefn name:work@mux
           vpiValue Constant start:14:5 end:14:18:
@@ -398,9 +407,9 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 4
             vpiDecompile: "x 1 1 ? : 1"
-            vpiValue: x 1 1 ? : 1
+            vpiValue: "x 1 1 ? : 1"
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v start:18:1 end:30:10:
+    Module name:work@test file:$Source01/pr707.v start:18:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:18:8 end:18:12:
         vpiParent: Module name:work@test
@@ -414,6 +423,11 @@ Design name:unnamed:
           vpiName: work@mux
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (4 items):
         Net name:r1 start:19:9 end:19:11:
           vpiParent: Module name:work@test
@@ -475,7 +489,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:24:2 end:24:11:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -493,7 +507,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:25:2 end:25:11:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -511,7 +525,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               SysFuncCall name:$display start:27:2 end:27:20:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:27:2 end:27:10:
@@ -529,7 +543,7 @@ Design name:unnamed:
                     vpiDecompile: "\"PASSED\""
                     vpiValue: PASSED
       vpiPrimitive (1 items):
-        Udp name:udp1 file:${SURELOG_DIR}/tests/Icarus/ivltests/pr707.v start:29:9 end:29:13:
+        Udp name:udp1 file:$Source01/pr707.v start:29:9 end:29:13:
           vpiParent: Module name:work@test
           vpiName: udp1
           vpiFullName: work@test.udp1
@@ -585,37 +599,40 @@ Design name:unnamed:
         vpiName: work@test
       vpiModule: Module name:work@test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr707
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr707
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr707/surelog.uhdm
+      test-name: Icarus/ivltests/pr707
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr707
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr707/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr707/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr707/lib/work/pr707.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 304}},
+            'files': {'$Output/lib/work/pr707.v': {'post_len': 0,
+                                                   'pre_len': 304}},
             'post_len': 0,
             'pre_len': 304,
             'test_name': 'Icarus/ivltests/pr707'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr707.v |      304 |         0 |
-+==================+==========+===========+
-|                  |      304 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr707.v |      304 |         0 |
++==========================+==========+===========+
+|                          |      304 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -629,7 +646,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr707/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                    87      87       0         0
+                                    88      88       0         0
 ===================== END REDUCTION RESULT =====================

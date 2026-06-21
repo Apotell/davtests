@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FuncSideEffect -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 283
 LIB: work
-FILE: ${SURELOG_DIR}/tests/FuncSideEffect/dut.sv
-n<${SURELOG_DIR}/tests/FuncSideEffect/dut.sv> u<282> t<Top_level_rule> c<1> l<1:1> el<24:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<282> t<Top_level_rule> c<1> l<1:1> el<24:1>
   n<> u<1> t<Null_rule> p<282> s<280> l<1:1>
   n<> u<280> t<Source_text> p<282> c<279> s<281> l<1:1> el<23:10>
     n<> u<279> t<Description> p<280> c<278> l<1:1> el<23:10>
@@ -286,19 +295,19 @@ n<${SURELOG_DIR}/tests/FuncSideEffect/dut.sv> u<282> t<Top_level_rule> c<1> l<1:
         n<> u<277> t<ENDMODULE> p<278> l<23:1> el<23:10>
   n<// const_fold_func_top> u<281> t<LINE_COMMENT> p<282> l<23:11> el<23:33>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/FuncSideEffect/dut.sv:1:1: Compile module "work@const_fold_func_top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FuncSideEffect/dut.sv:1:1: No timescale set for "work@const_fold_func_top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@const_fold_func_top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@const_fold_func_top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FuncSideEffect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@const_fold_func_top file:${SURELOG_DIR}/tests/FuncSideEffect/dut.sv start:1:1 end:23:10:
+    Module name:work@const_fold_func_top file:$Source01/dut.sv start:1:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@const_fold_func_top start:1:8 end:1:27:
         vpiParent: Module name:work@const_fold_func_top
@@ -395,6 +404,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@const_fold_func_top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@const_fold_func_top
+        vpiName: work
+        vpiFullName: work@const_fold_func_top.work
+      vpiCell: const_fold_func_top
       vpiTaskFunc (2 items):
         Function name:flip start:7:5 end:10:16:
           vpiParent: Module name:work@const_fold_func_top
@@ -833,37 +847,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FuncSideEffect/FuncSideEffect
- test-dirpath: ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect
-uhdm-filepath: ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/surelog.uhdm
+      test-name: FuncSideEffect/FuncSideEffect
+   test-dirpath: ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect
+  uhdm-filepath: ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 380}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 380}},
             'post_len': 0,
             'pre_len': 380,
             'test_name': 'FuncSideEffect/FuncSideEffect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      380 |         0 |
-+=================+==========+===========+
-|                 |      380 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      380 |         0 |
++=========================+==========+===========+
+|                         |      380 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -877,7 +894,7 @@ COMMAND: ${SURELOG_DIR}/regression/FuncSideEffect/FuncSideEffect/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             127     127       0         0
+Others                             128     128       0         0
 ----------------------------------------------------------------
-                                   127     127       0         0
+                                   128     128       0         0
 ===================== END REDUCTION RESULT =====================

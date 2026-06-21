@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_gen_defparam/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_gen_defparam.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_gen_defparam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_gen_defparam.v".
+[INF:PA0201] Parsing source file "$Source01/t_gen_defparam.v".
 AST_DEBUG_BEGIN
 Count: 400
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v
-n<${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v> u<399> t<Top_level_rule> c<1> l<6:1> el<44:1>
+FILE: f<13>:$Source01/t_gen_defparam.v
+n<$Source01/t_gen_defparam.v> u<399> t<Top_level_rule> c<1> l<6:1> el<44:1>
   n<> u<1> t<Null_rule> p<399> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<399> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<399> s<4> l<2:1> el<2:3>
@@ -403,24 +412,24 @@ n<${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v> u<399> t<Top_level_rule> c<1>
                           n<PAR2> u<385> t<SIMPLE_IDENTIFIER> p<386> l<42:15> el<42:19>
         n<> u<395> t<ENDMODULE> p<396> l<43:1> el<43:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:6:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:6:1: Multiply defined typedef "work@m1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:26:1: Compile module "work@m1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:40:1: Compile module "work@m2".
+[INF:CP0303] $Source01/t_gen_defparam.v:6:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_gen_defparam.v:6:1: Multiply defined typedef "work@m1".
+[INF:CP0303] $Source01/t_gen_defparam.v:26:1: Compile module "work@m1".
+[INF:CP0303] $Source01/t_gen_defparam.v:40:1: Compile module "work@m2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:15:17: Illegal implicit net "id:43, name:o".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:16:17: Illegal implicit net "id:54, name:o".
+[ERR:EL0535] $Source01/t_gen_defparam.v:15:17: Illegal implicit net "id:46, name:o".
+[ERR:EL0535] $Source01/t_gen_defparam.v:16:17: Illegal implicit net "id:57, name:o".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_gen_defparam.v file:${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_gen_defparam.v file:$Source01/t_gen_defparam.v:
       vpiParent: Design name:unnamed
       vpiName: t_gen_defparam.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_gen_defparam/lib/work/t_gen_defparam.v"
+      vpiPreprocFile: "$Output/lib/work/t_gen_defparam.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v start:6:1 end:24:10:
+    Module name:work@t file:$Source01/t_gen_defparam.v start:6:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -494,6 +503,11 @@ Design name:unnamed:
             vpiName: work@m1
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -620,7 +634,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 176
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: *-* All Finished *-*\n
+                      vpiValue: "*-* All Finished *-*\\n"
                 SysFuncCall name:$finish start:22:7 end:22:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:22:7 end:22:14:
@@ -694,7 +708,7 @@ Design name:unnamed:
                 vpiName: o1b
                 vpiFullName: work@t.m1b.o1b
                 vpiActual: Net name:o1b
-    Module name:work@m1 file:${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v start:26:1 end:38:10:
+    Module name:work@m1 file:$Source01/t_gen_defparam.v start:26:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@m1 start:26:8 end:26:10:
         vpiParent: Module name:work@m1
@@ -758,6 +772,11 @@ Design name:unnamed:
           vpiParent: Module name:work@m1
       vpiDefName: work@m1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@m1
+        vpiName: work
+        vpiFullName: work@m1.work
+      vpiCell: m1
       vpiNet (1 items):
         Net name:o start:26:31 end:26:32:
           vpiParent: Module name:work@m1
@@ -839,17 +858,18 @@ Design name:unnamed:
                         vpiActual: Net name:o
                 DefParam start:31:12 end:31:23:
                   vpiParent: Begin
-                  vpiLhs HierPath start:31:12 end:31:19:
+                  vpiLhs HierPath name:m2.PAR2 start:31:12 end:31:19:
                     vpiParent: DefParam
-                    vpiFullName: work@m1
-                    vpiActual (2 items):
+                    vpiName: m2.PAR2
+                    vpiFullName: work@m1.m2.PAR2
+                    vpiPathElem (2 items):
                       RefObj name:m2 start:31:12 end:31:14:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:m2.PAR2
                         vpiName: m2
                         vpiFullName: work@m1.m2
                         vpiActual: Module name:work@m2
                       RefObj name:PAR2 start:31:15 end:31:19:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:m2.PAR2
                         vpiName: PAR2
                         vpiFullName: work@m1.PAR2
                         vpiActual: Parameter name:PAR2
@@ -896,17 +916,18 @@ Design name:unnamed:
                         vpiActual: Net name:o
                 DefParam start:35:12 end:35:23:
                   vpiParent: Begin
-                  vpiLhs HierPath start:35:12 end:35:19:
+                  vpiLhs HierPath name:m2.PAR2 start:35:12 end:35:19:
                     vpiParent: DefParam
-                    vpiFullName: work@m1
-                    vpiActual (2 items):
+                    vpiName: m2.PAR2
+                    vpiFullName: work@m1.m2.PAR2
+                    vpiPathElem (2 items):
                       RefObj name:m2 start:35:12 end:35:14:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:m2.PAR2
                         vpiName: m2
                         vpiFullName: work@m1.m2
                         vpiActual: Module name:work@m2
                       RefObj name:PAR2 start:35:15 end:35:19:
-                        vpiParent: HierPath
+                        vpiParent: HierPath name:m2.PAR2
                         vpiName: PAR2
                         vpiFullName: work@m1.PAR2
                         vpiActual: Parameter name:PAR2
@@ -920,7 +941,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "4"
                     vpiValue: 4
-    Module name:work@m2 file:${SURELOG_DIR}/tests/Verilator/t_gen_defparam.v start:40:1 end:43:10:
+    Module name:work@m2 file:$Source01/t_gen_defparam.v start:40:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@m2 start:40:8 end:40:10:
         vpiParent: Module name:work@m2
@@ -984,6 +1005,11 @@ Design name:unnamed:
           vpiParent: Module name:work@m2
       vpiDefName: work@m2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@m2
+        vpiName: work
+        vpiFullName: work@m2.work
+      vpiCell: m2
       vpiNet (1 items):
         Net name:o start:40:31 end:40:32:
           vpiParent: Module name:work@m2
@@ -1045,37 +1071,40 @@ Design name:unnamed:
         vpiName: work@m2
       vpiModule: Module name:work@m2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_gen_defparam
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_defparam
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_defparam/surelog.uhdm
+      test-name: Verilator/t_gen_defparam
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_defparam
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_defparam/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_defparam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_gen_defparam/lib/work/t_gen_defparam.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 484}},
+            'files': {'$Output/lib/work/t_gen_defparam.v': {'post_len': 0,
+                                                            'pre_len': 484}},
             'post_len': 0,
             'pre_len': 484,
             'test_name': 'Verilator/t_gen_defparam'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_gen_defparam.v |      484 |         0 |
-+===========================+==========+===========+
-|                           |      484 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_gen_defparam.v |      484 |         0 |
++===================================+==========+===========+
+|                                   |      484 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1090,10 +1119,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            17      17       1         1
 Operation                            4       3       0         1
-RefObj                              24      23       0         1
+RefObj                              27      26       0         1
 RefTypespec                         32      32       1         1
 ----------------------------------------------------------------
 Others                              79      79       0         0
 ----------------------------------------------------------------
-                                   156     154       2         4
+                                   159     157       2         4
 ===================== END REDUCTION RESULT =====================

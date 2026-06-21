@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm wandwor.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/wandwor.v".
+[INF:PA0201] Parsing source file "$Source01/wandwor.v".
 AST_DEBUG_BEGIN
 Count: 561
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v> u<560> t<Top_level_rule> c<1> l<1:1> el<37:1>
+FILE: f<13>:$Source01/wandwor.v
+n<$Source01/wandwor.v> u<560> t<Top_level_rule> c<1> l<1:1> el<37:1>
   n<> u<1> t<Null_rule> p<560> s<559> l<1:1>
   n<> u<559> t<Source_text> p<560> c<202> l<1:1> el<36:10>
     n<> u<202> t<Description> p<559> c<201> s<446> l<1:1> el<11:10>
@@ -564,26 +573,27 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v> u<560> t<Top_level_rule>
                             n<I1> u<544> t<SIMPLE_IDENTIFIER> p<545> l<35:18> el<35:20>
         n<> u<556> t<ENDMODULE> p<557> l<36:1> el<36:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:1:1: Compile module "work@wandwor_test0".
-[WRN:CP0323] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:1:1: Multiply defined typedef "work@foo".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:13:1: Compile module "work@wandwor_test1".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:30:1: Compile module "work@foo".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:34:1: Compile module "work@bar".
+[INF:CP0303] $Source01/wandwor.v:1:1: Compile module "work@wandwor_test0".
+[WRN:CP0323] $Source01/wandwor.v:1:1: Multiply defined typedef "work@foo".
+[WRN:CP0323] $Source01/wandwor.v:1:1: Multiply defined typedef "work@foo".
+[INF:CP0303] $Source01/wandwor.v:13:1: Compile module "work@wandwor_test1".
+[INF:CP0303] $Source01/wandwor.v:30:1: Compile module "work@foo".
+[INF:CP0303] $Source01/wandwor.v:34:1: Compile module "work@bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:20:4: Illegal implicit net "id:169, name:I0".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:21:4: Illegal implicit net "id:174, name:I1".
-[ERR:EL0535] ${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:22:4: Illegal implicit net "id:179, name:O".
+[ERR:EL0535] $Source01/wandwor.v:20:4: Illegal implicit net "id:173, name:I0".
+[ERR:EL0535] $Source01/wandwor.v:21:4: Illegal implicit net "id:178, name:I1".
+[ERR:EL0535] $Source01/wandwor.v:22:4: Illegal implicit net "id:183, name:O".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:wandwor.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v:
+  vpiSourceFile (1 items):
+    SourceFile name:wandwor.v file:$Source01/wandwor.v:
       vpiParent: Design name:unnamed
       vpiName: wandwor.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/lib/work/wandwor.v"
+      vpiPreprocFile: "$Output/lib/work/wandwor.v"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@wandwor_test0 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v start:1:1 end:11:10:
+    Module name:work@wandwor_test0 file:$Source01/wandwor.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@wandwor_test0 start:1:8 end:1:21:
         vpiParent: Module name:work@wandwor_test0
@@ -609,6 +619,11 @@ Design name:unnamed:
             vpiName: work@foo
       vpiDefName: work@wandwor_test0
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@wandwor_test0
+        vpiName: work
+        vpiFullName: work@wandwor_test0.work
+      vpiCell: wandwor_test0
       vpiNet (7 items):
         Net name:A start:2:8 end:2:9:
           vpiParent: Module name:work@wandwor_test0
@@ -927,7 +942,7 @@ Design name:unnamed:
                 vpiName: Z
                 vpiFullName: work@wandwor_test0.foo_2.Z
                 vpiActual: Net name:Z
-    Module name:work@wandwor_test1 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v start:13:1 end:28:10:
+    Module name:work@wandwor_test1 file:$Source01/wandwor.v start:13:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@wandwor_test1 start:13:8 end:13:21:
         vpiParent: Module name:work@wandwor_test1
@@ -1021,6 +1036,11 @@ Design name:unnamed:
             vpiName: work@bar
       vpiDefName: work@wandwor_test1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@wandwor_test1
+        vpiName: work
+        vpiFullName: work@wandwor_test1.work
+      vpiCell: wandwor_test1
       vpiNet (7 items):
         Net name:A start:14:14 end:14:15:
           vpiParent: Module name:work@wandwor_test1
@@ -1316,7 +1336,7 @@ Design name:unnamed:
                     vpiName: Y
                     vpiFullName: work@wandwor_test1.bar_inst.Y
                     vpiActual: Net name:Y
-    Module name:work@foo file:${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v start:30:1 end:32:10:
+    Module name:work@foo file:$Source01/wandwor.v start:30:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:30:8 end:30:11:
         vpiParent: Module name:work@foo
@@ -1327,6 +1347,11 @@ Design name:unnamed:
           vpiParent: Module name:work@foo
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiNet (3 items):
         Net name:I0 start:30:18 end:30:20:
           vpiParent: Module name:work@foo
@@ -1414,7 +1439,7 @@ Design name:unnamed:
                 vpiName: I1
                 vpiFullName: work@foo.I1
                 vpiActual: Net name:I1
-    Module name:work@bar file:${SURELOG_DIR}/tests/YosysTestSuite/simple/wandwor.v start:34:1 end:36:10:
+    Module name:work@bar file:$Source01/wandwor.v start:34:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bar start:34:8 end:34:11:
         vpiParent: Module name:work@bar
@@ -1477,6 +1502,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@bar
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bar
+        vpiName: work
+        vpiFullName: work@bar.work
+      vpiCell: bar
       vpiNet (3 items):
         Net name:I0 start:34:24 end:34:26:
           vpiParent: Module name:work@bar
@@ -1593,37 +1623,40 @@ Design name:unnamed:
         vpiName: work@bar
       vpiModule: Module name:work@bar
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/wandwor
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/surelog.uhdm
+      test-name: YosysTestSuite/simple/wandwor
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/lib/work/wandwor.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 568}},
+            'files': {'$Output/lib/work/wandwor.v': {'post_len': 0,
+                                                     'pre_len': 568}},
             'post_len': 0,
             'pre_len': 568,
             'test_name': 'YosysTestSuite/simple/wandwor'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/wandwor.v |      568 |         0 |
-+====================+==========+===========+
-|                    |      568 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/wandwor.v |      568 |         0 |
++============================+==========+===========+
+|                            |      568 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1637,7 +1670,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/wandwor/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             251     251       0         0
+Others                             255     255       0         0
 ----------------------------------------------------------------
-                                   251     251       0         0
+                                   255     255       0         0
 ===================== END REDUCTION RESULT =====================

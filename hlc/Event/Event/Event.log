@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Event/Event/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Event -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Event/Event
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 23
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Event/dut.sv
-n<${SURELOG_DIR}/tests/Event/dut.sv> u<22> t<Top_level_rule> c<1> l<1:1> el<5:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<22> t<Top_level_rule> c<1> l<1:1> el<5:1>
   n<> u<1> t<Null_rule> p<22> s<21> l<1:1>
   n<> u<21> t<Source_text> p<22> c<20> l<1:1> el<3:10>
     n<> u<20> t<Description> p<21> c<19> l<1:1> el<3:10>
@@ -26,19 +35,19 @@ n<${SURELOG_DIR}/tests/Event/dut.sv> u<22> t<Top_level_rule> c<1> l<1:1> el<5:1>
                           n<e> u<8> t<SIMPLE_IDENTIFIER> p<9> l<2:11> el<2:12>
         n<> u<18> t<ENDMODULE> p<19> l<3:1> el<3:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Event/dut.sv:1:1: Compile module "work@t".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Event/dut.sv:1:1: No timescale set for "work@t".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@t".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@t".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/Event/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Event/Event/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Event/dut.sv start:1:1 end:3:10:
+    Module name:work@t file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:1:8 end:1:9:
         vpiParent: Module name:work@t
@@ -49,6 +58,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:e start:2:11 end:2:12:
           vpiParent: Module name:work@t
@@ -66,37 +80,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Event/Event
- test-dirpath: ${SURELOG_DIR}/regression/Event/Event
-uhdm-filepath: ${SURELOG_DIR}/regression/Event/Event/surelog.uhdm
+      test-name: Event/Event
+   test-dirpath: ${SURELOG_DIR}/regression/Event/Event
+  uhdm-filepath: ${SURELOG_DIR}/regression/Event/Event/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Event/Event/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Event/Event/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                'pre_len': 26}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 26}},
             'post_len': 0,
             'pre_len': 26,
             'test_name': 'Event/Event'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       26 |         0 |
-+=================+==========+===========+
-|                 |       26 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       26 |         0 |
++=========================+==========+===========+
+|                         |       26 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -110,7 +127,7 @@ COMMAND: ${SURELOG_DIR}/regression/Event/Event/surelog.uhdm ${SURELOG_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               9       9       0         0
+Others                              10      10       0         0
 ----------------------------------------------------------------
-                                     9       9       0         0
+                                    10      10       0         0
 ===================== END REDUCTION RESULT =====================

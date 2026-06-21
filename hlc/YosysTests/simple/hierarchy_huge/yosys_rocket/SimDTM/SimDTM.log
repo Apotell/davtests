@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../../tests/YosysTests/simple/hierarchy_huge/yosys_rocket -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm SimDTM.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/SimDTM.v".
+[INF:PA0201] Parsing source file "$Source01/SimDTM.v".
 AST_DEBUG_BEGIN
 Count: 238
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM.v
-n<${SURELOG_DIR}/tests/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM.v> u<237> t<Top_level_rule> c<1> l<20:1> el<93:1>
+FILE: f<13>:$Source01/SimDTM.v
+n<$Source01/SimDTM.v> u<237> t<Top_level_rule> c<1> l<20:1> el<93:1>
   n<> u<1> t<Null_rule> p<237> s<2> l<20:1> el<20:1>
   n<// See LICENSE.SiFive for license details.> u<2> t<LINE_COMMENT> p<237> s<3> l<1:1> el<1:43>
   n<//VCS coverage exclude_file> u<3> t<LINE_COMMENT> p<237> s<4> l<2:1> el<2:28>
@@ -241,19 +250,19 @@ n<${SURELOG_DIR}/tests/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM.v> u
         n</*\n  bit r_reset;\n\n  wire #0.1 __debug_req_ready = debug_req_ready;\n  wire #0.1 __debug_resp_valid = debug_resp_valid;\n  wire [31:0] #0.1 __debug_resp_bits_resp = {30'b0, debug_resp_bits_resp};\n  wire [31:0] #0.1 __debug_resp_bits_data = debug_resp_bits_data;\n\n  bit __debug_req_valid;\n  int __debug_req_bits_addr;\n  int __debug_req_bits_op;\n  int __debug_req_bits_data;\n  bit __debug_resp_ready;\n  int __exit;\n\n  assign #0.1 debug_req_valid = __debug_req_valid;\n  assign #0.1 debug_req_bits_addr = __debug_req_bits_addr[6:0];\n  assign #0.1 debug_req_bits_op = __debug_req_bits_op[1:0];\n  assign #0.1 debug_req_bits_data = __debug_req_bits_data[31:0];\n  assign #0.1 debug_resp_ready = __debug_resp_ready;\n  assign #0.1 exit = __exit;\n\n  always @(posedge clk)\n  begin\n    r_reset <= reset;\n    if (reset || r_reset)\n    begin\n      __debug_req_valid = 0;\n      __debug_resp_ready = 0;\n      __exit = 0;\n    end\n    else\n    begin\n      __exit = debug_tick(\n        __debug_req_valid,\n        __debug_req_ready,\n        __debug_req_bits_addr,\n        __debug_req_bits_op,\n        __debug_req_bits_data,\n        __debug_resp_valid,\n        __debug_resp_ready,\n        __debug_resp_bits_resp,\n        __debug_resp_bits_data\n      );\n    end\n  end\n*/> u<232> t<BLOCK_COMMENT> p<234> s<233> l<43:1> el<43:17>
         n<> u<233> t<ENDMODULE> p<234> l<92:1> el<92:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM.v:20:1: Compile module "work@SimDTM".
+[INF:CP0303] $Source01/SimDTM.v:20:1: Compile module "work@SimDTM".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:SimDTM.v file:${SURELOG_DIR}/tests/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM.v:
+  vpiSourceFile (1 items):
+    SourceFile name:SimDTM.v file:$Source01/SimDTM.v:
       vpiParent: Design name:unnamed
       vpiName: SimDTM.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM/lib/work/SimDTM.v"
+      vpiPreprocFile: "$Output/lib/work/SimDTM.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@SimDTM file:${SURELOG_DIR}/tests/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM.v start:20:1 end:92:10:
+    Module name:work@SimDTM file:$Source01/SimDTM.v start:20:1 end:92:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@SimDTM start:20:8 end:20:14:
         vpiParent: Module name:work@SimDTM
@@ -420,6 +429,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@SimDTM
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@SimDTM
+        vpiName: work
+        vpiFullName: work@SimDTM.work
+      vpiCell: SimDTM
       vpiNet (12 items):
         Net name:clk start:21:9 end:21:12:
           vpiParent: Module name:work@SimDTM
@@ -788,37 +802,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM/surelog.uhdm
+      test-name: YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM/lib/work/SimDTM.v'): {'post_len': 0,
-                                                                                                                                                           'pre_len': 519}},
+            'files': {'$Output/lib/work/SimDTM.v': {'post_len': 0,
+                                                    'pre_len': 519}},
             'post_len': 0,
             'pre_len': 519,
             'test_name': 'YosysTests/simple/hierarchy_huge/yosys_rocket/SimDTM'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/SimDTM.v |      519 |         0 |
-+===================+==========+===========+
-|                   |      519 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/SimDTM.v |      519 |         0 |
++===========================+==========+===========+
+|                           |      519 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -832,7 +849,7 @@ COMMAND: ${SURELOG_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             128     128       0         0
+Others                             129     129       0         0
 ----------------------------------------------------------------
-                                   128     128       0         0
+                                   129     129       0         0
 ===================== END REDUCTION RESULT =====================

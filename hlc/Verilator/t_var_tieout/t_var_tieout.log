@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_var_tieout/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_var_tieout.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_var_tieout
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_var_tieout.v".
+[INF:PA0201] Parsing source file "$Source01/t_var_tieout.v".
+[SNT:PA0207] $Source01/t_var_tieout.v:43:23: Syntax error: extraneous input 'out19' expecting {',', ')'},
+	     output var logic out19 = 1'b1
+                       ^-- $Source01/t_var_tieout.v:43:23:.
+[SNT:PA0207] $Source01/t_var_tieout.v:43:31: Syntax error: mismatched input '1'b1' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+	     output var logic out19 = 1'b1
+                               ^-- $Source01/t_var_tieout.v:43:31:.
 AST_DEBUG_BEGIN
 Count: 337
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v
-n<${SURELOG_DIR}/tests/Verilator/t_var_tieout.v> u<336> t<Top_level_rule> c<1> l<6:1> el<46:1>
+FILE: f<13>:$Source01/t_var_tieout.v
+n<$Source01/t_var_tieout.v> u<336> t<Top_level_rule> c<1> l<6:1> el<46:1>
   n<> u<1> t<Null_rule> p<336> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<336> s<3> l<1:1> el<1:47>
   n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<336> s<4> l<2:1> el<2:65>
@@ -340,26 +355,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_var_tieout.v> u<336> t<Top_level_rule> c<1> l
                 n<> u<327> t<Package_or_generate_item_declaration> p<328> l<44:8> el<44:9>
         n<> u<332> t<ENDMODULE> p<333> l<45:1> el<45:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:43:23: Syntax error: extraneous input 'out19' expecting {',', ')'},
-	     output var logic out19 = 1'b1
-                       ^-- ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:43:23:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:43:31: Syntax error: mismatched input '1'b1' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-	     output var logic out19 = 1'b1
-                               ^-- ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:43:31:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:39:1: Compile module "work@Test".
+[INF:CP0303] $Source01/t_var_tieout.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_var_tieout.v:39:1: Compile module "work@Test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_var_tieout.v file:${SURELOG_DIR}/tests/Verilator/t_var_tieout.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_var_tieout.v file:$Source01/t_var_tieout.v:
       vpiParent: Design name:unnamed
       vpiName: t_var_tieout.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_var_tieout/lib/work/t_var_tieout.v"
+      vpiPreprocFile: "$Output/lib/work/t_var_tieout.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_var_tieout.v start:6:1 end:37:10:
+    Module name:work@t file:$Source01/t_var_tieout.v start:6:1 end:37:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -378,6 +387,11 @@ Design name:unnamed:
             vpiName: work@Test
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (5 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -477,7 +491,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt SysFuncCall name:$stop start:29:26 end:29:31:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:29:26 end:29:31:
@@ -503,7 +517,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
                         vpiDecompile: "32'h18"
-                        vpiValue: 18
+                        vpiValue: "18"
                   vpiStmt SysFuncCall name:$stop start:30:29 end:30:34:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:30:29 end:30:34:
@@ -529,7 +543,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt SysFuncCall name:$stop start:31:27 end:31:32:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:31:27 end:31:32:
@@ -555,7 +569,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt SysFuncCall name:$stop start:32:27 end:32:32:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:32:27 end:32:32:
@@ -576,7 +590,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 176
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: *-* All Finished *-*\n
+                      vpiValue: "*-* All Finished *-*\\n"
                 SysFuncCall name:$finish start:34:7 end:34:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:34:7 end:34:14:
@@ -641,7 +655,7 @@ Design name:unnamed:
                 vpiName: out19
                 vpiFullName: work@t.test.out19
                 vpiActual: Net name:out19
-    Module name:work@Test file:${SURELOG_DIR}/tests/Verilator/t_var_tieout.v start:39:1 end:45:10:
+    Module name:work@Test file:$Source01/t_var_tieout.v start:39:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test start:39:8 end:39:12:
         vpiParent: Module name:work@Test
@@ -666,7 +680,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 32
             vpiDecompile: "32'h18"
-            vpiValue: 18
+            vpiValue: "18"
         Variable name:out1b start:42:18 end:42:23:
           vpiParent: Module name:work@Test
           vpiTypespec RefTypespec name:var start:42:14 end:42:17:
@@ -686,7 +700,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
         Variable name:logic start:43:18 end:43:23:
           vpiParent: Module name:work@Test
           vpiTypespec RefTypespec name:var start:43:14 end:43:17:
@@ -717,6 +731,11 @@ Design name:unnamed:
             vpiName: var
       vpiDefName: work@Test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test
+        vpiName: work
+        vpiFullName: work@Test.work
+      vpiCell: Test
       vpiNet (1 items):
         Net name:out1 start:40:19 end:40:23:
           vpiParent: Module name:work@Test
@@ -736,7 +755,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
       vpiPort (4 items):
         Port name:out1 start:40:19 end:40:23:
           vpiParent: Module name:work@Test
@@ -806,37 +825,40 @@ Design name:unnamed:
         vpiName: work@Test
       vpiModule: Module name:work@Test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_var_tieout
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_var_tieout
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_tieout/surelog.uhdm
+      test-name: Verilator/t_var_tieout
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_var_tieout
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_tieout/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_tieout/mounts.json
 
 
 {'result': {'coverage': 97.89,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_var_tieout/lib/work/t_var_tieout.v'): {'post_len': 10,
-                                                                                                                                   'pre_len': 473}},
+            'files': {'$Output/lib/work/t_var_tieout.v': {'post_len': 10,
+                                                          'pre_len': 473}},
             'post_len': 10,
             'pre_len': 473,
             'test_name': 'Verilator/t_var_tieout'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_var_tieout.v |      473 |        10 |
-+=========================+==========+===========+
-|                         |      473 |        10 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_var_tieout.v |      473 |        10 |
++=================================+==========+===========+
+|                                 |      473 |        10 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.89
@@ -850,7 +872,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_var_tieout/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             118     118       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   118     118       0         0
 ===================== END REDUCTION RESULT =====================

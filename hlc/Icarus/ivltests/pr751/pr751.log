@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr751/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr751.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr751
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr751.v".
+[INF:PA0201] Parsing source file "$Source01/pr751.v".
 AST_DEBUG_BEGIN
 Count: 219
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr751.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr751.v> u<218> t<Top_level_rule> c<1> l<5:1> el<20:1>
+FILE: f<13>:$Source01/pr751.v
+n<$Source01/pr751.v> u<218> t<Top_level_rule> c<1> l<5:1> el<20:1>
   n<> u<1> t<Null_rule> p<218> s<2> l<5:1> el<5:1>
   n</*\n * From PR#751.\n * The (*) can get tangled with a contracted (* *)\n */> u<2> t<BLOCK_COMMENT> p<218> s<217> l<5:1> el<19:10>
   n<> u<217> t<Source_text> p<218> c<216> l<5:1> el<19:10>
@@ -222,19 +231,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr751.v> u<218> t<Top_level_rule> c<1> l<
                         n<> u<205> t<END> p<206> l<18:1> el<18:4>
         n<> u<214> t<ENDMODULE> p<215> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr751.v:5:1: Compile module "work@tb".
+[INF:CP0303] $Source01/pr751.v:5:1: Compile module "work@tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr751.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr751.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr751.v file:$Source01/pr751.v:
       vpiParent: Design name:unnamed
       vpiName: pr751.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr751/lib/work/pr751.v"
+      vpiPreprocFile: "$Output/lib/work/pr751.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Icarus/ivltests/pr751.v start:5:1 end:19:10:
+    Module name:work@tb file:$Source01/pr751.v start:5:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:5:8 end:5:10:
         vpiParent: Module name:work@tb
@@ -297,6 +306,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (3 items):
         Net name:sel start:6:11 end:6:14:
           vpiParent: Module name:work@tb
@@ -376,7 +390,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 88
                     vpiDecompile: "\" %b[%b]: %b\""
-                    vpiValue: %b[%b]: %b
+                    vpiValue: "%b[%b]: %b"
                   RefObj name:in start:13:33 end:13:35:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: in
@@ -411,7 +425,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 4
                     vpiDecompile: "4'b0100"
-                    vpiValue: 0100
+                    vpiValue: "0100"
                 vpiDelay Constant start:14:3 end:14:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -514,37 +528,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr751
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr751
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr751/surelog.uhdm
+      test-name: Icarus/ivltests/pr751
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr751
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr751/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr751/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr751/lib/work/pr751.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 192}},
+            'files': {'$Output/lib/work/pr751.v': {'post_len': 0,
+                                                   'pre_len': 192}},
             'post_len': 0,
             'pre_len': 192,
             'test_name': 'Icarus/ivltests/pr751'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr751.v |      192 |         0 |
-+==================+==========+===========+
-|                  |      192 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr751.v |      192 |         0 |
++==========================+==========+===========+
+|                          |      192 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -558,7 +575,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr751/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

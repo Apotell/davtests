@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamConstPush -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 110
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamConstPush/dut.sv
-n<${SURELOG_DIR}/tests/ParamConstPush/dut.sv> u<109> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<109> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<109> s<108> l<1:1>
   n<> u<108> t<Source_text> p<109> c<62> l<1:1> el<11:10>
     n<> u<62> t<Description> p<108> c<61> s<95> l<1:1> el<4:11>
@@ -113,23 +122,23 @@ n<${SURELOG_DIR}/tests/ParamConstPush/dut.sv> u<109> t<Top_level_rule> c<1> l<1:
           n<> u<103> t<Port_list> p<104> l<10:37> el<10:39>
         n<> u<105> t<ENDMODULE> p<106> l<11:1> el<11:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/ParamConstPush/dut.sv:1:1: Compile package "work@base_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/ParamConstPush/dut.sv:6:1: Compile package "work@error_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamConstPush/dut.sv:10:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamConstPush/dut.sv:1:1: No timescale set for "work@base_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamConstPush/dut.sv:6:1: No timescale set for "work@error_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamConstPush/dut.sv:10:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@base_pkg".
+[INF:CP0301] $Source01/dut.sv:6:1: Compile package "work@error_pkg".
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@base_pkg".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@error_pkg".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamConstPush/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@base_pkg file:${SURELOG_DIR}/tests/ParamConstPush/dut.sv start:1:1 end:4:11:
+    Package name:work@base_pkg file:$Source01/dut.sv start:1:1 end:4:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@base_pkg start:1:9 end:1:17:
         vpiParent: Package name:work@base_pkg
@@ -171,7 +180,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'b00"
-            vpiValue: 00
+            vpiValue: "00"
         ParamAssign start:3:25 end:3:46:
           vpiParent: Package name:work@base_pkg
           vpiLhs RefObj name:USAGE start:3:25 end:3:30:
@@ -197,7 +206,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b01"
-                vpiValue: 01
+                vpiValue: "01"
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Package name:work@base_pkg
@@ -253,7 +262,12 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@base_pkg
       vpiDefNetType: none (12)
-    Package name:work@error_pkg file:${SURELOG_DIR}/tests/ParamConstPush/dut.sv start:6:1 end:8:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@base_pkg
+        vpiName: work
+        vpiFullName: work@base_pkg::work
+      vpiCell: base_pkg
+    Package name:work@error_pkg file:$Source01/dut.sv start:6:1 end:8:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@error_pkg start:6:9 end:6:18:
         vpiParent: Package name:work@error_pkg
@@ -281,8 +295,8 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: base_pkg::USAGE
             vpiFullName: work@error_pkg::base_pkg::USAGE
-            vpiActual (2 items):
-              PackageTypespec name:base_pkg
+            vpiPathElem (2 items):
+              PackageTypespec name:base_pkg:
               RefObj name:USAGE start:7:48 end:7:53:
                 vpiParent: HierPath name:base_pkg::USAGE
                 vpiName: USAGE
@@ -321,8 +335,13 @@ Design name:unnamed:
           vpiPackage: Package name:work@base_pkg
       vpiDefName: work@error_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@error_pkg
+        vpiName: work
+        vpiFullName: work@error_pkg::work
+      vpiCell: error_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/ParamConstPush/dut.sv start:10:1 end:11:10:
+    Module name:work@top file:$Source01/dut.sv start:10:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:10:8 end:10:11:
         vpiParent: Module name:work@top
@@ -336,6 +355,11 @@ Design name:unnamed:
             vpiName: error_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
   vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -349,37 +373,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamConstPush/ParamConstPush
- test-dirpath: ${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush/surelog.uhdm
+      test-name: ParamConstPush/ParamConstPush
+   test-dirpath: ${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush
+  uhdm-filepath: ${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamConstPush/ParamConstPush/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 241}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 241}},
             'post_len': 0,
             'pre_len': 241,
             'test_name': 'ParamConstPush/ParamConstPush'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      241 |         0 |
-+=================+==========+===========+
-|                 |      241 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      241 |         0 |
++=========================+==========+===========+
+|                         |      241 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -394,10 +421,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       1         1
 Operation                            1       0       0         1
-RefObj                               5       4       0         1
+RefObj                               8       7       0         1
 RefTypespec                         11      11       1         1
 ----------------------------------------------------------------
 Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    53      51       2         4
+                                    56      54       2         4
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_implicit/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_implicit.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_implicit
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_implicit.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_implicit.v".
 AST_DEBUG_BEGIN
 Count: 140
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v> u<139> t<Top_level_rule> c<1> l<6:1> el<19:1>
+FILE: f<13>:$Source01/t_lint_implicit.v
+n<$Source01/t_lint_implicit.v> u<139> t<Top_level_rule> c<1> l<6:1> el<19:1>
   n<> u<1> t<Null_rule> p<139> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<139> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<139> s<4> l<2:1> el<2:3>
@@ -143,25 +152,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v> u<139> t<Top_level_rule> c<1
                             n<nt0> u<124> t<SIMPLE_IDENTIFIER> p<125> l<17:15> el<17:18>
         n<> u<135> t<ENDMODULE> p<136> l<18:1> el<18:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_lint_implicit.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:10:11: Illegal implicit net "id:19, name:b".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:12:14: Illegal implicit net "id:24, name:nt0".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:12:22: Illegal implicit net "id:26, name:b".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:15:12: Illegal implicit net "id:45, name:dummy1".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:15:20: Illegal implicit net "id:46, name:dummy2".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:17:15: Illegal implicit net "id:51, name:nt0".
+[ERR:EL0535] $Source01/t_lint_implicit.v:10:11: Illegal implicit net "id:20, name:b".
+[ERR:EL0535] $Source01/t_lint_implicit.v:12:14: Illegal implicit net "id:25, name:nt0".
+[ERR:EL0535] $Source01/t_lint_implicit.v:12:22: Illegal implicit net "id:27, name:b".
+[ERR:EL0535] $Source01/t_lint_implicit.v:15:12: Illegal implicit net "id:46, name:dummy1".
+[ERR:EL0535] $Source01/t_lint_implicit.v:15:20: Illegal implicit net "id:47, name:dummy2".
+[ERR:EL0535] $Source01/t_lint_implicit.v:17:15: Illegal implicit net "id:52, name:nt0".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_implicit.v file:${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_implicit.v file:$Source01/t_lint_implicit.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_implicit.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_implicit/lib/work/t_lint_implicit.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_implicit.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_implicit.v start:6:1 end:18:10:
+    Module name:work@t file:$Source01/t_lint_implicit.v start:6:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -210,6 +219,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:a start:7:10 end:7:11:
           vpiParent: Module name:work@t
@@ -279,7 +293,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
         ContAssign start:15:11 end:15:38:
           vpiParent: Module name:work@t
           vpiLhs Operation start:15:11 end:15:27:
@@ -355,37 +369,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_implicit
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_implicit
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_implicit/surelog.uhdm
+      test-name: Verilator/t_lint_implicit
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_implicit
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_implicit/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_implicit/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_implicit/lib/work/t_lint_implicit.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 149}},
+            'files': {'$Output/lib/work/t_lint_implicit.v': {'post_len': 0,
+                                                             'pre_len': 149}},
             'post_len': 0,
             'pre_len': 149,
             'test_name': 'Verilator/t_lint_implicit'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_lint_implicit.v |      149 |         0 |
-+============================+==========+===========+
-|                            |      149 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_lint_implicit.v |      149 |         0 |
++====================================+==========+===========+
+|                                    |      149 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -399,7 +416,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_implicit/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              51      51       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    51      51       0         0
 ===================== END REDUCTION RESULT =====================

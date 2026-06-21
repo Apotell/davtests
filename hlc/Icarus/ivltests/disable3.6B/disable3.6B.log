@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm disable3.6B.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/disable3.6B.v".
+[INF:PA0201] Parsing source file "$Source01/disable3.6B.v".
 AST_DEBUG_BEGIN
 Count: 445
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/disable3.6B.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/disable3.6B.v> u<444> t<Top_level_rule> c<1> l<21:1> el<84:1>
+FILE: f<13>:$Source01/disable3.6B.v
+n<$Source01/disable3.6B.v> u<444> t<Top_level_rule> c<1> l<21:1> el<84:1>
   n<> u<1> t<Null_rule> p<444> s<2> l<21:1> el<21:1>
   n<//> u<2> t<LINE_COMMENT> p<444> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 1999 Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<444> s<4> l<2:1> el<2:54>
@@ -448,19 +457,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/disable3.6B.v> u<444> t<Top_level_rule> c
         n<> u<439> t<ENDMODULE> p<440> l<83:1> el<83:10>
   n<// main> u<443> t<LINE_COMMENT> p<444> l<83:11> el<83:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/disable3.6B.v:21:1: Compile module "work@main".
+[INF:CP0303] $Source01/disable3.6B.v:21:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:disable3.6B.v file:${SURELOG_DIR}/tests/Icarus/ivltests/disable3.6B.v:
+  vpiSourceFile (1 items):
+    SourceFile name:disable3.6B.v file:$Source01/disable3.6B.v:
       vpiParent: Design name:unnamed
       vpiName: disable3.6B.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B/lib/work/disable3.6B.v"
+      vpiPreprocFile: "$Output/lib/work/disable3.6B.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/disable3.6B.v start:21:1 end:83:10:
+    Module name:work@main file:$Source01/disable3.6B.v start:21:1 end:83:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:21:8 end:21:12:
         vpiParent: Module name:work@main
@@ -471,6 +480,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiTaskFunc (1 items):
         Task name:task_a start:28:1 end:36:8:
           vpiParent: Module name:work@main
@@ -478,68 +492,64 @@ Design name:unnamed:
             vpiParent: Task name:task_a
             vpiName: task_a
           vpiFullName: work@main.task_a
-          vpiStmt Begin:
+          vpiStmt Begin start:29:3 end:35:6:
             vpiParent: Task name:task_a
             vpiFullName: work@main.task_a
-            vpiStmt (1 items):
-              Begin start:29:3 end:35:6:
+            vpiStmt (2 items):
+              DelayControl start:30:5 end:30:8:
                 vpiParent: Begin
-                vpiFullName: work@main.task_a
-                vpiStmt (2 items):
-                  DelayControl start:30:5 end:30:8:
-                    vpiParent: Begin
-                    vpiDelay Constant start:30:6 end:30:8:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@main.task_a
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: " 2"
-                      vpiValue: 2
-                  IfElse start:31:5 end:34:15:
-                    vpiParent: Begin
-                    vpiCondition RefObj name:reset start:31:8 end:31:13:
-                      vpiParent: IfElse
-                      vpiName: reset
-                      vpiFullName: work@main.task_a.reset
-                      vpiActual: Net name:reset
-                    vpiStmt Assignment start:32:7 end:32:12:
-                      vpiParent: IfElse
-                      vpiBlocking: true
-                      vpiLhs RefObj name:q start:32:7 end:32:8:
-                        vpiParent: Assignment
+                vpiDelay Constant start:30:6 end:30:8:
+                  vpiParent: DelayControl
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@main.task_a
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: " 2"
+                  vpiValue: 2
+              IfElse start:31:5 end:34:15:
+                vpiParent: Begin
+                vpiCondition RefObj name:reset start:31:8 end:31:13:
+                  vpiParent: IfElse
+                  vpiName: reset
+                  vpiFullName: work@main.task_a.reset
+                  vpiActual: Net name:reset
+                vpiStmt Assignment start:32:7 end:32:12:
+                  vpiParent: IfElse
+                  vpiBlocking: true
+                  vpiLhs RefObj name:q start:32:7 end:32:8:
+                    vpiParent: Assignment
+                    vpiName: q
+                    vpiFullName: work@main.task_a.q
+                    vpiActual: Net name:q
+                  vpiRhs Constant start:32:11 end:32:12:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@main.task_a
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                vpiElseStmt Assignment start:34:7 end:34:13:
+                  vpiParent: IfElse
+                  vpiBlocking: true
+                  vpiLhs RefObj name:q start:34:7 end:34:8:
+                    vpiParent: Assignment
+                    vpiName: q
+                    vpiFullName: work@main.task_a.q
+                    vpiActual: Net name:q
+                  vpiRhs Operation start:34:11 end:34:13:
+                    vpiParent: Assignment
+                    vpiOpType: bitwise negation (4)
+                    vpiOperand (1 items):
+                      RefObj name:q start:34:12 end:34:13:
+                        vpiParent: Operation
                         vpiName: q
                         vpiFullName: work@main.task_a.q
                         vpiActual: Net name:q
-                      vpiRhs Constant start:32:11 end:32:12:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@main.task_a
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                    vpiElseStmt Assignment start:34:7 end:34:13:
-                      vpiParent: IfElse
-                      vpiBlocking: true
-                      vpiLhs RefObj name:q start:34:7 end:34:8:
-                        vpiParent: Assignment
-                        vpiName: q
-                        vpiFullName: work@main.task_a.q
-                        vpiActual: Net name:q
-                      vpiRhs Operation start:34:11 end:34:13:
-                        vpiParent: Assignment
-                        vpiOpType: bitwise negation (4)
-                        vpiOperand (1 items):
-                          RefObj name:q start:34:12 end:34:13:
-                            vpiParent: Operation
-                            vpiName: q
-                            vpiFullName: work@main.task_a.q
-                            vpiActual: Net name:q
       vpiNet (4 items):
         Net name:clock start:23:5 end:23:10:
           vpiParent: Module name:work@main
@@ -582,7 +592,7 @@ Design name:unnamed:
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
-            vpiStmt (15 items):
+            vpiStmt (13 items):
               Assignment start:42:5 end:42:14:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -656,7 +666,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt Begin start:48:7 end:51:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -676,7 +686,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 456
                           vpiDecompile: "\"FAILED - disable3.6B - Flop didn't clear on clock & reset\""
-                          vpiValue: FAILED - disable3.6B - Flop didn't clear on clock & reset
+                          vpiValue: "FAILED - disable3.6B - Flop didn't clear on clock & reset"
                     Assignment start:50:9 end:50:18:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -712,7 +722,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               RefObj name:task_a start:54:5 end:54:11:
                 vpiParent: Begin
                 vpiName: task_a
@@ -750,7 +760,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:57:7 end:60:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -770,7 +780,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 376
                           vpiDecompile: "\"FAILED - disable3.6B - Flop didn't set on clock\""
-                          vpiValue: FAILED - disable3.6B - Flop didn't set on clock
+                          vpiValue: "FAILED - disable3.6B - Flop didn't set on clock"
                     Assignment start:59:9 end:59:18:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -804,34 +814,35 @@ Design name:unnamed:
               ForkStmt start:64:5 end:71:9:
                 vpiParent: Begin
                 vpiFullName: work@main
-              RefObj name:task_a start:65:8 end:65:14:
-                vpiParent: Begin
-                vpiName: task_a
-                vpiFullName: work@main.task_a
-                vpiActual: Task name:task_a
-              Begin start:67:8 end:70:11:
-                vpiParent: Begin
-                vpiFullName: work@main
                 vpiStmt (2 items):
-                  DelayControl start:68:10 end:68:13:
-                    vpiParent: Begin
-                    vpiDelay Constant start:68:11 end:68:13:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@main
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: " 1"
-                      vpiValue: 1
-                  Disable start:69:10 end:69:25:
-                    vpiParent: Begin
-                    vpiExpr RefObj name:task_a start:69:18 end:69:24:
-                      vpiParent: Disable
-                      vpiName: task_a
-                      vpiFullName: work@main.task_a
-                      vpiActual: Task name:task_a
+                  RefObj name:task_a start:65:8 end:65:14:
+                    vpiParent: ForkStmt
+                    vpiName: task_a
+                    vpiFullName: work@main.task_a
+                    vpiActual: Task name:task_a
+                  Begin start:67:8 end:70:11:
+                    vpiParent: ForkStmt
+                    vpiFullName: work@main
+                    vpiStmt (2 items):
+                      DelayControl start:68:10 end:68:13:
+                        vpiParent: Begin
+                        vpiDelay Constant start:68:11 end:68:13:
+                          vpiParent: DelayControl
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@main
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: " 1"
+                          vpiValue: 1
+                      Disable start:69:10 end:69:25:
+                        vpiParent: Begin
+                        vpiExpr RefObj name:task_a start:69:18 end:69:24:
+                          vpiParent: Disable
+                          vpiName: task_a
+                          vpiFullName: work@main.task_a
+                          vpiActual: Task name:task_a
               IfStmt start:73:5 end:77:10:
                 vpiParent: Begin
                 vpiCondition Operation start:73:8 end:73:17:
@@ -852,7 +863,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:74:7 end:77:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -872,7 +883,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 432
                           vpiDecompile: "\"FAILED - disable3.6B - Disable task didn't stop toggle\""
-                          vpiValue: FAILED - disable3.6B - Disable task didn't stop toggle
+                          vpiValue: "FAILED - disable3.6B - Disable task didn't stop toggle"
                     Assignment start:76:9 end:76:18:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -941,37 +952,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/disable3.6B
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B/surelog.uhdm
+      test-name: Icarus/ivltests/disable3.6B
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/disable3.6B/lib/work/disable3.6B.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 561}},
+            'files': {'$Output/lib/work/disable3.6B.v': {'post_len': 0,
+                                                         'pre_len': 561}},
             'post_len': 0,
             'pre_len': 561,
             'test_name': 'Icarus/ivltests/disable3.6B'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/disable3.6B.v |      561 |         0 |
-+========================+==========+===========+
-|                        |      561 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/disable3.6B.v |      561 |         0 |
++================================+==========+===========+
+|                                |      561 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0

@@ -1,25 +1,36 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/OneNetNonAnsi -fileunit -writepp -parse -d uhdm -sv dut.v tb.v -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0303] ${SURELOG_DIR}/tests/OneNetNonAnsi/dut.v:1:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/OneNetNonAnsi/tb.v:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/OneNetNonAnsi/dut.v:1:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/OneNetNonAnsi/tb.v:1:1: No timescale set for "work@tb".
+[INF:PP0122] Preprocessing source file "$Source01/dut.v".
+[INF:PP0122] Preprocessing source file "$Source01/tb.v".
+[INF:PA0201] Parsing source file "$Source01/dut.v".
+[INF:PA0201] Parsing source file "$Source01/tb.v".
+[INF:CP0303] $Source01/dut.v:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/tb.v:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/dut.v:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/tb.v:1:1: No timescale set for "work@tb".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (2 items):
-    SourceFile name:dut.v file:${SURELOG_DIR}/tests/OneNetNonAnsi/dut.v:
+  vpiSourceFile (2 items):
+    SourceFile name:dut.v file:$Source01/dut.v:
       vpiParent: Design name:unnamed
       vpiName: dut.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/lib/work/dut.v"
+      vpiPreprocFile: "$Output/lib/work/dut.v"
       vpiDefNetType: none (12)
-    SourceFile name:tb.v file:${SURELOG_DIR}/tests/OneNetNonAnsi/tb.v:
+    SourceFile name:tb.v file:$Source01/tb.v:
       vpiParent: Design name:unnamed
       vpiName: tb.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/lib/work/tb.v"
+      vpiPreprocFile: "$Output/lib/work/tb.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/OneNetNonAnsi/dut.v start:1:1 end:7:10:
+    Module name:work@dut file:$Source01/dut.v start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -30,6 +41,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (2 items):
         Net name:i start:2:9 end:2:10:
           vpiParent: Module name:work@dut
@@ -88,7 +104,7 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: work@dut.i
             vpiActual: Net name:i
-    Module name:work@tb file:${SURELOG_DIR}/tests/OneNetNonAnsi/tb.v start:1:1 end:21:10:
+    Module name:work@tb file:$Source01/tb.v start:1:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -99,6 +115,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (2 items):
         Net name:i start:2:9 end:2:10:
           vpiParent: Module name:work@tb
@@ -161,7 +182,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 184
                     vpiDecompile: "\"@%0dns i = %0d, o = %0d\""
-                    vpiValue: @%0dns i = %0d, o = %0d
+                    vpiValue: "@%0dns i = %0d, o = %0d"
                   SysTaskCall name:$time start:7:40 end:7:45:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName Identifier name:$time start:7:40 end:7:45:
@@ -437,40 +458,41 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: OneNetNonAnsi/OneNetNonAnsi
- test-dirpath: ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi
-uhdm-filepath: ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/surelog.uhdm
+      test-name: OneNetNonAnsi/OneNetNonAnsi
+   test-dirpath: ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi
+  uhdm-filepath: ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/mounts.json
 
 
 {'result': {'coverage': 99.47,
             'error_count': 0,
             'file_count': 2,
-            'files': {PosixPath('${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/lib/work/dut.v'): {'post_len': 2,
-                                                                                                                               'pre_len': 70},
-                      PosixPath('${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/lib/work/tb.v'): {'post_len': 0,
-                                                                                                                              'pre_len': 309}},
+            'files': {'$Output/lib/work/dut.v': {'post_len': 2, 'pre_len': 70},
+                      '$Output/lib/work/tb.v': {'post_len': 0, 'pre_len': 309}},
             'post_len': 2,
             'pre_len': 379,
             'test_name': 'OneNetNonAnsi/OneNetNonAnsi'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/dut.v |       70 |         2 |
-| lib/work/tb.v  |      309 |         0 |
-+================+==========+===========+
-|                |      379 |         2 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/dut.v |       70 |         2 |
+| $Output/lib/work/tb.v  |      309 |         0 |
++========================+==========+===========+
+|                        |      379 |         2 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.47
@@ -484,7 +506,7 @@ COMMAND: ${SURELOG_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             108     108       0         0
+Others                             110     110       0         0
 ----------------------------------------------------------------
-                                   108     108       0         0
+                                   110     110       0         0
 ===================== END REDUCTION RESULT =====================

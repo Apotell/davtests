@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-8 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 8.23--scope_resolution.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/8.23--scope_resolution.sv".
+[INF:PA0201] Parsing source file "$Source01/8.23--scope_resolution.sv".
 AST_DEBUG_BEGIN
 Count: 124
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv
-n<${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv> u<123> t<Top_level_rule> c<1> l<15:1> el<29:1>
+FILE: f<14>:$Source01/8.23--scope_resolution.sv
+n<$Source01/8.23--scope_resolution.sv> u<123> t<Top_level_rule> c<1> l<15:1> el<29:1>
   n<> u<1> t<Null_rule> p<123> s<2> l<15:1> el<15:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<123> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<123> s<4> l<2:1> el<2:3>
@@ -127,77 +136,88 @@ n<${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv> u<123> t<Top_
                           n<> u<109> t<END> p<110> l<27:2> el<27:5>
         n<> u<119> t<ENDMODULE> p<120> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv:15:1: Compile module "work@class_tb".
+[INF:CP0303] $Source01/8.23--scope_resolution.sv:15:1: Compile module "work@class_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:8.23--scope_resolution.sv file:${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:8.23--scope_resolution.sv file:$Source01/8.23--scope_resolution.sv:
       vpiParent: Design name:unnamed
       vpiName: "8.23--scope_resolution.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution/lib/work/8.23--scope_resolution.sv"
+      vpiPreprocFile: "$Output/lib/work/8.23--scope_resolution.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@class_tb file:${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv start:15:1 end:28:10:
+    Module name:work@class_tb file:$Source01/8.23--scope_resolution.sv start:15:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@class_tb start:15:8 end:15:16:
         vpiParent: Module name:work@class_tb
         vpiName: work@class_tb
       vpiFullName: work@class_tb
       vpiTypespec (1 items):
-        ClassTypespec name:test_cls:
+        ClassTypespec name:work@test_cls:
           vpiParent: Module name:work@class_tb
-          vpiName: test_cls
-          vpiClassDefn: ClassDefn name:test_cls
+          vpiName: work@test_cls
+          vpiClassDefn: ClassDefn name:work@test_cls
       vpiDefName: work@class_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@class_tb
+        vpiName: work
+        vpiFullName: work@class_tb.work
+      vpiCell: class_tb
       vpiClassDefn (1 items):
-        ClassDefn name:test_cls file:${SURELOG_DIR}/tests/Google/chapter-8/8.23--scope_resolution.sv start:16:2 end:22:10:
+        ClassDefn name:work@test_cls file:$Source01/8.23--scope_resolution.sv start:16:2 end:22:10:
           vpiParent: Module name:work@class_tb
-          vpiName Identifier name:test_cls start:16:8 end:16:16:
-            vpiParent: ClassDefn name:test_cls
-            vpiName: test_cls
-          vpiFullName: work@class_tb::test_cls
+          vpiName Identifier name:work@test_cls start:16:8 end:16:16:
+            vpiParent: ClassDefn name:work@test_cls
+            vpiName: work@test_cls
+          vpiFullName: work@class_tb::work@test_cls
           vpiVariable (1 items):
             Variable name:id start:17:14 end:17:16:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiTypespec RefTypespec start:17:10 end:17:13:
                 vpiParent: Variable name:id
-                vpiFullName: work@class_tb::test_cls::id
+                vpiFullName: work@class_tb::work@test_cls::id
                 vpiActual: IntTypespec
               vpiName: id
-              vpiFullName: work@class_tb::test_cls::id
+              vpiFullName: work@class_tb::work@test_cls::id
               vpiValue Constant start:17:19 end:17:20:
                 vpiParent: Variable name:id
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@class_tb::test_cls::id
+                  vpiFullName: work@class_tb::work@test_cls::id
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@test_cls
+            vpiName: work
+            vpiFullName: work@class_tb::work@test_cls::work
+          vpiCell: test_cls
           vpiMethod (1 items):
             Function name:next_id start:18:10 end:21:14:
-              vpiParent: ClassDefn name:test_cls
+              vpiParent: ClassDefn name:work@test_cls
               vpiName Identifier name:next_id start:18:23 end:18:30:
                 vpiParent: Function name:next_id
                 vpiName: next_id
-              vpiFullName: work@class_tb::test_cls::next_id
+              vpiFullName: work@class_tb::work@test_cls::next_id
               vpiVisibility: public (1)
               vpiStmt Begin:
                 vpiParent: Function name:next_id
-                vpiFullName: work@class_tb::test_cls::next_id
+                vpiFullName: work@class_tb::work@test_cls::next_id
                 vpiStmt (2 items):
                   Operation start:19:4 end:19:8:
                     vpiParent: Begin
-                    vpiOpType: pre inc (63)
+                    vpiOpType: pre inc (65)
                     vpiOperand (1 items):
                       RefObj name:id start:19:6 end:19:8:
                         vpiParent: Operation
                         vpiName: id
-                        vpiFullName: work@class_tb::test_cls::next_id::id
+                        vpiFullName: work@class_tb::work@test_cls::next_id::id
                         vpiActual: Variable name:id
                   Assignment start:20:4 end:20:16:
                     vpiParent: Begin
@@ -205,16 +225,16 @@ Design name:unnamed:
                     vpiLhs RefObj name:next_id start:20:4 end:20:11:
                       vpiParent: Assignment
                       vpiName: next_id
-                      vpiFullName: work@class_tb::test_cls::next_id::next_id
+                      vpiFullName: work@class_tb::work@test_cls::next_id::next_id
                       vpiActual: Function name:next_id
                     vpiRhs RefObj name:id start:20:14 end:20:16:
                       vpiParent: Assignment
                       vpiName: id
-                      vpiFullName: work@class_tb::test_cls::next_id::id
+                      vpiFullName: work@class_tb::work@test_cls::next_id::id
                       vpiActual: Variable name:id
               vpiReturn RefTypespec start:18:19 end:18:22:
                 vpiParent: Function name:next_id
-                vpiFullName: work@class_tb::test_cls::next_id
+                vpiFullName: work@class_tb::work@test_cls::next_id
                 vpiActual: IntTypespec
       vpiProcess (1 items):
         Initial start:24:2 end:27:5:
@@ -226,11 +246,11 @@ Design name:unnamed:
               ClassTypespec name:test_cls start:25:12 end:25:20:
                 vpiParent: Begin
                 vpiName: test_cls
-                vpiClassDefn: ClassDefn name:test_cls
+                vpiClassDefn: ClassDefn name:work@test_cls
               ClassTypespec name:test_cls start:26:12 end:26:20:
                 vpiParent: Begin
                 vpiName: test_cls
-                vpiClassDefn: ClassDefn name:test_cls
+                vpiClassDefn: ClassDefn name:work@test_cls
             vpiStmt (2 items):
               SysFuncCall name:$display start:25:3 end:25:32:
                 vpiParent: Begin
@@ -242,8 +262,8 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: test_cls::next_id()
                     vpiFullName: work@class_tb.test_cls::next_id()
-                    vpiActual (2 items):
-                      ClassTypespec name:test_cls
+                    vpiPathElem (2 items):
+                      ClassTypespec name:test_cls:
                       FuncCall name:next_id start:25:22 end:25:31:
                         vpiParent: HierPath name:test_cls::next_id()
                         vpiName Identifier name:next_id start:25:22 end:25:29:
@@ -260,8 +280,8 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: test_cls::next_id()
                     vpiFullName: work@class_tb.test_cls::next_id()
-                    vpiActual (2 items):
-                      ClassTypespec name:test_cls
+                    vpiPathElem (2 items):
+                      ClassTypespec name:test_cls:
                       FuncCall name:next_id start:26:22 end:26:31:
                         vpiParent: HierPath name:test_cls::next_id()
                         vpiName Identifier name:next_id start:26:22 end:26:29:
@@ -279,37 +299,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-8/8.23--scope_resolution
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution/surelog.uhdm
+      test-name: Google/chapter-8/8.23--scope_resolution
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-8/8.23--scope_resolution/lib/work/8.23--scope_resolution.sv'): {'post_len': 0,
-                                                                                                                                                               'pre_len': 204}},
+            'files': {'$Output/lib/work/8.23--scope_resolution.sv': {'post_len': 0,
+                                                                     'pre_len': 204}},
             'post_len': 0,
             'pre_len': 204,
             'test_name': 'Google/chapter-8/8.23--scope_resolution'}}
 
-+------------------------------------+----------+-----------+
-| INPUT                              |   PRELEN |   POSTLEN |
-+====================================+==========+===========+
-| lib/work/8.23--scope_resolution.sv |      204 |         0 |
-+====================================+==========+===========+
-|                                    |      204 |         0 |
-+------------------------------------+----------+-----------+
++--------------------------------------------+----------+-----------+
+| INPUT                                      |   PRELEN |   POSTLEN |
++============================================+==========+===========+
+| $Output/lib/work/8.23--scope_resolution.sv |      204 |         0 |
++============================================+==========+===========+
+|                                            |      204 |         0 |
++--------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -324,10 +347,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             1       2       1         0
 Operation                            1       0       0         1
-RefObj                               3       2       0         1
+RefObj                               5       4       0         1
 RefTypespec                          3       4       1         0
 ----------------------------------------------------------------
 Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    37      37       2         2
+                                    39      39       2         2
 ===================== END REDUCTION RESULT =====================

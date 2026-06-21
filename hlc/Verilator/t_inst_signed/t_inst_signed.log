@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_signed/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_inst_signed.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_inst_signed
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_signed.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_signed.v".
 AST_DEBUG_BEGIN
 Count: 570
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_signed.v> u<569> t<Top_level_rule> c<1> l<6:1> el<66:1>
+FILE: f<13>:$Source01/t_inst_signed.v
+n<$Source01/t_inst_signed.v> u<569> t<Top_level_rule> c<1> l<6:1> el<66:1>
   n<> u<1> t<Null_rule> p<569> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<569> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<569> s<4> l<2:1> el<2:3>
@@ -573,26 +582,26 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_signed.v> u<569> t<Top_level_rule> c<1> 
                               n<> u<553> t<END> p<554> l<63:4> el<63:7>
         n<> u<565> t<ENDMODULE> p<566> l<65:1> el<65:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:45:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_inst_signed.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_signed.v:45:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:21:7: Illegal implicit net "id:48, name:sgn".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:21:23: Illegal implicit net "id:51, name:unsgn".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:22:7: Illegal implicit net "id:56, name:iss".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:22:20: Illegal implicit net "id:61, name:isu".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:23:7: Illegal implicit net "id:66, name:ius".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:23:20: Illegal implicit net "id:71, name:iuu".
+[ERR:EL0535] $Source01/t_inst_signed.v:21:7: Illegal implicit net "id:50, name:sgn".
+[ERR:EL0535] $Source01/t_inst_signed.v:21:23: Illegal implicit net "id:53, name:unsgn".
+[ERR:EL0535] $Source01/t_inst_signed.v:22:7: Illegal implicit net "id:58, name:iss".
+[ERR:EL0535] $Source01/t_inst_signed.v:22:20: Illegal implicit net "id:63, name:isu".
+[ERR:EL0535] $Source01/t_inst_signed.v:23:7: Illegal implicit net "id:68, name:ius".
+[ERR:EL0535] $Source01/t_inst_signed.v:23:20: Illegal implicit net "id:73, name:iuu".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_signed.v file:${SURELOG_DIR}/tests/Verilator/t_inst_signed.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_signed.v file:$Source01/t_inst_signed.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_signed.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_signed/lib/work/t_inst_signed.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_signed.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_signed.v start:6:1 end:43:10:
+    Module name:work@t file:$Source01/t_inst_signed.v start:6:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -663,6 +672,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (4 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -796,7 +810,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 3
                         vpiDecompile: "3'sh7"
-                        vpiValue: 7
+                        vpiValue: "7"
                   vpiStmt SysFuncCall name:$stop start:30:35 end:30:40:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:30:35 end:30:40:
@@ -848,7 +862,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 3
                         vpiDecompile: "3'h7"
-                        vpiValue: 7
+                        vpiValue: "7"
                   vpiStmt SysFuncCall name:$stop start:31:36 end:31:41:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:31:36 end:31:41:
@@ -897,7 +911,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 8
                             vpiDecompile: "8'sb11111111"
-                            vpiValue: 11111111
+                            vpiValue: "11111111"
                   vpiStmt SysFuncCall name:$stop start:34:35 end:34:40:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:34:35 end:34:40:
@@ -946,7 +960,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 8
                             vpiDecompile: "8'sb00000111"
-                            vpiValue: 00000111
+                            vpiValue: "00000111"
                   vpiStmt SysFuncCall name:$stop start:36:35 end:36:40:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:36:35 end:36:40:
@@ -1018,7 +1032,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:40:3 end:40:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:40:3 end:40:10:
@@ -1079,7 +1093,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 3
                 vpiDecompile: "3'sh7"
-                vpiValue: 7
+                vpiValue: "7"
             Port start:22:19 end:22:29:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:isu start:22:20 end:22:23:
@@ -1095,7 +1109,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 3
                 vpiDecompile: "3'h7"
-                vpiValue: 7
+                vpiValue: "7"
             Port start:23:6 end:23:17:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:ius start:23:7 end:23:10:
@@ -1111,7 +1125,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 3
                 vpiDecompile: "3'sh7"
-                vpiValue: 7
+                vpiValue: "7"
             Port start:23:19 end:23:29:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:iuu start:23:20 end:23:23:
@@ -1127,8 +1141,8 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 3
                 vpiDecompile: "3'h7"
-                vpiValue: 7
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_inst_signed.v start:45:1 end:65:10:
+                vpiValue: "7"
+    Module name:work@sub file:$Source01/t_inst_signed.v start:45:1 end:65:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:45:8 end:45:11:
         vpiParent: Module name:work@sub
@@ -1295,6 +1309,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (7 items):
         Net name:clk start:46:12 end:46:15:
           vpiParent: Module name:work@sub
@@ -1479,7 +1498,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 3
             vpiDecompile: "3'sh7"
-            vpiValue: 7
+            vpiValue: "7"
         ContAssign start:54:11 end:54:23:
           vpiParent: Module name:work@sub
           vpiLhs RefObj name:unsgn start:54:11 end:54:16:
@@ -1496,7 +1515,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 3
             vpiDecompile: "3'h7"
-            vpiValue: 7
+            vpiValue: "7"
   vpiTypespec (6 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -1520,37 +1539,40 @@ Design name:unnamed:
         vpiName: work@sub
       vpiModule: Module name:work@sub
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_signed
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_signed
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_signed/surelog.uhdm
+      test-name: Verilator/t_inst_signed
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_signed
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_signed/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_signed/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_signed/lib/work/t_inst_signed.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 763}},
+            'files': {'$Output/lib/work/t_inst_signed.v': {'post_len': 0,
+                                                           'pre_len': 763}},
             'post_len': 0,
             'pre_len': 763,
             'test_name': 'Verilator/t_inst_signed'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_inst_signed.v |      763 |         0 |
-+==========================+==========+===========+
-|                          |      763 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_inst_signed.v |      763 |         0 |
++==================================+==========+===========+
+|                                  |      763 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1564,7 +1586,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_inst_signed/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             230     230       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   230     230       0         0
+                                   232     232       0         0
 ===================== END REDUCTION RESULT =====================

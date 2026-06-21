@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/DynArrayKind -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 159
 LIB: work
-FILE: ${SURELOG_DIR}/tests/DynArrayKind/dut.sv
-n<${SURELOG_DIR}/tests/DynArrayKind/dut.sv> u<158> t<Top_level_rule> c<1> l<1:1> el<11:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<158> t<Top_level_rule> c<1> l<1:1> el<11:1>
   n<> u<1> t<Null_rule> p<158> s<156> l<1:1>
   n<> u<156> t<Source_text> p<158> c<155> s<157> l<1:1> el<9:10>
     n<> u<155> t<Description> p<156> c<154> l<1:1> el<9:10>
@@ -162,19 +171,19 @@ n<${SURELOG_DIR}/tests/DynArrayKind/dut.sv> u<158> t<Top_level_rule> c<1> l<1:1>
         n<> u<153> t<ENDMODULE> p<154> l<9:1> el<9:10>
   n<// top> u<157> t<LINE_COMMENT> p<158> l<9:11> el<9:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/DynArrayKind/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/DynArrayKind/dut.sv:1:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/DynArrayKind/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/DynArrayKind/dut.sv start:1:1 end:9:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -364,13 +373,18 @@ Design name:unnamed:
                     vpiActual: StringTypespec
                   vpiConstType: unbounded (11)
                   vpiDecompile: "$"
-                  vpiValue: $
+                  vpiValue: "$"
           vpiElemTypespec RefTypespec start:8:4 end:8:7:
             vpiParent: ArrayTypespec
             vpiFullName: work@top
             vpiActual: IntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (7 items):
         Net name:dynamic1 start:2:8 end:2:16:
           vpiParent: Module name:work@top
@@ -441,37 +455,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: DynArrayKind/DynArrayKind
- test-dirpath: ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind
-uhdm-filepath: ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/surelog.uhdm
+      test-name: DynArrayKind/DynArrayKind
+   test-dirpath: ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind
+  uhdm-filepath: ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 160}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 160}},
             'post_len': 0,
             'pre_len': 160,
             'test_name': 'DynArrayKind/DynArrayKind'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      160 |         0 |
-+=================+==========+===========+
-|                 |      160 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      160 |         0 |
++=========================+==========+===========+
+|                         |      160 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -485,7 +502,7 @@ COMMAND: ${SURELOG_DIR}/regression/DynArrayKind/DynArrayKind/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

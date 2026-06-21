@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/tern2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm tern2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/tern2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/tern2.v".
+[INF:PA0201] Parsing source file "$Source01/tern2.v".
 AST_DEBUG_BEGIN
 Count: 170
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/tern2.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/tern2.v> u<169> t<Top_level_rule> c<1> l<7:1> el<25:1>
+FILE: f<13>:$Source01/tern2.v
+n<$Source01/tern2.v> u<169> t<Top_level_rule> c<1> l<7:1> el<25:1>
   n<> u<1> t<Null_rule> p<169> s<2> l<7:1> el<7:1>
   n</*\n * This program doesn't do anything, and shouldn't be run. This is\n * only to check that the null target can see the ternary operator.\n */> u<2> t<BLOCK_COMMENT> p<169> s<168> l<7:1> el<24:10>
   n<> u<168> t<Source_text> p<169> c<167> l<7:1> el<24:10>
@@ -173,19 +182,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/tern2.v> u<169> t<Top_level_rule> c<1> l<
                                 n<> u<152> t<END> p<153> l<23:6> el<23:9>
         n<> u<165> t<ENDMODULE> p<166> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/tern2.v:7:1: Compile module "work@main2".
+[INF:CP0303] $Source01/tern2.v:7:1: Compile module "work@main2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:tern2.v file:${SURELOG_DIR}/tests/Icarus/ivltests/tern2.v:
+  vpiSourceFile (1 items):
+    SourceFile name:tern2.v file:$Source01/tern2.v:
       vpiParent: Design name:unnamed
       vpiName: tern2.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/tern2/lib/work/tern2.v"
+      vpiPreprocFile: "$Output/lib/work/tern2.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main2 file:${SURELOG_DIR}/tests/Icarus/ivltests/tern2.v start:7:1 end:24:10:
+    Module name:work@main2 file:$Source01/tern2.v start:7:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main2 start:7:8 end:7:13:
         vpiParent: Module name:work@main2
@@ -248,6 +257,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@main2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main2
+        vpiName: work
+        vpiFullName: work@main2.work
+      vpiCell: main2
       vpiNet (4 items):
         Net name:sel start:9:15 end:9:18:
           vpiParent: Module name:work@main2
@@ -430,37 +444,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/tern2
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/tern2
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/tern2/surelog.uhdm
+      test-name: Icarus/ivltests/tern2
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/tern2
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/tern2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/tern2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/tern2/lib/work/tern2.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 140}},
+            'files': {'$Output/lib/work/tern2.v': {'post_len': 0,
+                                                   'pre_len': 140}},
             'post_len': 0,
             'pre_len': 140,
             'test_name': 'Icarus/ivltests/tern2'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/tern2.v |      140 |         0 |
-+==================+==========+===========+
-|                  |      140 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/tern2.v |      140 |         0 |
++==========================+==========+===========+
+|                          |      140 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -474,7 +491,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/tern2/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

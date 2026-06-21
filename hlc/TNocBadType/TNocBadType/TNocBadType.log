@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/TNocBadType/TNocBadType/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/TNocBadType -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/TNocBadType/TNocBadType
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 60
 LIB: work
-FILE: ${SURELOG_DIR}/tests/TNocBadType/dut.sv
-n<${SURELOG_DIR}/tests/TNocBadType/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<14:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> el<14:1>
   n<> u<1> t<Null_rule> p<59> s<58> l<1:1>
   n<> u<58> t<Source_text> p<59> c<19> l<1:1> el<13:10>
     n<> u<19> t<Description> p<58> c<18> s<57> l<1:1> el<4:13>
@@ -63,21 +72,21 @@ n<${SURELOG_DIR}/tests/TNocBadType/dut.sv> u<59> t<Top_level_rule> c<1> l<1:1> e
                         n<common_header> u<46> t<SIMPLE_IDENTIFIER> p<47> l<12:23> el<12:36>
         n<> u<55> t<ENDMODULE> p<56> l<13:1> el<13:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/TNocBadType/dut.sv:1:1: Compile interface "work@tnoc_types".
-[INF:CP0303] ${SURELOG_DIR}/tests/TNocBadType/dut.sv:7:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TNocBadType/dut.sv:7:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TNocBadType/dut.sv:1:1: No timescale set for "work@tnoc_types".
+[INF:CP0304] $Source01/dut.sv:1:1: Compile interface "work@tnoc_types".
+[INF:CP0303] $Source01/dut.sv:7:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@tnoc_types".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/TNocBadType/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/TNocBadType/TNocBadType/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@tnoc_types file:${SURELOG_DIR}/tests/TNocBadType/dut.sv start:1:1 end:4:13:
+    Interface name:work@tnoc_types file:$Source01/dut.sv start:1:1 end:4:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tnoc_types start:1:11 end:1:21:
         vpiParent: Interface name:work@tnoc_types
@@ -94,8 +103,13 @@ Design name:unnamed:
             vpiFullName: work@tnoc_types.tnoc_common_header
             vpiActual: IntTypespec
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@tnoc_types
+        vpiName: work
+        vpiFullName: work@tnoc_types.work
+      vpiCell: tnoc_types
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/TNocBadType/dut.sv start:7:1 end:13:10:
+    Module name:work@top file:$Source01/dut.sv start:7:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:7:8 end:7:11:
         vpiParent: Module name:work@top
@@ -133,6 +147,11 @@ Design name:unnamed:
             vpiFullName: work@top.tnoc_common_header
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
   vpiTypespec (3 items):
     InterfaceTypespec name:work@tnoc_types:
       vpiParent: Design name:unnamed
@@ -150,37 +169,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: TNocBadType/TNocBadType
- test-dirpath: ${SURELOG_DIR}/regression/TNocBadType/TNocBadType
-uhdm-filepath: ${SURELOG_DIR}/regression/TNocBadType/TNocBadType/surelog.uhdm
+      test-name: TNocBadType/TNocBadType
+   test-dirpath: ${SURELOG_DIR}/regression/TNocBadType/TNocBadType
+  uhdm-filepath: ${SURELOG_DIR}/regression/TNocBadType/TNocBadType/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/TNocBadType/TNocBadType/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/TNocBadType/TNocBadType/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 189}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 189}},
             'post_len': 0,
             'pre_len': 189,
             'test_name': 'TNocBadType/TNocBadType'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      189 |         0 |
-+=================+==========+===========+
-|                 |      189 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      189 |         0 |
++=========================+==========+===========+
+|                         |      189 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -194,7 +216,7 @@ COMMAND: ${SURELOG_DIR}/regression/TNocBadType/TNocBadType/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                    23      23       0         0
 ===================== END REDUCTION RESULT =====================

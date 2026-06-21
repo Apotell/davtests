@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_math_signed4/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_math_signed4.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_math_signed4
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_math_signed4.v".
+[INF:PA0201] Parsing source file "$Source01/t_math_signed4.v".
+[SNT:PA0207] $Source01/t_math_signed4.v:26:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   localparam signed [3:0] bug737_p1 = 4'b1000;\n\n   wire [3:0] bug737_a = 4'b1010;\n   reg [5:0]  bug737_y;\n   reg signed [3:0] w4_s;\n   reg signed [4:0] w5_s;\n   reg [3:0] w4_u;\n   reg [4:0] w5_u;\n   reg signed [8:0] w9_s;\n   real      r;\n   initial begin\n      // verilator lint_off WIDTH\n      bug737_y = bug737_a + (bug737_p1 + 4'sb0);\n      do if',
+      do if ((bug737_y) !== (6'b010010)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_math_signed4.v",0, (bug737_y), (6'b010010)); fail='1; end while(0);  //bug737
+         ^-- $Source01/t_math_signed4.v:26:9:.
+[SNT:PA0207] $Source01/t_math_signed4.v:23:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_math_signed4.v:23:3:.
 AST_DEBUG_BEGIN
 Count: 245
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_math_signed4.v
-n<${SURELOG_DIR}/tests/Verilator/t_math_signed4.v> u<244> t<Top_level_rule> c<1> l<9:1> el<140:10>
+FILE: f<13>:$Source01/t_math_signed4.v
+n<$Source01/t_math_signed4.v> u<244> t<Top_level_rule> c<1> l<9:1> el<140:10>
   n<> u<1> t<Null_rule> p<244> s<2> l<9:1> el<9:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<244> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<244> s<4> l<2:1> el<2:3>
@@ -248,21 +263,15 @@ n<${SURELOG_DIR}/tests/Verilator/t_math_signed4.v> u<244> t<Top_level_rule> c<1>
   n<// bug759> u<242> t<LINE_COMMENT> p<244> s<243> l<120:7> el<120:16>
   n<// Don't break concats....> u<243> t<LINE_COMMENT> p<244> l<125:7> el<125:33>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_math_signed4.v:26:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   bit fail;\n\n   localparam signed [3:0] bug737_p1 = 4'b1000;\n\n   wire [3:0] bug737_a = 4'b1010;\n   reg [5:0]  bug737_y;\n   reg signed [3:0] w4_s;\n   reg signed [4:0] w5_s;\n   reg [3:0] w4_u;\n   reg [4:0] w5_u;\n   reg signed [8:0] w9_s;\n   real      r;\n   initial begin\n      // verilator lint_off WIDTH\n      bug737_y = bug737_a + (bug737_p1 + 4'sb0);\n      do if',
-      do if ((bug737_y) !== (6'b010010)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "${SURELOG_DIR}/tests/Verilator/t_math_signed4.v",26, (bug737_y), (6'b010010)); fail='1; end while(0);  //bug737
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_math_signed4.v:26:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_math_signed4.v:23:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_math_signed4.v:23:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_math_signed4.v file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_math_signed4.v file:$Source01/t_math_signed4.v:
       vpiParent: Design name:unnamed
       vpiName: t_math_signed4.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_math_signed4/lib/work/t_math_signed4.v"
+      vpiPreprocFile: "$Output/lib/work/t_math_signed4.v"
       vpiPreprocMacroDefinition (2 items):
         PreprocMacroDefinition name:checkh start:6:1 end:6:166:
           vpiParent: SourceFile name:t_math_signed4.v
@@ -275,420 +284,420 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 27
       vpiPreprocMacroInstance (34 items):
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:26:7 end:26:35:
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:26:7 end:26:35:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 238
+          vpiSectionEndColumn: 195
           vpiSourceStartLine: 26
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 26
-          vpiSourceEndColumn: 218
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:30:7 end:30:35:
+          vpiSourceEndColumn: 175
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:30:7 end:30:35:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 238
+          vpiSectionEndColumn: 195
           vpiSourceStartLine: 30
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 30
-          vpiSourceEndColumn: 218
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:34:7 end:34:35:
+          vpiSourceEndColumn: 175
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:34:7 end:34:35:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 238
+          vpiSectionEndColumn: 195
           vpiSourceStartLine: 34
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 34
-          vpiSourceEndColumn: 218
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:37:7 end:37:35:
+          vpiSourceEndColumn: 175
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:37:7 end:37:35:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 238
+          vpiSectionEndColumn: 195
           vpiSourceStartLine: 37
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 37
-          vpiSourceEndColumn: 218
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:41:7 end:41:35:
+          vpiSourceEndColumn: 175
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:41:7 end:41:35:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 238
+          vpiSectionEndColumn: 195
           vpiSourceStartLine: 41
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 41
-          vpiSourceEndColumn: 218
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:45:7 end:45:26:
+          vpiSourceEndColumn: 175
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:45:7 end:45:26:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 222
+          vpiSectionEndColumn: 179
           vpiSourceStartLine: 45
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 45
-          vpiSourceEndColumn: 202
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:48:7 end:48:26:
+          vpiSourceEndColumn: 159
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:48:7 end:48:26:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 222
+          vpiSectionEndColumn: 179
           vpiSourceStartLine: 48
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 48
-          vpiSourceEndColumn: 202
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:51:7 end:51:25:
+          vpiSourceEndColumn: 159
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:51:7 end:51:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 51
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 51
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:53:7 end:53:25:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:53:7 end:53:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 53
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 53
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:56:7 end:56:25:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:56:7 end:56:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 56
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 56
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:58:7 end:58:25:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:58:7 end:58:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 58
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 58
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:63:7 end:63:25:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:63:7 end:63:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 63
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 63
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:65:7 end:65:25:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:65:7 end:65:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 65
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 65
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:67:7 end:67:25:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:67:7 end:67:25:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 220
+          vpiSectionEndColumn: 177
           vpiSourceStartLine: 67
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 67
-          vpiSourceEndColumn: 200
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:70:7 end:70:30:
+          vpiSourceEndColumn: 157
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:70:7 end:70:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 228
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 70
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 70
-          vpiSourceEndColumn: 208
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:72:7 end:72:29:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:72:7 end:72:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 226
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 72
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 72
-          vpiSourceEndColumn: 206
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:76:7 end:76:29:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:76:7 end:76:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 226
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 76
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 76
-          vpiSourceEndColumn: 206
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:79:7 end:79:30:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:79:7 end:79:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 228
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 79
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 79
-          vpiSourceEndColumn: 208
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:81:7 end:81:30:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:81:7 end:81:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 228
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 81
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 81
-          vpiSourceEndColumn: 208
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:83:7 end:83:29:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:83:7 end:83:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 226
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 83
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 83
-          vpiSourceEndColumn: 206
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:87:7 end:87:29:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:87:7 end:87:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 226
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 87
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 87
-          vpiSourceEndColumn: 206
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:89:7 end:89:29:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:89:7 end:89:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 226
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 89
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 89
-          vpiSourceEndColumn: 206
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:93:7 end:93:29:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:93:7 end:93:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 226
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 93
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 93
-          vpiSourceEndColumn: 206
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:100:7 end:100:30:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:100:7 end:100:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 229
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 100
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 100
-          vpiSourceEndColumn: 209
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:103:7 end:103:30:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:103:7 end:103:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 229
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 103
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 103
-          vpiSourceEndColumn: 209
-        PreprocMacroInstance name:checkf file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:107:7 end:107:22:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkf file:$Source01/t_math_signed4.v start:107:7 end:107:22:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkf
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkf
           vpiSectionStartLine: 7
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 7
-          vpiSectionEndColumn: 209
+          vpiSectionEndColumn: 165
           vpiSourceStartLine: 107
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 107
-          vpiSourceEndColumn: 189
-        PreprocMacroInstance name:checkf file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:111:7 end:111:23:
+          vpiSourceEndColumn: 145
+        PreprocMacroInstance name:checkf file:$Source01/t_math_signed4.v start:111:7 end:111:23:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkf
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkf
           vpiSectionStartLine: 7
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 7
-          vpiSectionEndColumn: 211
+          vpiSectionEndColumn: 167
           vpiSourceStartLine: 111
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 111
-          vpiSourceEndColumn: 191
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:122:7 end:122:30:
+          vpiSourceEndColumn: 147
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:122:7 end:122:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 229
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 122
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 122
-          vpiSourceEndColumn: 209
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:124:7 end:124:30:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:124:7 end:124:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 229
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 124
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 124
-          vpiSourceEndColumn: 209
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:127:7 end:127:30:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:127:7 end:127:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 229
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 127
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 127
-          vpiSourceEndColumn: 209
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:129:7 end:129:34:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:129:7 end:129:34:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 237
+          vpiSectionEndColumn: 193
           vpiSourceStartLine: 129
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 129
-          vpiSourceEndColumn: 217
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:131:7 end:131:30:
+          vpiSourceEndColumn: 173
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:131:7 end:131:30:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 229
+          vpiSectionEndColumn: 185
           vpiSourceStartLine: 131
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 131
-          vpiSourceEndColumn: 209
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:132:7 end:132:29:
+          vpiSourceEndColumn: 165
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:132:7 end:132:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 227
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 132
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 132
-          vpiSourceEndColumn: 207
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:134:7 end:134:29:
+          vpiSourceEndColumn: 163
+        PreprocMacroInstance name:checkh file:$Source01/t_math_signed4.v start:134:7 end:134:29:
           vpiParent: SourceFile name:t_math_signed4.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 6
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 6
-          vpiSectionEndColumn: 227
+          vpiSectionEndColumn: 183
           vpiSourceStartLine: 134
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 134
-          vpiSourceEndColumn: 207
+          vpiSourceEndColumn: 163
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:9:1 end:9:1:
+    Module file:$Source01/t_math_signed4.v start:9:1 end:9:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_math_signed4.v start:9:1 end:9:7:
+    Module file:$Source01/t_math_signed4.v start:9:1 end:9:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
   vpiTypespec (13 items):
@@ -926,42 +935,45 @@ Design name:unnamed:
         vpiConstType: binary (3)
         vpiSize: 4
         vpiDecompile: "4'b1000"
-        vpiValue: 1000
+        vpiValue: "1000"
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_math_signed4
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_signed4
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed4/surelog.uhdm
+      test-name: Verilator/t_math_signed4
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_math_signed4
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed4/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_math_signed4/mounts.json
 
 
-{'result': {'coverage': 24.87,
+{'result': {'coverage': 30.38,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_math_signed4/lib/work/t_math_signed4.v'): {'post_len': 6107,
-                                                                                                                                       'pre_len': 8129}},
-            'post_len': 6107,
-            'pre_len': 8129,
+            'files': {'$Output/lib/work/t_math_signed4.v': {'post_len': 4634,
+                                                            'pre_len': 6656}},
+            'post_len': 4634,
+            'pre_len': 6656,
             'test_name': 'Verilator/t_math_signed4'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_math_signed4.v |     8129 |      6107 |
-+===========================+==========+===========+
-|                           |     8129 |      6107 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_math_signed4.v |     6656 |      4634 |
++===================================+==========+===========+
+|                                   |     6656 |      4634 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 24.87
+[COVERAGE] : 30.38
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

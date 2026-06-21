@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/sat/initval.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm sat/initval.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/sat/initval.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sat/initval.v".
+[INF:PA0201] Parsing source file "$Source01/sat/initval.v".
 AST_DEBUG_BEGIN
 Count: 281
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/sat/initval.v
-n<${SURELOG_DIR}/tests/Yosys/sat/initval.v> u<280> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/sat/initval.v
+n<$Source01/sat/initval.v> u<280> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<280> s<279> l<1:1>
   n<> u<279> t<Source_text> p<280> c<278> l<1:1> el<15:10>
     n<> u<278> t<Description> p<279> c<277> l<1:1> el<15:10>
@@ -284,19 +293,19 @@ n<${SURELOG_DIR}/tests/Yosys/sat/initval.v> u<280> t<Top_level_rule> c<1> l<1:1>
                         n<> u<267> t<Statement_or_null> p<268> l<14:53> el<14:54>
         n<> u<276> t<ENDMODULE> p<277> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/sat/initval.v:1:1: Compile module "work@test".
+[INF:CP0303] $Source01/sat/initval.v:1:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:initval.v file:${SURELOG_DIR}/tests/Yosys/sat/initval.v:
+  vpiSourceFile (1 items):
+    SourceFile name:initval.v file:$Source01/sat/initval.v:
       vpiParent: Design name:unnamed
       vpiName: initval.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/sat/initval.v/lib/work/sat/initval.v"
+      vpiPreprocFile: "$Output/lib/work/sat/initval.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Yosys/sat/initval.v start:1:1 end:15:10:
+    Module name:work@test file:$Source01/sat/initval.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:8 end:1:12:
         vpiParent: Module name:work@test
@@ -491,6 +500,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (4 items):
         Net name:clk start:1:19 end:1:22:
           vpiParent: Module name:work@test
@@ -769,37 +783,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/sat/initval.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/sat/initval.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sat/initval.v/surelog.uhdm
+      test-name: Yosys/sat/initval.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/sat/initval.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sat/initval.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/sat/initval.v/mounts.json
 
 
 {'result': {'coverage': 98.88,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/sat/initval.v/lib/work/sat/initval.v'): {'post_len': 3,
-                                                                                                                               'pre_len': 268}},
+            'files': {'$Output/lib/work/sat/initval.v': {'post_len': 3,
+                                                         'pre_len': 268}},
             'post_len': 3,
             'pre_len': 268,
             'test_name': 'Yosys/sat/initval.v'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sat/initval.v |      268 |         3 |
-+========================+==========+===========+
-|                        |      268 |         3 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sat/initval.v |      268 |         3 |
++================================+==========+===========+
+|                                |      268 |         3 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 98.88
@@ -813,7 +830,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/sat/initval.v/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   116     116       0         0
 ===================== END REDUCTION RESULT =====================

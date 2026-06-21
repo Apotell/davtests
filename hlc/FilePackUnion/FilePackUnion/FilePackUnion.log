@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FilePackUnion -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 241
 LIB: work
-FILE: ${SURELOG_DIR}/tests/FilePackUnion/dut.sv
-n<${SURELOG_DIR}/tests/FilePackUnion/dut.sv> u<240> t<Top_level_rule> c<1> l<2:1> el<81:3>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<240> t<Top_level_rule> c<1> l<2:1> el<81:3>
   n<> u<1> t<Null_rule> p<240> s<238> l<2:1> el<2:1>
   n<> u<238> t<Source_text> p<240> c<38> s<239> l<2:1> el<38:10>
     n<> u<38> t<Description> p<238> c<37> s<71> l<2:1> el<10:27>
@@ -244,33 +253,27 @@ n<${SURELOG_DIR}/tests/FilePackUnion/dut.sv> u<240> t<Top_level_rule> c<1> l<2:1
         n<> u<235> t<ENDMODULE> p<236> l<38:1> el<38:10>
   n</*\n\ninterface rggen_register_if #(\n);\n \n\n  logic                     valid;\n  logic [31:0]   value;\n\n  modport register (\n    input   valid,\n    output  value\n  );\n\n  modport monitor (\n    input valid,\n    input value\n  );\nendinterface\n\n\nmodule rggen_bit_field (input logic [31:0] o_value);\nendmodule\n\nmodule top();\n  rggen_register_if  register_if[1]();\n\n\n  // assign o = register_if[0].value[8+:1];\n  \n  rggen_bit_field i1 (\n    .o_value            (register_if)\n  );\n\n   rggen_bit_field  u_bit_field (\n    .o_value            (register_if[0].value[8+:1])\n  );\n  \n\nendmodule\n\n*/> u<239> t<BLOCK_COMMENT> p<240> l<2:1> el<38:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:2:1: Compile package "work@foo_flags_pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:2:1: Unmached label "work@foo_flags_pkg",
-             ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:10:14: closing label "foo_flags_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:12:1: Compile package "work@fooes_pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:12:1: Unmached label "work@fooes_pkg",
-             ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:21:14: closing label "fooes_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:28:1: Compile package "work@goog".
-[ERR:CP0341] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:28:1: Unmached label "work@goog",
-             ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:33:13: closing label "goog".
-[INF:CP0303] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:35:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:35:1: Multiply defined typedef "goog".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:2:1: No timescale set for "work@foo_flags_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:12:1: No timescale set for "work@fooes_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:28:1: No timescale set for "work@goog".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:35:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/FilePackUnion/dut.sv:37:10: Illegal implicit net "id:134, name:c".
+[INF:CP0301] $Source01/dut.sv:2:1: Compile package "work@foo_flags_pkg".
+[INF:CP0301] $Source01/dut.sv:12:1: Compile package "work@fooes_pkg".
+[INF:CP0301] $Source01/dut.sv:28:1: Compile package "work@goog".
+[INF:CP0303] $Source01/dut.sv:35:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:35:1: Multiply defined typedef "goog".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@foo_flags_pkg".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@fooes_pkg".
+[WRN:PA0205] $Source01/dut.sv:28:1: No timescale set for "work@goog".
+[WRN:PA0205] $Source01/dut.sv:35:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:37:10: Illegal implicit net "id:138, name:c".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FilePackUnion/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (3 items):
-    Package name:work@foo_flags_pkg file:${SURELOG_DIR}/tests/FilePackUnion/dut.sv start:2:1 end:10:27:
+    Package name:work@foo_flags_pkg file:$Source01/dut.sv start:2:1 end:10:27:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo_flags_pkg start:2:9 end:2:22:
         vpiParent: Package name:work@foo_flags_pkg
@@ -315,10 +318,15 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@foo_flags_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@foo_flags_pkg
+        vpiName: work
+        vpiFullName: work@foo_flags_pkg::work
+      vpiCell: foo_flags_pkg
       vpiEndLabel Identifier name:foo_flags_pkg start:10:14 end:10:27:
         vpiParent: Package name:work@foo_flags_pkg
         vpiName: foo_flags_pkg
-    Package name:work@fooes_pkg file:${SURELOG_DIR}/tests/FilePackUnion/dut.sv start:12:1 end:21:23:
+    Package name:work@fooes_pkg file:$Source01/dut.sv start:12:1 end:21:23:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@fooes_pkg start:12:9 end:12:18:
         vpiParent: Package name:work@fooes_pkg
@@ -389,10 +397,15 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@fooes_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@fooes_pkg
+        vpiName: work
+        vpiFullName: work@fooes_pkg::work
+      vpiCell: fooes_pkg
       vpiEndLabel Identifier name:fooes_pkg start:21:14 end:21:23:
         vpiParent: Package name:work@fooes_pkg
         vpiName: fooes_pkg
-    Package name:work@goog file:${SURELOG_DIR}/tests/FilePackUnion/dut.sv start:28:1 end:33:17:
+    Package name:work@goog file:$Source01/dut.sv start:28:1 end:33:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@goog start:28:9 end:28:13:
         vpiParent: Package name:work@goog
@@ -560,11 +573,16 @@ Design name:unnamed:
             vpiActual: UnionTypespec
       vpiDefName: work@goog
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@goog
+        vpiName: work
+        vpiFullName: work@goog::work
+      vpiCell: goog
       vpiEndLabel Identifier name:goog start:33:13 end:33:17:
         vpiParent: Package name:work@goog
         vpiName: goog
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/FilePackUnion/dut.sv start:35:1 end:38:10:
+    Module name:work@top file:$Source01/dut.sv start:35:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:35:8 end:35:11:
         vpiParent: Module name:work@top
@@ -577,7 +595,7 @@ Design name:unnamed:
             vpiParent: Variable name:b
             vpiName: top_flag_t
             vpiFullName: work@top.b.top_flag_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:goog::top_flag_t
             vpiActual: UnsupportedTypespec name:top_flag_t
           vpiName: b
           vpiFullName: work@top.b
@@ -601,6 +619,11 @@ Design name:unnamed:
             vpiName: top_flag_t
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:a start:35:35 end:35:36:
           vpiParent: Module name:work@top
@@ -608,7 +631,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiName: top_flag_t
             vpiFullName: work@top.a.top_flag_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:goog::top_flag_t
             vpiActual: UnsupportedTypespec name:top_flag_t
           vpiName: a
           vpiFullName: work@top.a
@@ -626,12 +649,13 @@ Design name:unnamed:
             vpiParent: Port name:a
             vpiName: top_flag_t
             vpiFullName: work@top.a.top_flag_t
-            vpiPrefix HierPath start:35:18 end:35:24:
+            vpiPrefix HierPath name:goog::top_flag_t start:35:18 end:35:24:
               vpiParent: RefTypespec name:top_flag_t
-              vpiFullName: work@top.a.top_flag_t
-              vpiActual (2 items):
-                ClassTypespec name:goog
-                UnsupportedTypespec name:top_flag_t
+              vpiName: goog::top_flag_t
+              vpiFullName: work@top.a.top_flag_t.goog::top_flag_t
+              vpiPathElem (2 items):
+                ClassTypespec name:goog:
+                UnsupportedTypespec name:top_flag_t:
             vpiActual: UnsupportedTypespec name:top_flag_t
         Port name:b start:35:63 end:35:64:
           vpiParent: Module name:work@top
@@ -645,12 +669,13 @@ Design name:unnamed:
             vpiParent: Port name:b
             vpiName: top_flag_t
             vpiFullName: work@top.b.top_flag_t
-            vpiPrefix HierPath start:35:46 end:35:52:
+            vpiPrefix HierPath name:goog::top_flag_t start:35:46 end:35:52:
               vpiParent: RefTypespec name:top_flag_t
-              vpiFullName: work@top.b.top_flag_t
-              vpiActual (2 items):
-                ClassTypespec name:goog
-                UnsupportedTypespec name:top_flag_t
+              vpiName: goog::top_flag_t
+              vpiFullName: work@top.b.top_flag_t.goog::top_flag_t
+              vpiPathElem (2 items):
+                ClassTypespec name:goog:
+                UnsupportedTypespec name:top_flag_t:
             vpiActual: UnsupportedTypespec name:top_flag_t
       vpiContAssign (2 items):
         ContAssign start:36:10 end:36:15:
@@ -739,37 +764,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 5
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FilePackUnion/FilePackUnion
- test-dirpath: ${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion
-uhdm-filepath: ${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion/surelog.uhdm
+      test-name: FilePackUnion/FilePackUnion
+   test-dirpath: ${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion
+  uhdm-filepath: ${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FilePackUnion/FilePackUnion/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 524}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 524}},
             'post_len': 0,
             'pre_len': 524,
             'test_name': 'FilePackUnion/FilePackUnion'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      524 |         0 |
-+=================+==========+===========+
-|                 |      524 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      524 |         0 |
++=========================+==========+===========+
+|                         |      524 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -786,7 +814,7 @@ Constant                            12      11       1         2
 Operation                            1       0       0         1
 RefTypespec                         32      31       1         2
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                   123     120       2         5
+                                   127     124       2         5
 ===================== END REDUCTION RESULT =====================

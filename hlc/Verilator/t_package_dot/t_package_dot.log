@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_package_dot/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_package_dot.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_package_dot
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_package_dot.v".
+[INF:PA0201] Parsing source file "$Source01/t_package_dot.v".
 AST_DEBUG_BEGIN
 Count: 161
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_package_dot.v
-n<${SURELOG_DIR}/tests/Verilator/t_package_dot.v> u<160> t<Top_level_rule> c<1> l<6:1> el<25:1>
+FILE: f<13>:$Source01/t_package_dot.v
+n<$Source01/t_package_dot.v> u<160> t<Top_level_rule> c<1> l<6:1> el<25:1>
   n<> u<1> t<Null_rule> p<160> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<160> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<160> s<4> l<2:1> el<2:3>
@@ -164,23 +173,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_package_dot.v> u<160> t<Top_level_rule> c<1> 
                           n<> u<146> t<END> p<147> l<23:4> el<23:7>
         n<> u<156> t<ENDMODULE> p<157> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/Verilator/t_package_dot.v:6:1: Compile package "work@pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/Verilator/t_package_dot.v:13:1: Compile package "work@csr_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_package_dot.v:18:1: Compile module "work@t".
+[INF:CP0301] $Source01/t_package_dot.v:6:1: Compile package "work@pkg".
+[INF:CP0301] $Source01/t_package_dot.v:13:1: Compile package "work@csr_pkg".
+[INF:CP0303] $Source01/t_package_dot.v:18:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_package_dot.v:20:20: Illegal implicit net "id:61, name:REG_RST".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_package_dot.v:20:28: Illegal implicit net "id:62, name:msk".
+[ERR:EL0535] $Source01/t_package_dot.v:20:20: Illegal implicit net "id:64, name:REG_RST".
+[ERR:EL0535] $Source01/t_package_dot.v:20:28: Illegal implicit net "id:65, name:msk".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_package_dot.v file:${SURELOG_DIR}/tests/Verilator/t_package_dot.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_package_dot.v file:$Source01/t_package_dot.v:
       vpiParent: Design name:unnamed
       vpiName: t_package_dot.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_package_dot/lib/work/t_package_dot.v"
+      vpiPreprocFile: "$Output/lib/work/t_package_dot.v"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pkg file:${SURELOG_DIR}/tests/Verilator/t_package_dot.v start:6:1 end:11:11:
+    Package name:work@pkg file:$Source01/t_package_dot.v start:6:1 end:11:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg start:6:9 end:6:12:
         vpiParent: Package name:work@pkg
@@ -290,7 +299,12 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
-    Package name:work@csr_pkg file:${SURELOG_DIR}/tests/Verilator/t_package_dot.v start:13:1 end:16:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
+    Package name:work@csr_pkg file:$Source01/t_package_dot.v start:13:1 end:16:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@csr_pkg start:13:9 end:13:16:
         vpiParent: Package name:work@csr_pkg
@@ -324,7 +338,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 8
             vpiDecompile: "8'h34"
-            vpiValue: 34
+            vpiValue: "34"
       vpiTypespec (2 items):
         ClassTypespec name:pkg start:14:12 end:14:15:
           vpiParent: Package name:work@csr_pkg
@@ -339,8 +353,13 @@ Design name:unnamed:
             vpiFullName: work@csr_pkg::reg_t
       vpiDefName: work@csr_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@csr_pkg
+        vpiName: work
+        vpiFullName: work@csr_pkg::work
+      vpiCell: csr_pkg
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_package_dot.v start:18:1 end:24:10:
+    Module name:work@t file:$Source01/t_package_dot.v start:18:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:18:8 end:18:9:
         vpiParent: Module name:work@t
@@ -348,6 +367,11 @@ Design name:unnamed:
       vpiFullName: work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:19:4 end:23:7:
           vpiParent: Module name:work@t
@@ -369,8 +393,8 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: csr_pkg::REG_RST.msk
                       vpiFullName: work@t.csr_pkg::REG_RST.msk
-                      vpiActual (3 items):
-                        ClassTypespec name:csr_pkg
+                      vpiPathElem (3 items):
+                        ClassTypespec name:csr_pkg:
                         RefObj name:REG_RST start:20:20 end:20:27:
                           vpiParent: HierPath name:csr_pkg::REG_RST.msk
                           vpiName: REG_RST
@@ -388,7 +412,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 4
                       vpiDecompile: "4'h3"
-                      vpiValue: 3
+                      vpiValue: "3"
                 vpiStmt SysFuncCall name:$stop start:20:41 end:20:46:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:20:41 end:20:46:
@@ -409,7 +433,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:22:7 end:22:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:22:7 end:22:14:
@@ -430,37 +454,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_package_dot
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_package_dot
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_dot/surelog.uhdm
+      test-name: Verilator/t_package_dot
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_package_dot
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_dot/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_dot/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_package_dot/lib/work/t_package_dot.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 299}},
+            'files': {'$Output/lib/work/t_package_dot.v': {'post_len': 0,
+                                                           'pre_len': 299}},
             'post_len': 0,
             'pre_len': 299,
             'test_name': 'Verilator/t_package_dot'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_package_dot.v |      299 |         0 |
-+==========================+==========+===========+
-|                          |      299 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_package_dot.v |      299 |         0 |
++==================================+==========+===========+
+|                                  |      299 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -474,7 +501,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_package_dot/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    67      67       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_gen_assign/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_gen_assign.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_gen_assign
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_gen_assign.v".
+[INF:PA0201] Parsing source file "$Source01/t_gen_assign.v".
 AST_DEBUG_BEGIN
 Count: 718
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_gen_assign.v
-n<${SURELOG_DIR}/tests/Verilator/t_gen_assign.v> u<717> t<Top_level_rule> c<1> l<4:1> el<60:1>
+FILE: f<13>:$Source01/t_gen_assign.v
+n<$Source01/t_gen_assign.v> u<717> t<Top_level_rule> c<1> l<4:1> el<60:1>
   n<> u<1> t<Null_rule> p<717> s<2> l<4:1> el<4:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<717> s<3> l<1:1> el<1:47>
   n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<717> s<4> l<2:1> el<2:65>
@@ -721,23 +730,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_gen_assign.v> u<717> t<Top_level_rule> c<1> l
               n<> u<709> t<ENDGENERATE> p<710> l<58:4> el<58:15>
         n<> u<713> t<ENDMODULE> p<714> l<59:1> el<59:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_assign.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_assign.v:49:1: Compile module "work@assigns".
-[INF:CP0335] ${SURELOG_DIR}/tests/Verilator/t_gen_assign.v:55:45: Compile generate block "ap".
+[INF:CP0303] $Source01/t_gen_assign.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_gen_assign.v:49:1: Compile module "work@assigns".
+[INF:CP0335] $Source01/t_gen_assign.v:55:45: Compile generate block "ap".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_gen_assign.v file:${SURELOG_DIR}/tests/Verilator/t_gen_assign.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_gen_assign.v file:$Source01/t_gen_assign.v:
       vpiParent: Design name:unnamed
       vpiName: t_gen_assign.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_gen_assign/lib/work/t_gen_assign.v"
+      vpiPreprocFile: "$Output/lib/work/t_gen_assign.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_gen_assign.v start:6:1 end:47:10:
+    Module name:work@t file:$Source01/t_gen_assign.v start:6:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -862,6 +871,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (6 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -1170,7 +1184,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 64
                           vpiDecompile: "64'h5aef0c8dd70a4497"
-                          vpiValue: 5aef0c8dd70a4497
+                          vpiValue: "5aef0c8dd70a4497"
                       Assignment start:35:3 end:35:15:
                         vpiParent: Begin
                         vpiLhs RefObj name:sum start:35:3 end:35:6:
@@ -1187,7 +1201,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 32
                           vpiDecompile: "32'h0"
-                          vpiValue: 0
+                          vpiValue: "0"
                   vpiElseStmt IfElse start:37:12 end:44:10:
                     vpiParent: IfElse
                     vpiCondition Operation start:37:16 end:37:32:
@@ -1314,7 +1328,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 23
                                     vpiDecompile: "23'h0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
                                   PartSelect name:crc[8:0] start:38:40 end:38:48:
                                     vpiParent: Operation
                                     vpiName: crc[8:0]
@@ -1412,7 +1426,7 @@ Design name:unnamed:
                                 vpiConstType: string (6)
                                 vpiSize: 176
                                 vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                vpiValue: *-* All Finished *-*\n
+                                vpiValue: "*-* All Finished *-*\\n"
                           SysFuncCall name:$finish start:43:3 end:43:10:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:43:3 end:43:10:
@@ -1505,7 +1519,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@assigns file:${SURELOG_DIR}/tests/Verilator/t_gen_assign.v start:49:1 end:59:10:
+    Module name:work@assigns file:$Source01/t_gen_assign.v start:49:1 end:59:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@assigns start:49:8 end:49:15:
         vpiParent: Module name:work@assigns
@@ -1568,6 +1582,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@assigns
+        vpiName: work
+        vpiFullName: work@assigns.work
+      vpiCell: assigns
       vpiNet (3 items):
         Net name:Input start:50:17 end:50:22:
           vpiParent: Module name:work@assigns
@@ -1701,17 +1720,17 @@ Design name:unnamed:
               vpiStmt (1 items):
                 ContAssign start:56:10 end:56:58:
                   vpiParent: Begin name:ap
-                  vpiLhs BitSelect name:Output[i > 0 ? i - 1 : 8] start:56:10 end:56:33:
+                  "vpiLhs BitSelect name:Output[i > 0 ? i - 1 : 8] start:56:10 end:56:33":
                     vpiParent: ContAssign
                     vpiName: "Output[i > 0 ? i - 1 : 8]"
                     vpiFullName: "work@assigns.ap.Output[i > 0 ? i - 1 : 8]"
                     vpiPrefix RefObj name:Output start:56:10 end:56:16:
-                      vpiParent: BitSelect name:Output[i > 0 ? i - 1 : 8]
+                      vpiParent: "BitSelect name:Output[i > 0 ? i - 1 : 8]"
                       vpiName: Output
                       vpiFullName: work@assigns.ap.Output
                       vpiActual: Net name:Output
                     vpiIndex Operation start:56:17 end:56:32:
-                      vpiParent: BitSelect name:Output[i > 0 ? i - 1 : 8]
+                      vpiParent: "BitSelect name:Output[i > 0 ? i - 1 : 8]"
                       vpiOpType: condition (32)
                       vpiOperand (3 items):
                         Operation start:56:18 end:56:21:
@@ -1762,17 +1781,17 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
-                  vpiRhs BitSelect name:Input[i > 0 ? i - 1 : 8] start:56:36 end:56:58:
+                  "vpiRhs BitSelect name:Input[i > 0 ? i - 1 : 8] start:56:36 end:56:58":
                     vpiParent: ContAssign
                     vpiName: "Input[i > 0 ? i - 1 : 8]"
                     vpiFullName: "work@assigns.ap.Input[i > 0 ? i - 1 : 8]"
                     vpiPrefix RefObj name:Input start:56:36 end:56:41:
-                      vpiParent: BitSelect name:Input[i > 0 ? i - 1 : 8]
+                      vpiParent: "BitSelect name:Input[i > 0 ? i - 1 : 8]"
                       vpiName: Input
                       vpiFullName: work@assigns.ap.Input
                       vpiActual: Net name:Input
                     vpiIndex Operation start:56:42 end:56:57:
-                      vpiParent: BitSelect name:Input[i > 0 ? i - 1 : 8]
+                      vpiParent: "BitSelect name:Input[i > 0 ? i - 1 : 8]"
                       vpiOpType: condition (32)
                       vpiOperand (3 items):
                         Operation start:56:43 end:56:46:
@@ -1846,37 +1865,40 @@ Design name:unnamed:
         vpiName: work@assigns
       vpiModule: Module name:work@assigns
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_gen_assign
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_assign
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_assign/surelog.uhdm
+      test-name: Verilator/t_gen_assign
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_assign
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_assign/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_assign/mounts.json
 
 
 {'result': {'coverage': 97.63,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_gen_assign/lib/work/t_gen_assign.v'): {'post_len': 18,
-                                                                                                                                   'pre_len': 759}},
+            'files': {'$Output/lib/work/t_gen_assign.v': {'post_len': 18,
+                                                          'pre_len': 759}},
             'post_len': 18,
             'pre_len': 759,
             'test_name': 'Verilator/t_gen_assign'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_gen_assign.v |      759 |        18 |
-+=========================+==========+===========+
-|                         |      759 |        18 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_gen_assign.v |      759 |        18 |
++=================================+==========+===========+
+|                                 |      759 |        18 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.63
@@ -1890,7 +1912,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_gen_assign/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             262     262       0         0
+Others                             264     264       0         0
 ----------------------------------------------------------------
-                                   262     262       0         0
+                                   264     264       0         0
 ===================== END REDUCTION RESULT =====================

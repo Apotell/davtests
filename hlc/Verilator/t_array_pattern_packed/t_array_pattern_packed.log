@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_array_pattern_packed.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_array_pattern_packed.v".
+[INF:PA0201] Parsing source file "$Source01/t_array_pattern_packed.v".
 AST_DEBUG_BEGIN
 Count: 4022
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_array_pattern_packed.v
-n<${SURELOG_DIR}/tests/Verilator/t_array_pattern_packed.v> u<4021> t<Top_level_rule> c<1> l<6:1> el<153:1>
+FILE: f<13>:$Source01/t_array_pattern_packed.v
+n<$Source01/t_array_pattern_packed.v> u<4021> t<Top_level_rule> c<1> l<6:1> el<153:1>
   n<> u<1> t<Null_rule> p<4021> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<4021> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<4021> s<4> l<2:1> el<2:3>
@@ -4025,19 +4034,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_array_pattern_packed.v> u<4021> t<Top_level_r
                                                         n<> u<3992> t<END> p<3993> l<150:4> el<150:7>
         n<> u<4017> t<ENDMODULE> p<4018> l<152:1> el<152:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_array_pattern_packed.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_array_pattern_packed.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_array_pattern_packed.v file:${SURELOG_DIR}/tests/Verilator/t_array_pattern_packed.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_array_pattern_packed.v file:$Source01/t_array_pattern_packed.v:
       vpiParent: Design name:unnamed
       vpiName: t_array_pattern_packed.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed/lib/work/t_array_pattern_packed.v"
+      vpiPreprocFile: "$Output/lib/work/t_array_pattern_packed.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_array_pattern_packed.v start:6:1 end:152:10:
+    Module name:work@t file:$Source01/t_array_pattern_packed.v start:6:1 end:152:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -4431,6 +4440,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (6 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -4528,7 +4542,7 @@ Design name:unnamed:
                   vpiActual: Net name:array_oned
                 vpiRhs Operation start:18:20 end:18:51:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (3 items):
                     TaggedPattern start:18:22 end:18:28:
                       vpiParent: Operation
@@ -4551,7 +4565,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                     TaggedPattern start:18:30 end:18:36:
                       vpiParent: Operation
                       vpiTag Constant start:18:30 end:18:31:
@@ -4573,7 +4587,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                     TaggedPattern start:18:38 end:18:50:
                       vpiParent: Operation
                       vpiTag RefObj name:default start:18:38 end:18:45:
@@ -4589,7 +4603,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
               IfStmt start:19:7 end:19:40:
                 vpiParent: Begin
                 vpiCondition Operation start:19:11 end:19:32:
@@ -4610,7 +4624,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0101"
-                      vpiValue: 0101
+                      vpiValue: "0101"
                 vpiStmt SysFuncCall name:$stop start:19:34 end:19:39:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:19:34 end:19:39:
@@ -4640,7 +4654,7 @@ Design name:unnamed:
                     vpiValue: 0
                 vpiRhs Operation start:21:23 end:21:49:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (4 items):
                     Constant start:21:26 end:21:30:
                       vpiParent: Operation
@@ -4651,7 +4665,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 4
                       vpiDecompile: "4'd3"
-                      vpiValue: 3
+                      vpiValue: "3"
                     Constant start:21:32 end:21:36:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -4661,7 +4675,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 4
                       vpiDecompile: "4'd2"
-                      vpiValue: 2
+                      vpiValue: "2"
                     Constant start:21:38 end:21:42:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -4671,7 +4685,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 4
                       vpiDecompile: "4'd1"
-                      vpiValue: 1
+                      vpiValue: "1"
                     Constant start:21:44 end:21:48:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -4681,7 +4695,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 4
                       vpiDecompile: "4'd0"
-                      vpiValue: 0
+                      vpiValue: "0"
               IfStmt start:22:7 end:22:45:
                 vpiParent: Begin
                 vpiCondition Operation start:22:11 end:22:37:
@@ -4716,7 +4730,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h3210"
-                      vpiValue: 3210
+                      vpiValue: "3210"
                 vpiStmt SysFuncCall name:$stop start:22:39 end:22:44:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:22:39 end:22:44:
@@ -4746,7 +4760,7 @@ Design name:unnamed:
                     vpiValue: 0
                 vpiRhs Operation start:25:23 end:25:38:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (4 items):
                     Constant start:25:26 end:25:27:
                       vpiParent: Operation
@@ -4822,7 +4836,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h3210"
-                      vpiValue: 3210
+                      vpiValue: "3210"
                 vpiStmt SysFuncCall name:$stop start:27:39 end:27:44:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:27:39 end:27:44:
@@ -4838,11 +4852,11 @@ Design name:unnamed:
                   vpiActual: Net name:array_simp
                 vpiRhs Operation start:34:25 end:34:85:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (2 items):
                     Operation start:34:28 end:34:55:
                       vpiParent: Operation
-                      vpiOpType: assign pattern (75)
+                      vpiOpType: assign pattern (87)
                       vpiOperand (4 items):
                         Constant start:34:31 end:34:35:
                           vpiParent: Operation
@@ -4853,7 +4867,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd3"
-                          vpiValue: 3
+                          vpiValue: "3"
                         Constant start:34:37 end:34:41:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4863,7 +4877,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd2"
-                          vpiValue: 2
+                          vpiValue: "2"
                         Constant start:34:43 end:34:47:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4873,7 +4887,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd1"
-                          vpiValue: 1
+                          vpiValue: "1"
                         Constant start:34:49 end:34:53:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4883,10 +4897,10 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd0"
-                          vpiValue: 0
+                          vpiValue: "0"
                     Operation start:34:57 end:34:84:
                       vpiParent: Operation
-                      vpiOpType: assign pattern (75)
+                      vpiOpType: assign pattern (87)
                       vpiOperand (4 items):
                         Constant start:34:60 end:34:64:
                           vpiParent: Operation
@@ -4897,7 +4911,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd1"
-                          vpiValue: 1
+                          vpiValue: "1"
                         Constant start:34:66 end:34:70:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4907,7 +4921,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd2"
-                          vpiValue: 2
+                          vpiValue: "2"
                         Constant start:34:72 end:34:76:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4917,7 +4931,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd3"
-                          vpiValue: 3
+                          vpiValue: "3"
                         Constant start:34:78 end:34:82:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4927,7 +4941,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd4"
-                          vpiValue: 4
+                          vpiValue: "4"
               IfStmt start:35:7 end:35:47:
                 vpiParent: Begin
                 vpiCondition Operation start:35:11 end:35:39:
@@ -4948,7 +4962,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'h32101234"
-                      vpiValue: 32101234
+                      vpiValue: "32101234"
                 vpiStmt SysFuncCall name:$stop start:35:41 end:35:46:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:35:41 end:35:46:
@@ -4964,7 +4978,7 @@ Design name:unnamed:
                   vpiActual: Net name:array_simp
                 vpiRhs Operation start:40:20 end:40:54:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (2 items):
                     Constant start:40:22 end:40:23:
                       vpiParent: Operation
@@ -4978,7 +4992,7 @@ Design name:unnamed:
                       vpiValue: 2
                     Operation start:40:25 end:40:51:
                       vpiParent: Operation
-                      vpiOpType: assign pattern (75)
+                      vpiOpType: assign pattern (87)
                       vpiOperand (4 items):
                         Constant start:40:27 end:40:31:
                           vpiParent: Operation
@@ -4989,7 +5003,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd3"
-                          vpiValue: 3
+                          vpiValue: "3"
                         Constant start:40:33 end:40:37:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4999,7 +5013,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd2"
-                          vpiValue: 2
+                          vpiValue: "2"
                         Constant start:40:39 end:40:43:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -5009,7 +5023,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd1"
-                          vpiValue: 1
+                          vpiValue: "1"
                         Constant start:40:45 end:40:49:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -5019,7 +5033,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd0"
-                          vpiValue: 0
+                          vpiValue: "0"
               IfStmt start:41:7 end:41:47:
                 vpiParent: Begin
                 vpiCondition Operation start:41:11 end:41:39:
@@ -5040,7 +5054,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'h32103210"
-                      vpiValue: 32103210
+                      vpiValue: "32103210"
                 vpiStmt SysFuncCall name:$stop start:41:41 end:41:46:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:41:41 end:41:46:
@@ -5056,7 +5070,7 @@ Design name:unnamed:
                   vpiActual: Net name:array_simp
                 vpiRhs Operation start:43:20 end:43:40:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (2 items):
                     Constant start:43:22 end:43:23:
                       vpiParent: Operation
@@ -5070,7 +5084,7 @@ Design name:unnamed:
                       vpiValue: 2
                     Operation start:43:25 end:43:37:
                       vpiParent: Operation
-                      vpiOpType: assign pattern (75)
+                      vpiOpType: assign pattern (87)
                       vpiOperand (2 items):
                         Constant start:43:27 end:43:28:
                           vpiParent: Operation
@@ -5091,7 +5105,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 4
                           vpiDecompile: "4'd3"
-                          vpiValue: 3
+                          vpiValue: "3"
               IfStmt start:44:7 end:44:47:
                 vpiParent: Begin
                 vpiCondition Operation start:44:11 end:44:39:
@@ -5112,7 +5126,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'h33333333"
-                      vpiValue: 33333333
+                      vpiValue: "33333333"
                 vpiStmt SysFuncCall name:$stop start:44:41 end:44:46:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:44:41 end:44:46:
@@ -5133,7 +5147,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:51:7 end:51:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:51:7 end:51:14:
@@ -5300,7 +5314,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 2
                         vpiDecompile: "2'd3"
-                        vpiValue: 3
+                        vpiValue: "3"
               vpiStmt Begin start:77:49 end:80:7:
                 vpiParent: IfStmt
                 vpiFullName: work@t
@@ -5320,7 +5334,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 176
                         vpiDecompile: "\"*-* All Finished *-*\\n\""
-                        vpiValue: *-* All Finished *-*\n
+                        vpiValue: "*-* All Finished *-*\\n"
                   SysFuncCall name:$finish start:79:7 end:79:14:
                     vpiParent: Begin
                     vpiName Identifier name:$finish start:79:7 end:79:14:
@@ -5386,7 +5400,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 2
                     vpiDecompile: "2'd0"
-                    vpiValue: 0
+                    vpiValue: "0"
               vpiStmt Begin start:84:24 end:97:7:
                 vpiParent: IfElse
                 vpiFullName: work@t
@@ -5457,7 +5471,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "'0"
-                        vpiValue: 0
+                        vpiValue: "0"
                     vpiElseStmt IfElse start:87:12 end:96:47:
                       vpiParent: IfElse
                       vpiCondition Operation start:87:16 end:87:29:
@@ -5521,7 +5535,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "'0"
-                          vpiValue: 0
+                          vpiValue: "0"
                       vpiElseStmt IfElse start:88:12 end:96:47:
                         vpiParent: IfElse
                         vpiCondition Operation start:88:16 end:88:29:
@@ -5585,7 +5599,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "'0"
-                            vpiValue: 0
+                            vpiValue: "0"
                         vpiElseStmt IfElse start:89:12 end:96:47:
                           vpiParent: IfElse
                           vpiCondition Operation start:89:16 end:89:29:
@@ -5649,7 +5663,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "'0"
-                              vpiValue: 0
+                              vpiValue: "0"
                           vpiElseStmt IfElse start:90:12 end:96:47:
                             vpiParent: IfElse
                             vpiCondition Operation start:90:16 end:90:29:
@@ -5713,7 +5727,7 @@ Design name:unnamed:
                                 vpiConstType: binary (3)
                                 vpiSize: 1
                                 vpiDecompile: "'0"
-                                vpiValue: 0
+                                vpiValue: "0"
                             vpiElseStmt IfElse start:91:12 end:96:47:
                               vpiParent: IfElse
                               vpiCondition Operation start:91:16 end:91:29:
@@ -5777,7 +5791,7 @@ Design name:unnamed:
                                   vpiConstType: binary (3)
                                   vpiSize: 1
                                   vpiDecompile: "'0"
-                                  vpiValue: 0
+                                  vpiValue: "0"
                               vpiElseStmt IfElse start:92:12 end:96:47:
                                 vpiParent: IfElse
                                 vpiCondition Operation start:92:16 end:92:29:
@@ -5841,7 +5855,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "'0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
                                 vpiElseStmt IfElse start:93:12 end:96:47:
                                   vpiParent: IfElse
                                   vpiCondition Operation start:93:16 end:93:29:
@@ -5905,7 +5919,7 @@ Design name:unnamed:
                                       vpiConstType: binary (3)
                                       vpiSize: 1
                                       vpiDecompile: "'0"
-                                      vpiValue: 0
+                                      vpiValue: "0"
                                   vpiElseStmt IfElse start:94:12 end:96:47:
                                     vpiParent: IfElse
                                     vpiCondition Operation start:94:16 end:94:29:
@@ -5969,7 +5983,7 @@ Design name:unnamed:
                                         vpiConstType: binary (3)
                                         vpiSize: 1
                                         vpiDecompile: "'0"
-                                        vpiValue: 0
+                                        vpiValue: "0"
                                     vpiElseStmt IfElse start:95:12 end:96:47:
                                       vpiParent: IfElse
                                       vpiCondition Operation start:95:16 end:95:29:
@@ -6033,7 +6047,7 @@ Design name:unnamed:
                                           vpiConstType: binary (3)
                                           vpiSize: 1
                                           vpiDecompile: "'0"
-                                          vpiValue: 0
+                                          vpiValue: "0"
                                       vpiElseStmt IfStmt start:96:12 end:96:47:
                                         vpiParent: IfElse
                                         vpiCondition Operation start:96:16 end:96:29:
@@ -6097,7 +6111,7 @@ Design name:unnamed:
                                             vpiConstType: binary (3)
                                             vpiSize: 1
                                             vpiDecompile: "'0"
-                                            vpiValue: 0
+                                            vpiValue: "0"
               vpiElseStmt IfElse start:97:13 end:115:7:
                 vpiParent: IfElse
                 vpiCondition Operation start:97:17 end:97:31:
@@ -6144,7 +6158,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 2
                       vpiDecompile: "2'd1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:97:33 end:106:7:
                   vpiParent: IfElse
                   vpiFullName: work@t
@@ -6255,7 +6269,7 @@ Design name:unnamed:
                             vpiActual: Net name:array_bg
                           vpiRhs Operation start:100:58 end:100:73:
                             vpiParent: Assignment
-                            vpiOpType: assign pattern (75)
+                            vpiOpType: assign pattern (87)
                             vpiOperand (4 items):
                               Constant start:100:61 end:100:62:
                                 vpiParent: Operation
@@ -6353,7 +6367,7 @@ Design name:unnamed:
                               vpiActual: Net name:array_bg
                             vpiRhs Operation start:101:58 end:101:71:
                               vpiParent: Assignment
-                              vpiOpType: assign pattern (75)
+                              vpiOpType: assign pattern (87)
                               vpiOperand (1 items):
                                 TaggedPattern start:101:60 end:101:70:
                                   vpiParent: Operation
@@ -6427,7 +6441,7 @@ Design name:unnamed:
                                 vpiActual: Net name:array_bg
                               vpiRhs Operation start:102:58 end:102:79:
                                 vpiParent: Assignment
-                                vpiOpType: assign pattern (75)
+                                vpiOpType: assign pattern (87)
                                 vpiOperand (4 items):
                                   TaggedPattern start:102:60 end:102:63:
                                     vpiParent: Operation
@@ -6573,7 +6587,7 @@ Design name:unnamed:
                                   vpiActual: Net name:array_bg
                                 vpiRhs Operation start:103:58 end:103:77:
                                   vpiParent: Assignment
-                                  vpiOpType: assign pattern (75)
+                                  vpiOpType: assign pattern (87)
                                   vpiOperand (2 items):
                                     TaggedPattern start:103:60 end:103:64:
                                       vpiParent: Operation
@@ -6669,7 +6683,7 @@ Design name:unnamed:
                                     vpiActual: Net name:array_bg
                                   vpiRhs Operation start:104:58 end:104:94:
                                     vpiParent: Assignment
-                                    vpiOpType: assign pattern (75)
+                                    vpiOpType: assign pattern (87)
                                     vpiOperand (2 items):
                                       RefObj name:WA start:104:60 end:104:62:
                                         vpiParent: Operation
@@ -6712,7 +6726,7 @@ Design name:unnamed:
                                                 vpiConstType: binary (3)
                                                 vpiSize: 2
                                                 vpiDecompile: "2'b10"
-                                                vpiValue: 10
+                                                vpiValue: "10"
                                 vpiElseStmt IfStmt start:105:12 end:105:108:
                                   vpiParent: IfElse
                                   vpiCondition Operation start:105:16 end:105:29:
@@ -6769,7 +6783,7 @@ Design name:unnamed:
                                       vpiActual: Net name:array_bg
                                     vpiRhs Operation start:105:58 end:105:107:
                                       vpiParent: Assignment
-                                      vpiOpType: assign pattern (75)
+                                      vpiOpType: assign pattern (87)
                                       vpiOperand (4 items):
                                         Operation start:105:60 end:105:70:
                                           vpiParent: Operation
@@ -6997,7 +7011,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 2
                         vpiDecompile: "2'd2"
-                        vpiValue: 2
+                        vpiValue: "2"
                   vpiStmt Begin start:106:33 end:115:7:
                     vpiParent: IfStmt
                     vpiFullName: work@t
@@ -7073,7 +7087,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 16
                                     vpiDecompile: "16'b0000000000000000"
-                                    vpiValue: 0000000000000000
+                                    vpiValue: "0000000000000000"
                               vpiStmt Begin start:108:77 end:108:121:
                                 vpiParent: IfStmt
                                 vpiFullName: work@t
@@ -7093,7 +7107,7 @@ Design name:unnamed:
                                         vpiConstType: string (6)
                                         vpiSize: 16
                                         vpiDecompile: "\"%b\""
-                                        vpiValue: %b
+                                        vpiValue: "%b"
                                       RefObj name:array_bg start:108:98 end:108:106:
                                         vpiParent: SysFuncCall name:$display
                                         vpiName: array_bg
@@ -7175,7 +7189,7 @@ Design name:unnamed:
                                       vpiConstType: binary (3)
                                       vpiSize: 16
                                       vpiDecompile: "16'b0011001000010000"
-                                      vpiValue: 0011001000010000
+                                      vpiValue: "0011001000010000"
                                 vpiStmt Begin start:109:77 end:109:121:
                                   vpiParent: IfStmt
                                   vpiFullName: work@t
@@ -7195,7 +7209,7 @@ Design name:unnamed:
                                           vpiConstType: string (6)
                                           vpiSize: 16
                                           vpiDecompile: "\"%b\""
-                                          vpiValue: %b
+                                          vpiValue: "%b"
                                         RefObj name:array_bg start:109:98 end:109:106:
                                           vpiParent: SysFuncCall name:$display
                                           vpiName: array_bg
@@ -7277,7 +7291,7 @@ Design name:unnamed:
                                         vpiConstType: binary (3)
                                         vpiSize: 16
                                         vpiDecompile: "16'b1101110111011101"
-                                        vpiValue: 1101110111011101
+                                        vpiValue: "1101110111011101"
                                   vpiStmt Begin start:110:77 end:110:121:
                                     vpiParent: IfStmt
                                     vpiFullName: work@t
@@ -7297,7 +7311,7 @@ Design name:unnamed:
                                             vpiConstType: string (6)
                                             vpiSize: 16
                                             vpiDecompile: "\"%b\""
-                                            vpiValue: %b
+                                            vpiValue: "%b"
                                           RefObj name:array_bg start:110:98 end:110:106:
                                             vpiParent: SysFuncCall name:$display
                                             vpiName: array_bg
@@ -7379,7 +7393,7 @@ Design name:unnamed:
                                           vpiConstType: binary (3)
                                           vpiSize: 16
                                           vpiDecompile: "16'b0111011001010100"
-                                          vpiValue: 0111011001010100
+                                          vpiValue: "0111011001010100"
                                     vpiStmt Begin start:111:77 end:111:121:
                                       vpiParent: IfStmt
                                       vpiFullName: work@t
@@ -7399,7 +7413,7 @@ Design name:unnamed:
                                               vpiConstType: string (6)
                                               vpiSize: 16
                                               vpiDecompile: "\"%b\""
-                                              vpiValue: %b
+                                              vpiValue: "%b"
                                             RefObj name:array_bg start:111:98 end:111:106:
                                               vpiParent: SysFuncCall name:$display
                                               vpiName: array_bg
@@ -7481,7 +7495,7 @@ Design name:unnamed:
                                             vpiConstType: binary (3)
                                             vpiSize: 16
                                             vpiDecompile: "16'b1101111111011101"
-                                            vpiValue: 1101111111011101
+                                            vpiValue: "1101111111011101"
                                       vpiStmt Begin start:112:77 end:112:121:
                                         vpiParent: IfStmt
                                         vpiFullName: work@t
@@ -7501,7 +7515,7 @@ Design name:unnamed:
                                                 vpiConstType: string (6)
                                                 vpiSize: 16
                                                 vpiDecompile: "\"%b\""
-                                                vpiValue: %b
+                                                vpiValue: "%b"
                                               RefObj name:array_bg start:112:98 end:112:106:
                                                 vpiParent: SysFuncCall name:$display
                                                 vpiName: array_bg
@@ -7583,7 +7597,7 @@ Design name:unnamed:
                                               vpiConstType: binary (3)
                                               vpiSize: 16
                                               vpiDecompile: "16'b1010101010101010"
-                                              vpiValue: 1010101010101010
+                                              vpiValue: "1010101010101010"
                                         vpiStmt Begin start:113:77 end:113:121:
                                           vpiParent: IfStmt
                                           vpiFullName: work@t
@@ -7603,7 +7617,7 @@ Design name:unnamed:
                                                   vpiConstType: string (6)
                                                   vpiSize: 16
                                                   vpiDecompile: "\"%b\""
-                                                  vpiValue: %b
+                                                  vpiValue: "%b"
                                                 RefObj name:array_bg start:113:98 end:113:106:
                                                   vpiParent: SysFuncCall name:$display
                                                   vpiName: array_bg
@@ -7685,7 +7699,7 @@ Design name:unnamed:
                                                 vpiConstType: binary (3)
                                                 vpiSize: 16
                                                 vpiDecompile: "16'b1001101010111100"
-                                                vpiValue: 1001101010111100
+                                                vpiValue: "1001101010111100"
                                           vpiStmt Begin start:114:77 end:114:121:
                                             vpiParent: IfStmt
                                             vpiFullName: work@t
@@ -7705,7 +7719,7 @@ Design name:unnamed:
                                                     vpiConstType: string (6)
                                                     vpiSize: 16
                                                     vpiDecompile: "\"%b\""
-                                                    vpiValue: %b
+                                                    vpiValue: "%b"
                                                   RefObj name:array_bg start:114:98 end:114:106:
                                                     vpiParent: SysFuncCall name:$display
                                                     vpiName: array_bg
@@ -7776,7 +7790,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 2
                     vpiDecompile: "2'd0"
-                    vpiValue: 0
+                    vpiValue: "0"
               vpiStmt Begin start:119:24 end:132:7:
                 vpiParent: IfElse
                 vpiFullName: work@t
@@ -7847,7 +7861,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "'0"
-                        vpiValue: 0
+                        vpiValue: "0"
                     vpiElseStmt IfElse start:122:12 end:131:47:
                       vpiParent: IfElse
                       vpiCondition Operation start:122:16 end:122:29:
@@ -7911,7 +7925,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "'0"
-                          vpiValue: 0
+                          vpiValue: "0"
                       vpiElseStmt IfElse start:123:12 end:131:47:
                         vpiParent: IfElse
                         vpiCondition Operation start:123:16 end:123:29:
@@ -7975,7 +7989,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "'0"
-                            vpiValue: 0
+                            vpiValue: "0"
                         vpiElseStmt IfElse start:124:12 end:131:47:
                           vpiParent: IfElse
                           vpiCondition Operation start:124:16 end:124:29:
@@ -8039,7 +8053,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "'0"
-                              vpiValue: 0
+                              vpiValue: "0"
                           vpiElseStmt IfElse start:125:12 end:131:47:
                             vpiParent: IfElse
                             vpiCondition Operation start:125:16 end:125:29:
@@ -8103,7 +8117,7 @@ Design name:unnamed:
                                 vpiConstType: binary (3)
                                 vpiSize: 1
                                 vpiDecompile: "'0"
-                                vpiValue: 0
+                                vpiValue: "0"
                             vpiElseStmt IfElse start:126:12 end:131:47:
                               vpiParent: IfElse
                               vpiCondition Operation start:126:16 end:126:29:
@@ -8167,7 +8181,7 @@ Design name:unnamed:
                                   vpiConstType: binary (3)
                                   vpiSize: 1
                                   vpiDecompile: "'0"
-                                  vpiValue: 0
+                                  vpiValue: "0"
                               vpiElseStmt IfElse start:127:12 end:131:47:
                                 vpiParent: IfElse
                                 vpiCondition Operation start:127:16 end:127:29:
@@ -8231,7 +8245,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 1
                                     vpiDecompile: "'0"
-                                    vpiValue: 0
+                                    vpiValue: "0"
                                 vpiElseStmt IfElse start:128:12 end:131:47:
                                   vpiParent: IfElse
                                   vpiCondition Operation start:128:16 end:128:29:
@@ -8295,7 +8309,7 @@ Design name:unnamed:
                                       vpiConstType: binary (3)
                                       vpiSize: 1
                                       vpiDecompile: "'0"
-                                      vpiValue: 0
+                                      vpiValue: "0"
                                   vpiElseStmt IfElse start:129:12 end:131:47:
                                     vpiParent: IfElse
                                     vpiCondition Operation start:129:16 end:129:29:
@@ -8359,7 +8373,7 @@ Design name:unnamed:
                                         vpiConstType: binary (3)
                                         vpiSize: 1
                                         vpiDecompile: "'0"
-                                        vpiValue: 0
+                                        vpiValue: "0"
                                     vpiElseStmt IfElse start:130:12 end:131:47:
                                       vpiParent: IfElse
                                       vpiCondition Operation start:130:16 end:130:29:
@@ -8423,7 +8437,7 @@ Design name:unnamed:
                                           vpiConstType: binary (3)
                                           vpiSize: 1
                                           vpiDecompile: "'0"
-                                          vpiValue: 0
+                                          vpiValue: "0"
                                       vpiElseStmt IfStmt start:131:12 end:131:47:
                                         vpiParent: IfElse
                                         vpiCondition Operation start:131:16 end:131:29:
@@ -8487,7 +8501,7 @@ Design name:unnamed:
                                             vpiConstType: binary (3)
                                             vpiSize: 1
                                             vpiDecompile: "'0"
-                                            vpiValue: 0
+                                            vpiValue: "0"
               vpiElseStmt IfElse start:132:13 end:150:7:
                 vpiParent: IfElse
                 vpiCondition Operation start:132:17 end:132:31:
@@ -8534,7 +8548,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 2
                       vpiDecompile: "2'd1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:132:33 end:141:7:
                   vpiParent: IfElse
                   vpiFullName: work@t
@@ -8645,7 +8659,7 @@ Design name:unnamed:
                             vpiActual: Net name:array_lt
                           vpiRhs Operation start:135:58 end:135:73:
                             vpiParent: Assignment
-                            vpiOpType: assign pattern (75)
+                            vpiOpType: assign pattern (87)
                             vpiOperand (4 items):
                               Constant start:135:61 end:135:62:
                                 vpiParent: Operation
@@ -8743,7 +8757,7 @@ Design name:unnamed:
                               vpiActual: Net name:array_lt
                             vpiRhs Operation start:136:58 end:136:71:
                               vpiParent: Assignment
-                              vpiOpType: assign pattern (75)
+                              vpiOpType: assign pattern (87)
                               vpiOperand (1 items):
                                 TaggedPattern start:136:60 end:136:70:
                                   vpiParent: Operation
@@ -8817,7 +8831,7 @@ Design name:unnamed:
                                 vpiActual: Net name:array_lt
                               vpiRhs Operation start:137:58 end:137:79:
                                 vpiParent: Assignment
-                                vpiOpType: assign pattern (75)
+                                vpiOpType: assign pattern (87)
                                 vpiOperand (4 items):
                                   TaggedPattern start:137:60 end:137:63:
                                     vpiParent: Operation
@@ -8963,7 +8977,7 @@ Design name:unnamed:
                                   vpiActual: Net name:array_lt
                                 vpiRhs Operation start:138:58 end:138:77:
                                   vpiParent: Assignment
-                                  vpiOpType: assign pattern (75)
+                                  vpiOpType: assign pattern (87)
                                   vpiOperand (2 items):
                                     TaggedPattern start:138:60 end:138:64:
                                       vpiParent: Operation
@@ -9059,7 +9073,7 @@ Design name:unnamed:
                                     vpiActual: Net name:array_lt
                                   vpiRhs Operation start:139:58 end:139:94:
                                     vpiParent: Assignment
-                                    vpiOpType: assign pattern (75)
+                                    vpiOpType: assign pattern (87)
                                     vpiOperand (2 items):
                                       RefObj name:WA start:139:60 end:139:62:
                                         vpiParent: Operation
@@ -9102,7 +9116,7 @@ Design name:unnamed:
                                                 vpiConstType: binary (3)
                                                 vpiSize: 2
                                                 vpiDecompile: "2'b10"
-                                                vpiValue: 10
+                                                vpiValue: "10"
                                 vpiElseStmt IfStmt start:140:12 end:140:108:
                                   vpiParent: IfElse
                                   vpiCondition Operation start:140:16 end:140:29:
@@ -9159,7 +9173,7 @@ Design name:unnamed:
                                       vpiActual: Net name:array_lt
                                     vpiRhs Operation start:140:58 end:140:107:
                                       vpiParent: Assignment
-                                      vpiOpType: assign pattern (75)
+                                      vpiOpType: assign pattern (87)
                                       vpiOperand (4 items):
                                         Operation start:140:60 end:140:70:
                                           vpiParent: Operation
@@ -9387,7 +9401,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 2
                         vpiDecompile: "2'd2"
-                        vpiValue: 2
+                        vpiValue: "2"
                   vpiStmt Begin start:141:33 end:150:7:
                     vpiParent: IfStmt
                     vpiFullName: work@t
@@ -9463,7 +9477,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 16
                                     vpiDecompile: "16'b0000000000000000"
-                                    vpiValue: 0000000000000000
+                                    vpiValue: "0000000000000000"
                               vpiStmt Begin start:143:77 end:143:121:
                                 vpiParent: IfStmt
                                 vpiFullName: work@t
@@ -9483,7 +9497,7 @@ Design name:unnamed:
                                         vpiConstType: string (6)
                                         vpiSize: 16
                                         vpiDecompile: "\"%b\""
-                                        vpiValue: %b
+                                        vpiValue: "%b"
                                       RefObj name:array_lt start:143:98 end:143:106:
                                         vpiParent: SysFuncCall name:$display
                                         vpiName: array_lt
@@ -9565,7 +9579,7 @@ Design name:unnamed:
                                       vpiConstType: binary (3)
                                       vpiSize: 16
                                       vpiDecompile: "16'b0011001000010000"
-                                      vpiValue: 0011001000010000
+                                      vpiValue: "0011001000010000"
                                 vpiStmt Begin start:144:77 end:144:121:
                                   vpiParent: IfStmt
                                   vpiFullName: work@t
@@ -9585,7 +9599,7 @@ Design name:unnamed:
                                           vpiConstType: string (6)
                                           vpiSize: 16
                                           vpiDecompile: "\"%b\""
-                                          vpiValue: %b
+                                          vpiValue: "%b"
                                         RefObj name:array_lt start:144:98 end:144:106:
                                           vpiParent: SysFuncCall name:$display
                                           vpiName: array_lt
@@ -9667,7 +9681,7 @@ Design name:unnamed:
                                         vpiConstType: binary (3)
                                         vpiSize: 16
                                         vpiDecompile: "16'b1101110111011101"
-                                        vpiValue: 1101110111011101
+                                        vpiValue: "1101110111011101"
                                   vpiStmt Begin start:145:77 end:145:121:
                                     vpiParent: IfStmt
                                     vpiFullName: work@t
@@ -9687,7 +9701,7 @@ Design name:unnamed:
                                             vpiConstType: string (6)
                                             vpiSize: 16
                                             vpiDecompile: "\"%b\""
-                                            vpiValue: %b
+                                            vpiValue: "%b"
                                           RefObj name:array_lt start:145:98 end:145:106:
                                             vpiParent: SysFuncCall name:$display
                                             vpiName: array_lt
@@ -9769,7 +9783,7 @@ Design name:unnamed:
                                           vpiConstType: binary (3)
                                           vpiSize: 16
                                           vpiDecompile: "16'b0111011001010100"
-                                          vpiValue: 0111011001010100
+                                          vpiValue: "0111011001010100"
                                     vpiStmt Begin start:146:77 end:146:121:
                                       vpiParent: IfStmt
                                       vpiFullName: work@t
@@ -9789,7 +9803,7 @@ Design name:unnamed:
                                               vpiConstType: string (6)
                                               vpiSize: 16
                                               vpiDecompile: "\"%b\""
-                                              vpiValue: %b
+                                              vpiValue: "%b"
                                             RefObj name:array_lt start:146:98 end:146:106:
                                               vpiParent: SysFuncCall name:$display
                                               vpiName: array_lt
@@ -9871,7 +9885,7 @@ Design name:unnamed:
                                             vpiConstType: binary (3)
                                             vpiSize: 16
                                             vpiDecompile: "16'b1101111111011101"
-                                            vpiValue: 1101111111011101
+                                            vpiValue: "1101111111011101"
                                       vpiStmt Begin start:147:77 end:147:121:
                                         vpiParent: IfStmt
                                         vpiFullName: work@t
@@ -9891,7 +9905,7 @@ Design name:unnamed:
                                                 vpiConstType: string (6)
                                                 vpiSize: 16
                                                 vpiDecompile: "\"%b\""
-                                                vpiValue: %b
+                                                vpiValue: "%b"
                                               RefObj name:array_lt start:147:98 end:147:106:
                                                 vpiParent: SysFuncCall name:$display
                                                 vpiName: array_lt
@@ -9973,7 +9987,7 @@ Design name:unnamed:
                                               vpiConstType: binary (3)
                                               vpiSize: 16
                                               vpiDecompile: "16'b1010101010101010"
-                                              vpiValue: 1010101010101010
+                                              vpiValue: "1010101010101010"
                                         vpiStmt Begin start:148:77 end:148:121:
                                           vpiParent: IfStmt
                                           vpiFullName: work@t
@@ -9993,7 +10007,7 @@ Design name:unnamed:
                                                   vpiConstType: string (6)
                                                   vpiSize: 16
                                                   vpiDecompile: "\"%b\""
-                                                  vpiValue: %b
+                                                  vpiValue: "%b"
                                                 RefObj name:array_lt start:148:98 end:148:106:
                                                   vpiParent: SysFuncCall name:$display
                                                   vpiName: array_lt
@@ -10075,7 +10089,7 @@ Design name:unnamed:
                                                 vpiConstType: binary (3)
                                                 vpiSize: 16
                                                 vpiDecompile: "16'b1001101010111100"
-                                                vpiValue: 1001101010111100
+                                                vpiValue: "1001101010111100"
                                           vpiStmt Begin start:149:77 end:149:121:
                                             vpiParent: IfStmt
                                             vpiFullName: work@t
@@ -10095,7 +10109,7 @@ Design name:unnamed:
                                                     vpiConstType: string (6)
                                                     vpiSize: 16
                                                     vpiDecompile: "\"%b\""
-                                                    vpiValue: %b
+                                                    vpiValue: "%b"
                                                   RefObj name:array_lt start:149:98 end:149:106:
                                                     vpiParent: SysFuncCall name:$display
                                                     vpiName: array_lt
@@ -10124,37 +10138,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_array_pattern_packed
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed/surelog.uhdm
+      test-name: Verilator/t_array_pattern_packed
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_array_pattern_packed/lib/work/t_array_pattern_packed.v'): {'post_len': 0,
-                                                                                                                                                       'pre_len': 4736}},
+            'files': {'$Output/lib/work/t_array_pattern_packed.v': {'post_len': 0,
+                                                                    'pre_len': 4736}},
             'post_len': 0,
             'pre_len': 4736,
             'test_name': 'Verilator/t_array_pattern_packed'}}
 
-+-----------------------------------+----------+-----------+
-| INPUT                             |   PRELEN |   POSTLEN |
-+===================================+==========+===========+
-| lib/work/t_array_pattern_packed.v |     4736 |         0 |
-+===================================+==========+===========+
-|                                   |     4736 |         0 |
-+-----------------------------------+----------+-----------+
++-------------------------------------------+----------+-----------+
+| INPUT                                     |   PRELEN |   POSTLEN |
++===========================================+==========+===========+
+| $Output/lib/work/t_array_pattern_packed.v |     4736 |         0 |
++===========================================+==========+===========+
+|                                           |     4736 |         0 |
++-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -10169,10 +10186,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           346     344       8        10
 Operation                          125     113       0        12
-RefObj                             164     156       0         8
+RefObj                             165     157       0         8
 RefTypespec                        364     360       6        10
 ----------------------------------------------------------------
 Others                             447     447       0         0
 ----------------------------------------------------------------
-                                  1446    1420      14        40
+                                  1447    1421      14        40
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/WireUnpacked -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 76
 LIB: work
-FILE: ${SURELOG_DIR}/tests/WireUnpacked/dut.sv
-n<${SURELOG_DIR}/tests/WireUnpacked/dut.sv> u<75> t<Top_level_rule> c<1> l<1:1> el<5:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<75> t<Top_level_rule> c<1> l<1:1> el<5:1>
   n<> u<1> t<Null_rule> p<75> s<74> l<1:1>
   n<> u<74> t<Source_text> p<75> c<73> l<1:1> el<4:10>
     n<> u<73> t<Description> p<74> c<72> l<1:1> el<4:10>
@@ -79,19 +88,19 @@ n<${SURELOG_DIR}/tests/WireUnpacked/dut.sv> u<75> t<Top_level_rule> c<1> l<1:1> 
                             n<> u<60> t<ONE_TICK_b1> p<61> l<3:28> el<3:32>
         n<> u<71> t<ENDMODULE> p<72> l<4:1> el<4:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/WireUnpacked/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/WireUnpacked/dut.sv:1:1: No timescale set for "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/WireUnpacked/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/WireUnpacked/dut.sv start:1:1 end:4:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -157,6 +166,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (1 items):
         Net name:read_buf start:2:12 end:2:20:
           vpiParent: Module name:work@dut
@@ -223,7 +237,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
   vpiTypespec (2 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -235,37 +249,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: WireUnpacked/WireUnpacked
- test-dirpath: ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked
-uhdm-filepath: ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/surelog.uhdm
+      test-name: WireUnpacked/WireUnpacked
+   test-dirpath: ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked
+  uhdm-filepath: ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 87}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 87}},
             'post_len': 0,
             'pre_len': 87,
             'test_name': 'WireUnpacked/WireUnpacked'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       87 |         0 |
-+=================+==========+===========+
-|                 |       87 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       87 |         0 |
++=========================+==========+===========+
+|                         |       87 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -279,7 +296,7 @@ COMMAND: ${SURELOG_DIR}/regression/WireUnpacked/WireUnpacked/surelog.uhdm ${SURE
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              35      35       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    35      35       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

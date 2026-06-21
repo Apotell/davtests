@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_mem_file/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_mem_file.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_mem_file
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_mem_file.v".
+[INF:PA0201] Parsing source file "$Source01/t_mem_file.v".
 AST_DEBUG_BEGIN
 Count: 2547
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_mem_file.v
-n<${SURELOG_DIR}/tests/Verilator/t_mem_file.v> u<2546> t<Top_level_rule> c<1> l<6:1> el<166:1>
+FILE: f<13>:$Source01/t_mem_file.v
+n<$Source01/t_mem_file.v> u<2546> t<Top_level_rule> c<1> l<6:1> el<166:1>
   n<> u<1> t<Null_rule> p<2546> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<2546> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<2546> s<4> l<2:1> el<2:3>
@@ -2550,20 +2559,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_mem_file.v> u<2546> t<Top_level_rule> c<1> l<
                                 n<> u<2529> t<END> p<2530> l<163:4> el<163:7>
         n<> u<2542> t<ENDMODULE> p<2543> l<165:1> el<165:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mem_file.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mem_file.v:76:1: Compile module "work@file".
+[INF:CP0303] $Source01/t_mem_file.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_mem_file.v:76:1: Compile module "work@file".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_mem_file.v file:${SURELOG_DIR}/tests/Verilator/t_mem_file.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_mem_file.v file:$Source01/t_mem_file.v:
       vpiParent: Design name:unnamed
       vpiName: t_mem_file.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_mem_file/lib/work/t_mem_file.v"
+      vpiPreprocFile: "$Output/lib/work/t_mem_file.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_mem_file.v start:6:1 end:74:10:
+    Module name:work@t file:$Source01/t_mem_file.v start:6:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -2844,6 +2853,11 @@ Design name:unnamed:
             vpiName: work@file
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (16 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -2963,7 +2977,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
         Net name:r2_ad start:19:16 end:19:21:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec start:19:9 end:19:14:
@@ -3633,7 +3647,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 64
                           vpiDecompile: "64'h5aef0c8dd70a4497"
-                          vpiValue: 5aef0c8dd70a4497
+                          vpiValue: "5aef0c8dd70a4497"
                   vpiElseStmt IfElse start:59:12 end:71:10:
                     vpiParent: IfElse
                     vpiCondition Operation start:59:16 end:59:22:
@@ -3675,7 +3689,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 64
                             vpiDecompile: "64'h0"
-                            vpiValue: 0
+                            vpiValue: "0"
                     vpiElseStmt IfElse start:63:12 end:71:10:
                       vpiParent: IfElse
                       vpiCondition Operation start:63:16 end:63:22:
@@ -3740,7 +3754,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$write start:67:3 end:67:60:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:67:3 end:67:9:
@@ -3756,7 +3770,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 208
                                   vpiDecompile: "\"[%0t] cyc==%0d crc=%x %x\\n\""
-                                  vpiValue: [%0t] cyc==%0d crc=%x %x\n
+                                  vpiValue: "[%0t] cyc==%0d crc=%x %x\\n"
                                 SysTaskCall name:$time start:67:39 end:67:44:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName Identifier name:$time start:67:39 end:67:44:
@@ -3823,7 +3837,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 64
                                     vpiDecompile: "64'h5e9ea8c33a97f81e"
-                                    vpiValue: 5e9ea8c33a97f81e
+                                    vpiValue: "5e9ea8c33a97f81e"
                               vpiStmt SysFuncCall name:$stop start:69:37 end:69:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:69:37 end:69:42:
@@ -4209,7 +4223,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@file file:${SURELOG_DIR}/tests/Verilator/t_mem_file.v start:76:1 end:165:10:
+    Module name:work@file file:$Source01/t_mem_file.v start:76:1 end:165:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@file start:76:8 end:76:12:
         vpiParent: Module name:work@file
@@ -4948,6 +4962,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@file
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@file
+        vpiName: work
+        vpiFullName: work@file.work
+      vpiCell: file
       vpiNet (31 items):
         Net name:r1_d_d2r start:86:20 end:86:28:
           vpiParent: Module name:work@file
@@ -5102,7 +5121,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 4
                     vpiDecompile: "4'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   RefObj name:w1_a start:107:58 end:107:62:
                     vpiParent: Operation
                     vpiName: w1_a
@@ -5157,7 +5176,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 4
                     vpiDecompile: "4'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   RefObj name:w2_a start:108:58 end:108:62:
                     vpiParent: Operation
                     vpiName: w2_a
@@ -5432,7 +5451,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b1"
-                vpiValue: 1
+                vpiValue: "1"
               RefObj name:m_r1_ad_d1r start:142:45 end:142:56:
                 vpiParent: Operation
                 vpiName: m_r1_ad_d1r
@@ -6282,7 +6301,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 4
                     vpiDecompile: "4'd0"
-                    vpiValue: 0
+                    vpiValue: "0"
                 Assignment start:147:7 end:147:41:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -6309,7 +6328,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
           vpiAlwaysType: always (1)
         Always start:160:4 end:163:7:
           vpiParent: Module name:work@file
@@ -6420,37 +6439,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_mem_file
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mem_file
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_file/surelog.uhdm
+      test-name: Verilator/t_mem_file
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mem_file
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_file/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_file/mounts.json
 
 
 {'result': {'coverage': 99.52,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_mem_file/lib/work/t_mem_file.v'): {'post_len': 16,
-                                                                                                                               'pre_len': 3302}},
+            'files': {'$Output/lib/work/t_mem_file.v': {'post_len': 16,
+                                                        'pre_len': 3302}},
             'post_len': 16,
             'pre_len': 3302,
             'test_name': 'Verilator/t_mem_file'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/t_mem_file.v |     3302 |        16 |
-+=======================+==========+===========+
-|                       |     3302 |        16 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/t_mem_file.v |     3302 |        16 |
++===============================+==========+===========+
+|                               |     3302 |        16 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.52
@@ -6464,7 +6486,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_mem_file/surelog.uhdm ${SURELOG_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             902     902       0         0
+Others                             904     904       0         0
 ----------------------------------------------------------------
-                                   902     902       0         0
+                                   904     904       0         0
 ===================== END REDUCTION RESULT =====================

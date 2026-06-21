@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/IfGenenerate/test1 -parse -d uhdm -d ast dut1.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut1.sv".
+[INF:PA0201] Parsing source file "$Source01/dut1.sv".
 AST_DEBUG_BEGIN
 Count: 161
 LIB: work
-FILE: ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv
-n<${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv> u<160> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/dut1.sv
+n<$Source01/dut1.sv> u<160> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<160> s<159> l<1:1>
   n<> u<159> t<Source_text> p<160> c<158> l<1:1> el<19:16>
     n<> u<158> t<Description> p<159> c<157> l<1:1> el<19:16>
@@ -164,23 +173,21 @@ n<${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv> u<160> t<Top_level_rule> c<1>
         n<> u<156> t<ENDMODULE> p<157> s<155> l<19:1> el<19:10>
         n<lzc> u<155> t<SIMPLE_IDENTIFIER> p<157> l<19:13> el<19:16>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:1:1: Compile module "work@lzc".
-[ERR:CP0341] ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:1:1: Unmached label "work@lzc",
-             ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:19:13: closing label "lzc".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:10:40: Compile generate block "g_last_level".
-[INF:CP0335] ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:13:53: Compile generate block "g_level".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:1:1: No timescale set for "work@lzc".
+[INF:CP0303] $Source01/dut1.sv:1:1: Compile module "work@lzc".
+[INF:CP0335] $Source01/dut1.sv:10:40: Compile generate block "g_last_level".
+[INF:CP0335] $Source01/dut1.sv:13:53: Compile generate block "g_level".
+[WRN:PA0205] $Source01/dut1.sv:1:1: No timescale set for "work@lzc".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut1.sv file:${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut1.sv file:$Source01/dut1.sv:
       vpiParent: Design name:unnamed
       vpiName: dut1.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1/lib/work/dut1.sv"
+      vpiPreprocFile: "$Output/lib/work/dut1.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@lzc file:${SURELOG_DIR}/tests/IfGenenerate/test1/dut1.sv start:1:1 end:19:16:
+    Module name:work@lzc file:$Source01/dut1.sv start:1:1 end:19:16:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@lzc start:1:8 end:1:11:
         vpiParent: Module name:work@lzc
@@ -268,6 +275,11 @@ Design name:unnamed:
             vpiValue: 4
       vpiDefName: work@lzc
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@lzc
+        vpiName: work
+        vpiFullName: work@lzc.work
+      vpiCell: lzc
       vpiGenStmt (1 items):
         GenIfElse start:10:5 end:16:8:
           vpiParent: Module name:work@lzc
@@ -346,8 +358,8 @@ Design name:unnamed:
                       vpiFullName: work@lzc.level
                       vpiActual: Parameter name:level
             vpiStmt (3 items):
-              Parameter name:POWER
-              ParamAssign
+              Parameter name:POWER:
+              ParamAssign:
               GenFor start:13:7 end:14:10:
                 vpiParent: Begin
                 vpiFullName: work@lzc
@@ -373,7 +385,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:13:40 end:13:43:
                     vpiParent: GenFor
-                    vpiOpType: post inc (62)
+                    vpiOpType: post inc (64)
                     vpiOperand (1 items):
                       RefObj name:l start:13:40 end:13:41:
                         vpiParent: Operation
@@ -430,37 +442,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: IfGenenerate/test1/IfGen1
- test-dirpath: ${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1
-uhdm-filepath: ${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1/surelog.uhdm
+      test-name: IfGenenerate/test1/IfGen1
+   test-dirpath: ${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1
+  uhdm-filepath: ${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/IfGenenerate/test1/IfGen1/lib/work/dut1.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 288}},
+            'files': {'$Output/lib/work/dut1.sv': {'post_len': 0,
+                                                   'pre_len': 288}},
             'post_len': 0,
             'pre_len': 288,
             'test_name': 'IfGenenerate/test1/IfGen1'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/dut1.sv |      288 |         0 |
-+==================+==========+===========+
-|                  |      288 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/dut1.sv |      288 |         0 |
++==========================+==========+===========+
+|                          |      288 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -477,11 +492,11 @@ Constant                             6       7       4         3
 Identifier                           6       5       0         1
 Operation                            6       2       0         4
 RealTypespec                         0       1       1         0
-RefObj                              11       6       0         5
+RefObj                              12       7       0         5
 RefTypespec                         10      10       3         3
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    61      52       8        17
+                                    62      53       8        17
 ===================== END REDUCTION RESULT =====================

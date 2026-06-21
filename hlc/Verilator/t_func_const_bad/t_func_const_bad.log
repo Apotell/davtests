@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_const_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_const_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_const_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_const_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_const_bad.v".
 AST_DEBUG_BEGIN
 Count: 542
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_const_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_const_bad.v> u<541> t<Top_level_rule> c<1> l<6:1> el<57:1>
+FILE: f<13>:$Source01/t_func_const_bad.v
+n<$Source01/t_func_const_bad.v> u<541> t<Top_level_rule> c<1> l<6:1> el<57:1>
   n<> u<1> t<Null_rule> p<541> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<541> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<541> s<4> l<2:1> el<2:3>
@@ -545,19 +554,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_const_bad.v> u<541> t<Top_level_rule> c<
                       n<> u<529> t<ENDFUNCTION> p<530> l<55:4> el<55:15>
         n<> u<537> t<ENDMODULE> p<538> l<56:1> el<56:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_const_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_const_bad.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_const_bad.v file:${SURELOG_DIR}/tests/Verilator/t_func_const_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_const_bad.v file:$Source01/t_func_const_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_const_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_const_bad/lib/work/t_func_const_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_const_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_const_bad.v start:6:1 end:56:10:
+    Module name:work@t file:$Source01/t_func_const_bad.v start:6:1 end:56:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -801,6 +810,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiTaskFunc (6 items):
         Function name:f_bad_output start:12:4 end:14:15:
           vpiParent: Module name:work@t
@@ -962,7 +976,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: t.EIGHT
               vpiFullName: work@t.f_bad_dotted.t.EIGHT
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:t start:22:22 end:22:23:
                   vpiParent: HierPath name:t.EIGHT
                   vpiName: t
@@ -1262,7 +1276,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:51:28 end:51:31:
                     vpiParent: ForStmt
-                    vpiOpType: post inc (62)
+                    vpiOpType: post inc (64)
                     vpiOperand (1 items):
                       RefObj name:i start:51:28 end:51:29:
                         vpiParent: Operation
@@ -1307,7 +1321,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 160
                           vpiDecompile: "\"Printing in loop: %s\""
-                          vpiValue: Printing in loop: %s
+                          vpiValue: "Printing in loop: %s"
                         SysFuncCall name:$sformatf start:52:43 end:52:61:
                           vpiParent: SysFuncCall name:$display
                           vpiName Identifier name:$sformatf start:52:43 end:52:52:
@@ -1323,7 +1337,7 @@ Design name:unnamed:
                               vpiConstType: string (6)
                               vpiSize: 16
                               vpiDecompile: "\"%d\""
-                              vpiValue: %d
+                              vpiValue: "%d"
                             RefObj name:i start:52:59 end:52:60:
                               vpiParent: SysFuncCall name:$sformatf
                               vpiName: i
@@ -1354,7 +1368,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 16
                     vpiDecompile: "\"%s\""
-                    vpiValue: %s
+                    vpiValue: "%s"
                   SysFuncCall name:$sformatf start:54:23 end:54:47:
                     vpiParent: SysFuncCall name:$fatal
                     vpiName Identifier name:$sformatf start:54:23 end:54:32:
@@ -1397,37 +1411,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_const_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_const_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_const_bad/surelog.uhdm
+      test-name: Verilator/t_func_const_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_const_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_const_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_const_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_const_bad/lib/work/t_func_const_bad.v'): {'post_len': 0,
-                                                                                                                                           'pre_len': 852}},
+            'files': {'$Output/lib/work/t_func_const_bad.v': {'post_len': 0,
+                                                              'pre_len': 852}},
             'post_len': 0,
             'pre_len': 852,
             'test_name': 'Verilator/t_func_const_bad'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/t_func_const_bad.v |      852 |         0 |
-+=============================+==========+===========+
-|                             |      852 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/t_func_const_bad.v |      852 |         0 |
++=====================================+==========+===========+
+|                                     |      852 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1441,7 +1458,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_const_bad/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             204     204       0         0
+Others                             205     205       0         0
 ----------------------------------------------------------------
-                                   204     204       0         0
+                                   205     205       0         0
 ===================== END REDUCTION RESULT =====================

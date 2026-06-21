@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr528b.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr528b.v".
+[INF:PA0201] Parsing source file "$Source01/pr528b.v".
 AST_DEBUG_BEGIN
 Count: 492
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v> u<491> t<Top_level_rule> c<1> l<1:1> el<45:1>
+FILE: f<13>:$Source01/pr528b.v
+n<$Source01/pr528b.v> u<491> t<Top_level_rule> c<1> l<1:1> el<45:1>
   n<> u<1> t<Null_rule> p<491> s<490> l<1:1>
   n<> u<490> t<Source_text> p<491> c<10> l<1:1> el<44:10>
     n<> u<10> t<Description> p<490> c<9> s<294> l<1:1> el<1:23>
@@ -495,22 +504,22 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v> u<491> t<Top_level_rule> c<1> l
                               n<clk1> u<474> t<SIMPLE_IDENTIFIER> p<475> l<43:39> el<43:43>
         n<> u<487> t<ENDMODULE> p<488> l<44:1> el<44:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v:3:1: Compile module "work@tester".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v:30:1: Compile module "work@ckmux".
+[INF:CP0303] $Source01/pr528b.v:3:1: Compile module "work@tester".
+[INF:CP0303] $Source01/pr528b.v:30:1: Compile module "work@ckmux".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr528b.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr528b.v file:$Source01/pr528b.v:
       vpiParent: Design name:unnamed
       vpiName: pr528b.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/lib/work/pr528b.v"
+      vpiPreprocFile: "$Output/lib/work/pr528b.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
   vpiAllModules (2 items):
-    Module name:work@tester file:${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v start:3:1 end:28:10:
+    Module name:work@tester file:$Source01/pr528b.v start:3:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tester start:3:8 end:3:14:
         vpiParent: Module name:work@tester
@@ -528,6 +537,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tester
+        vpiName: work
+        vpiFullName: work@tester.work
+      vpiCell: tester
       vpiNet (6 items):
         Net name:clko1 start:4:11 end:4:16:
           vpiParent: Module name:work@tester
@@ -606,7 +620,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:13:9 end:13:18:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -624,7 +638,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
         Initial start:16:5 end:19:8:
           vpiParent: Module name:work@tester
           vpiStmt Begin start:16:13 end:19:8:
@@ -651,7 +665,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               ForeverStmt start:18:9 end:18:37:
                 vpiParent: Begin
                 vpiStmt DelayControl start:18:17 end:18:37:
@@ -709,7 +723,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               ForeverStmt start:23:9 end:23:37:
                 vpiParent: Begin
                 vpiStmt DelayControl start:23:17 end:23:37:
@@ -758,7 +772,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 88
                 vpiDecompile: "\"%T %b %b %b\""
-                vpiValue: %T %b %b %b
+                vpiValue: "%T %b %b %b"
               SysTaskCall name:$time start:26:38 end:26:43:
                 vpiParent: SysFuncCall name:$monitor
                 vpiName Identifier name:$time start:26:38 end:26:43:
@@ -871,7 +885,7 @@ Design name:unnamed:
                 vpiName: f2
                 vpiFullName: work@tester.uut.f2
                 vpiActual: Net name:f2
-    Module name:work@ckmux file:${SURELOG_DIR}/tests/Icarus/ivltests/pr528b.v start:30:1 end:44:10:
+    Module name:work@ckmux file:$Source01/pr528b.v start:30:1 end:44:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ckmux start:30:8 end:30:13:
         vpiParent: Module name:work@ckmux
@@ -884,6 +898,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ckmux
+        vpiName: work
+        vpiFullName: work@ckmux.work
+      vpiCell: ckmux
       vpiNet (7 items):
         Net name:clko1 start:31:15 end:31:20:
           vpiParent: Module name:work@ckmux
@@ -1035,7 +1054,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               ForeverStmt start:39:9 end:39:60:
                 vpiParent: Begin
                 vpiStmt EventControl start:39:17 end:39:60:
@@ -1149,37 +1168,40 @@ Design name:unnamed:
         vpiName: work@ckmux
       vpiModule: Module name:work@ckmux
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr528b
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/surelog.uhdm
+      test-name: Icarus/ivltests/pr528b
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/mounts.json
 
 
 {'result': {'coverage': 96.16,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/lib/work/pr528b.v'): {'post_len': 26,
-                                                                                                                             'pre_len': 677}},
+            'files': {'$Output/lib/work/pr528b.v': {'post_len': 26,
+                                                    'pre_len': 677}},
             'post_len': 26,
             'pre_len': 677,
             'test_name': 'Icarus/ivltests/pr528b'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/pr528b.v |      677 |        26 |
-+===================+==========+===========+
-|                   |      677 |        26 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/pr528b.v |      677 |        26 |
++===========================+==========+===========+
+|                           |      677 |        26 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.16
@@ -1193,7 +1215,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr528b/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             164     164       0         0
+Others                             166     166       0         0
 ----------------------------------------------------------------
-                                   164     164       0         0
+                                   166     166       0         0
 ===================== END REDUCTION RESULT =====================

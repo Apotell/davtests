@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/signed6/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm signed6.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/signed6
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/signed6.v".
+[INF:PA0201] Parsing source file "$Source01/signed6.v".
 AST_DEBUG_BEGIN
 Count: 337
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/signed6.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/signed6.v> u<336> t<Top_level_rule> c<1> l<23:1> el<56:1>
+FILE: f<13>:$Source01/signed6.v
+n<$Source01/signed6.v> u<336> t<Top_level_rule> c<1> l<23:1> el<56:1>
   n<> u<1> t<Null_rule> p<336> s<2> l<23:1> el<23:1>
   n</*\n * Copyright (c) 2003 Stephen Williams (steve@icarus.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<336> s<3> l<23:1> el<55:10>
   n</*\n * test the signedness of wires.\n */> u<3> t<BLOCK_COMMENT> p<336> s<334> l<23:1> el<55:10>
@@ -340,19 +349,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/signed6.v> u<336> t<Top_level_rule> c<1> 
         n<> u<331> t<ENDMODULE> p<332> l<55:1> el<55:10>
   n<// main> u<335> t<LINE_COMMENT> p<336> l<55:11> el<55:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/signed6.v:23:1: Compile module "work@main".
+[INF:CP0303] $Source01/signed6.v:23:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:signed6.v file:${SURELOG_DIR}/tests/Icarus/ivltests/signed6.v:
+  vpiSourceFile (1 items):
+    SourceFile name:signed6.v file:$Source01/signed6.v:
       vpiParent: Design name:unnamed
       vpiName: signed6.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/signed6/lib/work/signed6.v"
+      vpiPreprocFile: "$Output/lib/work/signed6.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/signed6.v start:23:1 end:55:10:
+    Module name:work@main file:$Source01/signed6.v start:23:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:23:8 end:23:12:
         vpiParent: Module name:work@main
@@ -440,6 +449,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (3 items):
         Net name:val_rs start:25:21 end:25:27:
           vpiParent: Module name:work@main
@@ -584,7 +598,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 8
                       vpiDecompile: "8'd252"
-                      vpiValue: 252
+                      vpiValue: "252"
                 vpiStmt Begin start:33:29 end:36:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -604,7 +618,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 224
                           vpiDecompile: "\"FAILED -- val_w is wrong: %b\""
-                          vpiValue: FAILED -- val_w is wrong: %b
+                          vpiValue: "FAILED -- val_w is wrong: %b"
                         RefObj name:val_w start:34:44 end:34:49:
                           vpiParent: SysFuncCall name:$display
                           vpiName: val_w
@@ -639,7 +653,7 @@ Design name:unnamed:
                           vpiConstType: decimal (1)
                           vpiSize: 8
                           vpiDecompile: "8'sd4"
-                          vpiValue: 4
+                          vpiValue: "4"
                 vpiStmt Begin start:38:30 end:41:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -659,7 +673,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 232
                           vpiDecompile: "\"FAILED == val_ws is wrong: %b\""
-                          vpiValue: FAILED == val_ws is wrong: %b
+                          vpiValue: "FAILED == val_ws is wrong: %b"
                         RefObj name:val_ws start:39:45 end:39:51:
                           vpiParent: SysFuncCall name:$display
                           vpiName: val_ws
@@ -791,37 +805,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/signed6
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/signed6
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/signed6/surelog.uhdm
+      test-name: Icarus/ivltests/signed6
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/signed6
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/signed6/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/signed6/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/signed6/lib/work/signed6.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 547}},
+            'files': {'$Output/lib/work/signed6.v': {'post_len': 0,
+                                                     'pre_len': 547}},
             'post_len': 0,
             'pre_len': 547,
             'test_name': 'Icarus/ivltests/signed6'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/signed6.v |      547 |         0 |
-+====================+==========+===========+
-|                    |      547 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/signed6.v |      547 |         0 |
++============================+==========+===========+
+|                            |      547 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -836,10 +853,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      20       7         7
 Operation                            8       0       0         8
-RefObj                              10       4       0         6
+RefObj                              11       5       0         6
 RefTypespec                         23      21       5         7
 ----------------------------------------------------------------
 Others                              48      48       0         0
 ----------------------------------------------------------------
-                                   109      93      12        28
+                                   110      94      12        28
 ===================== END REDUCTION RESULT =====================

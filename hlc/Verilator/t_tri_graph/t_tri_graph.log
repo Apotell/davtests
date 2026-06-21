@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_tri_graph/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_tri_graph.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_tri_graph
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_tri_graph.v".
+[INF:PA0201] Parsing source file "$Source01/t_tri_graph.v".
 AST_DEBUG_BEGIN
 Count: 158
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_tri_graph.v
-n<${SURELOG_DIR}/tests/Verilator/t_tri_graph.v> u<157> t<Top_level_rule> c<1> l<8:1> el<28:1>
+FILE: f<13>:$Source01/t_tri_graph.v
+n<$Source01/t_tri_graph.v> u<157> t<Top_level_rule> c<1> l<8:1> el<28:1>
   n<> u<1> t<Null_rule> p<157> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Unsupported tristate constructur error> u<2> t<LINE_COMMENT> p<157> s<3> l<1:1> el<1:66>
   n<//> u<3> t<LINE_COMMENT> p<157> s<4> l<2:1> el<2:3>
@@ -161,20 +170,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_tri_graph.v> u<157> t<Top_level_rule> c<1> l<
         n<> u<152> t<ENDMODULE> p<153> l<27:1> el<27:10>
   n<// test> u<156> t<LINE_COMMENT> p<157> l<27:11> el<27:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_graph.v:8:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_graph.v:23:1: Compile module "work@test".
+[INF:CP0303] $Source01/t_tri_graph.v:8:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_tri_graph.v:23:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_tri_graph.v file:${SURELOG_DIR}/tests/Verilator/t_tri_graph.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_tri_graph.v file:$Source01/t_tri_graph.v:
       vpiParent: Design name:unnamed
       vpiName: t_tri_graph.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_tri_graph/lib/work/t_tri_graph.v"
+      vpiPreprocFile: "$Output/lib/work/t_tri_graph.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_tri_graph.v start:8:1 end:20:10:
+    Module name:work@t file:$Source01/t_tri_graph.v start:8:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:8:8 end:8:9:
         vpiParent: Module name:work@t
@@ -218,6 +227,11 @@ Design name:unnamed:
             vpiName: work@test
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:work@t
@@ -325,7 +339,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
       vpiRefInstance (1 items):
         RefInstance name:i_test start:18:9 end:18:15:
           vpiParent: Module name:work@t
@@ -374,7 +388,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@test file:${SURELOG_DIR}/tests/Verilator/t_tri_graph.v start:23:1 end:27:10:
+    Module name:work@test file:$Source01/t_tri_graph.v start:23:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:23:8 end:23:12:
         vpiParent: Module name:work@test
@@ -409,6 +423,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (1 items):
         Net name:clk start:25:22 end:25:25:
           vpiParent: Module name:work@test
@@ -452,37 +471,40 @@ Design name:unnamed:
         vpiName: work@test
       vpiModule: Module name:work@test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_tri_graph
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_graph
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_graph/surelog.uhdm
+      test-name: Verilator/t_tri_graph
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_graph
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_graph/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_graph/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_tri_graph/lib/work/t_tri_graph.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 161}},
+            'files': {'$Output/lib/work/t_tri_graph.v': {'post_len': 0,
+                                                         'pre_len': 161}},
             'post_len': 0,
             'pre_len': 161,
             'test_name': 'Verilator/t_tri_graph'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/t_tri_graph.v |      161 |         0 |
-+========================+==========+===========+
-|                        |      161 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/t_tri_graph.v |      161 |         0 |
++================================+==========+===========+
+|                                |      161 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -499,7 +521,7 @@ Constant                            11       9       1         3
 Operation                            3       0       0         3
 RefTypespec                         17      14       0         3
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    68      60       1         9
+                                    70      62       1         9
 ===================== END REDUCTION RESULT =====================

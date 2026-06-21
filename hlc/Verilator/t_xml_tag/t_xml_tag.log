@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_xml_tag/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_xml_tag.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_xml_tag
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_xml_tag.v".
+[INF:PA0201] Parsing source file "$Source01/t_xml_tag.v".
 AST_DEBUG_BEGIN
 Count: 222
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_xml_tag.v
-n<${SURELOG_DIR}/tests/Verilator/t_xml_tag.v> u<221> t<Top_level_rule> c<1> l<6:1> el<44:1>
+FILE: f<13>:$Source01/t_xml_tag.v
+n<$Source01/t_xml_tag.v> u<221> t<Top_level_rule> c<1> l<6:1> el<44:1>
   n<> u<1> t<Null_rule> p<221> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<221> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<221> s<4> l<2:1> el<2:3>
@@ -225,21 +234,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_xml_tag.v> u<221> t<Top_level_rule> c<1> l<6:
                         n<> u<208> t<END> p<209> l<41:4> el<41:7>
         n<> u<217> t<ENDMODULE> p<218> l<43:1> el<43:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_xml_tag.v:6:1: Compile interface "work@ifc".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_xml_tag.v:11:1: Compile module "work@m".
+[INF:CP0304] $Source01/t_xml_tag.v:6:1: Compile interface "work@ifc".
+[INF:CP0303] $Source01/t_xml_tag.v:11:1: Compile module "work@m".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_xml_tag.v:32:30: Illegal implicit net "id:80, name:value".
+[ERR:EL0535] $Source01/t_xml_tag.v:32:30: Illegal implicit net "id:82, name:value".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_xml_tag.v file:${SURELOG_DIR}/tests/Verilator/t_xml_tag.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_xml_tag.v file:$Source01/t_xml_tag.v:
       vpiParent: Design name:unnamed
       vpiName: t_xml_tag.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_xml_tag/lib/work/t_xml_tag.v"
+      vpiPreprocFile: "$Output/lib/work/t_xml_tag.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@ifc file:${SURELOG_DIR}/tests/Verilator/t_xml_tag.v start:6:1 end:9:13:
+    Interface name:work@ifc file:$Source01/t_xml_tag.v start:6:1 end:9:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ifc start:6:11 end:6:14:
         vpiParent: Interface name:work@ifc
@@ -259,6 +268,11 @@ Design name:unnamed:
           vpiParent: Interface name:work@ifc
           vpiSigned: true
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@ifc
+        vpiName: work
+        vpiFullName: work@ifc.work
+      vpiCell: ifc
       vpiModport (1 items):
         Modport name:out_modport start:8:12 end:8:23:
           vpiParent: Interface name:work@ifc
@@ -275,7 +289,7 @@ Design name:unnamed:
                 vpiFullName: work@ifc.out_modport.value
           vpiInterface: Interface name:work@ifc
   vpiAllModules (1 items):
-    Module name:work@m file:${SURELOG_DIR}/tests/Verilator/t_xml_tag.v start:11:1 end:43:10:
+    Module name:work@m file:$Source01/t_xml_tag.v start:11:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@m start:11:8 end:11:9:
         vpiParent: Module name:work@m
@@ -416,6 +430,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@m
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@m
+        vpiName: work
+        vpiFullName: work@m.work
+      vpiCell: m
       vpiTaskFunc (1 items):
         Function name:f start:34:4 end:36:15:
           vpiParent: Module name:work@m
@@ -451,7 +470,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 16
                 vpiDecompile: "\"%s\""
-                vpiValue: %s
+                vpiValue: "%s"
               RefObj name:m start:35:22 end:35:23:
                 vpiParent: SysFuncCall name:$display
                 vpiName: m
@@ -502,7 +521,7 @@ Design name:unnamed:
             vpiParent: Net name:dotted
             vpiName: itop.value
             vpiFullName: work@m.dotted.itop.value
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:itop start:32:25 end:32:29:
                 vpiParent: HierPath name:itop.value
                 vpiName: itop
@@ -571,7 +590,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 5832
                     vpiDecompile: "\"\\x01\\x02\\x03\\x04\\x05\\x06\\a\\x08\\t\\n\\v\\f\\r\\x0e\\x0f\\x10\\x11\\x12\\x13\\x14\\x15\\x16\\x17\\x18\\x19\\x1a\\x1b\\x1c\\x1d\\x1e\\x1f !\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[#~@\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\\x7f\\x80\\x81\\x82\\x83\\x84\\x85\\x86\\x87\\x88\\x89\\x8a\\x8b\\x8c\\x8d\\x8e\\x8f\\x90\\x91\\x92\\x93\\x94\\x95\\x96\\x97\\x98\\x99\\x9a\\x9b\\x9c\\x9d\\x9e\\x9f\\xa0\\xa1\\xa2\\xa3\\xa4\\xa5\\xa6\\xa7\\xa8\\xa9\\xaa\\xab\\xac\\xad\\xae\\xaf\\xb0\\xb1\\xb2\\xb3\\xb4\\xb5\\xb6\\xb7\\xb8\\xb9\\xba\\xbb\\xbc\\xbd\\xbe\\xbf\\xc0\\xc1\\xc2\\xc3\\xc4\\xc5\\xc6\\xc7\\xc8\\xc9\\xca\\xcb\\xcc\\xcd\\xce\\xcf\\xd0\\xd1\\xd2\\xd3\\xd4\\xd5\\xd6\\xd7\\xd8\\xd9\\xda\\xdb\\xdc\\xdd\\xde\\xdf\\xe0\\xe1\\xe2\\xe3\\xe4\\xe5\\xe6\\xe7\\xe8\\xe9\\xea\\xeb\\xec\\xed\\xee\\xef\\xf0\\xf1\\xf2\\xf3\\xf4\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff#~\""
-                    vpiValue: \x01\x02\x03\x04\x05\x06\a\x08\t\n\v\f\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[#~@\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff#~
+                    vpiValue: "\\x01\\x02\\x03\\x04\\x05\\x06\\a\\x08\\t\\n\\v\\f\\r\\x0e\\x0f\\x10\\x11\\x12\\x13\\x14\\x15\\x16\\x17\\x18\\x19\\x1a\\x1b\\x1c\\x1d\\x1e\\x1f !\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[#~@\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\\x7f\\x80\\x81\\x82\\x83\\x84\\x85\\x86\\x87\\x88\\x89\\x8a\\x8b\\x8c\\x8d\\x8e\\x8f\\x90\\x91\\x92\\x93\\x94\\x95\\x96\\x97\\x98\\x99\\x9a\\x9b\\x9c\\x9d\\x9e\\x9f\\xa0\\xa1\\xa2\\xa3\\xa4\\xa5\\xa6\\xa7\\xa8\\xa9\\xaa\\xab\\xac\\xad\\xae\\xaf\\xb0\\xb1\\xb2\\xb3\\xb4\\xb5\\xb6\\xb7\\xb8\\xb9\\xba\\xbb\\xbc\\xbd\\xbe\\xbf\\xc0\\xc1\\xc2\\xc3\\xc4\\xc5\\xc6\\xc7\\xc8\\xc9\\xca\\xcb\\xcc\\xcd\\xce\\xcf\\xd0\\xd1\\xd2\\xd3\\xd4\\xd5\\xd6\\xd7\\xd8\\xd9\\xda\\xdb\\xdc\\xdd\\xde\\xdf\\xe0\\xe1\\xe2\\xe3\\xe4\\xe5\\xe6\\xe7\\xe8\\xe9\\xea\\xeb\\xec\\xed\\xee\\xef\\xf0\\xf1\\xf2\\xf3\\xf4\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff#~"
       vpiRefInstance (1 items):
         RefInstance name:itop start:28:8 end:28:12:
           vpiParent: Module name:work@m
@@ -600,37 +619,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_xml_tag
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_xml_tag
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_xml_tag/surelog.uhdm
+      test-name: Verilator/t_xml_tag
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_xml_tag
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_xml_tag/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_xml_tag/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_xml_tag/lib/work/t_xml_tag.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 1106}},
+            'files': {'$Output/lib/work/t_xml_tag.v': {'post_len': 0,
+                                                       'pre_len': 1106}},
             'post_len': 0,
             'pre_len': 1106,
             'test_name': 'Verilator/t_xml_tag'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_xml_tag.v |     1106 |         0 |
-+======================+==========+===========+
-|                      |     1106 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_xml_tag.v |     1106 |         0 |
++==============================+==========+===========+
+|                              |     1106 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -644,7 +666,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_xml_tag/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    97      97       0         0
 ===================== END REDUCTION RESULT =====================

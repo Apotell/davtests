@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_var_port_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_var_port_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_var_port_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_var_port_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_var_port_bad.v".
 AST_DEBUG_BEGIN
 Count: 104
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v> u<103> t<Top_level_rule> c<1> l<6:1> el<17:1>
+FILE: f<13>:$Source01/t_var_port_bad.v
+n<$Source01/t_var_port_bad.v> u<103> t<Top_level_rule> c<1> l<6:1> el<17:1>
   n<> u<1> t<Null_rule> p<103> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<103> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<103> s<4> l<2:1> el<2:3>
@@ -107,25 +116,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v> u<103> t<Top_level_rule> c<1>
                 n<b> u<94> t<SIMPLE_IDENTIFIER> p<95> l<15:13> el<15:14>
         n<> u<99> t<ENDMODULE> p<100> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:11:1: Compile module "work@subok".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:14:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_var_port_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_var_port_bad.v:11:1: Compile module "work@subok".
+[INF:CP0303] $Source01/t_var_port_bad.v:14:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:7:18: Illegal implicit net "id:15, name:a".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:7:28: Illegal implicit net "id:20, name:b".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:8:14: Illegal implicit net "id:29, name:a".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:8:24: Illegal implicit net "id:34, name:b".
+[ERR:EL0535] $Source01/t_var_port_bad.v:7:18: Illegal implicit net "id:18, name:a".
+[ERR:EL0535] $Source01/t_var_port_bad.v:7:28: Illegal implicit net "id:23, name:b".
+[ERR:EL0535] $Source01/t_var_port_bad.v:8:14: Illegal implicit net "id:32, name:a".
+[ERR:EL0535] $Source01/t_var_port_bad.v:8:24: Illegal implicit net "id:37, name:b".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_var_port_bad.v file:${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_var_port_bad.v file:$Source01/t_var_port_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_var_port_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_var_port_bad/lib/work/t_var_port_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_var_port_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v start:6:1 end:9:10:
+    Module name:work@t file:$Source01/t_var_port_bad.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -146,6 +155,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiRefInstance (2 items):
         RefInstance name:subok start:7:10 end:7:15:
           vpiParent: Module name:work@t
@@ -171,7 +185,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             Port start:7:27 end:7:35:
               vpiParent: RefInstance name:subok
               vpiLowConn RefObj name:b start:7:28 end:7:29:
@@ -187,7 +201,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
-                vpiValue: 0
+                vpiValue: "0"
         RefInstance name:sub start:8:8 end:8:11:
           vpiParent: Module name:work@t
           vpiName: sub
@@ -212,7 +226,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
-                vpiValue: 1
+                vpiValue: "1"
             Port start:8:23 end:8:31:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:b start:8:24 end:8:25:
@@ -228,8 +242,8 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
-                vpiValue: 0
-    Module name:work@subok file:${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v start:11:1 end:12:10:
+                vpiValue: "0"
+    Module name:work@subok file:$Source01/t_var_port_bad.v start:11:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@subok start:11:8 end:11:13:
         vpiParent: Module name:work@subok
@@ -240,6 +254,11 @@ Design name:unnamed:
           vpiParent: Module name:work@subok
       vpiDefName: work@subok
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@subok
+        vpiName: work
+        vpiFullName: work@subok.work
+      vpiCell: subok
       vpiNet (2 items):
         Net name:a start:11:21 end:11:22:
           vpiParent: Module name:work@subok
@@ -284,7 +303,7 @@ Design name:unnamed:
             vpiParent: Port name:b
             vpiFullName: work@subok.b
             vpiActual: LogicTypespec
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_var_port_bad.v start:14:1 end:16:10:
+    Module name:work@sub file:$Source01/t_var_port_bad.v start:14:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:14:8 end:14:11:
         vpiParent: Module name:work@sub
@@ -295,6 +314,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (1 items):
         Net name:a start:15:10 end:15:11:
           vpiParent: Module name:work@sub
@@ -338,37 +362,40 @@ Design name:unnamed:
         vpiName: work@sub
       vpiModule: Module name:work@sub
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_var_port_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_var_port_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_port_bad/surelog.uhdm
+      test-name: Verilator/t_var_port_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_var_port_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_port_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_port_bad/mounts.json
 
 
 {'result': {'coverage': 99.33,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_var_port_bad/lib/work/t_var_port_bad.v'): {'post_len': 1,
-                                                                                                                                       'pre_len': 149}},
+            'files': {'$Output/lib/work/t_var_port_bad.v': {'post_len': 1,
+                                                            'pre_len': 149}},
             'post_len': 1,
             'pre_len': 149,
             'test_name': 'Verilator/t_var_port_bad'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_var_port_bad.v |      149 |         1 |
-+===========================+==========+===========+
-|                           |      149 |         1 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_var_port_bad.v |      149 |         1 |
++===================================+==========+===========+
+|                                   |      149 |         1 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.33
@@ -382,7 +409,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_var_port_bad/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

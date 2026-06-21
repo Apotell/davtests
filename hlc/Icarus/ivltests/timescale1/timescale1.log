@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm timescale1.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/timescale1.v".
+[INF:PA0201] Parsing source file "$Source01/timescale1.v".
 AST_DEBUG_BEGIN
 Count: 640
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v> u<639> t<Top_level_rule> c<1> l<25:1> el<107:1>
+FILE: f<13>:$Source01/timescale1.v
+n<$Source01/timescale1.v> u<639> t<Top_level_rule> c<1> l<25:1> el<107:1>
   n<> u<1> t<Null_rule> p<639> s<2> l<25:1> el<25:1>
   n</*\n * Copyright (c) 2000 Stephen Williams (steve@icarus.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<639> s<3> l<25:1> el<106:10>
   n</*\n * This test checks that times within modules are scaled up to the\n * precision of the simulation.\n */> u<3> t<BLOCK_COMMENT> p<639> s<637> l<25:1> el<106:10>
@@ -643,23 +652,23 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v> u<639> t<Top_level_rule> c<
         n<> u<634> t<ENDMODULE> p<635> l<106:1> el<106:10>
   n<// main> u<638> t<LINE_COMMENT> p<639> l<106:11> el<106:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v:26:1: Compile module "work@slow".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v:39:1: Compile module "work@fast".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v:51:1: Compile module "work@main".
+[INF:CP0303] $Source01/timescale1.v:26:1: Compile module "work@slow".
+[INF:CP0303] $Source01/timescale1.v:39:1: Compile module "work@fast".
+[INF:CP0303] $Source01/timescale1.v:51:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:timescale1.v file:${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:timescale1.v file:$Source01/timescale1.v:
       vpiParent: Design name:unnamed
       vpiName: timescale1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/lib/work/timescale1.v"
+      vpiPreprocFile: "$Output/lib/work/timescale1.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -6
       vpiTimeUnit: -6
   vpiAllModules (3 items):
-    Module name:work@slow file:${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v start:26:1 end:35:10:
+    Module name:work@slow file:$Source01/timescale1.v start:26:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@slow start:26:8 end:26:12:
         vpiParent: Module name:work@slow
@@ -672,6 +681,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -6
       vpiTimeUnit: -4
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@slow
+        vpiName: work
+        vpiFullName: work@slow.work
+      vpiCell: slow
       vpiNet (1 items):
         Net name:out start:27:11 end:27:14:
           vpiParent: Module name:work@slow
@@ -762,7 +776,7 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-    Module name:work@fast file:${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v start:39:1 end:48:10:
+    Module name:work@fast file:$Source01/timescale1.v start:39:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@fast start:39:8 end:39:12:
         vpiParent: Module name:work@fast
@@ -775,6 +789,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -6
       vpiTimeUnit: -5
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@fast
+        vpiName: work
+        vpiFullName: work@fast.work
+      vpiCell: fast
       vpiNet (1 items):
         Net name:out start:40:11 end:40:14:
           vpiParent: Module name:work@fast
@@ -865,7 +884,7 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/timescale1.v start:51:1 end:106:10:
+    Module name:work@main file:$Source01/timescale1.v start:51:1 end:106:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:51:8 end:51:12:
         vpiParent: Module name:work@main
@@ -888,6 +907,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -6
       vpiTimeUnit: -6
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (2 items):
         Net name:slow start:53:9 end:53:13:
           vpiParent: Module name:work@main
@@ -939,7 +963,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                   vpiStmt Begin start:60:21 end:63:5:
                     vpiParent: IfStmt
                     vpiFullName: work@main
@@ -995,7 +1019,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt Begin start:65:28 end:68:5:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1043,7 +1067,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                   vpiStmt Begin start:71:21 end:74:5:
                     vpiParent: IfStmt
                     vpiFullName: work@main
@@ -1099,7 +1123,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:76:28 end:79:5:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1147,7 +1171,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                   vpiStmt Begin start:82:21 end:85:5:
                     vpiParent: IfStmt
                     vpiFullName: work@main
@@ -1203,7 +1227,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:87:28 end:90:5:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1251,7 +1275,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt Begin start:93:21 end:96:5:
                     vpiParent: IfStmt
                     vpiFullName: work@main
@@ -1307,7 +1331,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:98:28 end:101:5:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1413,37 +1437,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/timescale1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/surelog.uhdm
+      test-name: Icarus/ivltests/timescale1
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/mounts.json
 
 
 {'result': {'coverage': 91.94,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/lib/work/timescale1.v'): {'post_len': 63,
-                                                                                                                                     'pre_len': 782}},
+            'files': {'$Output/lib/work/timescale1.v': {'post_len': 63,
+                                                        'pre_len': 782}},
             'post_len': 63,
             'pre_len': 782,
             'test_name': 'Icarus/ivltests/timescale1'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/timescale1.v |      782 |        63 |
-+=======================+==========+===========+
-|                       |      782 |        63 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/timescale1.v |      782 |        63 |
++===============================+==========+===========+
+|                               |      782 |        63 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 91.94
@@ -1457,7 +1484,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/timescale1/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             194     194       0         0
+Others                             197     197       0         0
 ----------------------------------------------------------------
-                                   194     194       0         0
+                                   197     197       0         0
 ===================== END REDUCTION RESULT =====================

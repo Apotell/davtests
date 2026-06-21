@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr693/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm pr693.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/pr693
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr693.v".
+[INF:PA0201] Parsing source file "$Source01/pr693.v".
 AST_DEBUG_BEGIN
 Count: 404
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v> u<403> t<Top_level_rule> c<1> l<5:1> el<35:1>
+FILE: f<13>:$Source01/pr693.v
+n<$Source01/pr693.v> u<403> t<Top_level_rule> c<1> l<5:1> el<35:1>
   n<> u<1> t<Null_rule> p<403> s<2> l<5:1> el<5:1>
   n</*\n * Notice how the port direction and type are declared\n * together in each statement.\n */> u<2> t<BLOCK_COMMENT> p<403> s<401> l<5:1> el<34:10>
   n<> u<401> t<Source_text> p<403> c<187> s<402> l<5:1> el<34:10>
@@ -407,20 +416,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v> u<403> t<Top_level_rule> c<1> l<
         n<> u<398> t<ENDMODULE> p<399> l<34:1> el<34:10>
   n<// main> u<402> t<LINE_COMMENT> p<403> l<34:11> el<34:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v:5:1: Compile module "work@one_a".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v:20:1: Compile module "work@main".
+[INF:CP0303] $Source01/pr693.v:5:1: Compile module "work@one_a".
+[INF:CP0303] $Source01/pr693.v:20:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr693.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr693.v file:$Source01/pr693.v:
       vpiParent: Design name:unnamed
       vpiName: pr693.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr693/lib/work/pr693.v"
+      vpiPreprocFile: "$Output/lib/work/pr693.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@one_a file:${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v start:5:1 end:17:10:
+    Module name:work@one_a file:$Source01/pr693.v start:5:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@one_a start:5:8 end:5:13:
         vpiParent: Module name:work@one_a
@@ -431,6 +440,11 @@ Design name:unnamed:
           vpiParent: Module name:work@one_a
       vpiDefName: work@one_a
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@one_a
+        vpiName: work
+        vpiFullName: work@one_a.work
+      vpiCell: one_a
       vpiNet (5 items):
         Net name:sum start:6:14 end:6:17:
           vpiParent: Module name:work@one_a
@@ -665,7 +679,7 @@ Design name:unnamed:
                             vpiFullName: work@one_a.ci
                             vpiActual: Net name:ci
           vpiAlwaysType: always (1)
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/pr693.v start:20:1 end:34:10:
+    Module name:work@main file:$Source01/pr693.v start:20:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:20:8 end:20:12:
         vpiParent: Module name:work@main
@@ -707,6 +721,11 @@ Design name:unnamed:
             vpiName: work@one_a
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (3 items):
         Net name:sum start:22:9 end:22:12:
           vpiParent: Module name:work@main
@@ -1022,37 +1041,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr693
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr693
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr693/surelog.uhdm
+      test-name: Icarus/ivltests/pr693
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr693
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr693/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr693/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr693/lib/work/pr693.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 392}},
+            'files': {'$Output/lib/work/pr693.v': {'post_len': 0,
+                                                   'pre_len': 392}},
             'post_len': 0,
             'pre_len': 392,
             'test_name': 'Icarus/ivltests/pr693'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr693.v |      392 |         0 |
-+==================+==========+===========+
-|                  |      392 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr693.v |      392 |         0 |
++==========================+==========+===========+
+|                          |      392 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1066,7 +1088,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr693/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             145     145       0         0
+Others                             147     147       0         0
 ----------------------------------------------------------------
-                                   145     145       0         0
+                                   147     147       0         0
 ===================== END REDUCTION RESULT =====================

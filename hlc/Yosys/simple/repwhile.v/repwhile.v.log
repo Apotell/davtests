@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/repwhile.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/repwhile.v".
+[INF:PA0201] Parsing source file "$Source01/simple/repwhile.v".
 AST_DEBUG_BEGIN
 Count: 484
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/repwhile.v
-n<${SURELOG_DIR}/tests/Yosys/simple/repwhile.v> u<483> t<Top_level_rule> c<1> l<1:1> el<37:1>
+FILE: f<13>:$Source01/simple/repwhile.v
+n<$Source01/simple/repwhile.v> u<483> t<Top_level_rule> c<1> l<1:1> el<37:1>
   n<> u<1> t<Null_rule> p<483> s<482> l<1:1>
   n<> u<482> t<Source_text> p<483> c<481> l<1:1> el<36:10>
     n<> u<481> t<Description> p<482> c<480> l<1:1> el<36:10>
@@ -487,19 +496,19 @@ n<${SURELOG_DIR}/tests/Yosys/simple/repwhile.v> u<483> t<Top_level_rule> c<1> l<
                                     n<a> u<464> t<SIMPLE_IDENTIFIER> p<465> l<35:21> el<35:22>
         n<> u<479> t<ENDMODULE> p<480> l<36:1> el<36:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/repwhile.v:1:1: Compile module "work@repwhile_test001".
+[INF:CP0303] $Source01/simple/repwhile.v:1:1: Compile module "work@repwhile_test001".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:repwhile.v file:${SURELOG_DIR}/tests/Yosys/simple/repwhile.v:
+  vpiSourceFile (1 items):
+    SourceFile name:repwhile.v file:$Source01/simple/repwhile.v:
       vpiParent: Design name:unnamed
       vpiName: repwhile.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/lib/work/simple/repwhile.v"
+      vpiPreprocFile: "$Output/lib/work/simple/repwhile.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@repwhile_test001 file:${SURELOG_DIR}/tests/Yosys/simple/repwhile.v start:1:1 end:36:10:
+    Module name:work@repwhile_test001 file:$Source01/simple/repwhile.v start:1:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@repwhile_test001 start:1:8 end:1:24:
         vpiParent: Module name:work@repwhile_test001
@@ -699,6 +708,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@repwhile_test001
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@repwhile_test001
+        vpiName: work
+        vpiFullName: work@repwhile_test001.work
+      vpiCell: repwhile_test001
       vpiTaskFunc (2 items):
         Function name:mylog2 start:3:2 end:12:13:
           vpiParent: Module name:work@repwhile_test001
@@ -1304,37 +1318,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/repwhile.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/surelog.uhdm
+      test-name: Yosys/simple/repwhile.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/lib/work/simple/repwhile.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 529}},
+            'files': {'$Output/lib/work/simple/repwhile.v': {'post_len': 0,
+                                                             'pre_len': 529}},
             'post_len': 0,
             'pre_len': 529,
             'test_name': 'Yosys/simple/repwhile.v'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/simple/repwhile.v |      529 |         0 |
-+============================+==========+===========+
-|                            |      529 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/simple/repwhile.v |      529 |         0 |
++====================================+==========+===========+
+|                                    |      529 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1348,7 +1365,7 @@ COMMAND: ${SURELOG_DIR}/regression/Yosys/simple/repwhile.v/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             191     191       0         0
+Others                             192     192       0         0
 ----------------------------------------------------------------
-                                   191     191       0         0
+                                   192     192       0         0
 ===================== END REDUCTION RESULT =====================

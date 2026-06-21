@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PortInitVal/PortInitVal/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PortInitVal -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PortInitVal/PortInitVal
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 103
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PortInitVal/dut.sv
-n<${SURELOG_DIR}/tests/PortInitVal/dut.sv> u<102> t<Top_level_rule> c<1> l<1:1> el<10:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<102> t<Top_level_rule> c<1> l<1:1> el<10:1>
   n<> u<1> t<Null_rule> p<102> s<101> l<1:1>
   n<> u<101> t<Source_text> p<102> c<100> l<1:1> el<9:10>
     n<> u<100> t<Description> p<101> c<99> l<1:1> el<9:10>
@@ -106,20 +115,20 @@ n<${SURELOG_DIR}/tests/PortInitVal/dut.sv> u<102> t<Top_level_rule> c<1> l<1:1> 
                             n<a> u<87> t<SIMPLE_IDENTIFIER> p<88> l<7:15> el<7:16>
         n<> u<98> t<ENDMODULE> p<99> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/PortInitVal/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortInitVal/dut.sv:1:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PortInitVal/dut.sv:7:11: Illegal implicit net "id:32, name:c".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:7:11: Illegal implicit net "id:33, name:c".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PortInitVal/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PortInitVal/PortInitVal/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/PortInitVal/dut.sv start:1:1 end:9:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -130,6 +139,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (2 items):
         Net name:b start:1:13 end:1:14:
           vpiParent: Module name:work@dut
@@ -240,37 +254,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PortInitVal/PortInitVal
- test-dirpath: ${SURELOG_DIR}/regression/PortInitVal/PortInitVal
-uhdm-filepath: ${SURELOG_DIR}/regression/PortInitVal/PortInitVal/surelog.uhdm
+      test-name: PortInitVal/PortInitVal
+   test-dirpath: ${SURELOG_DIR}/regression/PortInitVal/PortInitVal
+  uhdm-filepath: ${SURELOG_DIR}/regression/PortInitVal/PortInitVal/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PortInitVal/PortInitVal/mounts.json
 
 
 {'result': {'coverage': 98.95,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PortInitVal/PortInitVal/lib/work/dut.sv'): {'post_len': 1,
-                                                                                                                            'pre_len': 95}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
+                                                  'pre_len': 95}},
             'post_len': 1,
             'pre_len': 95,
             'test_name': 'PortInitVal/PortInitVal'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       95 |         1 |
-+=================+==========+===========+
-|                 |       95 |         1 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       95 |         1 |
++=========================+==========+===========+
+|                         |       95 |         1 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 98.95
@@ -284,7 +301,7 @@ COMMAND: ${SURELOG_DIR}/regression/PortInitVal/PortInitVal/surelog.uhdm ${SURELO
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              32      32       0         0
 ----------------------------------------------------------------
-                                    31      31       0         0
+                                    32      32       0         0
 ===================== END REDUCTION RESULT =====================

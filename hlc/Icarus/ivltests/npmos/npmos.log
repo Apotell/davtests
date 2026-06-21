@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/npmos/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm npmos.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/npmos
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/npmos.v".
+[INF:PA0201] Parsing source file "$Source01/npmos.v".
 AST_DEBUG_BEGIN
 Count: 655
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/npmos.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/npmos.v> u<654> t<Top_level_rule> c<1> l<20:1> el<83:1>
+FILE: f<13>:$Source01/npmos.v
+n<$Source01/npmos.v> u<654> t<Top_level_rule> c<1> l<20:1> el<83:1>
   n<> u<1> t<Null_rule> p<654> s<2> l<20:1> el<20:1>
   n</*\n * Copyright (c) 2001 Stephen Williams (steve@icarus.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<654> s<652> l<20:1> el<82:10>
   n<> u<652> t<Source_text> p<654> c<651> s<653> l<20:1> el<82:10>
@@ -658,19 +667,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/npmos.v> u<654> t<Top_level_rule> c<1> l<
         n<> u<649> t<ENDMODULE> p<650> l<82:1> el<82:10>
   n<// main> u<653> t<LINE_COMMENT> p<654> l<82:11> el<82:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/npmos.v:20:1: Compile module "work@main".
+[INF:CP0303] $Source01/npmos.v:20:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:npmos.v file:${SURELOG_DIR}/tests/Icarus/ivltests/npmos.v:
+  vpiSourceFile (1 items):
+    SourceFile name:npmos.v file:$Source01/npmos.v:
       vpiParent: Design name:unnamed
       vpiName: npmos.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/npmos/lib/work/npmos.v"
+      vpiPreprocFile: "$Output/lib/work/npmos.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/npmos.v start:20:1 end:82:10:
+    Module name:work@main file:$Source01/npmos.v start:20:1 end:82:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:20:8 end:20:12:
         vpiParent: Module name:work@main
@@ -681,6 +690,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (4 items):
         Net name:no start:22:9 end:22:11:
           vpiParent: Module name:work@main
@@ -855,7 +869,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt Begin start:37:24 end:40:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1007,7 +1021,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 vpiStmt Begin start:49:24 end:52:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1088,7 +1102,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                   vpiStmt Begin start:56:27 end:59:10:
                     vpiParent: IfStmt
                     vpiFullName: work@main
@@ -1240,7 +1254,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                   vpiStmt Begin start:68:27 end:71:10:
                     vpiParent: IfStmt
                     vpiFullName: work@main
@@ -1454,37 +1468,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/npmos
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/npmos
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/npmos/surelog.uhdm
+      test-name: Icarus/ivltests/npmos
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/npmos
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/npmos/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/npmos/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/npmos/lib/work/npmos.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 796}},
+            'files': {'$Output/lib/work/npmos.v': {'post_len': 0,
+                                                   'pre_len': 796}},
             'post_len': 0,
             'pre_len': 796,
             'test_name': 'Icarus/ivltests/npmos'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/npmos.v |      796 |         0 |
-+==================+==========+===========+
-|                  |      796 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/npmos.v |      796 |         0 |
++==========================+==========+===========+
+|                          |      796 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1498,7 +1515,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/npmos/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             193     193       0         0
+Others                             194     194       0         0
 ----------------------------------------------------------------
-                                   193     193       0         0
+                                   194     194       0         0
 ===================== END REDUCTION RESULT =====================

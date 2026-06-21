@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTestSuite/arch/xilinx -writepp -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm macc.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/macc.v".
+[INF:PA0201] Parsing source file "$Source01/macc.v".
 AST_DEBUG_BEGIN
 Count: 939
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v> u<938> t<Top_level_rule> c<1> l<7:1> el<85:1>
+FILE: f<13>:$Source01/macc.v
+n<$Source01/macc.v> u<938> t<Top_level_rule> c<1> l<7:1> el<85:1>
   n<> u<1> t<Null_rule> p<938> s<2> l<7:1> el<7:1>
   n<// Signed 40-bit streaming accumulator with 16-bit inputs> u<2> t<LINE_COMMENT> p<938> s<3> l<1:1> el<1:58>
   n<// File: HDL_Coding_Techniques/multipliers/multipliers4.v> u<3> t<LINE_COMMENT> p<938> s<4> l<2:1> el<2:58>
@@ -942,20 +951,20 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v> u<938> t<Top_level_rul
                             n<adder_out> u<922> t<SIMPLE_IDENTIFIER> p<923> l<82:50> el<82:59>
         n<> u<934> t<ENDMODULE> p<935> l<84:1> el<84:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v:7:1: Compile module "work@macc".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v:44:1: Compile module "work@macc2".
+[INF:CP0303] $Source01/macc.v:7:1: Compile module "work@macc".
+[INF:CP0303] $Source01/macc.v:44:1: Compile module "work@macc2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:macc.v file:${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v:
+  vpiSourceFile (1 items):
+    SourceFile name:macc.v file:$Source01/macc.v:
       vpiParent: Design name:unnamed
       vpiName: macc.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc/lib/work/macc.v"
+      vpiPreprocFile: "$Output/lib/work/macc.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@macc file:${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v start:7:1 end:41:10:
+    Module name:work@macc file:$Source01/macc.v start:7:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@macc start:7:8 end:7:12:
         vpiParent: Module name:work@macc
@@ -1210,6 +1219,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@macc
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@macc
+        vpiName: work
+        vpiFullName: work@macc.work
+      vpiCell: macc
       vpiNet (12 items):
         Net name:clk start:8:8 end:8:11:
           vpiParent: Module name:work@macc
@@ -1548,7 +1562,7 @@ Design name:unnamed:
             vpiName: adder_out
             vpiFullName: work@macc.adder_out
             vpiActual: Net name:adder_out
-    Module name:work@macc2 file:${SURELOG_DIR}/tests/YosysTestSuite/arch/xilinx/macc.v start:44:1 end:84:10:
+    Module name:work@macc2 file:$Source01/macc.v start:44:1 end:84:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@macc2 start:44:8 end:44:13:
         vpiParent: Module name:work@macc2
@@ -1789,6 +1803,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@macc2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@macc2
+        vpiName: work
+        vpiFullName: work@macc2.work
+      vpiCell: macc2
       vpiNet (14 items):
         Net name:clk start:45:8 end:45:11:
           vpiParent: Module name:work@macc2
@@ -2270,7 +2289,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b0"
-                          vpiValue: 0
+                          vpiValue: "0"
           vpiAlwaysType: always (1)
       vpiContAssign (2 items):
         ContAssign start:79:8 end:79:63:
@@ -2416,37 +2435,40 @@ Design name:unnamed:
         vpiName: work@macc2
       vpiModule: Module name:work@macc2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/arch/xilinx/macc
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc/surelog.uhdm
+      test-name: YosysTestSuite/arch/xilinx/macc
+   test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc
+  uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/arch/xilinx/macc/lib/work/macc.v'): {'post_len': 0,
-                                                                                                                                    'pre_len': 1296}},
+            'files': {'$Output/lib/work/macc.v': {'post_len': 0,
+                                                  'pre_len': 1296}},
             'post_len': 0,
             'pre_len': 1296,
             'test_name': 'YosysTestSuite/arch/xilinx/macc'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/macc.v |     1296 |         0 |
-+=================+==========+===========+
-|                 |     1296 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/macc.v |     1296 |         0 |
++=========================+==========+===========+
+|                         |     1296 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2461,10 +2483,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      36      12        16
 Operation                           25       7       0        18
-RefObj                              80      66       0        14
+RefObj                              82      68       0        14
 RefTypespec                         83      79      12        16
 ----------------------------------------------------------------
 Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   347     307      24        64
+                                   349     309      24        64
 ===================== END REDUCTION RESULT =====================

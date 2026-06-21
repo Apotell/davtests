@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_rnd/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_rnd.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_rnd
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_rnd.v".
+[INF:PA0201] Parsing source file "$Source01/t_rnd.v".
 AST_DEBUG_BEGIN
 Count: 398
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_rnd.v
-n<${SURELOG_DIR}/tests/Verilator/t_rnd.v> u<397> t<Top_level_rule> c<1> l<6:1> el<49:1>
+FILE: f<13>:$Source01/t_rnd.v
+n<$Source01/t_rnd.v> u<397> t<Top_level_rule> c<1> l<6:1> el<49:1>
   n<> u<1> t<Null_rule> p<397> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<397> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<397> s<4> l<2:1> el<2:3>
@@ -401,19 +410,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_rnd.v> u<397> t<Top_level_rule> c<1> l<6:1> e
         n<// verilator lint_on  UNUSED> u<392> t<LINE_COMMENT> p<394> s<393> l<46:4> el<46:32>
         n<> u<393> t<ENDMODULE> p<394> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_rnd.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_rnd.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_rnd.v file:${SURELOG_DIR}/tests/Verilator/t_rnd.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_rnd.v file:$Source01/t_rnd.v:
       vpiParent: Design name:unnamed
       vpiName: t_rnd.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_rnd/lib/work/t_rnd.v"
+      vpiPreprocFile: "$Output/lib/work/t_rnd.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_rnd.v start:6:1 end:48:10:
+    Module name:work@t file:$Source01/t_rnd.v start:6:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -504,6 +513,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (8 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -563,7 +577,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
-            vpiValue: 1
+            vpiValue: "1"
         Net name:rand_bits start:28:15 end:28:24:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec start:28:9 end:28:14:
@@ -582,7 +596,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 8
             vpiDecompile: "8'b01xxxx10"
-            vpiValue: 01xxxx10
+            vpiValue: "01xxxx10"
         Net name:_unused_ok start:45:9 end:45:19:
           vpiParent: Module name:work@t
           vpiTypespec RefTypespec start:45:9 end:45:9:
@@ -609,7 +623,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   RefObj name:wide start:45:30 end:45:34:
                     vpiParent: Operation
                     vpiName: wide
@@ -693,7 +707,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                 Begin start:24:7 end:24:16:
                   vpiParent: Begin name:blockName
                   vpiFullName: work@t.blockName
@@ -767,7 +781,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 3
                           vpiDecompile: "3'b1xx"
-                          vpiValue: 1xx
+                          vpiValue: "1xx"
                       Assignment start:35:3 end:35:53:
                         vpiParent: Begin
                         vpiLhs RefObj name:wide start:35:3 end:35:7:
@@ -805,7 +819,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "1'b1"
-                              vpiValue: 1
+                              vpiValue: "1"
                         vpiStmt SysFuncCall name:$stop start:36:21 end:36:26:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:36:21 end:36:26:
@@ -835,7 +849,7 @@ Design name:unnamed:
                                   vpiConstType: binary (3)
                                   vpiSize: 8
                                   vpiDecompile: "8'b11000011"
-                                  vpiValue: 11000011
+                                  vpiValue: "11000011"
                             Constant start:37:38 end:37:50:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -845,7 +859,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 8
                               vpiDecompile: "8'b01000010"
-                              vpiValue: 01000010
+                              vpiValue: "01000010"
                         vpiStmt SysFuncCall name:$stop start:37:52 end:37:57:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:37:52 end:37:57:
@@ -866,7 +880,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:40:3 end:40:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:40:3 end:40:10:
@@ -888,37 +902,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_rnd
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_rnd
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_rnd/surelog.uhdm
+      test-name: Verilator/t_rnd
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_rnd
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_rnd/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_rnd/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_rnd/lib/work/t_rnd.v'): {'post_len': 0,
-                                                                                                                     'pre_len': 521}},
+            'files': {'$Output/lib/work/t_rnd.v': {'post_len': 0,
+                                                   'pre_len': 521}},
             'post_len': 0,
             'pre_len': 521,
             'test_name': 'Verilator/t_rnd'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/t_rnd.v |      521 |         0 |
-+==================+==========+===========+
-|                  |      521 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/t_rnd.v |      521 |         0 |
++==========================+==========+===========+
+|                          |      521 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -933,10 +950,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            18      17       2         3
 Operation                            8       5       0         3
-RefObj                              12      10       0         2
+RefObj                              13      11       0         2
 RefTypespec                         27      24       0         3
 ----------------------------------------------------------------
 Others                              55      55       0         0
 ----------------------------------------------------------------
-                                   120     111       2        11
+                                   121     112       2        11
 ===================== END REDUCTION RESULT =====================

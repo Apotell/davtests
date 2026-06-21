@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/values.v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm simple/values.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Yosys/simple/values.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/values.v".
+[INF:PA0201] Parsing source file "$Source01/simple/values.v".
 AST_DEBUG_BEGIN
 Count: 562
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/values.v
-n<${SURELOG_DIR}/tests/Yosys/simple/values.v> u<561> t<Top_level_rule> c<1> l<2:1> el<45:1>
+FILE: f<13>:$Source01/simple/values.v
+n<$Source01/simple/values.v> u<561> t<Top_level_rule> c<1> l<2:1> el<45:1>
   n<> u<1> t<Null_rule> p<561> s<560> l<2:1> el<2:1>
   n<> u<560> t<Source_text> p<561> c<155> l<2:1> el<43:10>
     n<> u<155> t<Description> p<560> c<154> s<559> l<2:1> el<15:10>
@@ -565,20 +574,20 @@ n<${SURELOG_DIR}/tests/Yosys/simple/values.v> u<561> t<Top_level_rule> c<1> l<2:
                                 n<> u<544> t<ENDCASE> p<545> l<41:2> el<41:9>
         n<> u<557> t<ENDMODULE> p<558> l<43:1> el<43:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/values.v:2:1: Compile module "work@test_signed".
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/values.v:17:1: Compile module "work@test_const".
+[INF:CP0303] $Source01/simple/values.v:2:1: Compile module "work@test_signed".
+[INF:CP0303] $Source01/simple/values.v:17:1: Compile module "work@test_const".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:values.v file:${SURELOG_DIR}/tests/Yosys/simple/values.v:
+  vpiSourceFile (1 items):
+    SourceFile name:values.v file:$Source01/simple/values.v:
       vpiParent: Design name:unnamed
       vpiName: values.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/values.v/lib/work/simple/values.v"
+      vpiPreprocFile: "$Output/lib/work/simple/values.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@test_signed file:${SURELOG_DIR}/tests/Yosys/simple/values.v start:2:1 end:15:10:
+    Module name:work@test_signed file:$Source01/simple/values.v start:2:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test_signed start:2:8 end:2:19:
         vpiParent: Module name:work@test_signed
@@ -665,6 +674,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test_signed
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test_signed
+        vpiName: work
+        vpiFullName: work@test_signed.work
+      vpiCell: test_signed
       vpiNet (5 items):
         Net name:a start:4:13 end:4:14:
           vpiParent: Module name:work@test_signed
@@ -825,7 +839,7 @@ Design name:unnamed:
                       vpiFullName: work@test_signed.d
                       vpiActual: Net name:d
           vpiAlwaysType: always (1)
-    Module name:work@test_const file:${SURELOG_DIR}/tests/Yosys/simple/values.v start:17:1 end:43:10:
+    Module name:work@test_const file:$Source01/simple/values.v start:17:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test_const start:17:8 end:17:18:
         vpiParent: Module name:work@test_const
@@ -886,6 +900,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test_const
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test_const
+        vpiName: work
+        vpiFullName: work@test_const.work
+      vpiCell: test_const
       vpiNet (2 items):
         Net name:a start:19:13 end:19:14:
           vpiParent: Module name:work@test_const
@@ -957,7 +976,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0000"
-                      vpiValue: 0000
+                      vpiValue: "0000"
                   vpiStmt Assignment start:24:12 end:24:17:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -988,7 +1007,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0001"
-                      vpiValue: 0001
+                      vpiValue: "0001"
                   vpiStmt Assignment start:25:12 end:25:18:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1019,7 +1038,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0010"
-                      vpiValue: 0010
+                      vpiValue: "0010"
                   vpiStmt Assignment start:26:12 end:26:19:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1050,7 +1069,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0011"
-                      vpiValue: 0011
+                      vpiValue: "0011"
                   vpiStmt Assignment start:27:12 end:27:20:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1081,7 +1100,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0100"
-                      vpiValue: 0100
+                      vpiValue: "0100"
                   vpiStmt Assignment start:28:12 end:28:26:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1099,7 +1118,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: -1
                       vpiDecompile: "'b10010010"
-                      vpiValue: 10010010
+                      vpiValue: "10010010"
                 CaseItem start:29:3 end:29:25:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1112,7 +1131,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0101"
-                      vpiValue: 0101
+                      vpiValue: "0101"
                   vpiStmt Assignment start:29:12 end:29:24:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1130,7 +1149,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: -1
                       vpiDecompile: "'h123abc"
-                      vpiValue: 123abc
+                      vpiValue: "123abc"
                 CaseItem start:30:3 end:30:26:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1143,7 +1162,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0110"
-                      vpiValue: 0110
+                      vpiValue: "0110"
                   vpiStmt Assignment start:30:12 end:30:25:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1161,7 +1180,7 @@ Design name:unnamed:
                       vpiConstType: octal (4)
                       vpiSize: -1
                       vpiDecompile: "'o1234567"
-                      vpiValue: 1234567
+                      vpiValue: "1234567"
                 CaseItem start:31:3 end:31:26:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1174,7 +1193,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0111"
-                      vpiValue: 0111
+                      vpiValue: "0111"
                   vpiStmt Assignment start:31:12 end:31:25:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1192,7 +1211,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: -1
                       vpiDecompile: "'d3456789"
-                      vpiValue: 3456789
+                      vpiValue: "3456789"
                 CaseItem start:32:3 end:32:29:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1205,7 +1224,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1000"
-                      vpiValue: 1000
+                      vpiValue: "1000"
                   vpiStmt Assignment start:32:12 end:32:28:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1223,7 +1242,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 16
                       vpiDecompile: "16'b10010010"
-                      vpiValue: 10010010
+                      vpiValue: "10010010"
                 CaseItem start:33:3 end:33:27:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1236,7 +1255,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1001"
-                      vpiValue: 1001
+                      vpiValue: "1001"
                   vpiStmt Assignment start:33:12 end:33:26:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1254,7 +1273,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h123abc"
-                      vpiValue: 123abc
+                      vpiValue: "123abc"
                 CaseItem start:34:3 end:34:28:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1267,7 +1286,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1010"
-                      vpiValue: 1010
+                      vpiValue: "1010"
                   vpiStmt Assignment start:34:12 end:34:27:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1285,7 +1304,7 @@ Design name:unnamed:
                       vpiConstType: octal (4)
                       vpiSize: 16
                       vpiDecompile: "16'o1234567"
-                      vpiValue: 1234567
+                      vpiValue: "1234567"
                 CaseItem start:35:3 end:35:28:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1298,7 +1317,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1011"
-                      vpiValue: 1011
+                      vpiValue: "1011"
                   vpiStmt Assignment start:35:12 end:35:27:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1316,7 +1335,7 @@ Design name:unnamed:
                       vpiConstType: decimal (1)
                       vpiSize: 16
                       vpiDecompile: "16'd3456789"
-                      vpiValue: 3456789
+                      vpiValue: "3456789"
                 CaseItem start:36:3 end:36:33:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1329,7 +1348,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1100"
-                      vpiValue: 1100
+                      vpiValue: "1100"
                   vpiStmt Assignment start:36:12 end:36:32:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1374,7 +1393,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1101"
-                      vpiValue: 1101
+                      vpiValue: "1101"
                   vpiStmt Assignment start:37:12 end:37:36:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1405,7 +1424,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1110"
-                      vpiValue: 1110
+                      vpiValue: "1110"
                   vpiStmt Assignment start:38:12 end:38:21:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1423,7 +1442,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'h1"
-                      vpiValue: 1
+                      vpiValue: "1"
                 CaseItem start:39:3 end:39:18:
                   vpiParent: CaseStmt
                   vpiExpr (1 items):
@@ -1436,7 +1455,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1111"
-                      vpiValue: 1111
+                      vpiValue: "1111"
                   vpiStmt Assignment start:39:12 end:39:17:
                     vpiParent: CaseItem
                     vpiBlocking: true
@@ -1494,37 +1513,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/values.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/values.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/values.v/surelog.uhdm
+      test-name: Yosys/simple/values.v
+   test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/values.v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/values.v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Yosys/simple/values.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/values.v/lib/work/simple/values.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 612}},
+            'files': {'$Output/lib/work/simple/values.v': {'post_len': 0,
+                                                           'pre_len': 612}},
             'post_len': 0,
             'pre_len': 612,
             'test_name': 'Yosys/simple/values.v'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/simple/values.v |      612 |         0 |
-+==========================+==========+===========+
-|                          |      612 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/simple/values.v |      612 |         0 |
++==================================+==========+===========+
+|                                  |      612 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1541,7 +1563,7 @@ Constant                            43      42       1         2
 Operation                            2       1       0         1
 RefTypespec                         57      55       0         2
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   215     211       1         5
+                                   217     213       1         5
 ===================== END REDUCTION RESULT =====================

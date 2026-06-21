@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+basic+lex+lib+relong+resolve -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm basic/multipack_port.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic/multipack_port.v".
+[INF:PA0201] Parsing source file "$Source01/basic/multipack_port.v".
 AST_DEBUG_BEGIN
 Count: 209
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/basic/multipack_port.v
-n<${SURELOG_DIR}/tests/Zachjs/basic/multipack_port.v> u<208> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<18>:$Source01/basic/multipack_port.v
+n<$Source01/basic/multipack_port.v> u<208> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<208> s<207> l<1:1>
   n<> u<207> t<Source_text> p<208> c<206> l<1:1> el<12:10>
     n<> u<206> t<Description> p<207> c<205> l<1:1> el<12:10>
@@ -212,19 +221,19 @@ n<${SURELOG_DIR}/tests/Zachjs/basic/multipack_port.v> u<208> t<Top_level_rule> c
                                 n<> u<191> t<END> p<192> l<11:5> el<11:8>
         n<> u<204> t<ENDMODULE> p<205> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/basic/multipack_port.v:1:1: Compile module "work@foo".
+[INF:CP0303] $Source01/basic/multipack_port.v:1:1: Compile module "work@foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:multipack_port.v file:${SURELOG_DIR}/tests/Zachjs/basic/multipack_port.v:
+  vpiSourceFile (1 items):
+    SourceFile name:multipack_port.v file:$Source01/basic/multipack_port.v:
       vpiParent: Design name:unnamed
       vpiName: multipack_port.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/lib/work/basic/multipack_port.v"
+      vpiPreprocFile: "$Output/lib/work/basic/multipack_port.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@foo file:${SURELOG_DIR}/tests/Zachjs/basic/multipack_port.v start:1:1 end:12:10:
+    Module name:work@foo file:$Source01/basic/multipack_port.v start:1:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:1:8 end:1:11:
         vpiParent: Module name:work@foo
@@ -261,6 +270,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiNet (2 items):
         Net name:clock start:2:11 end:2:16:
           vpiParent: Module name:work@foo
@@ -545,37 +559,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/basic/multipack_port_v
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/surelog.uhdm
+      test-name: Zachjs/basic/multipack_port_v
+   test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v
+  uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/lib/work/basic/multipack_port.v'): {'post_len': 0,
-                                                                                                                                                  'pre_len': 214}},
+            'files': {'$Output/lib/work/basic/multipack_port.v': {'post_len': 0,
+                                                                  'pre_len': 214}},
             'post_len': 0,
             'pre_len': 214,
             'test_name': 'Zachjs/basic/multipack_port_v'}}
 
-+---------------------------------+----------+-----------+
-| INPUT                           |   PRELEN |   POSTLEN |
-+=================================+==========+===========+
-| lib/work/basic/multipack_port.v |      214 |         0 |
-+=================================+==========+===========+
-|                                 |      214 |         0 |
-+---------------------------------+----------+-----------+
++-----------------------------------------+----------+-----------+
+| INPUT                                   |   PRELEN |   POSTLEN |
++=========================================+==========+===========+
+| $Output/lib/work/basic/multipack_port.v |      214 |         0 |
++=========================================+==========+===========+
+|                                         |      214 |         0 |
++-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -589,7 +606,7 @@ COMMAND: ${SURELOG_DIR}/regression/Zachjs/basic/multipack_port_v/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

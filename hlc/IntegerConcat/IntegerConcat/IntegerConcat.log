@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/IntegerConcat -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 224
 LIB: work
-FILE: ${SURELOG_DIR}/tests/IntegerConcat/dut.sv
-n<${SURELOG_DIR}/tests/IntegerConcat/dut.sv> u<223> t<Top_level_rule> c<1> l<1:1> el<27:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<223> t<Top_level_rule> c<1> l<1:1> el<27:1>
   n<> u<1> t<Null_rule> p<223> s<222> l<1:1>
   n<> u<222> t<Source_text> p<223> c<156> l<1:1> el<26:10>
     n<> u<156> t<Description> p<222> c<155> s<183> l<1:1> el<14:11>
@@ -227,25 +236,24 @@ n<${SURELOG_DIR}/tests/IntegerConcat/dut.sv> u<223> t<Top_level_rule> c<1> l<1:1
                     n<> u<212> t<Ordered_port_connection> p<213> l<25:31> el<25:31>
         n<> u<219> t<ENDMODULE> p<220> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:1:1: Compile package "work@pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:16:1: Compile module "work@test".
-[INF:CP0303] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:22:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:1:1: No timescale set for "work@pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:16:1: No timescale set for "work@test".
-[WRN:PA0205] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:22:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:25:11: Illegal implicit net "id:99, name:SeedInfoPageSel".
-[ERR:EL0535] ${SURELOG_DIR}/tests/IntegerConcat/dut.sv:25:9: Illegal implicit net "id:101, name:p".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
+[INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@test".
+[INF:CP0303] $Source01/dut.sv:22:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@test".
+[WRN:PA0205] $Source01/dut.sv:22:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:25:9: Illegal implicit net "id:104, name:p".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/IntegerConcat/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pkg file:${SURELOG_DIR}/tests/IntegerConcat/dut.sv start:1:1 end:14:11:
+    Package name:work@pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg start:1:9 end:1:12:
         vpiParent: Package name:work@pkg
@@ -498,8 +506,13 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
   vpiAllModules (2 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/IntegerConcat/dut.sv start:16:1 end:20:10:
+    Module name:work@test file:$Source01/dut.sv start:16:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:16:8 end:16:12:
         vpiParent: Module name:work@test
@@ -551,7 +564,12 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
-    Module name:work@dut file:${SURELOG_DIR}/tests/IntegerConcat/dut.sv start:22:1 end:26:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
+    Module name:work@dut file:$Source01/dut.sv start:22:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:22:8 end:22:11:
         vpiParent: Module name:work@dut
@@ -570,6 +588,11 @@ Design name:unnamed:
             vpiName: work@test
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiRefInstance (1 items):
         RefInstance name:t start:25:29 end:25:30:
           vpiParent: Module name:work@dut
@@ -591,6 +614,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: SeedInfoPageSel
                 vpiFullName: work@dut.t.SeedInfoPageSel
+                vpiActual: Parameter name:SeedInfoPageSel
   vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -608,37 +632,40 @@ Design name:unnamed:
         vpiName: work@dut
       vpiModule: Module name:work@dut
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: IntegerConcat/IntegerConcat
- test-dirpath: ${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat
-uhdm-filepath: ${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat/surelog.uhdm
+      test-name: IntegerConcat/IntegerConcat
+   test-dirpath: ${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat
+  uhdm-filepath: ${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/IntegerConcat/IntegerConcat/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 470}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 470}},
             'post_len': 0,
             'pre_len': 470,
             'test_name': 'IntegerConcat/IntegerConcat'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      470 |         0 |
-+=================+==========+===========+
-|                 |      470 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      470 |         0 |
++=========================+==========+===========+
+|                         |      470 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -654,11 +681,11 @@ Name                            Before   After   Added   Removed
 Constant                            10      12       4         2
 Identifier                           8       7       0         1
 Operation                            3       0       0         3
-RefObj                              16      11       0         5
+RefObj                              19      14       0         5
 RefTypespec                         19      19       2         2
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    90      82       6        14
+                                    93      85       6        14
 ===================== END REDUCTION RESULT =====================

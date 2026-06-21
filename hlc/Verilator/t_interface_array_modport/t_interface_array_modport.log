@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_interface_array_modport/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_interface_array_modport.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_interface_array_modport
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_interface_array_modport.v".
+[INF:PA0201] Parsing source file "$Source01/t_interface_array_modport.v".
 AST_DEBUG_BEGIN
 Count: 195
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v
-n<${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v> u<194> t<Top_level_rule> c<1> l<6:1> el<41:1>
+FILE: f<13>:$Source01/t_interface_array_modport.v
+n<$Source01/t_interface_array_modport.v> u<194> t<Top_level_rule> c<1> l<6:1> el<41:1>
   n<> u<1> t<Null_rule> p<194> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Connecting an interface array slice to a module's portmap> u<2> t<LINE_COMMENT> p<194> s<3> l<1:1> el<1:85>
   n<//> u<3> t<LINE_COMMENT> p<194> s<4> l<2:1> el<2:3>
@@ -198,23 +207,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v> u<194> t<Top_level
                           n<> u<180> t<END> p<181> l<38:4> el<38:7>
         n<> u<190> t<ENDMODULE> p<191> l<40:1> el<40:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v:6:1: Compile interface "work@foo_intf".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v:12:1: Compile module "work@foo_mod".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v:19:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v:19:1: Multiply defined typedef "work@foo_intf".
+[INF:CP0304] $Source01/t_interface_array_modport.v:6:1: Compile interface "work@foo_intf".
+[INF:CP0303] $Source01/t_interface_array_modport.v:12:1: Compile module "work@foo_mod".
+[INF:CP0303] $Source01/t_interface_array_modport.v:19:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_interface_array_modport.v:19:1: Multiply defined typedef "work@foo_intf".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v:30:3: Illegal implicit net "id:83, name:foo".
+[ERR:EL0535] $Source01/t_interface_array_modport.v:30:3: Illegal implicit net "id:86, name:foo".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_interface_array_modport.v file:${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_interface_array_modport.v file:$Source01/t_interface_array_modport.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array_modport.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_interface_array_modport/lib/work/t_interface_array_modport.v"
+      vpiPreprocFile: "$Output/lib/work/t_interface_array_modport.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@foo_intf file:${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v start:6:1 end:10:13:
+    Interface name:work@foo_intf file:$Source01/t_interface_array_modport.v start:6:1 end:10:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo_intf start:6:11 end:6:19:
         vpiParent: Interface name:work@foo_intf
@@ -231,6 +240,11 @@ Design name:unnamed:
           vpiFullName: work@foo_intf.a
           vpiNetType: none (12)
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@foo_intf
+        vpiName: work
+        vpiFullName: work@foo_intf.work
+      vpiCell: foo_intf
       vpiModport (1 items):
         Modport name:m start:9:12 end:9:13:
           vpiParent: Interface name:work@foo_intf
@@ -247,7 +261,7 @@ Design name:unnamed:
                 vpiFullName: work@foo_intf.m.a
           vpiInterface: Interface name:work@foo_intf
   vpiAllModules (2 items):
-    Module name:work@foo_mod file:${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v start:12:1 end:17:10:
+    Module name:work@foo_mod file:$Source01/t_interface_array_modport.v start:12:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo_mod start:12:8 end:12:15:
         vpiParent: Module name:work@foo_mod
@@ -278,6 +292,11 @@ Design name:unnamed:
             vpiFullName: work@foo_mod
       vpiDefName: work@foo_mod
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo_mod
+        vpiName: work
+        vpiFullName: work@foo_mod.work
+      vpiCell: foo_mod
       vpiNet (2 items):
         Net name:foo start:14:13 end:14:16:
           vpiParent: Module name:work@foo_mod
@@ -329,7 +348,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:foo_intf.m
               vpiName: foo_intf.m
               vpiFullName: work@foo_mod.bars.foo_intf.m.foo_intf.m
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:foo_intf start:15:4 end:15:12:
                   vpiParent: HierPath name:foo_intf.m
                   vpiName: foo_intf
@@ -340,7 +359,7 @@ Design name:unnamed:
                   vpiName: m
                   vpiFullName: work@foo_mod.bars.foo_intf.m.m
                   vpiActual: Modport name:m
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_interface_array_modport.v start:19:1 end:40:10:
+    Module name:work@t file:$Source01/t_interface_array_modport.v start:19:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:19:8 end:19:9:
         vpiParent: Module name:work@t
@@ -452,6 +471,11 @@ Design name:unnamed:
             vpiName: work@foo_mod
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:35:4 end:38:7:
           vpiParent: Module name:work@t
@@ -474,7 +498,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:37:7 end:37:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:37:7 end:37:14:
@@ -568,37 +592,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_interface_array_modport
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_array_modport
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_array_modport/surelog.uhdm
+      test-name: Verilator/t_interface_array_modport
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_array_modport
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_array_modport/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_array_modport/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_interface_array_modport/lib/work/t_interface_array_modport.v'): {'post_len': 0,
-                                                                                                                                                             'pre_len': 311}},
+            'files': {'$Output/lib/work/t_interface_array_modport.v': {'post_len': 0,
+                                                                       'pre_len': 311}},
             'post_len': 0,
             'pre_len': 311,
             'test_name': 'Verilator/t_interface_array_modport'}}
 
-+--------------------------------------+----------+-----------+
-| INPUT                                |   PRELEN |   POSTLEN |
-+======================================+==========+===========+
-| lib/work/t_interface_array_modport.v |      311 |         0 |
-+======================================+==========+===========+
-|                                      |      311 |         0 |
-+--------------------------------------+----------+-----------+
++----------------------------------------------+----------+-----------+
+| INPUT                                        |   PRELEN |   POSTLEN |
++==============================================+==========+===========+
+| $Output/lib/work/t_interface_array_modport.v |      311 |         0 |
++==============================================+==========+===========+
+|                                              |      311 |         0 |
++----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -613,10 +640,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            3       2       0         1
-RefObj                              11      10       0         1
+RefObj                              14      13       0         1
 RefTypespec                         19      19       1         1
 ----------------------------------------------------------------
 Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    91      89       2         4
+                                    94      92       2         4
 ===================== END REDUCTION RESULT =====================

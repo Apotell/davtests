@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/HierPathUnpackedInPacked -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 293
 LIB: work
-FILE: ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv
-n<${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv> u<292> t<Top_level_rule> c<1> l<1:1> el<37:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<292> t<Top_level_rule> c<1> l<1:1> el<37:1>
   n<> u<1> t<Null_rule> p<292> s<290> l<1:1>
   n<> u<290> t<Source_text> p<292> c<117> s<291> l<1:1> el<36:10>
     n<> u<117> t<Description> p<290> c<116> s<118> l<1:1> el<14:11>
@@ -296,24 +305,24 @@ n<${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv> u<292> t<Top_level_rule>
         n<> u<287> t<ENDMODULE> p<288> l<36:1> el<36:10>
   n<// top> u<291> t<LINE_COMMENT> p<292> l<36:11> el<36:17>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:1:1: Compile package "work@keymgr_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:16:1: Compile module "work@GOOD".
-[INF:CP0303] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:19:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:19:1: Multiply defined typedef "keymgr_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:1:1: No timescale set for "work@keymgr_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:16:1: No timescale set for "work@GOOD".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:19:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@keymgr_pkg".
+[INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@GOOD".
+[INF:CP0303] $Source01/dut.sv:19:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:19:1: Multiply defined typedef "keymgr_pkg".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@keymgr_pkg".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@GOOD".
+[WRN:PA0205] $Source01/dut.sv:19:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@keymgr_pkg file:${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv start:1:1 end:14:11:
+    Package name:work@keymgr_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@keymgr_pkg start:1:9 end:1:19:
         vpiParent: Package name:work@keymgr_pkg
@@ -529,8 +538,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@keymgr_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@keymgr_pkg
+        vpiName: work
+        vpiFullName: work@keymgr_pkg::work
+      vpiCell: keymgr_pkg
   vpiAllModules (2 items):
-    Module name:work@GOOD file:${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv start:16:1 end:17:10:
+    Module name:work@GOOD file:$Source01/dut.sv start:16:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@GOOD start:16:8 end:16:12:
         vpiParent: Module name:work@GOOD
@@ -538,7 +552,12 @@ Design name:unnamed:
       vpiFullName: work@GOOD
       vpiDefName: work@GOOD
       vpiDefNetType: none (12)
-    Module name:work@top file:${SURELOG_DIR}/tests/HierPathUnpackedInPacked/dut.sv start:19:1 end:36:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@GOOD
+        vpiName: work
+        vpiFullName: work@GOOD.work
+      vpiCell: GOOD
+    Module name:work@top file:$Source01/dut.sv start:19:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:19:8 end:19:11:
         vpiParent: Module name:work@top
@@ -589,7 +608,7 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$bits
                 vpiName: keymgr_key_i.key[0]
                 vpiFullName: work@top.keymgr_key_i.key[0]
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:keymgr_key_i start:23:24 end:23:36:
                     vpiParent: HierPath name:keymgr_key_i.key[0]
                     vpiName: keymgr_key_i
@@ -631,7 +650,7 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$bits
                 vpiName: a.pair[0]
                 vpiFullName: work@top.a.pair[0]
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:a start:24:24 end:24:25:
                     vpiParent: HierPath name:a.pair[0]
                     vpiName: a
@@ -667,6 +686,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:keymgr_key_i start:20:29 end:20:41:
           vpiParent: Module name:work@top
@@ -795,37 +819,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: HierPathUnpackedInPacked/HierPathUnpackedInPacked
- test-dirpath: ${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked
-uhdm-filepath: ${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked/surelog.uhdm
+      test-name: HierPathUnpackedInPacked/HierPathUnpackedInPacked
+   test-dirpath: ${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked
+  uhdm-filepath: ${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/HierPathUnpackedInPacked/HierPathUnpackedInPacked/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                                      'pre_len': 464}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 464}},
             'post_len': 0,
             'pre_len': 464,
             'test_name': 'HierPathUnpackedInPacked/HierPathUnpackedInPacked'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      464 |         0 |
-+=================+==========+===========+
-|                 |      464 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      464 |         0 |
++=========================+==========+===========+
+|                         |      464 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -840,10 +867,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       2         2
 Operation                            5       3       0         2
-RefObj                              13      11       0         2
+RefObj                              16      14       0         2
 RefTypespec                         28      28       2         2
 ----------------------------------------------------------------
 Others                              61      61       0         0
 ----------------------------------------------------------------
-                                   120     116       4         8
+                                   123     119       4         8
 ===================== END REDUCTION RESULT =====================

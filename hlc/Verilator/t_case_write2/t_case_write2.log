@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_case_write2/surelog.log".
-[ERR:PP0101] ${SURELOG_DIR}/tests/Verilator/t_case_write2.v:6: Cannot open include file "${SURELOG_DIR}/tests/Verilator/verilated.v".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_case_write2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_case_write2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_case_write2.v".
+[ERR:PP0101] $Source01/t_case_write2.v:6: Cannot open include file "$Source01/verilated.v".
+[INF:PA0201] Parsing source file "$Source01/t_case_write2.v".
 AST_DEBUG_BEGIN
 Count: 471
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_case_write2.v
-n<${SURELOG_DIR}/tests/Verilator/t_case_write2.v> u<470> t<Top_level_rule> c<1> l<10:1> el<48:1>
+FILE: f<13>:$Source01/t_case_write2.v
+n<$Source01/t_case_write2.v> u<470> t<Top_level_rule> c<1> l<10:1> el<48:1>
   n<> u<1> t<Null_rule> p<470> s<2> l<10:1> el<10:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<470> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<470> s<4> l<2:1> el<2:3>
@@ -475,18 +484,18 @@ n<${SURELOG_DIR}/tests/Verilator/t_case_write2.v> u<470> t<Top_level_rule> c<1> 
                                 n<> u<453> t<END> p<454> l<45:4> el<45:7>
         n<> u<466> t<ENDMODULE> p<467> l<47:1> el<47:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_case_write2.v:10:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_case_write2.v:10:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_case_write2.v file:${SURELOG_DIR}/tests/Verilator/t_case_write2.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_case_write2.v file:$Source01/t_case_write2.v:
       vpiParent: Design name:unnamed
       vpiName: t_case_write2.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_case_write2/lib/work/t_case_write2.v"
+      vpiPreprocFile: "$Output/lib/work/t_case_write2.v"
       vpiIncludes (1 items):
-        SourceFile name:verilated.v file:${SURELOG_DIR}/tests/Verilator/verilated.v start:6:1 end:6:23:
+        SourceFile name:verilated.v file:$Source01/verilated.v start:6:1 end:6:23:
           vpiParent: SourceFile name:t_case_write2.v
           vpiName: verilated.v
           vpiDefNetType: none (12)
@@ -497,7 +506,7 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 22
       vpiPreprocMacroInstance (2 items):
-        PreprocMacroInstance name:STRINGIFY file:${SURELOG_DIR}/tests/Verilator/t_case_write2.v start:37:33 end:37:58:
+        PreprocMacroInstance name:STRINGIFY file:$Source01/t_case_write2.v start:37:33 end:37:58:
           vpiParent: SourceFile name:t_case_write2.v
           vpiName: STRINGIFY
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:STRINGIFY
@@ -509,7 +518,7 @@ Design name:unnamed:
           vpiSourceStartColumn: 33
           vpiSourceEndLine: 37
           vpiSourceEndColumn: 48
-        PreprocMacroInstance name:STRINGIFY file:${SURELOG_DIR}/tests/Verilator/t_case_write2.v start:38:26 end:38:51:
+        PreprocMacroInstance name:STRINGIFY file:$Source01/t_case_write2.v start:38:26 end:38:51:
           vpiParent: SourceFile name:t_case_write2.v
           vpiName: STRINGIFY
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:STRINGIFY
@@ -523,7 +532,7 @@ Design name:unnamed:
           vpiSourceEndColumn: 41
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_case_write2.v start:10:1 end:47:10:
+    Module name:work@t file:$Source01/t_case_write2.v start:10:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:10:8 end:10:9:
         vpiParent: Module name:work@t
@@ -568,6 +577,11 @@ Design name:unnamed:
             vpiName: work@t_case_write2_tasks
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (5 items):
         Net name:clk start:15:10 end:15:13:
           vpiParent: Module name:work@t
@@ -681,7 +695,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 104
                       vpiDecompile: "\"[%0d] crc=%x \""
-                      vpiValue: [%0d] crc=%x 
+                      vpiValue: "[%0d] crc=%x "
                     RefObj name:cyc start:26:36 end:26:39:
                       vpiParent: SysFuncCall name:$fwrite
                       vpiName: cyc
@@ -696,7 +710,7 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName: tasks.big_case(fd, crc[31:0])
                   vpiFullName: work@t.tasks.big_case(fd, crc[31:0])
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:tasks start:27:7 end:27:12:
                       vpiParent: HierPath name:tasks.big_case(fd, crc[31:0])
                       vpiName: tasks
@@ -764,7 +778,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 16
                       vpiDecompile: "\"\\n\""
-                      vpiValue: \n
+                      vpiValue: "\\n"
           vpiAlwaysType: always (1)
         Always start:31:4 end:45:7:
           vpiParent: Module name:work@t
@@ -957,7 +971,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 64
                           vpiDecompile: "64'h0000000000000097"
-                          vpiValue: 0000000000000097
+                          vpiValue: "0000000000000097"
                       SysFuncCall name:$write start:37:10 end:37:91:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:37:10 end:37:16:
@@ -973,7 +987,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 16
                             vpiDecompile: "\"%s\""
-                            vpiValue: %s
+                            vpiValue: "%s"
                           Operation start:37:23 end:37:90:
                             vpiParent: SysFuncCall name:$write
                             vpiOpType: concatenation (33)
@@ -987,7 +1001,7 @@ Design name:unnamed:
                                 vpiConstType: string (6)
                                 vpiSize: 40
                                 vpiDecompile: "\"Open \""
-                                vpiValue: Open 
+                                vpiValue: Open
                               Constant start:8:22 end:8:37:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -997,7 +1011,7 @@ Design name:unnamed:
                                 vpiConstType: string (6)
                                 vpiSize: 104
                                 vpiDecompile: "\"`TEST_OBJ_DIR\""
-                                vpiValue: `TEST_OBJ_DIR
+                                vpiValue: "`TEST_OBJ_DIR"
                               Constant start:37:60 end:37:89:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -1007,7 +1021,7 @@ Design name:unnamed:
                                 vpiConstType: string (6)
                                 vpiSize: 216
                                 vpiDecompile: "\"/t_case_write2_logger.log\\n\""
-                                vpiValue: /t_case_write2_logger.log\n
+                                vpiValue: "/t_case_write2_logger.log\\n"
                       Assignment start:38:10 end:38:87:
                         vpiParent: Begin
                         vpiBlocking: true
@@ -1035,7 +1049,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 104
                                   vpiDecompile: "\"`TEST_OBJ_DIR\""
-                                  vpiValue: `TEST_OBJ_DIR
+                                  vpiValue: "`TEST_OBJ_DIR"
                                 Constant start:38:53 end:38:80:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -1045,7 +1059,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 200
                                   vpiDecompile: "\"/t_case_write2_logger.log\""
-                                  vpiValue: /t_case_write2_logger.log
+                                  vpiValue: "/t_case_write2_logger.log"
                             Constant start:38:83 end:38:86:
                               vpiParent: SysFuncCall name:$fopen
                               vpiTypespec RefTypespec:
@@ -1108,7 +1122,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:43:10 end:43:17:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:43:10 end:43:17:
@@ -1139,37 +1153,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_case_write2
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_case_write2
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_case_write2/surelog.uhdm
+      test-name: Verilator/t_case_write2
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_case_write2
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_case_write2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_case_write2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_case_write2/lib/work/t_case_write2.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 599}},
+            'files': {'$Output/lib/work/t_case_write2.v': {'post_len': 0,
+                                                           'pre_len': 599}},
             'post_len': 0,
             'pre_len': 599,
             'test_name': 'Verilator/t_case_write2'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_case_write2.v |      599 |         0 |
-+==========================+==========+===========+
-|                          |      599 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_case_write2.v |      599 |         0 |
++==================================+==========+===========+
+|                                  |      599 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1186,7 +1203,7 @@ Constant                            24      21       2         5
 Operation                           10       8       0         2
 RefTypespec                         31      26       0         5
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                   154     144       2        12
+                                   155     145       2        12
 ===================== END REDUCTION RESULT =====================

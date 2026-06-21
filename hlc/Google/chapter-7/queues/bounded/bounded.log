@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/Google/chapter-7/queues -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin bounded.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/bounded.sv".
+[INF:PA0201] Parsing source file "$Source01/bounded.sv".
 AST_DEBUG_BEGIN
 Count: 197
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv
-n<${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv> u<196> t<Top_level_rule> c<1> l<16:1> el<34:1>
+FILE: f<14>:$Source01/bounded.sv
+n<$Source01/bounded.sv> u<196> t<Top_level_rule> c<1> l<16:1> el<34:1>
   n<> u<1> t<Null_rule> p<196> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<196> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<196> s<4> l<2:1> el<2:3>
@@ -200,20 +209,20 @@ n<${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv> u<196> t<Top_level_ru
                           n<> u<182> t<END> p<183> l<31:1> el<31:4>
         n<> u<192> t<ENDMODULE> p<193> l<33:1> el<33:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv:16:1: Compile module "work@top".
+[INF:CP0303] $Source01/bounded.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv:30:33: Illegal implicit net "id:84, name:size".
+[ERR:EL0535] $Source01/bounded.sv:30:33: Illegal implicit net "id:85, name:size".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:bounded.sv file:${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:bounded.sv file:$Source01/bounded.sv:
       vpiParent: Design name:unnamed
       vpiName: bounded.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/lib/work/bounded.sv"
+      vpiPreprocFile: "$Output/lib/work/bounded.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-7/queues/bounded.sv start:16:1 end:33:10:
+    Module name:work@top file:$Source01/bounded.sv start:16:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:16:8 end:16:11:
         vpiParent: Module name:work@top
@@ -233,7 +242,7 @@ Design name:unnamed:
                 vpiActual: StringTypespec
               vpiConstType: unbounded (11)
               vpiDecompile: "$"
-              vpiValue: $
+              vpiValue: "$"
             vpiRightRange Constant start:18:9 end:18:10:
               vpiParent: Range
               vpiTypespec RefTypespec:
@@ -250,6 +259,11 @@ Design name:unnamed:
             vpiActual: IntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:q start:18:5 end:18:6:
           vpiParent: Module name:work@top
@@ -270,7 +284,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: q.push_back(1)
                 vpiFullName: work@top.q.push_back(1)
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:q start:21:2 end:21:3:
                     vpiParent: HierPath name:q.push_back(1)
                     vpiName: q
@@ -296,7 +310,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: q.push_back(2)
                 vpiFullName: work@top.q.push_back(2)
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:q start:22:2 end:22:3:
                     vpiParent: HierPath name:q.push_back(2)
                     vpiName: q
@@ -322,7 +336,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: q.push_back(3)
                 vpiFullName: work@top.q.push_back(3)
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:q start:23:2 end:23:3:
                     vpiParent: HierPath name:q.push_back(3)
                     vpiName: q
@@ -359,7 +373,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 384
                     vpiDecompile: "\":assert: ((%d == 1) and (%d == 2) and (%d == 3))\""
-                    vpiValue: :assert: ((%d == 1) and (%d == 2) and (%d == 3))
+                    vpiValue: ":assert: ((%d == 1) and (%d == 2) and (%d == 3))"
                   BitSelect name:q[0] start:25:3 end:25:7:
                     vpiParent: SysFuncCall name:$display
                     vpiName: q[0]
@@ -432,12 +446,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 168
                     vpiDecompile: "\":re: BEGIN:QUEUE_FULL\""
-                    vpiValue: :re: BEGIN:QUEUE_FULL
+                    vpiValue: ":re: BEGIN:QUEUE_FULL"
               HierPath name:q.push_back(4) start:28:2 end:28:15:
                 vpiParent: Begin
                 vpiName: q.push_back(4)
                 vpiFullName: work@top.q.push_back(4)
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:q start:28:2 end:28:3:
                     vpiParent: HierPath name:q.push_back(4)
                     vpiName: q
@@ -474,7 +488,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 64
                     vpiDecompile: "\":re: END\""
-                    vpiValue: :re: END
+                    vpiValue: ":re: END"
               SysFuncCall name:$display start:30:2 end:30:38:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:30:2 end:30:10:
@@ -490,12 +504,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 128
                     vpiDecompile: "\":assert: (%d==3)\""
-                    vpiValue: :assert: (%d==3)
+                    vpiValue: ":assert: (%d==3)"
                   HierPath name:q.size start:30:31 end:30:37:
                     vpiParent: SysFuncCall name:$display
                     vpiName: q.size
                     vpiFullName: work@top.q.size
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:q start:30:31 end:30:32:
                         vpiParent: HierPath name:q.size
                         vpiName: q
@@ -518,37 +532,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-7/queues/bounded
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/surelog.uhdm
+      test-name: Google/chapter-7/queues/bounded
+   test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded
+  uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/lib/work/bounded.sv'): {'post_len': 0,
-                                                                                                                                        'pre_len': 280}},
+            'files': {'$Output/lib/work/bounded.sv': {'post_len': 0,
+                                                      'pre_len': 280}},
             'post_len': 0,
             'pre_len': 280,
             'test_name': 'Google/chapter-7/queues/bounded'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/bounded.sv |      280 |         0 |
-+=====================+==========+===========+
-|                     |      280 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/bounded.sv |      280 |         0 |
++=============================+==========+===========+
+|                             |      280 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -562,7 +579,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-7/queues/bounded/surelog.uhdm 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              74      74       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    74      74       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

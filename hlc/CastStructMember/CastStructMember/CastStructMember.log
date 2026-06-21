@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/CastStructMember/CastStructMember/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/CastStructMember -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/CastStructMember/CastStructMember
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 122
 LIB: work
-FILE: ${SURELOG_DIR}/tests/CastStructMember/dut.sv
-n<${SURELOG_DIR}/tests/CastStructMember/dut.sv> u<121> t<Top_level_rule> c<1> l<2:1> el<13:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<121> t<Top_level_rule> c<1> l<2:1> el<13:1>
   n<> u<1> t<Null_rule> p<121> s<120> l<2:1> el<2:1>
   n<> u<120> t<Source_text> p<121> c<17> l<2:1> el<10:10>
     n<> u<17> t<Description> p<120> c<16> s<119> l<2:1> el<4:11>
@@ -125,19 +134,19 @@ n<${SURELOG_DIR}/tests/CastStructMember/dut.sv> u<121> t<Top_level_rule> c<1> l<
                                       n<0> u<101> t<INTEGRAL_NUMBER> p<102> l<9:23> el<9:24>
         n<> u<117> t<ENDMODULE> p<118> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/CastStructMember/dut.sv:6:1: Compile module "work@Foo".
-[WRN:PA0205] ${SURELOG_DIR}/tests/CastStructMember/dut.sv:6:1: No timescale set for "work@Foo".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@Foo".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@Foo".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/CastStructMember/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/CastStructMember/CastStructMember/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@Foo file:${SURELOG_DIR}/tests/CastStructMember/dut.sv start:6:1 end:10:10:
+    Module name:work@Foo file:$Source01/dut.sv start:6:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Foo start:6:8 end:6:11:
         vpiParent: Module name:work@Foo
@@ -169,7 +178,7 @@ Design name:unnamed:
               vpiName: width_t
               vpiFullName: work@Foo.width_t
               vpiActual: TypedefTypespec name:width_t
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (1 items):
               Operation start:7:34 end:7:38:
                 vpiParent: Operation
@@ -240,6 +249,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Foo
+        vpiName: work
+        vpiFullName: work@Foo.work
+      vpiCell: Foo
       vpiNet (2 items):
         Net name:t1 start:8:15 end:8:17:
           vpiParent: Module name:work@Foo
@@ -252,13 +266,13 @@ Design name:unnamed:
           vpiNetType: wire (1)
           vpiValue Operation start:8:20 end:8:31:
             vpiParent: Net name:t1
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (2 items):
               HierPath name:w.WIDTH start:8:20 end:8:27:
                 vpiParent: Operation
                 vpiName: w.WIDTH
                 vpiFullName: work@Foo.t1.w.WIDTH
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:w start:8:20 end:8:21:
                     vpiParent: HierPath name:w.WIDTH
                     vpiName: w
@@ -294,7 +308,7 @@ Design name:unnamed:
               vpiParent: Operation
               vpiName: w
               vpiFullName: work@Foo.t2.w
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (1 items):
               Constant start:9:23 end:9:24:
                 vpiParent: Operation
@@ -336,37 +350,40 @@ Design name:unnamed:
         vpiName: work@Foo
       vpiModule: Module name:work@Foo
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: CastStructMember/CastStructMember
- test-dirpath: ${SURELOG_DIR}/regression/CastStructMember/CastStructMember
-uhdm-filepath: ${SURELOG_DIR}/regression/CastStructMember/CastStructMember/surelog.uhdm
+      test-name: CastStructMember/CastStructMember
+   test-dirpath: ${SURELOG_DIR}/regression/CastStructMember/CastStructMember
+  uhdm-filepath: ${SURELOG_DIR}/regression/CastStructMember/CastStructMember/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/CastStructMember/CastStructMember/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/CastStructMember/CastStructMember/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 147}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 147}},
             'post_len': 0,
             'pre_len': 147,
             'test_name': 'CastStructMember/CastStructMember'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      147 |         0 |
-+=================+==========+===========+
-|                 |      147 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      147 |         0 |
++=========================+==========+===========+
+|                         |      147 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -383,7 +400,7 @@ Constant                             7       6       0         1
 Operation                            4       3       0         1
 RefTypespec                         14      13       0         1
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    48      45       0         3
+                                    49      46       0         3
 ===================== END REDUCTION RESULT =====================

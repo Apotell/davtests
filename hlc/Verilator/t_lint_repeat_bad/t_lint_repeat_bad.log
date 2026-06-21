@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_repeat_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_repeat_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_repeat_bad.v".
 AST_DEBUG_BEGIN
 Count: 149
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v> u<148> t<Top_level_rule> c<1> l<6:1> el<19:1>
+FILE: f<13>:$Source01/t_lint_repeat_bad.v
+n<$Source01/t_lint_repeat_bad.v> u<148> t<Top_level_rule> c<1> l<6:1> el<19:1>
   n<> u<1> t<Null_rule> p<148> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Test of select from constant> u<2> t<LINE_COMMENT> p<148> s<3> l<1:1> el<1:56>
   n<//> u<3> t<LINE_COMMENT> p<148> s<4> l<2:1> el<2:3>
@@ -152,24 +161,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v> u<148> t<Top_level_rule> c
                               n<a> u<132> t<SIMPLE_IDENTIFIER> p<133> l<17:19> el<17:20>
         n<> u<144> t<ENDMODULE> p<145> l<18:1> el<18:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:6:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:6:1: Multiply defined typedef "work@sub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:14:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_lint_repeat_bad.v:6:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_lint_repeat_bad.v:6:1: Multiply defined typedef "work@sub".
+[WRN:CP0323] $Source01/t_lint_repeat_bad.v:6:1: Multiply defined typedef "work@sub".
+[INF:CP0303] $Source01/t_lint_repeat_bad.v:14:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:8:11: Illegal implicit net "id:13, name:Z".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:9:11: Illegal implicit net "id:22, name:Z".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:10:11: Illegal implicit net "id:31, name:Z".
+[ERR:EL0535] $Source01/t_lint_repeat_bad.v:8:11: Illegal implicit net "id:15, name:Z".
+[ERR:EL0535] $Source01/t_lint_repeat_bad.v:9:11: Illegal implicit net "id:24, name:Z".
+[ERR:EL0535] $Source01/t_lint_repeat_bad.v:10:11: Illegal implicit net "id:33, name:Z".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_repeat_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_repeat_bad.v file:$Source01/t_lint_repeat_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_repeat_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/lib/work/t_lint_repeat_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_repeat_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v start:6:1 end:12:10:
+    Module name:work@t file:$Source01/t_lint_repeat_bad.v start:6:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -193,6 +203,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiRefInstance (3 items):
         RefInstance name:sub1 start:8:17 end:8:21:
           vpiParent: Module name:work@t
@@ -272,7 +287,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_lint_repeat_bad.v start:14:1 end:18:10:
+    Module name:work@sub file:$Source01/t_lint_repeat_bad.v start:14:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:14:8 end:14:11:
         vpiParent: Module name:work@sub
@@ -362,6 +377,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (2 items):
         Net name:a start:16:15 end:16:16:
           vpiParent: Module name:work@sub
@@ -381,7 +401,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'b11"
-            vpiValue: 11
+            vpiValue: "11"
         Net name:b start:17:15 end:17:16:
           vpiParent: Module name:work@sub
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -415,37 +435,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_repeat_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/surelog.uhdm
+      test-name: Verilator/t_lint_repeat_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/lib/work/t_lint_repeat_bad.v'): {'post_len': 0,
-                                                                                                                                             'pre_len': 158}},
+            'files': {'$Output/lib/work/t_lint_repeat_bad.v': {'post_len': 0,
+                                                               'pre_len': 158}},
             'post_len': 0,
             'pre_len': 158,
             'test_name': 'Verilator/t_lint_repeat_bad'}}
 
-+------------------------------+----------+-----------+
-| INPUT                        |   PRELEN |   POSTLEN |
-+==============================+==========+===========+
-| lib/work/t_lint_repeat_bad.v |      158 |         0 |
-+==============================+==========+===========+
-|                              |      158 |         0 |
-+------------------------------+----------+-----------+
++--------------------------------------+----------+-----------+
+| INPUT                                |   PRELEN |   POSTLEN |
++======================================+==========+===========+
+| $Output/lib/work/t_lint_repeat_bad.v |      158 |         0 |
++======================================+==========+===========+
+|                                      |      158 |         0 |
++--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -459,7 +482,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_repeat_bad/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

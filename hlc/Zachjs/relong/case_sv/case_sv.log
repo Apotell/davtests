@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/relong/case_sv/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+relong+basic+lex+lib+resolve -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm relong/case.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Zachjs/relong/case_sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/relong/case.sv".
+[INF:PA0201] Parsing source file "$Source01/relong/case.sv".
 AST_DEBUG_BEGIN
 Count: 525
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/relong/case.sv
-n<${SURELOG_DIR}/tests/Zachjs/relong/case.sv> u<524> t<Top_level_rule> c<1> l<1:1> el<64:56>
+FILE: f<18>:$Source01/relong/case.sv
+n<$Source01/relong/case.sv> u<524> t<Top_level_rule> c<1> l<1:1> el<64:56>
   n<> u<1> t<Null_rule> p<524> s<521> l<1:1>
   n<> u<521> t<Source_text> p<524> c<5> s<522> l<1:1> el<61:10>
     n<> u<5> t<Description> p<521> c<4> s<132> l<1:1> el<1:22>
@@ -528,22 +537,22 @@ n<${SURELOG_DIR}/tests/Zachjs/relong/case.sv> u<524> t<Top_level_rule> c<1> l<1:
   n<// There is also a casex construct, but it is very dangerous and not recommend to be used in real designs.> u<522> t<LINE_COMMENT> p<524> s<523> l<63:1> el<63:107>
   n<// https://www.verilogpro.com/verilog-case-casez-casex/> u<523> t<LINE_COMMENT> p<524> l<64:1> el<64:56>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/case.sv:3:1: Compile module "work@Example".
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/case.sv:14:1: Compile module "work@UniqueCase".
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/case.sv:31:1: Compile module "work@WildcardCase".
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/case.sv:47:1: Compile module "work@DefaultCase".
+[INF:CP0303] $Source01/relong/case.sv:3:1: Compile module "work@Example".
+[INF:CP0303] $Source01/relong/case.sv:14:1: Compile module "work@UniqueCase".
+[INF:CP0303] $Source01/relong/case.sv:31:1: Compile module "work@WildcardCase".
+[INF:CP0303] $Source01/relong/case.sv:47:1: Compile module "work@DefaultCase".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:case.sv file:${SURELOG_DIR}/tests/Zachjs/relong/case.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:case.sv file:$Source01/relong/case.sv:
       vpiParent: Design name:unnamed
       vpiName: case.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/relong/case_sv/lib/work/relong/case.sv"
+      vpiPreprocFile: "$Output/lib/work/relong/case.sv"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@Example file:${SURELOG_DIR}/tests/Zachjs/relong/case.sv start:3:1 end:12:10:
+    Module name:work@Example file:$Source01/relong/case.sv start:3:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Example start:3:8 end:3:15:
         vpiParent: Module name:work@Example
@@ -651,6 +660,11 @@ Design name:unnamed:
             vpiName: work@DefaultCase
       vpiDefName: work@Example
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Example
+        vpiName: work
+        vpiFullName: work@Example.work
+      vpiCell: Example
       vpiNet (1 items):
         Net name:select start:4:23 end:4:29:
           vpiParent: Module name:work@Example
@@ -813,7 +827,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
-    Module name:work@UniqueCase file:${SURELOG_DIR}/tests/Zachjs/relong/case.sv start:14:1 end:29:10:
+    Module name:work@UniqueCase file:$Source01/relong/case.sv start:14:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@UniqueCase start:14:8 end:14:18:
         vpiParent: Module name:work@UniqueCase
@@ -884,6 +898,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@UniqueCase
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@UniqueCase
+        vpiName: work
+        vpiFullName: work@UniqueCase.work
+      vpiCell: UniqueCase
       vpiNet (1 items):
         Net name:select start:15:23 end:15:29:
           vpiParent: Module name:work@UniqueCase
@@ -943,7 +962,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               CaseStmt start:21:9 end:26:16:
                 vpiParent: Begin
                 vpiCaseType: exact (1)
@@ -966,7 +985,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 2
                         vpiDecompile: "2'd0"
-                        vpiValue: 0
+                        vpiValue: "0"
                     vpiStmt Assignment start:22:19 end:22:30:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -997,7 +1016,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 2
                         vpiDecompile: "2'd1"
-                        vpiValue: 1
+                        vpiValue: "1"
                     vpiStmt Assignment start:23:19 end:23:30:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -1015,7 +1034,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 4
                         vpiDecompile: "4'h6"
-                        vpiValue: 6
+                        vpiValue: "6"
                   CaseItem start:24:13 end:24:31:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -1028,7 +1047,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 2
                         vpiDecompile: "2'd2"
-                        vpiValue: 2
+                        vpiValue: "2"
                     vpiStmt Assignment start:24:19 end:24:30:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -1046,9 +1065,9 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 4
                         vpiDecompile: "4'h3"
-                        vpiValue: 3
+                        vpiValue: "3"
           vpiAlwaysType: comb (2)
-    Module name:work@WildcardCase file:${SURELOG_DIR}/tests/Zachjs/relong/case.sv start:31:1 end:45:10:
+    Module name:work@WildcardCase file:$Source01/relong/case.sv start:31:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@WildcardCase start:31:8 end:31:20:
         vpiParent: Module name:work@WildcardCase
@@ -1119,6 +1138,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@WildcardCase
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@WildcardCase
+        vpiName: work
+        vpiFullName: work@WildcardCase.work
+      vpiCell: WildcardCase
       vpiNet (1 items):
         Net name:select start:32:23 end:32:29:
           vpiParent: Module name:work@WildcardCase
@@ -1178,7 +1202,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               CaseStmt start:38:9 end:42:16:
                 vpiParent: Begin
                 vpiCaseType: z (3)
@@ -1201,7 +1225,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b00"
-                        vpiValue: 00
+                        vpiValue: "00"
                     vpiStmt Assignment start:39:20 end:39:31:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -1219,7 +1243,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 4
                         vpiDecompile: "4'h3"
-                        vpiValue: 3
+                        vpiValue: "3"
                   CaseItem start:40:13 end:40:32:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -1232,7 +1256,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b1?"
-                        vpiValue: 1?
+                        vpiValue: "1?"
                     vpiStmt Assignment start:40:20 end:40:31:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -1252,7 +1276,7 @@ Design name:unnamed:
                         vpiDecompile: "4'hd"
                         vpiValue: d
           vpiAlwaysType: comb (2)
-    Module name:work@DefaultCase file:${SURELOG_DIR}/tests/Zachjs/relong/case.sv start:47:1 end:61:10:
+    Module name:work@DefaultCase file:$Source01/relong/case.sv start:47:1 end:61:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@DefaultCase start:47:8 end:47:19:
         vpiParent: Module name:work@DefaultCase
@@ -1323,6 +1347,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@DefaultCase
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@DefaultCase
+        vpiName: work
+        vpiFullName: work@DefaultCase.work
+      vpiCell: DefaultCase
       vpiNet (1 items):
         Net name:select start:48:23 end:48:29:
           vpiParent: Module name:work@DefaultCase
@@ -1382,7 +1411,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               CaseStmt start:54:9 end:58:16:
                 vpiParent: Begin
                 vpiCaseType: exact (1)
@@ -1404,7 +1433,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b00"
-                        vpiValue: 00
+                        vpiValue: "00"
                     vpiStmt Assignment start:55:20 end:55:31:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -1422,7 +1451,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 4
                         vpiDecompile: "4'h7"
-                        vpiValue: 7
+                        vpiValue: "7"
                   CaseItem start:56:13 end:56:32:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -1435,7 +1464,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b01"
-                        vpiValue: 01
+                        vpiValue: "01"
                     vpiStmt Assignment start:56:20 end:56:31:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -1453,7 +1482,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 4
                         vpiDecompile: "4'h9"
-                        vpiValue: 9
+                        vpiValue: "9"
                   CaseItem start:57:13 end:57:34:
                     vpiParent: CaseStmt
                     vpiStmt Assignment start:57:22 end:57:33:
@@ -1473,7 +1502,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 4
                         vpiDecompile: "4'h8"
-                        vpiValue: 8
+                        vpiValue: "8"
           vpiAlwaysType: comb (2)
   vpiTypespec (7 items):
     ModuleTypespec name:work@Example:
@@ -1508,37 +1537,40 @@ Design name:unnamed:
         vpiName: work@DefaultCase
       vpiModule: Module name:work@DefaultCase
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/relong/case_sv
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/relong/case_sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/case_sv/surelog.uhdm
+      test-name: Zachjs/relong/case_sv
+   test-dirpath: ${SURELOG_DIR}/regression/Zachjs/relong/case_sv
+  uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/case_sv/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/case_sv/mounts.json
 
 
 {'result': {'coverage': 97.32,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/relong/case_sv/lib/work/relong/case.sv'): {'post_len': 21,
-                                                                                                                                  'pre_len': 783}},
+            'files': {'$Output/lib/work/relong/case.sv': {'post_len': 21,
+                                                          'pre_len': 783}},
             'post_len': 21,
             'pre_len': 783,
             'test_name': 'Zachjs/relong/case_sv'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/relong/case.sv |      783 |        21 |
-+=========================+==========+===========+
-|                         |      783 |        21 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/relong/case.sv |      783 |        21 |
++=================================+==========+===========+
+|                                 |      783 |        21 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.32
@@ -1552,7 +1584,7 @@ COMMAND: ${SURELOG_DIR}/regression/Zachjs/relong/case_sv/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   228     228       0         0
+                                   232     232       0         0
 ===================== END REDUCTION RESULT =====================

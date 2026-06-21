@@ -1,19 +1,26 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/InterpElab1/InterpElab1/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/InterpElab1 dut.sv -parse -verbose -fileunit -d uhdm -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/InterpElab1/InterpElab1
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "${SURELOG_DIR}/hlc/InterpElab1/InterpElab1/builtin.sv".
-[INF:PP0122] Preprocessing source file "${SURELOG_DIR}/tests/InterpElab1/dut.sv".
-[INF:PA0201] Parsing source file "${SURELOG_DIR}/hlc/InterpElab1/InterpElab1/builtin.sv".
-[INF:PA0201] Parsing source file "${SURELOG_DIR}/tests/InterpElab1/dut.sv".
-[INF:CP0303] ${SURELOG_DIR}/tests/InterpElab1/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterpElab1/dut.sv:1:1: No timescale set for "work@dut".
+[INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source00/builtin.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/InterpElab1/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/InterpElab1/InterpElab1/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
@@ -1569,22 +1576,26 @@ Design name:unnamed:
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
   vpiAllClasses (3 items):
-    ClassDefn name:mailbox file:${SURELOG_DIR}/hlc/InterpElab1/InterpElab1/builtin.sv start:1:1 end:27:9:
+    ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox start:1:7 end:1:14:
         vpiParent: ClassDefn name:mailbox
         vpiName: mailbox
       vpiFullName: mailbox
+      vpiTypespec (1 items):
+        ClassTypespec name:mailbox:
+          vpiParent: ClassDefn name:mailbox
+          vpiName: mailbox
+          vpiClassDefn: ClassDefn name:mailbox
+      vpiClassType: mailbox class (1)
+      vpiCell: mailbox
       vpiMethod (8 items):
         Function name:new start:3:3 end:4:14:
           vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:new start:3:12 end:3:15:
+          vpiName Identifier name:new:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: mailbox::new
-          vpiTypespec (1 items):
-            LogicTypespec start:3:12 end:3:12:
-              vpiParent: Function name:new
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:bound start:3:21 end:3:26:
@@ -1605,10 +1616,11 @@ Design name:unnamed:
                 vpiParent: IODecl name:bound
                 vpiFullName: mailbox::new::bound
                 vpiActual: IntTypespec
-          vpiReturn RefTypespec start:3:12 end:3:12:
+          vpiReturn RefTypespec name:mailbox:
             vpiParent: Function name:new
-            vpiFullName: mailbox::new
-            vpiActual: LogicTypespec
+            vpiName: mailbox
+            vpiFullName: mailbox::new::mailbox
+            vpiActual: ClassTypespec name:mailbox
         Function name:num start:6:3 end:7:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:num start:6:16 end:6:19:
@@ -1629,6 +1641,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Task name:put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:9:13 end:9:20:
               vpiParent: Task name:put
@@ -1670,20 +1683,18 @@ Design name:unnamed:
             vpiName: get
           vpiFullName: mailbox::get
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:15:13 end:15:16:
+            LogicTypespec:
               vpiParent: Task name:get
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:15:17 end:15:24:
               vpiParent: Task name:get
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:15:13 end:15:16:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:15:17 end:15:17:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
         Function name:try_get start:18:3 end:19:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:try_get start:18:16 end:18:23:
@@ -1691,21 +1702,18 @@ Design name:unnamed:
             vpiName: try_get
           vpiFullName: mailbox::try_get
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:18:25 end:18:28:
+            LogicTypespec:
               vpiParent: Function name:try_get
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:18:29 end:18:36:
               vpiParent: Function name:try_get
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:18:25 end:18:28:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:18:29 end:18:29:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
           vpiReturn RefTypespec start:18:12 end:18:15:
             vpiParent: Function name:try_get
             vpiFullName: mailbox::try_get
@@ -1717,20 +1725,18 @@ Design name:unnamed:
             vpiName: peek
           vpiFullName: mailbox::peek
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:21:14 end:21:17:
+            LogicTypespec:
               vpiParent: Task name:peek
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:21:18 end:21:25:
               vpiParent: Task name:peek
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:21:14 end:21:17:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:21:18 end:21:18:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
         Function name:try_peek start:24:3 end:25:14:
           vpiParent: ClassDefn name:mailbox
           vpiName Identifier name:try_peek start:24:16 end:24:24:
@@ -1738,26 +1744,23 @@ Design name:unnamed:
             vpiName: try_peek
           vpiFullName: mailbox::try_peek
           vpiTypespec (1 items):
-            UnsupportedTypespec name:ref start:24:25 end:24:28:
+            LogicTypespec:
               vpiParent: Function name:try_peek
-              vpiName Identifier name:ref:
-                vpiParent: UnsupportedTypespec name:ref
-                vpiName: ref
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:message start:24:29 end:24:36:
               vpiParent: Function name:try_peek
               vpiName: message
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:24:25 end:24:28:
+              vpiDirection: ref (6)
+              vpiTypespec RefTypespec start:24:29 end:24:29:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
-                vpiActual: UnsupportedTypespec name:ref
+                vpiActual: LogicTypespec
           vpiReturn RefTypespec start:24:12 end:24:15:
             vpiParent: Function name:try_peek
             vpiFullName: mailbox::try_peek
             vpiActual: IntTypespec
-    ClassDefn name:process file:${SURELOG_DIR}/hlc/InterpElab1/InterpElab1/builtin.sv start:30:1 end:52:9:
+    ClassDefn name:process file:$Source00/builtin.sv start:30:1 end:52:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process start:30:7 end:30:14:
         vpiParent: ClassDefn name:process
@@ -1801,6 +1804,8 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiClassType: process class (4)
+      vpiCell: process
       vpiMethod (6 items):
         Function name:self start:34:10 end:35:14:
           vpiParent: ClassDefn name:process
@@ -1842,40 +1847,48 @@ Design name:unnamed:
             vpiParent: Task name:kill
             vpiName: kill
           vpiFullName: process::kill
+          vpiVisibility: public (1)
         Task name:await start:43:3 end:44:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:await start:43:8 end:43:13:
             vpiParent: Task name:await
             vpiName: await
           vpiFullName: process::await
+          vpiVisibility: public (1)
         Task name:suspend start:46:3 end:47:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:suspend start:46:8 end:46:15:
             vpiParent: Task name:suspend
             vpiName: suspend
           vpiFullName: process::suspend
+          vpiVisibility: public (1)
         Task name:resume start:49:3 end:50:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:resume start:49:8 end:49:14:
             vpiParent: Task name:resume
             vpiName: resume
           vpiFullName: process::resume
-    ClassDefn name:semaphore file:${SURELOG_DIR}/hlc/InterpElab1/InterpElab1/builtin.sv start:55:1 end:69:9:
+          vpiVisibility: public (1)
+    ClassDefn name:semaphore file:$Source00/builtin.sv start:55:1 end:69:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:semaphore start:55:7 end:55:16:
         vpiParent: ClassDefn name:semaphore
         vpiName: semaphore
       vpiFullName: semaphore
+      vpiTypespec (1 items):
+        ClassTypespec name:semaphore:
+          vpiParent: ClassDefn name:semaphore
+          vpiName: semaphore
+          vpiClassDefn: ClassDefn name:semaphore
+      vpiClassType: semaphore class (2)
+      vpiCell: semaphore
       vpiMethod (4 items):
         Function name:new start:57:3 end:58:14:
           vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:new start:57:12 end:57:15:
+          vpiName Identifier name:new:
             vpiParent: Function name:new
             vpiName: new
           vpiFullName: semaphore::new
-          vpiTypespec (1 items):
-            LogicTypespec start:57:12 end:57:12:
-              vpiParent: Function name:new
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:57:20 end:57:28:
@@ -1896,16 +1909,18 @@ Design name:unnamed:
                 vpiParent: IODecl name:keyCount
                 vpiFullName: semaphore::new::keyCount
                 vpiActual: IntTypespec
-          vpiReturn RefTypespec start:57:12 end:57:12:
+          vpiReturn RefTypespec name:semaphore:
             vpiParent: Function name:new
-            vpiFullName: semaphore::new
-            vpiActual: LogicTypespec
+            vpiName: semaphore
+            vpiFullName: semaphore::new::semaphore
+            vpiActual: ClassTypespec name:semaphore
         Task name:put start:60:3 end:61:10:
           vpiParent: ClassDefn name:semaphore
           vpiName Identifier name:put start:60:8 end:60:11:
             vpiParent: Task name:put
             vpiName: put
           vpiFullName: semaphore::put
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:60:16 end:60:24:
               vpiParent: Task name:put
@@ -1931,6 +1946,7 @@ Design name:unnamed:
             vpiParent: Task name:get
             vpiName: get
           vpiFullName: semaphore::get
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:keyCount start:63:16 end:63:24:
               vpiParent: Task name:get
@@ -1981,7 +1997,7 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/InterpElab1/dut.sv start:1:1 end:21:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -2116,7 +2132,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b00"
-                vpiValue: 00
+                vpiValue: "00"
             EnumConst name:DUMMY_MUL start:8:7 end:8:24:
               vpiParent: EnumTypespec
               vpiName Identifier name:DUMMY_MUL start:8:7 end:8:16:
@@ -2131,7 +2147,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b01"
-                vpiValue: 01
+                vpiValue: "01"
             EnumConst name:DUMMY_DIV start:9:7 end:9:24:
               vpiParent: EnumTypespec
               vpiName Identifier name:DUMMY_DIV start:9:7 end:9:16:
@@ -2146,7 +2162,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b10"
-                vpiValue: 10
+                vpiValue: "10"
             EnumConst name:DUMMY_AND start:10:7 end:10:24:
               vpiParent: EnumTypespec
               vpiName Identifier name:DUMMY_AND start:10:7 end:10:16:
@@ -2161,7 +2177,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b11"
-                vpiValue: 11
+                vpiValue: "11"
         TypedefTypespec name:dummy_instr_e start:6:5 end:11:21:
           vpiParent: Module name:work@dut
           vpiName Identifier name:dummy_instr_e start:11:7 end:11:20:
@@ -2320,6 +2336,11 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
   vpiTypespec (10 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
@@ -2353,37 +2374,40 @@ Design name:unnamed:
     RealTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: InterpElab1/InterpElab1
- test-dirpath: ${SURELOG_DIR}/regression/InterpElab1/InterpElab1
-uhdm-filepath: ${SURELOG_DIR}/regression/InterpElab1/InterpElab1/surelog.uhdm
+      test-name: InterpElab1/InterpElab1
+   test-dirpath: ${SURELOG_DIR}/regression/InterpElab1/InterpElab1
+  uhdm-filepath: ${SURELOG_DIR}/regression/InterpElab1/InterpElab1/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/InterpElab1/InterpElab1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/InterpElab1/InterpElab1/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 441}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 441}},
             'post_len': 0,
             'pre_len': 441,
             'test_name': 'InterpElab1/InterpElab1'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      441 |         0 |
-+=================+==========+===========+
-|                 |      441 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      441 |         0 |
++=========================+==========+===========+
+|                         |      441 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2398,10 +2422,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            19      19       3         3
 Operation                            3       0       0         3
-RefObj                               6       3       0         3
+RefObj                               7       4       0         3
 RefTypespec                        202     202       3         3
 ----------------------------------------------------------------
-Others                             446     446       0         0
+Others                             442     442       0         0
 ----------------------------------------------------------------
-                                   676     670       6        12
+                                   673     667       6        12
 ===================== END REDUCTION RESULT =====================

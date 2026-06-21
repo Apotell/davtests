@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/MultiPort/MultiPort/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/MultiPort -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/MultiPort/MultiPort
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 66
 LIB: work
-FILE: ${SURELOG_DIR}/tests/MultiPort/dut.sv
-n<${SURELOG_DIR}/tests/MultiPort/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<65> s<64> l<1:1>
   n<> u<64> t<Source_text> p<65> c<38> l<1:1> el<11:10>
     n<> u<38> t<Description> p<64> c<37> s<63> l<1:1> el<6:11>
@@ -69,21 +78,21 @@ n<${SURELOG_DIR}/tests/MultiPort/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<
               n<b> u<57> t<SIMPLE_IDENTIFIER> p<58> l<9:28> el<9:29>
         n<> u<61> t<ENDMODULE> p<62> l<11:1> el<11:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/MultiPort/dut.sv:1:1: Compile package "work@my_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/MultiPort/dut.sv:7:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/MultiPort/dut.sv:1:1: No timescale set for "work@my_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/MultiPort/dut.sv:7:1: No timescale set for "work@top".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@my_pkg".
+[INF:CP0303] $Source01/dut.sv:7:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_pkg".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/MultiPort/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/MultiPort/MultiPort/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@my_pkg file:${SURELOG_DIR}/tests/MultiPort/dut.sv start:1:1 end:6:11:
+    Package name:work@my_pkg file:$Source01/dut.sv start:1:1 end:6:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_pkg start:1:9 end:1:15:
         vpiParent: Package name:work@my_pkg
@@ -144,8 +153,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@my_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@my_pkg
+        vpiName: work
+        vpiFullName: work@my_pkg::work
+      vpiCell: my_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/MultiPort/dut.sv start:7:1 end:11:10:
+    Module name:work@top file:$Source01/dut.sv start:7:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:7:8 end:7:11:
         vpiParent: Module name:work@top
@@ -171,6 +185,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:a start:9:25 end:9:26:
           vpiParent: Module name:work@top
@@ -230,37 +249,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: MultiPort/MultiPort
- test-dirpath: ${SURELOG_DIR}/regression/MultiPort/MultiPort
-uhdm-filepath: ${SURELOG_DIR}/regression/MultiPort/MultiPort/surelog.uhdm
+      test-name: MultiPort/MultiPort
+   test-dirpath: ${SURELOG_DIR}/regression/MultiPort/MultiPort
+  uhdm-filepath: ${SURELOG_DIR}/regression/MultiPort/MultiPort/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/MultiPort/MultiPort/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/MultiPort/MultiPort/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 161}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 161}},
             'post_len': 0,
             'pre_len': 161,
             'test_name': 'MultiPort/MultiPort'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      161 |         0 |
-+=================+==========+===========+
-|                 |      161 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      161 |         0 |
++=========================+==========+===========+
+|                         |      161 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -274,7 +296,7 @@ COMMAND: ${SURELOG_DIR}/regression/MultiPort/MultiPort/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

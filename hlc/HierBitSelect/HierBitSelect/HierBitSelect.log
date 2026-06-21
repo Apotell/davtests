@@ -1,20 +1,29 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/surelog.log".
-[INF:CP0303] ${SURELOG_DIR}/tests/HierBitSelect/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/HierBitSelect/dut.sv:1:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HierBitSelect/dut.sv:3:8: Illegal implicit net "id:7, name:mido_bytes_in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HierBitSelect/dut.sv:4:8: Illegal implicit net "id:24, name:state_d".
-[ERR:EL0535] ${SURELOG_DIR}/tests/HierBitSelect/dut.sv:5:8: Illegal implicit net "id:49, name:state_d1".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/HierBitSelect -parse -d uhdm dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:3:8: Illegal implicit net "id:8, name:mido_bytes_in".
+[ERR:EL0535] $Source01/dut.sv:4:8: Illegal implicit net "id:25, name:state_d".
+[ERR:EL0535] $Source01/dut.sv:5:8: Illegal implicit net "id:50, name:state_d1".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/HierBitSelect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/HierBitSelect/dut.sv start:1:1 end:6:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -25,6 +34,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiContAssign (3 items):
         ContAssign start:3:8 end:3:37:
           vpiParent: Module name:work@dut
@@ -83,7 +97,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
-            vpiValue: 0
+            vpiValue: "0"
         ContAssign start:4:8 end:4:43:
           vpiParent: Module name:work@dut
           vpiLhs PartSelect name:state_d[2][3][4][5:6] start:4:8 end:4:29:
@@ -167,7 +181,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 8
             vpiDecompile: "8'b10101010"
-            vpiValue: 10101010
+            vpiValue: "10101010"
         ContAssign start:5:8 end:5:37:
           vpiParent: Module name:work@dut
           vpiLhs PartSelect name:state_d1[10:11] start:5:8 end:5:23:
@@ -209,7 +223,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 8
             vpiDecompile: "8'b10101010"
-            vpiValue: 10101010
+            vpiValue: "10101010"
   vpiTypespec (3 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -223,37 +237,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: HierBitSelect/HierBitSelect
- test-dirpath: ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect
-uhdm-filepath: ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/surelog.uhdm
+      test-name: HierBitSelect/HierBitSelect
+   test-dirpath: ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect
+  uhdm-filepath: ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 139}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 139}},
             'post_len': 0,
             'pre_len': 139,
             'test_name': 'HierBitSelect/HierBitSelect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      139 |         0 |
-+=================+==========+===========+
-|                 |      139 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      139 |         0 |
++=========================+==========+===========+
+|                         |      139 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -267,7 +284,7 @@ COMMAND: ${SURELOG_DIR}/regression/HierBitSelect/HierBitSelect/surelog.uhdm ${SU
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

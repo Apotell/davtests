@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_for_funcbound/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_for_funcbound.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_for_funcbound
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_for_funcbound.v".
+[INF:PA0201] Parsing source file "$Source01/t_for_funcbound.v".
 AST_DEBUG_BEGIN
 Count: 758
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v
-n<${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v> u<757> t<Top_level_rule> c<1> l<6:1> el<77:1>
+FILE: f<13>:$Source01/t_for_funcbound.v
+n<$Source01/t_for_funcbound.v> u<757> t<Top_level_rule> c<1> l<6:1> el<77:1>
   n<> u<1> t<Null_rule> p<757> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<757> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<757> s<4> l<2:1> el<2:3>
@@ -761,20 +770,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v> u<757> t<Top_level_rule> c<1
                       n<> u<745> t<ENDFUNCTION> p<746> l<75:4> el<75:15>
         n<> u<753> t<ENDMODULE> p<754> l<76:1> el<76:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v:53:1: Compile module "work@strings".
+[INF:CP0303] $Source01/t_for_funcbound.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_for_funcbound.v:53:1: Compile module "work@strings".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_for_funcbound.v file:${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_for_funcbound.v file:$Source01/t_for_funcbound.v:
       vpiParent: Design name:unnamed
       vpiName: t_for_funcbound.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_for_funcbound/lib/work/t_for_funcbound.v"
+      vpiPreprocFile: "$Output/lib/work/t_for_funcbound.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v start:6:1 end:51:10:
+    Module name:work@t file:$Source01/t_for_funcbound.v start:6:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -819,6 +828,11 @@ Design name:unnamed:
             vpiName: work@strings
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiTaskFunc (1 items):
         Task name:show start:19:4 end:31:11:
           vpiParent: Module name:work@t
@@ -967,7 +981,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 48
                         vpiDecompile: "\"[%0t] \""
-                        vpiValue: [%0t] 
+                        vpiValue: "[%0t] "
                       SysTaskCall name:$time start:24:19 end:24:24:
                         vpiParent: SysFuncCall name:$write
                         vpiName Identifier name:$time start:24:19 end:24:24:
@@ -977,7 +991,7 @@ Design name:unnamed:
                     vpiParent: Begin
                     vpiName: strings.stringStart(8 * 8 - 1)
                     vpiFullName: work@t.show.strings.stringStart(8 * 8 - 1)
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:strings start:25:3 end:25:10:
                         vpiParent: HierPath name:strings.stringStart(8 * 8 - 1)
                         vpiName: strings
@@ -1043,7 +1057,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: strings.stringByte(str)
                           vpiFullName: work@t.show.strings.stringByte(str)
-                          vpiActual (2 items):
+                          vpiPathElem (2 items):
                             RefObj name:strings start:26:15 end:26:22:
                               vpiParent: HierPath name:strings.stringByte(str)
                               vpiName: strings
@@ -1073,7 +1087,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: strings.stringByte(str)
                           vpiFullName: work@t.show.strings.stringByte(str)
-                          vpiActual (2 items):
+                          vpiPathElem (2 items):
                             RefObj name:strings start:26:70 end:26:77:
                               vpiParent: HierPath name:strings.stringByte(str)
                               vpiName: strings
@@ -1098,7 +1112,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: strings.isNull(char)
                           vpiFullName: work@t.show.strings.isNull(char)
-                          vpiActual (2 items):
+                          vpiPathElem (2 items):
                             RefObj name:strings start:26:41 end:26:48:
                               vpiParent: HierPath name:strings.isNull(char)
                               vpiName: strings
@@ -1134,7 +1148,7 @@ Design name:unnamed:
                               vpiConstType: string (6)
                               vpiSize: 16
                               vpiDecompile: "\"%c\""
-                              vpiValue: %c
+                              vpiValue: "%c"
                             RefObj name:char start:27:18 end:27:22:
                               vpiParent: SysFuncCall name:$write
                               vpiName: char
@@ -1155,7 +1169,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 16
                         vpiDecompile: "\"\\n\""
-                        vpiValue: \n
+                        vpiValue: "\\n"
       vpiNet (5 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -1422,7 +1436,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:46:6 end:46:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:46:6 end:46:13:
@@ -1438,7 +1452,7 @@ Design name:unnamed:
             vpiName: work@strings
             vpiFullName: work@t.strings.work@strings
             vpiActual: ModuleTypespec name:work@strings
-    Module name:work@strings file:${SURELOG_DIR}/tests/Verilator/t_for_funcbound.v start:53:1 end:76:10:
+    Module name:work@strings file:$Source01/t_for_funcbound.v start:53:1 end:76:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@strings start:53:8 end:53:15:
         vpiParent: Module name:work@strings
@@ -1450,6 +1464,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@strings
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@strings
+        vpiName: work
+        vpiFullName: work@strings.work
+      vpiCell: strings
       vpiTaskFunc (3 items):
         Task name:stringStart start:56:4 end:61:11:
           vpiParent: Module name:work@strings
@@ -1633,7 +1652,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'h0"
-                      vpiValue: 0
+                      vpiValue: "0"
           vpiReturn RefTypespec start:63:13 end:63:13:
             vpiParent: Function name:isNull
             vpiFullName: work@strings.isNull
@@ -1789,7 +1808,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 8
                         vpiDecompile: "8'h0"
-                        vpiValue: 0
+                        vpiValue: "0"
                     vpiElseStmt Assignment start:72:8 end:72:38:
                       vpiParent: IfElse
                       vpiBlocking: true
@@ -1898,37 +1917,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_for_funcbound
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_for_funcbound
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_for_funcbound/surelog.uhdm
+      test-name: Verilator/t_for_funcbound
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_for_funcbound
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_for_funcbound/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_for_funcbound/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_for_funcbound/lib/work/t_for_funcbound.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 936}},
+            'files': {'$Output/lib/work/t_for_funcbound.v': {'post_len': 0,
+                                                             'pre_len': 936}},
             'post_len': 0,
             'pre_len': 936,
             'test_name': 'Verilator/t_for_funcbound'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_for_funcbound.v |      936 |         0 |
-+============================+==========+===========+
-|                            |      936 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_for_funcbound.v |      936 |         0 |
++====================================+==========+===========+
+|                                    |      936 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1945,7 +1967,7 @@ Constant                            41      35       3         9
 Operation                           19      13       0         6
 RefTypespec                         61      55       3         9
 ----------------------------------------------------------------
-Others                             150     150       0         0
+Others                             152     152       0         0
 ----------------------------------------------------------------
-                                   271     253       6        24
+                                   273     255       6        24
 ===================== END REDUCTION RESULT =====================

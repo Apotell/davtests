@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FuncStatic/FuncStatic/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FuncStatic -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FuncStatic/FuncStatic
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 227
 LIB: work
-FILE: ${SURELOG_DIR}/tests/FuncStatic/dut.sv
-n<${SURELOG_DIR}/tests/FuncStatic/dut.sv> u<226> t<Top_level_rule> c<1> l<1:1> el<21:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<226> t<Top_level_rule> c<1> l<1:1> el<21:1>
   n<> u<1> t<Null_rule> p<226> s<225> l<1:1>
   n<> u<225> t<Source_text> p<226> c<224> l<1:1> el<20:10>
     n<> u<224> t<Description> p<225> c<223> l<1:1> el<20:10>
@@ -230,19 +239,19 @@ n<${SURELOG_DIR}/tests/FuncStatic/dut.sv> u<226> t<Top_level_rule> c<1> l<1:1> e
                                             n<3> u<203> t<INTEGRAL_NUMBER> p<204> l<18:33> el<18:34>
         n<> u<222> t<ENDMODULE> p<223> l<20:1> el<20:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/FuncStatic/dut.sv:1:1: Compile module "work@test".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FuncStatic/dut.sv:1:1: No timescale set for "work@test".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@test".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@test".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FuncStatic/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FuncStatic/FuncStatic/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/FuncStatic/dut.sv start:1:1 end:20:10:
+    Module name:work@test file:$Source01/dut.sv start:1:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:18 end:1:22:
         vpiParent: Module name:work@test
@@ -383,6 +392,11 @@ Design name:unnamed:
           vpiParent: Module name:work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiTaskFunc (2 items):
         Function name:accumulate1 start:3:1 end:7:12:
           vpiParent: Module name:work@test
@@ -547,37 +561,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FuncStatic/FuncStatic
- test-dirpath: ${SURELOG_DIR}/regression/FuncStatic/FuncStatic
-uhdm-filepath: ${SURELOG_DIR}/regression/FuncStatic/FuncStatic/surelog.uhdm
+      test-name: FuncStatic/FuncStatic
+   test-dirpath: ${SURELOG_DIR}/regression/FuncStatic/FuncStatic
+  uhdm-filepath: ${SURELOG_DIR}/regression/FuncStatic/FuncStatic/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FuncStatic/FuncStatic/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FuncStatic/FuncStatic/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 391}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 391}},
             'post_len': 0,
             'pre_len': 391,
             'test_name': 'FuncStatic/FuncStatic'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      391 |         0 |
-+=================+==========+===========+
-|                 |      391 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      391 |         0 |
++=========================+==========+===========+
+|                         |      391 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -591,7 +608,7 @@ COMMAND: ${SURELOG_DIR}/regression/FuncStatic/FuncStatic/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

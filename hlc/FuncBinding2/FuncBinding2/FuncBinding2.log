@@ -1,19 +1,28 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/FuncBinding2 -fileunit -writepp -parse -d uhdm -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0303] ${SURELOG_DIR}/tests/FuncBinding2/dut.sv:1:1: Compile module "work@vend".
-[WRN:PA0205] ${SURELOG_DIR}/tests/FuncBinding2/dut.sv:1:1: No timescale set for "work@vend".
-[ERR:EL0535] ${SURELOG_DIR}/tests/FuncBinding2/dut.sv:18:13: Illegal implicit net "id:59, name:fsm_coin".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@vend".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@vend".
+[ERR:EL0535] $Source01/dut.sv:18:13: Illegal implicit net "id:60, name:fsm_coin".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/FuncBinding2/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@vend file:${SURELOG_DIR}/tests/FuncBinding2/dut.sv start:1:1 end:33:10:
+    Module name:work@vend file:$Source01/dut.sv start:1:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@vend start:1:8 end:1:12:
         vpiParent: Module name:work@vend
@@ -45,12 +54,17 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'b00"
-            vpiValue: 00
+            vpiValue: "00"
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:work@vend
       vpiDefName: work@vend
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@vend
+        vpiName: work
+        vpiFullName: work@vend.work
+      vpiCell: vend
       vpiTaskFunc (1 items):
         Function name:fsm start:10:1 end:26:12:
           vpiParent: Module name:work@vend
@@ -188,7 +202,7 @@ Design name:unnamed:
                                     vpiConstType: binary (3)
                                     vpiSize: 2
                                     vpiDecompile: "2'b10"
-                                    vpiValue: 10
+                                    vpiValue: "10"
                               vpiStmt Begin start:19:13 end:21:16:
                                 vpiParent: IfStmt
                                 vpiFullName: work@vend.fsm
@@ -213,7 +227,7 @@ Design name:unnamed:
                                       vpiConstType: binary (3)
                                       vpiSize: 1
                                       vpiDecompile: "1'b0"
-                                      vpiValue: 0
+                                      vpiValue: "0"
                   Assignment start:24:1 end:24:20:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -310,37 +324,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: FuncBinding2/FuncBinding2
- test-dirpath: ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2
-uhdm-filepath: ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/surelog.uhdm
+      test-name: FuncBinding2/FuncBinding2
+   test-dirpath: ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2
+  uhdm-filepath: ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/mounts.json
 
 
 {'result': {'coverage': 97.52,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/lib/work/dut.sv'): {'post_len': 9,
-                                                                                                                              'pre_len': 363}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 9,
+                                                  'pre_len': 363}},
             'post_len': 9,
             'pre_len': 363,
             'test_name': 'FuncBinding2/FuncBinding2'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      363 |         9 |
-+=================+==========+===========+
-|                 |      363 |         9 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      363 |         9 |
++=========================+==========+===========+
+|                         |      363 |         9 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.52
@@ -353,9 +370,9 @@ COMMAND: ${SURELOG_DIR}/regression/FuncBinding2/FuncBinding2/surelog.uhdm ${SURE
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-RefObj                              10       9       0         1
+RefObj                              11      10       0         1
 ----------------------------------------------------------------
 Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    74      73       0         1
+                                    75      74       0         1
 ===================== END REDUCTION RESULT =====================

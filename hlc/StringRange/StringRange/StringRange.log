@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/StringRange/StringRange/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/StringRange -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/StringRange/StringRange
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 1448
 LIB: work
-FILE: ${SURELOG_DIR}/tests/StringRange/dut.sv
-n<${SURELOG_DIR}/tests/StringRange/dut.sv> u<1447> t<Top_level_rule> c<1> l<1:1> el<87:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<1447> t<Top_level_rule> c<1> l<1:1> el<87:1>
   n<> u<1> t<Null_rule> p<1447> s<1446> l<1:1>
   n<> u<1446> t<Source_text> p<1447> c<581> l<1:1> el<86:10>
     n<> u<581> t<Description> p<1446> c<580> s<1445> l<1:1> el<37:10>
@@ -1451,22 +1460,24 @@ n<${SURELOG_DIR}/tests/StringRange/dut.sv> u<1447> t<Top_level_rule> c<1> l<1:1>
                         n<> u<1434> t<END> p<1435> l<85:5> el<85:8>
         n<> u<1443> t<ENDMODULE> p<1444> l<86:1> el<86:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/StringRange/dut.sv:1:1: Compile module "work@Example".
-[INF:CP0303] ${SURELOG_DIR}/tests/StringRange/dut.sv:39:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/StringRange/dut.sv:39:1: Multiply defined typedef "work@Example".
-[WRN:PA0205] ${SURELOG_DIR}/tests/StringRange/dut.sv:1:1: No timescale set for "work@Example".
-[WRN:PA0205] ${SURELOG_DIR}/tests/StringRange/dut.sv:39:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@Example".
+[INF:CP0303] $Source01/dut.sv:39:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:39:1: Multiply defined typedef "work@Example".
+[WRN:CP0323] $Source01/dut.sv:39:1: Multiply defined typedef "work@Example".
+[WRN:CP0323] $Source01/dut.sv:39:1: Multiply defined typedef "work@Example".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@Example".
+[WRN:PA0205] $Source01/dut.sv:39:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/StringRange/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/StringRange/StringRange/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@Example file:${SURELOG_DIR}/tests/StringRange/dut.sv start:1:1 end:37:10:
+    Module name:work@Example file:$Source01/dut.sv start:1:1 end:37:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Example start:1:8 end:1:15:
         vpiParent: Module name:work@Example
@@ -1559,6 +1570,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@Example
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Example
+        vpiName: work
+        vpiFullName: work@Example.work
+      vpiCell: Example
       vpiTaskFunc (1 items):
         Function name:flip start:6:5 end:9:16:
           vpiParent: Module name:work@Example
@@ -2349,7 +2365,7 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "1"
                             vpiValue: 1
-    Module name:work@top file:${SURELOG_DIR}/tests/StringRange/dut.sv start:39:1 end:86:10:
+    Module name:work@top file:$Source01/dut.sv start:39:1 end:86:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:39:8 end:39:11:
         vpiParent: Module name:work@top
@@ -2630,6 +2646,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (1 items):
         Function name:negate start:56:5 end:59:16:
           vpiParent: Module name:work@top
@@ -3615,37 +3636,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 5
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: StringRange/StringRange
- test-dirpath: ${SURELOG_DIR}/regression/StringRange/StringRange
-uhdm-filepath: ${SURELOG_DIR}/regression/StringRange/StringRange/surelog.uhdm
+      test-name: StringRange/StringRange
+   test-dirpath: ${SURELOG_DIR}/regression/StringRange/StringRange
+  uhdm-filepath: ${SURELOG_DIR}/regression/StringRange/StringRange/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/StringRange/StringRange/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/StringRange/StringRange/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 1574}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 1574}},
             'post_len': 0,
             'pre_len': 1574,
             'test_name': 'StringRange/StringRange'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |     1574 |         0 |
-+=================+==========+===========+
-|                 |     1574 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |     1574 |         0 |
++=========================+==========+===========+
+|                         |     1574 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -3661,11 +3685,11 @@ Name                            Before   After   Added   Removed
 Constant                            66      65       5         6
 Identifier                          27      25       0         2
 Operation                           36      29       0         7
-RefObj                             109     104       0         5
+RefObj                             111     106       0         5
 RefTypespec                        109     106       3         6
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                             175     175       0         0
 ----------------------------------------------------------------
-                                   524     504       8        28
+                                   526     506       8        28
 ===================== END REDUCTION RESULT =====================

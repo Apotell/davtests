@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PatternAssignInteger -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 79
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv
-n<${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv> u<78> t<Top_level_rule> c<1> l<1:1> el<3:10>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<78> t<Top_level_rule> c<1> l<1:1> el<3:10>
   n<> u<1> t<Null_rule> p<78> s<77> l<1:1>
   n<> u<77> t<Source_text> p<78> c<76> l<1:1> el<3:10>
     n<> u<76> t<Description> p<77> c<75> l<1:1> el<3:10>
@@ -82,19 +91,19 @@ n<${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv> u<78> t<Top_level_rule> c<1>
                                   n<0> u<60> t<INTEGRAL_NUMBER> p<61> l<2:40> el<2:41>
         n<> u<74> t<ENDMODULE> p<75> l<3:1> el<3:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv:1:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/PatternAssignInteger/dut.sv start:1:1 end:3:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -139,6 +148,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiPort (1 items):
         Port name:o start:1:30 end:1:31:
           vpiParent: Module name:work@top
@@ -162,7 +176,7 @@ Design name:unnamed:
             vpiActual: Variable name:o
           vpiRhs Operation start:2:15 end:2:42:
             vpiParent: ContAssign
-            vpiOpType: assign pattern (75)
+            vpiOpType: assign pattern (87)
             vpiOperand (4 items):
               TaggedPattern start:2:17 end:2:20:
                 vpiParent: Operation
@@ -257,37 +271,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PatternAssignInteger/PatternAssignInteger
- test-dirpath: ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger
-uhdm-filepath: ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/surelog.uhdm
+      test-name: PatternAssignInteger/PatternAssignInteger
+   test-dirpath: ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger
+  uhdm-filepath: ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                              'pre_len': 80}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 80}},
             'post_len': 0,
             'pre_len': 80,
             'test_name': 'PatternAssignInteger/PatternAssignInteger'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       80 |         0 |
-+=================+==========+===========+
-|                 |       80 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       80 |         0 |
++=========================+==========+===========+
+|                         |       80 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -301,7 +318,7 @@ COMMAND: ${SURELOG_DIR}/regression/PatternAssignInteger/PatternAssignInteger/sur
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

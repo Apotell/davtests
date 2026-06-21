@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence17/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence17.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence17
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence17.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence17.sv".
 AST_DEBUG_BEGIN
 Count: 211
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence17.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence17.sv> u<210> t<Top_level_rule> c<1> l<1:1> el<18:10>
+FILE: f<13>:$Source01/sequence17.sv
+n<$Source01/sequence17.sv> u<210> t<Top_level_rule> c<1> l<1:1> el<18:10>
   n<> u<1> t<Null_rule> p<210> s<209> l<1:1>
   n<> u<209> t<Source_text> p<210> c<208> l<1:1> el<18:10>
     n<> u<208> t<Description> p<209> c<207> l<1:1> el<18:10>
@@ -214,20 +223,20 @@ n<${SURELOG_DIR}/tests/Sequence/sequence17.sv> u<210> t<Top_level_rule> c<1> l<1
                         n<> u<197> t<END> p<198> l<17:3> el<17:6>
         n<> u<206> t<ENDMODULE> p<207> l<18:1> el<18:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence17.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence17.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence17.sv:9:34: Illegal implicit net "id:31, name:seq_nonconsec".
+[INF:CP0303] $Source01/sequence17.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/sequence17.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence17.sv:9:34: Illegal implicit net "id:32, name:seq_nonconsec".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence17.sv file:${SURELOG_DIR}/tests/Sequence/sequence17.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence17.sv file:$Source01/sequence17.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence17.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence17/lib/work/sequence17.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence17.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence17.sv start:1:1 end:18:10:
+    Module name:work@tb file:$Source01/sequence17.sv start:1:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -242,8 +251,13 @@ Design name:unnamed:
           vpiFullName: work@tb.seq_nonconsec
           vpiExpr Operation start:6:6 end:6:10:
             vpiParent: SequenceDecl name:seq_nonconsec
-            vpiOpType: repeat (59)
+            vpiOpType: repeat (76)
             vpiOperand (2 items):
+              RefObj name:a start:6:5 end:6:6:
+                vpiParent: Operation
+                vpiName: a
+                vpiFullName: work@tb.seq_nonconsec.a
+                vpiActual: Net name:a
               Constant start:6:8 end:6:9:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -254,11 +268,6 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-              RefObj name:a start:6:5 end:6:6:
-                vpiParent: Operation
-                vpiName: a
-                vpiFullName: work@tb.seq_nonconsec.a
-                vpiActual: Net name:a
       vpiConcurrentAssertions (1 items):
         Assert start:9:3 end:9:49:
           vpiParent: Module name:work@tb
@@ -282,6 +291,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (2 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -474,37 +488,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence17
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence17
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence17/surelog.uhdm
+      test-name: Sequence/sequence17
+   test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence17
+  uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence17/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Sequence/sequence17/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence17/lib/work/sequence17.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 197}},
+            'files': {'$Output/lib/work/sequence17.sv': {'post_len': 0,
+                                                         'pre_len': 197}},
             'post_len': 0,
             'pre_len': 197,
             'test_name': 'Sequence/sequence17'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sequence17.sv |      197 |         0 |
-+========================+==========+===========+
-|                        |      197 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sequence17.sv |      197 |         0 |
++================================+==========+===========+
+|                                |      197 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -518,7 +535,7 @@ COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence17/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

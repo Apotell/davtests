@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_defaults/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_func_defaults.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_func_defaults
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_defaults.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_defaults.v".
 AST_DEBUG_BEGIN
 Count: 209
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_defaults.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_defaults.v> u<208> t<Top_level_rule> c<1> l<7:1> el<33:1>
+FILE: f<13>:$Source01/t_func_defaults.v
+n<$Source01/t_func_defaults.v> u<208> t<Top_level_rule> c<1> l<7:1> el<33:1>
   n<> u<1> t<Null_rule> p<208> s<2> l<7:1> el<7:1>
   n<// DESCRIPTION: Verilator: Test for warning (not error) on improperly width'ed> u<2> t<LINE_COMMENT> p<208> s<3> l<1:1> el<1:79>
   n<// default function argument> u<3> t<LINE_COMMENT> p<208> s<4> l<2:1> el<2:29>
@@ -212,19 +221,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_defaults.v> u<208> t<Top_level_rule> c<1
                           n<> u<194> t<END> p<195> l<30:4> el<30:7>
         n<> u<204> t<ENDMODULE> p<205> l<32:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_defaults.v:21:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_defaults.v:21:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_defaults.v file:${SURELOG_DIR}/tests/Verilator/t_func_defaults.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_defaults.v file:$Source01/t_func_defaults.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_defaults.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_defaults/lib/work/t_func_defaults.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_defaults.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_defaults.v start:21:1 end:32:10:
+    Module name:work@t file:$Source01/t_func_defaults.v start:21:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:21:8 end:21:9:
         vpiParent: Module name:work@t
@@ -269,6 +278,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:foo_val start:22:16 end:22:23:
           vpiParent: Module name:work@t
@@ -319,7 +333,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 2
                       vpiDecompile: "2'b10"
-                      vpiValue: 10
+                      vpiValue: "10"
                 vpiStmt SysFuncCall name:$stop start:26:29 end:26:34:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:26:29 end:26:34:
@@ -340,7 +354,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:29:7 end:29:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:29:7 end:29:14:
@@ -374,32 +388,28 @@ Design name:unnamed:
         vpiParent: Function name:calc_y
         vpiName: calc_y
       vpiFullName: calc_y
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:logic start:9:20 end:9:25:
+          vpiParent: Function name:calc_y
+          vpiName Identifier name:logic:
+            vpiParent: UnsupportedTypespec name:logic
+            vpiName: logic
+        BitTypespec:
+          vpiParent: Function name:calc_y
       vpiVisibility: public (1)
       vpiAutomatic: true
-      vpiStmt Begin:
+      vpiStmt ReturnStmt start:10:4 end:10:16:
         vpiParent: Function name:calc_y
-        vpiFullName: calc_y
-        vpiTypespec (2 items):
-          UnsupportedTypespec name:logic start:9:20 end:9:25:
-            vpiParent: Begin
-            vpiName Identifier name:logic:
-              vpiParent: UnsupportedTypespec name:logic
-              vpiName: logic
-          BitTypespec:
-            vpiParent: Begin
-        vpiStmt (1 items):
-          ReturnStmt start:10:4 end:10:16:
-            vpiParent: Begin
-            vpiCondition Constant start:10:11 end:10:15:
-              vpiParent: ReturnStmt
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: calc_y
-                vpiActual: BitTypespec
-              vpiConstType: binary (3)
-              vpiSize: 1
-              vpiDecompile: "1'b1"
-              vpiValue: 1
+        vpiCondition Constant start:10:11 end:10:15:
+          vpiParent: ReturnStmt
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiFullName: calc_y
+            vpiActual: BitTypespec
+          vpiConstType: binary (3)
+          vpiSize: 1
+          vpiDecompile: "1'b1"
+          vpiValue: "1"
       vpiReturn RefTypespec start:9:20 end:9:25:
         vpiParent: Function name:calc_y
         vpiFullName: calc_y
@@ -532,39 +542,42 @@ Design name:unnamed:
         vpiConstType: binary (3)
         vpiSize: 1
         vpiDecompile: "1'b1"
-        vpiValue: 1
+        vpiValue: "1"
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_defaults
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_defaults
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_defaults/surelog.uhdm
+      test-name: Verilator/t_func_defaults
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_defaults
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_defaults/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_defaults/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_defaults/lib/work/t_func_defaults.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 340}},
+            'files': {'$Output/lib/work/t_func_defaults.v': {'post_len': 0,
+                                                             'pre_len': 340}},
             'post_len': 0,
             'pre_len': 340,
             'test_name': 'Verilator/t_func_defaults'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_func_defaults.v |      340 |         0 |
-+============================+==========+===========+
-|                            |      340 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_func_defaults.v |      340 |         0 |
++====================================+==========+===========+
+|                                    |      340 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0

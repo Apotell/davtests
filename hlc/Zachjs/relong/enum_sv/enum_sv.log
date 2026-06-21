@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+relong+basic+lex+lib+resolve -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm relong/enum.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/relong/enum.sv".
+[INF:PA0201] Parsing source file "$Source01/relong/enum.sv".
 AST_DEBUG_BEGIN
 Count: 222
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv
-n<${SURELOG_DIR}/tests/Zachjs/relong/enum.sv> u<221> t<Top_level_rule> c<1> l<1:1> el<28:10>
+FILE: f<18>:$Source01/relong/enum.sv
+n<$Source01/relong/enum.sv> u<221> t<Top_level_rule> c<1> l<1:1> el<28:10>
   n<> u<1> t<Null_rule> p<221> s<220> l<1:1>
   n<> u<220> t<Source_text> p<221> c<5> l<1:1> el<28:10>
     n<> u<5> t<Description> p<220> c<4> s<6> l<1:1> el<1:22>
@@ -225,24 +234,24 @@ n<${SURELOG_DIR}/tests/Zachjs/relong/enum.sv> u<221> t<Top_level_rule> c<1> l<1:
                       n<> u<209> t<END> p<210> l<26:5> el<26:8>
         n<> u<217> t<ENDMODULE> p<218> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:8:1: Compile module "work@Example".
+[INF:CP0303] $Source01/relong/enum.sv:8:1: Compile module "work@Example".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:22:13: Illegal implicit net "id:76, name:MODE_A".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:22:33: Illegal implicit net "id:78, name:READ".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:23:13: Illegal implicit net "id:81, name:MODE_B".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:23:33: Illegal implicit net "id:83, name:WRITE".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:24:34: Illegal implicit net "id:87, name:NONE".
+[ERR:EL0535] $Source01/relong/enum.sv:22:13: Illegal implicit net "id:77, name:MODE_A".
+[ERR:EL0535] $Source01/relong/enum.sv:22:33: Illegal implicit net "id:79, name:READ".
+[ERR:EL0535] $Source01/relong/enum.sv:23:13: Illegal implicit net "id:82, name:MODE_B".
+[ERR:EL0535] $Source01/relong/enum.sv:23:33: Illegal implicit net "id:84, name:WRITE".
+[ERR:EL0535] $Source01/relong/enum.sv:24:34: Illegal implicit net "id:88, name:NONE".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:enum.sv file:${SURELOG_DIR}/tests/Zachjs/relong/enum.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:enum.sv file:$Source01/relong/enum.sv:
       vpiParent: Design name:unnamed
       vpiName: enum.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/lib/work/relong/enum.sv"
+      vpiPreprocFile: "$Output/lib/work/relong/enum.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@Example file:${SURELOG_DIR}/tests/Zachjs/relong/enum.sv start:8:1 end:28:10:
+    Module name:work@Example file:$Source01/relong/enum.sv start:8:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Example start:8:8 end:8:15:
         vpiParent: Module name:work@Example
@@ -309,6 +318,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Example
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Example
+        vpiName: work
+        vpiFullName: work@Example.work
+      vpiCell: Example
       vpiNet (1 items):
         Net name:rawMode start:9:17 end:9:24:
           vpiParent: Module name:work@Example
@@ -428,7 +442,7 @@ Design name:unnamed:
               vpiName: Mode_t
               vpiFullName: work@Example.Mode_t
               vpiActual: TypedefTypespec name:Mode_t
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (1 items):
               RefObj name:rawMode start:17:27 end:17:34:
                 vpiParent: Operation
@@ -517,7 +531,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 2
             vpiDecompile: "2'd1"
-            vpiValue: 1
+            vpiValue: "1"
         EnumConst name:WRITE start:6:38 end:6:48:
           vpiParent: EnumTypespec
           vpiName Identifier name:WRITE start:6:38 end:6:43:
@@ -532,7 +546,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 2
             vpiDecompile: "2'd2"
-            vpiValue: 2
+            vpiValue: "2"
         EnumConst name:NONE start:6:50 end:6:59:
           vpiParent: EnumTypespec
           vpiName Identifier name:NONE start:6:50 end:6:54:
@@ -547,7 +561,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 2
             vpiDecompile: "2'd0"
-            vpiValue: 0
+            vpiValue: "0"
     TypedefTypespec name:Operation_t start:6:1 end:6:73:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Operation_t start:6:61 end:6:72:
@@ -564,37 +578,40 @@ Design name:unnamed:
         vpiName: work@Example
       vpiModule: Module name:work@Example
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/relong/enum_sv
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/surelog.uhdm
+      test-name: Zachjs/relong/enum_sv
+   test-dirpath: ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv
+  uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/mounts.json
 
 
 {'result': {'coverage': 94.98,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/lib/work/relong/enum.sv'): {'post_len': 21,
-                                                                                                                                  'pre_len': 418}},
+            'files': {'$Output/lib/work/relong/enum.sv': {'post_len': 21,
+                                                          'pre_len': 418}},
             'post_len': 21,
             'pre_len': 418,
             'test_name': 'Zachjs/relong/enum_sv'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/relong/enum.sv |      418 |        21 |
-+=========================+==========+===========+
-|                         |      418 |        21 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/relong/enum.sv |      418 |        21 |
++=================================+==========+===========+
+|                                 |      418 |        21 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 94.98
@@ -608,7 +625,7 @@ COMMAND: ${SURELOG_DIR}/regression/Zachjs/relong/enum_sv/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

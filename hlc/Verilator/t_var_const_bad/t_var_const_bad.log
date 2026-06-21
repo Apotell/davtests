@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_var_const_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_var_const_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_var_const_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_var_const_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_var_const_bad.v".
 AST_DEBUG_BEGIN
 Count: 141
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_var_const_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_var_const_bad.v> u<140> t<Top_level_rule> c<1> l<6:1> el<23:1>
+FILE: f<13>:$Source01/t_var_const_bad.v
+n<$Source01/t_var_const_bad.v> u<140> t<Top_level_rule> c<1> l<6:1> el<23:1>
   n<> u<1> t<Null_rule> p<140> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<140> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<140> s<4> l<2:1> el<2:3>
@@ -144,19 +153,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_var_const_bad.v> u<140> t<Top_level_rule> c<1
                                 n<> u<123> t<END> p<124> l<20:4> el<20:7>
         n<> u<136> t<ENDMODULE> p<137> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_var_const_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_var_const_bad.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_var_const_bad.v file:${SURELOG_DIR}/tests/Verilator/t_var_const_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_var_const_bad.v file:$Source01/t_var_const_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_var_const_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_var_const_bad/lib/work/t_var_const_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_var_const_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_var_const_bad.v start:6:1 end:22:10:
+    Module name:work@t file:$Source01/t_var_const_bad.v start:6:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -203,6 +212,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -230,7 +244,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 3
             vpiDecompile: "3'd5"
-            vpiValue: 5
+            vpiValue: "5"
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:work@t
@@ -280,7 +294,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 3
                     vpiDecompile: "3'd4"
-                    vpiValue: 4
+                    vpiValue: "4"
                 IfStmt start:17:7 end:17:32:
                   vpiParent: Begin
                   vpiCondition Operation start:17:11 end:17:24:
@@ -301,7 +315,7 @@ Design name:unnamed:
                         vpiConstType: decimal (1)
                         vpiSize: 3
                         vpiDecompile: "3'd5"
-                        vpiValue: 5
+                        vpiValue: "5"
                   vpiStmt SysFuncCall name:$stop start:17:26 end:17:31:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:17:26 end:17:31:
@@ -322,7 +336,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 176
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: *-* All Finished *-*\n
+                      vpiValue: "*-* All Finished *-*\\n"
                 SysFuncCall name:$finish start:19:7 end:19:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:19:7 end:19:14:
@@ -342,37 +356,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_var_const_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_var_const_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_const_bad/surelog.uhdm
+      test-name: Verilator/t_var_const_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_var_const_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_const_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_var_const_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_var_const_bad/lib/work/t_var_const_bad.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 173}},
+            'files': {'$Output/lib/work/t_var_const_bad.v': {'post_len': 0,
+                                                             'pre_len': 173}},
             'post_len': 0,
             'pre_len': 173,
             'test_name': 'Verilator/t_var_const_bad'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_var_const_bad.v |      173 |         0 |
-+============================+==========+===========+
-|                            |      173 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_var_const_bad.v |      173 |         0 |
++====================================+==========+===========+
+|                                    |      173 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -387,10 +404,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            2       1       0         1
-RefObj                               4       3       0         1
+RefObj                               5       4       0         1
 RefTypespec                         10       9       0         1
 ----------------------------------------------------------------
 Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    49      46       1         4
+                                    50      47       1         4
 ===================== END REDUCTION RESULT =====================

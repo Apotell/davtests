@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_mem_multi_ref_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_mem_multi_ref_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_mem_multi_ref_bad.v".
+[SNT:PA0207] $Source01/t_mem_multi_ref_bad.v:18:20: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n   reg       dimn;\n   reg [1:0] dim0;\n   reg [1:0] dim1 [1:0];\n   reg [1:0] dim2 [1:0][1:0];\n   reg       dim0nv[1:0];\n\n   initial begin\n      dimn[1:0] = 0;            // Bad: Not ranged\n      dim0[1][1] = 0;           // Bad: Not arrayed\n      dim1[1][1][1] = 0;        // Bad: Not arrayed to right depth\n      dim2[1][1][1] = 0;        // OK\n      dim2[0 +: 1][1]',
+      dim2[0 +: 1][1] = 0;      // Bad: Range on non-bits
+                    ^-- $Source01/t_mem_multi_ref_bad.v:18:20:.
+[SNT:PA0207] $Source01/t_mem_multi_ref_bad.v:13:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_mem_multi_ref_bad.v:13:3:.
 AST_DEBUG_BEGIN
 Count: 155
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v> u<154> t<Top_level_rule> c<1> l<6:1> el<25:10>
+FILE: f<13>:$Source01/t_mem_multi_ref_bad.v
+n<$Source01/t_mem_multi_ref_bad.v> u<154> t<Top_level_rule> c<1> l<6:1> el<25:10>
   n<> u<1> t<Null_rule> p<154> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<154> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<154> s<4> l<2:1> el<2:3>
@@ -158,30 +173,24 @@ n<${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v> u<154> t<Top_level_rule>
   n<// Bad: Not vectored> u<152> t<LINE_COMMENT> p<154> s<153> l<21:33> el<21:53>
   n<// Bad: Not arrayed to right depth> u<153> t<LINE_COMMENT> p<154> l<22:33> el<22:67>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v:18:18: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n   reg       dimn;\n   reg [1:0] dim0;\n   reg [1:0] dim1 [1:0];\n   reg [1:0] dim2 [1:0][1:0];\n   reg       dim0nv[1:0];\n\n   initial begin\n      dimn[1:0] = 0;            // Bad: Not ranged\n      dim0[1][1] = 0;           // Bad: Not arrayed\n      dim1[1][1][1] = 0;        // Bad: Not arrayed to right depth\n      dim2[1][1][1] = 0;        // OK\n      dim2[0 +: 1][',
-      dim2[0 +: 1][1] = 0;      // Bad: Range on non-bits
-                  ^-- ${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v:18:18:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v:13:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v:13:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_mem_multi_ref_bad.v file:${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_mem_multi_ref_bad.v file:$Source01/t_mem_multi_ref_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_mem_multi_ref_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/lib/work/t_mem_multi_ref_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_mem_multi_ref_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v start:6:1 end:6:1:
+    Module file:$Source01/t_mem_multi_ref_bad.v start:6:1 end:6:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_mem_multi_ref_bad.v start:6:1 end:6:7:
+    Module file:$Source01/t_mem_multi_ref_bad.v start:6:1 end:6:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-  vpiTypespec (7 items):
+  vpiTypespec (11 items):
     ModuleTypespec:
       vpiParent: Design name:unnamed
       vpiModule: Module
@@ -241,6 +250,32 @@ Design name:unnamed:
             vpiDecompile: "0"
             vpiValue: 0
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:9:19 end:9:24:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:9:20 end:9:21:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:9:22 end:9:23:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:9:4 end:9:13:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -265,41 +300,122 @@ Design name:unnamed:
             vpiDecompile: "0"
             vpiValue: 0
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:10:19 end:10:24:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:10:20 end:10:21:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:10:22 end:10:23:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:10:24 end:10:29:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:10:25 end:10:26:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:10:27 end:10:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:10:4 end:10:13:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:11:20 end:11:25:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:11:21 end:11:22:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:11:23 end:11:24:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:11:4 end:11:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_mem_multi_ref_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/surelog.uhdm
+      test-name: Verilator/t_mem_multi_ref_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/mounts.json
 
 
-{'result': {'coverage': 52.49,
+{'result': {'coverage': 57.81,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/lib/work/t_mem_multi_ref_bad.v'): {'post_len': 143,
-                                                                                                                                                 'pre_len': 301}},
-            'post_len': 143,
+            'files': {'$Output/lib/work/t_mem_multi_ref_bad.v': {'post_len': 127,
+                                                                 'pre_len': 301}},
+            'post_len': 127,
             'pre_len': 301,
             'test_name': 'Verilator/t_mem_multi_ref_bad'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/t_mem_multi_ref_bad.v |      301 |       143 |
-+================================+==========+===========+
-|                                |      301 |       143 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/t_mem_multi_ref_bad.v |      301 |       127 |
++========================================+==========+===========+
+|                                        |      301 |       127 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 52.49
+[COVERAGE] : 57.81
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -310,7 +426,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_mem_multi_ref_bad/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

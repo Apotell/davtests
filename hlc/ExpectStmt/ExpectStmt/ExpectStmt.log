@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ExpectStmt -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 91
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ExpectStmt/dut.sv
-n<${SURELOG_DIR}/tests/ExpectStmt/dut.sv> u<90> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<90> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<90> s<89> l<1:1>
   n<> u<89> t<Source_text> p<90> c<88> l<1:1> el<11:10>
     n<> u<88> t<Description> p<89> c<87> l<1:1> el<11:10>
@@ -94,19 +103,19 @@ n<${SURELOG_DIR}/tests/ExpectStmt/dut.sv> u<90> t<Top_level_rule> c<1> l<1:1> el
                           n<> u<76> t<END> p<77> l<9:1> el<9:4>
         n<> u<86> t<ENDMODULE> p<87> l<11:1> el<11:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ExpectStmt/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ExpectStmt/dut.sv:1:1: No timescale set for "work@top".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ExpectStmt/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/ExpectStmt/dut.sv start:1:1 end:11:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -117,6 +126,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:clk start:3:7 end:3:10:
           vpiParent: Module name:work@top
@@ -162,10 +176,15 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: work@top.clk
                         vpiActual: Net name:clk
-                  vpiPropertyExpr Operation start:8:30 end:8:35:
+                  vpiPropertyExpr Operation start:8:28 end:8:35:
                     vpiParent: PropertySpec
-                    vpiOpType: unary cycle delay (53)
+                    vpiOpType: binary cycle delay (71)
                     vpiOperand (3 items):
+                      RefObj name:a start:8:28 end:8:29:
+                        vpiParent: Operation
+                        vpiName: a
+                        vpiFullName: work@top.a
+                        vpiActual: Net name:a
                       Constant start:8:32 end:8:33:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -176,11 +195,6 @@ Design name:unnamed:
                         vpiSize: 32
                         vpiDecompile: "1"
                         vpiValue: 1
-                      RefObj name:a start:8:28 end:8:29:
-                        vpiParent: Operation
-                        vpiName: a
-                        vpiFullName: work@top.a
-                        vpiActual: Net name:a
                       RefObj name:b start:8:34 end:8:35:
                         vpiParent: Operation
                         vpiName: b
@@ -197,37 +211,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ExpectStmt/ExpectStmt
- test-dirpath: ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt
-uhdm-filepath: ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/surelog.uhdm
+      test-name: ExpectStmt/ExpectStmt
+   test-dirpath: ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt
+  uhdm-filepath: ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 96}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 96}},
             'post_len': 0,
             'pre_len': 96,
             'test_name': 'ExpectStmt/ExpectStmt'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       96 |         0 |
-+=================+==========+===========+
-|                 |       96 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       96 |         0 |
++=========================+==========+===========+
+|                         |       96 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -241,7 +258,7 @@ COMMAND: ${SURELOG_DIR}/regression/ExpectStmt/ExpectStmt/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    25      25       0         0
+                                    26      26       0         0
 ===================== END REDUCTION RESULT =====================

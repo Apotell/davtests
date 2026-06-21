@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/scope3/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm scope3.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/scope3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/scope3.v".
+[INF:PA0201] Parsing source file "$Source01/scope3.v".
 AST_DEBUG_BEGIN
 Count: 160
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v> u<159> t<Top_level_rule> c<1> l<9:1> el<32:1>
+FILE: f<13>:$Source01/scope3.v
+n<$Source01/scope3.v> u<159> t<Top_level_rule> c<1> l<9:1> el<32:1>
   n<> u<1> t<Null_rule> p<159> s<2> l<9:1> el<9:1>
   n</*\nVerilog-XL error message:\n\nError!    Recursive instantiation of module (a)             [Verilog-RINOM]    \n          "murec.v", 13: a a0(z, x);\n1 error   \n*/> u<2> t<BLOCK_COMMENT> p<159> s<158> l<9:1> el<30:10>
   n<> u<158> t<Source_text> p<159> c<50> l<9:1> el<30:10>
@@ -163,21 +172,21 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v> u<159> t<Top_level_rule> c<1> l
         n<// Error should be caught here> u<154> t<LINE_COMMENT> p<156> s<155> l<29:19> el<29:49>
         n<> u<155> t<ENDMODULE> p<156> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v:9:1: Compile module "work@test".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v:17:1: Compile module "work@a".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v:25:1: Compile module "work@b".
+[INF:CP0303] $Source01/scope3.v:9:1: Compile module "work@test".
+[INF:CP0303] $Source01/scope3.v:17:1: Compile module "work@a".
+[INF:CP0303] $Source01/scope3.v:25:1: Compile module "work@b".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:scope3.v file:${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v:
+  vpiSourceFile (1 items):
+    SourceFile name:scope3.v file:$Source01/scope3.v:
       vpiParent: Design name:unnamed
       vpiName: scope3.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/scope3/lib/work/scope3.v"
+      vpiPreprocFile: "$Output/lib/work/scope3.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v start:9:1 end:14:10:
+    Module name:work@test file:$Source01/scope3.v start:9:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:9:8 end:9:12:
         vpiParent: Module name:work@test
@@ -193,6 +202,11 @@ Design name:unnamed:
             vpiName: work@a
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (2 items):
         Net name:x start:10:9 end:10:10:
           vpiParent: Module name:work@test
@@ -241,7 +255,7 @@ Design name:unnamed:
                 vpiName: x
                 vpiFullName: work@test.a0.x
                 vpiActual: Net name:x
-    Module name:work@a file:${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v start:17:1 end:22:10:
+    Module name:work@a file:$Source01/scope3.v start:17:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@a start:17:8 end:17:9:
         vpiParent: Module name:work@a
@@ -257,6 +271,11 @@ Design name:unnamed:
             vpiName: work@b
       vpiDefName: work@a
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@a
+        vpiName: work
+        vpiFullName: work@a.work
+      vpiCell: a
       vpiNet (2 items):
         Net name:z start:18:12 end:18:13:
           vpiParent: Module name:work@a
@@ -331,7 +350,7 @@ Design name:unnamed:
                 vpiName: x
                 vpiFullName: work@a.b0.x
                 vpiActual: Net name:x
-    Module name:work@b file:${SURELOG_DIR}/tests/Icarus/ivltests/scope3.v start:25:1 end:30:10:
+    Module name:work@b file:$Source01/scope3.v start:25:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@b start:25:8 end:25:9:
         vpiParent: Module name:work@b
@@ -347,6 +366,11 @@ Design name:unnamed:
             vpiName: work@a
       vpiDefName: work@b
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@b
+        vpiName: work
+        vpiFullName: work@b.work
+      vpiCell: b
       vpiNet (2 items):
         Net name:z start:26:12 end:26:13:
           vpiParent: Module name:work@b
@@ -441,37 +465,40 @@ Design name:unnamed:
         vpiName: work@b
       vpiModule: Module name:work@b
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/scope3
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/scope3
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/scope3/surelog.uhdm
+      test-name: Icarus/ivltests/scope3
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/scope3
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/scope3/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/scope3/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/scope3/lib/work/scope3.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 167}},
+            'files': {'$Output/lib/work/scope3.v': {'post_len': 0,
+                                                    'pre_len': 167}},
             'post_len': 0,
             'pre_len': 167,
             'test_name': 'Icarus/ivltests/scope3'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/scope3.v |      167 |         0 |
-+===================+==========+===========+
-|                   |      167 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/scope3.v |      167 |         0 |
++===========================+==========+===========+
+|                           |      167 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -485,7 +512,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/scope3/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    71      71       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

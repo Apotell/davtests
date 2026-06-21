@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_lint_syncasyncnet_bad.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_syncasyncnet_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_syncasyncnet_bad.v".
 AST_DEBUG_BEGIN
 Count: 733
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v> u<732> t<Top_level_rule> c<1> l<6:1> el<99:1>
+FILE: f<13>:$Source01/t_lint_syncasyncnet_bad.v
+n<$Source01/t_lint_syncasyncnet_bad.v> u<732> t<Top_level_rule> c<1> l<6:1> el<99:1>
   n<> u<1> t<Null_rule> p<732> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<732> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<732> s<4> l<2:1> el<2:3>
@@ -736,21 +745,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v> u<732> t<Top_level_r
                                 n<> u<715> t<END> p<716> l<96:4> el<96:7>
         n<> u<728> t<ENDMODULE> p<729> l<98:1> el<98:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v:33:1: Compile module "work@sub1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v:64:1: Compile module "work@sub2".
+[INF:CP0303] $Source01/t_lint_syncasyncnet_bad.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_lint_syncasyncnet_bad.v:33:1: Compile module "work@sub1".
+[INF:CP0303] $Source01/t_lint_syncasyncnet_bad.v:64:1: Compile module "work@sub2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_syncasyncnet_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_syncasyncnet_bad.v file:$Source01/t_lint_syncasyncnet_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_syncasyncnet_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/lib/work/t_lint_syncasyncnet_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_syncasyncnet_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v start:6:1 end:31:10:
+    Module name:work@t file:$Source01/t_lint_syncasyncnet_bad.v start:6:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -771,6 +780,11 @@ Design name:unnamed:
             vpiName: work@sub2
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (5 items):
         Net name:rst_sync_l start:16:25 end:16:35:
           vpiParent: Module name:work@t
@@ -993,7 +1007,7 @@ Design name:unnamed:
                 vpiName: d
                 vpiFullName: work@t.sub2.d
                 vpiActual: Net name:d
-    Module name:work@sub1 file:${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v start:33:1 end:62:10:
+    Module name:work@sub1 file:$Source01/t_lint_syncasyncnet_bad.v start:33:1 end:62:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub1 start:33:8 end:33:12:
         vpiParent: Module name:work@sub1
@@ -1004,6 +1018,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub1
       vpiDefName: work@sub1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub1
+        vpiName: work
+        vpiFullName: work@sub1.work
+      vpiCell: sub1
       vpiNet (6 items):
         Net name:clk start:38:10 end:38:13:
           vpiParent: Module name:work@sub1
@@ -1155,7 +1174,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 1
                           vpiDecompile: "1'h0"
-                          vpiValue: 0
+                          vpiValue: "0"
                   vpiElseStmt Begin start:52:16 end:54:10:
                     vpiParent: IfElse
                     vpiFullName: work@sub1
@@ -1223,7 +1242,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                 IfStmt start:59:7 end:59:27:
                   vpiParent: Begin
                   vpiCondition Operation start:59:11 end:59:24:
@@ -1255,7 +1274,7 @@ Design name:unnamed:
                         vpiFullName: work@sub1.q2
                         vpiActual: Net name:q2
           vpiAlwaysType: always (1)
-    Module name:work@sub2 file:${SURELOG_DIR}/tests/Verilator/t_lint_syncasyncnet_bad.v start:64:1 end:98:10:
+    Module name:work@sub2 file:$Source01/t_lint_syncasyncnet_bad.v start:64:1 end:98:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub2 start:64:8 end:64:12:
         vpiParent: Module name:work@sub2
@@ -1266,6 +1285,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub2
       vpiDefName: work@sub2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub2
+        vpiName: work
+        vpiFullName: work@sub2.work
+      vpiCell: sub2
       vpiNet (7 items):
         Net name:clk start:69:10 end:69:13:
           vpiParent: Module name:work@sub2
@@ -1438,7 +1462,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 1
                           vpiDecompile: "1'h0"
-                          vpiValue: 0
+                          vpiValue: "0"
                   vpiElseStmt Begin start:84:16 end:86:10:
                     vpiParent: IfElse
                     vpiFullName: work@sub2
@@ -1518,7 +1542,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                       RefObj name:d start:90:36 end:90:37:
                         vpiParent: Operation
                         vpiName: d
@@ -1587,7 +1611,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                       RefObj name:d start:94:36 end:94:37:
                         vpiParent: Operation
                         vpiName: d
@@ -1658,37 +1682,40 @@ Design name:unnamed:
         vpiName: work@sub2
       vpiModule: Module name:work@sub2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_syncasyncnet_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/surelog.uhdm
+      test-name: Verilator/t_lint_syncasyncnet_bad
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/lib/work/t_lint_syncasyncnet_bad.v'): {'post_len': 0,
-                                                                                                                                                         'pre_len': 1241}},
+            'files': {'$Output/lib/work/t_lint_syncasyncnet_bad.v': {'post_len': 0,
+                                                                     'pre_len': 1241}},
             'post_len': 0,
             'pre_len': 1241,
             'test_name': 'Verilator/t_lint_syncasyncnet_bad'}}
 
-+------------------------------------+----------+-----------+
-| INPUT                              |   PRELEN |   POSTLEN |
-+====================================+==========+===========+
-| lib/work/t_lint_syncasyncnet_bad.v |     1241 |         0 |
-+====================================+==========+===========+
-|                                    |     1241 |         0 |
-+------------------------------------+----------+-----------+
++--------------------------------------------+----------+-----------+
+| INPUT                                      |   PRELEN |   POSTLEN |
++============================================+==========+===========+
+| $Output/lib/work/t_lint_syncasyncnet_bad.v |     1241 |         0 |
++============================================+==========+===========+
+|                                            |     1241 |         0 |
++--------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1702,7 +1729,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_syncasyncnet_bad/surelog.uhd
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             226     226       0         0
+Others                             229     229       0         0
 ----------------------------------------------------------------
-                                   226     226       0         0
+                                   229     229       0         0
 ===================== END REDUCTION RESULT =====================

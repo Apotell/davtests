@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_tri_inout2/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_tri_inout2.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_tri_inout2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_tri_inout2.v".
+[INF:PA0201] Parsing source file "$Source01/t_tri_inout2.v".
 AST_DEBUG_BEGIN
 Count: 649
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v
-n<${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l<6:1> el<76:1>
+FILE: f<13>:$Source01/t_tri_inout2.v
+n<$Source01/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l<6:1> el<76:1>
   n<> u<1> t<Null_rule> p<648> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<648> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<648> s<4> l<2:1> el<2:3>
@@ -652,26 +661,26 @@ n<${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v> u<648> t<Top_level_rule> c<1> l
                           n<A> u<634> t<SIMPLE_IDENTIFIER> p<635> l<74:14> el<74:15>
         n<> u<644> t<ENDMODULE> p<645> l<75:1> el<75:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:59:1: Compile module "work@ChildA".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:59:1: Multiply defined typedef "work@ChildB".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:73:1: Compile module "work@ChildB".
+[INF:CP0303] $Source01/t_tri_inout2.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_tri_inout2.v:59:1: Compile module "work@ChildA".
+[WRN:CP0323] $Source01/t_tri_inout2.v:59:1: Multiply defined typedef "work@ChildB".
+[INF:CP0303] $Source01/t_tri_inout2.v:73:1: Compile module "work@ChildB".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:22:21: Illegal implicit net "id:56, name:A".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:22:28: Illegal implicit net "id:59, name:B".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:22:44: Illegal implicit net "id:65, name:Y".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:22:50: Illegal implicit net "id:68, name:Yfix".
+[ERR:EL0535] $Source01/t_tri_inout2.v:22:21: Illegal implicit net "id:59, name:A".
+[ERR:EL0535] $Source01/t_tri_inout2.v:22:28: Illegal implicit net "id:62, name:B".
+[ERR:EL0535] $Source01/t_tri_inout2.v:22:44: Illegal implicit net "id:68, name:Y".
+[ERR:EL0535] $Source01/t_tri_inout2.v:22:50: Illegal implicit net "id:71, name:Yfix".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_tri_inout2.v file:${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_tri_inout2.v file:$Source01/t_tri_inout2.v:
       vpiParent: Design name:unnamed
       vpiName: t_tri_inout2.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_tri_inout2/lib/work/t_tri_inout2.v"
+      vpiPreprocFile: "$Output/lib/work/t_tri_inout2.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v start:6:1 end:57:10:
+    Module name:work@t file:$Source01/t_tri_inout2.v start:6:1 end:57:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -713,6 +722,11 @@ Design name:unnamed:
             vpiName: work@ChildA
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (7 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -906,7 +920,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 240
                       vpiDecompile: "\"a %d b %d en %d y %d yfix: %d)\""
-                      vpiValue: a %d b %d en %d y %d yfix: %d)
+                      vpiValue: "a %d b %d en %d y %d yfix: %d)"
                     RefObj name:a start:32:53 end:32:54:
                       vpiParent: SysFuncCall name:$display
                       vpiName: a
@@ -1171,7 +1185,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:54:10 end:54:17:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:54:10 end:54:17:
@@ -1261,7 +1275,7 @@ Design name:unnamed:
                 vpiName: y_fixed
                 vpiFullName: work@t.childa.y_fixed
                 vpiActual: Net name:y_fixed
-    Module name:work@ChildA file:${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v start:59:1 end:71:10:
+    Module name:work@ChildA file:$Source01/t_tri_inout2.v start:59:1 end:71:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ChildA start:59:8 end:59:14:
         vpiParent: Module name:work@ChildA
@@ -1282,6 +1296,11 @@ Design name:unnamed:
             vpiName: work@ChildB
       vpiDefName: work@ChildA
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ChildA
+        vpiName: work
+        vpiFullName: work@ChildA.work
+      vpiCell: ChildA
       vpiNet (6 items):
         Net name:A start:59:21 end:59:22:
           vpiParent: Module name:work@ChildA
@@ -1502,7 +1521,7 @@ Design name:unnamed:
                 vpiName: Yfix
                 vpiFullName: work@ChildA.childBfix.Yfix
                 vpiActual: Net name:Yfix
-    Module name:work@ChildB file:${SURELOG_DIR}/tests/Verilator/t_tri_inout2.v start:73:1 end:75:10:
+    Module name:work@ChildB file:$Source01/t_tri_inout2.v start:73:1 end:75:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ChildB start:73:8 end:73:14:
         vpiParent: Module name:work@ChildB
@@ -1513,6 +1532,11 @@ Design name:unnamed:
           vpiParent: Module name:work@ChildB
       vpiDefName: work@ChildB
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ChildB
+        vpiName: work
+        vpiFullName: work@ChildB.work
+      vpiCell: ChildB
       vpiNet (2 items):
         Net name:A start:73:21 end:73:22:
           vpiParent: Module name:work@ChildB
@@ -1597,37 +1621,40 @@ Design name:unnamed:
         vpiName: work@ChildB
       vpiModule: Module name:work@ChildB
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
 [WARNING] : 1
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_tri_inout2
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_inout2
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_inout2/surelog.uhdm
+      test-name: Verilator/t_tri_inout2
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_inout2
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_inout2/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_inout2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_tri_inout2/lib/work/t_tri_inout2.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 807}},
+            'files': {'$Output/lib/work/t_tri_inout2.v': {'post_len': 0,
+                                                          'pre_len': 807}},
             'post_len': 0,
             'pre_len': 807,
             'test_name': 'Verilator/t_tri_inout2'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_tri_inout2.v |      807 |         0 |
-+=========================+==========+===========+
-|                         |      807 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_tri_inout2.v |      807 |         0 |
++=================================+==========+===========+
+|                                 |      807 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1641,7 +1668,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_tri_inout2/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             227     227       0         0
+Others                             230     230       0         0
 ----------------------------------------------------------------
-                                   227     227       0         0
+                                   230     230       0         0
 ===================== END REDUCTION RESULT =====================

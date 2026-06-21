@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/integer5/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm integer5.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Icarus/ivltests/integer5
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/integer5.v".
+[INF:PA0201] Parsing source file "$Source01/integer5.v".
 AST_DEBUG_BEGIN
 Count: 320
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/integer5.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/integer5.v> u<319> t<Top_level_rule> c<1> l<21:1> el<53:1>
+FILE: f<13>:$Source01/integer5.v
+n<$Source01/integer5.v> u<319> t<Top_level_rule> c<1> l<21:1> el<53:1>
   n<> u<1> t<Null_rule> p<319> s<2> l<21:1> el<21:1>
   n</*\n * integer4ge - a verilog test for integer greater-or-equal conditional >=\n *\n * Copyright (C) 2000 Steve Wilson stevew@home.com\n * \n * This program is free software; you can redistribute it and/or modify\n * it under the terms of the GNU General Public License as published by\n * the Free Software Foundation; either version 2, or (at your option)\n * any later version.\n * \n * This program is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n * GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License\n * along with this software; see the file COPYING.  If not, write to\n * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,\n * Boston, MA 02111-1307 USA\n */> u<2> t<BLOCK_COMMENT> p<319> s<318> l<21:1> el<51:10>
   n<> u<318> t<Source_text> p<319> c<11> l<21:1> el<51:10>
@@ -323,20 +332,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/integer5.v> u<319> t<Top_level_rule> c<1>
                         n<> u<306> t<END> p<307> l<49:3> el<49:6>
         n<> u<315> t<ENDMODULE> p<316> l<51:1> el<51:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/integer5.v:22:1: Compile module "work@test".
+[INF:CP0303] $Source01/integer5.v:22:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:integer5.v file:${SURELOG_DIR}/tests/Icarus/ivltests/integer5.v:
+  vpiSourceFile (1 items):
+    SourceFile name:integer5.v file:$Source01/integer5.v:
       vpiParent: Design name:unnamed
       vpiName: integer5.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/integer5/lib/work/integer5.v"
+      vpiPreprocFile: "$Output/lib/work/integer5.v"
       vpiDefNetType: none (12)
       vpiTimeUnit: 2
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/integer5.v start:22:1 end:51:10:
+    Module name:work@test file:$Source01/integer5.v start:22:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:22:8 end:22:12:
         vpiParent: Module name:work@test
@@ -403,6 +412,11 @@ Design name:unnamed:
       vpiDefName: work@test
       vpiDefNetType: none (12)
       vpiTimeUnit: 2
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (4 items):
         Net name:result start:24:11 end:24:17:
           vpiParent: Module name:work@test
@@ -479,7 +493,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 32
                   vpiDecompile: "32'h24"
-                  vpiValue: 24
+                  vpiValue: "24"
               Assignment start:35:5 end:35:28:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -573,7 +587,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 336
                           vpiDecompile: "\"FAILED - division didn't work s/b A, is %h\""
-                          vpiValue: FAILED - division didn't work s/b A, is %h
+                          vpiValue: "FAILED - division didn't work s/b A, is %h"
                         RefObj name:result start:39:63 end:39:69:
                           vpiParent: SysFuncCall name:$display
                           vpiName: result
@@ -637,7 +651,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 392
                           vpiDecompile: "\"FAILED - assign division didn't work s/b A, is %h\""
-                          vpiValue: FAILED - assign division didn't work s/b A, is %h
+                          vpiValue: "FAILED - assign division didn't work s/b A, is %h"
                         RefObj name:result1 start:44:70 end:44:77:
                           vpiParent: SysFuncCall name:$display
                           vpiName: result1
@@ -754,37 +768,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/integer5
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/integer5
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/integer5/surelog.uhdm
+      test-name: Icarus/ivltests/integer5
+   test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/integer5
+  uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/integer5/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/integer5/mounts.json
 
 
 {'result': {'coverage': 95.91,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/integer5/lib/work/integer5.v'): {'post_len': 18,
-                                                                                                                                 'pre_len': 440}},
+            'files': {'$Output/lib/work/integer5.v': {'post_len': 18,
+                                                      'pre_len': 440}},
             'post_len': 18,
             'pre_len': 440,
             'test_name': 'Icarus/ivltests/integer5'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/integer5.v |      440 |        18 |
-+=====================+==========+===========+
-|                     |      440 |        18 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/integer5.v |      440 |        18 |
++=============================+==========+===========+
+|                             |      440 |        18 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 95.91
@@ -798,7 +815,7 @@ COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/integer5/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             101     101       0         0
+Others                             102     102       0         0
 ----------------------------------------------------------------
-                                   101     101       0         0
+                                   102     102       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Verilator/t_sv_cpu_code +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm ac.sv -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/ac.sv".
+[INF:PA0201] Parsing source file "$Source01/ac.sv".
 AST_DEBUG_BEGIN
 Count: 215
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv
-n<${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv> u<214> t<Top_level_rule> c<1> l<8:1> el<71:1>
+FILE: f<13>:$Source01/ac.sv
+n<$Source01/ac.sv> u<214> t<Top_level_rule> c<1> l<8:1> el<71:1>
   n<> u<1> t<Null_rule> p<214> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Large test for SystemVerilog> u<2> t<LINE_COMMENT> p<214> s<3> l<1:1> el<1:56>
   n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<214> s<4> l<3:1> el<3:65>
@@ -218,23 +227,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv> u<214> t<Top_level_rule> c
         n<> u<209> t<ENDMODULE> p<210> l<70:1> el<70:10>
   n<// ac> u<213> t<LINE_COMMENT> p<214> l<70:11> el<70:16>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv:8:1: Compile module "work@ac".
+[INF:CP0303] $Source01/ac.sv:8:1: Compile module "work@ac".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv:17:3: Illegal implicit net "id:16, name:genbus_if".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv:17:13: Illegal implicit net "id:17, name:slave".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv:18:3: Illegal implicit net "id:24, name:pads_if".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv:18:11: Illegal implicit net "id:25, name:mp_ana".
+[ERR:EL0535] $Source01/ac.sv:17:3: Illegal implicit net "id:17, name:genbus_if".
+[ERR:EL0535] $Source01/ac.sv:17:13: Illegal implicit net "id:18, name:slave".
+[ERR:EL0535] $Source01/ac.sv:18:3: Illegal implicit net "id:25, name:pads_if".
+[ERR:EL0535] $Source01/ac.sv:18:11: Illegal implicit net "id:26, name:mp_ana".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:ac.sv file:${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:ac.sv file:$Source01/ac.sv:
       vpiParent: Design name:unnamed
       vpiName: ac.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/lib/work/ac.sv"
+      vpiPreprocFile: "$Output/lib/work/ac.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@ac file:${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac.sv start:8:1 end:70:10:
+    Module name:work@ac file:$Source01/ac.sv start:8:1 end:70:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ac start:8:8 end:8:10:
         vpiParent: Module name:work@ac
@@ -282,6 +291,11 @@ Design name:unnamed:
             vpiName: work@ac_ana
       vpiDefName: work@ac
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ac
+        vpiName: work
+        vpiFullName: work@ac.work
+      vpiCell: ac
       vpiNet (6 items):
         Net name:dbus start:17:19 end:17:23:
           vpiParent: Module name:work@ac
@@ -354,7 +368,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:genbus_if.slave
               vpiName: genbus_if.slave
               vpiFullName: work@ac.dbus.genbus_if.slave.genbus_if.slave
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:genbus_if start:17:3 end:17:12:
                   vpiParent: HierPath name:genbus_if.slave
                   vpiName: genbus_if
@@ -379,7 +393,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:pads_if.mp_ana
               vpiName: pads_if.mp_ana
               vpiFullName: work@ac.padsif.pads_if.mp_ana.pads_if.mp_ana
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:pads_if start:18:3 end:18:10:
                   vpiParent: HierPath name:pads_if.mp_ana
                   vpiName: pads_if
@@ -576,37 +590,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_sv_cpu_code/ac
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/surelog.uhdm
+      test-name: Verilator/t_sv_cpu_code/ac
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/lib/work/ac.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 417}},
+            'files': {'$Output/lib/work/ac.sv': {'post_len': 0,
+                                                 'pre_len': 417}},
             'post_len': 0,
             'pre_len': 417,
             'test_name': 'Verilator/t_sv_cpu_code/ac'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/ac.sv |      417 |         0 |
-+================+==========+===========+
-|                |      417 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/ac.sv |      417 |         0 |
++========================+==========+===========+
+|                        |      417 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -620,7 +637,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac/surelog.uhdm ${SUR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

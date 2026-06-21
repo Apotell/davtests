@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_real_param/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_real_param.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_real_param
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_real_param.v".
+[INF:PA0201] Parsing source file "$Source01/t_real_param.v".
 AST_DEBUG_BEGIN
 Count: 261
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_real_param.v
-n<${SURELOG_DIR}/tests/Verilator/t_real_param.v> u<260> t<Top_level_rule> c<1> l<6:1> el<36:1>
+FILE: f<13>:$Source01/t_real_param.v
+n<$Source01/t_real_param.v> u<260> t<Top_level_rule> c<1> l<6:1> el<36:1>
   n<> u<1> t<Null_rule> p<260> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<260> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<260> s<4> l<2:1> el<2:3>
@@ -264,27 +273,27 @@ n<${SURELOG_DIR}/tests/Verilator/t_real_param.v> u<260> t<Top_level_rule> c<1> l
                           n<> u<246> t<END> p<247> l<33:4> el<33:7>
         n<> u<256> t<ENDMODULE> p<257> l<35:1> el<35:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:6:1: Compile module "work@foo".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:11:1: Compile module "work@t".
-[INF:CP0335] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:14:44: Compile generate block "gen_m".
-[INF:CP0335] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:15:43: Compile generate block "gen_r".
+[INF:CP0303] $Source01/t_real_param.v:6:1: Compile module "work@foo".
+[INF:CP0303] $Source01/t_real_param.v:11:1: Compile module "work@t".
+[INF:CP0335] $Source01/t_real_param.v:14:44: Compile generate block "gen_m".
+[INF:CP0335] $Source01/t_real_param.v:15:43: Compile generate block "gen_r".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:18:31: Illegal implicit net "id:75, name:foo_inst".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:18:40: Illegal implicit net "id:76, name:bar".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:20:37: Illegal implicit net "id:84, name:foo_inst".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:20:46: Illegal implicit net "id:85, name:bar".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_real_param.v:25:20: Illegal implicit net "id:93, name:bar".
+[ERR:EL0535] $Source01/t_real_param.v:18:31: Illegal implicit net "id:77, name:foo_inst".
+[ERR:EL0535] $Source01/t_real_param.v:18:40: Illegal implicit net "id:78, name:bar".
+[ERR:EL0535] $Source01/t_real_param.v:20:37: Illegal implicit net "id:86, name:foo_inst".
+[ERR:EL0535] $Source01/t_real_param.v:20:46: Illegal implicit net "id:87, name:bar".
+[ERR:EL0535] $Source01/t_real_param.v:25:20: Illegal implicit net "id:95, name:bar".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_real_param.v file:${SURELOG_DIR}/tests/Verilator/t_real_param.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_real_param.v file:$Source01/t_real_param.v:
       vpiParent: Design name:unnamed
       vpiName: t_real_param.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_real_param/lib/work/t_real_param.v"
+      vpiPreprocFile: "$Output/lib/work/t_real_param.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@foo file:${SURELOG_DIR}/tests/Verilator/t_real_param.v start:6:1 end:9:10:
+    Module name:work@foo file:$Source01/t_real_param.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:6:8 end:6:11:
         vpiParent: Module name:work@foo
@@ -319,7 +328,12 @@ Design name:unnamed:
             vpiValue: 2
       vpiDefName: work@foo
       vpiDefNetType: none (12)
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_real_param.v start:11:1 end:35:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
+    Module name:work@t file:$Source01/t_real_param.v start:11:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:11:8 end:11:9:
         vpiParent: Module name:work@t
@@ -327,6 +341,11 @@ Design name:unnamed:
       vpiFullName: work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:m start:12:11 end:12:12:
           vpiParent: Module name:work@t
@@ -364,7 +383,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:32:7 end:32:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:32:7 end:32:14:
@@ -475,7 +494,7 @@ Design name:unnamed:
                   vpiForIncStmt (1 items):
                     Operation start:15:30 end:15:33:
                       vpiParent: GenFor
-                      vpiOpType: post inc (62)
+                      vpiOpType: post inc (64)
                       vpiOperand (1 items):
                         RefObj name:r start:15:30 end:15:31:
                           vpiParent: Operation
@@ -560,8 +579,8 @@ Design name:unnamed:
                           vpiParent: ModuleTypespec name:work@foo
                           vpiName: work@foo
                     vpiStmt (4 items):
-                      Parameter name:lparam
-                      ParamAssign
+                      Parameter name:lparam:
+                      ParamAssign:
                       Initial start:17:13 end:23:16:
                         vpiParent: Begin name:gen_r
                         vpiStmt Begin start:17:21 end:23:16:
@@ -583,7 +602,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: foo_inst.bar
                                     vpiFullName: work@t.gen_m.gen_r.foo_inst.bar
-                                    vpiActual (2 items):
+                                    vpiPathElem (2 items):
                                       RefObj name:foo_inst start:18:31 end:18:39:
                                         vpiParent: HierPath name:foo_inst.bar
                                         vpiName: foo_inst
@@ -611,7 +630,7 @@ Design name:unnamed:
                                         vpiConstType: string (6)
                                         vpiSize: 280
                                         vpiDecompile: "\"%m: lparam != foo_inst.bar (%f, %f)\""
-                                        vpiValue: %m: lparam != foo_inst.bar (%f, %f)
+                                        vpiValue: "%m: lparam != foo_inst.bar (%f, %f)"
                                       RefObj name:lparam start:20:29 end:20:35:
                                         vpiParent: SysFuncCall name:$display
                                         vpiName: lparam
@@ -621,7 +640,7 @@ Design name:unnamed:
                                         vpiParent: SysFuncCall name:$display
                                         vpiName: foo_inst.bar
                                         vpiFullName: work@t.gen_m.gen_r.foo_inst.bar
-                                        vpiActual (2 items):
+                                        vpiPathElem (2 items):
                                           RefObj name:foo_inst start:20:37 end:20:45:
                                             vpiParent: HierPath name:foo_inst.bar
                                             vpiName: foo_inst
@@ -677,37 +696,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
 [WARNING] : 0
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_real_param
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_real_param
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_real_param/surelog.uhdm
+      test-name: Verilator/t_real_param
+   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_real_param
+  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_real_param/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_real_param/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_real_param/lib/work/t_real_param.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 445}},
+            'files': {'$Output/lib/work/t_real_param.v': {'post_len': 0,
+                                                          'pre_len': 445}},
             'post_len': 0,
             'pre_len': 445,
             'test_name': 'Verilator/t_real_param'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_real_param.v |      445 |         0 |
-+=========================+==========+===========+
-|                         |      445 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_real_param.v |      445 |         0 |
++=================================+==========+===========+
+|                                 |      445 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -721,7 +743,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_real_param/surelog.uhdm ${SURELOG
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                             100     100       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                   100     100       0         0
 ===================== END REDUCTION RESULT =====================

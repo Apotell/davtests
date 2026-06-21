@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat/surelog.log".
+********************************************
+*  SURELOG SystemVerilog  Compiler/Linter  *
+********************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamMultiConcat -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 165
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv
-n<${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<164> s<162> l<1:1>
   n<> u<162> t<Source_text> p<164> c<40> s<163> l<1:1> el<18:10>
     n<> u<40> t<Description> p<162> c<39> s<161> l<1:1> el<7:10>
@@ -168,22 +177,22 @@ n<${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv> u<164> t<Top_level_rule> c<1> l<
         n<> u<159> t<ENDMODULE> p<160> l<18:1> el<18:10>
   n<// top> u<163> t<LINE_COMMENT> p<164> l<18:11> el<18:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv:1:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv:9:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv:1:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv:9:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv:16:8: Illegal implicit net "id:74, name:wmask_i".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:16:8: Illegal implicit net "id:76, name:wmask_i".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv start:1:1 end:7:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -244,6 +253,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (1 items):
         Net name:wmask_i start:5:22 end:5:29:
           vpiParent: Module name:work@dut
@@ -267,7 +281,7 @@ Design name:unnamed:
             vpiParent: Port name:wmask_i
             vpiFullName: work@dut.wmask_i
             vpiActual: LogicTypespec
-    Module name:work@top file:${SURELOG_DIR}/tests/ParamMultiConcat/dut.sv start:9:1 end:18:10:
+    Module name:work@top file:$Source01/dut.sv start:9:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:9:8 end:9:11:
         vpiParent: Module name:work@top
@@ -371,7 +385,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:work@top
@@ -382,6 +396,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:u_dut start:15:6 end:15:11:
           vpiParent: Module name:work@top
@@ -452,7 +471,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
   vpiTypespec (3 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -470,37 +489,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************
+*   End SURELOG SVerilog Compiler/Linter   *
+********************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamMultiConcat/ParamMultiConcat
- test-dirpath: ${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat/surelog.uhdm
+      test-name: ParamMultiConcat/ParamMultiConcat
+   test-dirpath: ${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat
+  uhdm-filepath: ${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat/surelog.uhdm
+mounts-filepath: ${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamMultiConcat/ParamMultiConcat/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 260}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 260}},
             'post_len': 0,
             'pre_len': 260,
             'test_name': 'ParamMultiConcat/ParamMultiConcat'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      260 |         0 |
-+=================+==========+===========+
-|                 |      260 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      260 |         0 |
++=========================+==========+===========+
+|                         |      260 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -515,10 +537,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       7       3         2
 Operation                            8       1       0         7
-RefObj                              14       8       0         6
+RefObj                              16      10       0         6
 RefTypespec                         13      12       1         2
 ----------------------------------------------------------------
 Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    70      57       4        17
+                                    72      59       4        17
 ===================== END REDUCTION RESULT =====================
