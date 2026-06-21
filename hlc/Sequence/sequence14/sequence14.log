@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:15
 COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence14.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence14
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/sequence14.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence14.sv -nobuil
 AST_DEBUG_BEGIN
 Count: 171
 LIB: work
-FILE: $Source01/sequence14.sv
+FILE: f<13>:$Source01/sequence14.sv
 n<$Source01/sequence14.sv> u<170> t<Top_level_rule> c<1> l<1:1> el<16:10>
   n<> u<1> t<Null_rule> p<170> s<169> l<1:1>
   n<> u<169> t<Source_text> p<170> c<168> l<1:1> el<16:10>
@@ -187,7 +185,7 @@ n<$Source01/sequence14.sv> u<170> t<Top_level_rule> c<1> l<1:1> el<16:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sequence14.sv:1:1: Compile module "work@tb".
 [WRN:PA0205] $Source01/sequence14.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] $Source01/sequence14.sv:11:34: Illegal implicit net "id:45, name:seq14".
+[ERR:EL0535] $Source01/sequence14.sv:11:34: Illegal implicit net "id:46, name:seq14".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -211,16 +209,52 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq14
             vpiName: seq14
           vpiFullName: work@tb.seq14
-          vpiExpr Constant start:8:6 end:8:7:
+          vpiExpr Operation start:8:5 end:8:25:
             vpiParent: SequenceDecl name:seq14
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@tb.seq14
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+            vpiOpType: list (37)
+            vpiOperand (4 items):
+              Constant start:8:6 end:8:7:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@tb.seq14
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+              Assignment start:8:9 end:8:12:
+                vpiParent: Operation
+                vpiBlocking: true
+                vpiLhs RefObj name:x start:8:9 end:8:10:
+                  vpiParent: Assignment
+                  vpiName: x
+                  vpiFullName: work@tb.seq14.x
+                  vpiActual: Net name:x
+                vpiRhs Constant start:8:11 end:8:12:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@tb.seq14
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+              Operation start:8:14 end:8:17:
+                vpiParent: Operation
+                vpiOpType: post inc (64)
+                vpiOperand (1 items):
+                  RefObj name:x start:8:14 end:8:15:
+                    vpiParent: Operation
+                    vpiName: x
+                    vpiFullName: work@tb.seq14.x
+                    vpiActual: Net name:x
+              FuncCall name:inc start:8:19 end:8:24:
+                vpiParent: Operation
+                vpiName Identifier name:inc start:8:19 end:8:22:
+                  vpiParent: FuncCall name:inc
+                  vpiName: inc
       vpiConcurrentAssertions (1 items):
         Assert start:11:3 end:11:41:
           vpiParent: Module name:work@tb
@@ -374,25 +408,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/Sequence/sequence14/mounts.json
 
 
-{'result': {'coverage': 95.61,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/sequence14.sv': {'post_len': 9,
+            'files': {'$Output/lib/work/sequence14.sv': {'post_len': 0,
                                                          'pre_len': 205}},
-            'post_len': 9,
+            'post_len': 0,
             'pre_len': 205,
             'test_name': 'Sequence/sequence14'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/sequence14.sv |      205 |         9 |
+| $Output/lib/work/sequence14.sv |      205 |         0 |
 +================================+==========+===========+
-|                                |      205 |         9 |
+|                                |      205 |         0 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.61
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -403,7 +437,7 @@ COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence14/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:58:09
 COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence21.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence21
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/sequence21.sv".
@@ -19,7 +17,7 @@ COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence21.sv -nobuil
 AST_DEBUG_BEGIN
 Count: 218
 LIB: work
-FILE: $Source01/sequence21.sv
+FILE: f<13>:$Source01/sequence21.sv
 n<$Source01/sequence21.sv> u<217> t<Top_level_rule> c<1> l<1:1> el<20:10>
   n<> u<1> t<Null_rule> p<217> s<216> l<1:1>
   n<> u<216> t<Source_text> p<217> c<215> l<1:1> el<20:10>
@@ -241,7 +239,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/sequence21.sv:1:1: Compile module "work@tb".
 [WRN:PA0205] $Source01/sequence21.sv:1:1: No timescale set for "work@tb".
 [ERR:EL0535] $Source01/sequence21.sv:6:5: Illegal implicit net "id:33, name:x".
-[ERR:EL0535] $Source01/sequence21.sv:6:11: Illegal implicit net "id:38, name:y".
+[ERR:EL0535] $Source01/sequence21.sv:6:11: Illegal implicit net "id:37, name:y".
 [ERR:EL0535] $Source01/sequence21.sv:13:34: Illegal implicit net "id:49, name:seq_inst".
 ====== UHDM =======
 Design name:unnamed:
@@ -266,10 +264,14 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:my_seq
             vpiName: my_seq
           vpiFullName: work@tb.my_seq
-          vpiExpr Operation start:6:7 end:6:12:
+          vpiExpr Operation start:6:5 end:6:12:
             vpiParent: SequenceDecl name:my_seq
-            vpiOpType: unary cycle delay (70)
+            vpiOpType: binary cycle delay (71)
             vpiOperand (3 items):
+              RefObj name:x start:6:5 end:6:6:
+                vpiParent: Operation
+                vpiName: x
+                vpiFullName: work@tb.my_seq.x
               Constant start:6:9 end:6:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -280,10 +282,6 @@ Design name:unnamed:
                 vpiSize: 32
                 vpiDecompile: "1"
                 vpiValue: 1
-              RefObj name:x start:6:5 end:6:6:
-                vpiParent: Operation
-                vpiName: x
-                vpiFullName: work@tb.my_seq.x
               RefObj name:y start:6:11 end:6:12:
                 vpiParent: Operation
                 vpiName: y

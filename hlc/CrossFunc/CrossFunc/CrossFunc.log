@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:58:01
 COMMAND: -wd ../../../tests/CrossFunc -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/CrossFunc/CrossFunc
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/CrossFunc -parse -d uhdm -d ast dut.sv -nobuiltin -m
 AST_DEBUG_BEGIN
 Count: 335
 LIB: work
-FILE: $Source01/dut.sv
+FILE: f<13>:$Source01/dut.sv
 n<$Source01/dut.sv> u<334> t<Top_level_rule> c<1> l<1:1> el<33:1>
   n<> u<1> t<Null_rule> p<334> s<333> l<1:1>
   n<> u<333> t<Source_text> p<334> c<332> l<1:1> el<32:10>
@@ -351,6 +349,8 @@ n<$Source01/dut.sv> u<334> t<Top_level_rule> c<1> l<1:1> el<33:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@mod_m".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@mod_m".
+[ERR:EL0535] $Source01/dut.sv:14:22: Illegal implicit net "id:57, name:cg_lim".
+[ERR:EL0535] $Source01/dut.sv:15:22: Illegal implicit net "id:62, name:cg_lim".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -367,6 +367,453 @@ Design name:unnamed:
         vpiParent: Module name:work@mod_m
         vpiName: work@mod_m
       vpiFullName: work@mod_m
+      vpiCoverGroup (2 items):
+        CoverGroup name:cg start:3:2 end:23:10:
+          vpiParent: Module name:work@mod_m
+          vpiName Identifier name:cg start:3:13 end:3:15:
+            vpiParent: CoverGroup name:cg
+            vpiName: cg
+          vpiFullName: work@mod_m.cg
+          vpiIODecl (1 items):
+            IODecl name:cg_lim start:3:20 end:3:26:
+              vpiParent: CoverGroup name:cg
+              vpiName: cg_lim
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:3:16 end:3:19:
+                vpiParent: IODecl name:cg_lim
+                vpiFullName: work@mod_m.cg.cg_lim
+                vpiActual: IntTypespec
+          vpiStmt (3 items):
+            CoverPoint start:4:2 end:4:15:
+              vpiParent: CoverGroup name:cg
+              vpiFullName: work@mod_m.cg
+              vpiExpr RefObj name:a start:4:13 end:4:14:
+                vpiParent: CoverPoint
+                vpiName: a
+                vpiFullName: work@mod_m.cg.a
+                vpiActual: Net name:a
+            CoverPoint start:5:2 end:5:15:
+              vpiParent: CoverGroup name:cg
+              vpiFullName: work@mod_m.cg
+              vpiExpr RefObj name:b start:5:13 end:5:14:
+                vpiParent: CoverPoint
+                vpiName: b
+                vpiFullName: work@mod_m.cg.b
+                vpiActual: Net name:b
+            CoverCross name:aXb start:6:2 end:22:3:
+              vpiParent: CoverGroup name:cg
+              vpiName Identifier name:aXb start:6:2 end:6:5:
+                vpiParent: CoverCross name:aXb
+                vpiName: aXb
+              vpiFullName: work@mod_m.cg.aXb
+              vpiCrossItem (2 items):
+                RefObj name:a start:6:14 end:6:15:
+                  vpiParent: CoverCross name:aXb
+                  vpiName: a
+                  vpiFullName: work@mod_m.cg.aXb.a
+                  vpiActual: Net name:a
+                RefObj name:b start:6:17 end:6:18:
+                  vpiParent: CoverCross name:aXb
+                  vpiName: b
+                  vpiFullName: work@mod_m.cg.aXb.b
+                  vpiActual: Net name:b
+              vpiStmt (4 items):
+                Function name:myFunc1 start:9:3 end:12:14:
+                  vpiParent: CoverCross name:aXb
+                  vpiName Identifier name:myFunc1 start:9:27 end:9:34:
+                    vpiParent: Function name:myFunc1
+                    vpiName: myFunc1
+                  vpiFullName: work@mod_m.cg.aXb.myFunc1
+                  vpiTypespec (1 items):
+                    UnsupportedTypespec name:CrossQueueType start:9:12 end:9:26:
+                      vpiParent: Function name:myFunc1
+                      vpiName Identifier name:CrossQueueType:
+                        vpiParent: UnsupportedTypespec name:CrossQueueType
+                        vpiName: CrossQueueType
+                  vpiVisibility: public (1)
+                  vpiIODecl (1 items):
+                    IODecl name:f_lim start:9:39 end:9:44:
+                      vpiParent: Function name:myFunc1
+                      vpiName: f_lim
+                      vpiDirection: input (1)
+                      vpiTypespec RefTypespec start:9:35 end:9:38:
+                        vpiParent: IODecl name:f_lim
+                        vpiFullName: work@mod_m.cg.aXb.myFunc1.f_lim
+                        vpiActual: IntTypespec
+                  vpiStmt ForStmt start:10:4 end:11:30:
+                    vpiParent: Function name:myFunc1
+                    vpiFullName: work@mod_m.cg.aXb.myFunc1
+                    vpiVariable (1 items):
+                      Variable name:i start:10:13 end:10:14:
+                        vpiParent: ForStmt
+                        vpiTypespec RefTypespec start:10:9 end:10:12:
+                          vpiParent: Variable name:i
+                          vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                          vpiActual: IntTypespec
+                        vpiName: i
+                        vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                    vpiForInitStmt (1 items):
+                      Assignment start:10:13 end:10:18:
+                        vpiParent: ForStmt
+                        vpiLhs: Variable name:i
+                        vpiRhs Constant start:10:17 end:10:18:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@mod_m.cg.aXb.myFunc1
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiForIncStmt (1 items):
+                      Operation start:10:31 end:10:34:
+                        vpiParent: ForStmt
+                        vpiOpType: pre inc (65)
+                        vpiOperand (1 items):
+                          RefObj name:i start:10:33 end:10:34:
+                            vpiParent: Operation
+                            vpiName: i
+                            vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                            vpiActual: Variable name:i
+                    vpiCondition Operation start:10:20 end:10:29:
+                      vpiParent: ForStmt
+                      vpiOpType: less than (20)
+                      vpiOperand (2 items):
+                        RefObj name:i start:10:20 end:10:21:
+                          vpiParent: Operation
+                          vpiName: i
+                          vpiFullName: work@mod_m.cg.aXb.myFunc1.i
+                          vpiActual: Variable name:i
+                        RefObj name:f_lim start:10:24 end:10:29:
+                          vpiParent: Operation
+                          vpiName: f_lim
+                          vpiFullName: work@mod_m.cg.aXb.myFunc1.f_lim
+                          vpiActual: IODecl name:f_lim
+                    "vpiStmt HierPath name:myFunc1.push_back('{i, i}) start:11:4 end:11:28":
+                      vpiParent: ForStmt
+                      vpiName: "myFunc1.push_back('{i, i})"
+                      vpiFullName: "work@mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i})"
+                      vpiPathElem (2 items):
+                        RefObj name:myFunc1 start:11:4 end:11:11:
+                          vpiParent: "HierPath name:myFunc1.push_back('{i, i})"
+                          vpiName: myFunc1
+                          vpiFullName: work@mod_m.cg.aXb.myFunc1.myFunc1
+                          vpiActual: Function name:myFunc1
+                        FuncCall name:push_back start:11:12 end:11:29:
+                          vpiParent: "HierPath name:myFunc1.push_back('{i, i})"
+                          vpiName Identifier name:push_back start:11:12 end:11:21:
+                            vpiParent: FuncCall name:push_back
+                            vpiName: push_back
+                          vpiArgument (1 items):
+                            Operation start:11:22 end:11:28:
+                              vpiParent: FuncCall name:push_back
+                              vpiOpType: assign pattern (87)
+                              vpiOperand (2 items):
+                                RefObj name:i start:11:24 end:11:25:
+                                  vpiParent: Operation
+                                  vpiName: i
+                                  vpiFullName: "work@mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i}).i"
+                                  vpiActual: Variable name:i
+                                RefObj name:i start:11:26 end:11:27:
+                                  vpiParent: Operation
+                                  vpiName: i
+                                  vpiFullName: "work@mod_m.cg.aXb.myFunc1.myFunc1.push_back('{i, i}).i"
+                                  vpiActual: Variable name:i
+                  vpiReturn RefTypespec start:9:12 end:9:26:
+                    vpiParent: Function name:myFunc1
+                    vpiFullName: work@mod_m.cg.aXb.myFunc1
+                    vpiActual: UnsupportedTypespec name:CrossQueueType
+                CoverBin name:one start:14:3 end:14:29:
+                  vpiParent: CoverCross name:aXb
+                  vpiName Identifier name:one start:14:8 end:14:11:
+                    vpiParent: CoverBin name:one
+                    vpiName: one
+                  vpiBinsType: bins (1)
+                  vpiValue FuncCall name:myFunc1 start:14:14 end:14:29:
+                    vpiParent: CoverBin name:one
+                    vpiName Identifier name:myFunc1 start:14:14 end:14:21:
+                      vpiParent: FuncCall name:myFunc1
+                      vpiName: myFunc1
+                    vpiArgument (1 items):
+                      RefObj name:cg_lim start:14:22 end:14:28:
+                        vpiParent: FuncCall name:myFunc1
+                        vpiName: cg_lim
+                        vpiFullName: work@mod_m.cg.aXb.one.cg_lim
+                CoverBin name:two start:15:3 end:15:29:
+                  vpiParent: CoverCross name:aXb
+                  vpiName Identifier name:two start:15:8 end:15:11:
+                    vpiParent: CoverBin name:two
+                    vpiName: two
+                  vpiBinsType: bins (1)
+                  vpiValue FuncCall name:myFunc2 start:15:14 end:15:29:
+                    vpiParent: CoverBin name:two
+                    vpiName Identifier name:myFunc2 start:15:14 end:15:21:
+                      vpiParent: FuncCall name:myFunc2
+                      vpiName: myFunc2
+                    vpiArgument (1 items):
+                      RefObj name:cg_lim start:15:22 end:15:28:
+                        vpiParent: FuncCall name:myFunc2
+                        vpiName: cg_lim
+                        vpiFullName: work@mod_m.cg.aXb.two.cg_lim
+                Function name:myFunc2 start:17:3 end:20:14:
+                  vpiParent: CoverCross name:aXb
+                  vpiName Identifier name:myFunc2 start:17:27 end:17:34:
+                    vpiParent: Function name:myFunc2
+                    vpiName: myFunc2
+                  vpiFullName: work@mod_m.cg.aXb.myFunc2
+                  vpiTypespec (2 items):
+                    UnsupportedTypespec name:CrossQueueType start:17:12 end:17:26:
+                      vpiParent: Function name:myFunc2
+                      vpiName Identifier name:CrossQueueType:
+                        vpiParent: UnsupportedTypespec name:CrossQueueType
+                        vpiName: CrossQueueType
+                    LogicTypespec:
+                      vpiParent: Function name:myFunc2
+                      vpiRange (1 items):
+                        Range start:17:41 end:17:47:
+                          vpiParent: LogicTypespec
+                          vpiLeftRange Constant start:17:42 end:17:44:
+                            vpiParent: Range
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@mod_m.cg.aXb.myFunc2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "31"
+                            vpiValue: 31
+                          vpiRightRange Constant start:17:45 end:17:46:
+                            vpiParent: Range
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@mod_m.cg.aXb.myFunc2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      vpiVector: true
+                  vpiVisibility: public (1)
+                  vpiIODecl (1 items):
+                    IODecl name:f_lim start:17:48 end:17:53:
+                      vpiParent: Function name:myFunc2
+                      vpiName: f_lim
+                      vpiDirection: input (1)
+                      vpiTypespec RefTypespec start:17:35 end:17:47:
+                        vpiParent: IODecl name:f_lim
+                        vpiFullName: work@mod_m.cg.aXb.myFunc2.f_lim
+                        vpiActual: LogicTypespec
+                  vpiStmt ForStmt start:18:4 end:19:34:
+                    vpiParent: Function name:myFunc2
+                    vpiFullName: work@mod_m.cg.aXb.myFunc2
+                    vpiVariable (1 items):
+                      Variable name:i start:18:22 end:18:23:
+                        vpiParent: ForStmt
+                        vpiTypespec RefTypespec start:18:9 end:18:21:
+                          vpiParent: Variable name:i
+                          vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                          vpiActual: LogicTypespec
+                        vpiName: i
+                        vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                    vpiTypespec (1 items):
+                      LogicTypespec:
+                        vpiParent: ForStmt
+                        vpiRange (1 items):
+                          Range start:18:15 end:18:21:
+                            vpiParent: LogicTypespec
+                            vpiLeftRange Constant start:18:16 end:18:18:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@mod_m.cg.aXb.myFunc2
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "31"
+                              vpiValue: 31
+                            vpiRightRange Constant start:18:19 end:18:20:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@mod_m.cg.aXb.myFunc2
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "0"
+                              vpiValue: 0
+                        vpiVector: true
+                    vpiForInitStmt (1 items):
+                      Assignment start:18:22 end:18:27:
+                        vpiParent: ForStmt
+                        vpiLhs: Variable name:i
+                        vpiRhs Constant start:18:26 end:18:27:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@mod_m.cg.aXb.myFunc2
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiForIncStmt (1 items):
+                      Operation start:18:40 end:18:43:
+                        vpiParent: ForStmt
+                        vpiOpType: pre inc (65)
+                        vpiOperand (1 items):
+                          RefObj name:i start:18:42 end:18:43:
+                            vpiParent: Operation
+                            vpiName: i
+                            vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                            vpiActual: Variable name:i
+                    vpiCondition Operation start:18:29 end:18:38:
+                      vpiParent: ForStmt
+                      vpiOpType: less than (20)
+                      vpiOperand (2 items):
+                        RefObj name:i start:18:29 end:18:30:
+                          vpiParent: Operation
+                          vpiName: i
+                          vpiFullName: work@mod_m.cg.aXb.myFunc2.i
+                          vpiActual: Variable name:i
+                        RefObj name:f_lim start:18:33 end:18:38:
+                          vpiParent: Operation
+                          vpiName: f_lim
+                          vpiFullName: work@mod_m.cg.aXb.myFunc2.f_lim
+                          vpiActual: IODecl name:f_lim
+                    "vpiStmt HierPath name:myFunc2.push_back('{2 * i, 2 * i}) start:19:4 end:19:32":
+                      vpiParent: ForStmt
+                      vpiName: "myFunc2.push_back('{2 * i, 2 * i})"
+                      vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
+                      vpiPathElem (2 items):
+                        RefObj name:myFunc2 start:19:4 end:19:11:
+                          vpiParent: "HierPath name:myFunc2.push_back('{2 * i, 2 * i})"
+                          vpiName: myFunc2
+                          vpiFullName: work@mod_m.cg.aXb.myFunc2.myFunc2
+                          vpiActual: Function name:myFunc2
+                        FuncCall name:push_back start:19:12 end:19:33:
+                          vpiParent: "HierPath name:myFunc2.push_back('{2 * i, 2 * i})"
+                          vpiName Identifier name:push_back start:19:12 end:19:21:
+                            vpiParent: FuncCall name:push_back
+                            vpiName: push_back
+                          vpiArgument (1 items):
+                            Operation start:19:22 end:19:32:
+                              vpiParent: FuncCall name:push_back
+                              vpiOpType: assign pattern (87)
+                              vpiOperand (2 items):
+                                Operation start:19:24 end:19:27:
+                                  vpiParent: Operation
+                                  vpiOpType: multiply (25)
+                                  vpiOperand (2 items):
+                                    Constant start:19:24 end:19:25:
+                                      vpiParent: Operation
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
+                                        vpiActual: IntTypespec
+                                      vpiConstType: unsigned int (9)
+                                      vpiSize: 64
+                                      vpiDecompile: "2"
+                                      vpiValue: 2
+                                    RefObj name:i start:19:26 end:19:27:
+                                      vpiParent: Operation
+                                      vpiName: i
+                                      vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i}).i"
+                                      vpiActual: Variable name:i
+                                Operation start:19:28 end:19:31:
+                                  vpiParent: Operation
+                                  vpiOpType: multiply (25)
+                                  vpiOperand (2 items):
+                                    Constant start:19:28 end:19:29:
+                                      vpiParent: Operation
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i})"
+                                        vpiActual: IntTypespec
+                                      vpiConstType: unsigned int (9)
+                                      vpiSize: 64
+                                      vpiDecompile: "2"
+                                      vpiValue: 2
+                                    RefObj name:i start:19:30 end:19:31:
+                                      vpiParent: Operation
+                                      vpiName: i
+                                      vpiFullName: "work@mod_m.cg.aXb.myFunc2.myFunc2.push_back('{2 * i, 2 * i}).i"
+                                      vpiActual: Variable name:i
+                  vpiReturn RefTypespec start:17:12 end:17:26:
+                    vpiParent: Function name:myFunc2
+                    vpiFullName: work@mod_m.cg.aXb.myFunc2
+                    vpiActual: UnsupportedTypespec name:CrossQueueType
+        CoverGroup name:yy start:26:2 end:31:10:
+          vpiParent: Module name:work@mod_m
+          vpiName Identifier name:yy start:26:13 end:26:15:
+            vpiParent: CoverGroup name:yy
+            vpiName: yy
+          vpiFullName: work@mod_m.yy
+          vpiStmt (1 items):
+            CoverCross start:27:2 end:30:3:
+              vpiParent: CoverGroup name:yy
+              vpiFullName: work@mod_m.yy
+              vpiCrossItem (2 items):
+                RefObj name:a start:27:8 end:27:9:
+                  vpiParent: CoverCross
+                  vpiName: a
+                  vpiFullName: work@mod_m.yy.a
+                  vpiActual: Net name:a
+                RefObj name:b start:27:11 end:27:12:
+                  vpiParent: CoverCross
+                  vpiName: b
+                  vpiFullName: work@mod_m.yy.b
+                  vpiActual: Net name:b
+              vpiStmt (1 items):
+                CoverBin name:ignore start:29:2 end:29:55:
+                  vpiParent: CoverCross
+                  vpiName Identifier name:ignore start:29:14 end:29:20:
+                    vpiParent: CoverBin name:ignore
+                    vpiName: ignore
+                  vpiBinsType: ignore (3)
+                  vpiValue Operation start:29:23 end:29:55:
+                    vpiParent: CoverBin name:ignore
+                    vpiOpType: intersect (72)
+                    vpiOperand (2 items):
+                      RefObj start:29:30 end:29:31:
+                        vpiParent: Operation
+                        vpiFullName: work@mod_m.yy.ignore
+                      Operation start:29:45 end:29:53:
+                        vpiParent: Operation
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:29:45 end:29:46:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@mod_m.yy.ignore
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "5"
+                            vpiValue: 5
+                          Range start:29:48 end:29:53:
+                            vpiParent: Operation
+                            vpiLeftRange Constant start:29:49 end:29:50:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@mod_m.yy.ignore
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                            vpiRightRange Constant start:29:51 end:29:52:
+                              vpiParent: Range
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@mod_m.yy.ignore
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "3"
+                              vpiValue: 3
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@mod_m
@@ -461,7 +908,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************
@@ -477,25 +924,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/CrossFunc/CrossFunc/mounts.json
 
 
-{'result': {'coverage': 58.97,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 215,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 524}},
-            'post_len': 215,
+            'post_len': 0,
             'pre_len': 524,
             'test_name': 'CrossFunc/CrossFunc'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      524 |       215 |
+| $Output/lib/work/dut.sv |      524 |         0 |
 +=========================+==========+===========+
-|                         |      524 |       215 |
+|                         |      524 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 58.97
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -506,7 +953,7 @@ COMMAND: ${SURELOG_DIR}/regression/CrossFunc/CrossFunc/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                             133     133       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                   133     133       0         0
 ===================== END REDUCTION RESULT =====================

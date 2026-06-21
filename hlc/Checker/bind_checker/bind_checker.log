@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:36
 COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast bind_checker.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Checker/bind_checker
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/bind_checker.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast bind_checker.sv -nobui
 AST_DEBUG_BEGIN
 Count: 315
 LIB: work
-FILE: $Source01/bind_checker.sv
+FILE: f<13>:$Source01/bind_checker.sv
 n<$Source01/bind_checker.sv> u<314> t<Top_level_rule> c<1> l<1:1> el<33:10>
   n<> u<1> t<Null_rule> p<314> s<313> l<1:1>
   n<> u<313> t<Source_text> p<314> c<59> l<1:1> el<33:10>
@@ -334,9 +332,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/bind_checker.sv:17:1: Compile module "work@tb8".
 [WRN:PA0205] $Source01/bind_checker.sv:1:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/bind_checker.sv:17:1: No timescale set for "work@tb8".
-[ERR:EL0535] $Source01/bind_checker.sv:11:30: Illegal implicit net "id:48, name:clk".
-[ERR:EL0535] $Source01/bind_checker.sv:11:35: Illegal implicit net "id:50, name:req".
-[ERR:EL0535] $Source01/bind_checker.sv:11:47: Illegal implicit net "id:55, name:gnt".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -462,7 +457,7 @@ Design name:unnamed:
         vpiParent: Module name:work@tb8
         vpiName: work@tb8
       vpiFullName: work@tb8
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:work@tb8
         ModuleTypespec name:work@dut start:23:3 end:23:6:
@@ -470,6 +465,9 @@ Design name:unnamed:
           vpiName Identifier name:work@dut start:23:3 end:23:6:
             vpiParent: ModuleTypespec name:work@dut
             vpiName: work@dut
+        CheckerTypespec name:bind_chk start:25:12 end:25:20:
+          vpiParent: Module name:work@tb8
+          vpiName: bind_chk
       vpiDefName: work@tb8
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -664,10 +662,38 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: work@tb8.dut
             vpiActual: ModuleTypespec name:work@dut
-          vpiBindSourceInstance CheckerInst start:25:12 end:25:45:
+          vpiBindSourceInstance RefInstance name:chk_inst start:25:21 end:25:29:
             vpiParent: BindDirective
-            vpiFullName: work@tb8
-            vpiDefNetType: none (12)
+            vpiName: chk_inst
+            vpiTypespec RefTypespec name:bind_chk start:25:12 end:25:20:
+              vpiParent: RefInstance name:chk_inst
+              vpiName: bind_chk
+              vpiFullName: work@tb8.chk_inst.bind_chk
+              vpiActual: CheckerTypespec name:bind_chk
+            vpiPort (2 items):
+              CheckerInstPort start:25:30 end:25:33:
+                vpiParent: RefInstance name:chk_inst
+                vpiActual RefObj name:clk start:25:30 end:25:33:
+                  vpiParent: CheckerInstPort
+                  vpiName: clk
+                  vpiFullName: work@tb8.chk_inst.clk
+                  vpiActual: Net name:clk
+              CheckerInstPort start:25:35 end:25:43:
+                vpiParent: RefInstance name:chk_inst
+                vpiActual Operation start:25:35 end:25:43:
+                  vpiParent: CheckerInstPort
+                  vpiOpType: list (37)
+                  vpiOperand (2 items):
+                    RefObj name:req start:25:35 end:25:38:
+                      vpiParent: Operation
+                      vpiName: req
+                      vpiFullName: work@tb8.chk_inst.req
+                      vpiActual: Net name:req
+                    RefObj name:gnt start:25:40 end:25:43:
+                      vpiParent: Operation
+                      vpiName: gnt
+                      vpiFullName: work@tb8.chk_inst.gnt
+                      vpiActual: Net name:gnt
   vpiTypespec (4 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -706,6 +732,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: work@bind_chk.clk
+                  vpiActual: CheckerPort name:clk
             vpiPropertyExpr Operation start:11:35 end:11:50:
               vpiParent: PropertySpec
               vpiOpType: overlap imply (52)
@@ -714,6 +741,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: req
                   vpiFullName: work@bind_chk.req
+                  vpiActual: CheckerPort name:req
                 Operation start:11:43 end:11:50:
                   vpiParent: Operation
                   vpiOpType: unary cycle delay (70)
@@ -732,6 +760,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: gnt
                       vpiFullName: work@bind_chk.gnt
+                      vpiActual: CheckerPort name:gnt
           vpiElseStmt SysFuncCall name:$error start:12:10 end:12:31:
             vpiParent: Assert
             vpiName Identifier name:$error start:12:10 end:12:16:
@@ -783,7 +812,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************
@@ -828,11 +857,11 @@ COMMAND: ${SURELOG_DIR}/regression/Checker/bind_checker/surelog.uhdm ${SURELOG_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       9       1         0
-Operation                            5       4       0         1
-RefObj                              21      20       0         1
-RefTypespec                         22      23       1         0
+Operation                            6       5       0         1
+RefObj                              24      23       0         1
+RefTypespec                         23      24       1         0
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                   111     111       2         2
+                                   119     119       2         2
 ===================== END REDUCTION RESULT =====================

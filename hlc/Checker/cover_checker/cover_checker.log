@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:57
 COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast cover_checker.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Checker/cover_checker
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/cover_checker.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast cover_checker.sv -nobu
 AST_DEBUG_BEGIN
 Count: 298
 LIB: work
-FILE: $Source01/cover_checker.sv
+FILE: f<13>:$Source01/cover_checker.sv
 n<$Source01/cover_checker.sv> u<297> t<Top_level_rule> c<1> l<1:1> el<27:10>
   n<> u<1> t<Null_rule> p<297> s<296> l<1:1>
   n<> u<296> t<Source_text> p<297> c<295> l<1:1> el<27:10>
@@ -315,9 +313,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/cover_checker.sv:1:1: Compile module "work@tb5".
 [INF:CP0307] $Source01/cover_checker.sv:14:11: Compile checker "prop_chk".
 [WRN:PA0205] $Source01/cover_checker.sv:1:1: No timescale set for "work@tb5".
-[ERR:EL0535] $Source01/cover_checker.sv:17:17: Illegal implicit net "id:76, name:clk".
-[ERR:EL0535] $Source01/cover_checker.sv:17:22: Illegal implicit net "id:78, name:a".
-[ERR:EL0535] $Source01/cover_checker.sv:17:32: Illegal implicit net "id:83, name:b".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -334,9 +329,12 @@ Design name:unnamed:
         vpiParent: Module name:work@tb5
         vpiName: work@tb5
       vpiFullName: work@tb5
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@tb5
+        CheckerTypespec name:prop_chk start:25:3 end:25:11:
+          vpiParent: Module name:work@tb5
+          vpiName: prop_chk
       vpiDefName: work@tb5
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -379,6 +377,126 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: work@tb5.b
+      vpiCheckerDecl (1 items):
+        CheckerDecl name:work@prop_chk start:14:3 end:23:13:
+          vpiParent: Module name:work@tb5
+          vpiName Identifier name:work@prop_chk start:14:11 end:14:19:
+            vpiParent: CheckerDecl name:work@prop_chk
+            vpiName: work@prop_chk
+          vpiFullName: work@tb5.work@prop_chk
+          vpiPropertyDecl (1 items):
+            PropertyDecl name:p start:16:5 end:18:16:
+              vpiParent: CheckerDecl name:work@prop_chk
+              vpiName Identifier name:p start:16:14 end:16:15:
+                vpiParent: PropertyDecl name:p
+                vpiName: p
+              vpiFullName: work@tb5.work@prop_chk.p
+              vpiPropertySpec PropertySpec start:17:7 end:17:33:
+                vpiParent: PropertyDecl name:p
+                vpiClockingEvent Operation:
+                  vpiParent: PropertySpec
+                  vpiOpType: posedge (39)
+                  vpiOperand (1 items):
+                    RefObj name:clk start:17:17 end:17:20:
+                      vpiParent: Operation
+                      vpiName: clk
+                      vpiFullName: work@tb5.work@prop_chk.p.clk
+                      vpiActual: CheckerPort name:clk
+                vpiPropertyExpr Operation start:17:22 end:17:33:
+                  vpiParent: PropertySpec
+                  vpiOpType: overlap imply (52)
+                  vpiOperand (2 items):
+                    RefObj name:a start:17:22 end:17:23:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: work@tb5.work@prop_chk.p.a
+                      vpiActual: CheckerPort name:a
+                    Operation start:17:28 end:17:33:
+                      vpiParent: Operation
+                      vpiOpType: unary cycle delay (70)
+                      vpiOperand (2 items):
+                        Constant start:17:30 end:17:31:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@tb5.work@prop_chk.p
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                        RefObj name:b start:17:32 end:17:33:
+                          vpiParent: Operation
+                          vpiName: b
+                          vpiFullName: work@tb5.work@prop_chk.p.b
+                          vpiActual: CheckerPort name:b
+          vpiConcurrentAssertions (2 items):
+            Assert start:20:5 end:20:57:
+              vpiParent: CheckerDecl name:work@prop_chk
+              vpiProperty PropertySpec start:20:22 end:20:23:
+                vpiParent: Assert
+                vpiPropertyExpr RefObj name:p start:20:22 end:20:23:
+                  vpiParent: PropertySpec
+                  vpiName: p
+                  vpiFullName: work@tb5.work@prop_chk.p
+                  vpiActual: PropertyDecl name:p
+              vpiElseStmt SysFuncCall name:$error start:20:30 end:20:56:
+                vpiParent: Assert
+                vpiName Identifier name:$error start:20:30 end:20:36:
+                  vpiParent: SysFuncCall name:$error
+                  vpiName: "$error"
+                vpiArgument (1 items):
+                  Constant start:20:37 end:20:55:
+                    vpiParent: SysFuncCall name:$error
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb5.work@prop_chk
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 128
+                    vpiDecompile: "\"Assertion failed\""
+                    vpiValue: Assertion failed
+            Cover start:21:5 end:21:24:
+              vpiParent: CheckerDecl name:work@prop_chk
+              vpiProperty PropertySpec start:21:21 end:21:22:
+                vpiParent: Cover
+                vpiPropertyExpr RefObj name:p start:21:21 end:21:22:
+                  vpiParent: PropertySpec
+                  vpiName: p
+                  vpiFullName: work@tb5.work@prop_chk.p
+                  vpiActual: PropertyDecl name:p
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: CheckerDecl name:work@prop_chk
+          vpiDefNetType: none (12)
+          vpiPort (3 items):
+            CheckerPort name:clk start:14:20 end:14:35:
+              vpiParent: CheckerDecl name:work@prop_chk
+              vpiName: clk
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:14:26 end:14:31:
+                vpiParent: CheckerPort name:clk
+                vpiFullName: work@tb5.work@prop_chk.clk
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:a start:14:37 end:14:38:
+              vpiParent: CheckerDecl name:work@prop_chk
+              vpiName: a
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:14:37 end:14:37:
+                vpiParent: CheckerPort name:a
+                vpiFullName: work@tb5.work@prop_chk.a
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:b start:14:40 end:14:41:
+              vpiParent: CheckerDecl name:work@prop_chk
+              vpiName: b
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:14:40 end:14:40:
+                vpiParent: CheckerPort name:b
+                vpiFullName: work@tb5.work@prop_chk.b
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
       vpiProcess (2 items):
         Always start:5:3 end:5:24:
           vpiParent: Module name:work@tb5
@@ -531,6 +649,39 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1000"
                   vpiValue: 1000
+      vpiRefInstance (1 items):
+        RefInstance name:chk start:25:12 end:25:15:
+          vpiParent: Module name:work@tb5
+          vpiName: chk
+          vpiTypespec RefTypespec name:prop_chk start:25:3 end:25:11:
+            vpiParent: RefInstance name:chk
+            vpiName: prop_chk
+            vpiFullName: work@tb5.chk.prop_chk
+            vpiActual: CheckerTypespec name:prop_chk
+          vpiPort (2 items):
+            CheckerInstPort start:25:16 end:25:19:
+              vpiParent: RefInstance name:chk
+              vpiActual RefObj name:clk start:25:16 end:25:19:
+                vpiParent: CheckerInstPort
+                vpiName: clk
+                vpiFullName: work@tb5.chk.clk
+                vpiActual: Net name:clk
+            CheckerInstPort start:25:21 end:25:25:
+              vpiParent: RefInstance name:chk
+              vpiActual Operation start:25:21 end:25:25:
+                vpiParent: CheckerInstPort
+                vpiOpType: list (37)
+                vpiOperand (2 items):
+                  RefObj name:a start:25:21 end:25:22:
+                    vpiParent: Operation
+                    vpiName: a
+                    vpiFullName: work@tb5.chk.a
+                    vpiActual: Net name:a
+                  RefObj name:b start:25:24 end:25:25:
+                    vpiParent: Operation
+                    vpiName: b
+                    vpiFullName: work@tb5.chk.b
+                    vpiActual: Net name:b
   vpiTypespec (3 items):
     ModuleTypespec name:work@tb5:
       vpiParent: Design name:unnamed
@@ -543,127 +694,10 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-  vpiCheckerDecl (1 items):
-    CheckerDecl name:work@prop_chk start:14:3 end:23:13:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prop_chk start:14:11 end:14:19:
-        vpiParent: CheckerDecl name:work@prop_chk
-        vpiName: work@prop_chk
-      vpiFullName: work@prop_chk
-      vpiPropertyDecl (1 items):
-        PropertyDecl name:p start:16:5 end:18:16:
-          vpiParent: CheckerDecl name:work@prop_chk
-          vpiName Identifier name:p start:16:14 end:16:15:
-            vpiParent: PropertyDecl name:p
-            vpiName: p
-          vpiFullName: work@prop_chk.p
-          vpiPropertySpec PropertySpec start:17:7 end:17:33:
-            vpiParent: PropertyDecl name:p
-            vpiClockingEvent Operation:
-              vpiParent: PropertySpec
-              vpiOpType: posedge (39)
-              vpiOperand (1 items):
-                RefObj name:clk start:17:17 end:17:20:
-                  vpiParent: Operation
-                  vpiName: clk
-                  vpiFullName: work@prop_chk.p.clk
-            vpiPropertyExpr Operation start:17:22 end:17:33:
-              vpiParent: PropertySpec
-              vpiOpType: overlap imply (52)
-              vpiOperand (2 items):
-                RefObj name:a start:17:22 end:17:23:
-                  vpiParent: Operation
-                  vpiName: a
-                  vpiFullName: work@prop_chk.p.a
-                Operation start:17:28 end:17:33:
-                  vpiParent: Operation
-                  vpiOpType: unary cycle delay (70)
-                  vpiOperand (2 items):
-                    Constant start:17:30 end:17:31:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@prop_chk.p
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                    RefObj name:b start:17:32 end:17:33:
-                      vpiParent: Operation
-                      vpiName: b
-                      vpiFullName: work@prop_chk.p.b
-      vpiConcurrentAssertions (2 items):
-        Assert start:20:5 end:20:57:
-          vpiParent: CheckerDecl name:work@prop_chk
-          vpiProperty PropertySpec start:20:22 end:20:23:
-            vpiParent: Assert
-            vpiPropertyExpr RefObj name:p start:20:22 end:20:23:
-              vpiParent: PropertySpec
-              vpiName: p
-              vpiFullName: work@prop_chk.p
-              vpiActual: PropertyDecl name:p
-          vpiElseStmt SysFuncCall name:$error start:20:30 end:20:56:
-            vpiParent: Assert
-            vpiName Identifier name:$error start:20:30 end:20:36:
-              vpiParent: SysFuncCall name:$error
-              vpiName: "$error"
-            vpiArgument (1 items):
-              Constant start:20:37 end:20:55:
-                vpiParent: SysFuncCall name:$error
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@prop_chk
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 128
-                vpiDecompile: "\"Assertion failed\""
-                vpiValue: Assertion failed
-        Cover start:21:5 end:21:24:
-          vpiParent: CheckerDecl name:work@prop_chk
-          vpiProperty PropertySpec start:21:21 end:21:22:
-            vpiParent: Cover
-            vpiPropertyExpr RefObj name:p start:21:21 end:21:22:
-              vpiParent: PropertySpec
-              vpiName: p
-              vpiFullName: work@prop_chk.p
-              vpiActual: PropertyDecl name:p
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: CheckerDecl name:work@prop_chk
-      vpiDefNetType: none (12)
-      vpiPort (3 items):
-        CheckerPort name:clk start:14:20 end:14:35:
-          vpiParent: CheckerDecl name:work@prop_chk
-          vpiName: clk
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:14:26 end:14:31:
-            vpiParent: CheckerPort name:clk
-            vpiFullName: work@prop_chk.clk
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:a start:14:37 end:14:38:
-          vpiParent: CheckerDecl name:work@prop_chk
-          vpiName: a
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:14:37 end:14:37:
-            vpiParent: CheckerPort name:a
-            vpiFullName: work@prop_chk.a
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:b start:14:40 end:14:41:
-          vpiParent: CheckerDecl name:work@prop_chk
-          vpiName: b
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:14:40 end:14:40:
-            vpiParent: CheckerPort name:b
-            vpiFullName: work@prop_chk.b
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************
@@ -679,25 +713,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/Checker/cover_checker/mounts.json
 
 
-{'result': {'coverage': 93.81,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/cover_checker.sv': {'post_len': 20,
+            'files': {'$Output/lib/work/cover_checker.sv': {'post_len': 0,
                                                             'pre_len': 323}},
-            'post_len': 20,
+            'post_len': 0,
             'pre_len': 323,
             'test_name': 'Checker/cover_checker'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/cover_checker.sv |      323 |        20 |
+| $Output/lib/work/cover_checker.sv |      323 |         0 |
 +===================================+==========+===========+
-|                                   |      323 |        20 |
+|                                   |      323 |         0 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.81
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -708,11 +742,11 @@ COMMAND: ${SURELOG_DIR}/regression/Checker/cover_checker/surelog.uhdm ${SURELOG_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      12       1         0
-Operation                            4       3       0         1
-RefObj                              12      11       0         1
-RefTypespec                         17      18       1         0
+Operation                            5       4       0         1
+RefObj                              15      14       0         1
+RefTypespec                         18      19       1         0
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    85      85       2         2
+                                    94      94       2         2
 ===================== END REDUCTION RESULT =====================

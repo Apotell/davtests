@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:52
 COMMAND: -wd ../../../tests/OneDivider -fileunit -writepp -parse -d uhdm -sv dut.v -sv tb.v -nobuiltin -nocache -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/OneDivider/OneDivider
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
@@ -20,7 +18,7 @@ COMMAND: -wd ../../../tests/OneDivider -fileunit -writepp -parse -d uhdm -sv dut
 [ERR:EL0535] $Source01/tb.v:25:24: Illegal implicit net "id:136, name:a".
 [ERR:EL0535] $Source01/tb.v:25:32: Illegal implicit net "id:139, name:a".
 [ERR:EL0535] $Source01/tb.v:25:35: Illegal implicit net "id:141, name:n".
-[ERR:EL0535] $Source01/tb.v:25:50: Illegal implicit net "id:151, name:a".
+[ERR:EL0535] $Source01/tb.v:25:50: Illegal implicit net "id:150, name:a".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -259,24 +257,22 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$rose
                       vpiName: a
                       vpiFullName: work@tb.divide.a
-                Operation start:25:40 end:25:52:
+                Operation start:25:31 end:25:52:
                   vpiParent: Operation
-                  vpiOpType: unary cycle delay (70)
+                  vpiOpType: binary cycle delay (71)
                   vpiOperand (3 items):
-                    Constant start:25:42 end:25:43:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@tb.divide
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
                     Operation start:25:33 end:25:39:
                       vpiParent: Operation
                       vpiOpType: consecutive repeat (77)
                       vpiOperand (2 items):
+                        Operation start:25:31 end:25:33:
+                          vpiParent: Operation
+                          vpiOpType: not (3)
+                          vpiOperand (1 items):
+                            RefObj name:a start:25:32 end:25:33:
+                              vpiParent: Operation
+                              vpiName: a
+                              vpiFullName: work@tb.divide.a
                         Operation start:25:35 end:25:38:
                           vpiParent: Operation
                           vpiOpType: subtract (11)
@@ -295,14 +291,16 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "1"
                               vpiValue: 1
-                        Operation start:25:31 end:25:33:
-                          vpiParent: Operation
-                          vpiOpType: not (3)
-                          vpiOperand (1 items):
-                            RefObj name:a start:25:32 end:25:33:
-                              vpiParent: Operation
-                              vpiName: a
-                              vpiFullName: work@tb.divide.a
+                    Constant start:25:42 end:25:43:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@tb.divide
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
                     SysFuncCall name:$rose start:25:44 end:25:52:
                       vpiParent: Operation
                       vpiName Identifier name:$rose start:25:44 end:25:49:

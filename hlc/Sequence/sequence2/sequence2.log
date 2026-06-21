@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:34
 COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence2.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence2
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/sequence2.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence2.sv -nobuilt
 AST_DEBUG_BEGIN
 Count: 253
 LIB: work
-FILE: $Source01/sequence2.sv
+FILE: f<13>:$Source01/sequence2.sv
 n<$Source01/sequence2.sv> u<252> t<Top_level_rule> c<1> l<1:1> el<18:10>
   n<> u<1> t<Null_rule> p<252> s<251> l<1:1>
   n<> u<251> t<Source_text> p<252> c<250> l<1:1> el<18:10>
@@ -293,10 +291,15 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq2
             vpiName: seq2
           vpiFullName: work@tb.seq2
-          vpiExpr Operation start:6:7 end:6:18:
+          vpiExpr Operation start:6:5 end:6:18:
             vpiParent: SequenceDecl name:seq2
-            vpiOpType: unary cycle delay (70)
+            vpiOpType: binary cycle delay (71)
             vpiOperand (3 items):
+              RefObj name:a start:6:5 end:6:6:
+                vpiParent: Operation
+                vpiName: a
+                vpiFullName: work@tb.seq2.a
+                vpiActual: Net name:a
               Constant start:6:9 end:6:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -307,15 +310,15 @@ Design name:unnamed:
                 vpiSize: 32
                 vpiDecompile: "1"
                 vpiValue: 1
-              RefObj name:a start:6:5 end:6:6:
+              Operation start:6:11 end:6:18:
                 vpiParent: Operation
-                vpiName: a
-                vpiFullName: work@tb.seq2.a
-                vpiActual: Net name:a
-              Operation start:6:13 end:6:18:
-                vpiParent: Operation
-                vpiOpType: unary cycle delay (70)
+                vpiOpType: binary cycle delay (71)
                 vpiOperand (3 items):
+                  RefObj name:b start:6:11 end:6:12:
+                    vpiParent: Operation
+                    vpiName: b
+                    vpiFullName: work@tb.seq2.b
+                    vpiActual: Net name:b
                   Constant start:6:15 end:6:16:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -326,11 +329,6 @@ Design name:unnamed:
                     vpiSize: 32
                     vpiDecompile: "2"
                     vpiValue: 2
-                  RefObj name:b start:6:11 end:6:12:
-                    vpiParent: Operation
-                    vpiName: b
-                    vpiFullName: work@tb.seq2.b
-                    vpiActual: Net name:b
                   RefObj name:c start:6:17 end:6:18:
                     vpiParent: Operation
                     vpiName: c

@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:58:08
 COMMAND: -wd ../../../tests/SequenceInst -parse -d uhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/SequenceInst/SequenceInst
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/SequenceInst -parse -d uhdm -d ast dut.sv -nobuiltin
 AST_DEBUG_BEGIN
 Count: 511
 LIB: work
-FILE: $Source01/dut.sv
+FILE: f<13>:$Source01/dut.sv
 n<$Source01/dut.sv> u<510> t<Top_level_rule> c<1> l<1:1> el<31:1>
   n<> u<1> t<Null_rule> p<510> s<509> l<1:1>
   n<> u<509> t<Source_text> p<510> c<508> l<1:1> el<30:10>
@@ -531,13 +529,13 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@m".
 [ERR:EL0535] $Source01/dut.sv:9:6: Illegal implicit net "id:77, name:clk".
 [ERR:EL0535] $Source01/dut.sv:9:29: Illegal implicit net "id:79, name:start_event".
-[ERR:EL0535] $Source01/dut.sv:9:45: Illegal implicit net "id:84, name:end_event".
+[ERR:EL0535] $Source01/dut.sv:9:45: Illegal implicit net "id:83, name:end_event".
 [ERR:EL0535] $Source01/dut.sv:9:65: Illegal implicit net "id:89, name:form".
 [ERR:EL0535] $Source01/dut.sv:13:6: Illegal implicit net "id:117, name:clkw".
 [ERR:EL0535] $Source01/dut.sv:13:11: Illegal implicit net "id:118, name:w".
-[ERR:EL0535] $Source01/dut.sv:13:23: Illegal implicit net "id:124, name:x".
+[ERR:EL0535] $Source01/dut.sv:13:23: Illegal implicit net "id:123, name:x".
 [ERR:EL0535] $Source01/dut.sv:13:35: Illegal implicit net "id:126, name:y".
-[ERR:EL0535] $Source01/dut.sv:13:41: Illegal implicit net "id:131, name:z".
+[ERR:EL0535] $Source01/dut.sv:13:41: Illegal implicit net "id:130, name:z".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -627,10 +625,14 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiOpType: non overlap imply (51)
               vpiOperand (2 items):
-                Operation start:9:41 end:9:59:
+                Operation start:9:29 end:9:59:
                   vpiParent: Operation
-                  vpiOpType: unary cycle delay (70)
+                  vpiOpType: binary cycle delay (71)
                   vpiOperand (3 items):
+                    RefObj name:start_event start:9:29 end:9:40:
+                      vpiParent: Operation
+                      vpiName: start_event
+                      vpiFullName: work@m.p_triggers.start_event
                     Constant start:9:43 end:9:44:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -641,14 +643,14 @@ Design name:unnamed:
                       vpiSize: 32
                       vpiDecompile: "0"
                       vpiValue: 0
-                    RefObj name:start_event start:9:29 end:9:40:
-                      vpiParent: Operation
-                      vpiName: start_event
-                      vpiFullName: work@m.p_triggers.start_event
                     Operation start:9:54 end:9:59:
                       vpiParent: Operation
                       vpiOpType: goto repeat (78)
                       vpiOperand (2 items):
+                        RefObj name:end_event start:9:45 end:9:54:
+                          vpiParent: Operation
+                          vpiName: end_event
+                          vpiFullName: work@m.p_triggers.end_event
                         Constant start:9:57 end:9:58:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -659,10 +661,6 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "1"
                           vpiValue: 1
-                        RefObj name:end_event start:9:45 end:9:54:
-                          vpiParent: Operation
-                          vpiName: end_event
-                          vpiFullName: work@m.p_triggers.end_event
                 RefObj name:form start:9:65 end:9:69:
                   vpiParent: Operation
                   vpiName: form
@@ -745,10 +743,14 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiOpType: non overlap imply (51)
               vpiOperand (2 items):
-                Operation start:13:13 end:13:24:
+                Operation start:13:11 end:13:24:
                   vpiParent: Operation
-                  vpiOpType: unary cycle delay (70)
+                  vpiOpType: binary cycle delay (71)
                   vpiOperand (3 items):
+                    RefObj name:w start:13:11 end:13:12:
+                      vpiParent: Operation
+                      vpiName: w
+                      vpiFullName: work@m.p_multiclock.w
                     Constant start:13:15 end:13:16:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -759,10 +761,6 @@ Design name:unnamed:
                       vpiSize: 32
                       vpiDecompile: "1"
                       vpiValue: 1
-                    RefObj name:w start:13:11 end:13:12:
-                      vpiParent: Operation
-                      vpiName: w
-                      vpiFullName: work@m.p_multiclock.w
                     ClockedSeq start:13:17 end:13:24:
                       vpiParent: Operation
                       vpiSequenceExpr RefObj name:x start:13:23 end:13:24:
@@ -771,10 +769,14 @@ Design name:unnamed:
                         vpiFullName: work@m.p_multiclock.x
                 ClockedSeq start:13:29 end:13:42:
                   vpiParent: Operation
-                  vpiSequenceExpr Operation start:13:37 end:13:42:
+                  vpiSequenceExpr Operation start:13:35 end:13:42:
                     vpiParent: ClockedSeq
-                    vpiOpType: unary cycle delay (70)
+                    vpiOpType: binary cycle delay (71)
                     vpiOperand (3 items):
+                      RefObj name:y start:13:35 end:13:36:
+                        vpiParent: Operation
+                        vpiName: y
+                        vpiFullName: work@m.p_multiclock.y
                       Constant start:13:39 end:13:40:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -785,10 +787,6 @@ Design name:unnamed:
                         vpiSize: 32
                         vpiDecompile: "1"
                         vpiValue: 1
-                      RefObj name:y start:13:35 end:13:36:
-                        vpiParent: Operation
-                        vpiName: y
-                        vpiFullName: work@m.p_multiclock.y
                       RefObj name:z start:13:41 end:13:42:
                         vpiParent: Operation
                         vpiName: z

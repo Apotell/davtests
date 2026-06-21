@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:58:06
 COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence13.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence13
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/sequence13.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence13.sv -nobuil
 AST_DEBUG_BEGIN
 Count: 189
 LIB: work
-FILE: $Source01/sequence13.sv
+FILE: f<13>:$Source01/sequence13.sv
 n<$Source01/sequence13.sv> u<188> t<Top_level_rule> c<1> l<1:1> el<16:10>
   n<> u<1> t<Null_rule> p<188> s<187> l<1:1>
   n<> u<187> t<Source_text> p<188> c<186> l<1:1> el<16:10>
@@ -229,10 +227,15 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq13
             vpiName: seq13
           vpiFullName: work@tb.seq13
-          vpiExpr Operation start:6:7 end:6:16:
+          vpiExpr Operation start:6:5 end:6:16:
             vpiParent: SequenceDecl name:seq13
-            vpiOpType: cycle delay (71)
+            vpiOpType: binary cycle delay (71)
             vpiOperand (3 items):
+              RefObj name:a start:6:5 end:6:6:
+                vpiParent: Operation
+                vpiName: a
+                vpiFullName: work@tb.seq13.a
+                vpiActual: Net name:a
               Range start:6:10 end:6:13:
                 vpiParent: Operation
                 vpiLeftRange Constant start:6:10 end:6:11:
@@ -255,11 +258,6 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "3"
                   vpiValue: 3
-              RefObj name:a start:6:5 end:6:6:
-                vpiParent: Operation
-                vpiName: a
-                vpiFullName: work@tb.seq13.a
-                vpiActual: Net name:a
               RefObj name:b start:6:15 end:6:16:
                 vpiParent: Operation
                 vpiName: b

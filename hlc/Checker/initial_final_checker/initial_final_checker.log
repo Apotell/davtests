@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:56
 COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast initial_final_checker.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Checker/initial_final_checker
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/initial_final_checker.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast initial_final_checker.
 AST_DEBUG_BEGIN
 Count: 264
 LIB: work
-FILE: $Source01/initial_final_checker.sv
+FILE: f<13>:$Source01/initial_final_checker.sv
 n<$Source01/initial_final_checker.sv> u<263> t<Top_level_rule> c<1> l<1:1> el<25:10>
   n<> u<1> t<Null_rule> p<263> s<262> l<1:1>
   n<> u<262> t<Source_text> p<263> c<261> l<1:1> el<25:10>
@@ -281,9 +279,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/initial_final_checker.sv:1:1: Compile module "work@tb7".
 [INF:CP0307] $Source01/initial_final_checker.sv:13:11: Compile checker "init_final_chk".
 [WRN:PA0205] $Source01/initial_final_checker.sv:1:1: No timescale set for "work@tb7".
-[ERR:EL0535] $Source01/initial_final_checker.sv:19:32: Illegal implicit net "id:79, name:clk".
-[ERR:EL0535] $Source01/initial_final_checker.sv:19:37: Illegal implicit net "id:81, name:a".
-[ERR:EL0535] $Source01/initial_final_checker.sv:19:47: Illegal implicit net "id:86, name:b".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -300,9 +295,12 @@ Design name:unnamed:
         vpiParent: Module name:work@tb7
         vpiName: work@tb7
       vpiFullName: work@tb7
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@tb7
+        CheckerTypespec name:init_final_chk start:23:3 end:23:17:
+          vpiParent: Module name:work@tb7
+          vpiName: init_final_chk
       vpiDefName: work@tb7
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -345,6 +343,108 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: work@tb7.b
+      vpiCheckerDecl (1 items):
+        CheckerDecl name:work@init_final_chk start:13:3 end:21:13:
+          vpiParent: Module name:work@tb7
+          vpiName Identifier name:work@init_final_chk start:13:11 end:13:25:
+            vpiParent: CheckerDecl name:work@init_final_chk
+            vpiName: work@init_final_chk
+          vpiFullName: work@tb7.work@init_final_chk
+          vpiConcurrentAssertions (1 items):
+            Assert start:19:5 end:19:50:
+              vpiParent: CheckerDecl name:work@init_final_chk
+              vpiProperty PropertySpec start:19:22 end:19:48:
+                vpiParent: Assert
+                vpiClockingEvent Operation:
+                  vpiParent: PropertySpec
+                  vpiOpType: posedge (39)
+                  vpiOperand (1 items):
+                    RefObj name:clk start:19:32 end:19:35:
+                      vpiParent: Operation
+                      vpiName: clk
+                      vpiFullName: work@tb7.work@init_final_chk.clk
+                      vpiActual: CheckerPort name:clk
+                vpiPropertyExpr Operation start:19:37 end:19:48:
+                  vpiParent: PropertySpec
+                  vpiOpType: overlap imply (52)
+                  vpiOperand (2 items):
+                    RefObj name:a start:19:37 end:19:38:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: work@tb7.work@init_final_chk.a
+                      vpiActual: CheckerPort name:a
+                    Operation start:19:43 end:19:48:
+                      vpiParent: Operation
+                      vpiOpType: unary cycle delay (70)
+                      vpiOperand (2 items):
+                        Constant start:19:45 end:19:46:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@tb7.work@init_final_chk
+                            vpiActual: IntTypespec
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                        RefObj name:b start:19:47 end:19:48:
+                          vpiParent: Operation
+                          vpiName: b
+                          vpiFullName: work@tb7.work@init_final_chk.b
+                          vpiActual: CheckerPort name:b
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: CheckerDecl name:work@init_final_chk
+          vpiDefNetType: none (12)
+          vpiProcess (2 items):
+            Initial start:15:5 end:15:41:
+              vpiParent: CheckerDecl name:work@init_final_chk
+              vpiStmt SysFuncCall name:$display start:15:13 end:15:40:
+                vpiParent: Initial
+                vpiName Identifier name:$display start:15:13 end:15:21:
+                  vpiParent: SysFuncCall name:$display
+                  vpiName: "$display"
+                vpiArgument (1 items):
+                  Constant start:15:22 end:15:39:
+                    vpiParent: SysFuncCall name:$display
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb7.work@init_final_chk
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 120
+                    vpiDecompile: "\"Checker started\""
+                    vpiValue: Checker started
+            FinalStmt start:17:5 end:17:40:
+              vpiParent: CheckerDecl name:work@init_final_chk
+          vpiPort (3 items):
+            CheckerPort name:clk start:13:26 end:13:41:
+              vpiParent: CheckerDecl name:work@init_final_chk
+              vpiName: clk
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:13:32 end:13:37:
+                vpiParent: CheckerPort name:clk
+                vpiFullName: work@tb7.work@init_final_chk.clk
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:a start:13:43 end:13:44:
+              vpiParent: CheckerDecl name:work@init_final_chk
+              vpiName: a
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:13:43 end:13:43:
+                vpiParent: CheckerPort name:a
+                vpiFullName: work@tb7.work@init_final_chk.a
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:b start:13:46 end:13:47:
+              vpiParent: CheckerDecl name:work@init_final_chk
+              vpiName: b
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:13:46 end:13:46:
+                vpiParent: CheckerPort name:b
+                vpiFullName: work@tb7.work@init_final_chk.b
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
       vpiProcess (2 items):
         Always start:5:3 end:5:24:
           vpiParent: Module name:work@tb7
@@ -467,6 +567,39 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1000"
                   vpiValue: 1000
+      vpiRefInstance (1 items):
+        RefInstance name:chk start:23:18 end:23:21:
+          vpiParent: Module name:work@tb7
+          vpiName: chk
+          vpiTypespec RefTypespec name:init_final_chk start:23:3 end:23:17:
+            vpiParent: RefInstance name:chk
+            vpiName: init_final_chk
+            vpiFullName: work@tb7.chk.init_final_chk
+            vpiActual: CheckerTypespec name:init_final_chk
+          vpiPort (2 items):
+            CheckerInstPort start:23:22 end:23:25:
+              vpiParent: RefInstance name:chk
+              vpiActual RefObj name:clk start:23:22 end:23:25:
+                vpiParent: CheckerInstPort
+                vpiName: clk
+                vpiFullName: work@tb7.chk.clk
+                vpiActual: Net name:clk
+            CheckerInstPort start:23:27 end:23:31:
+              vpiParent: RefInstance name:chk
+              vpiActual Operation start:23:27 end:23:31:
+                vpiParent: CheckerInstPort
+                vpiOpType: list (37)
+                vpiOperand (2 items):
+                  RefObj name:a start:23:27 end:23:28:
+                    vpiParent: Operation
+                    vpiName: a
+                    vpiFullName: work@tb7.chk.a
+                    vpiActual: Net name:a
+                  RefObj name:b start:23:30 end:23:31:
+                    vpiParent: Operation
+                    vpiName: b
+                    vpiFullName: work@tb7.chk.b
+                    vpiActual: Net name:b
   vpiTypespec (3 items):
     ModuleTypespec name:work@tb7:
       vpiParent: Design name:unnamed
@@ -479,109 +612,10 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-  vpiCheckerDecl (1 items):
-    CheckerDecl name:work@init_final_chk start:13:3 end:21:13:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@init_final_chk start:13:11 end:13:25:
-        vpiParent: CheckerDecl name:work@init_final_chk
-        vpiName: work@init_final_chk
-      vpiFullName: work@init_final_chk
-      vpiConcurrentAssertions (1 items):
-        Assert start:19:5 end:19:50:
-          vpiParent: CheckerDecl name:work@init_final_chk
-          vpiProperty PropertySpec start:19:22 end:19:48:
-            vpiParent: Assert
-            vpiClockingEvent Operation:
-              vpiParent: PropertySpec
-              vpiOpType: posedge (39)
-              vpiOperand (1 items):
-                RefObj name:clk start:19:32 end:19:35:
-                  vpiParent: Operation
-                  vpiName: clk
-                  vpiFullName: work@init_final_chk.clk
-            vpiPropertyExpr Operation start:19:37 end:19:48:
-              vpiParent: PropertySpec
-              vpiOpType: overlap imply (52)
-              vpiOperand (2 items):
-                RefObj name:a start:19:37 end:19:38:
-                  vpiParent: Operation
-                  vpiName: a
-                  vpiFullName: work@init_final_chk.a
-                Operation start:19:43 end:19:48:
-                  vpiParent: Operation
-                  vpiOpType: unary cycle delay (70)
-                  vpiOperand (2 items):
-                    Constant start:19:45 end:19:46:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@init_final_chk
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                    RefObj name:b start:19:47 end:19:48:
-                      vpiParent: Operation
-                      vpiName: b
-                      vpiFullName: work@init_final_chk.b
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: CheckerDecl name:work@init_final_chk
-      vpiDefNetType: none (12)
-      vpiProcess (2 items):
-        Initial start:15:5 end:15:41:
-          vpiParent: CheckerDecl name:work@init_final_chk
-          vpiStmt SysFuncCall name:$display start:15:13 end:15:40:
-            vpiParent: Initial
-            vpiName Identifier name:$display start:15:13 end:15:21:
-              vpiParent: SysFuncCall name:$display
-              vpiName: "$display"
-            vpiArgument (1 items):
-              Constant start:15:22 end:15:39:
-                vpiParent: SysFuncCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@init_final_chk
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 120
-                vpiDecompile: "\"Checker started\""
-                vpiValue: Checker started
-        FinalStmt start:17:5 end:17:40:
-          vpiParent: CheckerDecl name:work@init_final_chk
-      vpiPort (3 items):
-        CheckerPort name:clk start:13:26 end:13:41:
-          vpiParent: CheckerDecl name:work@init_final_chk
-          vpiName: clk
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:13:32 end:13:37:
-            vpiParent: CheckerPort name:clk
-            vpiFullName: work@init_final_chk.clk
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:a start:13:43 end:13:44:
-          vpiParent: CheckerDecl name:work@init_final_chk
-          vpiName: a
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:13:43 end:13:43:
-            vpiParent: CheckerPort name:a
-            vpiFullName: work@init_final_chk.a
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:b start:13:46 end:13:47:
-          vpiParent: CheckerDecl name:work@init_final_chk
-          vpiName: b
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:13:46 end:13:46:
-            vpiParent: CheckerPort name:b
-            vpiFullName: work@init_final_chk.b
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************
@@ -597,25 +631,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/Checker/initial_final_checker/mounts.json
 
 
-{'result': {'coverage': 91.9,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/initial_final_checker.sv': {'post_len': 26,
+            'files': {'$Output/lib/work/initial_final_checker.sv': {'post_len': 0,
                                                                     'pre_len': 321}},
-            'post_len': 26,
+            'post_len': 0,
             'pre_len': 321,
             'test_name': 'Checker/initial_final_checker'}}
 
 +-------------------------------------------+----------+-----------+
 | INPUT                                     |   PRELEN |   POSTLEN |
 +===========================================+==========+===========+
-| $Output/lib/work/initial_final_checker.sv |      321 |        26 |
+| $Output/lib/work/initial_final_checker.sv |      321 |         0 |
 +===========================================+==========+===========+
-|                                           |      321 |        26 |
+|                                           |      321 |         0 |
 +-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.9
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -626,11 +660,11 @@ COMMAND: ${SURELOG_DIR}/regression/Checker/initial_final_checker/surelog.uhdm ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             9      10       1         0
-Operation                            4       3       0         1
-RefObj                               9       8       0         1
-RefTypespec                         15      16       1         0
+Operation                            5       4       0         1
+RefObj                              12      11       0         1
+RefTypespec                         16      17       1         0
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    73      73       2         2
+                                    82      82       2         2
 ===================== END REDUCTION RESULT =====================

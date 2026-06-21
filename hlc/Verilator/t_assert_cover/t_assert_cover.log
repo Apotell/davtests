@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:38
 COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_assert_cover.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_assert_cover
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_assert_cover.v".
@@ -16,7 +14,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns
 AST_DEBUG_BEGIN
 Count: 946
 LIB: work
-FILE: $Source01/t_assert_cover.v
+FILE: f<13>:$Source01/t_assert_cover.v
 n<$Source01/t_assert_cover.v> u<945> t<Top_level_rule> c<1> l<6:1> el<136:1>
   n<> u<1> t<Null_rule> p<945> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<945> s<3> l<1:1> el<1:47>
@@ -967,6 +965,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_assert_cover.v:36:1: Compile module "work@Test".
 [INF:CP0335] $Source01/t_assert_cover.v:80:9: Compile generate block "cycval".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/t_assert_cover.v:130:8: Illegal implicit net "id:353, name:cyc_value".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1373,6 +1372,259 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
+      vpiCoverGroup (1 items):
+        CoverGroup name:counter1 start:97:4 end:131:12:
+          vpiParent: Module name:work@Test
+          vpiName Identifier name:counter1 start:97:15 end:97:23:
+            vpiParent: CoverGroup name:counter1
+            vpiName: counter1
+          vpiFullName: work@Test.counter1
+          vpiCoverageEvent EventControl start:97:24 end:97:39:
+            vpiParent: CoverGroup name:counter1
+            vpiCondition Operation:
+              vpiParent: EventControl
+              vpiOpType: posedge (39)
+              vpiOperand (1 items):
+                RefObj name:cyc start:97:35 end:97:38:
+                  vpiParent: Operation
+                  vpiName: cyc
+                  vpiFullName: work@Test.counter1.cyc
+                  vpiActual: Net name:cyc
+          vpiStmt (5 items):
+            CoverPoint name:cyc_value start:101:7 end:102:3:
+              vpiParent: CoverGroup name:counter1
+              vpiName Identifier name:cyc_value start:101:7 end:101:16:
+                vpiParent: CoverPoint name:cyc_value
+                vpiName: cyc_value
+              vpiFullName: work@Test.counter1.cyc_value
+              vpiTypespec RefTypespec start:101:7 end:101:7:
+                vpiParent: CoverPoint name:cyc_value
+                vpiFullName: work@Test.counter1.cyc_value
+                vpiActual: LogicTypespec
+              vpiExpr RefObj name:cyc start:101:30 end:101:33:
+                vpiParent: CoverPoint name:cyc_value
+                vpiName: cyc
+                vpiFullName: work@Test.counter1.cyc_value.cyc
+                vpiActual: Net name:cyc
+            CoverPoint name:cyc_bined start:104:7 end:111:8:
+              vpiParent: CoverGroup name:counter1
+              vpiName Identifier name:cyc_bined start:104:7 end:104:16:
+                vpiParent: CoverPoint name:cyc_bined
+                vpiName: cyc_bined
+              vpiFullName: work@Test.counter1.cyc_bined
+              vpiTypespec RefTypespec start:104:7 end:104:7:
+                vpiParent: CoverPoint name:cyc_bined
+                vpiFullName: work@Test.counter1.cyc_bined
+                vpiActual: LogicTypespec
+              vpiExpr RefObj name:cyc start:104:30 end:104:33:
+                vpiParent: CoverPoint name:cyc_bined
+                vpiName: cyc
+                vpiFullName: work@Test.counter1.cyc_bined.cyc
+                vpiActual: Net name:cyc
+              vpiStmt (3 items):
+                CoverBin name:zero start:105:3 end:105:21:
+                  vpiParent: CoverPoint name:cyc_bined
+                  vpiName Identifier name:zero start:105:8 end:105:12:
+                    vpiParent: CoverBin name:zero
+                    vpiName: zero
+                  vpiBinsType: bins (1)
+                  vpiValue Operation start:105:19 end:105:20:
+                    vpiParent: CoverBin name:zero
+                    vpiOpType: list (37)
+                    vpiOperand (1 items):
+                      Constant start:105:19 end:105:20:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@Test.counter1.cyc_bined.zero
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                CoverBin name:low start:106:3 end:106:22:
+                  vpiParent: CoverPoint name:cyc_bined
+                  vpiName Identifier name:low start:106:8 end:106:11:
+                    vpiParent: CoverBin name:low
+                    vpiName: low
+                  vpiBinsType: bins (1)
+                  vpiValue Operation start:106:18 end:106:21:
+                    vpiParent: CoverBin name:low
+                    vpiOpType: list (37)
+                    vpiOperand (2 items):
+                      Constant start:106:18 end:106:19:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@Test.counter1.cyc_bined.low
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                      Constant start:106:20 end:106:21:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@Test.counter1.cyc_bined.low
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "5"
+                        vpiValue: 5
+                CoverBin name:mid start:108:3 end:108:23:
+                  vpiParent: CoverPoint name:cyc_bined
+                  vpiName Identifier name:mid start:108:8 end:108:11:
+                    vpiParent: CoverBin name:mid
+                    vpiName: mid
+                  vpiBinsType: bins (1)
+                  vpiValue Operation start:108:17 end:108:22:
+                    vpiParent: CoverBin name:mid
+                    vpiOpType: list (37)
+                    vpiOperand (1 items):
+                      Range start:108:17 end:108:22:
+                        vpiParent: Operation
+                        vpiLeftRange Constant start:108:18 end:108:19:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@Test.counter1.cyc_bined.mid
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "5"
+                          vpiValue: 5
+                        vpiRightRange Constant start:108:20 end:108:21:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@Test.counter1.cyc_bined.mid
+                            vpiActual: StringTypespec
+                          vpiConstType: unbounded (11)
+                          vpiDecompile: "$"
+                          vpiValue: "$"
+            CoverPoint name:toggle start:112:7 end:115:8:
+              vpiParent: CoverGroup name:counter1
+              vpiName Identifier name:toggle start:112:7 end:112:13:
+                vpiParent: CoverPoint name:toggle
+                vpiName: toggle
+              vpiFullName: work@Test.counter1.toggle
+              vpiTypespec RefTypespec start:112:7 end:112:7:
+                vpiParent: CoverPoint name:toggle
+                vpiFullName: work@Test.counter1.toggle
+                vpiActual: LogicTypespec
+              vpiExpr RefObj name:toggle start:112:28 end:112:34:
+                vpiParent: CoverPoint name:toggle
+                vpiName: toggle
+                vpiFullName: work@Test.counter1.toggle.toggle
+                vpiActual: Net name:toggle
+              vpiStmt (2 items):
+                CoverBin name:off start:113:3 end:113:18:
+                  vpiParent: CoverPoint name:toggle
+                  vpiName Identifier name:off start:113:8 end:113:11:
+                    vpiParent: CoverBin name:off
+                    vpiName: off
+                  vpiBinsType: bins (1)
+                  vpiValue Operation start:113:16 end:113:17:
+                    vpiParent: CoverBin name:off
+                    vpiOpType: list (37)
+                    vpiOperand (1 items):
+                      Constant start:113:16 end:113:17:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@Test.counter1.toggle.off
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                CoverBin name:on start:114:3 end:114:18:
+                  vpiParent: CoverPoint name:toggle
+                  vpiName Identifier name:on start:114:8 end:114:10:
+                    vpiParent: CoverBin name:on
+                    vpiName: on
+                  vpiBinsType: bins (1)
+                  vpiValue Operation start:114:16 end:114:17:
+                    vpiParent: CoverBin name:on
+                    vpiOpType: list (37)
+                    vpiOperand (1 items):
+                      Constant start:114:16 end:114:17:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@Test.counter1.toggle.on
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+            CoverPoint name:cyc5 start:116:7 end:118:8:
+              vpiParent: CoverGroup name:counter1
+              vpiName Identifier name:cyc5 start:116:7 end:116:11:
+                vpiParent: CoverPoint name:cyc5
+                vpiName: cyc5
+              vpiFullName: work@Test.counter1.cyc5
+              vpiTypespec RefTypespec start:116:7 end:116:7:
+                vpiParent: CoverPoint name:cyc5
+                vpiFullName: work@Test.counter1.cyc5
+                vpiActual: LogicTypespec
+              vpiExpr Operation start:116:26 end:116:32:
+                vpiParent: CoverPoint name:cyc5
+                vpiOpType: equal (14)
+                vpiOperand (2 items):
+                  RefObj name:cyc start:116:26 end:116:29:
+                    vpiParent: Operation
+                    vpiName: cyc
+                    vpiFullName: work@Test.counter1.cyc5.cyc
+                    vpiActual: Net name:cyc
+                  Constant start:116:31 end:116:32:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@Test.counter1.cyc5
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "5"
+                    vpiValue: 5
+              vpiStmt (1 items):
+                CoverBin name:five start:117:3 end:117:19:
+                  vpiParent: CoverPoint name:cyc5
+                  vpiName Identifier name:five start:117:8 end:117:12:
+                    vpiParent: CoverBin name:five
+                    vpiName: five
+                  vpiBinsType: bins (1)
+                  vpiValue Operation start:117:17 end:117:18:
+                    vpiParent: CoverBin name:five
+                    vpiOpType: list (37)
+                    vpiOperand (1 items):
+                      Constant start:117:17 end:117:18:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@Test.counter1.cyc5.five
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+            CoverCross name:value_and_toggle start:129:7 end:130:26:
+              vpiParent: CoverGroup name:counter1
+              vpiName Identifier name:value_and_toggle start:129:7 end:129:23:
+                vpiParent: CoverCross name:value_and_toggle
+                vpiName: value_and_toggle
+              vpiFullName: work@Test.counter1.value_and_toggle
+              vpiCrossItem (2 items):
+                RefObj name:cyc_value start:130:8 end:130:17:
+                  vpiParent: CoverCross name:value_and_toggle
+                  vpiName: cyc_value
+                  vpiFullName: work@Test.counter1.value_and_toggle.cyc_value
+                RefObj name:toggle start:130:19 end:130:25:
+                  vpiParent: CoverCross name:value_and_toggle
+                  vpiName: toggle
+                  vpiFullName: work@Test.counter1.value_and_toggle.toggle
+                  vpiActual: Net name:toggle
       vpiConcurrentAssertions (6 items):
         Cover start:44:4 end:44:43:
           vpiParent: Module name:work@Test
@@ -2021,7 +2273,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 1
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************
@@ -2037,25 +2289,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_assert_cover/mounts.json
 
 
-{'result': {'coverage': 90.47,
+{'result': {'coverage': 99.12,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_assert_cover.v': {'post_len': 141,
+            'files': {'$Output/lib/work/t_assert_cover.v': {'post_len': 13,
                                                             'pre_len': 1479}},
-            'post_len': 141,
+            'post_len': 13,
             'pre_len': 1479,
             'test_name': 'Verilator/t_assert_cover'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/t_assert_cover.v |     1479 |       141 |
+| $Output/lib/work/t_assert_cover.v |     1479 |        13 |
 +===================================+==========+===========+
-|                                   |     1479 |       141 |
+|                                   |     1479 |        13 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 90.47
+[COVERAGE] : 99.12
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2066,7 +2318,7 @@ COMMAND: ${SURELOG_DIR}/regression/Verilator/t_assert_cover/surelog.uhdm ${SUREL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             255     255       0         0
+Others                             318     318       0         0
 ----------------------------------------------------------------
-                                   255     255       0         0
+                                   318     318       0         0
 ===================== END REDUCTION RESULT =====================

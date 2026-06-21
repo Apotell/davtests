@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:56:42
 COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast gen_checker.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Checker/gen_checker
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/gen_checker.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast gen_checker.sv -nobuil
 AST_DEBUG_BEGIN
 Count: 347
 LIB: work
-FILE: $Source01/gen_checker.sv
+FILE: f<13>:$Source01/gen_checker.sv
 n<$Source01/gen_checker.sv> u<346> t<Top_level_rule> c<1> l<1:1> el<29:10>
   n<> u<1> t<Null_rule> p<346> s<345> l<1:1>
   n<> u<345> t<Source_text> p<346> c<344> l<1:1> el<29:10>
@@ -380,7 +378,7 @@ Design name:unnamed:
         vpiParent: Module name:work@tb3
         vpiName: work@tb3
       vpiFullName: work@tb3
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:work@tb3
         LogicTypespec:
@@ -409,6 +407,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CheckerTypespec name:gen_chk start:27:3 end:27:10:
+          vpiParent: Module name:work@tb3
+          vpiName: gen_chk
       vpiDefName: work@tb3
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -451,6 +452,79 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: work@tb3.b
+      vpiCheckerDecl (1 items):
+        CheckerDecl name:work@gen_chk start:14:3 end:25:13:
+          vpiParent: Module name:work@tb3
+          vpiName Identifier name:work@gen_chk start:14:11 end:14:18:
+            vpiParent: CheckerDecl name:work@gen_chk
+            vpiName: work@gen_chk
+          vpiFullName: work@tb3.work@gen_chk
+          vpiVariable (1 items):
+            Variable name:i start:17:12 end:17:13:
+              vpiParent: CheckerDecl name:work@gen_chk
+              vpiTypespec RefTypespec:
+                vpiParent: Variable name:i
+                vpiFullName: work@tb3.work@gen_chk.i
+              vpiName: i
+              vpiFullName: work@tb3.work@gen_chk.i
+          vpiTypespec (2 items):
+            LogicTypespec:
+              vpiParent: CheckerDecl name:work@gen_chk
+            LogicTypespec:
+              vpiParent: CheckerDecl name:work@gen_chk
+              vpiRange (1 items):
+                Range start:15:31 end:15:36:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:15:32 end:15:33:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb3.work@gen_chk
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+                  vpiRightRange Constant start:15:34 end:15:35:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb3.work@gen_chk
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+          vpiDefNetType: none (12)
+          vpiPort (3 items):
+            CheckerPort name:clk start:14:19 end:14:34:
+              vpiParent: CheckerDecl name:work@gen_chk
+              vpiName: clk
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:14:25 end:14:30:
+                vpiParent: CheckerPort name:clk
+                vpiFullName: work@tb3.work@gen_chk.clk
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:a start:15:19 end:15:38:
+              vpiParent: CheckerDecl name:work@gen_chk
+              vpiName: a
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:15:25 end:15:36:
+                vpiParent: CheckerPort name:a
+                vpiFullName: work@tb3.work@gen_chk.a
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:b start:15:40 end:15:41:
+              vpiParent: CheckerDecl name:work@gen_chk
+              vpiName: b
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:15:40 end:15:40:
+                vpiParent: CheckerPort name:b
+                vpiFullName: work@tb3.work@gen_chk.b
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
       vpiProcess (2 items):
         Always start:5:3 end:5:24:
           vpiParent: Module name:work@tb3
@@ -603,6 +677,39 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1000"
                   vpiValue: 1000
+      vpiRefInstance (1 items):
+        RefInstance name:chk start:27:11 end:27:14:
+          vpiParent: Module name:work@tb3
+          vpiName: chk
+          vpiTypespec RefTypespec name:gen_chk start:27:3 end:27:10:
+            vpiParent: RefInstance name:chk
+            vpiName: gen_chk
+            vpiFullName: work@tb3.chk.gen_chk
+            vpiActual: CheckerTypespec name:gen_chk
+          vpiPort (2 items):
+            CheckerInstPort start:27:15 end:27:18:
+              vpiParent: RefInstance name:chk
+              vpiActual RefObj name:clk start:27:15 end:27:18:
+                vpiParent: CheckerInstPort
+                vpiName: clk
+                vpiFullName: work@tb3.chk.clk
+                vpiActual: Net name:clk
+            CheckerInstPort start:27:20 end:27:24:
+              vpiParent: RefInstance name:chk
+              vpiActual Operation start:27:20 end:27:24:
+                vpiParent: CheckerInstPort
+                vpiOpType: list (37)
+                vpiOperand (2 items):
+                  RefObj name:a start:27:20 end:27:21:
+                    vpiParent: Operation
+                    vpiName: a
+                    vpiFullName: work@tb3.chk.a
+                    vpiActual: Net name:a
+                  RefObj name:b start:27:23 end:27:24:
+                    vpiParent: Operation
+                    vpiName: b
+                    vpiFullName: work@tb3.chk.b
+                    vpiActual: Net name:b
   vpiTypespec (4 items):
     ModuleTypespec name:work@tb3:
       vpiParent: Design name:unnamed
@@ -617,79 +724,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
-  vpiCheckerDecl (1 items):
-    CheckerDecl name:work@gen_chk start:14:3 end:25:13:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@gen_chk start:14:11 end:14:18:
-        vpiParent: CheckerDecl name:work@gen_chk
-        vpiName: work@gen_chk
-      vpiFullName: work@gen_chk
-      vpiVariable (1 items):
-        Variable name:i start:17:12 end:17:13:
-          vpiParent: CheckerDecl name:work@gen_chk
-          vpiTypespec RefTypespec:
-            vpiParent: Variable name:i
-            vpiFullName: work@gen_chk.i
-          vpiName: i
-          vpiFullName: work@gen_chk.i
-      vpiTypespec (2 items):
-        LogicTypespec:
-          vpiParent: CheckerDecl name:work@gen_chk
-        LogicTypespec:
-          vpiParent: CheckerDecl name:work@gen_chk
-          vpiRange (1 items):
-            Range start:15:31 end:15:36:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:15:32 end:15:33:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@gen_chk
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
-              vpiRightRange Constant start:15:34 end:15:35:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@gen_chk
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-      vpiDefNetType: none (12)
-      vpiPort (3 items):
-        CheckerPort name:clk start:14:19 end:14:34:
-          vpiParent: CheckerDecl name:work@gen_chk
-          vpiName: clk
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:14:25 end:14:30:
-            vpiParent: CheckerPort name:clk
-            vpiFullName: work@gen_chk.clk
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:a start:15:19 end:15:38:
-          vpiParent: CheckerDecl name:work@gen_chk
-          vpiName: a
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:15:25 end:15:36:
-            vpiParent: CheckerPort name:a
-            vpiFullName: work@gen_chk.a
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:b start:15:40 end:15:41:
-          vpiParent: CheckerDecl name:work@gen_chk
-          vpiName: b
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:15:40 end:15:40:
-            vpiParent: CheckerPort name:b
-            vpiFullName: work@gen_chk.b
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -709,25 +743,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/Checker/gen_checker/mounts.json
 
 
-{'result': {'coverage': 83.12,
+{'result': {'coverage': 87.98,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/gen_checker.sv': {'post_len': 66,
+            'files': {'$Output/lib/work/gen_checker.sv': {'post_len': 47,
                                                           'pre_len': 391}},
-            'post_len': 66,
+            'post_len': 47,
             'pre_len': 391,
             'test_name': 'Checker/gen_checker'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/gen_checker.sv |      391 |        66 |
+| $Output/lib/work/gen_checker.sv |      391 |        47 |
 +=================================+==========+===========+
-|                                 |      391 |        66 |
+|                                 |      391 |        47 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 83.12
+[COVERAGE] : 87.98
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -738,11 +772,11 @@ COMMAND: ${SURELOG_DIR}/regression/Checker/gen_checker/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      14       1         0
-Operation                            1       0       0         1
-RefObj                               7       6       0         1
-RefTypespec                         20      21       1         0
+Operation                            2       1       0         1
+RefObj                              10       9       0         1
+RefTypespec                         21      22       1         0
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    79      79       2         2
+                                    88      88       2         2
 ===================== END REDUCTION RESULT =====================

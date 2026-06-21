@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:56:45
 COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast func_checker.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Checker/func_checker
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/func_checker.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Checker -parse -d uhdm -d ast func_checker.sv -nobui
 AST_DEBUG_BEGIN
 Count: 287
 LIB: work
-FILE: $Source01/func_checker.sv
+FILE: f<13>:$Source01/func_checker.sv
 n<$Source01/func_checker.sv> u<286> t<Top_level_rule> c<1> l<1:1> el<26:10>
   n<> u<1> t<Null_rule> p<286> s<285> l<1:1>
   n<> u<285> t<Source_text> p<286> c<284> l<1:1> el<26:10>
@@ -304,8 +302,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/func_checker.sv:1:1: Compile module "work@tb2".
 [INF:CP0307] $Source01/func_checker.sv:13:11: Compile checker "func_chk".
 [WRN:PA0205] $Source01/func_checker.sv:1:1: No timescale set for "work@tb2".
-[ERR:EL0535] $Source01/func_checker.sv:19:32: Illegal implicit net "id:89, name:clk".
-[ERR:EL0535] $Source01/func_checker.sv:19:42: Illegal implicit net "id:91, name:data".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -322,7 +318,7 @@ Design name:unnamed:
         vpiParent: Module name:work@tb2
         vpiName: work@tb2
       vpiFullName: work@tb2
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:work@tb2
         LogicTypespec:
@@ -351,6 +347,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        CheckerTypespec name:func_chk start:24:3 end:24:11:
+          vpiParent: Module name:work@tb2
+          vpiName: func_chk
       vpiDefName: work@tb2
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -385,6 +384,178 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: work@tb2.data
+      vpiCheckerDecl (1 items):
+        CheckerDecl name:work@func_chk start:13:3 end:22:13:
+          vpiParent: Module name:work@tb2
+          vpiName Identifier name:work@func_chk start:13:11 end:13:19:
+            vpiParent: CheckerDecl name:work@func_chk
+            vpiName: work@func_chk
+          vpiFullName: work@tb2.work@func_chk
+          vpiConcurrentAssertions (1 items):
+            Assert start:19:5 end:20:37:
+              vpiParent: CheckerDecl name:work@func_chk
+              vpiProperty PropertySpec start:19:22 end:19:52:
+                vpiParent: Assert
+                vpiClockingEvent Operation:
+                  vpiParent: PropertySpec
+                  vpiOpType: posedge (39)
+                  vpiOperand (1 items):
+                    RefObj name:clk start:19:32 end:19:35:
+                      vpiParent: Operation
+                      vpiName: clk
+                      vpiFullName: work@tb2.work@func_chk.clk
+                      vpiActual: CheckerPort name:clk
+                vpiPropertyExpr Operation start:19:37 end:19:52:
+                  vpiParent: PropertySpec
+                  vpiOpType: less or equal (21)
+                  vpiOperand (2 items):
+                    FuncCall name:ones start:19:37 end:19:47:
+                      vpiParent: Operation
+                      vpiName Identifier name:ones start:19:37 end:19:41:
+                        vpiParent: FuncCall name:ones
+                        vpiName: ones
+                      vpiArgument (1 items):
+                        RefObj name:data start:19:42 end:19:46:
+                          vpiParent: FuncCall name:ones
+                          vpiName: data
+                          vpiFullName: work@tb2.work@func_chk.data
+                          vpiActual: CheckerPort name:data
+                    Constant start:19:51 end:19:52:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@tb2.work@func_chk
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "4"
+                      vpiValue: 4
+              vpiElseStmt SysFuncCall name:$error start:20:12 end:20:36:
+                vpiParent: Assert
+                vpiName Identifier name:$error start:20:12 end:20:18:
+                  vpiParent: SysFuncCall name:$error
+                  vpiName: "$error"
+                vpiArgument (1 items):
+                  Constant start:20:19 end:20:35:
+                    vpiParent: SysFuncCall name:$error
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb2.work@func_chk
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 112
+                    vpiDecompile: "\"Too many ones!\""
+                    vpiValue: Too many ones!
+          vpiTypespec (2 items):
+            LogicTypespec:
+              vpiParent: CheckerDecl name:work@func_chk
+            LogicTypespec:
+              vpiParent: CheckerDecl name:work@func_chk
+              vpiRange (1 items):
+                Range start:13:49 end:13:54:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:13:50 end:13:51:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb2.work@func_chk
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+                  vpiRightRange Constant start:13:52 end:13:53:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@tb2.work@func_chk
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+          vpiDefNetType: none (12)
+          vpiTaskFunc (1 items):
+            Function name:ones start:15:5 end:17:16:
+              vpiParent: CheckerDecl name:work@func_chk
+              vpiName Identifier name:ones start:15:18 end:15:22:
+                vpiParent: Function name:ones
+                vpiName: ones
+              vpiFullName: work@tb2.work@func_chk.ones
+              vpiTypespec (1 items):
+                LogicTypespec:
+                  vpiParent: Function name:ones
+                  vpiRange (1 items):
+                    Range start:15:35 end:15:40:
+                      vpiParent: LogicTypespec
+                      vpiLeftRange Constant start:15:36 end:15:37:
+                        vpiParent: Range
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@tb2.work@func_chk.ones
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "3"
+                        vpiValue: 3
+                      vpiRightRange Constant start:15:38 end:15:39:
+                        vpiParent: Range
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@tb2.work@func_chk.ones
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                  vpiVector: true
+              vpiVisibility: public (1)
+              vpiIODecl (1 items):
+                IODecl name:d start:15:41 end:15:42:
+                  vpiParent: Function name:ones
+                  vpiName: d
+                  vpiDirection: input (1)
+                  vpiTypespec RefTypespec start:15:29 end:15:40:
+                    vpiParent: IODecl name:d
+                    vpiFullName: work@tb2.work@func_chk.ones.d
+                    vpiActual: LogicTypespec
+              vpiStmt ReturnStmt start:16:7 end:16:28:
+                vpiParent: Function name:ones
+                vpiCondition SysFuncCall name:$countones start:16:14 end:16:27:
+                  vpiParent: ReturnStmt
+                  vpiName Identifier name:$countones start:16:14 end:16:24:
+                    vpiParent: SysFuncCall name:$countones
+                    vpiName: "$countones"
+                  vpiArgument (1 items):
+                    RefObj name:d start:16:25 end:16:26:
+                      vpiParent: SysFuncCall name:$countones
+                      vpiName: d
+                      vpiFullName: work@tb2.work@func_chk.ones.d
+                      vpiActual: IODecl name:d
+              vpiReturn RefTypespec start:15:14 end:15:17:
+                vpiParent: Function name:ones
+                vpiFullName: work@tb2.work@func_chk.ones
+                vpiActual: IntTypespec
+          vpiPort (2 items):
+            CheckerPort name:clk start:13:20 end:13:35:
+              vpiParent: CheckerDecl name:work@func_chk
+              vpiName: clk
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:13:26 end:13:31:
+                vpiParent: CheckerPort name:clk
+                vpiFullName: work@tb2.work@func_chk.clk
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:data start:13:37 end:13:59:
+              vpiParent: CheckerDecl name:work@func_chk
+              vpiName: data
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:13:43 end:13:54:
+                vpiParent: CheckerPort name:data
+                vpiFullName: work@tb2.work@func_chk.data
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
       vpiProcess (2 items):
         Always start:5:3 end:5:24:
           vpiParent: Module name:work@tb2
@@ -489,6 +660,30 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1000"
                   vpiValue: 1000
+      vpiRefInstance (1 items):
+        RefInstance name:chk start:24:12 end:24:15:
+          vpiParent: Module name:work@tb2
+          vpiName: chk
+          vpiTypespec RefTypespec name:func_chk start:24:3 end:24:11:
+            vpiParent: RefInstance name:chk
+            vpiName: func_chk
+            vpiFullName: work@tb2.chk.func_chk
+            vpiActual: CheckerTypespec name:func_chk
+          vpiPort (2 items):
+            CheckerInstPort start:24:16 end:24:19:
+              vpiParent: RefInstance name:chk
+              vpiActual RefObj name:clk start:24:16 end:24:19:
+                vpiParent: CheckerInstPort
+                vpiName: clk
+                vpiFullName: work@tb2.chk.clk
+                vpiActual: Net name:clk
+            CheckerInstPort start:24:21 end:24:25:
+              vpiParent: RefInstance name:chk
+              vpiActual RefObj name:data start:24:21 end:24:25:
+                vpiParent: CheckerInstPort
+                vpiName: data
+                vpiFullName: work@tb2.chk.data
+                vpiActual: Net name:data
   vpiTypespec (4 items):
     ModuleTypespec name:work@tb2:
       vpiParent: Design name:unnamed
@@ -503,180 +698,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
-  vpiCheckerDecl (1 items):
-    CheckerDecl name:work@func_chk start:13:3 end:22:13:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@func_chk start:13:11 end:13:19:
-        vpiParent: CheckerDecl name:work@func_chk
-        vpiName: work@func_chk
-      vpiFullName: work@func_chk
-      vpiConcurrentAssertions (1 items):
-        Assert start:19:5 end:20:37:
-          vpiParent: CheckerDecl name:work@func_chk
-          vpiProperty PropertySpec start:19:22 end:19:52:
-            vpiParent: Assert
-            vpiClockingEvent Operation:
-              vpiParent: PropertySpec
-              vpiOpType: posedge (39)
-              vpiOperand (1 items):
-                RefObj name:clk start:19:32 end:19:35:
-                  vpiParent: Operation
-                  vpiName: clk
-                  vpiFullName: work@func_chk.clk
-            vpiPropertyExpr Operation start:19:37 end:19:52:
-              vpiParent: PropertySpec
-              vpiOpType: less or equal (21)
-              vpiOperand (2 items):
-                FuncCall name:ones start:19:37 end:19:47:
-                  vpiParent: Operation
-                  vpiName Identifier name:ones start:19:37 end:19:41:
-                    vpiParent: FuncCall name:ones
-                    vpiName: ones
-                  vpiArgument (1 items):
-                    RefObj name:data start:19:42 end:19:46:
-                      vpiParent: FuncCall name:ones
-                      vpiName: data
-                      vpiFullName: work@func_chk.data
-                Constant start:19:51 end:19:52:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@func_chk
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "4"
-                  vpiValue: 4
-          vpiElseStmt SysFuncCall name:$error start:20:12 end:20:36:
-            vpiParent: Assert
-            vpiName Identifier name:$error start:20:12 end:20:18:
-              vpiParent: SysFuncCall name:$error
-              vpiName: "$error"
-            vpiArgument (1 items):
-              Constant start:20:19 end:20:35:
-                vpiParent: SysFuncCall name:$error
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@func_chk
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 112
-                vpiDecompile: "\"Too many ones!\""
-                vpiValue: Too many ones!
-      vpiTypespec (2 items):
-        LogicTypespec:
-          vpiParent: CheckerDecl name:work@func_chk
-        LogicTypespec:
-          vpiParent: CheckerDecl name:work@func_chk
-          vpiRange (1 items):
-            Range start:13:49 end:13:54:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:13:50 end:13:51:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@func_chk
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
-              vpiRightRange Constant start:13:52 end:13:53:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@func_chk
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-      vpiDefNetType: none (12)
-      vpiTaskFunc (1 items):
-        Function name:ones start:15:5 end:17:16:
-          vpiParent: CheckerDecl name:work@func_chk
-          vpiName Identifier name:ones start:15:18 end:15:22:
-            vpiParent: Function name:ones
-            vpiName: ones
-          vpiFullName: work@func_chk.ones
-          vpiTypespec (1 items):
-            LogicTypespec:
-              vpiParent: Function name:ones
-              vpiRange (1 items):
-                Range start:15:35 end:15:40:
-                  vpiParent: LogicTypespec
-                  vpiLeftRange Constant start:15:36 end:15:37:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@func_chk.ones
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "3"
-                    vpiValue: 3
-                  vpiRightRange Constant start:15:38 end:15:39:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: work@func_chk.ones
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-              vpiVector: true
-          vpiVisibility: public (1)
-          vpiIODecl (1 items):
-            IODecl name:d start:15:41 end:15:42:
-              vpiParent: Function name:ones
-              vpiName: d
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec start:15:29 end:15:40:
-                vpiParent: IODecl name:d
-                vpiFullName: work@func_chk.ones.d
-                vpiActual: LogicTypespec
-          vpiStmt ReturnStmt start:16:7 end:16:28:
-            vpiParent: Function name:ones
-            vpiCondition SysFuncCall name:$countones start:16:14 end:16:27:
-              vpiParent: ReturnStmt
-              vpiName Identifier name:$countones start:16:14 end:16:24:
-                vpiParent: SysFuncCall name:$countones
-                vpiName: "$countones"
-              vpiArgument (1 items):
-                RefObj name:d start:16:25 end:16:26:
-                  vpiParent: SysFuncCall name:$countones
-                  vpiName: d
-                  vpiFullName: work@func_chk.ones.d
-                  vpiActual: IODecl name:d
-          vpiReturn RefTypespec start:15:14 end:15:17:
-            vpiParent: Function name:ones
-            vpiFullName: work@func_chk.ones
-            vpiActual: IntTypespec
-      vpiPort (2 items):
-        CheckerPort name:clk start:13:20 end:13:35:
-          vpiParent: CheckerDecl name:work@func_chk
-          vpiName: clk
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:13:26 end:13:31:
-            vpiParent: CheckerPort name:clk
-            vpiFullName: work@func_chk.clk
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:data start:13:37 end:13:59:
-          vpiParent: CheckerDecl name:work@func_chk
-          vpiName: data
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:13:43 end:13:54:
-            vpiParent: CheckerPort name:data
-            vpiFullName: work@func_chk.data
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************
@@ -692,25 +717,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/Checker/func_checker/mounts.json
 
 
-{'result': {'coverage': 94.43,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/func_checker.sv': {'post_len': 21,
+            'files': {'$Output/lib/work/func_checker.sv': {'post_len': 0,
                                                            'pre_len': 377}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 377,
             'test_name': 'Checker/func_checker'}}
 
 +----------------------------------+----------+-----------+
 | INPUT                            |   PRELEN |   POSTLEN |
 +==================================+==========+===========+
-| $Output/lib/work/func_checker.sv |      377 |        21 |
+| $Output/lib/work/func_checker.sv |      377 |         0 |
 +==================================+==========+===========+
-|                                  |      377 |        21 |
+|                                  |      377 |         0 |
 +----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.43
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -722,10 +747,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            14      15       1         0
 Operation                            3       2       0         1
-RefObj                               8       7       0         1
-RefTypespec                         20      21       1         0
+RefObj                              10       9       0         1
+RefTypespec                         21      22       1         0
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    91      91       2         2
+                                    98      98       2         2
 ===================== END REDUCTION RESULT =====================

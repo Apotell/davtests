@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:02
 COMMAND: -wd ../../../../tests/Google/chapter-16 -parse -timescale=1ns/1ns -d ast -d uhdm -nobuiltin 16.10--sequence-local-var.sv -wd ${SURELOG_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Google/chapter-16/16.10--sequence-local-var
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/16.10--sequence-local-var.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../../tests/Google/chapter-16 -parse -timescale=1ns/1ns -d as
 AST_DEBUG_BEGIN
 Count: 715
 LIB: work
-FILE: $Source01/16.10--sequence-local-var.sv
+FILE: f<14>:$Source01/16.10--sequence-local-var.sv
 n<$Source01/16.10--sequence-local-var.sv> u<714> t<Top_level_rule> c<1> l<17:1> el<83:1>
   n<> u<1> t<Null_rule> p<714> s<2> l<17:1> el<17:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<714> s<3> l<1:1> el<1:51>
@@ -732,8 +730,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/16.10--sequence-local-var.sv:17:1: Compile module "work@clk_gen".
 [INF:CP0303] $Source01/16.10--sequence-local-var.sv:46:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/16.10--sequence-local-var.sv:64:32: Illegal implicit net "id:207, name:x".
 [ERR:EL0535] $Source01/16.10--sequence-local-var.sv:64:52: Illegal implicit net "id:215, name:x".
-[ERR:EL0535] $Source01/16.10--sequence-local-var.sv:67:22: Illegal implicit net "id:223, name:seq".
+[ERR:EL0535] $Source01/16.10--sequence-local-var.sv:67:22: Illegal implicit net "id:224, name:seq".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1240,10 +1239,31 @@ Design name:unnamed:
                   vpiName: clk
                   vpiFullName: work@top.seq.clk
                   vpiActual: Net name:clk
-            vpiSequenceExpr Operation start:64:40 end:64:58:
+            vpiSequenceExpr Operation start:64:24 end:64:58:
               vpiParent: ClockedSeq
-              vpiOpType: unary cycle delay (70)
+              vpiOpType: binary cycle delay (71)
               vpiOperand (3 items):
+                Operation start:64:24 end:64:39:
+                  vpiParent: Operation
+                  vpiOpType: list (37)
+                  vpiOperand (2 items):
+                    RefObj name:valid start:64:25 end:64:30:
+                      vpiParent: Operation
+                      vpiName: valid
+                      vpiFullName: work@top.seq.valid
+                      vpiActual: Net name:valid
+                    Assignment start:64:32 end:64:38:
+                      vpiParent: Operation
+                      vpiBlocking: true
+                      vpiLhs RefObj name:x start:64:32 end:64:33:
+                        vpiParent: Assignment
+                        vpiName: x
+                        vpiFullName: work@top.seq.x
+                      vpiRhs RefObj name:in start:64:36 end:64:38:
+                        vpiParent: Assignment
+                        vpiName: in
+                        vpiFullName: work@top.seq.in
+                        vpiActual: Net name:in
                 Constant start:64:42 end:64:43:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -1254,11 +1274,6 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "4"
                   vpiValue: 4
-                RefObj name:valid start:64:25 end:64:30:
-                  vpiParent: Operation
-                  vpiName: valid
-                  vpiFullName: work@top.seq.valid
-                  vpiActual: Net name:valid
                 Operation start:64:45 end:64:57:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -1679,7 +1694,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************
@@ -1724,7 +1739,7 @@ COMMAND: ${SURELOG_DIR}/regression/Google/chapter-16/16.10--sequence-local-var/s
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             229     229       0         0
+Others                             233     233       0         0
 ----------------------------------------------------------------
-                                   229     229       0         0
+                                   233     233       0         0
 ===================== END REDUCTION RESULT =====================

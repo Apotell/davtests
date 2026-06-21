@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:58:37
 COMMAND: -wd ../../../tests/UnitClass -writepp -parse -verbose -d inst top.v -d incl -d ast -wd ${SURELOG_DIR}/third_party/UVM +incdir+uvm-1.2/src/macros -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/UnitClass/UnitClass
 [INF:CM0023] Creating log file "$Output/hlc.log".
 Option: incl ignored.
@@ -15,7 +13,7 @@ Option: incl ignored.
 AST_DEBUG_BEGIN
 Count: 257
 LIB: work
-FILE: $Source00/builtin.sv
+FILE: f<18>:$Source00/builtin.sv
 n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
   n<> u<1> t<Null_rule> p<256> s<255> l<1:1>
   n<> u<255> t<Source_text> p<256> c<106> l<1:1> el<69:9>
@@ -277,7 +275,7 @@ AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 336
 LIB: work
-FILE: $Source01/top.v
+FILE: f<14>:$Source01/top.v
 n<$Source01/top.v> u<335> t<Top_level_rule> c<1> l<1:1> el<46:1>
   n<> u<1> t<Null_rule> p<335> s<334> l<1:1>
   n<> u<334> t<Source_text> p<335> c<333> l<1:1> el<45:10>
@@ -622,6 +620,10 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/top.v:6:4: Multiply defined typedef "ClosedCurve".
 [WRN:CP0323] $Source01/top.v:6:4: Multiply defined typedef "work@B".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/top.v:27:32: Illegal implicit net "id:261, name:ce".
+[ERR:EL0535] $Source01/top.v:28:29: Illegal implicit net "id:265, name:addr".
+[ERR:EL0535] $Source01/top.v:35:30: Illegal implicit net "id:298, name:ce".
+[ERR:EL0535] $Source01/top.v:36:29: Illegal implicit net "id:302, name:addr".
 ====== UHDM =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2647,6 +2649,251 @@ Design name:unnamed:
             vpiParent: ClassDefn name:work@A
             vpiName: work@A
           vpiFullName: work@top::work@A
+          vpiCoverGroup (2 items):
+            CoverGroup name:memory start:27:3 end:33:12:
+              vpiParent: ClassDefn name:work@A
+              vpiName Identifier name:memory start:27:14 end:27:20:
+                vpiParent: CoverGroup name:memory
+                vpiName: memory
+              vpiFullName: work@top::work@A::memory
+              vpiCoverageEvent EventControl start:27:21 end:27:35:
+                vpiParent: CoverGroup name:memory
+                vpiCondition Operation:
+                  vpiParent: EventControl
+                  vpiOpType: posedge (39)
+                  vpiOperand (1 items):
+                    RefObj name:ce start:27:32 end:27:34:
+                      vpiParent: Operation
+                      vpiName: ce
+                      vpiFullName: work@top::work@A::memory::ce
+              vpiStmt (1 items):
+                CoverPoint name:address start:28:8 end:32:9:
+                  vpiParent: CoverGroup name:memory
+                  vpiName Identifier name:address start:28:8 end:28:15:
+                    vpiParent: CoverPoint name:address
+                    vpiName: address
+                  vpiFullName: work@top::work@A::memory::address
+                  vpiTypespec RefTypespec start:28:8 end:28:8:
+                    vpiParent: CoverPoint name:address
+                    vpiFullName: work@top::work@A::memory::address
+                    vpiActual: LogicTypespec
+                  vpiExpr RefObj name:addr start:28:29 end:28:33:
+                    vpiParent: CoverPoint name:address
+                    vpiName: addr
+                    vpiFullName: work@top::work@A::memory::address::addr
+                  vpiStmt (3 items):
+                    CoverBin name:low start:29:10 end:29:30:
+                      vpiParent: CoverPoint name:address
+                      vpiName Identifier name:low start:29:15 end:29:18:
+                        vpiParent: CoverBin name:low
+                        vpiName: low
+                      vpiBinsType: bins (1)
+                      vpiValue Operation start:29:25 end:29:29:
+                        vpiParent: CoverBin name:low
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:29:25 end:29:26:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::low
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                          Constant start:29:27 end:29:29:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::low
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "50"
+                            vpiValue: 50
+                    CoverBin name:med start:30:10 end:30:32:
+                      vpiParent: CoverPoint name:address
+                      vpiName Identifier name:med start:30:15 end:30:18:
+                        vpiParent: CoverBin name:med
+                        vpiName: med
+                      vpiBinsType: bins (1)
+                      vpiValue Operation start:30:25 end:30:31:
+                        vpiParent: CoverBin name:med
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:30:25 end:30:27:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::med
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "51"
+                            vpiValue: 51
+                          Constant start:30:28 end:30:31:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::med
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "150"
+                            vpiValue: 150
+                    CoverBin name:high start:31:10 end:31:33:
+                      vpiParent: CoverPoint name:address
+                      vpiName Identifier name:high start:31:15 end:31:19:
+                        vpiParent: CoverBin name:high
+                        vpiName: high
+                      vpiBinsType: bins (1)
+                      vpiValue Operation start:31:25 end:31:32:
+                        vpiParent: CoverBin name:high
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:31:25 end:31:28:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::high
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "151"
+                            vpiValue: 151
+                          Constant start:31:29 end:31:32:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::high
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "255"
+                            vpiValue: 255
+            CoverGroup name:memory start:35:1 end:41:12:
+              vpiParent: ClassDefn name:work@A
+              vpiName Identifier name:memory start:35:12 end:35:18:
+                vpiParent: CoverGroup name:memory
+                vpiName: memory
+              vpiFullName: work@top::work@A::memory
+              vpiCoverageEvent EventControl start:35:19 end:35:33:
+                vpiParent: CoverGroup name:memory
+                vpiCondition Operation:
+                  vpiParent: EventControl
+                  vpiOpType: posedge (39)
+                  vpiOperand (1 items):
+                    RefObj name:ce start:35:30 end:35:32:
+                      vpiParent: Operation
+                      vpiName: ce
+                      vpiFullName: work@top::work@A::memory::ce
+              vpiStmt (1 items):
+                CoverPoint name:address start:36:8 end:40:9:
+                  vpiParent: CoverGroup name:memory
+                  vpiName Identifier name:address start:36:8 end:36:15:
+                    vpiParent: CoverPoint name:address
+                    vpiName: address
+                  vpiFullName: work@top::work@A::memory::address
+                  vpiTypespec RefTypespec start:36:8 end:36:8:
+                    vpiParent: CoverPoint name:address
+                    vpiFullName: work@top::work@A::memory::address
+                    vpiActual: LogicTypespec
+                  vpiExpr RefObj name:addr start:36:29 end:36:33:
+                    vpiParent: CoverPoint name:address
+                    vpiName: addr
+                    vpiFullName: work@top::work@A::memory::address::addr
+                  vpiStmt (3 items):
+                    CoverBin name:low start:37:10 end:37:30:
+                      vpiParent: CoverPoint name:address
+                      vpiName Identifier name:low start:37:15 end:37:18:
+                        vpiParent: CoverBin name:low
+                        vpiName: low
+                      vpiBinsType: bins (1)
+                      vpiValue Operation start:37:25 end:37:29:
+                        vpiParent: CoverBin name:low
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:37:25 end:37:26:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::low
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                          Constant start:37:27 end:37:29:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::low
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "50"
+                            vpiValue: 50
+                    CoverBin name:med start:38:10 end:38:32:
+                      vpiParent: CoverPoint name:address
+                      vpiName Identifier name:med start:38:15 end:38:18:
+                        vpiParent: CoverBin name:med
+                        vpiName: med
+                      vpiBinsType: bins (1)
+                      vpiValue Operation start:38:25 end:38:31:
+                        vpiParent: CoverBin name:med
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:38:25 end:38:27:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::med
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "51"
+                            vpiValue: 51
+                          Constant start:38:28 end:38:31:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::med
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "150"
+                            vpiValue: 150
+                    CoverBin name:high start:39:10 end:39:33:
+                      vpiParent: CoverPoint name:address
+                      vpiName Identifier name:high start:39:15 end:39:19:
+                        vpiParent: CoverBin name:high
+                        vpiName: high
+                      vpiBinsType: bins (1)
+                      vpiValue Operation start:39:25 end:39:32:
+                        vpiParent: CoverBin name:high
+                        vpiOpType: list (37)
+                        vpiOperand (2 items):
+                          Constant start:39:25 end:39:28:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::high
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "151"
+                            vpiValue: 151
+                          Constant start:39:29 end:39:32:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top::work@A::memory::address::high
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "255"
+                            vpiValue: 255
           vpiVariable (3 items):
             Variable name:curve start:13:16 end:13:21:
               vpiParent: ClassDefn name:work@A
@@ -3074,7 +3321,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 4
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************
@@ -3090,25 +3337,25 @@ Environment:
 mounts-filepath: ${SURELOG_DIR}/regression/UnitClass/UnitClass/mounts.json
 
 
-{'result': {'coverage': 84.98,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 102,
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
                                                  'pre_len': 679}},
-            'post_len': 102,
+            'post_len': 0,
             'pre_len': 679,
             'test_name': 'UnitClass/UnitClass'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      679 |       102 |
+| $Output/lib/work/top.v |      679 |         0 |
 +========================+==========+===========+
-|                        |      679 |       102 |
+|                        |      679 |         0 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 84.98
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3119,7 +3366,7 @@ COMMAND: ${SURELOG_DIR}/regression/UnitClass/UnitClass/surelog.uhdm ${SURELOG_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             697     697       0         0
+Others                             757     757       0         0
 ----------------------------------------------------------------
-                                   697     697       0         0
+                                   757     757       0         0
 ===================== END REDUCTION RESULT =====================

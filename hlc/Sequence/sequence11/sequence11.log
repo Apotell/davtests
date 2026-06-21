@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:59:07
 COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence11.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence11
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/sequence11.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence11.sv -nobuil
 AST_DEBUG_BEGIN
 Count: 215
 LIB: work
-FILE: $Source01/sequence11.sv
+FILE: f<13>:$Source01/sequence11.sv
 n<$Source01/sequence11.sv> u<214> t<Top_level_rule> c<1> l<1:1> el<17:10>
   n<> u<1> t<Null_rule> p<214> s<213> l<1:1>
   n<> u<213> t<Source_text> p<214> c<212> l<1:1> el<17:10>
@@ -259,10 +257,15 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq11
             vpiOpType: within (75)
             vpiOperand (2 items):
-              Operation start:6:8 end:6:13:
+              Operation start:6:6 end:6:13:
                 vpiParent: Operation
-                vpiOpType: unary cycle delay (70)
+                vpiOpType: binary cycle delay (71)
                 vpiOperand (3 items):
+                  RefObj name:a start:6:6 end:6:7:
+                    vpiParent: Operation
+                    vpiName: a
+                    vpiFullName: work@tb.seq11.a
+                    vpiActual: Net name:a
                   Constant start:6:10 end:6:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -273,11 +276,6 @@ Design name:unnamed:
                     vpiSize: 32
                     vpiDecompile: "1"
                     vpiValue: 1
-                  RefObj name:a start:6:6 end:6:7:
-                    vpiParent: Operation
-                    vpiName: a
-                    vpiFullName: work@tb.seq11.a
-                    vpiActual: Net name:a
                   RefObj name:b start:6:12 end:6:13:
                     vpiParent: Operation
                     vpiName: b

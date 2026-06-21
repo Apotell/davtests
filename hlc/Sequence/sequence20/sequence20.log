@@ -4,8 +4,6 @@
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-BUILT  : Jun 18 2026
-DATE   : 2026-06-18.18:57:34
 COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence20.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Sequence/sequence20
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/sequence20.sv".
@@ -13,7 +11,7 @@ COMMAND: -wd ../../../tests/Sequence -parse -d uhdm -d ast sequence20.sv -nobuil
 AST_DEBUG_BEGIN
 Count: 231
 LIB: work
-FILE: $Source01/sequence20.sv
+FILE: f<13>:$Source01/sequence20.sv
 n<$Source01/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
   n<> u<1> t<Null_rule> p<230> s<229> l<1:1>
   n<> u<229> t<Source_text> p<230> c<228> l<1:1> el<21:10>
@@ -246,6 +244,7 @@ n<$Source01/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
         n<> u<226> t<ENDMODULE> p<227> l<21:1> el<21:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sequence20.sv:1:1: Compile module "work@tb".
+[ERR:CP0347] $Source01/sequence20.sv:1:1: Call to "ArrayTypespec::setParent" failed.
 [WRN:PA0205] $Source01/sequence20.sv:1:1: No timescale set for "work@tb".
 [ERR:EL0535] $Source01/sequence20.sv:13:34: Illegal implicit net "id:40, name:seq_delay_star".
 [ERR:EL0535] $Source01/sequence20.sv:14:34: Illegal implicit net "id:45, name:seq_delay_plus".
@@ -272,15 +271,16 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq_delay_star
             vpiName: seq_delay_star
           vpiFullName: work@tb.seq_delay_star
-          vpiExpr Operation start:6:7 end:6:14:
+          vpiExpr Operation start:6:5 end:6:14:
             vpiParent: SequenceDecl name:seq_delay_star
-            vpiOpType: unary cycle delay (70)
-            vpiOperand (2 items):
+            vpiOpType: binary cycle delay (71)
+            vpiOperand (3 items):
               RefObj name:a start:6:5 end:6:6:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: work@tb.seq_delay_star.a
                 vpiActual: Net name:a
+              ArrayTypespec:
               RefObj name:b start:6:13 end:6:14:
                 vpiParent: Operation
                 vpiName: b
@@ -292,9 +292,9 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq_delay_plus
             vpiName: seq_delay_plus
           vpiFullName: work@tb.seq_delay_plus
-          vpiExpr Operation start:10:7 end:10:14:
+          vpiExpr Operation start:10:5 end:10:14:
             vpiParent: SequenceDecl name:seq_delay_plus
-            vpiOpType: unary cycle delay (70)
+            vpiOpType: binary cycle delay (71)
             vpiOperand (2 items):
               RefObj name:a start:10:5 end:10:6:
                 vpiParent: Operation
@@ -514,7 +514,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************
