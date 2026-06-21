@@ -47,11 +47,11 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
       run: |
-        # .id              -> Apotell/artifacts run id, required by download-artifact
-        # .inputs.run_number -> hlc run number, used to construct artifact names
+        # .id            -> Apotell/artifacts run id, required by download-artifact
+        # display_title  -> "hlc | #<run_number> | <run_id>"; parse run_number for artifact names
         read -r build_run_id build_run_number < <(gh api "/repos/Apotell/artifacts/actions/runs?status=completed&per_page=20" \
           --jq '[.workflow_runs[] | select(.conclusion == "success")] | first
-                | "\(.id) \(.inputs.run_number)"')
+                | "\(.id) \(.display_title | split(" | ")[1] | ltrimstr("#"))"')
         echo "build_run_id=$build_run_id"         >> $GITHUB_OUTPUT
         echo "build_run_number=$build_run_number" >> $GITHUB_OUTPUT
         echo "Run ID    : $build_run_id"
