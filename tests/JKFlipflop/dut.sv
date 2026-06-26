@@ -6,7 +6,7 @@ module JKFlipflop(J,K,clk,reset,q);
   D_Flipflop dff(w,clk,reset,q);
 endmodule
 
-module D_Flipflop(Din,clk,reset,q); ////////////// (Din) Missing in vpiPort UHDM output for uhdmtopModules
+module D_Flipflop(Din,clk,reset,q); ////////////// (Din) Missing in vpiPort HLDB output for topModules
     input Din,clk,reset;
     output reg q;
     always@(posedge clk)

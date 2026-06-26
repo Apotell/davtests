@@ -14,15 +14,15 @@
  limitations under the License.
 */
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 class Timescale : public Test {
  public:
   static void SetUpTestSuite() {
@@ -43,19 +43,19 @@ class Timescale : public Test {
 };
 
 TEST_F(Timescale, default) {
-  const uhdm::SourceFile *const s = uhdm::findByName<uhdm::SourceFile>("dut.sv", m_design->getSourceFiles());
+  const hldb::SourceFile *const s = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
   ASSERT_NE(s, nullptr) << "SourceFile s is null";
 
-  const uhdm::Module *const m1 = uhdm::findByName<uhdm::Module>("work@m1", m_design->getAllModules());
+  const hldb::Module *const m1 = hldb::findByName<hldb::Module>("work@m1", m_design->getAllModules());
   ASSERT_NE(m1, nullptr) << "Module m1 is null";
 
-  const uhdm::Module *const m11 = uhdm::findByName<uhdm::Module>("work@m11", m1->getModules());
+  const hldb::Module *const m11 = hldb::findByName<hldb::Module>("work@m11", m1->getModules());
   ASSERT_NE(m11, nullptr) << "Module m11 is null";
 
-  const uhdm::Module *const m12 = uhdm::findByName<uhdm::Module>("work@m12", m1->getModules());
+  const hldb::Module *const m12 = hldb::findByName<hldb::Module>("work@m12", m1->getModules());
   ASSERT_NE(m12, nullptr) << "Module m12 is null";
 
-  const uhdm::Module *const m2 = uhdm::findByName<uhdm::Module>("work@m2", m_design->getAllModules());
+  const hldb::Module *const m2 = hldb::findByName<hldb::Module>("work@m2", m_design->getAllModules());
   ASSERT_NE(m2, nullptr) << "Module m2 is null";
 
   ASSERT_EQ(s->getTimeUnit(), -9);
@@ -73,7 +73,7 @@ TEST_F(Timescale, default) {
   ASSERT_EQ(m2->getTimeUnit(), -9);
   ASSERT_EQ(m2->getTimePrecision(), -12);
 }
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

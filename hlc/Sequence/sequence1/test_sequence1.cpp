@@ -15,22 +15,22 @@
 */
 
 // Validates that a module-level sequence declaration, property declaration,
-// and concurrent assert property are captured correctly in the UHDM graph.
+// and concurrent assert property are captured correctly in the HLDB graph.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assert_stmt.h>
-#include <uhdm/concurrent_assertions.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/property_decl.h>
-#include <uhdm/property_spec.h>
-#include <uhdm/sequence_decl.h>
+#include <hldb/Utils.h>
+#include <hldb/assert_stmt.h>
+#include <hldb/concurrent_assertions.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/property_decl.h>
+#include <hldb/property_spec.h>
+#include <hldb/sequence_decl.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Sequence1 : public Test {
  public:
@@ -52,19 +52,19 @@ class Sequence1 : public Test {
 };
 
 TEST_F(Sequence1, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Sequence declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, SequenceDeclaration) {
-  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
-  const uhdm::SequenceDecl *seq1 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq1 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq1") {
       seq1 = s;
       break;
@@ -74,12 +74,12 @@ TEST_F(Sequence1, SequenceDeclaration) {
 }
 
 TEST_F(Sequence1, SequenceHasExpression) {
-  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *seq1 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq1 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq1") {
       seq1 = s;
       break;
@@ -93,12 +93,12 @@ TEST_F(Sequence1, SequenceHasExpression) {
 // Property declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, PropertyDeclaration) {
-  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr) << "tb has no property declarations";
 
-  const uhdm::PropertyDecl *prop_p = nullptr;
-  for (const uhdm::PropertyDecl *const p : *tb->getPropertyDecls()) {
+  const hldb::PropertyDecl *prop_p = nullptr;
+  for (const hldb::PropertyDecl *const p : *tb->getPropertyDecls()) {
     if (p->getName() == "p") {
       prop_p = p;
       break;
@@ -108,12 +108,12 @@ TEST_F(Sequence1, PropertyDeclaration) {
 }
 
 TEST_F(Sequence1, PropertyHasClockingEvent) {
-  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr);
 
-  const uhdm::PropertyDecl *prop_p = nullptr;
-  for (const uhdm::PropertyDecl *const p : *tb->getPropertyDecls()) {
+  const hldb::PropertyDecl *prop_p = nullptr;
+  for (const hldb::PropertyDecl *const p : *tb->getPropertyDecls()) {
     if (p->getName() == "p") {
       prop_p = p;
       break;
@@ -121,18 +121,18 @@ TEST_F(Sequence1, PropertyHasClockingEvent) {
   }
   ASSERT_NE(prop_p, nullptr) << "property 'p' not found";
 
-  const uhdm::PropertySpec *const spec = prop_p->getPropertySpec();
+  const hldb::PropertySpec *const spec = prop_p->getPropertySpec();
   ASSERT_NE(spec, nullptr) << "property 'p' has no PropertySpec";
   EXPECT_NE(spec->getClockingEvent(), nullptr) << "property 'p' has no clocking event (expected @(posedge clk))";
 }
 
 TEST_F(Sequence1, PropertyHasExpression) {
-  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getPropertyDecls(), nullptr);
 
-  const uhdm::PropertyDecl *prop_p = nullptr;
-  for (const uhdm::PropertyDecl *const p : *tb->getPropertyDecls()) {
+  const hldb::PropertyDecl *prop_p = nullptr;
+  for (const hldb::PropertyDecl *const p : *tb->getPropertyDecls()) {
     if (p->getName() == "p") {
       prop_p = p;
       break;
@@ -140,7 +140,7 @@ TEST_F(Sequence1, PropertyHasExpression) {
   }
   ASSERT_NE(prop_p, nullptr) << "property 'p' not found";
 
-  const uhdm::PropertySpec *const spec = prop_p->getPropertySpec();
+  const hldb::PropertySpec *const spec = prop_p->getPropertySpec();
   ASSERT_NE(spec, nullptr) << "property 'p' has no PropertySpec";
   EXPECT_NE(spec->getPropertyExpr(), nullptr) << "property 'p' has no property expression (expected seq1 reference)";
 }
@@ -149,14 +149,14 @@ TEST_F(Sequence1, PropertyHasExpression) {
 // Concurrent assertion (assert property(p))
 // ---------------------------------------------------------------------------
 TEST_F(Sequence1, ConcurrentAssertion) {
-  const uhdm::Module *const tb = uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";
 
-  const uhdm::Assert *found = nullptr;
-  for (const uhdm::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
-    if (const uhdm::Assert *const a = any_cast<uhdm::Assert>(ca)) {
+  const hldb::Assert *found = nullptr;
+  for (const hldb::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
+    if (const hldb::Assert *const a = any_cast<hldb::Assert>(ca)) {
       found = a;
       break;
     }
@@ -164,7 +164,7 @@ TEST_F(Sequence1, ConcurrentAssertion) {
   EXPECT_NE(found, nullptr) << "No Assert node in tb concurrent assertions";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

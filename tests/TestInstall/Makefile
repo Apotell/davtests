@@ -1,7 +1,7 @@
 # Simple example how to utilize pkg-config to find the cflags and libraries
 CXXFLAGS=--std=c++17
-CXXFLAGS+=`pkg-config --cflags Surelog`
-LDFLAGS+=`pkg-config --libs Surelog`
+CXXFLAGS+=`pkg-config --cflags HLC`
+LDFLAGS+=`pkg-config --libs hlc`
 
 # TODO(hzeller): should the supporting libs be mentioned in the pkg-config ?
 LDFLAGS+=-lpthread
