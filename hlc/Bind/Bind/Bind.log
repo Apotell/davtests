@@ -1,10 +1,10 @@
-********************************************
-*  SURELOG SystemVerilog  Compiler/Linter  *
-********************************************
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -parse -d uhdm -d coveruhdm -elabuhdm -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Bind/Bind
+COMMAND: -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Bind/Bind
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [FTL:CM0008] Verilog File "$Source00/dut.sv" does not exist.
 [  FATAL] : 1
@@ -12,27 +12,27 @@ COMMAND: -parse -d uhdm -d coveruhdm -elabuhdm -d ast dut.sv -nobuiltin -mt 0 -m
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
-********************************************
-*   End SURELOG SVerilog Compiler/Linter   *
-********************************************
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
       test-name: Bind/Bind
-   test-dirpath: ${SURELOG_DIR}/regression/Bind/Bind
-  uhdm-filepath: ${SURELOG_DIR}/regression/Bind/Bind/surelog.uhdm
-mounts-filepath: ${SURELOG_DIR}/regression/Bind/Bind/mounts.json
+   test-dirpath: ${HLC_DIR}/regression/Bind/Bind
+  hldb-filepath: ${HLC_DIR}/regression/Bind/Bind/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Bind/Bind/mounts.json
 
 Bind/Bind FAILED with exception!
 Traceback (most recent call last):
-  File "${SURELOG_DIR}/scripts/coverage.py", line 238, in _run_one
+  File "${HLC_DIR}/scripts/coverage.py", line 238, in _run_one
     mounts = json_load(mounts_filepath.open())
                        ~~~~~~~~~~~~~~~~~~~~^^
   File "/opt/hostedtoolcache/Python/3.14.6/x64/lib/python3.14/pathlib/__init__.py", line 771, in open
     return io.open(self, mode, buffering, encoding, errors, newline)
            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '${SURELOG_DIR}/regression/Bind/Bind/mounts.json'
+FileNotFoundError: [Errno 2] No such file or directory: '${HLC_DIR}/regression/Bind/Bind/mounts.json'
 
 {'result': {'coverage': 0,
             'error_count': 1,
@@ -55,19 +55,19 @@ FileNotFoundError: [Errno 2] No such file or directory: '${SURELOG_DIR}/regressi
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Bind/Bind/surelog.uhdm ${SURELOG_DIR}/regression/Bind/Bind/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Bind/Bind/design.hldb ${HLC_DIR}/regression/Bind/Bind/reduced.hldb
 
-"${SURELOG_DIR}/regression/Bind/Bind/surelog.uhdm": File does not exist!
+"${HLC_DIR}/regression/Bind/Bind/design.hldb": File does not exist!
 Usage:
-  ${SURELOG_DIR}/build/bin/uhdm-reduce <input.uhdm> [reduced.uhdm] [-v] [-d <type>]...
+  ${HLC_DIR}/build/bin/hldb-reduce <input.hldb> [reduced.hldb] [-v] [-d <type>]...
 
-Reads an input UHDM binary file, reduces it, and optionally writes the reduced output to a file. (Version: 1.86) 
+Reads an input HLDB binary file, reduces it, and optionally writes the reduced output to a file. (Version: 0.1) 
 
 Arguments:
-  <input.uhdm>    Input UHDM binary file (required)
-  [reduced.uhdm]  Output UHDM file after reduction (optional)
+  <input.hldb>    Input HLDB binary file (required)
+  [reduced.hldb]  Output HLDB file after reduction (optional)
   [-v]            Verbose output (optional)
-  [-d <type>]     Dump type (can be repeated, e.g. -d uhdm -d ast)
+  [-d <type>]     Dump type (can be repeated, e.g. -d hldb -d ast)
 
 Exit codes:
   0   Success
