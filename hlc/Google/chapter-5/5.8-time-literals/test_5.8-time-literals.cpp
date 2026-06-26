@@ -49,25 +49,25 @@
 //   real time literal produces "2.1". The scaling tests (Assignment*_ScaledPerSpec)
 //   will FAIL until Surelog implements §5.8 scaling.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/time_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/time_typespec.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class TimeLiterals : public Test {
  public:
@@ -88,31 +88,31 @@ class TimeLiterals : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNetA(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNetA(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>("a", m->getNets());
+  return hldb::findByName<hldb::Net>("a", m->getNets());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::Assignment *getAssignment(const uhdm::Design *d,
+static const hldb::Assignment *getAssignment(const hldb::Design *d,
                                               std::size_t index) {
-  const uhdm::Begin *begin = getBegin(d);
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const uhdm::Assignment *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
 // ---------------------------------------------------------------------------
@@ -123,7 +123,7 @@ TEST_F(TimeLiterals, ModuleExists) {
 }
 
 TEST_F(TimeLiterals, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u) << "expected 1 net: a";
@@ -134,10 +134,10 @@ TEST_F(TimeLiterals, OneNetExists) {
 // UHDM must represent it as TimeTypespec, not LogicTypespec or RealTypespec.
 // ---------------------------------------------------------------------------
 TEST_F(TimeLiterals, NetA_HasTimeTypespec) {
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::TimeTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::TimeTypespec>(), nullptr)
       << "§5.8: 'time a' must produce a TimeTypespec in UHDM";
 }
 
@@ -149,7 +149,7 @@ TEST_F(TimeLiterals, InitialBlockHasBegin) {
 }
 
 TEST_F(TimeLiterals, BeginHasSevenStatements) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 7u)
@@ -157,12 +157,12 @@ TEST_F(TimeLiterals, BeginHasSevenStatements) {
 }
 
 TEST_F(TimeLiterals, AllAssignmentsAreBlocking) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     EXPECT_TRUE(assign->getBlocking())
         << "assignment[" << i << "] should be blocking (=)";
@@ -178,7 +178,7 @@ TEST_F(TimeLiterals, IntegerTimeLiterals_ConstTypeIsUnsignedInt) {
   for (std::size_t i = 0; i <= 5; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     EXPECT_EQ(c->getConstType(), 9)
         << "stmt[" << i << "]: integer time literal must be unsigned int (9)";
@@ -189,7 +189,7 @@ TEST_F(TimeLiterals, IntegerTimeLiterals_SizeIs64) {
   for (std::size_t i = 0; i <= 5; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     EXPECT_EQ(c->getSize(), 64)
         << "stmt[" << i << "]: §5.8 'time' is 64-bit — size must be 64";
@@ -207,7 +207,7 @@ TEST_F(TimeLiterals, IntegerTimeLiterals_SizeIs64) {
 
 // a = 1fs — 1e-15s / 100e-12s = 1e-5 → rounds to 0
 TEST_F(TimeLiterals, Assignment0_1fs_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 0)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 0)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::stoll(std::string(c->getValue())), 0LL)
       << "§5.8: 1fs / 100ps = 1e-5, rounds to 0 — Surelog bug: unit ignored, "
@@ -216,7 +216,7 @@ TEST_F(TimeLiterals, Assignment0_1fs_ScaledPerSpec) {
 
 // a = 1ps — 1e-12s / 100e-12s = 0.01 → rounds to 0
 TEST_F(TimeLiterals, Assignment1_1ps_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 1)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 1)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::stoll(std::string(c->getValue())), 0LL)
       << "§5.8: 1ps / 100ps = 0.01, rounds to 0 — Surelog bug: unit ignored, "
@@ -225,7 +225,7 @@ TEST_F(TimeLiterals, Assignment1_1ps_ScaledPerSpec) {
 
 // a = 1ns — 1e-9s / 100e-12s = 10
 TEST_F(TimeLiterals, Assignment2_1ns_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 2)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 2)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::stoll(std::string(c->getValue())), 10LL)
       << "§5.8: 1ns / 100ps = 10 — Surelog bug: unit ignored, stores 1";
@@ -233,7 +233,7 @@ TEST_F(TimeLiterals, Assignment2_1ns_ScaledPerSpec) {
 
 // a = 1us — 1e-6s / 100e-12s = 10000
 TEST_F(TimeLiterals, Assignment3_1us_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 3)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 3)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::stoll(std::string(c->getValue())), 10000LL)
       << "§5.8: 1us / 100ps = 10000 — Surelog bug: unit ignored, stores 1";
@@ -241,7 +241,7 @@ TEST_F(TimeLiterals, Assignment3_1us_ScaledPerSpec) {
 
 // a = 1ms — 1e-3s / 100e-12s = 10000000
 TEST_F(TimeLiterals, Assignment4_1ms_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 4)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 4)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::stoll(std::string(c->getValue())), 10000000LL)
       << "§5.8: 1ms / 100ps = 10000000 — Surelog bug: unit ignored, stores 1";
@@ -249,7 +249,7 @@ TEST_F(TimeLiterals, Assignment4_1ms_ScaledPerSpec) {
 
 // a = 1s — 1s / 100e-12s = 10000000000
 TEST_F(TimeLiterals, Assignment5_1s_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 5)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 5)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::stoll(std::string(c->getValue())), 10000000000LL)
       << "§5.8: 1s / 100ps = 1e10 — Surelog bug: unit ignored, stores 1";
@@ -260,14 +260,14 @@ TEST_F(TimeLiterals, Assignment5_1s_ScaledPerSpec) {
 // Assignment 6: a = 2.1ms — constType = vpiRealConst (2), size = 64.
 // ---------------------------------------------------------------------------
 TEST_F(TimeLiterals, RealTimeLiteral_ConstTypeIsReal) {
-  const auto *c = getAssignment(m_design, 6)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 2)
       << "§5.8: real time literal (2.1ms) must be stored as real const (2)";
 }
 
 TEST_F(TimeLiterals, RealTimeLiteral_SizeIs64) {
-  const auto *c = getAssignment(m_design, 6)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 64)
       << "§5.8: real time literal must be 64-bit (IEEE 754 double-precision)";
@@ -276,7 +276,7 @@ TEST_F(TimeLiterals, RealTimeLiteral_SizeIs64) {
 // a = 2.1ms — 2.1e-3s / 100e-12s = 21000000
 // SURELOG BUG: unit ignored, stores 2.1 instead of 21000000.
 TEST_F(TimeLiterals, Assignment6_2p1ms_ScaledPerSpec) {
-  const auto *c = getAssignment(m_design, 6)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 21000000.0, 0.5)
       << "§5.8: 2.1ms / 100ps = 21000000 — Surelog bug: unit ignored, "

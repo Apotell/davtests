@@ -41,7 +41,7 @@
 
 #include <gtest/gtest.h>
 
-namespace hlc { namespace {
+namespace hlc {
 
 // ============================================================================
 // Test fixture — compiles tests/CheckerDeclarationAll/dut.sv once for all
@@ -636,5 +636,9 @@ TEST_F(CheckerDeclTest, C17_ConcurrentAssertion) {
   ASSERT_NE(c17->getConcurrentAssertions(), nullptr);
   EXPECT_EQ(c17->getConcurrentAssertions()->size(), 1u);
 }
+}  // namespace hlc
 
-}}  // namespace hlc
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

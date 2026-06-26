@@ -34,19 +34,19 @@
 //     Net a → RefTypespec → RealTypespec
 //   RealTypespec has no packed dimension ranges (real is a scalar type).
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/real_typespec.h>
-#include <uhdm/ref_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/real_typespec.h>
+#include <hldb/ref_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class RealToken : public Test {
  public:
@@ -67,14 +67,14 @@ class RealToken : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNetA(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNetA(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>("a", m->getNets());
+  return hldb::findByName<hldb::Net>("a", m->getNets());
 }
 
 // ---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ TEST_F(RealToken, ModuleExists) {
 }
 
 TEST_F(RealToken, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u) << "expected 1 net: a";
@@ -97,10 +97,10 @@ TEST_F(RealToken, OneNetExists) {
 // the type.
 // ---------------------------------------------------------------------------
 TEST_F(RealToken, NetA_HasRealTypespec) {
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::RealTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::RealTypespec>(), nullptr)
       << "§5.7.2: 'real a' must produce a RealTypespec, not LogicTypespec "
          "or IntegerTypespec";
 }
@@ -110,10 +110,10 @@ TEST_F(RealToken, NetA_HasRealTypespec) {
 // dimension. Surelog must not attach any typespec other than RealTypespec.
 // ---------------------------------------------------------------------------
 TEST_F(RealToken, NetA_TypespecIsNotLogic) {
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_EQ(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_EQ(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "§5.7.2: 'real' must not be represented as LogicTypespec";
 }
 
@@ -121,7 +121,7 @@ TEST_F(RealToken, NetA_TypespecIsNotLogic) {
 // No initial block — the module only declares 'real a' with no assignments.
 // ---------------------------------------------------------------------------
 TEST_F(RealToken, NoProcesses) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
       << "module has no initial or always blocks";

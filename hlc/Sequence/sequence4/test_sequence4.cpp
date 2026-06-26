@@ -19,21 +19,21 @@
 // Grammar: sequence_expr → sequence_instance boolean_abbrev (consecutive_repetition)
 // maps to Operation with vpiConsecutiveRepeatOp (60), first operand is a RefObj to base_seq.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assert_stmt.h>
-#include <uhdm/concurrent_assertions.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/operation.h>
-#include <uhdm/property_spec.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/sequence_decl.h>
+#include <hldb/Utils.h>
+#include <hldb/assert_stmt.h>
+#include <hldb/concurrent_assertions.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
+#include <hldb/property_spec.h>
+#include <hldb/ref_obj.h>
+#include <hldb/sequence_decl.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Sequence4 : public Test {
  public:
@@ -55,15 +55,15 @@ class Sequence4 : public Test {
 };
 
 TEST_F(Sequence4, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Sequence declarations — both base_seq and seq4 must be present
 // ---------------------------------------------------------------------------
 TEST_F(Sequence4, TwoSequenceDeclarations) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
   EXPECT_GE(tb->getSequenceDecls()->size(), 2u)
@@ -71,13 +71,13 @@ TEST_F(Sequence4, TwoSequenceDeclarations) {
 }
 
 TEST_F(Sequence4, BaseSeqDeclaration) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *baseSeq = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *baseSeq = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "base_seq") { baseSeq = s; break; }
   }
   ASSERT_NE(baseSeq, nullptr) << "sequence 'base_seq' not found in tb";
@@ -85,43 +85,43 @@ TEST_F(Sequence4, BaseSeqDeclaration) {
 }
 
 TEST_F(Sequence4, BaseSeqExprIsRefToA) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *baseSeq = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *baseSeq = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "base_seq") { baseSeq = s; break; }
   }
   ASSERT_NE(baseSeq, nullptr) << "sequence 'base_seq' not found";
 
-  const uhdm::RefObj *const expr = baseSeq->getExpr<uhdm::RefObj>();
+  const hldb::RefObj *const expr = baseSeq->getExpr<hldb::RefObj>();
   ASSERT_NE(expr, nullptr) << "base_seq expression is not a RefObj (expected reference to 'a')";
   EXPECT_EQ(expr->getName(), "a") << "base_seq expression does not reference signal 'a'";
 }
 
 TEST_F(Sequence4, Seq4Declaration) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *seq4 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq4 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq4") { seq4 = s; break; }
   }
   ASSERT_NE(seq4, nullptr) << "sequence 'seq4' not found in tb";
 }
 
 TEST_F(Sequence4, Seq4HasExpression) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *seq4 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq4 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq4") { seq4 = s; break; }
   }
   ASSERT_NE(seq4, nullptr) << "sequence 'seq4' not found";
@@ -129,36 +129,36 @@ TEST_F(Sequence4, Seq4HasExpression) {
 }
 
 TEST_F(Sequence4, Seq4ExprIsConsecutiveRepeat) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *seq4 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq4 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq4") { seq4 = s; break; }
   }
   ASSERT_NE(seq4, nullptr);
 
-  const uhdm::Operation *const expr = seq4->getExpr<uhdm::Operation>();
+  const hldb::Operation *const expr = seq4->getExpr<hldb::Operation>();
   ASSERT_NE(expr, nullptr) << "seq4 expression is not an Operation";
   EXPECT_EQ(expr->getOpType(), vpiConsecutiveRepeatOp)
       << "seq4 op is not vpiConsecutiveRepeatOp (expected base_seq[*3])";
 }
 
 TEST_F(Sequence4, Seq4ExprHasTwoOperands) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *seq4 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq4 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq4") { seq4 = s; break; }
   }
   ASSERT_NE(seq4, nullptr);
 
-  const uhdm::Operation *const expr = seq4->getExpr<uhdm::Operation>();
+  const hldb::Operation *const expr = seq4->getExpr<hldb::Operation>();
   ASSERT_NE(expr, nullptr) << "seq4 expression is not an Operation";
   ASSERT_NE(expr->getOperands(), nullptr) << "seq4 Operation has no operands";
   EXPECT_EQ(expr->getOperands()->size(), 2u)
@@ -166,25 +166,25 @@ TEST_F(Sequence4, Seq4ExprHasTwoOperands) {
 }
 
 TEST_F(Sequence4, Seq4ExprSecondOperandReferencesBaseSeq) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
-  const uhdm::SequenceDecl *seq4 = nullptr;
-  for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+  const hldb::SequenceDecl *seq4 = nullptr;
+  for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
     if (s->getName() == "seq4") { seq4 = s; break; }
   }
   ASSERT_NE(seq4, nullptr);
 
-  const uhdm::Operation *const expr = seq4->getExpr<uhdm::Operation>();
+  const hldb::Operation *const expr = seq4->getExpr<hldb::Operation>();
   ASSERT_NE(expr, nullptr);
   ASSERT_NE(expr->getOperands(), nullptr);
   ASSERT_GE(expr->getOperands()->size(), 2u);
 
   // Operand layout for ConsecutiveRepeatOp: [0] = count, [1] = repeated expr
-  const uhdm::RefObj *const seqOp =
-      any_cast<uhdm::RefObj>((*expr->getOperands())[1]);
+  const hldb::RefObj *const seqOp =
+      any_cast<hldb::RefObj>((*expr->getOperands())[0]);
   ASSERT_NE(seqOp, nullptr)
       << "seq4 second operand is not a RefObj (expected reference to 'base_seq')";
   EXPECT_EQ(seqOp->getName(), "base_seq")
@@ -195,8 +195,8 @@ TEST_F(Sequence4, Seq4ExprSecondOperandReferencesBaseSeq) {
 // No separate property declaration (clocking event is inline in the assert)
 // ---------------------------------------------------------------------------
 TEST_F(Sequence4, NoSeparatePropertyDecl) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const bool hasPropertyDecls =
@@ -209,15 +209,15 @@ TEST_F(Sequence4, NoSeparatePropertyDecl) {
 // Concurrent assertion — assert property(@(posedge clk) seq4)
 // ---------------------------------------------------------------------------
 TEST_F(Sequence4, ConcurrentAssertion) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";
 
-  const uhdm::Assert *found = nullptr;
-  for (const uhdm::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
-    if (const uhdm::Assert *const a = any_cast<uhdm::Assert>(ca)) {
+  const hldb::Assert *found = nullptr;
+  for (const hldb::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
+    if (const hldb::Assert *const a = any_cast<hldb::Assert>(ca)) {
       found = a;
       break;
     }
@@ -226,45 +226,45 @@ TEST_F(Sequence4, ConcurrentAssertion) {
 }
 
 TEST_F(Sequence4, AssertHasInlineClockingEvent) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
-  const uhdm::Assert *found = nullptr;
-  for (const uhdm::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
-    if (const uhdm::Assert *const a = any_cast<uhdm::Assert>(ca)) {
+  const hldb::Assert *found = nullptr;
+  for (const hldb::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
+    if (const hldb::Assert *const a = any_cast<hldb::Assert>(ca)) {
       found = a;
       break;
     }
   }
   ASSERT_NE(found, nullptr);
 
-  const uhdm::PropertySpec *const spec = found->getProperty<uhdm::PropertySpec>();
+  const hldb::PropertySpec *const spec = found->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr) << "Assert has no inline PropertySpec";
   EXPECT_NE(spec->getClockingEvent(), nullptr)
       << "inline assert property has no clocking event (expected @(posedge clk))";
 }
 
 TEST_F(Sequence4, AssertPropertyExprReferencesSeq4) {
-  const uhdm::Module *const tb =
-      uhdm::findByName<uhdm::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb =
+      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
-  const uhdm::Assert *found = nullptr;
-  for (const uhdm::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
-    if (const uhdm::Assert *const a = any_cast<uhdm::Assert>(ca)) {
+  const hldb::Assert *found = nullptr;
+  for (const hldb::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
+    if (const hldb::Assert *const a = any_cast<hldb::Assert>(ca)) {
       found = a;
       break;
     }
   }
   ASSERT_NE(found, nullptr);
 
-  const uhdm::PropertySpec *const spec = found->getProperty<uhdm::PropertySpec>();
+  const hldb::PropertySpec *const spec = found->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr) << "Assert has no inline PropertySpec";
 
-  const uhdm::RefObj *const propExpr = spec->getPropertyExpr<uhdm::RefObj>();
+  const hldb::RefObj *const propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "inline assert property expression is not a RefObj";
   EXPECT_EQ(propExpr->getName(), "seq4")
       << "inline assert property expression does not reference 'seq4'";

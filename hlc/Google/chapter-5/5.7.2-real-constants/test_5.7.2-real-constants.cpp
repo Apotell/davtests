@@ -45,27 +45,27 @@
 //   the value as 0. The spec-correct value is 236.123763e-12 = 2.36123763e-10.
 //   Test AssignmentI_UnderscoresIgnoredPerSpec will FAIL until this is fixed.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/range.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/process_stmt.h>
+#include <hldb/range.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class RealConstants : public Test {
  public:
@@ -86,31 +86,31 @@ class RealConstants : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNetA(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNetA(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>("a", m->getNets());
+  return hldb::findByName<hldb::Net>("a", m->getNets());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::Assignment *getAssignment(const uhdm::Design *d,
+static const hldb::Assignment *getAssignment(const hldb::Design *d,
                                               std::size_t index) {
-  const uhdm::Begin *begin = getBegin(d);
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const uhdm::Assignment *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
 // ---------------------------------------------------------------------------
@@ -121,7 +121,7 @@ TEST_F(RealConstants, ModuleExists) {
 }
 
 TEST_F(RealConstants, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u) << "expected 1 net: a [31:0]";
@@ -133,39 +133,39 @@ TEST_F(RealConstants, OneNetExists) {
 // Verifies the compiler correctly parsed the net declaration.
 // ---------------------------------------------------------------------------
 TEST_F(RealConstants, NetA_HasLogicTypespec) {
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "net 'a' should have a LogicTypespec";
 }
 
 TEST_F(RealConstants, NetA_RangeLeftBoundIs31) {
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *logic = net->getTypespec()->getActual<uhdm::LogicTypespec>();
+  const auto *logic = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(logic, nullptr);
-  const uhdm::RangeCollection *const ranges = logic->getRanges();
+  const hldb::RangeCollection *const ranges = logic->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const uhdm::Constant *const left =
-      ranges->front()->getLeftExpr<uhdm::Constant>();
+  const hldb::Constant *const left =
+      ranges->front()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "31") << "logic [31:0]: left bound is 31";
 }
 
 TEST_F(RealConstants, NetA_RangeRightBoundIs0) {
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *logic = net->getTypespec()->getActual<uhdm::LogicTypespec>();
+  const auto *logic = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(logic, nullptr);
-  const uhdm::RangeCollection *const ranges = logic->getRanges();
+  const hldb::RangeCollection *const ranges = logic->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const uhdm::Constant *const right =
-      ranges->front()->getRightExpr<uhdm::Constant>();
+  const hldb::Constant *const right =
+      ranges->front()->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0") << "logic [31:0]: right bound is 0";
 }
@@ -178,19 +178,19 @@ TEST_F(RealConstants, InitialBlockHasBegin) {
 }
 
 TEST_F(RealConstants, BeginHasNineStatements) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 9u);
 }
 
 TEST_F(RealConstants, AllAssignmentsAreBlocking) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     EXPECT_TRUE(assign->getBlocking())
         << "assignment[" << i << "] should be blocking (=)";
@@ -204,14 +204,14 @@ TEST_F(RealConstants, AllAssignmentsAreBlocking) {
 // ---------------------------------------------------------------------------
 TEST_F(RealConstants, AllRhsAreRealConstType) {
   // §5.7.2: real literal constants → vpiRealConst (2)
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     EXPECT_EQ(c->getConstType(), 2)
         << "stmt[" << i << "]: §5.7.2 requires real type (constType 2)";
@@ -220,14 +220,14 @@ TEST_F(RealConstants, AllRhsAreRealConstType) {
 
 TEST_F(RealConstants, AllRhsHaveSize64) {
   // §5.7.2 + IEEE 754: double-precision = 64 bits
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     EXPECT_EQ(c->getSize(), 64)
         << "stmt[" << i << "]: IEEE 754 double-precision requires 64 bits";
@@ -241,7 +241,7 @@ TEST_F(RealConstants, AllRhsHaveSize64) {
 
 // a = 1.2
 TEST_F(RealConstants, AssignmentA_Value) {
-  const auto *c = getAssignment(m_design, 0)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 0)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 1.2, 1e-10)
       << "§5.7.2 example: 1.2 must evaluate to 1.2";
@@ -249,7 +249,7 @@ TEST_F(RealConstants, AssignmentA_Value) {
 
 // a = 0.1
 TEST_F(RealConstants, AssignmentB_Value) {
-  const auto *c = getAssignment(m_design, 1)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 1)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 0.1, 1e-10)
       << "§5.7.2 example: 0.1 must evaluate to 0.1";
@@ -257,7 +257,7 @@ TEST_F(RealConstants, AssignmentB_Value) {
 
 // a = 2394.26331
 TEST_F(RealConstants, AssignmentC_Value) {
-  const auto *c = getAssignment(m_design, 2)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 2)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 2394.26331, 1e-4)
       << "§5.7.2 example: 2394.26331 must evaluate to 2394.26331";
@@ -265,7 +265,7 @@ TEST_F(RealConstants, AssignmentC_Value) {
 
 // a = 1.2E12 — §5.7.2: exponent symbol can be e or E
 TEST_F(RealConstants, AssignmentD_UpperCaseEValue) {
-  const auto *c = getAssignment(m_design, 3)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 3)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 1.2e12, 1e2)
       << "§5.7.2: uppercase E exponent must evaluate to 1.2e12";
@@ -273,7 +273,7 @@ TEST_F(RealConstants, AssignmentD_UpperCaseEValue) {
 
 // a = 1.30e-2 — §5.7.2: exponent symbol can be e or E
 TEST_F(RealConstants, AssignmentE_LowerCaseEValue) {
-  const auto *c = getAssignment(m_design, 4)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 4)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 0.013, 1e-10)
       << "§5.7.2: lowercase e exponent must evaluate to 0.013";
@@ -281,7 +281,7 @@ TEST_F(RealConstants, AssignmentE_LowerCaseEValue) {
 
 // a = 0.1e-0
 TEST_F(RealConstants, AssignmentF_Value) {
-  const auto *c = getAssignment(m_design, 5)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 5)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 0.1, 1e-10)
       << "§5.7.2: 0.1e-0 must evaluate to 0.1";
@@ -289,7 +289,7 @@ TEST_F(RealConstants, AssignmentF_Value) {
 
 // a = 23E10 — §5.7.2: scientific notation without a decimal point is valid
 TEST_F(RealConstants, AssignmentG_NoDecimalPointValue) {
-  const auto *c = getAssignment(m_design, 6)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 23e10, 1e2)
       << "§5.7.2: 23E10 (no decimal point) must evaluate to 2.3e11";
@@ -297,7 +297,7 @@ TEST_F(RealConstants, AssignmentG_NoDecimalPointValue) {
 
 // a = 29E-2
 TEST_F(RealConstants, AssignmentH_Value) {
-  const auto *c = getAssignment(m_design, 7)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 7)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_NEAR(std::stod(std::string(c->getValue())), 0.29, 1e-10)
       << "§5.7.2: 29E-2 must evaluate to 0.29";
@@ -308,7 +308,7 @@ TEST_F(RealConstants, AssignmentH_Value) {
 // SURELOG BUG: Surelog evaluates this as 0 because the underscore immediately
 // before the exponent disrupts its parser. This test will FAIL until fixed.
 TEST_F(RealConstants, AssignmentI_UnderscoresIgnoredPerSpec) {
-  const auto *c = getAssignment(m_design, 8)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 8)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // Per §5.7.2: underscores in real literals are ignored.
   // 236.123_763_e-12 with underscores stripped = 236.123763e-12 = 2.36123763e-10

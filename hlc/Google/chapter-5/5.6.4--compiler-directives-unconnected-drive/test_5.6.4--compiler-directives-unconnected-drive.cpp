@@ -28,15 +28,15 @@
 // hints with no structural UHDM representation — they produce no nodes
 // beyond the clean empty module.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesUnconnectedDrive : public Test {
  public:
@@ -58,8 +58,8 @@ class CompilerDirectivesUnconnectedDrive : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@ts", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -70,7 +70,7 @@ TEST_F(CompilerDirectivesUnconnectedDrive, ModuleExists) {
 }
 
 TEST_F(CompilerDirectivesUnconnectedDrive, ModuleIsEmpty) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
@@ -80,7 +80,7 @@ TEST_F(CompilerDirectivesUnconnectedDrive, ModuleIsEmpty) {
 // The directives produce no attributes on the module.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesUnconnectedDrive, ModuleHasNoAttributes) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getAttributes() || m->getAttributes()->empty())
       << "`unconnected_drive should not produce attribute nodes";

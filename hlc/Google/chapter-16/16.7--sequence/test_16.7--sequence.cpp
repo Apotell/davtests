@@ -106,28 +106,28 @@
 //       }
 //     }
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/clocked_seq.h>
-#include <uhdm/concurrent_assertions.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/property_spec.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/sequence_decl.h>
-#include <uhdm/sequence_inst.h>
+#include <hldb/Utils.h>
+#include <hldb/clocked_seq.h>
+#include <hldb/concurrent_assertions.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/property_spec.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/sequence_decl.h>
+#include <hldb/sequence_inst.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class NamedSequenceTest : public Test {
  public:
@@ -148,54 +148,54 @@ class NamedSequenceTest : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNet(const uhdm::Design *d, std::string_view name) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>(name, m->getNets());
+  return hldb::findByName<hldb::Net>(name, m->getNets());
 }
 
-static const uhdm::SequenceDecl *getSeqDecl(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::SequenceDecl *getSeqDecl(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   const auto *decls = m->getSequenceDecls();
   if (!decls || decls->empty()) return nullptr;
   return (*decls)[0];
 }
 
-static const uhdm::ClockedSeq *getClockedSeq(const uhdm::Design *d) {
+static const hldb::ClockedSeq *getClockedSeq(const hldb::Design *d) {
   const auto *sd = getSeqDecl(d);
   if (!sd) return nullptr;
-  return sd->getExpr<uhdm::ClockedSeq>();
+  return sd->getExpr<hldb::ClockedSeq>();
 }
 
-static const uhdm::Operation *getClockingEventOp(const uhdm::Design *d) {
+static const hldb::Operation *getClockingEventOp(const hldb::Design *d) {
   const auto *cs = getClockedSeq(d);
   if (!cs) return nullptr;
-  return cs->getClockingEvent<uhdm::Operation>();
+  return cs->getClockingEvent<hldb::Operation>();
 }
 
-static const uhdm::Operation *getSeqExprOp(const uhdm::Design *d) {
+static const hldb::Operation *getSeqExprOp(const hldb::Design *d) {
   const auto *cs = getClockedSeq(d);
   if (!cs) return nullptr;
-  return cs->getSequenceExpr<uhdm::Operation>();
+  return cs->getSequenceExpr<hldb::Operation>();
 }
 
-static const uhdm::ConcurrentAssertions *getAssert(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::ConcurrentAssertions *getAssert(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   const auto *cas = m->getConcurrentAssertions();
   if (!cas || cas->empty()) return nullptr;
   return (*cas)[0];
 }
 
-static const uhdm::PropertySpec *getPropSpec(const uhdm::Design *d) {
+static const hldb::PropertySpec *getPropSpec(const hldb::Design *d) {
   const auto *ca = getAssert(d);
   if (!ca) return nullptr;
-  return ca->getProperty<uhdm::PropertySpec>();
+  return ca->getProperty<hldb::PropertySpec>();
 }
 
 // ---------------------------------------------------------------------------
@@ -208,26 +208,26 @@ TEST_F(NamedSequenceTest, ModuleExists) {
 
 TEST_F(NamedSequenceTest, NetClk_HasLogicTypespec) {
   // SV source: 'logic clk' — §6.3: 4-state 1-bit variable.
-  const uhdm::Net *const net = getNet(m_design, "clk");
+  const hldb::Net *const net = getNet(m_design, "clk");
   ASSERT_NE(net, nullptr) << "net 'clk' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'clk' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic clk' must produce a LogicTypespec";
 }
 
 TEST_F(NamedSequenceTest, NetA_HasLogicTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "a");
+  const hldb::Net *const net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic a' must produce a LogicTypespec";
 }
 
 TEST_F(NamedSequenceTest, NetB_HasLogicTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "b");
+  const hldb::Net *const net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr) << "net 'b' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'b' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic b' must produce a LogicTypespec";
 }
 
@@ -238,7 +238,7 @@ TEST_F(NamedSequenceTest, NetB_HasLogicTypespec) {
 TEST_F(NamedSequenceTest, SeqDecl_Collection_NonNull) {
   // §16.7: a 'sequence … endsequence' declaration at module scope must
   // populate Module::getSequenceDecls().
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_NE(m->getSequenceDecls(), nullptr)
       << "§16.7: 'sequence seq; … endsequence' must populate "
@@ -246,7 +246,7 @@ TEST_F(NamedSequenceTest, SeqDecl_Collection_NonNull) {
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_Collection_HasOneEntry) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getSequenceDecls(), nullptr);
   EXPECT_EQ(m->getSequenceDecls()->size(), 1u)
@@ -284,7 +284,7 @@ TEST_F(NamedSequenceTest, SeqDecl_BodyExpr_IsClockedSeq) {
   // UHDM represents this as a ClockedSeq node.
   const auto *sd = getSeqDecl(m_design);
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(sd->getExpr<uhdm::ClockedSeq>(), nullptr)
+  EXPECT_NE(sd->getExpr<hldb::ClockedSeq>(), nullptr)
       << "§16.7: clocked sequence body '@(posedge clk) …' must be a ClockedSeq";
 }
 
@@ -303,7 +303,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_HasClockingEvent) {
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_IsOperation) {
   const auto *cs = getClockedSeq(m_design);
   ASSERT_NE(cs, nullptr);
-  EXPECT_NE(cs->getClockingEvent<uhdm::Operation>(), nullptr)
+  EXPECT_NE(cs->getClockingEvent<hldb::Operation>(), nullptr)
       << "§16.7: clocking event '@(posedge clk)' must be an Operation node";
 }
 
@@ -331,7 +331,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_OperandIsClk) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref = any_cast<const uhdm::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr)
       << "clocking event operand must be a RefObj";
   EXPECT_EQ(ref->getName(), "clk")
@@ -380,7 +380,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsConstant) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<const uhdm::Constant *>((*op->getOperands())[0]), nullptr)
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[0]), nullptr)
       << "'##1' delay amount must be a Constant node";
 }
 
@@ -390,7 +390,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsOne) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *c = any_cast<const uhdm::Constant *>((*op->getOperands())[0]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "1")
       << "'##1' cycle delay amount must be the constant 1";
@@ -402,7 +402,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *ref = any_cast<const uhdm::RefObj *>((*op->getOperands())[1]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
   ASSERT_NE(ref, nullptr)
       << "'a ##1 b' left operand must be a RefObj";
   EXPECT_EQ(ref->getName(), "a")
@@ -415,7 +415,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_RightSignal_IsRefObjB) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
-  const auto *ref = any_cast<const uhdm::RefObj *>((*op->getOperands())[2]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
   ASSERT_NE(ref, nullptr)
       << "'a ##1 b' right operand must be a RefObj";
   EXPECT_EQ(ref->getName(), "b")
@@ -428,7 +428,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_RightSignal_IsRefObjB) {
 
 TEST_F(NamedSequenceTest, ConcAssert_Collection_NonNull) {
   // §16.7: 'assert property (seq)' must populate getConcurrentAssertions().
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_NE(m->getConcurrentAssertions(), nullptr)
       << "§16.7: 'assert property (seq)' must populate "
@@ -436,7 +436,7 @@ TEST_F(NamedSequenceTest, ConcAssert_Collection_NonNull) {
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_Collection_HasOneEntry) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getConcurrentAssertions(), nullptr);
   EXPECT_EQ(m->getConcurrentAssertions()->size(), 1u)
@@ -473,7 +473,7 @@ TEST_F(NamedSequenceTest, ConcAssert_Property_IsPropertySpec) {
   // §16.7: the property of a concurrent assertion is wrapped in a PropertySpec.
   const auto *ca = getAssert(m_design);
   ASSERT_NE(ca, nullptr);
-  EXPECT_NE(ca->getProperty<uhdm::PropertySpec>(), nullptr)
+  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr)
       << "§16.7: concurrent assertion property must be a PropertySpec";
 }
 
@@ -515,7 +515,7 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_IsSequenceInst) {
   // This test FAILS to document that bug.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<uhdm::SequenceInst>(), nullptr)
+  EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
       << "§16.7: 'assert property (seq)' property expression must be a "
          "SequenceInst; Surelog EL0535: 'seq' is treated as an implicit net "
          "→ RefObj returned instead of SequenceInst";

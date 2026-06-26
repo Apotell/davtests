@@ -32,23 +32,23 @@
 //   - String-valued attributes: getConstType() == 6 (vpiStringConst),
 //     getValue() returns the raw string without surrounding quotes.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/attribute.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/attribute.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class AttributesOperator : public Test {
  public:
@@ -69,16 +69,16 @@ class AttributesOperator : public Test {
   }
 };
 
-static const uhdm::Assignment *getAssignment(const uhdm::Design *design) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", design->getAllModules());
+static const hldb::Assignment *getAssignment(const hldb::Design *design) {
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
-  for (const uhdm::Process *const p : *top->getProcesses()) {
-    if (const uhdm::Initial *const i = any_cast<uhdm::Initial>(p)) {
-      const uhdm::Begin *const blk = i->getStmt<uhdm::Begin>();
+  for (const hldb::Process *const p : *top->getProcesses()) {
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
+      const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
-      for (const uhdm::Any *const s : *blk->getStmts())
-        if (const uhdm::Assignment *const a = any_cast<uhdm::Assignment>(s))
+      for (const hldb::Any *const s : *blk->getStmts())
+        if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s))
           return a;
     }
   }
@@ -86,28 +86,28 @@ static const uhdm::Assignment *getAssignment(const uhdm::Design *design) {
 }
 
 // Helper: get the add-operation RHS from the assignment.
-static const uhdm::Operation *getAddOp(const uhdm::Design *design) {
-  const uhdm::Assignment *const a = getAssignment(design);
+static const hldb::Operation *getAddOp(const hldb::Design *design) {
+  const hldb::Assignment *const a = getAssignment(design);
   if (!a) return nullptr;
-  return a->getRhs<uhdm::Operation>();
+  return a->getRhs<hldb::Operation>();
 }
 
 // ---------------------------------------------------------------------------
 // Module and nets
 // ---------------------------------------------------------------------------
 TEST_F(AttributesOperator, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesOperator, ThreeNetsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 
   bool hasA = false, hasB = false, hasC = false;
-  for (const uhdm::Net *const n : *top->getNets()) {
+  for (const hldb::Net *const n : *top->getNets()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
     if (n->getName() == "c") hasC = true;
@@ -121,9 +121,9 @@ TEST_F(AttributesOperator, ThreeNetsExist) {
 // Assignment: a = b + (* mode = "cla" *) c
 // ---------------------------------------------------------------------------
 TEST_F(AttributesOperator, AssignmentLhsIsA) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::RefObj *const lhs = a->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = a->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "LHS is not a RefObj";
   EXPECT_EQ(lhs->getName(), "a");
 }
@@ -132,36 +132,36 @@ TEST_F(AttributesOperator, AssignmentLhsIsA) {
 // RHS: add Operation
 // ---------------------------------------------------------------------------
 TEST_F(AttributesOperator, RhsIsAddOperation) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr) << "RHS is not an Operation";
   EXPECT_EQ(op->getOpType(), vpiAddOp) << "expected vpiAddOp (24)";
 }
 
 TEST_F(AttributesOperator, AddOperationHasTwoOperands) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 2u);
 }
 
 TEST_F(AttributesOperator, LeftOperandIsB) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const left =
-      any_cast<uhdm::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *const left =
+      any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(left, nullptr) << "operand[0] should be a RefObj";
   EXPECT_EQ(left->getName(), "b");
 }
 
 TEST_F(AttributesOperator, RightOperandIsC) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const right =
-      any_cast<uhdm::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right =
+      any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr) << "operand[1] should be a RefObj";
   EXPECT_EQ(right->getName(), "c");
 }
@@ -170,13 +170,13 @@ TEST_F(AttributesOperator, RightOperandIsC) {
 // (* mode = "cla" *) on the right operand
 // ---------------------------------------------------------------------------
 TEST_F(AttributesOperator, RightOperandHasModeAttribute) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
   // Attribute is on the operand Expr, not on the Operation.
-  const uhdm::RefObj *const right =
-      any_cast<uhdm::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right =
+      any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr);
   ASSERT_NE(right->getAttributes(), nullptr)
       << "right operand 'c' should have attributes";
@@ -185,49 +185,49 @@ TEST_F(AttributesOperator, RightOperandHasModeAttribute) {
 }
 
 TEST_F(AttributesOperator, ModeAttributeIsStringValued) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const right =
-      any_cast<uhdm::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right =
+      any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr);
   ASSERT_NE(right->getAttributes(), nullptr);
   ASSERT_EQ(right->getAttributes()->size(), 1u);
 
-  const uhdm::Attribute *const attr = (*right->getAttributes())[0];
+  const hldb::Attribute *const attr = (*right->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "mode attribute should have a Constant value";
   // vpiStringConst = 6
   EXPECT_EQ(val->getConstType(), 6) << "attribute value should be a string constant";
 }
 
 TEST_F(AttributesOperator, ModeAttributeValueIsCla) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const right =
-      any_cast<uhdm::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right =
+      any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr);
   ASSERT_NE(right->getAttributes(), nullptr);
   ASSERT_EQ(right->getAttributes()->size(), 1u);
 
-  const uhdm::Constant *const val =
-      (*right->getAttributes())[0]->getValue<uhdm::Constant>();
+  const hldb::Constant *const val =
+      (*right->getAttributes())[0]->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   // getValue() returns the raw string without surrounding quotes
   EXPECT_EQ(val->getValue(), "cla");
 }
 
 TEST_F(AttributesOperator, LeftOperandHasNoAttributes) {
-  const uhdm::Operation *const op = getAddOp(m_design);
+  const hldb::Operation *const op = getAddOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const left =
-      any_cast<uhdm::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *const left =
+      any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(left, nullptr);
   EXPECT_TRUE(!left->getAttributes() || left->getAttributes()->empty())
       << "left operand 'b' should have no attributes";

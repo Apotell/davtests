@@ -32,18 +32,18 @@
 //   - `__FILE__ expands to a string constant containing the source filename.
 //   - `__LINE__ expands to the integer constant at the line of the directive.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/sys_func_call.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesDebug : public Test {
  public:
@@ -64,22 +64,22 @@ class CompilerDirectivesDebug : public Test {
   }
 };
 
-static const uhdm::SysFuncCall *getDisplay(const uhdm::Design *d) {
-  const uhdm::Module *const top = uhdm::findByName<uhdm::Module>(
+static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>(
       "work@directives", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
-  for (const uhdm::Process *const p : *top->getProcesses()) {
-    if (const uhdm::Initial *const i = any_cast<uhdm::Initial>(p))
-      return i->getStmt<uhdm::SysFuncCall>();
+  for (const hldb::Process *const p : *top->getProcesses()) {
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p))
+      return i->getStmt<hldb::SysFuncCall>();
   }
   return nullptr;
 }
 
-static const uhdm::Constant *getArg(const uhdm::Design *d, std::size_t idx) {
-  const uhdm::SysFuncCall *const c = getDisplay(d);
+static const hldb::Constant *getArg(const hldb::Design *d, std::size_t idx) {
+  const hldb::SysFuncCall *const c = getDisplay(d);
   if (!c || !c->getArguments() || c->getArguments()->size() <= idx)
     return nullptr;
-  return any_cast<uhdm::Constant>((*c->getArguments())[idx]);
+  return any_cast<hldb::Constant>((*c->getArguments())[idx]);
 }
 
 // ---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ static const uhdm::Constant *getArg(const uhdm::Design *d, std::size_t idx) {
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, ModuleExists) {
   ASSERT_NE(
-      uhdm::findByName<uhdm::Module>("work@directives", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@directives", m_design->getAllModules()),
       nullptr)
       << "module 'work@directives' not found";
 }
@@ -96,7 +96,7 @@ TEST_F(CompilerDirectivesDebug, ModuleExists) {
 // $display with three arguments
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, DisplayCallHasThreeArguments) {
-  const uhdm::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr) << "$display call not found";
   ASSERT_NE(c->getArguments(), nullptr);
   EXPECT_EQ(c->getArguments()->size(), 3u);
@@ -106,14 +106,14 @@ TEST_F(CompilerDirectivesDebug, DisplayCallHasThreeArguments) {
 // Argument 0: format string "At %s @ %d\n"
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, FormatStringIsStringConstant) {
-  const uhdm::Constant *const arg = getArg(m_design, 0);
+  const hldb::Constant *const arg = getArg(m_design, 0);
   ASSERT_NE(arg, nullptr) << "argument 0 not found or not a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(arg->getConstType(), 6);
 }
 
 TEST_F(CompilerDirectivesDebug, FormatStringValue) {
-  const uhdm::Constant *const arg = getArg(m_design, 0);
+  const hldb::Constant *const arg = getArg(m_design, 0);
   ASSERT_NE(arg, nullptr);
   // vpiValue stores the raw escape sequence — literal backslash-n, not a newline.
   EXPECT_EQ(arg->getValue(), "At %s @ %d\\n");
@@ -123,7 +123,7 @@ TEST_F(CompilerDirectivesDebug, FormatStringValue) {
 // Argument 1: `__FILE__ — preprocessor expands to the source file path
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, FileDirectiveIsStringConstant) {
-  const uhdm::Constant *const arg = getArg(m_design, 1);
+  const hldb::Constant *const arg = getArg(m_design, 1);
   ASSERT_NE(arg, nullptr) << "`__FILE__ argument not found or not a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(arg->getConstType(), 6);
@@ -131,7 +131,7 @@ TEST_F(CompilerDirectivesDebug, FileDirectiveIsStringConstant) {
 
 TEST_F(CompilerDirectivesDebug, FileDirectiveContainsSourceFilename) {
   // The full path is installation-dependent; check the basename only.
-  const uhdm::Constant *const arg = getArg(m_design, 1);
+  const hldb::Constant *const arg = getArg(m_design, 1);
   ASSERT_NE(arg, nullptr);
   const std::string_view val = arg->getValue();
   EXPECT_NE(val.find("5.6.4--compiler-directives-debug.sv"), std::string_view::npos)
@@ -143,7 +143,7 @@ TEST_F(CompilerDirectivesDebug, FileDirectiveContainsSourceFilename) {
 // Argument 2: `__LINE__ — preprocessor expands to the integer line number
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, LineDirectiveIsIntegerConstant) {
-  const uhdm::Constant *const arg = getArg(m_design, 2);
+  const hldb::Constant *const arg = getArg(m_design, 2);
   ASSERT_NE(arg, nullptr) << "`__LINE__ argument not found or not a Constant";
   // vpiConstType: unsigned int (9)
   EXPECT_EQ(arg->getConstType(), 9);
@@ -151,7 +151,7 @@ TEST_F(CompilerDirectivesDebug, LineDirectiveIsIntegerConstant) {
 
 TEST_F(CompilerDirectivesDebug, LineDirectiveValueIsSeventeen) {
   // The `__LINE__ directive is on line 17 of the SV source.
-  const uhdm::Constant *const arg = getArg(m_design, 2);
+  const hldb::Constant *const arg = getArg(m_design, 2);
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getValue(), "17");
 }

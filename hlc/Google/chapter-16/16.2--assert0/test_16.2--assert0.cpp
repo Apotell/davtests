@@ -69,25 +69,25 @@
 //     elseStmt = null,              // Rule 4 — no fail action block
 //   }
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/delay_control.h>
-#include <uhdm/design.h>
-#include <uhdm/immediate_assert.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/delay_control.h>
+#include <hldb/design.h>
+#include <hldb/immediate_assert.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class DeferredAssertTest : public Test {
  public:
@@ -108,40 +108,40 @@ class DeferredAssertTest : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNetA(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNetA(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>("a", m->getNets());
+  return hldb::findByName<hldb::Net>("a", m->getNets());
 }
 
-static const uhdm::ImmediateAssert *getAssert(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   // §16.4 Rule 3: module-level 'assert #0' is stored in getAssertions(),
   // NOT in getProcesses(). This differs from procedural assertions (§16.2)
   // which are inside Initial processes.
   const auto *assertions = m->getAssertions();
   if (!assertions || assertions->empty()) return nullptr;
-  return any_cast<const uhdm::ImmediateAssert *>((*assertions)[0]);
+  return any_cast<const hldb::ImmediateAssert *>((*assertions)[0]);
 }
 
-static const uhdm::DelayControl *getDelayControl(const uhdm::Design *d) {
+static const hldb::DelayControl *getDelayControl(const hldb::Design *d) {
   const auto *ia = getAssert(d);
   if (!ia) return nullptr;
   // §16.4 Rule 2: the '#0' is represented as a DelayControl wrapping the
   // assertion expression.
-  return ia->getExpr<uhdm::DelayControl>();
+  return ia->getExpr<hldb::DelayControl>();
 }
 
-static const uhdm::Operation *getOperation(const uhdm::Design *d) {
+static const hldb::Operation *getOperation(const hldb::Design *d) {
   const auto *dc = getDelayControl(d);
   if (!dc) return nullptr;
   // The assertion expression 'a != 0' is the statement inside DelayControl.
-  return dc->getStmt<uhdm::Operation>();
+  return dc->getStmt<hldb::Operation>();
 }
 
 // ---------------------------------------------------------------------------
@@ -153,18 +153,18 @@ TEST_F(DeferredAssertTest, ModuleExists) {
 
 TEST_F(DeferredAssertTest, NetA_HasLogicTypespec) {
   // SV source: 'logic a' — §6.3 declares a 4-state single-bit variable.
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic a' must produce a LogicTypespec";
 }
 
 TEST_F(DeferredAssertTest, NetA_InlineValue_Is1) {
   // SV source: 'logic a = 1' — inline initializer literal 1.
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
-  const auto *c = net->getValue<uhdm::Constant>();
+  const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline initializer value";
   EXPECT_EQ(std::string(c->getValue()), "1")
       << "'logic a = 1' — inline initializer must be 1";
@@ -176,7 +176,7 @@ TEST_F(DeferredAssertTest, NetA_InlineValue_Is1) {
 // assertions may appear directly in module scope as a module_common_item.
 // ---------------------------------------------------------------------------
 TEST_F(DeferredAssertTest, ModuleLevelAssertInAssertionsCollection) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getAssertions(), nullptr)
       << "§16.4 Rule 3: module-level 'assert #0 (...)' must populate "
@@ -187,12 +187,12 @@ TEST_F(DeferredAssertTest, ModuleLevelAssertInAssertionsCollection) {
 }
 
 TEST_F(DeferredAssertTest, AssertionsCollection_FirstIsImmediateAssert) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getAssertions(), nullptr);
   ASSERT_FALSE(m->getAssertions()->empty());
   EXPECT_NE(
-      any_cast<const uhdm::ImmediateAssert *>((*m->getAssertions())[0]),
+      any_cast<const hldb::ImmediateAssert *>((*m->getAssertions())[0]),
       nullptr)
       << "§16.4: first entry in getAssertions() must be an ImmediateAssert";
 }
@@ -204,7 +204,7 @@ TEST_F(DeferredAssertTest, Assert_IsDeferred) {
   // §16.4: the '#0' keyword marks this as a deferred immediate assertion.
   // If Surelog sets isDeferred=false, it has misclassified this as a
   // simple immediate assertion (§16.2), losing deferred timing semantics.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_TRUE(ia->getIsDeferred())
       << "§16.4: 'assert #0 (expr)' must have isDeferred=true; "
@@ -214,7 +214,7 @@ TEST_F(DeferredAssertTest, Assert_IsDeferred) {
 TEST_F(DeferredAssertTest, Assert_IsNotFinal) {
   // §16.4: 'assert #0' evaluates in the Observed region, not the final
   // region. Only 'assert final (expr)' sets isFinal=true.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_FALSE(ia->getIsFinal())
       << "§16.4: 'assert #0 (expr)' must have isFinal=false; "
@@ -230,9 +230,9 @@ TEST_F(DeferredAssertTest, Assert_ExprIsDelayControl) {
   // §16.4: 'assert #0 (expr)' — the '#0' timing control is represented in
   // UHDM as a DelayControl node. getExpr() returns the DelayControl,
   // not the assertion expression directly.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getExpr<uhdm::DelayControl>(), nullptr)
+  EXPECT_NE(ia->getExpr<hldb::DelayControl>(), nullptr)
       << "§16.4: 'assert #0 (expr)' — the '#0' is modelled as a "
          "DelayControl in UHDM; getExpr() must return a DelayControl";
 }
@@ -242,7 +242,7 @@ TEST_F(DeferredAssertTest, Assert_DelayValue_IsZero) {
   // The DelayControl's delay constant must have value "0".
   const auto *dc = getDelayControl(m_design);
   ASSERT_NE(dc, nullptr);
-  const auto *delay = dc->getDelay<uhdm::Constant>();
+  const auto *delay = dc->getDelay<hldb::Constant>();
   ASSERT_NE(delay, nullptr)
       << "§16.4: DelayControl must have a Constant delay node for '#0'";
   EXPECT_EQ(std::string(delay->getValue()), "0")
@@ -258,7 +258,7 @@ TEST_F(DeferredAssertTest, Assert_ExprStmt_IsOperation) {
   // not ImmediateAssert::getExpr() directly.
   const auto *dc = getDelayControl(m_design);
   ASSERT_NE(dc, nullptr);
-  EXPECT_NE(dc->getStmt<uhdm::Operation>(), nullptr)
+  EXPECT_NE(dc->getStmt<hldb::Operation>(), nullptr)
       << "assertion expression 'a != 0' must be an Operation inside "
          "the DelayControl's statement";
 }
@@ -285,7 +285,7 @@ TEST_F(DeferredAssertTest, Assert_LeftOperand_IsRefObj) {
   const auto *op = getOperation(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<const uhdm::RefObj *>((*op->getOperands())[0]), nullptr)
+  EXPECT_NE(any_cast<const hldb::RefObj *>((*op->getOperands())[0]), nullptr)
       << "left operand of 'a != 0' must be a RefObj";
 }
 
@@ -294,7 +294,7 @@ TEST_F(DeferredAssertTest, Assert_LeftOperand_RefersToSignalA) {
   const auto *op = getOperation(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref = any_cast<const uhdm::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a")
       << "left operand of 'a != 0' must reference signal 'a'";
@@ -305,7 +305,7 @@ TEST_F(DeferredAssertTest, Assert_RightOperand_IsConstant) {
   const auto *op = getOperation(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<const uhdm::Constant *>((*op->getOperands())[1]), nullptr)
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[1]), nullptr)
       << "right operand of 'a != 0' must be a Constant";
 }
 
@@ -314,7 +314,7 @@ TEST_F(DeferredAssertTest, Assert_RightOperand_ValueIsZero) {
   const auto *op = getOperation(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c = any_cast<const uhdm::Constant *>((*op->getOperands())[1]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "0")
       << "right operand of 'a != 0' must be the constant 0";
@@ -325,7 +325,7 @@ TEST_F(DeferredAssertTest, Assert_RightOperand_ValueIsZero) {
 // 'assert #0 (a != 0)' has no explicit pass or fail statement.
 // ---------------------------------------------------------------------------
 TEST_F(DeferredAssertTest, Assert_NoPassActionBlock) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_EQ(ia->getStmt(), nullptr)
       << "§16.4: 'assert #0 (a != 0)' has no explicit pass action block — "
@@ -333,7 +333,7 @@ TEST_F(DeferredAssertTest, Assert_NoPassActionBlock) {
 }
 
 TEST_F(DeferredAssertTest, Assert_NoFailActionBlock) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_EQ(ia->getElseStmt(), nullptr)
       << "§16.4: 'assert #0 (a != 0)' has no explicit fail action block — "

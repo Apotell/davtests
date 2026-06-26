@@ -41,22 +41,22 @@
 //   correctly. "one line" has 8 characters so size=64 is the spec-correct
 //   value. All tests below PASS.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/sys_func_call.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringBasics : public Test {
  public:
@@ -77,30 +77,30 @@ class StringBasics : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::SysFuncCall *getDisplayCall(const uhdm::Design *d) {
-  const uhdm::Begin *begin = getBegin(d);
+static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d) {
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts() || begin->getStmts()->empty()) return nullptr;
-  return any_cast<const uhdm::SysFuncCall *>((*begin->getStmts())[0]);
+  return any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[0]);
 }
 
-static const uhdm::Constant *getStringArg(const uhdm::Design *d) {
-  const uhdm::SysFuncCall *call = getDisplayCall(d);
+static const hldb::Constant *getStringArg(const hldb::Design *d) {
+  const hldb::SysFuncCall *call = getDisplayCall(d);
   if (!call || !call->getArguments() || call->getArguments()->empty())
     return nullptr;
-  return any_cast<const uhdm::Constant *>((*call->getArguments())[0]);
+  return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ TEST_F(StringBasics, ModuleExists) {
 }
 
 TEST_F(StringBasics, ModuleHasNoNets) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   // §5.9: the module only contains an initial block — no variable declarations.
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
@@ -126,7 +126,7 @@ TEST_F(StringBasics, InitialBlockHasBegin) {
 }
 
 TEST_F(StringBasics, BeginHasOneStatement) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 1u)
@@ -137,14 +137,14 @@ TEST_F(StringBasics, BeginHasOneStatement) {
 // $display call
 // ---------------------------------------------------------------------------
 TEST_F(StringBasics, StatementIsDisplayCall) {
-  const uhdm::SysFuncCall *const call = getDisplayCall(m_design);
+  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr) << "stmt[0] is not a SysFuncCall";
   EXPECT_EQ(call->getName(), "$display")
       << "system call must be $display";
 }
 
 TEST_F(StringBasics, DisplayCallHasOneArgument) {
-  const uhdm::SysFuncCall *const call = getDisplayCall(m_design);
+  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr) << "$display has no argument list";
   EXPECT_EQ(call->getArguments()->size(), 1u)
@@ -156,7 +156,7 @@ TEST_F(StringBasics, DisplayCallHasOneArgument) {
 // vpiStringConst (6) is the correct const type for all string literals.
 // ---------------------------------------------------------------------------
 TEST_F(StringBasics, Argument_IsStringConstType) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr) << "argument is not a Constant";
   EXPECT_EQ(c->getConstType(), 6)
       << "§5.9: string literal must be vpiStringConst (6)";
@@ -168,7 +168,7 @@ TEST_F(StringBasics, Argument_IsStringConstType) {
 // No escape sequences — Surelog correctly computes the size (64).
 // ---------------------------------------------------------------------------
 TEST_F(StringBasics, Argument_SizeIs64PerSpec) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 64)
       << "§5.9: \"one line\" = 8 characters × 8 bits = 64 bits";
@@ -179,7 +179,7 @@ TEST_F(StringBasics, Argument_SizeIs64PerSpec) {
 // vpiValue returns the raw string content without surrounding double quotes.
 // ---------------------------------------------------------------------------
 TEST_F(StringBasics, Argument_ValueIsOneLine) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "one line")
       << "§5.9: string literal value must be \"one line\"";
@@ -190,10 +190,10 @@ TEST_F(StringBasics, Argument_ValueIsOneLine) {
 // other integral typespec.
 // ---------------------------------------------------------------------------
 TEST_F(StringBasics, Argument_HasStringTypespec) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getTypespec(), nullptr) << "string constant has no typespec";
-  EXPECT_NE(c->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+  EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
       << "§5.9: string literal must have a StringTypespec in UHDM";
 }
 

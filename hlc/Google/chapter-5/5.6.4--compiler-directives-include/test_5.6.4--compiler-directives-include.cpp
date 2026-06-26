@@ -31,16 +31,16 @@
 // SourceFile's vpiIncludes list.  The included file contributes no nodes
 // to the design since /dev/null is empty.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/source_file.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/source_file.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesInclude : public Test {
  public:
@@ -61,7 +61,7 @@ class CompilerDirectivesInclude : public Test {
   }
 };
 
-static const uhdm::SourceFile *getSourceFile(const uhdm::Design *d) {
+static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
   if (!d->getSourceFiles() || d->getSourceFiles()->empty()) return nullptr;
   return (*d->getSourceFiles())[0];
 }
@@ -71,14 +71,14 @@ static const uhdm::SourceFile *getSourceFile(const uhdm::Design *d) {
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesInclude, ModuleExists) {
   ASSERT_NE(
-      uhdm::findByName<uhdm::Module>("work@empty", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules()),
       nullptr)
       << "module 'work@empty' not found";
 }
 
 TEST_F(CompilerDirectivesInclude, ModuleIsEmpty) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
@@ -88,7 +88,7 @@ TEST_F(CompilerDirectivesInclude, ModuleIsEmpty) {
 // `include is recorded as a child SourceFile in vpiIncludes
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesInclude, OneIncludeRecorded) {
-  const uhdm::SourceFile *const sf = getSourceFile(m_design);
+  const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   ASSERT_NE(sf->getIncludes(), nullptr);
   EXPECT_EQ(sf->getIncludes()->size(), 1u)
@@ -99,11 +99,11 @@ TEST_F(CompilerDirectivesInclude, IncludedFileNameContainsNull) {
   // The SV uses `include "/dev/null".  The exact name stored by Surelog is
   // platform-dependent ("/dev/null" on Unix), but it will always contain
   // "null" as part of the path.
-  const uhdm::SourceFile *const sf = getSourceFile(m_design);
+  const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   ASSERT_NE(sf->getIncludes(), nullptr);
   ASSERT_EQ(sf->getIncludes()->size(), 1u);
-  const uhdm::SourceFile *const inc = (*sf->getIncludes())[0];
+  const hldb::SourceFile *const inc = (*sf->getIncludes())[0];
   ASSERT_NE(inc, nullptr);
   const std::string_view name = inc->getName();
   EXPECT_NE(name.find("null"), std::string_view::npos)
@@ -113,11 +113,11 @@ TEST_F(CompilerDirectivesInclude, IncludedFileNameContainsNull) {
 TEST_F(CompilerDirectivesInclude, IncludedFileHasNoNets) {
   // The included file (/dev/null) is empty, so its SourceFile node should
   // carry no nets or other content.
-  const uhdm::SourceFile *const sf = getSourceFile(m_design);
+  const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   ASSERT_NE(sf->getIncludes(), nullptr);
   ASSERT_EQ(sf->getIncludes()->size(), 1u);
-  const uhdm::SourceFile *const inc = (*sf->getIncludes())[0];
+  const hldb::SourceFile *const inc = (*sf->getIncludes())[0];
   ASSERT_NE(inc, nullptr);
   // An empty include contributes no macro definitions.
   EXPECT_TRUE(!inc->getPreprocMacroDefinitions() ||

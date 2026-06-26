@@ -31,16 +31,16 @@
 // Key assertion: `pragma protect / `pragma protect end produce no UHDM nodes
 // of their own; the wire declaration inside the region is compiled as normal.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesPragma : public Test {
  public:
@@ -61,8 +61,8 @@ class CompilerDirectivesPragma : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@ts", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ TEST_F(CompilerDirectivesPragma, ModuleExists) {
 // Net inside the `pragma protect region compiles normally
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPragma, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u)
@@ -84,18 +84,18 @@ TEST_F(CompilerDirectivesPragma, OneNetExists) {
 }
 
 TEST_F(CompilerDirectivesPragma, ProtectedWireNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(uhdm::findByName<uhdm::Net>("protected_wire", m->getNets()),
+  EXPECT_NE(hldb::findByName<hldb::Net>("protected_wire", m->getNets()),
             nullptr)
       << "net 'protected_wire' not found";
 }
 
 TEST_F(CompilerDirectivesPragma, ProtectedWireIsWireType) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  const uhdm::Net *const net =
-      uhdm::findByName<uhdm::Net>("protected_wire", m->getNets());
+  const hldb::Net *const net =
+      hldb::findByName<hldb::Net>("protected_wire", m->getNets());
   ASSERT_NE(net, nullptr);
   // vpiWire = 1
   EXPECT_EQ(net->getNetType(), 1)
@@ -106,7 +106,7 @@ TEST_F(CompilerDirectivesPragma, ProtectedWireIsWireType) {
 // `pragma produces no processes
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPragma, NoProcesses) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
       << "`pragma directives should not produce process nodes";

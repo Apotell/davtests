@@ -21,23 +21,23 @@
 //   integer index key  (1:1)       → TaggedPattern.getTag<Constant>()
 //   default key        (default:0) → TaggedPattern.getTag<RefObj>("default")
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/array_typespec.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/tagged_pattern.h>
-#include <uhdm/typedef_typespec.h>
-#include <uhdm/variable.h>
+#include <hldb/Utils.h>
+#include <hldb/array_typespec.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/tagged_pattern.h>
+#include <hldb/typedef_typespec.h>
+#include <hldb/variable.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class ArraysKeyIndex : public Test {
  public:
@@ -59,11 +59,11 @@ class ArraysKeyIndex : public Test {
 };
 
 // Helper: return Variable "b" from work@top.
-static const uhdm::Variable *getVarB(const uhdm::Design *design) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", design->getAllModules());
+static const hldb::Variable *getVarB(const hldb::Design *design) {
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getVariables()) return nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "b") return v;
   }
   return nullptr;
@@ -73,21 +73,21 @@ static const uhdm::Variable *getVarB(const uhdm::Design *design) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Typedef triple = int [1:3]
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, TypedefTripleExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
-  const uhdm::TypedefTypespec *triple = nullptr;
-  for (const uhdm::Typespec *const ts : *top->getTypespecs()) {
-    if (const uhdm::TypedefTypespec *const tdt = any_cast<uhdm::TypedefTypespec>(ts)) {
+  const hldb::TypedefTypespec *triple = nullptr;
+  for (const hldb::Typespec *const ts : *top->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
       if (tdt->getName() == "triple") { triple = tdt; break; }
     }
   }
@@ -95,43 +95,43 @@ TEST_F(ArraysKeyIndex, TypedefTripleExists) {
 }
 
 TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
-  const uhdm::TypedefTypespec *triple = nullptr;
-  for (const uhdm::Typespec *const ts : *top->getTypespecs()) {
-    if (const uhdm::TypedefTypespec *const tdt = any_cast<uhdm::TypedefTypespec>(ts)) {
+  const hldb::TypedefTypespec *triple = nullptr;
+  for (const hldb::Typespec *const ts : *top->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
       if (tdt->getName() == "triple") { triple = tdt; break; }
     }
   }
   ASSERT_NE(triple, nullptr);
   ASSERT_NE(triple->getTypedefAlias(), nullptr) << "triple has no typedefAlias";
-  EXPECT_NE(any_cast<uhdm::ArrayTypespec>(triple->getTypedefAlias()->getActual()), nullptr)
+  EXPECT_NE(any_cast<hldb::ArrayTypespec>(triple->getTypedefAlias()->getActual()), nullptr)
       << "triple should alias an ArrayTypespec";
 }
 
 TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
-  const uhdm::TypedefTypespec *triple = nullptr;
-  for (const uhdm::Typespec *const ts : *top->getTypespecs()) {
-    if (const uhdm::TypedefTypespec *const tdt = any_cast<uhdm::TypedefTypespec>(ts)) {
+  const hldb::TypedefTypespec *triple = nullptr;
+  for (const hldb::Typespec *const ts : *top->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
       if (tdt->getName() == "triple") { triple = tdt; break; }
     }
   }
   ASSERT_NE(triple, nullptr);
-  const uhdm::ArrayTypespec *const at =
-      any_cast<uhdm::ArrayTypespec>(triple->getTypedefAlias()->getActual());
+  const hldb::ArrayTypespec *const at =
+      any_cast<hldb::ArrayTypespec>(triple->getTypedefAlias()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr) << "triple ArrayTypespec has no range";
 
-  const uhdm::Constant *const left  = at->getRange()->getLeftExpr<uhdm::Constant>();
-  const uhdm::Constant *const right = at->getRange()->getRightExpr<uhdm::Constant>();
+  const hldb::Constant *const left  = at->getRange()->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const right = at->getRange()->getRightExpr<hldb::Constant>();
   ASSERT_NE(left,  nullptr) << "range left bound is not a Constant";
   ASSERT_NE(right, nullptr) << "range right bound is not a Constant";
   EXPECT_EQ(left->getDecompile(),  "1") << "range left should be 1";
@@ -146,12 +146,12 @@ TEST_F(ArraysKeyIndex, VariableBExists) {
 }
 
 TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {
-  const uhdm::Variable *const b = getVarB(m_design);
+  const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getTypespec(), nullptr) << "variable 'b' has no typespec";
 
-  const uhdm::TypedefTypespec *const tdt =
-      any_cast<uhdm::TypedefTypespec>(b->getTypespec()->getActual());
+  const hldb::TypedefTypespec *const tdt =
+      any_cast<hldb::TypedefTypespec>(b->getTypespec()->getActual());
   ASSERT_NE(tdt, nullptr) << "variable 'b' typespec does not resolve to a TypedefTypespec";
   EXPECT_EQ(tdt->getName(), "triple");
 }
@@ -160,17 +160,17 @@ TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {
 // Initializer: '{1:1, default:0}
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, InitializerIsAssignPatternWithTwoTaggedPatterns) {
-  const uhdm::Variable *const b = getVarB(m_design);
+  const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
 
-  const uhdm::Operation *const val = b->getValue<uhdm::Operation>();
+  const hldb::Operation *const val = b->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr) << "variable 'b' value is not an Operation";
   EXPECT_EQ(val->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(val->getOperands(), nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u) << "expected 2 key-value pairs";
 
   for (size_t i = 0; i < 2u; ++i) {
-    EXPECT_NE(any_cast<uhdm::TaggedPattern>((*val->getOperands())[i]), nullptr)
+    EXPECT_NE(any_cast<hldb::TaggedPattern>((*val->getOperands())[i]), nullptr)
         << "operand [" << i << "] should be a TaggedPattern";
   }
 }
@@ -179,36 +179,36 @@ TEST_F(ArraysKeyIndex, InitializerIsAssignPatternWithTwoTaggedPatterns) {
 // First TaggedPattern: 1:1 — integer index key
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, FirstTagIsIntegerConstant) {
-  const uhdm::Variable *const b = getVarB(m_design);
+  const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
 
-  const uhdm::Operation *const val = b->getValue<uhdm::Operation>();
+  const hldb::Operation *const val = b->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const uhdm::TaggedPattern *const tp0 =
-      any_cast<uhdm::TaggedPattern>((*val->getOperands())[0]);
+  const hldb::TaggedPattern *const tp0 =
+      any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
   ASSERT_NE(tp0, nullptr);
 
   // Array index key 1 → tag is a Constant, not a RefObj or RefTypespec
-  const uhdm::Constant *const tag = tp0->getTag<uhdm::Constant>();
+  const hldb::Constant *const tag = tp0->getTag<hldb::Constant>();
   ASSERT_NE(tag, nullptr) << "first tag should be a Constant (integer index key '1')";
   EXPECT_EQ(tag->getDecompile(), "1") << "first index key should be 1";
 }
 
 TEST_F(ArraysKeyIndex, FirstPatternValueIsOne) {
-  const uhdm::Variable *const b = getVarB(m_design);
+  const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
 
-  const uhdm::Operation *const val = b->getValue<uhdm::Operation>();
+  const hldb::Operation *const val = b->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const uhdm::TaggedPattern *const tp0 =
-      any_cast<uhdm::TaggedPattern>((*val->getOperands())[0]);
+  const hldb::TaggedPattern *const tp0 =
+      any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
   ASSERT_NE(tp0, nullptr);
 
-  const uhdm::Constant *const pattern = tp0->getPattern<uhdm::Constant>();
+  const hldb::Constant *const pattern = tp0->getPattern<hldb::Constant>();
   ASSERT_NE(pattern, nullptr) << "first pattern value should be a Constant";
   EXPECT_EQ(pattern->getDecompile(), "1") << "first pattern value should be 1";
 }
@@ -217,36 +217,36 @@ TEST_F(ArraysKeyIndex, FirstPatternValueIsOne) {
 // Second TaggedPattern: default:0 — default key
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, SecondTagIsDefaultRefObj) {
-  const uhdm::Variable *const b = getVarB(m_design);
+  const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
 
-  const uhdm::Operation *const val = b->getValue<uhdm::Operation>();
+  const hldb::Operation *const val = b->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const uhdm::TaggedPattern *const tp1 =
-      any_cast<uhdm::TaggedPattern>((*val->getOperands())[1]);
+  const hldb::TaggedPattern *const tp1 =
+      any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
   ASSERT_NE(tp1, nullptr);
 
   // default key → tag is a RefObj named "default"
-  const uhdm::RefObj *const tag = tp1->getTag<uhdm::RefObj>();
+  const hldb::RefObj *const tag = tp1->getTag<hldb::RefObj>();
   ASSERT_NE(tag, nullptr) << "second tag should be a RefObj (the 'default' keyword)";
   EXPECT_EQ(tag->getName(), "default");
 }
 
 TEST_F(ArraysKeyIndex, SecondPatternValueIsZero) {
-  const uhdm::Variable *const b = getVarB(m_design);
+  const hldb::Variable *const b = getVarB(m_design);
   ASSERT_NE(b, nullptr);
 
-  const uhdm::Operation *const val = b->getValue<uhdm::Operation>();
+  const hldb::Operation *const val = b->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const uhdm::TaggedPattern *const tp1 =
-      any_cast<uhdm::TaggedPattern>((*val->getOperands())[1]);
+  const hldb::TaggedPattern *const tp1 =
+      any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
   ASSERT_NE(tp1, nullptr);
 
-  const uhdm::Constant *const pattern = tp1->getPattern<uhdm::Constant>();
+  const hldb::Constant *const pattern = tp1->getPattern<hldb::Constant>();
   ASSERT_NE(pattern, nullptr) << "second pattern value should be a Constant";
   EXPECT_EQ(pattern->getDecompile(), "0") << "default pattern value should be 0";
 }

@@ -26,18 +26,18 @@
 // Notable difference from the builtin-methods tests: the SysFuncCall is the
 // direct statement of the Initial block, not wrapped in a Begin.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/sys_func_call.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class SystemFunctions : public Test {
  public:
@@ -58,13 +58,13 @@ class SystemFunctions : public Test {
   }
 };
 
-static const uhdm::SysFuncCall *getDisplay(const uhdm::Design *d) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@systemfn", d->getAllModules());
+static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@systemfn", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
-  for (const uhdm::Process *const p : *top->getProcesses()) {
-    if (const uhdm::Initial *const i = any_cast<uhdm::Initial>(p))
-      return i->getStmt<uhdm::SysFuncCall>();
+  for (const hldb::Process *const p : *top->getProcesses()) {
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p))
+      return i->getStmt<hldb::SysFuncCall>();
   }
   return nullptr;
 }
@@ -74,7 +74,7 @@ static const uhdm::SysFuncCall *getDisplay(const uhdm::Design *d) {
 // ---------------------------------------------------------------------------
 TEST_F(SystemFunctions, ModuleExists) {
   ASSERT_NE(
-      uhdm::findByName<uhdm::Module>("work@systemfn", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@systemfn", m_design->getAllModules()),
       nullptr)
       << "module 'work@systemfn' not found";
 }
@@ -88,39 +88,39 @@ TEST_F(SystemFunctions, InitialHasDisplayCall) {
 }
 
 TEST_F(SystemFunctions, DisplayCallName) {
-  const uhdm::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getName(), "$display");
 }
 
 TEST_F(SystemFunctions, DisplayCallHasOneArgument) {
-  const uhdm::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   EXPECT_EQ(c->getArguments()->size(), 1u);
 }
 
 TEST_F(SystemFunctions, ArgumentIsStringConstant) {
-  const uhdm::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
 
-  const uhdm::Constant *const arg =
-      any_cast<uhdm::Constant>((*c->getArguments())[0]);
+  const hldb::Constant *const arg =
+      any_cast<hldb::Constant>((*c->getArguments())[0]);
   ASSERT_NE(arg, nullptr) << "argument should be a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(arg->getConstType(), 6) << "argument should have string const type";
 }
 
 TEST_F(SystemFunctions, ArgumentValueIsHelloWorld) {
-  const uhdm::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
 
-  const uhdm::Constant *const arg =
-      any_cast<uhdm::Constant>((*c->getArguments())[0]);
+  const hldb::Constant *const arg =
+      any_cast<hldb::Constant>((*c->getArguments())[0]);
   ASSERT_NE(arg, nullptr);
   // getValue() returns the raw string without surrounding quotes
   EXPECT_EQ(arg->getValue(), "hello world");

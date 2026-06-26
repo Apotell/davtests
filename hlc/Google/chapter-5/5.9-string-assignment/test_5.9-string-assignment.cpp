@@ -46,28 +46,28 @@
 //   The LHS nets carry their declared typespecs (ByteTypespec, BitTypespec,
 //   LogicTypespec), which Surelog correctly distinguishes.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/bit_typespec.h>
-#include <uhdm/byte_typespec.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/range.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/bit_typespec.h>
+#include <hldb/byte_typespec.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/process_stmt.h>
+#include <hldb/range.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringAssignment : public Test {
  public:
@@ -88,31 +88,31 @@ class StringAssignment : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNet(const uhdm::Design *d, std::string_view name) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>(name, m->getNets());
+  return hldb::findByName<hldb::Net>(name, m->getNets());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::Assignment *getAssignment(const uhdm::Design *d,
+static const hldb::Assignment *getAssignment(const hldb::Design *d,
                                               std::size_t index) {
-  const uhdm::Begin *begin = getBegin(d);
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const uhdm::Assignment *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
 // ---------------------------------------------------------------------------
@@ -123,7 +123,7 @@ TEST_F(StringAssignment, ModuleExists) {
 }
 
 TEST_F(StringAssignment, ThreeNetsExist) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 3u) << "expected 3 nets: a (byte), b (bit), c (logic)";
@@ -134,26 +134,26 @@ TEST_F(StringAssignment, ThreeNetsExist) {
 // byte → ByteTypespec, bit [7:0] → BitTypespec, logic [7:0] → LogicTypespec.
 // ---------------------------------------------------------------------------
 TEST_F(StringAssignment, NetA_HasByteTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "a");
+  const hldb::Net *const net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::ByteTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::ByteTypespec>(), nullptr)
       << "§5.9: 'byte a' must produce a ByteTypespec";
 }
 
 TEST_F(StringAssignment, NetB_HasBitTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "b");
+  const hldb::Net *const net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'b' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::BitTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "§5.9: 'bit [7:0] b' must produce a BitTypespec";
 }
 
 TEST_F(StringAssignment, NetC_HasLogicTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "c");
+  const hldb::Net *const net = getNet(m_design, "c");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'c' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "§5.9: 'logic [7:0] c' must produce a LogicTypespec";
 }
 
@@ -163,10 +163,10 @@ TEST_F(StringAssignment, NetC_HasLogicTypespec) {
 // This distinguishes 'byte a' from 'bit signed [7:0] a'.
 // ---------------------------------------------------------------------------
 TEST_F(StringAssignment, NetA_ByteTypespec_HasNoExplicitRange) {
-  const uhdm::Net *const net = getNet(m_design, "a");
+  const hldb::Net *const net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *bt = net->getTypespec()->getActual<uhdm::ByteTypespec>();
+  const auto *bt = net->getTypespec()->getActual<hldb::ByteTypespec>();
   ASSERT_NE(bt, nullptr);
   EXPECT_TRUE(!bt->getRanges() || bt->getRanges()->empty())
       << "§5.9: 'byte' is an implicit 8-bit keyword type with no explicit "
@@ -178,29 +178,29 @@ TEST_F(StringAssignment, NetA_ByteTypespec_HasNoExplicitRange) {
 // a [7:0] range.
 // ---------------------------------------------------------------------------
 TEST_F(StringAssignment, NetB_RangeLeftIs7) {
-  const uhdm::Net *const net = getNet(m_design, "b");
+  const hldb::Net *const net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *bt = net->getTypespec()->getActual<uhdm::BitTypespec>();
+  const auto *bt = net->getTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
-  const uhdm::RangeCollection *const ranges = bt->getRanges();
+  const hldb::RangeCollection *const ranges = bt->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const auto *left = ranges->front()->getLeftExpr<uhdm::Constant>();
+  const auto *left = ranges->front()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "7") << "bit [7:0]: left bound must be 7";
 }
 
 TEST_F(StringAssignment, NetB_RangeRightIs0) {
-  const uhdm::Net *const net = getNet(m_design, "b");
+  const hldb::Net *const net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *bt = net->getTypespec()->getActual<uhdm::BitTypespec>();
+  const auto *bt = net->getTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
-  const uhdm::RangeCollection *const ranges = bt->getRanges();
+  const hldb::RangeCollection *const ranges = bt->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const auto *right = ranges->front()->getRightExpr<uhdm::Constant>();
+  const auto *right = ranges->front()->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0") << "bit [7:0]: right bound must be 0";
 }
@@ -210,29 +210,29 @@ TEST_F(StringAssignment, NetB_RangeRightIs0) {
 // carry a [7:0] range.
 // ---------------------------------------------------------------------------
 TEST_F(StringAssignment, NetC_RangeLeftIs7) {
-  const uhdm::Net *const net = getNet(m_design, "c");
+  const hldb::Net *const net = getNet(m_design, "c");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *lt = net->getTypespec()->getActual<uhdm::LogicTypespec>();
+  const auto *lt = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lt, nullptr);
-  const uhdm::RangeCollection *const ranges = lt->getRanges();
+  const hldb::RangeCollection *const ranges = lt->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const auto *left = ranges->front()->getLeftExpr<uhdm::Constant>();
+  const auto *left = ranges->front()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "7") << "logic [7:0]: left bound must be 7";
 }
 
 TEST_F(StringAssignment, NetC_RangeRightIs0) {
-  const uhdm::Net *const net = getNet(m_design, "c");
+  const hldb::Net *const net = getNet(m_design, "c");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  const auto *lt = net->getTypespec()->getActual<uhdm::LogicTypespec>();
+  const auto *lt = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lt, nullptr);
-  const uhdm::RangeCollection *const ranges = lt->getRanges();
+  const hldb::RangeCollection *const ranges = lt->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const auto *right = ranges->front()->getRightExpr<uhdm::Constant>();
+  const auto *right = ranges->front()->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0") << "logic [7:0]: right bound must be 0";
 }
@@ -245,7 +245,7 @@ TEST_F(StringAssignment, InitialBlockHasBegin) {
 }
 
 TEST_F(StringAssignment, BeginHasThreeStatements) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 3u)
@@ -253,12 +253,12 @@ TEST_F(StringAssignment, BeginHasThreeStatements) {
 }
 
 TEST_F(StringAssignment, AllAssignmentsAreBlocking) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     EXPECT_TRUE(assign->getBlocking())
         << "assignment[" << i << "] should be blocking (=)";
@@ -273,7 +273,7 @@ TEST_F(StringAssignment, AllRhsAreStringConstType) {
   for (std::size_t i = 0; i < 3; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     EXPECT_EQ(c->getConstType(), 6)
         << "stmt[" << i << "]: §5.9 string literal must be vpiStringConst (6)";
@@ -286,7 +286,7 @@ TEST_F(StringAssignment, AllRhsHaveSize8) {
   for (std::size_t i = 0; i < 3; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     EXPECT_EQ(c->getSize(), 8)
         << "stmt[" << i << "]: §5.9: 1-character string = 8 bits";
@@ -297,11 +297,11 @@ TEST_F(StringAssignment, AllRhsHaveStringTypespec) {
   for (std::size_t i = 0; i < 3; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
-    const auto *c = assign->getRhs<uhdm::Constant>();
+    const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     ASSERT_NE(c->getTypespec(), nullptr)
         << "stmt[" << i << "] RHS has no typespec";
-    EXPECT_NE(c->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+    EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
         << "stmt[" << i << "]: §5.9 string literal must have StringTypespec";
   }
 }
@@ -311,21 +311,21 @@ TEST_F(StringAssignment, AllRhsHaveStringTypespec) {
 // Each string literal carries the source character as its value.
 // ---------------------------------------------------------------------------
 TEST_F(StringAssignment, AssignmentA_ValueIsCharA) {
-  const auto *c = getAssignment(m_design, 0)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 0)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "a")
       << "§5.9: a = \"a\" — string constant value must be \"a\"";
 }
 
 TEST_F(StringAssignment, AssignmentB_ValueIsCharB) {
-  const auto *c = getAssignment(m_design, 1)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 1)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "b")
       << "§5.9: b = \"b\" — string constant value must be \"b\"";
 }
 
 TEST_F(StringAssignment, AssignmentC_ValueIsCharC) {
-  const auto *c = getAssignment(m_design, 2)->getRhs<uhdm::Constant>();
+  const auto *c = getAssignment(m_design, 2)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "c")
       << "§5.9: c = \"c\" — string constant value must be \"c\"";

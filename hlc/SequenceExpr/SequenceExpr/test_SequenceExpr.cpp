@@ -37,7 +37,7 @@
 
 #include <filesystem>
 
-namespace hlc { namespace {
+namespace hlc {
 
 // ============================================================================
 // Test fixture — compiles tests/SequenceExpr/dut.sv once for all test cases.
@@ -762,5 +762,9 @@ TEST_F(SequenceExprTest, Combo_LeadingInstRep_IsUnaryCycleDelay) {
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp);
 }
+}  // namespace hlc
 
-}}  // namespace hlc
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

@@ -27,15 +27,15 @@
 // Comments leave no trace in the UHDM tree; this test verifies compilation
 // succeeds and the resulting module is empty.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Coments : public Test {
  public:
@@ -59,28 +59,28 @@ class Coments : public Test {
 TEST_F(Coments, ModuleExists) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   ASSERT_EQ(m_design->getAllModules()->size(), 1u);
-  EXPECT_NE(uhdm::findByName<uhdm::Module>("work@empty", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Coments, ModuleHasNoNets) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
       << "empty module should have no nets";
 }
 
 TEST_F(Coments, ModuleHasNoProcesses) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
       << "empty module should have no processes";
 }
 
 TEST_F(Coments, ModuleHasNoAttributes) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getAttributes() || m->getAttributes()->empty())
       << "empty module should have no attributes";

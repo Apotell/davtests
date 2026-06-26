@@ -28,15 +28,15 @@
 // UHDM structure:
 //   Module name:work@directives  — one empty module, no nets, no processes
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesDebugLine : public Test {
  public:
@@ -58,8 +58,8 @@ class CompilerDirectivesDebugLine : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@directives", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@directives", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -71,14 +71,14 @@ TEST_F(CompilerDirectivesDebugLine, ModuleExists) {
 }
 
 TEST_F(CompilerDirectivesDebugLine, NoNets) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
       << "`line directive should produce no net declarations";
 }
 
 TEST_F(CompilerDirectivesDebugLine, NoProcesses) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
       << "`line directive should produce no processes";

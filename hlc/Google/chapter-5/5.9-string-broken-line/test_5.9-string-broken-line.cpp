@@ -45,24 +45,24 @@
 //   The two size and value tests below (Argument_SizePerSpec,
 //   Argument_ValuePerSpec) FAIL until Surelog implements §5.9 line continuation.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/sys_func_call.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringBrokenLine : public Test {
  public:
@@ -83,30 +83,30 @@ class StringBrokenLine : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::SysFuncCall *getDisplayCall(const uhdm::Design *d) {
-  const uhdm::Begin *begin = getBegin(d);
+static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d) {
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts() || begin->getStmts()->empty()) return nullptr;
-  return any_cast<const uhdm::SysFuncCall *>((*begin->getStmts())[0]);
+  return any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[0]);
 }
 
-static const uhdm::Constant *getStringArg(const uhdm::Design *d) {
-  const uhdm::SysFuncCall *call = getDisplayCall(d);
+static const hldb::Constant *getStringArg(const hldb::Design *d) {
+  const hldb::SysFuncCall *call = getDisplayCall(d);
   if (!call || !call->getArguments() || call->getArguments()->empty())
     return nullptr;
-  return any_cast<const uhdm::Constant *>((*call->getArguments())[0]);
+  return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
@@ -117,7 +117,7 @@ TEST_F(StringBrokenLine, ModuleExists) {
 }
 
 TEST_F(StringBrokenLine, ModuleHasNoNets) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
       << "module top has no net declarations";
@@ -131,7 +131,7 @@ TEST_F(StringBrokenLine, InitialBlockHasBegin) {
 }
 
 TEST_F(StringBrokenLine, BeginHasOneStatement) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 1u)
@@ -142,14 +142,14 @@ TEST_F(StringBrokenLine, BeginHasOneStatement) {
 // $display call
 // ---------------------------------------------------------------------------
 TEST_F(StringBrokenLine, StatementIsDisplayCall) {
-  const uhdm::SysFuncCall *const call = getDisplayCall(m_design);
+  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr) << "stmt[0] is not a SysFuncCall";
   EXPECT_EQ(call->getName(), "$display")
       << "system call must be $display";
 }
 
 TEST_F(StringBrokenLine, DisplayCallHasOneArgument) {
-  const uhdm::SysFuncCall *const call = getDisplayCall(m_design);
+  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr) << "$display has no argument list";
   EXPECT_EQ(call->getArguments()->size(), 1u)
@@ -161,17 +161,17 @@ TEST_F(StringBrokenLine, DisplayCallHasOneArgument) {
 // whether Surelog handles line continuation correctly.
 // ---------------------------------------------------------------------------
 TEST_F(StringBrokenLine, Argument_IsStringConstType) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr) << "argument is not a Constant";
   EXPECT_EQ(c->getConstType(), 6)
       << "§5.9: string literal must be vpiStringConst (6)";
 }
 
 TEST_F(StringBrokenLine, Argument_HasStringTypespec) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getTypespec(), nullptr) << "string constant has no typespec";
-  EXPECT_NE(c->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+  EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
       << "§5.9: string literal must have a StringTypespec in UHDM";
 }
 
@@ -189,7 +189,7 @@ TEST_F(StringBrokenLine, Argument_HasStringTypespec) {
 // 27-character string (7 + 1 + 1 + 18 = 27 chars = 216 bits).
 // ---------------------------------------------------------------------------
 TEST_F(StringBrokenLine, Argument_SizePerSpec) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   // §5.9: "broken " (7) + 14 spaces + "line" (4) = 25 chars = 200 bits.
   EXPECT_EQ(c->getSize(), 200)
@@ -199,7 +199,7 @@ TEST_F(StringBrokenLine, Argument_SizePerSpec) {
 }
 
 TEST_F(StringBrokenLine, Argument_ValuePerSpec) {
-  const uhdm::Constant *const c = getStringArg(m_design);
+  const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   // §5.9: "broken " + 14 spaces of continuation indent + "line".
   // The backslash and the newline are removed by the line-continuation rule.

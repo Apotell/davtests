@@ -40,23 +40,23 @@
 //
 // All 4 assignments are blocking (=, not <=).
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class IntegersSigned : public Test {
  public:
@@ -77,25 +77,25 @@ class IntegersSigned : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::Assignment *getAssignment(const uhdm::Design *d,
+static const hldb::Assignment *getAssignment(const hldb::Design *d,
                                               std::size_t index) {
-  const uhdm::Begin *begin = getBegin(d);
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const uhdm::Assignment *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
 // ---------------------------------------------------------------------------
@@ -106,7 +106,7 @@ TEST_F(IntegersSigned, ModuleExists) {
 }
 
 TEST_F(IntegersSigned, FourNetsExist) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 4u)
@@ -121,19 +121,19 @@ TEST_F(IntegersSigned, InitialBlockHasBegin) {
 }
 
 TEST_F(IntegersSigned, BeginHasFourStatements) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 4u);
 }
 
 TEST_F(IntegersSigned, AllAssignmentsAreBlocking) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     EXPECT_TRUE(assign->getBlocking())
         << "assignment[" << i << "] should be blocking (=)";
@@ -145,17 +145,17 @@ TEST_F(IntegersSigned, AllAssignmentsAreBlocking) {
 // Negated decimal: RHS is Operation (minus), operand is Constant 8'd6.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSigned, AssignmentA_RhsIsOperation) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 0);
+  const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
-  const auto *op = assign->getRhs<uhdm::Operation>();
+  const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr)
       << "RHS of 'a = -8'd6' should be an Operation (unary minus)";
 }
 
 TEST_F(IntegersSigned, AssignmentA_OperationTypeIsMinus) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 0);
+  const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
-  const auto *op = assign->getRhs<uhdm::Operation>();
+  const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   // vpiMinusOp == 1
   EXPECT_EQ(op->getOpType(), 1)
@@ -163,13 +163,13 @@ TEST_F(IntegersSigned, AssignmentA_OperationTypeIsMinus) {
 }
 
 TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 0);
+  const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
-  const auto *op = assign->getRhs<uhdm::Operation>();
+  const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 1u);
-  const auto *c = any_cast<const uhdm::Constant *>((*op->getOperands())[0]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
   // vpiDecConst == 1
   EXPECT_EQ(c->getConstType(), 1)
@@ -184,17 +184,17 @@ TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
 // The 's' qualifier is reflected in the typespec, not the constType.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSigned, AssignmentB_RhsIsConstant) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr)
       << "RHS of 'b = 4'shf' should be a Constant (no unary minus)";
 }
 
 TEST_F(IntegersSigned, AssignmentB_ConstTypeIsHex) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // vpiHexConst == 5; 's' qualifier does not change constType
   EXPECT_EQ(c->getConstType(), 5)
@@ -202,18 +202,18 @@ TEST_F(IntegersSigned, AssignmentB_ConstTypeIsHex) {
 }
 
 TEST_F(IntegersSigned, AssignmentB_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 4);
   EXPECT_EQ(c->getDecompile(), "4'shf");
 }
 
 TEST_F(IntegersSigned, AssignmentB_getValue) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "f");
 }
@@ -223,22 +223,22 @@ TEST_F(IntegersSigned, AssignmentB_getValue) {
 // Negated signed decimal: RHS is Operation (minus), operand is 4'sd15.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSigned, AssignmentC_RhsIsOperation) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 2);
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  const auto *op = assign->getRhs<uhdm::Operation>();
+  const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr)
       << "RHS of 'c = -4'sd15' should be an Operation (unary minus)";
   EXPECT_EQ(op->getOpType(), 1);
 }
 
 TEST_F(IntegersSigned, AssignmentC_OperandIsSignedDecimalConstant) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 2);
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  const auto *op = assign->getRhs<uhdm::Operation>();
+  const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 1u);
-  const auto *c = any_cast<const uhdm::Constant *>((*op->getOperands())[0]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 1)
       << "operand of -4'sd15 should be a decimal constant";
@@ -252,26 +252,26 @@ TEST_F(IntegersSigned, AssignmentC_OperandIsSignedDecimalConstant) {
 // RHS is Constant directly; getValue() returns "?".
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSigned, AssignmentD_RhsIsConstant) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr)
       << "RHS of 'd = 16'sd?' should be a Constant";
 }
 
 TEST_F(IntegersSigned, AssignmentD_ConstTypeIsDecimal) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 1)
       << "16'sd?: constType should be decimal (1)";
 }
 
 TEST_F(IntegersSigned, AssignmentD_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 16);
   EXPECT_EQ(c->getDecompile(), "16'sd?");
@@ -279,9 +279,9 @@ TEST_F(IntegersSigned, AssignmentD_SizeAndDecompile) {
 
 TEST_F(IntegersSigned, AssignmentD_getValue) {
   // 16'sd? stores the raw '?' character (SV shorthand for all-Z)
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "?");
 }

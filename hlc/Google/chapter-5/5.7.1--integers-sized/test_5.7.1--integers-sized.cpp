@@ -37,22 +37,22 @@
 // Notable: uppercase base letter '5'D3' → constType decimal (1), decompile
 // preserves the original capitalisation "5'D3".
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class IntegersSized : public Test {
  public:
@@ -73,25 +73,25 @@ class IntegersSized : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::Assignment *getAssignment(const uhdm::Design *d,
+static const hldb::Assignment *getAssignment(const hldb::Design *d,
                                               std::size_t index) {
-  const uhdm::Begin *begin = getBegin(d);
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const uhdm::Assignment *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
 // ---------------------------------------------------------------------------
@@ -102,7 +102,7 @@ TEST_F(IntegersSized, ModuleExists) {
 }
 
 TEST_F(IntegersSized, FiveNetsExist) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 5u)
@@ -117,19 +117,19 @@ TEST_F(IntegersSized, InitialBlockHasBegin) {
 }
 
 TEST_F(IntegersSized, BeginHasFiveStatements) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 5u);
 }
 
 TEST_F(IntegersSized, AllAssignmentsAreBlocking) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *assign =
-        any_cast<const uhdm::Assignment *>((*begin->getStmts())[i]);
+        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     EXPECT_TRUE(assign->getBlocking())
         << "assignment[" << i << "] should be blocking (=)";
@@ -140,26 +140,26 @@ TEST_F(IntegersSized, AllAssignmentsAreBlocking) {
 // a = 4'b1001  — 4-bit binary constant
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSized, AssignmentA_ConstType) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 0);
+  const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 3) << "4'b1001: constType should be binary (3)";
 }
 
 TEST_F(IntegersSized, AssignmentA_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 0);
+  const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 4);
   EXPECT_EQ(c->getDecompile(), "4'b1001");
 }
 
 TEST_F(IntegersSized, AssignmentA_getValue) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 0);
+  const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "1001");
 }
@@ -168,18 +168,18 @@ TEST_F(IntegersSized, AssignmentA_getValue) {
 // b = 5'D3  — 5-bit decimal, uppercase base letter 'D'
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSized, AssignmentB_ConstType) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // Uppercase 'D' is accepted; constType is still decimal (1)
   EXPECT_EQ(c->getConstType(), 1) << "5'D3: constType should be decimal (1)";
 }
 
 TEST_F(IntegersSized, AssignmentB_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 5);
   // Decompile preserves the original uppercase base letter
@@ -187,9 +187,9 @@ TEST_F(IntegersSized, AssignmentB_SizeAndDecompile) {
 }
 
 TEST_F(IntegersSized, AssignmentB_getValue) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 1);
+  const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "3");
 }
@@ -198,17 +198,17 @@ TEST_F(IntegersSized, AssignmentB_getValue) {
 // c = 3'b01x  — 3-bit binary with unknown (X) LSB
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSized, AssignmentC_ConstType) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 2);
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 3) << "3'b01x: constType should be binary (3)";
 }
 
 TEST_F(IntegersSized, AssignmentC_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 2);
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 3);
   EXPECT_EQ(c->getDecompile(), "3'b01x");
@@ -216,9 +216,9 @@ TEST_F(IntegersSized, AssignmentC_SizeAndDecompile) {
 
 TEST_F(IntegersSized, AssignmentC_getValue) {
   // The 'x' digit is stored as-is in the raw value string
-  const uhdm::Assignment *const assign = getAssignment(m_design, 2);
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "01x");
 }
@@ -227,26 +227,26 @@ TEST_F(IntegersSized, AssignmentC_getValue) {
 // d = 12'hx  — 12-bit all-unknown hexadecimal
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSized, AssignmentD_ConstType) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 5) << "12'hx: constType should be hexadecimal (5)";
 }
 
 TEST_F(IntegersSized, AssignmentD_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 12);
   EXPECT_EQ(c->getDecompile(), "12'hx");
 }
 
 TEST_F(IntegersSized, AssignmentD_getValue) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 3);
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "x");
 }
@@ -255,26 +255,26 @@ TEST_F(IntegersSized, AssignmentD_getValue) {
 // e = 16'hz  — 16-bit high-impedance hexadecimal
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSized, AssignmentE_ConstType) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 4);
+  const hldb::Assignment *const assign = getAssignment(m_design, 4);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 5) << "16'hz: constType should be hexadecimal (5)";
 }
 
 TEST_F(IntegersSized, AssignmentE_SizeAndDecompile) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 4);
+  const hldb::Assignment *const assign = getAssignment(m_design, 4);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 16);
   EXPECT_EQ(c->getDecompile(), "16'hz");
 }
 
 TEST_F(IntegersSized, AssignmentE_getValue) {
-  const uhdm::Assignment *const assign = getAssignment(m_design, 4);
+  const hldb::Assignment *const assign = getAssignment(m_design, 4);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "z");
 }

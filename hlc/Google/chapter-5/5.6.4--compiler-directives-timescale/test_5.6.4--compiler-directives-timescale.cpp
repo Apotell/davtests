@@ -28,16 +28,16 @@
 //
 // Both the SourceFile and the Module receive the same timescale values.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/source_file.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/source_file.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesTimescale : public Test {
  public:
@@ -58,11 +58,11 @@ class CompilerDirectivesTimescale : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@ts", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
 }
 
-static const uhdm::SourceFile *getSourceFile(const uhdm::Design *d) {
+static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
   if (!d->getSourceFiles() || d->getSourceFiles()->empty()) return nullptr;
   return (*d->getSourceFiles())[0];
 }
@@ -75,7 +75,7 @@ TEST_F(CompilerDirectivesTimescale, ModuleExists) {
 }
 
 TEST_F(CompilerDirectivesTimescale, ModuleIsEmpty) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
@@ -88,14 +88,14 @@ TEST_F(CompilerDirectivesTimescale, ModuleIsEmpty) {
 //   1 ps → -12  (10^-12 seconds)
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesTimescale, ModuleTimeUnitIsNanosecond) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getTimeUnit(), -9)
       << "time unit should be -9 (1 ns = 10^-9 s)";
 }
 
 TEST_F(CompilerDirectivesTimescale, ModuleTimePrecisionIsPicosecond) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getTimePrecision(), -12)
       << "time precision should be -12 (1 ps = 10^-12 s)";
@@ -105,14 +105,14 @@ TEST_F(CompilerDirectivesTimescale, ModuleTimePrecisionIsPicosecond) {
 // SourceFile timescale — same values propagated to the file scope
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesTimescale, SourceFileTimeUnitIsNanosecond) {
-  const uhdm::SourceFile *const sf = getSourceFile(m_design);
+  const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   EXPECT_EQ(sf->getTimeUnit(), -9)
       << "source file time unit should be -9 (1 ns = 10^-9 s)";
 }
 
 TEST_F(CompilerDirectivesTimescale, SourceFileTimePrecisionIsPicosecond) {
-  const uhdm::SourceFile *const sf = getSourceFile(m_design);
+  const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   EXPECT_EQ(sf->getTimePrecision(), -12)
       << "source file time precision should be -12 (1 ps = 10^-12 s)";
