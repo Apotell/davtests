@@ -9,7 +9,7 @@
 | `include/uhdm/vpi_user.h` | IEEE VPI standard C header |
 | `include/uhdm/sv_vpi_user.h` | SV extensions to VPI |
 | `include/uhdm/uhdm_vpi_user.h` | UHDM-specific VPI extensions |
-| `include/uhdm/SymbolFactory.h` | String intern pool (extended by Surelog's SymbolTable) |
+| `include/uhdm/SymbolFactory.h` | String intern pool (extended by hlc's SymbolTable) |
 | `include/uhdm/SymbolId.h` | Symbol ID type + `BadSymbolId` sentinel |
 | `include/uhdm/UhdmFinder.h` | Hierarchical finder utilities |
 | `include/uhdm/EventListener.h` | Event callback interface used by Linter |

@@ -49,16 +49,16 @@ if is_ci_build():
 
 _default_output_dirpath = Path('regression')
 
-_default_surelog_filename = Path('surelog.exe' if is_windows() else 'surelog')
-_default_surelog_filepath = Path('bin') / _default_surelog_filename
+_default_hlc_filename = Path('hlc.exe' if is_windows() else 'hlc')
+_default_hlc_filepath = Path('bin') / _default_hlc_filename
 
-_default_reducer_filename = Path('uhdm-reduce.exe' if is_windows() else 'uhdm-reduce')
+_default_reducer_filename = Path('hldb-reduce.exe' if is_windows() else 'hldb-reduce')
 _default_reducer_filepath = Path('bin') / _default_reducer_filename
 
 _re_status_1 = re.compile(r'^\s*\[\s*(?P<status>\w+)\]\s*:\s*(?P<count>\d+|\d+\.\d+)$')
 _re_status_2 = re.compile(r'^\s*\|\s*(?P<status>\w+)\s*\|\s*(?P<count1>\d+|\s+)\s*\|\s*(?P<count2>\d+|\s+)\s*\|\s*$')
 
-_blacklisted_dump_uhdm_tests = {
+_blacklisted_dump_hldb_tests = {
   'AmiqEth',
   'AmiqSimpleTestSuite',
   'BuildUVMPkg',
@@ -89,18 +89,18 @@ _blacklisted_dump_uhdm_tests = {
 }
 
 
-def _get_surelog_log_filepaths(test_id: str, golden_dirpath: Path, output_dirpath: Path):
+def _get_hlc_log_filepaths(test_id: str, golden_dirpath: Path, output_dirpath: Path):
   platform_id = get_platform_id()
   name = Path(test_id).name
 
   golden_log_filepath = golden_dirpath / f'{name}{platform_id}.log'
   if golden_log_filepath.is_file():
-    surelog_log_filepath = output_dirpath / f'{name}{platform_id}.log'
+    hlc_log_filepath = output_dirpath / f'{name}{platform_id}.log'
   else:
     golden_log_filepath = golden_dirpath / f'{name}.log'
-    surelog_log_filepath = output_dirpath / f'{name}.log'
+    hlc_log_filepath = output_dirpath / f'{name}.log'
 
-  return golden_log_filepath, surelog_log_filepath
+  return golden_log_filepath, hlc_log_filepath
 
 
 def _scan(dirpath: Path, filters: list[str|Pattern], shard: int, num_shards: int):
@@ -149,25 +149,26 @@ def _get_log_statistics(filepath: Path) -> dict[str, Any]:
   if not filepath.is_file():
     return statistics
 
-  uhdm_dump_markers = [
+  hldb_dump_markers = [
     '====== UHDM =======',
+    '====== HLDB =======',
     '==================='
   ]
 
   object_stat_dump_markers = [
-    '=== UHDM Object Stats Begin (Non-Elaborated Model) ===',
-    '=== UHDM Object Stats Begin (Elaborated Model) ===',
-    '=== UHDM Object Stats End ==='
+    '=== HLDB Object Stats Begin (Non-Elaborated Model) ===',
+    '=== HLDB Object Stats Begin (Elaborated Model) ===',
+    '=== HLDB Object Stats End ==='
   ]
 
   reduction_start_marker = '= BEGIN REDUCTION RESULT ='
   reduction_end_marker = '= END REDUCTION RESULT ='
 
   negatives = {}
-  uhdm_dump_started = False
+  hldb_dump_started = False
   object_stats = {}
   object_stat_dump_started = False
-  uhdm_line_count = 0
+  hldb_line_count = 0
   reduction_stats = {
     'BEFORE': 0,
     'AFTER': 0,
@@ -179,8 +180,8 @@ def _get_log_statistics(filepath: Path) -> dict[str, Any]:
     for line in strm:
       line = line.strip()
 
-      if line in uhdm_dump_markers:
-        uhdm_dump_started = not uhdm_dump_started
+      if line in hldb_dump_markers:
+        hldb_dump_started = not hldb_dump_started
         continue
       elif line in object_stat_dump_markers:
         object_stat_dump_started = not object_stat_dump_started
@@ -220,15 +221,15 @@ def _get_log_statistics(filepath: Path) -> dict[str, Any]:
           status = m.group('status')
           count = m.group('count')
           statistics[status] = statistics.get(status, 0) + (float(count) if '.' in count else int(count))
-        elif uhdm_dump_started:
-          uhdm_line_count += 1
+        elif hldb_dump_started:
+          hldb_line_count += 1
 
       if 'ERR:' in line and ('/dev/null' in line or '\\dev\\null' in line):
         # On Windows, this is reported as an error but on Linux it isn't.
         # Don't count it as error on Windows as well so that numbers across platforms can match.
         negatives['ERROR'] = negatives.get('ERROR', 0) + 1
 
-  statistics['NOTE'] = statistics.get('NOTE', 0) + uhdm_line_count
+  statistics['NOTE'] = statistics.get('NOTE', 0) + hldb_line_count
   statistics['OBJECT_STATS'] = object_stats
   statistics['REDUCER_STATS'] = reduction_stats
   statistics['REDUCTION'] = (
@@ -313,10 +314,10 @@ def _get_run_args(
     parts += ['-mt', (mt or '0')]
     if mp or '-mp' not in cmdline:
       parts += ['-mp', (mp or '0')]
-    parts += ['-d', 'uhdmstats'] # Force print uhdm stats
+    parts += ['-d', 'dbstats'] # Force print hldb stats
     parts += ['-d', 'cache']
-    if Path(test_id).name not in _blacklisted_dump_uhdm_tests:
-      parts += ['-d', 'uhdm']
+    if Path(test_id).name not in _blacklisted_dump_hldb_tests:
+      parts += ['-d', 'db']
     parts += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
     parts += ['-o', str(output_dirpath)]
 
@@ -328,19 +329,19 @@ def _get_run_args(
   return args, tool_log_filepath
 
 
-def _run_surelog(
-    test_id, filepath, dirpath, surelog_filepath,
-    surelog_log_filepath, uvm_absdirpath, mp, mt, tool, output_dirpath):
+def _run_hlc(
+    test_id, filepath, dirpath, hlc_filepath,
+    hlc_log_filepath, uvm_absdirpath, mp, mt, tool, output_dirpath):
   start_dt = datetime.now()
   print(f'start-time: {start_dt}')
 
-  surelog_timedelta = timedelta(seconds=0)
+  hlc_timedelta = timedelta(seconds=0)
 
   args, tool_log_filepath = _get_run_args(
-      test_id, filepath, dirpath, surelog_filepath,
+      test_id, filepath, dirpath, hlc_filepath,
       uvm_absdirpath, mp, mt, tool, output_dirpath)
 
-  print('Launching surelog with arguments:')
+  print('Launching hlc with arguments:')
   pprint.pprint(args)
   print('\n')
 
@@ -348,11 +349,11 @@ def _run_surelog(
   max_cpu_time = 0
   max_vms_memory = 0
   max_rss_memory = 0
-  surelog_start_dt = datetime.now()
+  hlc_start_dt = datetime.now()
   try:
-    # Surelog writes hlc.log itself (spdlog) into the -o directory. We do NOT
+    # HLC writes hlc.log itself (spdlog) into the -o directory. We do NOT
     # capture its stdout/stderr; they inherit the terminal/CI so the user sees
-    # the AST/UHDM dumps live, and there is no second writer to the log.
+    # the AST/HLDB dumps live, and there is no second writer to the log.
     process = subprocess.Popen(args, cwd=dirpath)
 
     step_dt = datetime.now()
@@ -398,20 +399,20 @@ def _run_surelog(
     elif returncode and returncode < 0:
       status = Status.FAIL
 
-    surelog_timedelta = datetime.now() - surelog_start_dt
-    print(f'Surelog terminated with exit code: {returncode} in {str(surelog_timedelta)}')
+    hlc_timedelta = datetime.now() - hlc_start_dt
+    print(f'Hlc terminated with exit code: {returncode} in {str(hlc_timedelta)}')
   except:
     status = Status.FAIL
-    surelog_timedelta = datetime.now() - surelog_start_dt
-    print(f'Surelog threw an exception')
+    hlc_timedelta = datetime.now() - hlc_start_dt
+    print(f'HLC threw an exception')
     traceback.print_exc()
 
-  # Surelog writes its log as 'hlc.log' in the -o directory (its default name,
+  # HLC writes its log as 'hlc.log' in the -o directory (its default name,
   # now that -log_file is gone). Rename it to <name>.log so the rest of the
   # harness (normalize, golden comparison, merge, extract, summarize) finds it.
-  hlc_log_filepath = output_dirpath / 'hlc.log'
-  if hlc_log_filepath.is_file():
-    hlc_log_filepath.replace(surelog_log_filepath)
+  written_log_filepath = output_dirpath / 'hlc.log'
+  if written_log_filepath.is_file():
+    written_log_filepath.replace(hlc_log_filepath)
 
   if status == Status.PASS and tool_log_filepath and tool_log_filepath.is_file():
     content = tool_log_filepath.open().read()
@@ -427,7 +428,7 @@ def _run_surelog(
     'CPU-TIME': max_cpu_time,
     'VTL-MEM': max_vms_memory,
     'PHY-MEM': max_rss_memory,
-    'WALL-TIME': surelog_timedelta
+    'WALL-TIME': hlc_timedelta
   }
 
 
@@ -437,10 +438,10 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
 
   reducer_timedelta = timedelta(seconds=0)
 
-  uhdm_src_filepath = test_dirpath / 'surelog.uhdm'
-  uhdm_dst_filepath = test_dirpath / 'reduced.uhdm'
+  hldb_src_filepath = test_dirpath / 'design.hldb'
+  hldb_dst_filepath = test_dirpath / 'reduced.hldb'
 
-  args = [reducer_filepath.as_posix(), uhdm_src_filepath.as_posix(), uhdm_dst_filepath.as_posix()]
+  args = [reducer_filepath.as_posix(), hldb_src_filepath.as_posix(), hldb_dst_filepath.as_posix()]
   if verbose:
     args.append('-v')
 
@@ -454,7 +455,7 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
   max_rss_memory = 0
   with open(reducer_log_filepath, 'wt') as reducer_log_strm:
     reducer_start_dt = datetime.now()
-    if uhdm_src_filepath and uhdm_dst_filepath:
+    if hldb_src_filepath and hldb_dst_filepath:
       try:
         process = subprocess.Popen(
             args,
@@ -505,7 +506,7 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
     else:
       status = Status.FAIL
       reducer_timedelta = datetime.now() - reducer_start_dt
-      print(f'Failed to find uhdm source database: {uhdm_src_filepath}')
+      print(f'Failed to find hldb source database: {hldb_src_filepath}')
 
     reducer_log_strm.flush()
 
@@ -524,14 +525,14 @@ def _run_reducer(test_dirpath, reducer_filepath, reducer_log_filepath, verbose):
 
 def _run_one(params):
   start_dt = datetime.now()
-  test_id, filepath, surelog_filepath, reducer_filepath, mp, mt, tool, output_dirpath = params
+  test_id, filepath, hlc_filepath, reducer_filepath, mp, mt, tool, output_dirpath = params
 
   log(f'Running {test_id} ...')
 
   dirpath = filepath.parent
   env_filepath = output_dirpath / 'env.json'
   regression_log_filepath = output_dirpath / 'regression.log'
-  golden_log_filepath, surelog_log_filepath = _get_surelog_log_filepaths(test_id, dirpath, output_dirpath)
+  golden_log_filepath, hlc_log_filepath = _get_hlc_log_filepaths(test_id, dirpath, output_dirpath)
   uvm_absdirpath = _workspace_dirpath / 'third_party' / 'UVM'
   coverage_log_filepath = output_dirpath / 'coverage.log'
   reducer_log_filepath = output_dirpath / 'reducer.log'
@@ -546,12 +547,12 @@ def _run_one(params):
       'test-dirpath': dirpath,
       'test-filepath': filepath,
       'workspace-dirpath': _workspace_dirpath,
-      'surelog-filepath': surelog_filepath,
+      'hlc-filepath': hlc_filepath,
       'reducer-filepath': reducer_filepath,
       'uvm-absdirpath': uvm_absdirpath,
       'output-dirpath': output_dirpath,
       'golden-log-filepath': golden_log_filepath,
-      'surelog-log-filepath': surelog_log_filepath,
+      'hlc-log-filepath': hlc_log_filepath,
       'tool': tool,
     }
   }, env_filepath.open('w'), indent=2)
@@ -560,7 +561,7 @@ def _run_one(params):
     'TESTNAME': test_id,
     'STATUS': Status.PASS,
     'golden-log-filepath': golden_log_filepath,
-    'surelog-log-filepath': surelog_log_filepath,
+    'hlc-log-filepath': hlc_log_filepath,
     'golden': {},
     'current': {}
   }
@@ -577,18 +578,18 @@ def _run_one(params):
       print(f'            test-dirpath: {dirpath}')
       print(f'           test-filepath: {filepath}')
       print(f'       workspace-dirpath: {_workspace_dirpath}')
-      print(f'        surelog-filepath: {surelog_filepath}')
+      print(f'        hlc-filepath: {hlc_filepath}')
       print(f'        reducer-filepath: {reducer_filepath}')
       print(f'          uvm-reldirpath: {uvm_absdirpath}')
       print(f'          output-dirpath: {output_dirpath}')
       print(f'     golden-log-filepath: {golden_log_filepath}')
-      print(f'    surelog-log-filepath: {surelog_log_filepath}')
+      print(f'    hlc-log-filepath: {hlc_log_filepath}')
       print(f'                    tool: {tool}')
       print( '\n')
 
-      print('Running Surelog ...', flush=True)
-      result.update(_run_surelog(
-          test_id, filepath, dirpath, surelog_filepath, surelog_log_filepath,
+      print('Running Hlc ...', flush=True)
+      result.update(_run_hlc(
+          test_id, filepath, dirpath, hlc_filepath, hlc_log_filepath,
           uvm_absdirpath, mp, mt, tool, output_dirpath))
       print('\n', flush=True)
 
@@ -597,7 +598,7 @@ def _run_one(params):
       print('\n', flush=True)
 
       print('Merging coverage log ...', flush=True)
-      merge_files(surelog_log_filepath, '#**', surelog_log_filepath, coverage_log_filepath)
+      merge_files(hlc_log_filepath, '#**', hlc_log_filepath, coverage_log_filepath)
       rmfile(coverage_log_filepath)
 
       print('Running Reducer ...', flush=True)
@@ -605,26 +606,26 @@ def _run_one(params):
       print('\n', flush=True)
 
       print('Merging reducer log ...', flush=True)
-      merge_files(surelog_log_filepath, '#**', surelog_log_filepath, reducer_log_filepath)
+      merge_files(hlc_log_filepath, '#**', hlc_log_filepath, reducer_log_filepath)
       rmfile(reducer_log_filepath)
 
-      print(f'Normalizing surelog log file {surelog_log_filepath}', flush=True)
-      if surelog_log_filepath.is_file():
-        content = surelog_log_filepath.open().read()
+      print(f'Normalizing hlc log file {hlc_log_filepath}', flush=True)
+      if hlc_log_filepath.is_file():
+        content = hlc_log_filepath.open().read()
         if 'Segmentation fault' in content:
           result['STATUS'] = Status.SEGFLT
 
         content = normalize_log(content, {
-          str(_workspace_dirpath): '${SURELOG_DIR}',
-          str(_workspace_dirpath.as_posix()): '${SURELOG_DIR}',
-          str(_workspace_dirpath).replace('davtest', 'hlc'): '${SURELOG_DIR}',              # This covers the UVM cached path
-          str(_workspace_dirpath.as_posix().replace('davtest', 'hlc')): '${SURELOG_DIR}',   # This covers the UVM cached path
-          r'\${SURELOG_DIR}/out/build/': r'\${SURELOG_DIR}/build/',
+          str(_workspace_dirpath): '${HLC_DIR}',
+          str(_workspace_dirpath.as_posix()): '${HLC_DIR}',
+          str(_workspace_dirpath).replace('davtest', 'hlc'): '${HLC_DIR}',              # This covers the UVM cached path
+          str(_workspace_dirpath.as_posix().replace('davtest', 'hlc')): '${HLC_DIR}',   # This covers the UVM cached path
+          r'\${HLC_DIR}/out/build/': r'\${HLC_DIR}/build/',
         })
 
-        surelog_log_filepath.open('wt').write(content)
+        hlc_log_filepath.open('wt').write(content)
       else:
-        print(f'File not found: {surelog_log_filepath}', flush=True)
+        print(f'File not found: {hlc_log_filepath}', flush=True)
         result['STATUS'] = Status.FAIL
       print('\n')
 
@@ -634,7 +635,7 @@ def _run_one(params):
 
       result.update({
         'golden': _get_log_statistics(golden_log_filepath),
-        'current': _get_log_statistics(surelog_log_filepath)
+        'current': _get_log_statistics(hlc_log_filepath)
       })
 
       if result['STATUS'] == Status.PASS:
@@ -763,7 +764,7 @@ def _run(args, tests):
   params = [(
     test_id,
     filepath,
-    args.surelog_filepath,
+    args.hlc_filepath,
     args.reducer_filepath,
     args.mp,
     args.mt,
@@ -789,7 +790,7 @@ def _main():
   sys.stderr.reconfigure(encoding='cp850') # pyright: ignore[reportAttributeAccessIssue]
 
   start_dt = datetime.now()
-  print(f'Starting Surelog Regression Tests @ {str(start_dt)}')
+  print(f'Starting HLC Regression Tests @ {str(start_dt)}')
 
   parser = argparse.ArgumentParser()
 
@@ -801,10 +802,10 @@ def _main():
       help='Output directory path, either absolute or relative to the workspace directory.')
   parser.add_argument(
       '--build-dirpath', dest='build_dirpath', required=False, default=_default_build_dirpath, type=str,
-      help='Directory, either absolute or relative to workspace directory, to locate surelog binary')
+      help='Directory, either absolute or relative to workspace directory, to locate hlc binary')
   parser.add_argument(
-      '--surelog-filepath', dest='surelog_filepath', required=False, default=_default_surelog_filepath, type=str,
-      help='Location, either absolute or relative to build directory, of surelog executable')
+      '--hlc-filepath', dest='hlc_filepath', required=False, default=_default_hlc_filepath, type=str,
+      help='Location, either absolute or relative to build directory, of hlc executable')
   parser.add_argument(
       '--reducer-filepath', dest='reducer_filepath', required=False, default=_default_reducer_filepath, type=str,
       help='Location, either absolute or relative to build directory, of reducer executable')
@@ -830,7 +831,7 @@ def _main():
     return 1
 
   args.build_dirpath = Path(args.build_dirpath)
-  args.surelog_filepath = Path(args.surelog_filepath)
+  args.hlc_filepath = Path(args.hlc_filepath)
   args.reducer_filepath = Path(args.reducer_filepath)
   args.output_dirpath = Path(args.output_dirpath)
   args.test_dirpath = Path(args.test_dirpath)
@@ -847,16 +848,16 @@ def _main():
     args.test_dirpath = (_workspace_dirpath / args.test_dirpath).resolve()
   args.test_dirpath = args.test_dirpath.resolve()
 
-  if not args.surelog_filepath.is_absolute():
-    args.surelog_filepath = args.build_dirpath / args.surelog_filepath
-  args.surelog_filepath = args.surelog_filepath.resolve()
+  if not args.hlc_filepath.is_absolute():
+    args.hlc_filepath = args.build_dirpath / args.hlc_filepath
+  args.hlc_filepath = args.hlc_filepath.resolve()
 
   if not args.reducer_filepath.is_absolute():
     args.reducer_filepath = args.build_dirpath / args.reducer_filepath
   args.reducer_filepath = args.reducer_filepath.resolve()
 
-  if not args.surelog_filepath.is_file:
-    raise ValueError(f"Surelog executable not found at {args.surelog_filepath}")
+  if not args.hlc_filepath.is_file:
+    raise ValueError(f"Hlc executable not found at {args.hlc_filepath}")
   
   if not args.reducer_filepath.is_file:
     raise ValueError(f"Reducer executable not found at {args.reducer_filepath}")
@@ -875,7 +876,7 @@ def _main():
   print(f'   current-dirpath: {Path.cwd()}')
   print(f' workspace-dirpath: {_workspace_dirpath}')
   print(f'     build-dirpath: {args.build_dirpath}')
-  print(f'  surelog-filepath: {args.surelog_filepath}')
+  print(f'  hlc-filepath: {args.hlc_filepath}')
   print(f'  reducer-filepath: {args.reducer_filepath}')
   print(f'      test-dirpath: {args.test_dirpath}')
   print(f'    output-dirpath: {args.output_dirpath}')
@@ -895,7 +896,7 @@ def _main():
 
   end_dt = datetime.now()
   delta = round((end_dt - start_dt).total_seconds())
-  print(f'Surelog Regression Test Completed @ {str(end_dt)} in {str(delta)} seconds')
+  print(f'HLC Regression Test Completed @ {str(end_dt)} in {str(delta)} seconds')
   return result
 
 
