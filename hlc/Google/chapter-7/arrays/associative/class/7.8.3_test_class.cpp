@@ -1,0 +1,221 @@
+/*
+ Copyright 2020 Apotell
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+// Tests for class.sv (tags: 7.8.3 7.8)
+//   module top ();
+//     class C;
+//       int x;
+//     endclass
+//     int arr [ C ];
+//   endmodule
+//
+// Checked:
+//   - design has module work@top
+//   - module has 1 ClassDefn: getName()="C", getFullName()="" (not stored — see below)
+//   - ClassDefn has 1 Variable "x" (IntTypespec)
+//   - module has 1 net 'arr' → ArrayTypespec (static=1 — error recovery, NOT associative=3)
+//   - ArrayTypespec elem type is IntTypespec
+//   - work@top has no processes
+//   - work@top has no continuous assignments
+//
+// Not checked:
+//   - Surelog emits EL0535 ("Illegal implicit net C") — class C unresolved as index type
+//   - index typespec is absent (null) in the error-recovery ArrayTypespec
+//   - COMPILER BEHAVIOR: Scope::getFullName() reads a stored field (setFullName must be called).
+//     The VPI dump shows `vpiFullName: work@top::C` — that is computed on-the-fly by VPI
+//     traversal, it does NOT read the stored field. Surelog never calls setFullName() on
+//     ClassDefn nodes, so getFullName() returns empty string, not "work@top::C".
+
+#include <Surelog/Common/Session.h>
+#include <Surelog/SourceCompile/Compiler.h>
+#include <Surelog/Tests/Test.h>
+
+#include <uhdm/Utils.h>
+#include <uhdm/array_typespec.h>
+#include <uhdm/class_defn.h>
+#include <uhdm/design.h>
+#include <uhdm/int_typespec.h>
+#include <uhdm/module.h>
+#include <uhdm/net.h>
+#include <uhdm/ref_typespec.h>
+#include <uhdm/variable.h>
+
+namespace SURELOG {
+
+class Class : public Test {
+ public:
+  static void SetUpTestSuite() {
+    Compile(__FILE__, {"-f", "class.hlc"});
+
+    ASSERT_NE(m_session, nullptr) << "Session is null";
+    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
+    ASSERT_NE(m_design, nullptr) << "Design is null";
+  }
+
+  static void TearDownTestSuite() {
+    m_design = nullptr;
+    delete m_compiler;
+    m_compiler = nullptr;
+    delete m_session;
+    m_session = nullptr;
+  }
+};
+
+// --- module ---------------------------------------------------------------
+
+TEST_F(Class, ModuleExists) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  EXPECT_NE(top, nullptr);
+}
+
+// --- class C definition ---------------------------------------------------
+
+TEST_F(Class, ModuleHasOneClassDefn) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getClassDefns(), nullptr);
+  EXPECT_EQ(top->getClassDefns()->size(), 1u);
+}
+
+TEST_F(Class, ClassDefnNameIsC) {
+  // getName() returns the simple identifier stored by Surelog.
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getClassDefns(), nullptr);
+  const uhdm::ClassDefn *const cls = top->getClassDefns()->at(0);
+  ASSERT_NE(cls, nullptr);
+  EXPECT_EQ(cls->getName(), "C");
+}
+
+TEST_F(Class, ClassDefnStoredFullNameIsEmpty) {
+  // COMPILER BEHAVIOR: Scope::getFullName() reads a stored field. The VPI dump
+  // shows `vpiFullName: work@top::C` — but that is computed on-the-fly by VPI
+  // traversal and is NOT stored via setFullName(). Surelog never calls
+  // setFullName() on ClassDefn nodes, so getFullName() returns empty string.
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getClassDefns(), nullptr);
+  const uhdm::ClassDefn *const cls = top->getClassDefns()->at(0);
+  ASSERT_NE(cls, nullptr);
+  EXPECT_TRUE(cls->getFullName().empty());
+}
+
+TEST_F(Class, ClassDefnHasOneVariable) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const uhdm::ClassDefn *const cls = top->getClassDefns()->at(0);
+  ASSERT_NE(cls, nullptr);
+  ASSERT_NE(cls->getVariables(), nullptr);
+  EXPECT_EQ(cls->getVariables()->size(), 1u);
+}
+
+TEST_F(Class, ClassVariableNameIsX) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const uhdm::ClassDefn *const cls = top->getClassDefns()->at(0);
+  ASSERT_NE(cls, nullptr);
+  ASSERT_NE(cls->getVariables(), nullptr);
+  EXPECT_EQ(cls->getVariables()->at(0)->getName(), "x");
+}
+
+TEST_F(Class, ClassVariableXHasIntTypespec) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const uhdm::ClassDefn *const cls = top->getClassDefns()->at(0);
+  ASSERT_NE(cls, nullptr);
+  const uhdm::Variable *const var = cls->getVariables()->at(0);
+  ASSERT_NE(var, nullptr);
+  const uhdm::RefTypespec *const rt = var->getTypespec<uhdm::RefTypespec>();
+  ASSERT_NE(rt, nullptr);
+  EXPECT_NE(rt->getActual<uhdm::IntTypespec>(), nullptr);
+}
+
+// --- net arr (error-recovery: static array, not associative) -------------
+
+TEST_F(Class, ModuleHasOneNet) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  EXPECT_EQ(top->getNets()->size(), 1u);
+}
+
+TEST_F(Class, NetNameIsArr) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
+}
+
+TEST_F(Class, NetHasArrayTypespec) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const uhdm::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  ASSERT_NE(rt, nullptr);
+  EXPECT_NE(rt->getActual<uhdm::ArrayTypespec>(), nullptr);
+}
+
+TEST_F(Class, ArrayTypespecIsStaticDueToErrorRecovery) {
+  // int arr[C] — Surelog could not resolve C as an index type (EL0535),
+  // so the ArrayTypespec falls back to static(1) instead of associative(3)
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const uhdm::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<uhdm::RefTypespec>()
+          ->getActual<uhdm::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (error recovery)
+}
+
+TEST_F(Class, ArrayTypespecElemTypeIsInt) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const uhdm::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<uhdm::RefTypespec>()
+          ->getActual<uhdm::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  ASSERT_NE(at->getElemTypespec(), nullptr);
+  EXPECT_NE(at->getElemTypespec()->getActual<uhdm::IntTypespec>(), nullptr);
+}
+
+TEST_F(Class, NoProcesses) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getProcesses(), nullptr);
+}
+
+TEST_F(Class, NoContAssigns) {
+  const uhdm::Module *const top =
+      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+}  // namespace SURELOG
