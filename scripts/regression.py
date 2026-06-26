@@ -150,7 +150,6 @@ def _get_log_statistics(filepath: Path) -> dict[str, Any]:
     return statistics
 
   hldb_dump_markers = [
-    '====== UHDM =======',
     '====== HLDB =======',
     '==================='
   ]

@@ -26,7 +26,7 @@ SV sources → CommandLineParser → PreprocessFile (PPCache) → ParseFile/ANTL
 | `Session` | `include/Hlc/Common/Session.h` | Context facade: FileSystem, SymbolTable, ErrorContainer, CommandLineParser |
 | `CompilationUnit` | `include/Hlc/SourceCompile/CompilationUnit.h` | Groups source files; tracks macros, timescales, node ID generator |
 | `Compiler` | `include/Hlc/SourceCompile/Compiler.h` | Top-level orchestrator; runs full pipeline |
-| `instance_node_map_t` | `include/Hlc/Common/Containers.h` | `map<(PathId,NodeId), uhdm::Any*>` — bridges AST nodes to UHDM objects |
+| `instance_node_map_t` | `include/Hlc/Common/Containers.h` | `map<(PathId,NodeId), hldb::Any*>` — bridges AST nodes to UHDM objects |
 
 ## Top-level directories
 

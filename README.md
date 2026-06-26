@@ -26,7 +26,7 @@ Each `.hlc` file contains a command line with a `-wd` option that points back to
 python3 scripts/regression.py \
   --build-dirpath <path-to-build> \
   --hlc-filepath hlc \
-  --reducer-filepath uhdm-reduce \
+  --reducer-filepath hldb-reduce \
   --output-dirpath regression \
   --jobs $(nproc)
 ```

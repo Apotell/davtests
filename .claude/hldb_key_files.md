@@ -4,15 +4,15 @@
 
 | File | Role |
 |---|---|
-| `include/uhdm/any.h` | Base `Any` class — default `isFiltered()` (returns true), RTTI base |
-| `include/uhdm/RTTI.h` | Custom RTTI system (not `std::typeinfo`) — `isa<T>()`, `cast<T>()` |
-| `include/uhdm/vpi_user.h` | IEEE VPI standard C header |
-| `include/uhdm/sv_vpi_user.h` | SV extensions to VPI |
-| `include/uhdm/uhdm_vpi_user.h` | UHDM-specific VPI extensions |
-| `include/uhdm/SymbolFactory.h` | String intern pool (extended by hlc's SymbolTable) |
-| `include/uhdm/SymbolId.h` | Symbol ID type + `BadSymbolId` sentinel |
-| `include/uhdm/UhdmFinder.h` | Hierarchical finder utilities |
-| `include/uhdm/EventListener.h` | Event callback interface used by Linter |
+| `include/hldb/any.h` | Base `Any` class — default `isFiltered()` (returns true), RTTI base |
+| `include/hldb/RTTI.h` | Custom RTTI system (not `std::typeinfo`) — `isa<T>()`, `cast<T>()` |
+| `include/hldb/vpi_user.h` | IEEE VPI standard C header |
+| `include/hldb/sv_vpi_user.h` | SV extensions to VPI |
+| `include/hldb/hldb_vpi_user.h` | UHDM-specific VPI extensions |
+| `include/hldb/SymbolFactory.h` | String intern pool (extended by hlc's SymbolTable) |
+| `include/hldb/SymbolId.h` | Symbol ID type + `BadSymbolId` sentinel |
+| `include/hldb/Finder.h` | Hierarchical finder utilities |
+| `include/hldb/EventListener.h` | Event callback interface used by Linter |
 | `templates/Serializer.h` | Factory, save/restore, object ownership |
 | `templates/Linter.cpp` | Hand-written lint hook stubs: `checkXxx_()` private methods |
 
@@ -20,17 +20,17 @@
 
 | Pattern | Generator | Content |
 |---|---|---|
-| `include/uhdm/<ClassName>.h` | `classes.py` | Data members, accessors, `isFiltered()` declaration |
+| `include/hldb/<ClassName>.h` | `classes.py` | Data members, accessors, `isFiltered()` declaration |
 | `src/<ClassName>.cpp` | `classes.py` | Accessor implementations |
-| `include/uhdm/Linter.h` | `Linter.py` | `checkXxx()` declarations |
+| `include/hldb/Linter.h` | `Linter.py` | `checkXxx()` declarations |
 | `src/Linter.cpp` | `Linter.py` | Walk + `isFiltered()` implementations |
-| `include/uhdm/uhdm.h` | aggregate | Master include |
-| `include/uhdm/uhdm_types.h` | | Type enums |
-| `include/uhdm/uhdm_forward_decl.h` | | Forward declarations |
-| `include/uhdm/Serializer.h` | `serializer.py` | `make<T>()` factory |
+| `include/hldb/hldb.h` | aggregate | Master include |
+| `include/hldb/any_types.h` | | Type enums |
+| `include/hldb/forward_decl.h` | | Forward declarations |
+| `include/hldb/Serializer.h` | `serializer.py` | `make<T>()` factory |
 | `src/Serializer.cpp` | `serializer.py` | Save/restore logic |
-| `include/uhdm/UhdmListener.h` + `.cpp` | `UhdmListener.py` | `enter`/`leave` traversal |
-| `include/uhdm/UhdmVisitor.h` + `.cpp` | `UhdmVisitor.py` | `visit` traversal |
+| `include/hldb/Listener.h` + `.cpp` | `Listener.py` | `enter`/`leave` traversal |
+| `include/hldb/Visitor.h` + `.cpp` | `Visitor.py` | `visit` traversal |
 | `python/py_*.cpp` | `py_classes.py` etc. | pybind11 wrappers |
 
 ## Key model YAML files (source of truth)
