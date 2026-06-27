@@ -1,10 +1,10 @@
-********************************************
-*  SURELOG SystemVerilog  Compiler/Linter  *
-********************************************
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleIncludeAndMacros top.v top_1.v top_2.v top_3.v top_4.v -d 0 +incdir+. +libext+.v -writepp -y blah +incdir+foo -v lib.v +define+N=8 -parse -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros
+COMMAND: -wd ../../../tests/SimpleIncludeAndMacros top.v top_1.v top_2.v top_3.v top_4.v -d 0 +incdir+. +libext+.v -writepp -y blah +incdir+foo -v lib.v +define+N=8 -parse -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [WRN:CM0007] Library path "$Source01/blah" does not exist.
 [INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
@@ -172,9 +172,9 @@ initial $display("start", "msg1"  , "msg2" , "end");
 ^-- $Source01/mode.vh:26:0:.
 [WRN:PA0215] Invalid VObject location.
 [INF:PA0201] Parsing source file "$Source01/top_3.v".
-[SNT:PA0207] $Source01/top_3.v:5:34: Syntax error: mismatched input '+' expecting <EOF>,
-SURELOG_MACRO_NOT_DEFINED:TOP!!!  + SURELOG_MACRO_NOT_DEFINED:TOP!!!  
-                                  ^-- $Source01/top_3.v:5:34:.
+[SNT:PA0207] $Source01/top_3.v:5:30: Syntax error: mismatched input '+' expecting <EOF>,
+HLC_MACRO_NOT_DEFINED:TOP!!!  + HLC_MACRO_NOT_DEFINED:TOP!!!  
+                              ^-- $Source01/top_3.v:5:30:.
 [ERR:PA0203] $Source01/top_3.v:5: Unknown macro "TOP".
 [INF:PA0201] Parsing source file "$Source01/top_4.v".
 [SNT:PA0207] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
@@ -196,7 +196,7 @@ initial $display("start", "msg1"  , "msg2" , "end");
 [WRN:PA0205] $Source01/lib.v:14:1: No timescale set for "work@FAKELIB_BUF".
 [WRN:PA0205] $Source01/lib.v:17:1: No timescale set for "work@FAKELIB_BUF_BIGLOAD".
 [WRN:PA0205] $Source01/lib.v:20:1: No timescale set for "work@FAKELIB_DFF".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
   vpiSourceFile (6 items):
@@ -738,35 +738,35 @@ Design name:unnamed:
                       vpiSectionStartLine: 45
                       vpiSectionStartColumn: 13
                       vpiSectionEndLine: 1
-                      vpiSectionEndColumn: 26
+                      vpiSectionEndColumn: 22
                       vpiSourceStartLine: 162
                       vpiSourceStartColumn: 1
                       vpiSourceEndLine: 162
-                      vpiSourceEndColumn: 34
+                      vpiSourceEndColumn: 30
                   vpiSectionStartLine: 44
                   vpiSectionStartColumn: 16
                   vpiSectionEndLine: 44
-                  vpiSectionEndColumn: 49
+                  vpiSectionEndColumn: 45
                   vpiSourceStartLine: 162
                   vpiSourceStartColumn: 1
                   vpiSourceEndLine: 162
-                  vpiSourceEndColumn: 34
+                  vpiSourceEndColumn: 30
               vpiSectionStartLine: 46
               vpiSectionStartColumn: 17
               vpiSectionEndLine: 46
-              vpiSectionEndColumn: 50
+              vpiSectionEndColumn: 46
               vpiSourceStartLine: 162
               vpiSourceStartColumn: 1
               vpiSourceEndLine: 162
-              vpiSourceEndColumn: 34
+              vpiSourceEndColumn: 30
           vpiSectionStartLine: 45
           vpiSectionStartColumn: 13
           vpiSectionEndLine: 45
-          vpiSectionEndColumn: 46
+          vpiSectionEndColumn: 42
           vpiSourceStartLine: 162
           vpiSourceStartColumn: 1
           vpiSourceEndLine: 162
-          vpiSourceEndColumn: 34
+          vpiSourceEndColumn: 30
       vpiDefNetType: none (12)
       vpiTimePrecision: -11
       vpiTimeUnit: -8
@@ -1836,11 +1836,11 @@ Design name:unnamed:
               vpiSectionStartLine: 4
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 1
-              vpiSectionEndColumn: 26
+              vpiSectionEndColumn: 22
               vpiSourceStartLine: 5
               vpiSourceStartColumn: 1
               vpiSourceEndLine: 5
-              vpiSourceEndColumn: 34
+              vpiSourceEndColumn: 30
             PreprocMacroInstance name:TOP file:$Source01/top_3.v start:4:31 end:4:56:
               vpiParent: PreprocMacroInstance name:TOP
               vpiName: TOP
@@ -1848,19 +1848,19 @@ Design name:unnamed:
               vpiSectionStartLine: 4
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 1
-              vpiSectionEndColumn: 26
+              vpiSectionEndColumn: 22
               vpiSourceStartLine: 5
-              vpiSourceStartColumn: 37
+              vpiSourceStartColumn: 33
               vpiSourceEndLine: 5
-              vpiSourceEndColumn: 70
+              vpiSourceEndColumn: 62
           vpiSectionStartLine: 4
           vpiSectionStartColumn: 18
           vpiSectionEndLine: 4
-          vpiSectionEndColumn: 88
+          vpiSectionEndColumn: 80
           vpiSourceStartLine: 5
           vpiSourceStartColumn: 1
           vpiSourceEndLine: 5
-          vpiSourceEndColumn: 71
+          vpiSourceEndColumn: 63
         PreprocMacroInstance name:INCLUSION_FILES file:$Source01/top_3.v start:11:1 end:11:17:
           vpiParent: SourceFile name:top_3.v
           vpiName: INCLUSION_FILES
@@ -5805,58 +5805,58 @@ Design name:unnamed:
 [  ERROR] : 52
 [WARNING] : 20
 [   NOTE] : 16
-********************************************
-*   End SURELOG SVerilog Compiler/Linter   *
-********************************************
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
       test-name: SimpleIncludeAndMacros/SimpleIncludeAndMacros
-   test-dirpath: ${SURELOG_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros
-  uhdm-filepath: ${SURELOG_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/surelog.uhdm
-mounts-filepath: ${SURELOG_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/mounts.json
+   test-dirpath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros
+  hldb-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/mounts.json
 
 
-{'result': {'coverage': 38.69,
+{'result': {'coverage': 38.79,
             'error_count': 0,
             'file_count': 6,
             'files': {'$Output/lib/work/lib.v': {'post_len': 25,
                                                  'pre_len': 880},
-                      '$Output/lib/work/top.v': {'post_len': 729,
-                                                 'pre_len': 1035},
+                      '$Output/lib/work/top.v': {'post_len': 725,
+                                                 'pre_len': 1031},
                       '$Output/lib/work/top_1.v': {'post_len': 698,
                                                    'pre_len': 1001},
                       '$Output/lib/work/top_2.v': {'post_len': 876,
                                                    'pre_len': 1230},
-                      '$Output/lib/work/top_3.v': {'post_len': 817,
-                                                   'pre_len': 1138},
+                      '$Output/lib/work/top_3.v': {'post_len': 805,
+                                                   'pre_len': 1126},
                       '$Output/lib/work/top_4.v': {'post_len': 772,
                                                    'pre_len': 1105}},
-            'post_len': 3917,
-            'pre_len': 6389,
+            'post_len': 3901,
+            'pre_len': 6373,
             'test_name': 'SimpleIncludeAndMacros/SimpleIncludeAndMacros'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/top.v   |     1035 |       729 |
+| $Output/lib/work/top.v   |     1031 |       725 |
 | $Output/lib/work/top_1.v |     1001 |       698 |
 | $Output/lib/work/top_2.v |     1230 |       876 |
-| $Output/lib/work/top_3.v |     1138 |       817 |
+| $Output/lib/work/top_3.v |     1126 |       805 |
 | $Output/lib/work/top_4.v |     1105 |       772 |
 | $Output/lib/work/lib.v   |      880 |        25 |
 +==========================+==========+===========+
-|                          |     6389 |      3917 |
+|                          |     6373 |      3901 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 38.69
+[COVERAGE] : 38.79
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/surelog.uhdm ${SURELOG_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/design.hldb ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

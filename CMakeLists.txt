@@ -27,7 +27,7 @@ include(GoogleTest)
 set(HLC_BUILD_DIR "${CMAKE_SOURCE_DIR}/build" CACHE PATH "hlc install directory")
 cmake_path(ABSOLUTE_PATH HLC_BUILD_DIR BASE_DIRECTORY "${CMAKE_SOURCE_DIR}" NORMALIZE OUTPUT_VARIABLE HLC_BUILD_DIR)
 
-find_package(Surelog REQUIRED HINTS "${HLC_BUILD_DIR}")
+find_package(HLC REQUIRED HINTS "${HLC_BUILD_DIR}")
 find_package(Threads REQUIRED)
 
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
@@ -37,13 +37,15 @@ file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
 foreach(TEST_SRC IN LISTS TEST_SOURCES)
   get_filename_component(FILE_STEM "${TEST_SRC}" NAME_WLE)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
+  get_filename_component(DIR_NAME  "${TEST_DIR}" NAME)
+  set(TEST_NAME "test_${DIR_NAME}")
 
   # Strip optional section-number prefix (e.g. "6.5_" → "test_variable_assignment")
   string(REGEX REPLACE "^[0-9]+(\\.[0-9]+)*_" "" TEST_NAME "${FILE_STEM}")
 
   add_executable(${TEST_NAME} ${TEST_SRC} ${HLC_BUILD_DIR}/src/Tests/Test.cpp)
   target_link_libraries(${TEST_NAME} PRIVATE
-    surelog::surelog
+    hlc::hlc
     GTest::gtest
     GTest::gmock
     GTest::gtest_main

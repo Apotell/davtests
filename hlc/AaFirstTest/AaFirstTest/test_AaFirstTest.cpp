@@ -14,16 +14,16 @@
  limitations under the License.
 */
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/port.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/port.h>
 
-namespace SURELOG {
+namespace hlc {
 class AaFirstTest : public Test {
  public:
   static void SetUpTestSuite() {
@@ -44,13 +44,13 @@ class AaFirstTest : public Test {
 };
 
 TEST_F(AaFirstTest, default) {
-  const uhdm::Module *const module = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
-  const uhdm::Port *const port = uhdm::findByName<uhdm::Port>("a", module->getPorts());
+  const hldb::Port *const port = hldb::findByName<hldb::Port>("a", module->getPorts());
   ASSERT_NE(port, nullptr) << "Port is null";
 }
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -1,6 +1,6 @@
 # davtests
 
-Test suite for Apotell's Davenche suite, a SystemVerilog front-end compiler based on [Surelog](https://github.com/chipsalliance/Surelog).
+Test suite for Apotell's Davenche suite, a SystemVerilog front-end compiler based on [Hlc](https://github.com/chipsalliance/Hlc).
 
 ## Repository layout
 
@@ -25,8 +25,8 @@ Each `.hlc` file contains a command line with a `-wd` option that points back to
 ```bash
 python3 scripts/regression.py \
   --build-dirpath <path-to-build> \
-  --surelog-filepath surelog \
-  --reducer-filepath uhdm-reduce \
+  --hlc-filepath hlc \
+  --reducer-filepath hldb-reduce \
   --output-dirpath regression \
   --jobs $(nproc)
 ```

@@ -14,34 +14,34 @@
  limitations under the License.
 */
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/always.h>
-#include <uhdm/any.h>
-#include <uhdm/assert_stmt.h>
-#include <uhdm/assume.h>
-#include <uhdm/checker_decl.h>
-#include <uhdm/checker_port.h>
-#include <uhdm/cont_assign.h>
-#include <uhdm/cover.h>
-#include <uhdm/design.h>
-#include <uhdm/dist_item.h>
-#include <uhdm/distribution.h>
-#include <uhdm/final_stmt.h>
-#include <uhdm/function.h>
-#include <uhdm/immediate_assert.h>
-#include <uhdm/initial.h>
-#include <uhdm/let_decl.h>
-#include <uhdm/property_decl.h>
-#include <uhdm/restrict.h>
-#include <uhdm/sequence_decl.h>
-#include <uhdm/variable.h>
+#include <hldb/always.h>
+#include <hldb/any.h>
+#include <hldb/assert_stmt.h>
+#include <hldb/assume.h>
+#include <hldb/checker_decl.h>
+#include <hldb/checker_port.h>
+#include <hldb/cont_assign.h>
+#include <hldb/cover.h>
+#include <hldb/design.h>
+#include <hldb/dist_item.h>
+#include <hldb/distribution.h>
+#include <hldb/final_stmt.h>
+#include <hldb/function.h>
+#include <hldb/immediate_assert.h>
+#include <hldb/initial.h>
+#include <hldb/let_decl.h>
+#include <hldb/property_decl.h>
+#include <hldb/restrict.h>
+#include <hldb/sequence_decl.h>
+#include <hldb/variable.h>
 
 #include <gtest/gtest.h>
 
-namespace SURELOG { namespace {
+namespace hlc { namespace {
 
 // ============================================================================
 // Test fixture — compiles tests/CheckerDeclarationAll/dut.sv once for all
@@ -67,14 +67,14 @@ class CheckerDeclTest : public Test {
 
  protected:
   // Find a checker declaration by its qualified name (e.g. "work@C1_NoPortsNoBody").
-  const uhdm::CheckerDecl *findChecker(std::string_view name) const {
-    return getByName<uhdm::CheckerDecl>(name, m_design->getCheckerDecls());
+  const hldb::CheckerDecl *findChecker(std::string_view name) const {
+    return getByName<hldb::CheckerDecl>(name, m_design->getCheckerDecls());
   }
 
   // Find a port on a checker by its simple name.
-  const uhdm::CheckerPort *findPort(const uhdm::CheckerDecl *checker, std::string_view portName) const {
+  const hldb::CheckerPort *findPort(const hldb::CheckerDecl *checker, std::string_view portName) const {
     if (checker == nullptr) return nullptr;
-    return getByName<uhdm::CheckerPort>(portName, checker->getPorts());
+    return getByName<hldb::CheckerPort>(portName, checker->getPorts());
   }
 };
 
@@ -186,10 +186,10 @@ TEST_F(CheckerDeclTest, C3_Variables) {
 TEST_F(CheckerDeclTest, C3_VariableNames) {
   const auto *c3 = findChecker("work@C3_DataDecl");
   ASSERT_NE(c3, nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("state", c3->getVariables()), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("r_state", c3->getVariables()), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("counter", c3->getVariables()), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("byte_val", c3->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("state", c3->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("r_state", c3->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("counter", c3->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("byte_val", c3->getVariables()), nullptr);
 }
 
 // ============================================================================
@@ -207,7 +207,7 @@ TEST_F(CheckerDeclTest, C4_SequenceDecl) {
   ASSERT_NE(c4, nullptr);
   ASSERT_NE(c4->getSequenceDecls(), nullptr);
   EXPECT_EQ(c4->getSequenceDecls()->size(), 1u);
-  EXPECT_NE(getByName<uhdm::SequenceDecl>("s_ab", c4->getSequenceDecls()), nullptr);
+  EXPECT_NE(getByName<hldb::SequenceDecl>("s_ab", c4->getSequenceDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C4_PropertyDecl) {
@@ -215,7 +215,7 @@ TEST_F(CheckerDeclTest, C4_PropertyDecl) {
   ASSERT_NE(c4, nullptr);
   ASSERT_NE(c4->getPropertyDecls(), nullptr);
   EXPECT_EQ(c4->getPropertyDecls()->size(), 1u);
-  EXPECT_NE(getByName<uhdm::PropertyDecl>("p_ab", c4->getPropertyDecls()), nullptr);
+  EXPECT_NE(getByName<hldb::PropertyDecl>("p_ab", c4->getPropertyDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C4_LetDecl) {
@@ -223,7 +223,7 @@ TEST_F(CheckerDeclTest, C4_LetDecl) {
   ASSERT_NE(c4, nullptr);
   ASSERT_NE(c4->getLetDecls(), nullptr);
   EXPECT_EQ(c4->getLetDecls()->size(), 1u);
-  EXPECT_NE(getByName<uhdm::LetDecl>("L_and", c4->getLetDecls()), nullptr);
+  EXPECT_NE(getByName<hldb::LetDecl>("L_and", c4->getLetDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C4_ConcurrentAssertions) {
@@ -240,7 +240,7 @@ TEST_F(CheckerDeclTest, C4_AssertLabel) {
   ASSERT_NE(c4->getConcurrentAssertions(), nullptr);
   // assert_ab label must be preserved on one of the items
   bool found = false;
-  for (const uhdm::ConcurrentAssertions *ca : *c4->getConcurrentAssertions()) {
+  for (const hldb::ConcurrentAssertions *ca : *c4->getConcurrentAssertions()) {
     if (ca->getLabel() == "assert_ab") {
       found = true;
       break;
@@ -263,7 +263,7 @@ TEST_F(CheckerDeclTest, C5_SequenceDecl) {
   const auto *c5 = findChecker("work@C5_RestrictCoverSeq");
   ASSERT_NE(c5, nullptr);
   ASSERT_NE(c5->getSequenceDecls(), nullptr);
-  EXPECT_NE(getByName<uhdm::SequenceDecl>("s_a_then_b", c5->getSequenceDecls()), nullptr);
+  EXPECT_NE(getByName<hldb::SequenceDecl>("s_a_then_b", c5->getSequenceDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C5_ConcurrentAssertions) {
@@ -291,7 +291,7 @@ TEST_F(CheckerDeclTest, C6_FunctionDecl) {
   EXPECT_EQ(c6->getTaskFuncs()->size(), 1u);
   // Check the function name
   bool found = false;
-  for (const uhdm::TaskFunc *tf : *c6->getTaskFuncs()) {
+  for (const hldb::TaskFunc *tf : *c6->getTaskFuncs()) {
     if (tf->getName() == "invert_byte") {
       found = true;
       break;
@@ -304,7 +304,7 @@ TEST_F(CheckerDeclTest, C6_Variable) {
   const auto *c6 = findChecker("work@C6_FunctionDecl");
   ASSERT_NE(c6, nullptr);
   ASSERT_NE(c6->getVariables(), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("inv_data", c6->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("inv_data", c6->getVariables()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C6_ContinuousAssign) {
@@ -335,7 +335,7 @@ TEST_F(CheckerDeclTest, C7_Variable) {
   const auto *c7 = findChecker("work@C7_ProceduralItems");
   ASSERT_NE(c7, nullptr);
   ASSERT_NE(c7->getVariables(), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("cnt", c7->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("cnt", c7->getVariables()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C7_Processes) {
@@ -351,10 +351,10 @@ TEST_F(CheckerDeclTest, C7_ProcessTypes) {
   ASSERT_NE(c7, nullptr);
   ASSERT_NE(c7->getProcesses(), nullptr);
   bool hasInitial = false, hasAlways = false, hasFinal = false;
-  for (const uhdm::Process *p : *c7->getProcesses()) {
-    if (any_cast<uhdm::Initial>(p)) hasInitial = true;
-    if (any_cast<uhdm::Always>(p)) hasAlways = true;
-    if (any_cast<uhdm::FinalStmt>(p)) hasFinal = true;
+  for (const hldb::Process *p : *c7->getProcesses()) {
+    if (any_cast<hldb::Initial>(p)) hasInitial = true;
+    if (any_cast<hldb::Always>(p)) hasAlways = true;
+    if (any_cast<hldb::FinalStmt>(p)) hasFinal = true;
   }
   EXPECT_TRUE(hasInitial) << "Initial process not found in C7";
   EXPECT_TRUE(hasAlways) << "Always process not found in C7";
@@ -393,7 +393,7 @@ TEST_F(CheckerDeclTest, C9_CovergroupInstanceVariable) {
   ASSERT_NE(c9, nullptr);
   // cg_inst is the covergroup instance variable
   ASSERT_NE(c9->getVariables(), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("cg_inst", c9->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("cg_inst", c9->getVariables()), nullptr);
 }
 
 // ============================================================================
@@ -411,7 +411,7 @@ TEST_F(CheckerDeclTest, C10_GenvarVariable) {
   ASSERT_NE(c10, nullptr);
   // genvar gi → Variable model auto-parented via getModelOnStack
   ASSERT_NE(c10->getVariables(), nullptr);
-  EXPECT_NE(getByName<uhdm::Variable>("gi", c10->getVariables()), nullptr);
+  EXPECT_NE(getByName<hldb::Variable>("gi", c10->getVariables()), nullptr);
 }
 
 // ============================================================================
@@ -491,7 +491,7 @@ TEST_F(CheckerDeclTest, C15_SequenceDecl) {
   const auto *c15 = findChecker("work@C15_AttributedItem");
   ASSERT_NE(c15, nullptr);
   ASSERT_NE(c15->getSequenceDecls(), nullptr);
-  EXPECT_NE(getByName<uhdm::SequenceDecl>("s_x", c15->getSequenceDecls()), nullptr);
+  EXPECT_NE(getByName<hldb::SequenceDecl>("s_x", c15->getSequenceDecls()), nullptr);
 }
 
 TEST_F(CheckerDeclTest, C15_ConcurrentAssertion) {
@@ -574,8 +574,8 @@ TEST_F(CheckerDeclTest, C8_DefaultDisableIff_PlainExpr) {
   // default disable iff rst; → plain Expr (RefObj for signal "rst")
   ASSERT_NE(c8->getDefaultDisableIff(), nullptr);
   // Must be an Expr, not a Distribution
-  EXPECT_TRUE(any_cast<uhdm::Expr>(c8->getDefaultDisableIff()) != nullptr);
-  EXPECT_TRUE(any_cast<uhdm::Distribution>(c8->getDefaultDisableIff()) == nullptr);
+  EXPECT_TRUE(any_cast<hldb::Expr>(c8->getDefaultDisableIff()) != nullptr);
+  EXPECT_TRUE(any_cast<hldb::Distribution>(c8->getDefaultDisableIff()) == nullptr);
 }
 
 // ============================================================================
@@ -595,14 +595,14 @@ TEST_F(CheckerDeclTest, C17_DefaultDisableIff_Distribution) {
   // default disable iff (mode dist {2'b01 := 80, 2'b10 := 20})
   // → Distribution model stored as default_disable_iff
   ASSERT_NE(c17->getDefaultDisableIff(), nullptr);
-  const auto *dist = any_cast<uhdm::Distribution>(c17->getDefaultDisableIff());
+  const auto *dist = any_cast<hldb::Distribution>(c17->getDefaultDisableIff());
   ASSERT_NE(dist, nullptr) << "expected Distribution model for dist clause";
 }
 
 TEST_F(CheckerDeclTest, C17_DistributionHasBaseExpr) {
   const auto *c17 = findChecker("work@C17_DisableIffDist");
   ASSERT_NE(c17, nullptr);
-  const auto *dist = any_cast<uhdm::Distribution>(c17->getDefaultDisableIff());
+  const auto *dist = any_cast<hldb::Distribution>(c17->getDefaultDisableIff());
   ASSERT_NE(dist, nullptr);
   // The base expression (mode signal) must be set
   EXPECT_NE(dist->getExpr(), nullptr);
@@ -611,7 +611,7 @@ TEST_F(CheckerDeclTest, C17_DistributionHasBaseExpr) {
 TEST_F(CheckerDeclTest, C17_DistributionHasDistItems) {
   const auto *c17 = findChecker("work@C17_DisableIffDist");
   ASSERT_NE(c17, nullptr);
-  const auto *dist = any_cast<uhdm::Distribution>(c17->getDefaultDisableIff());
+  const auto *dist = any_cast<hldb::Distribution>(c17->getDefaultDisableIff());
   ASSERT_NE(dist, nullptr);
   // Two dist items: 2'b01 := 80  and  2'b10 := 20
   ASSERT_NE(dist->getDistItems(), nullptr);
@@ -621,11 +621,11 @@ TEST_F(CheckerDeclTest, C17_DistributionHasDistItems) {
 TEST_F(CheckerDeclTest, C17_DistItemHasWeight) {
   const auto *c17 = findChecker("work@C17_DisableIffDist");
   ASSERT_NE(c17, nullptr);
-  const auto *dist = any_cast<uhdm::Distribution>(c17->getDefaultDisableIff());
+  const auto *dist = any_cast<hldb::Distribution>(c17->getDefaultDisableIff());
   ASSERT_NE(dist, nullptr);
   ASSERT_NE(dist->getDistItems(), nullptr);
   // Each dist_item must have a weight expression set
-  for (const uhdm::DistItem *di : *dist->getDistItems()) {
+  for (const hldb::DistItem *di : *dist->getDistItems()) {
     EXPECT_NE(di->getWeight(), nullptr) << "dist_item weight should not be null";
   }
 }
@@ -637,4 +637,4 @@ TEST_F(CheckerDeclTest, C17_ConcurrentAssertion) {
   EXPECT_EQ(c17->getConcurrentAssertions()->size(), 1u);
 }
 
-}}  // namespace SURELOG
+}}  // namespace hlc

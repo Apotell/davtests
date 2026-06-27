@@ -14,30 +14,30 @@
  limitations under the License.
 */
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/any.h>
-#include <uhdm/assignment.h>
-#include <uhdm/clocked_seq.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/operation.h>
-#include <uhdm/range.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/sequence_decl.h>
-#include <uhdm/sequence_inst.h>
-#include <uhdm/sv_vpi_user.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/any.h>
+#include <hldb/assignment.h>
+#include <hldb/clocked_seq.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
+#include <hldb/range.h>
+#include <hldb/ref_obj.h>
+#include <hldb/sequence_decl.h>
+#include <hldb/sequence_inst.h>
+#include <hldb/sv_vpi_user.h>
+#include <hldb/vpi_user.h>
 
 #include <gtest/gtest.h>
 
 #include <filesystem>
 
-namespace SURELOG { namespace {
+namespace hlc { namespace {
 
 // ============================================================================
 // Test fixture — compiles tests/SequenceExpr/dut.sv once for all test cases.
@@ -61,23 +61,23 @@ class SequenceExprTest : public Test {
   }
 
  protected:
-  const uhdm::Module *getModule() const {
-    return getByName<uhdm::Module>("work@sequence_expr_coverage", m_design->getAllModules());
+  const hldb::Module *getModule() const {
+    return getByName<hldb::Module>("work@sequence_expr_coverage", m_design->getAllModules());
   }
 
   // Find a named sequence_decl inside the module.
-  const uhdm::SequenceDecl *findSeq(std::string_view name) const {
-    const uhdm::Module *mod = getModule();
+  const hldb::SequenceDecl *findSeq(std::string_view name) const {
+    const hldb::Module *mod = getModule();
     if (mod == nullptr) return nullptr;
-    return getByName<uhdm::SequenceDecl>(name, mod->getSequenceDecls());
+    return getByName<hldb::SequenceDecl>(name, mod->getSequenceDecls());
   }
 
   // Return the expr of a named sequence, cast to Operation.
   // Returns nullptr if the sequence is missing or expr is not an Operation.
-  const uhdm::Operation *seqOp(std::string_view name) const {
-    const uhdm::SequenceDecl *sd = findSeq(name);
+  const hldb::Operation *seqOp(std::string_view name) const {
+    const hldb::SequenceDecl *sd = findSeq(name);
     if (sd == nullptr) return nullptr;
-    return any_cast<uhdm::Operation>(sd->getExpr());
+    return any_cast<hldb::Operation>(sd->getExpr());
   }
 };
 
@@ -87,7 +87,7 @@ class SequenceExprTest : public Test {
 TEST_F(SequenceExprTest, ModuleExists) { ASSERT_NE(getModule(), nullptr); }
 
 TEST_F(SequenceExprTest, SequenceDeclsPresent) {
-  const uhdm::Module *mod = getModule();
+  const hldb::Module *mod = getModule();
   ASSERT_NE(mod, nullptr);
   ASSERT_NE(mod->getSequenceDecls(), nullptr);
   // dut.sv declares named sequences: 4 helpers + alt1(a-f) + alt2(a-g) +
@@ -120,7 +120,7 @@ TEST_F(SequenceExprTest, Alt1_Fixed_FirstOperandIsConstant) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<uhdm::Constant>((*op->getOperands())[0]), nullptr);
+  EXPECT_NE(any_cast<hldb::Constant>((*op->getOperands())[0]), nullptr);
 }
 
 // ============================================================================
@@ -180,7 +180,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Exact_SubjectIsRefObj) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *subj = any_cast<uhdm::RefObj>((*op->getOperands())[0]);
+  const auto *subj = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(subj, nullptr);
   EXPECT_EQ(subj->getName(), "a");
 }
@@ -190,7 +190,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Exact_CountIsConstant) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *cnt = any_cast<uhdm::Constant>((*op->getOperands())[1]);
+  const auto *cnt = any_cast<hldb::Constant>((*op->getOperands())[1]);
   ASSERT_NE(cnt, nullptr);
   EXPECT_EQ(cnt->getValue(), "3");
 }
@@ -208,7 +208,7 @@ TEST_F(SequenceExprTest, Alt3_Consec_Range_SecondOperandIsRange) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<uhdm::Range>((*op->getOperands())[1]), nullptr);
+  EXPECT_NE(any_cast<hldb::Range>((*op->getOperands())[1]), nullptr);
 }
 
 TEST_F(SequenceExprTest, Alt3_Consec_Star_OpType) {
@@ -224,9 +224,9 @@ TEST_F(SequenceExprTest, Alt3_Consec_Star_RangeLeft_IsZero) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *lc = any_cast<uhdm::Constant>(rng->getLeftExpr());
+  const auto *lc = any_cast<hldb::Constant>(rng->getLeftExpr());
   ASSERT_NE(lc, nullptr);
   EXPECT_EQ(lc->getValue(), "0");
 }
@@ -244,9 +244,9 @@ TEST_F(SequenceExprTest, Alt3_Consec_Plus_RangeLeft_IsOne) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *lc = any_cast<uhdm::Constant>(rng->getLeftExpr());
+  const auto *lc = any_cast<hldb::Constant>(rng->getLeftExpr());
   ASSERT_NE(lc, nullptr);
   EXPECT_EQ(lc->getValue(), "1");
 }
@@ -257,9 +257,9 @@ TEST_F(SequenceExprTest, Alt3_Consec_Unbounded_RightIsDollar) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *rc = any_cast<uhdm::Constant>(rng->getRightExpr());
+  const auto *rc = any_cast<hldb::Constant>(rng->getRightExpr());
   ASSERT_NE(rc, nullptr);
   EXPECT_EQ(rc->getValue(), "$");
 }
@@ -287,7 +287,7 @@ TEST_F(SequenceExprTest, Alt3_NonConsec_Exact_SubjectIsRefObj) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *subj = any_cast<uhdm::RefObj>((*op->getOperands())[0]);
+  const auto *subj = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(subj, nullptr);
   EXPECT_EQ(subj->getName(), "a");
 }
@@ -304,7 +304,7 @@ TEST_F(SequenceExprTest, Alt3_NonConsec_Range_SecondIsRange) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<uhdm::Range>((*op->getOperands())[1]), nullptr);
+  EXPECT_NE(any_cast<hldb::Range>((*op->getOperands())[1]), nullptr);
 }
 
 TEST_F(SequenceExprTest, Alt3_NonConsec_Unbounded_RightIsDollar) {
@@ -313,9 +313,9 @@ TEST_F(SequenceExprTest, Alt3_NonConsec_Unbounded_RightIsDollar) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *rc = any_cast<uhdm::Constant>(rng->getRightExpr());
+  const auto *rc = any_cast<hldb::Constant>(rng->getRightExpr());
   ASSERT_NE(rc, nullptr);
   EXPECT_EQ(rc->getValue(), "$");
 }
@@ -343,7 +343,7 @@ TEST_F(SequenceExprTest, Alt3_Goto_Exact_SubjectIsRefObj) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *subj = any_cast<uhdm::RefObj>((*op->getOperands())[0]);
+  const auto *subj = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(subj, nullptr);
   EXPECT_EQ(subj->getName(), "a");
 }
@@ -360,7 +360,7 @@ TEST_F(SequenceExprTest, Alt3_Goto_Range_SecondIsRange) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<uhdm::Range>((*op->getOperands())[1]), nullptr);
+  EXPECT_NE(any_cast<hldb::Range>((*op->getOperands())[1]), nullptr);
 }
 
 TEST_F(SequenceExprTest, Alt3_Goto_Unbounded_RightIsDollar) {
@@ -369,9 +369,9 @@ TEST_F(SequenceExprTest, Alt3_Goto_Unbounded_RightIsDollar) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *rc = any_cast<uhdm::Constant>(rng->getRightExpr());
+  const auto *rc = any_cast<hldb::Constant>(rng->getRightExpr());
   ASSERT_NE(rc, nullptr);
   EXPECT_EQ(rc->getValue(), "$");
 }
@@ -399,9 +399,9 @@ TEST_F(SequenceExprTest, Alt4_Consec_Abbrev_OperandOrder) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 3u);
-  EXPECT_NE(any_cast<uhdm::RefObj>((*op->getOperands())[0]), nullptr);      // [0] subject
-  EXPECT_NE(any_cast<uhdm::Constant>((*op->getOperands())[1]), nullptr);    // [1] count
-  EXPECT_NE(any_cast<uhdm::Assignment>((*op->getOperands())[2]), nullptr);  // [2] match item
+  EXPECT_NE(any_cast<hldb::RefObj>((*op->getOperands())[0]), nullptr);      // [0] subject
+  EXPECT_NE(any_cast<hldb::Constant>((*op->getOperands())[1]), nullptr);    // [1] count
+  EXPECT_NE(any_cast<hldb::Assignment>((*op->getOperands())[2]), nullptr);  // [2] match item
 }
 
 TEST_F(SequenceExprTest, Alt4_Consec_RangeAbbrev_OpType) {
@@ -457,7 +457,7 @@ TEST_F(SequenceExprTest, Alt5_Consec_Exact_SubjectName) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *subj = any_cast<uhdm::RefObj>((*op->getOperands())[0]);
+  const auto *subj = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(subj, nullptr);
   EXPECT_EQ(subj->getName(), "seq_ab");
 }
@@ -468,9 +468,9 @@ TEST_F(SequenceExprTest, Alt5_Star_RangeLeft_IsZero) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *lc = any_cast<uhdm::Constant>(rng->getLeftExpr());
+  const auto *lc = any_cast<hldb::Constant>(rng->getLeftExpr());
   ASSERT_NE(lc, nullptr);
   EXPECT_EQ(lc->getValue(), "0");
 }
@@ -481,9 +481,9 @@ TEST_F(SequenceExprTest, Alt5_Plus_RangeLeft_IsOne) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rng = any_cast<uhdm::Range>((*op->getOperands())[1]);
+  const auto *rng = any_cast<hldb::Range>((*op->getOperands())[1]);
   ASSERT_NE(rng, nullptr);
-  const auto *lc = any_cast<uhdm::Constant>(rng->getLeftExpr());
+  const auto *lc = any_cast<hldb::Constant>(rng->getLeftExpr());
   ASSERT_NE(lc, nullptr);
   EXPECT_EQ(lc->getValue(), "1");
 }
@@ -512,7 +512,7 @@ TEST_F(SequenceExprTest, Alt6_MatchConsec_Exact_SubjectIsCycleDelay) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *inner = any_cast<uhdm::Operation>((*op->getOperands())[0]);
+  const auto *inner = any_cast<hldb::Operation>((*op->getOperands())[0]);
   ASSERT_NE(inner, nullptr);
   EXPECT_EQ(inner->getOpType(), vpiCycleDelayOp);
 }
@@ -585,7 +585,7 @@ TEST_F(SequenceExprTest, Alt8_WithRep_LeftIsConsecRepeat) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *left = any_cast<uhdm::Operation>((*op->getOperands())[0]);
+  const auto *left = any_cast<hldb::Operation>((*op->getOperands())[0]);
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getOpType(), vpiConsecutiveRepeatOp);
 }
@@ -672,8 +672,8 @@ TEST_F(SequenceExprTest, Alt12_Sequenced_BothOperandsAreCycleDelay) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *lhs = any_cast<uhdm::Operation>((*op->getOperands())[0]);
-  const auto *rhs = any_cast<uhdm::Operation>((*op->getOperands())[1]);
+  const auto *lhs = any_cast<hldb::Operation>((*op->getOperands())[0]);
+  const auto *rhs = any_cast<hldb::Operation>((*op->getOperands())[1]);
   ASSERT_NE(lhs, nullptr);
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(lhs->getOpType(), vpiCycleDelayOp);
@@ -685,32 +685,32 @@ TEST_F(SequenceExprTest, Alt12_Sequenced_BothOperandsAreCycleDelay) {
 // ============================================================================
 TEST_F(SequenceExprTest, Alt13_Posedge_IsClockedSeq) {
   // @(posedge clk) a
-  const uhdm::SequenceDecl *sd = findSeq("alt13_posedge");
+  const hldb::SequenceDecl *sd = findSeq("alt13_posedge");
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(any_cast<uhdm::ClockedSeq>(sd->getExpr()), nullptr);
+  EXPECT_NE(any_cast<hldb::ClockedSeq>(sd->getExpr()), nullptr);
 }
 
 TEST_F(SequenceExprTest, Alt13_Posedge_HasSequenceExpr) {
-  const uhdm::SequenceDecl *sd = findSeq("alt13_posedge");
+  const hldb::SequenceDecl *sd = findSeq("alt13_posedge");
   ASSERT_NE(sd, nullptr);
-  const auto *cs = any_cast<uhdm::ClockedSeq>(sd->getExpr());
+  const auto *cs = any_cast<hldb::ClockedSeq>(sd->getExpr());
   ASSERT_NE(cs, nullptr);
   EXPECT_NE(cs->getSequenceExpr(), nullptr);
 }
 
 TEST_F(SequenceExprTest, Alt13_Sequenced_IsClockedSeq) {
   // @(posedge clk) (a ##1 b)
-  const uhdm::SequenceDecl *sd = findSeq("alt13_sequenced");
+  const hldb::SequenceDecl *sd = findSeq("alt13_sequenced");
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(any_cast<uhdm::ClockedSeq>(sd->getExpr()), nullptr);
+  EXPECT_NE(any_cast<hldb::ClockedSeq>(sd->getExpr()), nullptr);
 }
 
 TEST_F(SequenceExprTest, Alt13_Sequenced_InnerIsCycleDelay) {
-  const uhdm::SequenceDecl *sd = findSeq("alt13_sequenced");
+  const hldb::SequenceDecl *sd = findSeq("alt13_sequenced");
   ASSERT_NE(sd, nullptr);
-  const auto *cs = any_cast<uhdm::ClockedSeq>(sd->getExpr());
+  const auto *cs = any_cast<hldb::ClockedSeq>(sd->getExpr());
   ASSERT_NE(cs, nullptr);
-  const auto *inner = any_cast<uhdm::Operation>(cs->getSequenceExpr());
+  const auto *inner = any_cast<hldb::Operation>(cs->getSequenceExpr());
   ASSERT_NE(inner, nullptr);
   EXPECT_EQ(inner->getOpType(), vpiCycleDelayOp);
 }
@@ -731,8 +731,8 @@ TEST_F(SequenceExprTest, Combo_AndOr_InnerOperandsAreAnd) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *lhs = any_cast<uhdm::Operation>((*op->getOperands())[0]);
-  const auto *rhs = any_cast<uhdm::Operation>((*op->getOperands())[1]);
+  const auto *lhs = any_cast<hldb::Operation>((*op->getOperands())[0]);
+  const auto *rhs = any_cast<hldb::Operation>((*op->getOperands())[1]);
   ASSERT_NE(lhs, nullptr);
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(lhs->getOpType(), vpiLogAndOp);
@@ -751,7 +751,7 @@ TEST_F(SequenceExprTest, Combo_ThroughoutWithin_InnerIsWithin) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const auto *rhs = any_cast<uhdm::Operation>((*op->getOperands())[1]);
+  const auto *rhs = any_cast<hldb::Operation>((*op->getOperands())[1]);
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getOpType(), vpiWithinOp);
 }
@@ -763,4 +763,4 @@ TEST_F(SequenceExprTest, Combo_LeadingInstRep_IsUnaryCycleDelay) {
   EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp);
 }
 
-}}  // namespace SURELOG
+}}  // namespace hlc

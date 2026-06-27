@@ -4,7 +4,7 @@ import argparse
 import functools
 import multiprocessing
 import pprint
-import pyuhdm # pyright: ignore[reportMissingImports]
+import pyhldb # pyright: ignore[reportMissingImports]
 import re
 import sys
 import tabulate
@@ -58,15 +58,15 @@ def _mounted(p: str, mounts: dict[str, str]) -> str:
     return p
 
 
-class Visitor(pyuhdm.UhdmVisitor):
+class Visitor(pyhldb.Visitor):
   def __init__(self, file_contents: Dict[str, list[str]]):
     super().__init__()
     self.file_contents = file_contents
     self.ignored_types = [
-      pyuhdm.UhdmType.Comment,
-      pyuhdm.UhdmType.PreprocMacroDefinition,
-      pyuhdm.UhdmType.PreprocMacroInstance,
-      pyuhdm.UhdmType.SourceFile
+      pyhldb.AnyType.Comment,
+      pyhldb.AnyType.PreprocMacroDefinition,
+      pyhldb.AnyType.PreprocMacroInstance,
+      pyhldb.AnyType.SourceFile
     ]
 
   def visitAny(self, obj):
@@ -76,7 +76,7 @@ class Visitor(pyuhdm.UhdmVisitor):
     if obj.pp_start_line != obj.pp_end_line:
       return
 
-    if obj.uhdm_type in self.ignored_types:
+    if obj.any_type in self.ignored_types:
       return
 
     logical = obj.pp_file
@@ -210,7 +210,7 @@ def _run_one(args):
   log(f'Running {test_id} ...')
 
   test_name = str(test_id)
-  uhdm_filepath = test_dirpath / 'surelog.uhdm'
+  hldb_filepath = test_dirpath / 'design.hldb'
   coverage_log_filepath = test_dirpath / 'coverage.log'
   mounts_filepath = test_dirpath / 'mounts.json'
 
@@ -230,16 +230,16 @@ def _run_one(args):
       print( 'Environment:')
       print(f'      test-name: {test_name}')
       print(f'   test-dirpath: {test_dirpath.as_posix()}')
-      print(f'  uhdm-filepath: {uhdm_filepath.as_posix()}')
+      print(f'  hldb-filepath: {hldb_filepath.as_posix()}')
       print(f'mounts-filepath: {mounts_filepath.as_posix()}')
       print()
 
       # Load mounted paths to resolve logical paths in binary
       mounts = json_load(mounts_filepath.open())
 
-      if uhdm_filepath.exists():
-        s = pyuhdm.Serializer()
-        designs = s.restore(str(uhdm_filepath))
+      if hldb_filepath.exists():
+        s = pyhldb.Serializer()
+        designs = s.restore(str(hldb_filepath))
 
         file_contents = {}
         logical_to_path = {}
@@ -279,7 +279,7 @@ def _run_one(args):
           print(f'FAILED to find any source files.')
           result['error_count'] += 1
       else:
-        print(f'FAILED to find uhdm database!')
+        print(f'FAILED to find hldb database!')
         result['error_count'] += 1
 
     except:

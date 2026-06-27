@@ -1,20 +1,20 @@
-********************************************
-*  SURELOG SystemVerilog  Compiler/Linter  *
-********************************************
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
 Copyright (c) 2017-2023 Alain Dargelas,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -parse -nobuiltin -timescale=1ns/1ns -d ast -d uhdm t_dpi_sys.v -mt 0 -mp 0 -d uhdmstats -d cache -d uhdm -nostdout -o ${SURELOG_DIR}/regression/Verilator/t_dpi_sys
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_dpi_sys.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_dpi_sys
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/t_dpi_sys.v".
 [ERR:PP0102] $Source01/t_dpi_sys.v:15:4: Unknown macro "error".
 [INF:PA0201] Parsing source file "$Source01/t_dpi_sys.v".
-[SNT:PA0207] $Source01/t_dpi_sys.v:15:39: Syntax error: no viable alternative at input 'module t ();\n\n\n   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."',
-   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
-                                       ^-- $Source01/t_dpi_sys.v:15:39:.
-[SNT:PA0207] $Source01/t_dpi_sys.v:15:39: Syntax error: mismatched input '"Only Verilator supports PLI-ish DPI calls."' expecting <EOF>,
-   SURELOG_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
-                                       ^-- $Source01/t_dpi_sys.v:15:39:.
+[SNT:PA0207] $Source01/t_dpi_sys.v:15:35: Syntax error: no viable alternative at input 'module t ();\n\n\n   HLC_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."',
+   HLC_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
+                                   ^-- $Source01/t_dpi_sys.v:15:35:.
+[SNT:PA0207] $Source01/t_dpi_sys.v:15:35: Syntax error: mismatched input '"Only Verilator supports PLI-ish DPI calls."' expecting <EOF>,
+   HLC_MACRO_NOT_DEFINED:error!!!  "Only Verilator supports PLI-ish DPI calls."
+                                   ^-- $Source01/t_dpi_sys.v:15:35:.
 [ERR:PA0203] $Source01/t_dpi_sys.v:15: Unknown macro "error".
 AST_DEBUG_BEGIN
 Count: 60
@@ -29,7 +29,7 @@ n<$Source01/t_dpi_sys.v> u<59> t<Top_level_rule> c<1> l<9:1> el<28:10>
   n<// Lesser General Public License Version 3 or the Perl Artistic License> u<6> t<LINE_COMMENT> p<59> s<7> l<5:1> el<5:72>
   n<// Version 2.0.> u<7> t<LINE_COMMENT> p<59> s<8> l<6:1> el<6:16>
   n<// Global is the most likely usage scenario> u<8> t<LINE_COMMENT> p<59> s<58> l<8:1> el<8:44>
-  n<> u<58> t<Source_text> p<59> c<24> l<9:1> el<15:38>
+  n<> u<58> t<Source_text> p<59> c<24> l<9:1> el<15:34>
     n<> u<24> t<Description> p<58> c<23> s<42> l<9:1> el<9:69>
       n<> u<23> t<Package_item> p<24> c<22> l<9:1> el<9:69>
         n<> u<22> t<Package_or_generate_item_declaration> p<23> c<21> l<9:1> el<9:69>
@@ -77,11 +77,11 @@ n<$Source01/t_dpi_sys.v> u<59> t<Top_level_rule> c<1> l<9:1> el<28:10>
     n<> u<55> t<Description> p<58> c<54> s<57> l<12:12> el<12:13>
       n<> u<54> t<Package_item> p<55> c<53> l<12:12> el<12:13>
         n<> u<53> t<Package_or_generate_item_declaration> p<54> l<12:12> el<12:13>
-    n<> u<57> t<Description> p<58> c<56> l<15:4> el<15:38>
-      n<> u<56> t<Surelog_macro_not_defined> p<57> l<15:4> el<15:38>
+    n<> u<57> t<Description> p<58> c<56> l<15:4> el<15:34>
+      n<> u<56> t<Hlc_macro_not_defined> p<57> l<15:4> el<15:34>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
   vpiSourceFile (1 items):
@@ -156,43 +156,43 @@ Design name:unnamed:
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
-********************************************
-*   End SURELOG SVerilog Compiler/Linter   *
-********************************************
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
       test-name: Verilator/t_dpi_sys
-   test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_dpi_sys
-  uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_dpi_sys/surelog.uhdm
-mounts-filepath: ${SURELOG_DIR}/regression/Verilator/t_dpi_sys/mounts.json
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_dpi_sys
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_dpi_sys/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_dpi_sys/mounts.json
 
 
-{'result': {'coverage': 52.88,
+{'result': {'coverage': 53.44,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_dpi_sys.v': {'post_len': 180,
-                                                       'pre_len': 382}},
-            'post_len': 180,
-            'pre_len': 382,
+            'files': {'$Output/lib/work/t_dpi_sys.v': {'post_len': 176,
+                                                       'pre_len': 378}},
+            'post_len': 176,
+            'pre_len': 378,
             'test_name': 'Verilator/t_dpi_sys'}}
 
 +------------------------------+----------+-----------+
 | INPUT                        |   PRELEN |   POSTLEN |
 +==============================+==========+===========+
-| $Output/lib/work/t_dpi_sys.v |      382 |       180 |
+| $Output/lib/work/t_dpi_sys.v |      378 |       176 |
 +==============================+==========+===========+
-|                              |      382 |       180 |
+|                              |      378 |       176 |
 +------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 52.88
+[COVERAGE] : 53.44
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_dpi_sys/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_dpi_sys/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_dpi_sys/design.hldb ${HLC_DIR}/regression/Verilator/t_dpi_sys/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

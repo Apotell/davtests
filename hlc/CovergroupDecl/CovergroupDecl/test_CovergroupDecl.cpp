@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Validates IEEE 1800-2017 §19 covergroup UHDM model built by Phase2ModelBuilder.
+// Validates IEEE 1800-2017 §19 covergroup HLDB model built by Phase2ModelBuilder.
 // Tests covergroup declarations nested inside a module body so they are
 // reachable via module->getCoverGroups().
 //
@@ -35,28 +35,28 @@
 // are resolved to actual CoverPoint objects). Tests with -parse only cannot
 // verify cross item count; they verify cross existence/name instead.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/any.h>
-#include <uhdm/cover_bin.h>
-#include <uhdm/cover_cross.h>
-#include <uhdm/cover_group.h>
-#include <uhdm/cover_point.h>
-#include <uhdm/coverage_option.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/any.h>
+#include <hldb/cover_bin.h>
+#include <hldb/cover_cross.h>
+#include <hldb/cover_group.h>
+#include <hldb/cover_point.h>
+#include <hldb/coverage_option.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
 
 #include <gtest/gtest.h>
 
 #include <algorithm>
 #include <cstddef>
 
-namespace SURELOG {
+namespace hlc {
 
 class CovergroupDeclTest : public Test {
  public:
@@ -76,19 +76,19 @@ class CovergroupDeclTest : public Test {
   }
 
  protected:
-  static const uhdm::CoverGroup *findCG(const uhdm::CoverGroupCollection *col, std::string_view name) {
+  static const hldb::CoverGroup *findCG(const hldb::CoverGroupCollection *col, std::string_view name) {
     if (col == nullptr) return nullptr;
-    for (const uhdm::CoverGroup *cg : *col) {
+    for (const hldb::CoverGroup *cg : *col) {
       if (cg->getName() == name) return cg;
     }
     return nullptr;
   }
 
   // Find a CoverPoint by name inside the covergroup's ordered stmt list.
-  static const uhdm::CoverPoint *findCP(uhdm::AnyCollection *stmts, std::string_view name) {
+  static const hldb::CoverPoint *findCP(hldb::AnyCollection *stmts, std::string_view name) {
     if (stmts == nullptr) return nullptr;
-    for (uhdm::Any *item : *stmts) {
-      if (const auto *cp = any_cast<uhdm::CoverPoint>(item)) {
+    for (hldb::Any *item : *stmts) {
+      if (const auto *cp = any_cast<hldb::CoverPoint>(item)) {
         if (cp->getName() == name) return cp;
       }
     }
@@ -96,10 +96,10 @@ class CovergroupDeclTest : public Test {
   }
 
   // Find a CoverCross by name inside the covergroup's ordered stmt list.
-  static const uhdm::CoverCross *findCX(uhdm::AnyCollection *stmts, std::string_view name) {
+  static const hldb::CoverCross *findCX(hldb::AnyCollection *stmts, std::string_view name) {
     if (stmts == nullptr) return nullptr;
-    for (uhdm::Any *item : *stmts) {
-      if (const auto *cx = any_cast<uhdm::CoverCross>(item)) {
+    for (hldb::Any *item : *stmts) {
+      if (const auto *cx = any_cast<hldb::CoverCross>(item)) {
         if (cx->getName() == name) return cx;
       }
     }
@@ -107,24 +107,24 @@ class CovergroupDeclTest : public Test {
   }
 
   // Return the first CoverBin from a CoverPoint's stmt collection, or nullptr.
-  static const uhdm::CoverBin *firstBin(const uhdm::CoverPoint *cp) {
+  static const hldb::CoverBin *firstBin(const hldb::CoverPoint *cp) {
     if (cp == nullptr) return nullptr;
     const auto *stmts = cp->getStmts();
     if (stmts == nullptr) return nullptr;
-    for (uhdm::Any *item : *stmts) {
-      if (const auto *bin = any_cast<uhdm::CoverBin>(item)) return bin;
+    for (hldb::Any *item : *stmts) {
+      if (const auto *bin = any_cast<hldb::CoverBin>(item)) return bin;
     }
     return nullptr;
   }
 
   // Return the Nth CoverBin (0-based) from the stmt collection, or nullptr.
-  static const uhdm::CoverBin *getBinAt(const uhdm::CoverPoint *cp, size_t idx) {
+  static const hldb::CoverBin *getBinAt(const hldb::CoverPoint *cp, size_t idx) {
     if (cp == nullptr) return nullptr;
     const auto *stmts = cp->getStmts();
     if (stmts == nullptr) return nullptr;
     size_t count = 0;
-    for (uhdm::Any *item : *stmts) {
-      if (const auto *bin = any_cast<uhdm::CoverBin>(item)) {
+    for (hldb::Any *item : *stmts) {
+      if (const auto *bin = any_cast<hldb::CoverBin>(item)) {
         if (count++ == idx) return bin;
       }
     }
@@ -132,34 +132,34 @@ class CovergroupDeclTest : public Test {
   }
 
   // Count CoverBin items in a CoverPoint's stmt collection.
-  static size_t countBins(const uhdm::CoverPoint *cp) {
+  static size_t countBins(const hldb::CoverPoint *cp) {
     if (cp == nullptr) return 0;
     const auto *stmts = cp->getStmts();
     if (stmts == nullptr) return 0;
     size_t count = 0;
-    for (uhdm::Any *item : *stmts) {
-      if (any_cast<uhdm::CoverBin>(item)) ++count;
+    for (hldb::Any *item : *stmts) {
+      if (any_cast<hldb::CoverBin>(item)) ++count;
     }
     return count;
   }
 
   // Return the first CoverageOption from a CoverPoint's stmt collection, or nullptr.
-  static const uhdm::CoverageOption *firstOption(const uhdm::CoverPoint *cp) {
+  static const hldb::CoverageOption *firstOption(const hldb::CoverPoint *cp) {
     if (cp == nullptr) return nullptr;
     const auto *stmts = cp->getStmts();
     if (stmts == nullptr) return nullptr;
-    for (uhdm::Any *item : *stmts) {
-      if (const auto *opt = any_cast<uhdm::CoverageOption>(item)) return opt;
+    for (hldb::Any *item : *stmts) {
+      if (const auto *opt = any_cast<hldb::CoverageOption>(item)) return opt;
     }
     return nullptr;
   }
 
   // Count items of type T in the covergroup's ordered stmt list.
   template <typename T>
-  static size_t countType(uhdm::AnyCollection *stmts) {
+  static size_t countType(hldb::AnyCollection *stmts) {
     if (stmts == nullptr) return 0;
     size_t count = 0;
-    for (uhdm::Any *item : *stmts) {
+    for (hldb::Any *item : *stmts) {
       if (any_cast<T>(item)) ++count;
     }
     return count;
@@ -169,12 +169,12 @@ class CovergroupDeclTest : public Test {
 // --- Module and covergroup presence ----------------------------------------
 
 TEST_F(CovergroupDeclTest, ModuleExists) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module covergroup_dut not found";
 }
 
 TEST_F(CovergroupDeclTest, TwoCoverGroups) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cgs = mod->getCoverGroups();
   ASSERT_NE(cgs, nullptr) << "Module has no covergroup declarations";
@@ -182,14 +182,14 @@ TEST_F(CovergroupDeclTest, TwoCoverGroups) {
 }
 
 TEST_F(CovergroupDeclTest, CgBasicFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr) << "cg_basic not found in module";
 }
 
 TEST_F(CovergroupDeclTest, CgClockedFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_clocked");
   ASSERT_NE(cg, nullptr) << "cg_clocked not found in module";
@@ -200,7 +200,7 @@ TEST_F(CovergroupDeclTest, CgClockedFound) {
 // cover_cross items in source order.
 
 TEST_F(CovergroupDeclTest, CgBasicHasStmts) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -208,24 +208,24 @@ TEST_F(CovergroupDeclTest, CgBasicHasStmts) {
 }
 
 TEST_F(CovergroupDeclTest, CgBasicThreeCoverPoints) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
-  EXPECT_EQ(countType<uhdm::CoverPoint>(cg->getStmts()), 3u) << "Expected cp_op, cp_addr, and cp_valid";
+  EXPECT_EQ(countType<hldb::CoverPoint>(cg->getStmts()), 3u) << "Expected cp_op, cp_addr, and cp_valid";
 }
 
 TEST_F(CovergroupDeclTest, CgBasicTwoCoverCrosses) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
-  EXPECT_EQ(countType<uhdm::CoverCross>(cg->getStmts()), 2u) << "Expected cx_op_addr and cx_three_way";
+  EXPECT_EQ(countType<hldb::CoverCross>(cg->getStmts()), 2u) << "Expected cx_op_addr and cx_three_way";
 }
 
 // Coverage options are interleaved in stmts; verify total item count.
 TEST_F(CovergroupDeclTest, CgBasicStmtTotalCount) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -239,7 +239,7 @@ TEST_F(CovergroupDeclTest, CgBasicStmtTotalCount) {
 // --- cross_item_list: 2-way cross ------------------------------------------
 
 TEST_F(CovergroupDeclTest, TwoWayCrossFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -254,7 +254,7 @@ TEST_F(CovergroupDeclTest, TwoWayCrossFound) {
 // elaboration; getCrossItems() is empty at -parse-only time).
 
 TEST_F(CovergroupDeclTest, ThreeWayCrossFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -263,7 +263,7 @@ TEST_F(CovergroupDeclTest, ThreeWayCrossFound) {
 }
 
 TEST_F(CovergroupDeclTest, ThreeWayCrossName) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -273,7 +273,7 @@ TEST_F(CovergroupDeclTest, ThreeWayCrossName) {
 }
 
 TEST_F(CovergroupDeclTest, CrossItemsTypedCollectionNullAtParseTime) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -285,7 +285,7 @@ TEST_F(CovergroupDeclTest, CrossItemsTypedCollectionNullAtParseTime) {
 // cross_item_list: RefObj placeholders stored in getStmts() at parse time.
 // Two items: cp_op and cp_addr.
 TEST_F(CovergroupDeclTest, TwoWayCrossHasTwoStmts) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -297,7 +297,7 @@ TEST_F(CovergroupDeclTest, TwoWayCrossHasTwoStmts) {
 
 // Three items: cp_op, cp_addr, cp_valid — exercises the repeating grammar rule.
 TEST_F(CovergroupDeclTest, ThreeWayCrossHasThreeStmts) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -309,7 +309,7 @@ TEST_F(CovergroupDeclTest, ThreeWayCrossHasThreeStmts) {
 
 // Validate the cross item names are correct and in source order.
 TEST_F(CovergroupDeclTest, ThreeWayCrossStmtNames) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -328,7 +328,7 @@ TEST_F(CovergroupDeclTest, ThreeWayCrossStmtNames) {
 // cp_op's first bin is "rd" (regular bins, binType=0, isWildcard=false).
 
 TEST_F(CovergroupDeclTest, CpOpFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -337,7 +337,7 @@ TEST_F(CovergroupDeclTest, CpOpFound) {
 }
 
 TEST_F(CovergroupDeclTest, CpOpHasFirstBin) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -347,7 +347,7 @@ TEST_F(CovergroupDeclTest, CpOpHasFirstBin) {
 }
 
 TEST_F(CovergroupDeclTest, CpOpFirstBinIsRegular) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -363,7 +363,7 @@ TEST_F(CovergroupDeclTest, CpOpFirstBinIsRegular) {
 // cp_addr's first bin is "lo" (regular bins covering low nibble).
 
 TEST_F(CovergroupDeclTest, CpAddrFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -372,7 +372,7 @@ TEST_F(CovergroupDeclTest, CpAddrFound) {
 }
 
 TEST_F(CovergroupDeclTest, CpAddrHasFirstBin) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -382,7 +382,7 @@ TEST_F(CovergroupDeclTest, CpAddrHasFirstBin) {
 }
 
 TEST_F(CovergroupDeclTest, CpAddrFirstBinIsRegular) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -396,7 +396,7 @@ TEST_F(CovergroupDeclTest, CpAddrFirstBinIsRegular) {
 // --- cp_valid coverpoint ----------------------------------------------------
 
 TEST_F(CovergroupDeclTest, CpValidFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -405,7 +405,7 @@ TEST_F(CovergroupDeclTest, CpValidFound) {
 }
 
 TEST_F(CovergroupDeclTest, CpValidHasFirstBin) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_basic");
   ASSERT_NE(cg, nullptr);
@@ -417,7 +417,7 @@ TEST_F(CovergroupDeclTest, CpValidHasFirstBin) {
 // --- cg_clocked ------------------------------------------------------------
 
 TEST_F(CovergroupDeclTest, CgClockedHasSamplingEvent) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_clocked");
   ASSERT_NE(cg, nullptr);
@@ -425,15 +425,15 @@ TEST_F(CovergroupDeclTest, CgClockedHasSamplingEvent) {
 }
 
 TEST_F(CovergroupDeclTest, CgClockedOneCoverPoint) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_clocked");
   ASSERT_NE(cg, nullptr);
-  EXPECT_EQ(countType<uhdm::CoverPoint>(cg->getStmts()), 1u) << "Expected only cp_state";
+  EXPECT_EQ(countType<hldb::CoverPoint>(cg->getStmts()), 1u) << "Expected only cp_state";
 }
 
 TEST_F(CovergroupDeclTest, CgClockedCpStateName) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@covergroup_dut", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@covergroup_dut", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_clocked");
   ASSERT_NE(cg, nullptr);
@@ -447,27 +447,27 @@ TEST_F(CovergroupDeclTest, CgClockedCpStateName) {
 // Cross stmts: 2 RefObj cross items (a, b) + 3 CoverBin from body = 5 total.
 
 TEST_F(CovergroupDeclTest, ModuleTopExists) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top not found";
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCgFound) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr) << "cg not found in module top";
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCgTwoCoverPoints) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
-  EXPECT_EQ(countType<uhdm::CoverPoint>(cg->getStmts()), 2u) << "Expected coverpoints a and b";
+  EXPECT_EQ(countType<hldb::CoverPoint>(cg->getStmts()), 2u) << "Expected coverpoints a and b";
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCgHasSamplingEvent) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -475,7 +475,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCgHasSamplingEvent) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCrossCBodyFiveStmts) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -487,10 +487,10 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossCBodyFiveStmts) {
 }
 
 // Helper: find a CoverBin by name inside a cross's stmt collection.
-static const uhdm::CoverBin *findCrossBin(const uhdm::CoverCross *cx, std::string_view name) {
+static const hldb::CoverBin *findCrossBin(const hldb::CoverCross *cx, std::string_view name) {
   if (cx == nullptr || cx->getStmts() == nullptr) return nullptr;
-  for (uhdm::Any *item : *cx->getStmts()) {
-    if (const auto *bin = any_cast<uhdm::CoverBin>(item)) {
+  for (hldb::Any *item : *cx->getStmts()) {
+    if (const auto *bin = any_cast<hldb::CoverBin>(item)) {
       if (bin->getName() == name) return bin;
     }
   }
@@ -505,7 +505,7 @@ static const uhdm::CoverBin *findCrossBin(const uhdm::CoverCross *cx, std::strin
 //   bins c3 = binsof(a.a1) && binsof(b.b4)
 //     → value: LOGAND(RefObj("a.a1"), RefObj("b.b4"))
 TEST_F(CovergroupDeclTest, ModuleTopCrossBinC1HasValue) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cx = findCX(findCG(mod->getCoverGroups(), "cg")->getStmts(), "c");
   ASSERT_NE(cx, nullptr);
@@ -513,14 +513,14 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC1HasValue) {
   ASSERT_NE(bin, nullptr) << "bins c1 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c1 should have a value (NOT INTERSECT expr)";
   // c1 = ! binsof(a) intersect {[100:200]} → NOT operation
-  SCOPED_TRACE("c1 value UhdmType=" + std::to_string((int)bin->getValue()->getUhdmType()));
-  const auto *notOp = any_cast<uhdm::Operation>(bin->getValue());
+  SCOPED_TRACE("c1 value AnyType=" + std::to_string((int)bin->getValue()->getAnyType()));
+  const auto *notOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(notOp, nullptr) << "c1 value should be an Operation (NOT)";
   EXPECT_EQ(notOp->getOpType(), vpiNotOp) << "c1 outer op should be vpiNotOp";
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCrossBinC2HasValue) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cx = findCX(findCG(mod->getCoverGroups(), "cg")->getStmts(), "c");
   ASSERT_NE(cx, nullptr);
@@ -528,23 +528,23 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC2HasValue) {
   ASSERT_NE(bin, nullptr) << "bins c2 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c2 should have a value (binsof || binsof)";
   // c2 = binsof(a.a2) || binsof(b.b2) → logical-OR operation
-  const auto *orOp = any_cast<uhdm::Operation>(bin->getValue());
+  const auto *orOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(orOp, nullptr) << "c2 value should be an Operation (||)";
   EXPECT_EQ(orOp->getOpType(), vpiLogOrOp) << "c2 op should be vpiLogOrOp";
   ASSERT_NE(orOp->getOperands(), nullptr);
   ASSERT_EQ(orOp->getOperands()->size(), 2u) << "|| should have two operands";
   // left operand: RefObj("a.a2")
-  const auto *lhs = any_cast<uhdm::HierPath>((*orOp->getOperands())[0]);
+  const auto *lhs = any_cast<hldb::HierPath>((*orOp->getOperands())[0]);
   ASSERT_NE(lhs, nullptr) << "left operand of || should be RefObj";
   EXPECT_EQ(lhs->getName(), "a.a2");
   // right operand: RefObj("b.b2")
-  const auto *rhs = any_cast<uhdm::HierPath>((*orOp->getOperands())[1]);
+  const auto *rhs = any_cast<hldb::HierPath>((*orOp->getOperands())[1]);
   ASSERT_NE(rhs, nullptr) << "right operand of || should be RefObj";
   EXPECT_EQ(rhs->getName(), "b.b2");
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCrossBinC3HasValue) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cx = findCX(findCG(mod->getCoverGroups(), "cg")->getStmts(), "c");
   ASSERT_NE(cx, nullptr);
@@ -552,23 +552,23 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC3HasValue) {
   ASSERT_NE(bin, nullptr) << "bins c3 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c3 should have a value (binsof && binsof)";
   // c3 = binsof(a.a1) && binsof(b.b4) → logical-AND operation
-  const auto *andOp = any_cast<uhdm::Operation>(bin->getValue());
+  const auto *andOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(andOp, nullptr) << "c3 value should be an Operation (&&)";
   EXPECT_EQ(andOp->getOpType(), vpiLogAndOp) << "c3 op should be vpiLogAndOp";
   ASSERT_NE(andOp->getOperands(), nullptr);
   ASSERT_EQ(andOp->getOperands()->size(), 2u) << "&& should have two operands";
   // left operand: RefObj("a.a1")
-  const auto *lhs = any_cast<uhdm::HierPath>((*andOp->getOperands())[0]);
+  const auto *lhs = any_cast<hldb::HierPath>((*andOp->getOperands())[0]);
   ASSERT_NE(lhs, nullptr) << "left operand of && should be RefObj";
   EXPECT_EQ(lhs->getName(), "a.a1");
   // right operand: RefObj("b.b4")
-  const auto *rhs = any_cast<uhdm::HierPath>((*andOp->getOperands())[1]);
+  const auto *rhs = any_cast<hldb::HierPath>((*andOp->getOperands())[1]);
   ASSERT_NE(rhs, nullptr) << "right operand of && should be RefObj";
   EXPECT_EQ(rhs->getName(), "b.b4");
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointAHasFourBins) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -578,7 +578,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointAHasFourBins) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointBHasFourBins) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -588,7 +588,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointBHasFourBins) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointABinNames) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -602,7 +602,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointABinNames) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopBinA1HasValue) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -615,7 +615,7 @@ TEST_F(CovergroupDeclTest, ModuleTopBinA1HasValue) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopBinA2HasValue) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -629,7 +629,7 @@ TEST_F(CovergroupDeclTest, ModuleTopBinA2HasValue) {
 // coverpoint a stmts order: a1(bin), option.weight(opt), a2(bin), a3(bin),
 //                           option.at_least(opt), a4(bin) — 6 items total.
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointAStmtCount) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -640,7 +640,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointAStmtCount) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointAStmtOrderPreserved) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -650,23 +650,23 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointAStmtOrderPreserved) {
   ASSERT_NE(stmts, nullptr);
   ASSERT_EQ(stmts->size(), 6u);
   // [0] a1 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[0]), nullptr) << "[0] expected CoverBin (a1)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[0]), nullptr) << "[0] expected CoverBin (a1)";
   // [1] option.weight = 2 (CoverageOption)
-  EXPECT_NE(any_cast<uhdm::CoverageOption>((*stmts)[1]), nullptr) << "[1] expected CoverageOption";
+  EXPECT_NE(any_cast<hldb::CoverageOption>((*stmts)[1]), nullptr) << "[1] expected CoverageOption";
   // [2] a2 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[2]), nullptr) << "[2] expected CoverBin (a2)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[2]), nullptr) << "[2] expected CoverBin (a2)";
   // [3] a3 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[3]), nullptr) << "[3] expected CoverBin (a3)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[3]), nullptr) << "[3] expected CoverBin (a3)";
   // [4] option.at_least = 1 (CoverageOption)
-  EXPECT_NE(any_cast<uhdm::CoverageOption>((*stmts)[4]), nullptr) << "[4] expected CoverageOption";
+  EXPECT_NE(any_cast<hldb::CoverageOption>((*stmts)[4]), nullptr) << "[4] expected CoverageOption";
   // [5] a4 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[5]), nullptr) << "[5] expected CoverBin (a4)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[5]), nullptr) << "[5] expected CoverBin (a4)";
 }
 
 // coverpoint b stmts order: option.weight(opt), b1(bin), b2(bin),
 //                           option.auto_bin_max(opt), b3(bin), b4(bin) — 6 items.
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtCount) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -677,7 +677,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtCount) {
 }
 
 TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtOrderPreserved) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg");
   ASSERT_NE(cg, nullptr);
@@ -687,35 +687,35 @@ TEST_F(CovergroupDeclTest, ModuleTopCoverPointBStmtOrderPreserved) {
   ASSERT_NE(stmts, nullptr);
   ASSERT_EQ(stmts->size(), 6u);
   // [0] option.weight = 1 (CoverageOption — before first bin)
-  EXPECT_NE(any_cast<uhdm::CoverageOption>((*stmts)[0]), nullptr) << "[0] expected CoverageOption";
+  EXPECT_NE(any_cast<hldb::CoverageOption>((*stmts)[0]), nullptr) << "[0] expected CoverageOption";
   // [1] b1 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[1]), nullptr) << "[1] expected CoverBin (b1)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[1]), nullptr) << "[1] expected CoverBin (b1)";
   // [2] b2 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[2]), nullptr) << "[2] expected CoverBin (b2)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[2]), nullptr) << "[2] expected CoverBin (b2)";
   // [3] option.auto_bin_max = 8 (CoverageOption — in middle)
-  EXPECT_NE(any_cast<uhdm::CoverageOption>((*stmts)[3]), nullptr) << "[3] expected CoverageOption";
+  EXPECT_NE(any_cast<hldb::CoverageOption>((*stmts)[3]), nullptr) << "[3] expected CoverageOption";
   // [4] b3 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[4]), nullptr) << "[4] expected CoverBin (b3)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[4]), nullptr) << "[4] expected CoverBin (b3)";
   // [5] b4 (CoverBin)
-  EXPECT_NE(any_cast<uhdm::CoverBin>((*stmts)[5]), nullptr) << "[5] expected CoverBin (b4)";
+  EXPECT_NE(any_cast<hldb::CoverBin>((*stmts)[5]), nullptr) << "[5] expected CoverBin (b4)";
 }
 
 // --- module cg_extra -------------------------------------------------------
 // Helper: find a CoverCross with an empty name (unlabeled cross).
-static const uhdm::CoverCross *findUnlabeledCX(uhdm::AnyCollection *stmts) {
+static const hldb::CoverCross *findUnlabeledCX(hldb::AnyCollection *stmts) {
   if (stmts == nullptr) return nullptr;
-  for (uhdm::Any *item : *stmts) {
-    if (const auto *cx = any_cast<uhdm::CoverCross>(item)) {
+  for (hldb::Any *item : *stmts) {
+    if (const auto *cx = any_cast<hldb::CoverCross>(item)) {
       if (cx->getName().empty()) return cx;
     }
   }
   return nullptr;
 }
 // Helper: find a CoverPoint with an empty name (unlabeled coverpoint).
-static const uhdm::CoverPoint *findUnlabeledCP(uhdm::AnyCollection *stmts) {
+static const hldb::CoverPoint *findUnlabeledCP(hldb::AnyCollection *stmts) {
   if (stmts == nullptr) return nullptr;
-  for (uhdm::Any *item : *stmts) {
-    if (const auto *cp = any_cast<uhdm::CoverPoint>(item)) {
+  for (hldb::Any *item : *stmts) {
+    if (const auto *cp = any_cast<hldb::CoverPoint>(item)) {
       if (cp->getName().empty()) return cp;
     }
   }
@@ -723,12 +723,12 @@ static const uhdm::CoverPoint *findUnlabeledCP(uhdm::AnyCollection *stmts) {
 }
 
 TEST_F(CovergroupDeclTest, CgExtraModuleExists) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module cg_extra not found";
 }
 
 TEST_F(CovergroupDeclTest, CgExtraFiveCovergroups) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cgs = mod->getCoverGroups();
   ASSERT_NE(cgs, nullptr);
@@ -737,7 +737,7 @@ TEST_F(CovergroupDeclTest, CgExtraFiveCovergroups) {
 
 // cg_params: tf_port_item_list + @(posedge clk) clocking event
 TEST_F(CovergroupDeclTest, CgParamsHasSamplingEvent) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_params");
   ASSERT_NE(cg, nullptr) << "cg_params not found";
@@ -746,7 +746,7 @@ TEST_F(CovergroupDeclTest, CgParamsHasSamplingEvent) {
 
 // cg_typed: data_type_or_implicit id COLON COVERPOINT (typed coverpoint)
 TEST_F(CovergroupDeclTest, CpTypedHasTypespec) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_typed");
   ASSERT_NE(cg, nullptr) << "cg_typed not found";
@@ -757,7 +757,7 @@ TEST_F(CovergroupDeclTest, CpTypedHasTypespec) {
 
 // cg_iff: IFF on coverpoint, IFF on cross, unlabeled coverpoint, unlabeled cross
 TEST_F(CovergroupDeclTest, CpGuardedHasIffCondition) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_iff");
   ASSERT_NE(cg, nullptr);
@@ -767,7 +767,7 @@ TEST_F(CovergroupDeclTest, CpGuardedHasIffCondition) {
 }
 
 TEST_F(CovergroupDeclTest, CxIffHasCondition) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_iff");
   ASSERT_NE(cg, nullptr);
@@ -777,15 +777,15 @@ TEST_F(CovergroupDeclTest, CxIffHasCondition) {
 }
 
 TEST_F(CovergroupDeclTest, CgIffHasTwoCrosses) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_iff");
   ASSERT_NE(cg, nullptr);
-  EXPECT_EQ(countType<uhdm::CoverCross>(cg->getStmts()), 2u) << "Expected cx_iff (labeled) and one unlabeled cross";
+  EXPECT_EQ(countType<hldb::CoverCross>(cg->getStmts()), 2u) << "Expected cx_iff (labeled) and one unlabeled cross";
 }
 
 TEST_F(CovergroupDeclTest, CgIffHasUnlabeledCross) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_iff");
   ASSERT_NE(cg, nullptr);
@@ -793,7 +793,7 @@ TEST_F(CovergroupDeclTest, CgIffHasUnlabeledCross) {
 }
 
 TEST_F(CovergroupDeclTest, CgIffHasUnlabeledCoverPoint) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_iff");
   ASSERT_NE(cg, nullptr);
@@ -803,7 +803,7 @@ TEST_F(CovergroupDeclTest, CgIffHasUnlabeledCoverPoint) {
 // cg_bins: advanced bin forms (transition, array, default, default sequence,
 //          WITH filter, per-bin IFF, coverage_option in body)
 TEST_F(CovergroupDeclTest, CpTransHasFirstBin) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -813,7 +813,7 @@ TEST_F(CovergroupDeclTest, CpTransHasFirstBin) {
 }
 
 TEST_F(CovergroupDeclTest, CpArrHasFirstBin) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -823,7 +823,7 @@ TEST_F(CovergroupDeclTest, CpArrHasFirstBin) {
 }
 
 TEST_F(CovergroupDeclTest, CpDefHasFirstBin) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -833,7 +833,7 @@ TEST_F(CovergroupDeclTest, CpDefHasFirstBin) {
 }
 
 TEST_F(CovergroupDeclTest, CpOptBodyHasCoverageOption) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -844,14 +844,14 @@ TEST_F(CovergroupDeclTest, CpOptBodyHasCoverageOption) {
 
 // cg_sampled: WITH FUNCTION SAMPLE coverage_event
 TEST_F(CovergroupDeclTest, CgSampledHasSamplingEvent) {
-  const uhdm::Module *mod = uhdm::findByName<uhdm::Module>("work@cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("work@cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_sampled");
   ASSERT_NE(cg, nullptr) << "cg_sampled not found";
   EXPECT_NE(cg->getCoverageEvent(), nullptr) << "cg_sampled should have 'with function sample(...)' event";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

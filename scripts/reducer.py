@@ -40,12 +40,12 @@ _workspace_dirpath = _this_filepath.parent.parent
 if is_ci_build() or not is_windows():
   _default_build_dirpath = _workspace_dirpath / 'build'
 else:
-  _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Debug/third_party/UHDM'
-  # _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Release/third_party/UHDM'
-  # _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Clang-Debug/third_party/UHDM'
-  # _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Clang-Release/third_party/UHDM'
+  _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Debug/third_party/hldb'
+  # _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Release/third_party/hldb'
+  # _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Clang-Debug/third_party/hldb'
+  # _default_build_dirpath = _workspace_dirpath / 'out/build/x64-Clang-Release/third_party/hldb'
 
-_default_reducer_filename = Path('uhdm-reduce.exe') if is_windows() else Path('uhdm-reduce')
+_default_reducer_filename = Path('hldb-reduce.exe') if is_windows() else Path('hldb-reduce')
 _default_reducer_filepath = Path('bin') / _default_reducer_filename
 
 
@@ -112,13 +112,13 @@ def _get_log_statistics(filepath: Path) -> dict[str, int]:
   return statistics
 
 
-def _run_reducer(name, test_dirpath, uhdm_src_filepath, uhdm_dst_filepath, reducer_log_filepath, reducer_filepath, verbose):
+def _run_reducer(name, test_dirpath, hldb_src_filepath, hldb_dst_filepath, reducer_log_filepath, reducer_filepath, verbose):
   start_dt = datetime.now()
   print(f'start-time: {start_dt}')
 
   reducer_timedelta = timedelta(seconds=0)
 
-  args = [reducer_filepath, uhdm_src_filepath, uhdm_dst_filepath]
+  args = [reducer_filepath, hldb_src_filepath, hldb_dst_filepath]
   if verbose:
     args.append('-v')
 
@@ -212,8 +212,8 @@ def _run_one(params):
 
   golden_log_filepath = Path(env['regression']['golden-log-filepath'])
 
-  uhdm_src_filepath = test_dirpath / 'surelog.uhdm'
-  uhdm_dst_filepath = test_dirpath / 'reduced.uhdm'
+  hldb_src_filepath = test_dirpath / 'design.hldb'
+  hldb_dst_filepath = test_dirpath / 'reduced.hldb'
 
   completed = False
   result = {
@@ -226,8 +226,8 @@ def _run_one(params):
   env['reducer'] = {
     'test-dirpath': test_dirpath,
     'reducer-filepath': reducer_filepath,
-    'uhdm-src-filepath': uhdm_src_filepath,
-    'uhdm-dst-filepath': uhdm_dst_filepath,
+    'hldb-src-filepath': hldb_src_filepath,
+    'hldb-dst-filepath': hldb_dst_filepath,
     'reduction-log-filepath': reduction_log_filepath,
     'reducer-log-filepath': reducer_log_filepath,
     'golden-log-filepath': golden_log_filepath,
@@ -245,22 +245,22 @@ def _run_one(params):
     print(f'           test-name: {name}')
     print(f'        test-dirpath: {test_dirpath}')
     print(f'    reducer-filepath: {reducer_filepath}')
-    print(f'   uhdm-src-filepath: {uhdm_src_filepath}')
-    print(f'   uhdm-dst-filepath: {uhdm_dst_filepath}')
+    print(f'   hldb-src-filepath: {hldb_src_filepath}')
+    print(f'   hldb-dst-filepath: {hldb_dst_filepath}')
     print(f'reducer-log-filepath: {reducer_log_filepath}')
     print( '\n')
 
     try:
-      if uhdm_src_filepath and uhdm_dst_filepath:
+      if hldb_src_filepath and hldb_dst_filepath:
         print('Running Reducer ...', flush=True)
         result.update(
-          _run_reducer(name, test_dirpath, uhdm_src_filepath, uhdm_dst_filepath,
+          _run_reducer(name, test_dirpath, hldb_src_filepath, hldb_dst_filepath,
                        reducer_log_filepath, reducer_filepath, verbose)
         )
         print('\n')
         reduction_log_strm.flush()
       else:
-        print(f'Failed to find uhdm source database: {uhdm_src_filepath}')
+        print(f'Failed to find hldb source database: {hldb_src_filepath}')
 
       result.update({
         'golden': _get_log_statistics(golden_log_filepath),
@@ -287,9 +287,9 @@ def _run_one(params):
         result['STATUS'] = Status.SEGFLT
 
       content = normalize_log(content, {
-        str(_workspace_dirpath.as_posix()): '${SURELOG_DIR}',
-        str(Path(env['regression']['workspace-dirpath']).as_posix()): '${SURELOG_DIR}',
-        r'\${SURELOG_DIR}/out/build/': r'\${SURELOG_DIR}/build/',
+        str(_workspace_dirpath.as_posix()): '${HLC_DIR}',
+        str(Path(env['regression']['workspace-dirpath']).as_posix()): '${HLC_DIR}',
+        r'\${HLC_DIR}/out/build/': r'\${HLC_DIR}/build/',
       })
       source_test_log_filepath.open('w').write(content)
 
