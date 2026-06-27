@@ -17,6 +17,26 @@ cmake_path(ABSOLUTE_PATH HLC_BUILD_DIR BASE_DIRECTORY "${CMAKE_SOURCE_DIR}" NORM
 
 list(APPEND CMAKE_PREFIX_PATH "${HLC_BUILD_DIR}")
 
+# New-style CI artifacts ship headers under hlc/ and hldb/. The HLC cmake
+# package config uses set_and_check() to validate that include/Surelog and
+# include/uhdm exist. The Linux CI workflow creates those as symlinks before
+# cmake runs, but the Windows CI workflow does not. Mirror them here so
+# find_package(HLC) can validate its paths on every platform.
+foreach(_alias IN ITEMS "hlc:Surelog" "hldb:uhdm")
+  string(REPLACE ":" ";" _alias_parts "${_alias}")
+  list(GET _alias_parts 0 _alias_src)
+  list(GET _alias_parts 1 _alias_dst)
+  set(_alias_src_path "${HLC_BUILD_DIR}/include/${_alias_src}")
+  set(_alias_dst_path "${HLC_BUILD_DIR}/include/${_alias_dst}")
+  if(EXISTS "${_alias_src_path}" AND NOT EXISTS "${_alias_dst_path}")
+    file(CREATE_LINK "${_alias_src_path}" "${_alias_dst_path}" SYMBOLIC)
+    if(NOT EXISTS "${_alias_dst_path}")
+      # Symlink failed (Windows without elevated privileges); copy instead.
+      file(COPY "${_alias_src_path}/" DESTINATION "${_alias_dst_path}")
+    endif()
+  endif()
+endforeach()
+
 # CI artifact exports HLC/HLDB; local Surelog builds export surelog.
 find_package(HLC QUIET)
 if(HLC_FOUND)
