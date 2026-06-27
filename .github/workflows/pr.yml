@@ -188,7 +188,8 @@ jobs:
 
     - name: Install Dependencies (Windows)
       if: runner.os == 'Windows'
-      run: choco install ninja --no-progress -y
+      shell: bash
+      run: ninja --version 2>/dev/null || choco install ninja --no-progress -y
 
     - name: Setup Clang
       uses: egor-tensin/setup-clang@v2
@@ -219,10 +220,10 @@ jobs:
     - name: Debug build contents
       shell: bash
       run: |
-        echo "=== cmake config files ==="
-        find ${{ github.workspace }}/build -name "SurelogConfig.cmake" -o -name "surelog-config.cmake" 2>/dev/null || true
-        echo "=== first 50 files ==="
-        find ${{ github.workspace }}/build -type f | head -50 || true
+        echo "=== all cmake config files in artifact ==="
+        find ${{ github.workspace }}/build -name "*Config.cmake" -o -name "*-config.cmake" 2>/dev/null || true
+        echo "=== directory tree (depth 4) ==="
+        find ${{ github.workspace }}/build -maxdepth 4 -type d || true
 
     - name: Configure
       shell: bash
