@@ -50,6 +50,16 @@ else()
   set(TEST_IMPL_CPP "${CMAKE_SOURCE_DIR}/src/Tests/Test.cpp")
 endif()
 
+# Only use the compatibility shims in include/ when the artifact does not
+# already provide hlc/ headers natively. A new-style artifact has hlc/ and
+# hldb/ as real namespaces; adding the shims on top of that would shadow the
+# correct headers and introduce broken namespace aliases.
+if(EXISTS "${HLC_BUILD_DIR}/include/hlc/Tests/Test.h")
+  set(DAVTESTS_EXTRA_INCLUDES "")
+else()
+  set(DAVTESTS_EXTRA_INCLUDES "${CMAKE_SOURCE_DIR}/include")
+endif()
+
 foreach(TEST_SRC IN LISTS TEST_SOURCES)
   get_filename_component(FILE_STEM "${TEST_SRC}" NAME_WLE)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
@@ -57,8 +67,9 @@ foreach(TEST_SRC IN LISTS TEST_SOURCES)
   string(REGEX REPLACE "^[0-9]+(\\.[0-9]+)*_" "" TEST_NAME "${FILE_STEM}")
 
   add_executable(${TEST_NAME} ${TEST_SRC} "${TEST_IMPL_CPP}")
-  target_include_directories(${TEST_NAME} PRIVATE
-    "${CMAKE_SOURCE_DIR}/include")
+  if(DAVTESTS_EXTRA_INCLUDES)
+    target_include_directories(${TEST_NAME} PRIVATE "${DAVTESTS_EXTRA_INCLUDES}")
+  endif()
   target_link_libraries(${TEST_NAME} PRIVATE
     ${DAVTESTS_LINK_TARGET}
     GTest::gtest
