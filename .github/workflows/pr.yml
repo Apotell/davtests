@@ -192,6 +192,8 @@ jobs:
 
     - name: Setup Clang
       uses: egor-tensin/setup-clang@v2
+      with:
+        version: 20
 
     - name: Setup compiler cache
       uses: hendrikmuhs/ccache-action@v1
@@ -216,7 +218,7 @@ jobs:
 
     - name: Debug build contents
       shell: bash
-      run: find ${{ github.workspace }}/build -type f | head -50
+      run: find ${{ github.workspace }}/build -type f | head -50 || true
 
     - name: Configure
       shell: bash
