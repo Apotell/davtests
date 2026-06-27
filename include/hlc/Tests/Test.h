@@ -18,12 +18,6 @@
 #define HLC_TESTS_TEST_H
 #pragma once
 
-#include <Surelog/Tests/Test.h>
-
-namespace hlc {
-using Test = SURELOG::Test;
-}  // namespace hlc
-
-namespace hldb = uhdm;
+#include_next <hlc/Tests/Test.h>
 
 #endif  // HLC_TESTS_TEST_H

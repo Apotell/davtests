@@ -58,7 +58,7 @@ foreach(TEST_SRC IN LISTS TEST_SOURCES)
 
   add_executable(${TEST_NAME} ${TEST_SRC} "${TEST_IMPL_CPP}")
   target_include_directories(${TEST_NAME} PRIVATE
-    "${HLC_BUILD_DIR}/include")
+    "${CMAKE_SOURCE_DIR}/include")
   target_link_libraries(${TEST_NAME} PRIVATE
     ${DAVTESTS_LINK_TARGET}
     GTest::gtest

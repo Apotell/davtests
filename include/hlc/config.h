@@ -14,10 +14,9 @@
  limitations under the License.
 */
 
-#ifndef HLDB_UTILS_H
-#define HLDB_UTILS_H
 #pragma once
+#include_next <hlc/config.h>
 
-#include_next <hldb/Utils.h>
-
-#endif  // HLDB_UTILS_H
+// Bring hlc::Test into global scope so test fixtures can write
+// "class FooTest : public Test" without a namespace qualifier.
+using hlc::Test;
