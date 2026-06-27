@@ -27,4 +27,8 @@
 namespace SURELOG {
 using ::hlc::Test;
 }
+// On new-style artifacts, uhdm/ headers pull types into namespace hldb rather
+// than defining a uhdm namespace. Alias uhdm -> hldb so old-style test files
+// that use uhdm::Module, uhdm::findByName, etc. compile unchanged.
+namespace uhdm = hldb;
 #endif
