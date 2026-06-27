@@ -513,7 +513,7 @@ TEST_F(CovergroupDeclTest, ModuleTopCrossBinC1HasValue) {
   ASSERT_NE(bin, nullptr) << "bins c1 not found";
   ASSERT_NE(bin->getValue(), nullptr) << "c1 should have a value (NOT INTERSECT expr)";
   // c1 = ! binsof(a) intersect {[100:200]} → NOT operation
-  SCOPED_TRACE("c1 value AnyType=" + std::to_string((int)bin->getValue()->getAnyType()));
+  SCOPED_TRACE("c1 value UhdmType=" + std::to_string((int)bin->getValue()->getUhdmType()));
   const auto *notOp = any_cast<hldb::Operation>(bin->getValue());
   ASSERT_NE(notOp, nullptr) << "c1 value should be an Operation (NOT)";
   EXPECT_EQ(notOp->getOpType(), vpiNotOp) << "c1 outer op should be vpiNotOp";
