@@ -15,7 +15,8 @@ include(GoogleTest)
 set(HLC_BUILD_DIR "${CMAKE_SOURCE_DIR}/build" CACHE PATH "hlc build directory")
 cmake_path(ABSOLUTE_PATH HLC_BUILD_DIR BASE_DIRECTORY "${CMAKE_SOURCE_DIR}" NORMALIZE OUTPUT_VARIABLE HLC_BUILD_DIR)
 
-find_package(Surelog REQUIRED HINTS "${HLC_BUILD_DIR}/lib/cmake/Surelog")
+list(APPEND CMAKE_PREFIX_PATH "${HLC_BUILD_DIR}")
+find_package(Surelog REQUIRED)
 find_package(Threads REQUIRED)
 
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS

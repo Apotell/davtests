@@ -218,7 +218,11 @@ jobs:
 
     - name: Debug build contents
       shell: bash
-      run: find ${{ github.workspace }}/build -type f | head -50 || true
+      run: |
+        echo "=== cmake config files ==="
+        find ${{ github.workspace }}/build -name "SurelogConfig.cmake" -o -name "surelog-config.cmake" 2>/dev/null || true
+        echo "=== first 50 files ==="
+        find ${{ github.workspace }}/build -type f | head -50 || true
 
     - name: Configure
       shell: bash
