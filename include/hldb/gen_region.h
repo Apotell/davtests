@@ -15,10 +15,6 @@
 */
 
 #pragma once
-#include <hlc/Tests/Test.h>
+#include <uhdm/gen_region.h>
 
-// Map the old Surelog/UHDM namespace names to the HLC equivalents so
-// test fixtures written as "namespace SURELOG { class Foo : public Test }"
-// and using "uhdm::design" etc. compile against the HLC artifact.
-namespace SURELOG = hlc;
-namespace uhdm = hldb;
+namespace hldb = uhdm;
