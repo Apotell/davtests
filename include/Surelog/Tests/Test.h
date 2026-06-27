@@ -14,10 +14,11 @@
  limitations under the License.
 */
 
-#ifndef HLDB_UTILS_H
-#define HLDB_UTILS_H
 #pragma once
+#include <hlc/Tests/Test.h>
 
-#include_next <hldb/Utils.h>
-
-#endif  // HLDB_UTILS_H
+// Map the old Surelog/UHDM namespace names to the HLC equivalents so
+// test fixtures written as "namespace SURELOG { class Foo : public Test }"
+// and using "uhdm::design" etc. compile against the HLC artifact.
+namespace SURELOG = hlc;
+namespace uhdm = hldb;
