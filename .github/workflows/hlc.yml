@@ -182,7 +182,9 @@ jobs:
       run: |
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
         mv ${{ env.build-artifact-name }} build
-
+    - name: Debug build contents
+      run: find ${{ github.workspace }}/build -name "SurelogConfig.cmake"
+      
     - name: Configure
       run: |
         cmake                                       \
