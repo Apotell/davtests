@@ -50,14 +50,14 @@ else()
   set(TEST_IMPL_CPP "${CMAKE_SOURCE_DIR}/src/Tests/Test.cpp")
 endif()
 
-# Only use the compatibility shims in include/ when the artifact does not
-# already provide hlc/ headers natively. A new-style artifact has hlc/ and
-# hldb/ as real namespaces; adding the shims on top of that would shadow the
-# correct headers and introduce broken namespace aliases.
-if(EXISTS "${HLC_BUILD_DIR}/include/hlc/Tests/Test.h")
-  set(DAVTESTS_EXTRA_INCLUDES "")
+# include/ always contains the Surelog/Tests/Test.h bridge shim, which
+# makes SURELOG::Test visible on new-style artifacts (where Test lives in
+# namespace hlc). include-compat/ holds hlc/ and hldb/ forwarding headers
+# needed only for old-style artifacts that lack native hlc/ and hldb/ headers.
+if(NOT EXISTS "${HLC_BUILD_DIR}/include/hlc/Tests/Test.h")
+  set(DAVTESTS_COMPAT_INCLUDES "${CMAKE_SOURCE_DIR}/include-compat")
 else()
-  set(DAVTESTS_EXTRA_INCLUDES "${CMAKE_SOURCE_DIR}/include")
+  set(DAVTESTS_COMPAT_INCLUDES "")
 endif()
 
 foreach(TEST_SRC IN LISTS TEST_SOURCES)
@@ -67,8 +67,9 @@ foreach(TEST_SRC IN LISTS TEST_SOURCES)
   string(REGEX REPLACE "^[0-9]+(\\.[0-9]+)*_" "" TEST_NAME "${FILE_STEM}")
 
   add_executable(${TEST_NAME} ${TEST_SRC} "${TEST_IMPL_CPP}")
-  if(DAVTESTS_EXTRA_INCLUDES)
-    target_include_directories(${TEST_NAME} PRIVATE "${DAVTESTS_EXTRA_INCLUDES}")
+  target_include_directories(${TEST_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/include")
+  if(DAVTESTS_COMPAT_INCLUDES)
+    target_include_directories(${TEST_NAME} PRIVATE "${DAVTESTS_COMPAT_INCLUDES}")
   endif()
   target_link_libraries(${TEST_NAME} PRIVATE
     ${DAVTESTS_LINK_TARGET}
