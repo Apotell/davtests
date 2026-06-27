@@ -227,6 +227,12 @@ jobs:
         echo "=== HLDBConfig.cmake ==="
         cat ${{ github.workspace }}/build/lib/cmake/HLDB/HLDBConfig.cmake 2>/dev/null || true
 
+    - name: Create include aliases (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        ln -sfn ${{ github.workspace }}/build/include/hlc ${{ github.workspace }}/build/include/Surelog
+        ln -sfn ${{ github.workspace }}/build/include/hldb ${{ github.workspace }}/build/include/uhdm
+
     - name: Configure
       shell: bash
       run: |
