@@ -222,8 +222,10 @@ jobs:
       run: |
         echo "=== all cmake config files in artifact ==="
         find ${{ github.workspace }}/build -name "*Config.cmake" -o -name "*-config.cmake" 2>/dev/null || true
-        echo "=== directory tree (depth 4) ==="
-        find ${{ github.workspace }}/build -maxdepth 4 -type d || true
+        echo "=== HLCConfig.cmake ==="
+        cat ${{ github.workspace }}/build/lib/cmake/HLC/HLCConfig.cmake 2>/dev/null || true
+        echo "=== HLDBConfig.cmake ==="
+        cat ${{ github.workspace }}/build/lib/cmake/HLDB/HLDBConfig.cmake 2>/dev/null || true
 
     - name: Configure
       shell: bash
