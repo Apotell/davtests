@@ -214,13 +214,17 @@ jobs:
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
         mv ${{ env.build-artifact-name }} build
 
+    - name: Debug build contents
+      shell: bash
+      run: find ${{ github.workspace }}/build -name "SurelogConfig.cmake"
+
     - name: Configure
       shell: bash
       run: |
-        cmake                                       \
-          -G Ninja                                  \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo         \
-          -DBUILD_DIR=${{ github.workspace }}/build \
+        cmake                                                                    \
+          -G Ninja                                                               \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo                                      \
+          -DHLC_BUILD_DIR=${{ github.workspace }}/build                          \
           -S . -B out/build
 
     - name: Build
