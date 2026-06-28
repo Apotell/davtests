@@ -23,9 +23,8 @@ file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
   "${CMAKE_SOURCE_DIR}/hlc/test_*.cpp")
 
 foreach(TEST_SRC IN LISTS TEST_SOURCES)
+  get_filename_component(TEST_NAME "${TEST_SRC}" NAME_WE)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
-  get_filename_component(DIR_NAME  "${TEST_DIR}" NAME)
-  set(TEST_NAME "test_${DIR_NAME}")
 
   add_executable(${TEST_NAME} ${TEST_SRC} ${HLC_BUILD_DIR}/src/Tests/Test.cpp)
   target_link_libraries(${TEST_NAME} PRIVATE

@@ -657,12 +657,11 @@ n<$Source01/specify_01.v> u<627> t<Top_level_rule> c<1> l<1:1> el<74:1>
         n<> u<623> t<ENDMODULE> p<624> l<72:1> el<72:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/specify_01.v:1:1: Compile module "work@dff".
-[WRN:CP0348] $Source01/specify_01.v:9:1: Feature not yet implemented.
 [INF:CP0303] $Source01/specify_01.v:23:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/specify_01.v:29:18: Illegal implicit net "id:69, name:q".
-[ERR:EL0535] $Source01/specify_01.v:56:18: Illegal implicit net "id:178, name:q".
-[ERR:EL0535] $Source01/specify_01.v:59:18: Illegal implicit net "id:186, name:q".
+[ERR:EL0535] $Source01/specify_01.v:29:18: Illegal implicit net "id:78, name:q".
+[ERR:EL0535] $Source01/specify_01.v:56:18: Illegal implicit net "id:187, name:q".
+[ERR:EL0535] $Source01/specify_01.v:59:18: Illegal implicit net "id:195, name:q".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -817,6 +816,40 @@ Design name:unnamed:
                 vpiName: q_out
                 vpiFullName: work@dff.u_buf.q_out
                 vpiActual: Net name:q_out
+      vpiSpecifyBlock (1 items):
+        SpecifyBlock start:9:1 end:13:4:
+          vpiParent: Module name:work@dff
+          vpiSpecifyItem (2 items):
+            SpecParam name:tR_clk_q start:10:13 end:10:27:
+              vpiParent: SpecifyBlock
+              vpiName: tR_clk_q
+              vpiFullName: work@dff.tR_clk_q
+              vpiExpr (1 items):
+                Constant start:10:24 end:10:27:
+                  vpiParent: SpecParam name:tR_clk_q
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@dff.tR_clk_q
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "100"
+                  vpiValue: 100
+            SpecParam name:tF_clk_q start:11:13 end:11:27:
+              vpiParent: SpecifyBlock
+              vpiName: tF_clk_q
+              vpiFullName: work@dff.tF_clk_q
+              vpiExpr (1 items):
+                Constant start:11:24 end:11:27:
+                  vpiParent: SpecParam name:tF_clk_q
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@dff.tF_clk_q
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "150"
+                  vpiValue: 150
     Module name:work@test file:$Source01/specify_01.v start:23:1 end:72:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:23:8 end:23:12:
@@ -1393,6 +1426,9 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@dff
         vpiName: work@dff
       vpiModule: Module name:work@dff
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:23:8 end:23:12:
@@ -1403,14 +1439,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 5
 [  ERROR] : 3
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1425,25 +1458,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/specify_01/mounts.json
 
 
-{'result': {'coverage': 92.61,
+{'result': {'coverage': 96.16,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/specify_01.v': {'post_len': 50,
+            'files': {'$Output/lib/work/specify_01.v': {'post_len': 26,
                                                         'pre_len': 677}},
-            'post_len': 50,
+            'post_len': 26,
             'pre_len': 677,
             'test_name': 'Icarus/ivltests/specify_01'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/specify_01.v |      677 |        50 |
+| $Output/lib/work/specify_01.v |      677 |        26 |
 +===============================+==========+===========+
-|                               |      677 |        50 |
+|                               |      677 |        26 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.61
+[COVERAGE] : 96.16
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1454,7 +1487,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/specify_01/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             184     184       0         0
+Others                             191     191       0         0
 ----------------------------------------------------------------
-                                   184     184       0         0
+                                   191     191       0         0
 ===================== END REDUCTION RESULT =====================
