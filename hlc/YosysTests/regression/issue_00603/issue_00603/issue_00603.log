@@ -970,10 +970,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/common.v:37:1: Compile module "work@assert_X".
 [INF:CP0303] $Source01/common.v:49:1: Compile module "work@assert_comb".
 [INF:CP0303] $Source01/issue_00603/top.v:2:1: Compile module "work@top".
-[WRN:CP0348] $Source01/issue_00603/top.v:15:5: Feature not yet implemented.
 [INF:CP0303] $Source01/issue_00603/testbench.v:1:1: Compile module "work@testbench".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/issue_00603/testbench.v:28:30: Illegal implicit net "id:394, name:A".
+[ERR:EL0535] $Source01/issue_00603/testbench.v:28:30: Illegal implicit net "id:403, name:A".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1967,6 +1966,40 @@ Design name:unnamed:
               vpiName: in
               vpiFullName: work@top.in
               vpiActual: Net name:in
+      vpiSpecifyBlock (1 items):
+        SpecifyBlock start:15:5 end:17:15:
+          vpiParent: Module name:work@top
+          vpiSpecifyItem (1 items):
+            ModPath start:16:9 end:16:25:
+              vpiParent: SpecifyBlock
+              vpiModPathIn (1 items):
+                PathTerm start:16:10 end:16:12:
+                  vpiParent: ModPath
+                  vpiExpr RefObj name:in start:16:10 end:16:12:
+                    vpiParent: PathTerm
+                    vpiName: in
+                    vpiFullName: work@top.in
+                    vpiActual: Net name:in
+              vpiModPathOut (1 items):
+                PathTerm start:16:16 end:16:19:
+                  vpiParent: ModPath
+                  vpiExpr RefObj name:out start:16:16 end:16:19:
+                    vpiParent: PathTerm
+                    vpiName: out
+                    vpiFullName: work@top.out
+                    vpiActual: Net name:out
+              vpiDelay (1 items):
+                Constant start:16:23 end:16:25:
+                  vpiParent: ModPath
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@top
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiDecompile: "\"\""
+                  vpiValue: ""
+              vpiPathType: full path (1)
+              vpiPolarity: unknown (3)
     Module name:work@testbench file:$Source01/issue_00603/testbench.v start:1:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@testbench start:1:8 end:1:17:
@@ -2417,7 +2450,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2432,16 +2465,16 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00603/issue_00603/mounts.json
 
 
-{'result': {'coverage': 99.29,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 3,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 812},
                       '$Output/lib/work/issue_00603/testbench.v': {'post_len': 0,
                                                                    'pre_len': 296},
-                      '$Output/lib/work/issue_00603/top.v': {'post_len': 9,
+                      '$Output/lib/work/issue_00603/top.v': {'post_len': 0,
                                                              'pre_len': 157}},
-            'post_len': 9,
+            'post_len': 0,
             'pre_len': 1265,
             'test_name': 'YosysTests/regression/issue_00603/issue_00603'}}
 
@@ -2449,14 +2482,14 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00603/issue_0
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
 | $Output/lib/work/common.v                |      812 |         0 |
-| $Output/lib/work/issue_00603/top.v       |      157 |         9 |
+| $Output/lib/work/issue_00603/top.v       |      157 |         0 |
 | $Output/lib/work/issue_00603/testbench.v |      296 |         0 |
 +==========================================+==========+===========+
-|                                          |     1265 |         9 |
+|                                          |     1265 |         0 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.29
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2466,12 +2499,12 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00603/issue_00603/des
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            36      35       1         2
+Constant                            37      36       1         2
 Operation                           15      13       0         2
-RefObj                              61      60       0         1
-RefTypespec                         71      70       1         2
+RefObj                              63      62       0         1
+RefTypespec                         72      71       1         2
 ----------------------------------------------------------------
-Others                             173     173       0         0
+Others                             177     177       0         0
 ----------------------------------------------------------------
-                                   356     351       2         7
+                                   364     359       2         7
 ===================== END REDUCTION RESULT =====================
