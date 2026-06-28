@@ -151,7 +151,7 @@ TEST_F(Interconnect, RefInstancePortHighConnIsBus) {
   for (const uhdm::RefInstance *const ri : *top->getRefInstances()) {
     ASSERT_NE(ri, nullptr);
     ASSERT_NE(ri->getPorts(), nullptr);
-    const uhdm::Port *const port = ri->getPorts()->at(0);
+    const uhdm::Port *const port = static_cast<const uhdm::Port *>(ri->getPorts()->at(0));
     ASSERT_NE(port, nullptr) << "RefInstance " << ri->getName();
     const uhdm::RefObj *const hc = port->getHighConn<uhdm::RefObj>();
     ASSERT_NE(hc, nullptr) << "RefInstance " << ri->getName();
