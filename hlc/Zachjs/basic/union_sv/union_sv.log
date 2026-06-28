@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/basic/union_sv/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+basic+lex+lib+relong+resolve -nobuiltin -timescale=1ns/1ns -d ast -d db basic/union.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Zachjs/basic/union_sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic/union.sv".
+[INF:PA0201] Parsing source file "$Source01/basic/union.sv".
 AST_DEBUG_BEGIN
 Count: 833
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/basic/union.sv
-n<${SURELOG_DIR}/tests/Zachjs/basic/union.sv> u<832> t<Top_level_rule> c<1> l<1:1> el<62:1>
+FILE: f<18>:$Source01/basic/union.sv
+n<$Source01/basic/union.sv> u<832> t<Top_level_rule> c<1> l<1:1> el<62:1>
   n<> u<1> t<Null_rule> p<832> s<831> l<1:1>
   n<> u<831> t<Source_text> p<832> c<45> l<1:1> el<61:10>
     n<> u<45> t<Description> p<831> c<44> s<89> l<1:1> el<4:5>
@@ -836,19 +845,19 @@ n<${SURELOG_DIR}/tests/Zachjs/basic/union.sv> u<832> t<Top_level_rule> c<1> l<1:
                         n<> u<819> t<END> p<820> l<59:5> el<59:8>
         n<> u<828> t<ENDMODULE> p<829> l<61:1> el<61:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/basic/union.sv:28:1: Compile module "work@wrap".
+[INF:CP0303] $Source01/basic/union.sv:28:1: Compile module "work@wrap".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:union.sv file:${SURELOG_DIR}/tests/Zachjs/basic/union.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:union.sv file:$Source01/basic/union.sv:
       vpiParent: Design name:unnamed
       vpiName: union.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/basic/union_sv/lib/work/basic/union.sv"
+      vpiPreprocFile: "$Output/lib/work/basic/union.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@wrap file:${SURELOG_DIR}/tests/Zachjs/basic/union.sv start:28:1 end:61:10:
+    Module name:work@wrap file:$Source01/basic/union.sv start:28:1 end:61:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@wrap start:28:8 end:28:12:
         vpiParent: Module name:work@wrap
@@ -897,6 +906,11 @@ Design name:unnamed:
           vpiNetType: none (12)
       vpiDefName: work@wrap
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@wrap
+        vpiName: work
+        vpiFullName: work@wrap.work
+      vpiCell: wrap
       vpiProcess (1 items):
         Initial start:35:5 end:59:8:
           vpiParent: Module name:work@wrap
@@ -924,12 +938,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\" %b %b\""
-                    vpiValue: %b %b
+                    vpiValue: "%b %b"
                   HierPath name:a.x start:37:35 end:37:38:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: a.x
                     vpiFullName: work@wrap.a.x
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:a start:37:35 end:37:36:
                         vpiParent: HierPath name:a.x
                         vpiName: a
@@ -944,7 +958,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: a.y
                     vpiFullName: work@wrap.a.y
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:a start:37:40 end:37:41:
                         vpiParent: HierPath name:a.y
                         vpiName: a
@@ -962,7 +976,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a.x
                   vpiFullName: work@wrap.a.x
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:a start:38:9 end:38:10:
                       vpiParent: HierPath name:a.x
                       vpiName: a
@@ -982,7 +996,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b01101"
-                  vpiValue: 01101
+                  vpiValue: "01101"
               DelayControl start:38:25 end:38:28:
                 vpiParent: Begin
                 vpiDelay Constant start:38:26 end:38:28:
@@ -1002,7 +1016,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a.y
                   vpiFullName: work@wrap.a.y
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:a start:39:9 end:39:10:
                       vpiParent: HierPath name:a.y
                       vpiName: a
@@ -1022,7 +1036,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b11101"
-                  vpiValue: 11101
+                  vpiValue: "11101"
               DelayControl start:39:25 end:39:28:
                 vpiParent: Begin
                 vpiDelay Constant start:39:26 end:39:28:
@@ -1055,12 +1069,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\" %b %b\""
-                    vpiValue: %b %b
+                    vpiValue: "%b %b"
                   HierPath name:b.x start:41:35 end:41:38:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: b.x
                     vpiFullName: work@wrap.b.x
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:b start:41:35 end:41:36:
                         vpiParent: HierPath name:b.x
                         vpiName: b
@@ -1075,7 +1089,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: b.y
                     vpiFullName: work@wrap.b.y
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:b start:41:40 end:41:41:
                         vpiParent: HierPath name:b.y
                         vpiName: b
@@ -1093,7 +1107,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b.x
                   vpiFullName: work@wrap.b.x
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:b start:42:9 end:42:10:
                       vpiParent: HierPath name:b.x
                       vpiName: b
@@ -1113,7 +1127,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b01101"
-                  vpiValue: 01101
+                  vpiValue: "01101"
               DelayControl start:42:25 end:42:28:
                 vpiParent: Begin
                 vpiDelay Constant start:42:26 end:42:28:
@@ -1133,7 +1147,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: b.y
                   vpiFullName: work@wrap.b.y
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:b start:43:9 end:43:10:
                       vpiParent: HierPath name:b.y
                       vpiName: b
@@ -1153,7 +1167,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b11101"
-                  vpiValue: 11101
+                  vpiValue: "11101"
               DelayControl start:43:25 end:43:28:
                 vpiParent: Begin
                 vpiDelay Constant start:43:26 end:43:28:
@@ -1186,12 +1200,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 48
                     vpiDecompile: "\" %b %b\""
-                    vpiValue: %b %b
+                    vpiValue: "%b %b"
                   HierPath name:c.x start:45:35 end:45:38:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: c.x
                     vpiFullName: work@wrap.c.x
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:c start:45:35 end:45:36:
                         vpiParent: HierPath name:c.x
                         vpiName: c
@@ -1206,7 +1220,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: c.y
                     vpiFullName: work@wrap.c.y
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:c start:45:40 end:45:41:
                         vpiParent: HierPath name:c.y
                         vpiName: c
@@ -1224,7 +1238,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: c.x
                   vpiFullName: work@wrap.c.x
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:c start:46:9 end:46:10:
                       vpiParent: HierPath name:c.x
                       vpiName: c
@@ -1244,7 +1258,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b01101"
-                  vpiValue: 01101
+                  vpiValue: "01101"
               DelayControl start:46:25 end:46:28:
                 vpiParent: Begin
                 vpiDelay Constant start:46:26 end:46:28:
@@ -1264,7 +1278,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: c.y
                   vpiFullName: work@wrap.c.y
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:c start:47:9 end:47:10:
                       vpiParent: HierPath name:c.y
                       vpiName: c
@@ -1284,7 +1298,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b11101"
-                  vpiValue: 11101
+                  vpiValue: "11101"
               DelayControl start:47:25 end:47:28:
                 vpiParent: Begin
                 vpiDelay Constant start:47:26 end:47:28:
@@ -1317,12 +1331,12 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 200
                     vpiDecompile: "\" %b %b {%b %b} %b {%b %b}\""
-                    vpiValue: %b %b {%b %b} %b {%b %b}
+                    vpiValue: "%b %b {%b %b} %b {%b %b}"
                   HierPath name:d.x start:49:54 end:49:57:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.x
                     vpiFullName: work@wrap.d.x
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:d start:49:54 end:49:55:
                         vpiParent: HierPath name:d.x
                         vpiName: d
@@ -1337,7 +1351,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.y
                     vpiFullName: work@wrap.d.y
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:d start:49:59 end:49:60:
                         vpiParent: HierPath name:d.y
                         vpiName: d
@@ -1352,7 +1366,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.y.a
                     vpiFullName: work@wrap.d.y.a
-                    vpiActual (3 items):
+                    vpiPathElem (3 items):
                       RefObj name:d start:49:64 end:49:65:
                         vpiParent: HierPath name:d.y.a
                         vpiName: d
@@ -1372,7 +1386,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.y.b
                     vpiFullName: work@wrap.d.y.b
-                    vpiActual (3 items):
+                    vpiPathElem (3 items):
                       RefObj name:d start:49:71 end:49:72:
                         vpiParent: HierPath name:d.y.b
                         vpiName: d
@@ -1392,7 +1406,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.z
                     vpiFullName: work@wrap.d.z
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:d start:50:13 end:50:14:
                         vpiParent: HierPath name:d.z
                         vpiName: d
@@ -1407,7 +1421,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.z.a
                     vpiFullName: work@wrap.d.z.a
-                    vpiActual (3 items):
+                    vpiPathElem (3 items):
                       RefObj name:d start:50:18 end:50:19:
                         vpiParent: HierPath name:d.z.a
                         vpiName: d
@@ -1427,7 +1441,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: d.z.b
                     vpiFullName: work@wrap.d.z.b
-                    vpiActual (3 items):
+                    vpiPathElem (3 items):
                       RefObj name:d start:50:25 end:50:26:
                         vpiParent: HierPath name:d.z.b
                         vpiName: d
@@ -1450,7 +1464,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.x
                   vpiFullName: work@wrap.d.x
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:d start:51:9 end:51:10:
                       vpiParent: HierPath name:d.x
                       vpiName: d
@@ -1470,7 +1484,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 5
                   vpiDecompile: "5'b01101"
-                  vpiValue: 01101
+                  vpiValue: "01101"
               DelayControl start:51:25 end:51:28:
                 vpiParent: Begin
                 vpiDelay Constant start:51:26 end:51:28:
@@ -1490,7 +1504,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.y
                   vpiFullName: work@wrap.d.y
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:d start:52:9 end:52:10:
                       vpiParent: HierPath name:d.y
                       vpiName: d
@@ -1503,7 +1517,7 @@ Design name:unnamed:
                       vpiActual: TypespecMember name:y
                 vpiRhs Operation start:52:15 end:52:39:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (2 items):
                     TaggedPattern start:52:18 end:52:27:
                       vpiParent: Operation
@@ -1521,7 +1535,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 3
                         vpiDecompile: "3'b110"
-                        vpiValue: 110
+                        vpiValue: "110"
                     TaggedPattern start:52:29 end:52:37:
                       vpiParent: Operation
                       vpiTag RefObj name:b start:52:29 end:52:30:
@@ -1538,7 +1552,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b01"
-                        vpiValue: 01
+                        vpiValue: "01"
               DelayControl start:52:41 end:52:44:
                 vpiParent: Begin
                 vpiDelay Constant start:52:42 end:52:44:
@@ -1558,7 +1572,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.z
                   vpiFullName: work@wrap.d.z
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:d start:53:9 end:53:10:
                       vpiParent: HierPath name:d.z
                       vpiName: d
@@ -1571,7 +1585,7 @@ Design name:unnamed:
                       vpiActual: TypespecMember name:z
                 vpiRhs Operation start:53:15 end:53:39:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (2 items):
                     TaggedPattern start:53:18 end:53:27:
                       vpiParent: Operation
@@ -1589,7 +1603,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 3
                         vpiDecompile: "3'b110"
-                        vpiValue: 110
+                        vpiValue: "110"
                     TaggedPattern start:53:29 end:53:37:
                       vpiParent: Operation
                       vpiTag RefObj name:a start:53:29 end:53:30:
@@ -1606,7 +1620,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 2
                         vpiDecompile: "2'b01"
-                        vpiValue: 01
+                        vpiValue: "01"
               DelayControl start:53:41 end:53:44:
                 vpiParent: Begin
                 vpiDelay Constant start:53:42 end:53:44:
@@ -1626,7 +1640,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.y.a
                   vpiFullName: work@wrap.d.y.a
-                  vpiActual (3 items):
+                  vpiPathElem (3 items):
                     RefObj name:d start:54:9 end:54:10:
                       vpiParent: HierPath name:d.y.a
                       vpiName: d
@@ -1651,7 +1665,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 3
                   vpiDecompile: "3'b010"
-                  vpiValue: 010
+                  vpiValue: "010"
               DelayControl start:54:25 end:54:28:
                 vpiParent: Begin
                 vpiDelay Constant start:54:26 end:54:28:
@@ -1671,7 +1685,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.y.b
                   vpiFullName: work@wrap.d.y.b
-                  vpiActual (3 items):
+                  vpiPathElem (3 items):
                     RefObj name:d start:55:9 end:55:10:
                       vpiParent: HierPath name:d.y.b
                       vpiName: d
@@ -1696,7 +1710,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 2
                   vpiDecompile: "2'b10"
-                  vpiValue: 10
+                  vpiValue: "10"
               DelayControl start:55:24 end:55:27:
                 vpiParent: Begin
                 vpiDelay Constant start:55:25 end:55:27:
@@ -1716,7 +1730,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.z.a
                   vpiFullName: work@wrap.d.z.a
-                  vpiActual (3 items):
+                  vpiPathElem (3 items):
                     RefObj name:d start:56:9 end:56:10:
                       vpiParent: HierPath name:d.z.a
                       vpiName: d
@@ -1741,7 +1755,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 2
                   vpiDecompile: "2'b11"
-                  vpiValue: 11
+                  vpiValue: "11"
               DelayControl start:56:24 end:56:27:
                 vpiParent: Begin
                 vpiDelay Constant start:56:25 end:56:27:
@@ -1761,7 +1775,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: d.z.b
                   vpiFullName: work@wrap.d.z.b
-                  vpiActual (3 items):
+                  vpiPathElem (3 items):
                     RefObj name:d start:57:9 end:57:10:
                       vpiParent: HierPath name:d.z.b
                       vpiName: d
@@ -1786,7 +1800,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 3
                   vpiDecompile: "3'b101"
-                  vpiValue: 101
+                  vpiValue: "101"
               DelayControl start:57:25 end:57:28:
                 vpiParent: Begin
                 vpiDelay Constant start:57:26 end:57:28:
@@ -2229,37 +2243,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/basic/union_sv
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/union_sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/union_sv/surelog.uhdm
+      test-name: Zachjs/basic/union_sv
+   test-dirpath: ${HLC_DIR}/regression/Zachjs/basic/union_sv
+  hldb-filepath: ${HLC_DIR}/regression/Zachjs/basic/union_sv/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Zachjs/basic/union_sv/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/basic/union_sv/lib/work/basic/union.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 834}},
+            'files': {'$Output/lib/work/basic/union.sv': {'post_len': 0,
+                                                          'pre_len': 834}},
             'post_len': 0,
             'pre_len': 834,
             'test_name': 'Zachjs/basic/union_sv'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/basic/union.sv |      834 |         0 |
-+=========================+==========+===========+
-|                         |      834 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/basic/union.sv |      834 |         0 |
++=================================+==========+===========+
+|                                 |      834 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2267,13 +2284,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/union_sv/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Zachjs/basic/union_sv/surelog.uhdm ${SURELOG_DIR}/regression/Zachjs/basic/union_sv/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Zachjs/basic/union_sv/design.hldb ${HLC_DIR}/regression/Zachjs/basic/union_sv/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             331     331       0         0
+Others                             332     332       0         0
 ----------------------------------------------------------------
-                                   331     331       0         0
+                                   332     332       0         0
 ===================== END REDUCTION RESULT =====================

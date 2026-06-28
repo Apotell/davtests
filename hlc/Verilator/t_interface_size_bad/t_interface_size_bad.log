@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_interface_size_bad.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_interface_size_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_interface_size_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_interface_size_bad.v".
 AST_DEBUG_BEGIN
 Count: 159
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v> u<158> t<Top_level_rule> c<1> l<6:1> el<22:1>
+FILE: f<13>:$Source01/t_interface_size_bad.v
+n<$Source01/t_interface_size_bad.v> u<158> t<Top_level_rule> c<1> l<6:1> el<22:1>
   n<> u<1> t<Null_rule> p<158> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Demonstrate deferred linking error messages> u<2> t<LINE_COMMENT> p<158> s<3> l<1:1> el<1:71>
   n<//> u<3> t<LINE_COMMENT> p<158> s<4> l<2:1> el<2:3>
@@ -162,25 +171,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v> u<158> t<Top_level_rule
                         n<0> u<145> t<INTEGRAL_NUMBER> p<146> l<20:27> el<20:28>
         n<> u<154> t<ENDMODULE> p<155> l<21:1> el<21:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:6:1: Compile interface "work@foo_intf".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:10:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:10:1: Multiply defined typedef "work@foo_intf".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:10:1: Multiply defined typedef "work@baz".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:20:1: Compile module "work@baz".
+[INF:CP0304] $Source01/t_interface_size_bad.v:6:1: Compile interface "work@foo_intf".
+[INF:CP0303] $Source01/t_interface_size_bad.v:10:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_interface_size_bad.v:10:1: Multiply defined typedef "work@foo_intf".
+[WRN:CP0323] $Source01/t_interface_size_bad.v:10:1: Multiply defined typedef "work@baz".
+[INF:CP0303] $Source01/t_interface_size_bad.v:20:1: Compile module "work@baz".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:15:20: Illegal implicit net "id:55, name:foo".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:16:20: Illegal implicit net "id:62, name:foo".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_interface_size_bad.v:15:20: Illegal implicit net "id:58, name:foo".
+[ERR:EL0535] $Source01/t_interface_size_bad.v:16:20: Illegal implicit net "id:65, name:foo".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_interface_size_bad.v file:${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_interface_size_bad.v file:$Source01/t_interface_size_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_size_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/lib/work/t_interface_size_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_interface_size_bad.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@foo_intf file:${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v start:6:1 end:8:13:
+    Interface name:work@foo_intf file:$Source01/t_interface_size_bad.v start:6:1 end:8:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo_intf start:6:11 end:6:19:
         vpiParent: Interface name:work@foo_intf
@@ -197,8 +206,13 @@ Design name:unnamed:
           vpiFullName: work@foo_intf.a
           vpiNetType: none (12)
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@foo_intf
+        vpiName: work
+        vpiFullName: work@foo_intf.work
+      vpiCell: foo_intf
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v start:10:1 end:18:10:
+    Module name:work@t file:$Source01/t_interface_size_bad.v start:10:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:10:8 end:10:9:
         vpiParent: Module name:work@t
@@ -326,6 +340,11 @@ Design name:unnamed:
             vpiName: work@baz
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiRefInstance (4 items):
         RefInstance name:foo4 start:12:13 end:12:17:
           vpiParent: Module name:work@t
@@ -383,7 +402,7 @@ Design name:unnamed:
                 vpiName: foo6
                 vpiFullName: work@t.baz6_inst.foo6
                 vpiActual: RefInstance name:foo6
-    Module name:work@baz file:${SURELOG_DIR}/tests/Verilator/t_interface_size_bad.v start:20:1 end:21:10:
+    Module name:work@baz file:$Source01/t_interface_size_bad.v start:20:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@baz start:20:8 end:20:11:
         vpiParent: Module name:work@baz
@@ -422,6 +441,11 @@ Design name:unnamed:
             vpiActual: InterfaceTypespec name:work@foo_intf
       vpiDefName: work@baz
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@baz
+        vpiName: work
+        vpiFullName: work@baz.work
+      vpiCell: baz
       vpiNet (1 items):
         Net name:foo start:20:21 end:20:24:
           vpiParent: Module name:work@baz
@@ -470,37 +494,40 @@ Design name:unnamed:
         vpiName: work@baz
       vpiModule: Module name:work@baz
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_interface_size_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_size_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/surelog.uhdm
+      test-name: Verilator/t_interface_size_bad
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_interface_size_bad
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_interface_size_bad/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_size_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/lib/work/t_interface_size_bad.v'): {'post_len': 0,
-                                                                                                                                                   'pre_len': 230}},
+            'files': {'$Output/lib/work/t_interface_size_bad.v': {'post_len': 0,
+                                                                  'pre_len': 230}},
             'post_len': 0,
             'pre_len': 230,
             'test_name': 'Verilator/t_interface_size_bad'}}
 
-+---------------------------------+----------+-----------+
-| INPUT                           |   PRELEN |   POSTLEN |
-+=================================+==========+===========+
-| lib/work/t_interface_size_bad.v |      230 |         0 |
-+=================================+==========+===========+
-|                                 |      230 |         0 |
-+---------------------------------+----------+-----------+
++-----------------------------------------+----------+-----------+
+| INPUT                                   |   PRELEN |   POSTLEN |
++=========================================+==========+===========+
+| $Output/lib/work/t_interface_size_bad.v |      230 |         0 |
++=========================================+==========+===========+
+|                                         |      230 |         0 |
++-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -508,17 +535,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/surelog.
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_interface_size_bad/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_size_bad/design.hldb ${HLC_DIR}/regression/Verilator/t_interface_size_bad/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            1       0       0         1
-RefObj                               7       6       0         1
+RefObj                              10       9       0         1
 RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
 Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    74      72       2         4
+                                    77      75       2         4
 ===================== END REDUCTION RESULT =====================

@@ -56,22 +56,22 @@
 //   Additionally, Surelog emits WRN:PP0118 for \123, confirming it does not
 //   recognize the octal escape format defined in §5.9.1.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/sys_func_call.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringSpecialChars : public Test {
  public:
@@ -92,31 +92,31 @@ class StringSpecialChars : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
-static const uhdm::SysFuncCall *getDisplayCall(const uhdm::Design *d,
+static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d,
                                                 std::size_t index) {
-  const uhdm::Begin *begin = getBegin(d);
+  const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const uhdm::SysFuncCall *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[index]);
 }
 
-static const uhdm::Constant *getStringArg(const uhdm::SysFuncCall *call) {
+static const hldb::Constant *getStringArg(const hldb::SysFuncCall *call) {
   if (!call || !call->getArguments() || call->getArguments()->empty())
     return nullptr;
-  return any_cast<const uhdm::Constant *>((*call->getArguments())[0]);
+  return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
@@ -127,7 +127,7 @@ TEST_F(StringSpecialChars, ModuleExists) {
 }
 
 TEST_F(StringSpecialChars, NoNetsInModule) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
       << "module has no net declarations — only $display calls";
@@ -138,7 +138,7 @@ TEST_F(StringSpecialChars, InitialBlockHasBegin) {
 }
 
 TEST_F(StringSpecialChars, BeginHasNineStatements) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 9u)
@@ -149,12 +149,12 @@ TEST_F(StringSpecialChars, BeginHasNineStatements) {
 // All 9 statements must be $display system calls.
 // ---------------------------------------------------------------------------
 TEST_F(StringSpecialChars, AllStatementsAreDisplayCalls) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
     const auto *call =
-        any_cast<const uhdm::SysFuncCall *>((*begin->getStmts())[i]);
+        any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[i]);
     ASSERT_NE(call, nullptr) << "stmt[" << i << "] is not a SysFuncCall";
     EXPECT_EQ(call->getName(), "$display")
         << "stmt[" << i << "] should be $display";
@@ -184,7 +184,7 @@ TEST_F(StringSpecialChars, AllArgumentsHaveStringTypespec) {
     ASSERT_NE(c, nullptr) << "call[" << i << "] argument is null";
     ASSERT_NE(c->getTypespec(), nullptr)
         << "call[" << i << "] argument has no typespec";
-    EXPECT_NE(c->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+    EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
         << "call[" << i << "]: string literal must have StringTypespec";
   }
 }

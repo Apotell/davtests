@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Interconnect/Interconnect/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Interconnect -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Interconnect/Interconnect
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 957
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Interconnect/dut.sv
-n<${SURELOG_DIR}/tests/Interconnect/dut.sv> u<956> t<Top_level_rule> c<1> l<1:1> el<46:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<956> t<Top_level_rule> c<1> l<1:1> el<46:1>
   n<> u<1> t<Null_rule> p<956> s<955> l<1:1>
   n<> u<955> t<Source_text> p<956> c<954> l<1:1> el<43:10>
     n<> u<954> t<Description> p<955> c<953> l<1:1> el<43:10>
@@ -960,19 +969,19 @@ n<${SURELOG_DIR}/tests/Interconnect/dut.sv> u<956> t<Top_level_rule> c<1> l<1:1>
                               n<1> u<940> t<INTEGRAL_NUMBER> p<941> l<41:39> el<41:40>
         n<> u<952> t<ENDMODULE> p<953> l<43:1> el<43:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Interconnect/dut.sv:1:1: Compile module "work@a".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Interconnect/dut.sv:1:1: No timescale set for "work@a".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@a".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@a".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/Interconnect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Interconnect/Interconnect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@a file:${SURELOG_DIR}/tests/Interconnect/dut.sv start:1:1 end:43:10:
+    Module name:work@a file:$Source01/dut.sv start:1:1 end:43:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@a start:1:8 end:1:9:
         vpiParent: Module name:work@a
@@ -2732,6 +2741,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@a
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@a
+        vpiName: work
+        vpiFullName: work@a.work
+      vpiCell: a
       vpiNet (35 items):
         Net name:b start:2:20 end:2:21:
           vpiParent: Module name:work@a
@@ -3064,37 +3078,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Interconnect/Interconnect
- test-dirpath: ${SURELOG_DIR}/regression/Interconnect/Interconnect
-uhdm-filepath: ${SURELOG_DIR}/regression/Interconnect/Interconnect/surelog.uhdm
+      test-name: Interconnect/Interconnect
+   test-dirpath: ${HLC_DIR}/regression/Interconnect/Interconnect
+  hldb-filepath: ${HLC_DIR}/regression/Interconnect/Interconnect/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Interconnect/Interconnect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Interconnect/Interconnect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 1214}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 1214}},
             'post_len': 0,
             'pre_len': 1214,
             'test_name': 'Interconnect/Interconnect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |     1214 |         0 |
-+=================+==========+===========+
-|                 |     1214 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |     1214 |         0 |
++=========================+==========+===========+
+|                         |     1214 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -3102,13 +3119,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Interconnect/Interconnect/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Interconnect/Interconnect/surelog.uhdm ${SURELOG_DIR}/regression/Interconnect/Interconnect/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Interconnect/Interconnect/design.hldb ${HLC_DIR}/regression/Interconnect/Interconnect/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             498     498       0         0
+Others                             499     499       0         0
 ----------------------------------------------------------------
-                                   498     498       0         0
+                                   499     499       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,39 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_enum/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_enum.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_enum.v".
+[INF:PA0201] Parsing source file "$Source01/t_enum.v".
+[SNT:PA0207] $Source01/t_enum.v:33:16: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   localparam FIVE = 5;\n\n   enum { e0,\n\t  e1,\n\t  e3=3,\n\t  e5=FIVE,\n\t  e10_[2] = 10,\n\t  e12,\n\t  e20_[5:7] = 25,\n\t  e20_z,\n\t  e30_[7:5] = 30,\n\t  e30_z\n\t  } EN;\n\n   enum {\n\t z5 = e5\n\t } ZN;\n\n   typedef enum [',
+   typedef enum [2:0] { ONES=~0 } three_t;
+                ^-- $Source01/t_enum.v:33:16:.
+[SNT:PA0207] $Source01/t_enum.v:33:16: Syntax error: no viable alternative at input 'enum [',
+   typedef enum [2:0] { ONES=~0 } three_t;
+                ^-- $Source01/t_enum.v:33:16:.
+[SNT:PA0207] $Source01/t_enum.v:33:16: Syntax error: mismatched input '[' expecting {'{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+   typedef enum [2:0] { ONES=~0 } three_t;
+                ^-- $Source01/t_enum.v:33:16:.
+[SNT:PA0207] $Source01/t_enum.v:33:22: Syntax error: mismatched input '{' expecting ';',
+   typedef enum [2:0] { ONES=~0 } three_t;
+                      ^-- $Source01/t_enum.v:33:22:.
+[SNT:PA0207] $Source01/t_enum.v:36:22: Syntax error: no viable alternative at input 'var logic [ONES:0] sized_based_on_enum',
+   var logic [ONES:0] sized_based_on_enum;
+                      ^-- $Source01/t_enum.v:36:22:.
+[SNT:PA0207] $Source01/t_enum.v:38:7: Syntax error: no viable alternative at input 'var enum',
+   var enum logic [3:0]  { QINVALID='1, QSEND={2'b0,2'h0}, QOP={2'b0,2'h1}, QCL={2'b0,2'h2},
+       ^-- $Source01/t_enum.v:38:7:.
+[SNT:PA0207] $Source01/t_enum.v:41:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_enum.v:41:3:.
 AST_DEBUG_BEGIN
 Count: 303
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_enum.v
-n<${SURELOG_DIR}/tests/Verilator/t_enum.v> u<302> t<Top_level_rule> c<1> l<6:1> el<81:10>
+FILE: f<13>:$Source01/t_enum.v
+n<$Source01/t_enum.v> u<302> t<Top_level_rule> c<1> l<6:1> el<81:10>
   n<> u<1> t<Null_rule> p<302> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<302> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<302> s<4> l<2:1> el<2:3>
@@ -306,44 +336,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_enum.v> u<302> t<Top_level_rule> c<1> l<6:1> 
                 n<> u<294> t<Variable_decl_assignment> p<295> c<293> l<39:38> el<39:41>
                   n<inv> u<293> t<SIMPLE_IDENTIFIER> p<294> l<39:38> el<39:41>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:16: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   localparam FIVE = 5;\n\n   enum { e0,\n\t  e1,\n\t  e3=3,\n\t  e5=FIVE,\n\t  e10_[2] = 10,\n\t  e12,\n\t  e20_[5:7] = 25,\n\t  e20_z,\n\t  e30_[7:5] = 30,\n\t  e30_z\n\t  } EN;\n\n   enum {\n\t z5 = e5\n\t } ZN;\n\n   typedef enum [',
-   typedef enum [2:0] { ONES=~0 } three_t;
-                ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:16:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:16: Syntax error: no viable alternative at input 'enum [',
-   typedef enum [2:0] { ONES=~0 } three_t;
-                ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:16:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:16: Syntax error: mismatched input '[' expecting {'{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-   typedef enum [2:0] { ONES=~0 } three_t;
-                ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:16:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:22: Syntax error: mismatched input '{' expecting ';',
-   typedef enum [2:0] { ONES=~0 } three_t;
-                      ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:33:22:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:36:22: Syntax error: no viable alternative at input 'var logic [ONES:0] sized_based_on_enum',
-   var logic [ONES:0] sized_based_on_enum;
-                      ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:36:22:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:38:7: Syntax error: no viable alternative at input 'var enum',
-   var enum logic [3:0]  { QINVALID='1, QSEND={2'b0,2'h0}, QOP={2'b0,2'h1}, QCL={2'b0,2'h2},
-       ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:38:7:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_enum.v:41:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_enum.v:41:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_enum.v:30:8: Illegal implicit net "id:82, name:e5".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_enum.v:36:15: Illegal implicit net "id:102, name:ONES".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_enum.v:30:8: Illegal implicit net "id:82, name:e5".
+[ERR:EL0535] $Source01/t_enum.v:36:15: Illegal implicit net "id:102, name:ONES".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_enum.v file:${SURELOG_DIR}/tests/Verilator/t_enum.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_enum.v file:$Source01/t_enum.v:
       vpiParent: Design name:unnamed
       vpiName: t_enum.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_enum/lib/work/t_enum.v"
+      vpiPreprocFile: "$Output/lib/work/t_enum.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_enum.v start:13:1 end:13:1:
+    Module file:$Source01/t_enum.v start:13:1 end:13:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_enum.v start:13:1 end:13:7:
+    Module file:$Source01/t_enum.v start:13:1 end:13:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
   vpiTypespec (19 items):
@@ -404,7 +413,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 5
             vpiDecompile: "5'd0"
-            vpiValue: 0
+            vpiValue: "0"
         EnumConst name:BIT1 start:9:7 end:9:18:
           vpiParent: EnumTypespec
           vpiName Identifier name:BIT1 start:9:7 end:9:11:
@@ -419,7 +428,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 5
             vpiDecompile: "5'd1"
-            vpiValue: 1
+            vpiValue: "1"
         EnumConst name:BIT2 start:10:7 end:10:18:
           vpiParent: EnumTypespec
           vpiName Identifier name:BIT2 start:10:7 end:10:11:
@@ -434,7 +443,7 @@ Design name:unnamed:
             vpiConstType: decimal (1)
             vpiSize: 5
             vpiDecompile: "5'd2"
-            vpiValue: 2
+            vpiValue: "2"
     TypedefTypespec name:three_t start:6:1 end:11:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:three_t start:11:9 end:11:16:
@@ -678,7 +687,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'1"
-            vpiValue: 1
+            vpiValue: "1"
         EnumConst name:QSEND start:38:41 end:38:58:
           vpiParent: EnumTypespec
           vpiName Identifier name:QSEND start:38:41 end:38:46:
@@ -701,7 +710,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:38:53 end:38:57:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -711,7 +720,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h0"
-                vpiValue: 0
+                vpiValue: "0"
         EnumConst name:QOP start:38:60 end:38:75:
           vpiParent: EnumTypespec
           vpiName Identifier name:QOP start:38:60 end:38:63:
@@ -734,7 +743,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:38:70 end:38:74:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -744,7 +753,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h1"
-                vpiValue: 1
+                vpiValue: "1"
         EnumConst name:QCL start:38:77 end:38:92:
           vpiParent: EnumTypespec
           vpiName Identifier name:QCL start:38:77 end:38:80:
@@ -767,7 +776,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:38:87 end:38:91:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -777,7 +786,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h2"
-                vpiValue: 2
+                vpiValue: "2"
         EnumConst name:QPR start:39:7 end:39:23:
           vpiParent: EnumTypespec
           vpiName Identifier name:QPR start:39:7 end:39:10:
@@ -800,7 +809,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 2
                 vpiDecompile: "2'b0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:39:17 end:39:21:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -810,7 +819,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h3"
-                vpiValue: 3
+                vpiValue: "3"
         EnumConst name:QACK start:39:25 end:39:29:
           vpiParent: EnumTypespec
           vpiName Identifier name:QACK start:39:25 end:39:29:
@@ -849,37 +858,40 @@ Design name:unnamed:
         vpiDecompile: "5"
         vpiValue: 5
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 7
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_enum
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_enum
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_enum/surelog.uhdm
+      test-name: Verilator/t_enum
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_enum
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_enum/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_enum/mounts.json
 
 
 {'result': {'coverage': 54.1,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_enum/lib/work/t_enum.v'): {'post_len': 571,
-                                                                                                                       'pre_len': 1244}},
+            'files': {'$Output/lib/work/t_enum.v': {'post_len': 571,
+                                                    'pre_len': 1244}},
             'post_len': 571,
             'pre_len': 1244,
             'test_name': 'Verilator/t_enum'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/t_enum.v |     1244 |       571 |
-+===================+==========+===========+
-|                   |     1244 |       571 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/t_enum.v |     1244 |       571 |
++===========================+==========+===========+
+|                           |     1244 |       571 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 54.1
@@ -887,7 +899,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_enum/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_enum/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_enum/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_enum/design.hldb ${HLC_DIR}/regression/Verilator/t_enum/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

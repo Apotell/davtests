@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr540c.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr540c
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr540c.v".
+[INF:PA0201] Parsing source file "$Source01/pr540c.v".
 AST_DEBUG_BEGIN
 Count: 338
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v> u<337> t<Top_level_rule> c<1> l<1:1> el<42:1>
+FILE: f<13>:$Source01/pr540c.v
+n<$Source01/pr540c.v> u<337> t<Top_level_rule> c<1> l<1:1> el<42:1>
   n<> u<1> t<Null_rule> p<337> s<336> l<1:1>
   n<> u<336> t<Source_text> p<337> c<335> l<1:1> el<41:10>
     n<> u<335> t<Description> p<336> c<334> l<1:1> el<41:10>
@@ -341,20 +350,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v> u<337> t<Top_level_rule> c<1> l
                               n<> u<321> t<END> p<322> l<39:3> el<39:6>
         n<> u<333> t<ENDMODULE> p<334> l<41:1> el<41:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/pr540c.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v:31:10: Illegal implicit net "id:110, name:command_block_reset".
-====== UHDM =======
+[ERR:EL0535] $Source01/pr540c.v:31:10: Illegal implicit net "id:111, name:command_block_reset".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr540c.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr540c.v file:$Source01/pr540c.v:
       vpiParent: Design name:unnamed
       vpiName: pr540c.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/lib/work/pr540c.v"
+      vpiPreprocFile: "$Output/lib/work/pr540c.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/pr540c.v start:1:1 end:41:10:
+    Module name:work@top file:$Source01/pr540c.v start:1:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -368,6 +377,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:fail start:3:11 end:3:15:
           vpiParent: Module name:work@top
@@ -662,7 +676,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 248
                       vpiDecompile: "\"***** disable test FAILED *****\""
-                      vpiValue: ***** disable test FAILED *****
+                      vpiValue: "***** disable test FAILED *****"
                 vpiElseStmt SysFuncCall name:$display start:24:14 end:24:57:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:24:14 end:24:22:
@@ -678,7 +692,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 248
                       vpiDecompile: "\"***** disable test PASSED *****\""
-                      vpiValue: ***** disable test PASSED *****
+                      vpiValue: "***** disable test PASSED *****"
               SysFuncCall name:$finish start:25:5 end:25:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:25:5 end:25:12:
@@ -699,59 +713,60 @@ Design name:unnamed:
                 vpiParent: Begin name:command_block
                 vpiName: command_block
               vpiFullName: work@top.command_block
-              vpiStmt (3 items):
+              vpiStmt (1 items):
                 ForkStmt start:29:5 end:38:9:
                   vpiParent: Begin name:command_block
                   vpiFullName: work@top.command_block
-                Begin start:30:7 end:32:10:
-                  vpiParent: Begin name:command_block
-                  vpiFullName: work@top.command_block
-                  vpiStmt (1 items):
-                    Disable start:31:2 end:31:30:
-                      vpiParent: Begin
-                      vpiExpr RefObj name:command_block_reset start:31:10 end:31:29:
-                        vpiParent: Disable
+                  vpiStmt (2 items):
+                    Begin start:30:7 end:32:10:
+                      vpiParent: ForkStmt
+                      vpiFullName: work@top.command_block
+                      vpiStmt (1 items):
+                        Disable start:31:2 end:31:30:
+                          vpiParent: Begin
+                          vpiExpr RefObj name:command_block_reset start:31:10 end:31:29:
+                            vpiParent: Disable
+                            vpiName: command_block_reset
+                            vpiFullName: work@top.command_block.command_block_reset
+                    Begin name:command_block_reset start:33:7 end:37:10:
+                      vpiParent: ForkStmt
+                      vpiName Identifier name:command_block_reset start:33:14 end:33:33:
+                        vpiParent: Begin name:command_block_reset
                         vpiName: command_block_reset
-                        vpiFullName: work@top.command_block.command_block_reset
-                Begin name:command_block_reset start:33:7 end:37:10:
-                  vpiParent: Begin name:command_block
-                  vpiName Identifier name:command_block_reset start:33:14 end:33:33:
-                    vpiParent: Begin name:command_block_reset
-                    vpiName: command_block_reset
-                  vpiFullName: work@top.command_block.command_block_reset
-                  vpiStmt (3 items):
-                    EventControl start:34:2 end:34:10:
-                      vpiParent: Begin name:command_block_reset
-                      vpiCondition RefObj name:reset start:34:4 end:34:9:
-                        vpiParent: EventControl
-                        vpiName: reset
-                        vpiFullName: work@top.command_block.command_block_reset.reset
-                        vpiActual: Net name:reset
-                    Assignment start:35:2 end:35:10:
-                      vpiParent: Begin name:command_block_reset
-                      vpiBlocking: true
-                      vpiLhs RefObj name:fail start:35:2 end:35:6:
-                        vpiParent: Assignment
-                        vpiName: fail
-                        vpiFullName: work@top.command_block.command_block_reset.fail
-                        vpiActual: Net name:fail
-                      vpiRhs Constant start:35:9 end:35:10:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: work@top.command_block.command_block_reset
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                    Disable start:36:2 end:36:24:
-                      vpiParent: Begin name:command_block_reset
-                      vpiExpr RefObj name:command_block start:36:10 end:36:23:
-                        vpiParent: Disable
-                        vpiName: command_block
-                        vpiFullName: work@top.command_block.command_block_reset.command_block
-                        vpiActual: Begin name:command_block
+                      vpiFullName: work@top.command_block.command_block_reset
+                      vpiStmt (3 items):
+                        EventControl start:34:2 end:34:10:
+                          vpiParent: Begin name:command_block_reset
+                          vpiCondition RefObj name:reset start:34:4 end:34:9:
+                            vpiParent: EventControl
+                            vpiName: reset
+                            vpiFullName: work@top.command_block.command_block_reset.reset
+                            vpiActual: Net name:reset
+                        Assignment start:35:2 end:35:10:
+                          vpiParent: Begin name:command_block_reset
+                          vpiBlocking: true
+                          vpiLhs RefObj name:fail start:35:2 end:35:6:
+                            vpiParent: Assignment
+                            vpiName: fail
+                            vpiFullName: work@top.command_block.command_block_reset.fail
+                            vpiActual: Net name:fail
+                          vpiRhs Constant start:35:9 end:35:10:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top.command_block.command_block_reset
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                        Disable start:36:2 end:36:24:
+                          vpiParent: Begin name:command_block_reset
+                          vpiExpr RefObj name:command_block start:36:10 end:36:23:
+                            vpiParent: Disable
+                            vpiName: command_block
+                            vpiFullName: work@top.command_block.command_block_reset.command_block
+                            vpiActual: Begin name:command_block
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:work@top:
@@ -766,37 +781,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr540c
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540c
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/surelog.uhdm
+      test-name: Icarus/ivltests/pr540c
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr540c
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr540c/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr540c/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/lib/work/pr540c.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 425}},
+            'files': {'$Output/lib/work/pr540c.v': {'post_len': 0,
+                                                    'pre_len': 425}},
             'post_len': 0,
             'pre_len': 425,
             'test_name': 'Icarus/ivltests/pr540c'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/pr540c.v |      425 |         0 |
-+===================+==========+===========+
-|                   |      425 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/pr540c.v |      425 |         0 |
++===========================+==========+===========+
+|                           |      425 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -804,13 +822,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr540c/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr540c/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr540c/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             105     105       0         0
+Others                             106     106       0         0
 ----------------------------------------------------------------
-                                   105     105       0         0
+                                   106     106       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/VarDecl/VarDecl/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/VarDecl -d db -nobuiltin -d ast dut.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/VarDecl/VarDecl
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 83
 LIB: work
-FILE: ${SURELOG_DIR}/tests/VarDecl/dut.sv
-n<${SURELOG_DIR}/tests/VarDecl/dut.sv> u<82> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<82> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<82> s<81> l<1:1>
   n<> u<81> t<Source_text> p<82> c<80> l<1:1> el<7:16>
     n<> u<80> t<Description> p<81> c<79> l<1:1> el<7:16>
@@ -86,21 +95,19 @@ n<${SURELOG_DIR}/tests/VarDecl/dut.sv> u<82> t<Top_level_rule> c<1> l<1:1> el<8:
         n<> u<78> t<ENDMODULE> p<79> s<77> l<7:1> el<7:10>
         n<top> u<77> t<SIMPLE_IDENTIFIER> p<79> l<7:13> el<7:16>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/VarDecl/dut.sv:1:1: Compile module "work@top".
-[ERR:CP0341] ${SURELOG_DIR}/tests/VarDecl/dut.sv:1:1: Unmached label "work@top",
-             ${SURELOG_DIR}/tests/VarDecl/dut.sv:7:13: closing label "top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/VarDecl/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/VarDecl/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/VarDecl/VarDecl/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/VarDecl/dut.sv start:1:1 end:7:16:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:7:16:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -121,6 +128,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (1 items):
         Function name:theta start:2:4 end:6:23:
           vpiParent: Module name:work@top
@@ -162,7 +174,7 @@ Design name:unnamed:
             vpiForIncStmt (1 items):
               Operation start:3:32 end:3:35:
                 vpiParent: ForStmt
-                vpiOpType: post inc (62)
+                vpiOpType: post inc (64)
                 vpiOperand (1 items):
                   RefObj name:x start:3:32 end:3:33:
                     vpiParent: Operation
@@ -234,37 +246,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: VarDecl/VarDecl
- test-dirpath: ${SURELOG_DIR}/regression/VarDecl/VarDecl
-uhdm-filepath: ${SURELOG_DIR}/regression/VarDecl/VarDecl/surelog.uhdm
+      test-name: VarDecl/VarDecl
+   test-dirpath: ${HLC_DIR}/regression/VarDecl/VarDecl
+  hldb-filepath: ${HLC_DIR}/regression/VarDecl/VarDecl/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/VarDecl/VarDecl/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/VarDecl/VarDecl/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                    'pre_len': 138}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 138}},
             'post_len': 0,
             'pre_len': 138,
             'test_name': 'VarDecl/VarDecl'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      138 |         0 |
-+=================+==========+===========+
-|                 |      138 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      138 |         0 |
++=========================+==========+===========+
+|                         |      138 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -272,13 +287,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/VarDecl/VarDecl/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/VarDecl/VarDecl/surelog.uhdm ${SURELOG_DIR}/regression/VarDecl/VarDecl/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/VarDecl/VarDecl/design.hldb ${HLC_DIR}/regression/VarDecl/VarDecl/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    35      35       0         0
 ===================== END REDUCTION RESULT =====================

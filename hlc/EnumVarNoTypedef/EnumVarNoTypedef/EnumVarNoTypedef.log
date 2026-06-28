@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/EnumVarNoTypedef -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 42
 LIB: work
-FILE: ${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv
-n<${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv> u<41> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<41> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<41> s<40> l<1:1>
   n<> u<40> t<Source_text> p<41> c<39> l<1:1> el<7:10>
     n<> u<39> t<Description> p<40> c<38> l<1:1> el<7:10>
@@ -45,19 +54,19 @@ n<${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv> u<41> t<Top_level_rule> c<1> l<1
                             n<myenum> u<26> t<SIMPLE_IDENTIFIER> p<27> l<5:4> el<5:10>
         n<> u<37> t<ENDMODULE> p<38> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/EnumVarNoTypedef/dut.sv start:1:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -111,9 +120,14 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 4
                 vpiDecompile: "4'h2"
-                vpiValue: 2
+                vpiValue: "2"
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:myenum start:5:4 end:5:10:
           vpiParent: Module name:work@top
@@ -136,37 +150,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: EnumVarNoTypedef/EnumVarNoTypedef
- test-dirpath: ${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef
-uhdm-filepath: ${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/surelog.uhdm
+      test-name: EnumVarNoTypedef/EnumVarNoTypedef
+   test-dirpath: ${HLC_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef
+  hldb-filepath: ${HLC_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 63}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 63}},
             'post_len': 0,
             'pre_len': 63,
             'test_name': 'EnumVarNoTypedef/EnumVarNoTypedef'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       63 |         0 |
-+=================+==========+===========+
-|                 |       63 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       63 |         0 |
++=========================+==========+===========+
+|                         |       63 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -174,13 +191,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/surel
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/surelog.uhdm ${SURELOG_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/design.hldb ${HLC_DIR}/regression/EnumVarNoTypedef/EnumVarNoTypedef/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    23      23       0         0
 ===================== END REDUCTION RESULT =====================

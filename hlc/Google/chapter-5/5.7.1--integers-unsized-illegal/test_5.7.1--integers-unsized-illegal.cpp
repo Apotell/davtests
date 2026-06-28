@@ -40,22 +40,22 @@
 // This is distinct from other illegal tests (e.g. integers-signed-illegal)
 // where a hard syntax error leaves only nameless stub modules.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class IntegersUnsizedIllegal : public Test {
  public:
@@ -77,17 +77,17 @@ class IntegersUnsizedIllegal : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getBegin(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Begin *getBegin(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  return initial->getStmt<uhdm::Begin>();
+  return initial->getStmt<hldb::Begin>();
 }
 
 // ---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ TEST_F(IntegersUnsizedIllegal, ModuleExists) {
 }
 
 TEST_F(IntegersUnsizedIllegal, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u) << "expected 1 net: a [31:0]";
@@ -110,18 +110,18 @@ TEST_F(IntegersUnsizedIllegal, OneNetExists) {
 // Initial block — 1 assignment is recovered
 // ---------------------------------------------------------------------------
 TEST_F(IntegersUnsizedIllegal, InitialHasOneAssignment) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 1u);
 }
 
 TEST_F(IntegersUnsizedIllegal, AssignmentIsBlocking) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   const auto *assign =
-      any_cast<const uhdm::Assignment *>((*begin->getStmts())[0]);
+      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
 }
@@ -131,24 +131,24 @@ TEST_F(IntegersUnsizedIllegal, AssignmentIsBlocking) {
 // reaches UHDM as an unsigned-int constant.  The 'af' time-unit is dropped.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersUnsizedIllegal, RhsIsConstant) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   const auto *assign =
-      any_cast<const uhdm::Assignment *>((*begin->getStmts())[0]);
+      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
-  EXPECT_NE(assign->getRhs<uhdm::Constant>(), nullptr)
+  EXPECT_NE(assign->getRhs<hldb::Constant>(), nullptr)
       << "the numeric '4' from '4af' should be recovered as a Constant RHS";
 }
 
 TEST_F(IntegersUnsizedIllegal, RhsConstTypeIsUnsignedInt) {
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   const auto *assign =
-      any_cast<const uhdm::Assignment *>((*begin->getStmts())[0]);
+      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // The recovered numeric part '4' is stored as unsigned int (9)
   EXPECT_EQ(c->getConstType(), 9);
@@ -156,13 +156,13 @@ TEST_F(IntegersUnsizedIllegal, RhsConstTypeIsUnsignedInt) {
 
 TEST_F(IntegersUnsizedIllegal, RhsDecompileShowsOnlyNumericPart) {
   // Surelog drops the 'af' time-unit; decompile shows only "4"
-  const uhdm::Begin *const begin = getBegin(m_design);
+  const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   const auto *assign =
-      any_cast<const uhdm::Assignment *>((*begin->getStmts())[0]);
+      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
-  const auto *c = assign->getRhs<uhdm::Constant>();
+  const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "4")
       << "'af' time-unit suffix should be discarded; only '4' survives";

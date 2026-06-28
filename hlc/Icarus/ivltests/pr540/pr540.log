@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr540/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr540.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr540
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr540.v".
+[INF:PA0201] Parsing source file "$Source01/pr540.v".
 AST_DEBUG_BEGIN
 Count: 957
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr540.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr540.v> u<956> t<Top_level_rule> c<1> l<9:1> el<126:1>
+FILE: f<13>:$Source01/pr540.v
+n<$Source01/pr540.v> u<956> t<Top_level_rule> c<1> l<9:1> el<126:1>
   n<> u<1> t<Null_rule> p<956> s<2> l<9:1> el<9:1>
   n<// Icarus 0.6, snapshot 20020907> u<2> t<LINE_COMMENT> p<956> s<3> l<1:1> el<1:33>
   n<// ==================================================> u<3> t<LINE_COMMENT> p<956> s<4> l<2:1> el<2:54>
@@ -960,19 +969,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr540.v> u<956> t<Top_level_rule> c<1> l<
         n<// task_with_fork> u<951> t<LINE_COMMENT> p<953> s<952> l<122:9> el<122:26>
         n<> u<952> t<ENDMODULE> p<953> l<124:1> el<124:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr540.v:9:1: Compile module "work@top".
+[INF:CP0303] $Source01/pr540.v:9:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr540.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr540.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr540.v file:$Source01/pr540.v:
       vpiParent: Design name:unnamed
       vpiName: pr540.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr540/lib/work/pr540.v"
+      vpiPreprocFile: "$Output/lib/work/pr540.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/pr540.v start:9:1 end:124:10:
+    Module name:work@top file:$Source01/pr540.v start:9:1 end:124:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:9:8 end:9:11:
         vpiParent: Module name:work@top
@@ -986,6 +995,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (2 items):
         Task name:task_with_loop start:89:1 end:102:8:
           vpiParent: Module name:work@top
@@ -993,93 +1007,70 @@ Design name:unnamed:
             vpiParent: Task name:task_with_loop
             vpiName: task_with_loop
           vpiFullName: work@top.task_with_loop
-          vpiStmt Begin:
+          vpiStmt Begin start:90:3 end:101:6:
             vpiParent: Task name:task_with_loop
             vpiFullName: work@top.task_with_loop
-            vpiStmt (1 items):
-              Begin start:90:3 end:101:6:
+            vpiStmt (2 items):
+              DelayControl start:91:5 end:91:7:
                 vpiParent: Begin
-                vpiFullName: work@top.task_with_loop
-                vpiStmt (2 items):
-                  DelayControl start:91:5 end:91:7:
-                    vpiParent: Begin
-                    vpiDelay Constant start:91:6 end:91:7:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@top.task_with_loop
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "2"
-                      vpiValue: 2
-                  Begin name:configtlp start:92:5 end:100:8:
-                    vpiParent: Begin
-                    vpiName Identifier name:configtlp start:92:12 end:92:21:
-                      vpiParent: Begin name:configtlp
-                      vpiName: configtlp
+                vpiDelay Constant start:91:6 end:91:7:
+                  vpiParent: DelayControl
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@top.task_with_loop
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "2"
+                  vpiValue: 2
+              Begin name:configtlp start:92:5 end:100:8:
+                vpiParent: Begin
+                vpiName Identifier name:configtlp start:92:12 end:92:21:
+                  vpiParent: Begin name:configtlp
+                  vpiName: configtlp
+                vpiFullName: work@top.task_with_loop.configtlp
+                vpiStmt (1 items):
+                  ForStmt start:93:7 end:99:10:
+                    vpiParent: Begin name:configtlp
                     vpiFullName: work@top.task_with_loop.configtlp
-                    vpiStmt (1 items):
-                      ForStmt start:93:7 end:99:10:
-                        vpiParent: Begin name:configtlp
-                        vpiFullName: work@top.task_with_loop.configtlp
-                        vpiForInitStmt (1 items):
-                          Assignment start:93:12 end:93:24:
-                            vpiParent: ForStmt
-                            vpiBlocking: true
-                            vpiLhs RefObj name:tlp_cntr start:93:12 end:93:20:
-                              vpiParent: Assignment
-                              vpiName: tlp_cntr
-                              vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
-                              vpiActual: Net name:tlp_cntr
-                            vpiRhs Constant start:93:23 end:93:24:
-                              vpiParent: Assignment
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: work@top.task_with_loop.configtlp
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "0"
-                              vpiValue: 0
-                        vpiForIncStmt (1 items):
-                          Assignment start:93:40 end:93:59:
-                            vpiParent: ForStmt
-                            vpiBlocking: true
-                            vpiLhs RefObj name:tlp_cntr start:93:40 end:93:48:
-                              vpiParent: Assignment
-                              vpiName: tlp_cntr
-                              vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
-                              vpiActual: Net name:tlp_cntr
-                            vpiRhs Operation start:93:49 end:93:59:
-                              vpiParent: Assignment
-                              vpiOpType: add (24)
-                              vpiOperand (2 items):
-                                RefObj name:tlp_cntr start:93:49 end:93:57:
-                                  vpiParent: Operation
-                                  vpiName: tlp_cntr
-                                  vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
-                                  vpiActual: Net name:tlp_cntr
-                                Constant start:93:58 end:93:59:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: work@top.task_with_loop.configtlp
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                        vpiCondition Operation start:93:26 end:93:38:
-                          vpiParent: ForStmt
-                          vpiOpType: less than (20)
+                    vpiForInitStmt (1 items):
+                      Assignment start:93:12 end:93:24:
+                        vpiParent: ForStmt
+                        vpiBlocking: true
+                        vpiLhs RefObj name:tlp_cntr start:93:12 end:93:20:
+                          vpiParent: Assignment
+                          vpiName: tlp_cntr
+                          vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
+                          vpiActual: Net name:tlp_cntr
+                        vpiRhs Constant start:93:23 end:93:24:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@top.task_with_loop.configtlp
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiForIncStmt (1 items):
+                      Assignment start:93:40 end:93:59:
+                        vpiParent: ForStmt
+                        vpiBlocking: true
+                        vpiLhs RefObj name:tlp_cntr start:93:40 end:93:48:
+                          vpiParent: Assignment
+                          vpiName: tlp_cntr
+                          vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
+                          vpiActual: Net name:tlp_cntr
+                        vpiRhs Operation start:93:49 end:93:59:
+                          vpiParent: Assignment
+                          vpiOpType: add (24)
                           vpiOperand (2 items):
-                            RefObj name:tlp_cntr start:93:26 end:93:34:
+                            RefObj name:tlp_cntr start:93:49 end:93:57:
                               vpiParent: Operation
                               vpiName: tlp_cntr
                               vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
                               vpiActual: Net name:tlp_cntr
-                            Constant start:93:37 end:93:38:
+                            Constant start:93:58 end:93:59:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
@@ -1087,93 +1078,109 @@ Design name:unnamed:
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
-                              vpiDecompile: "3"
-                              vpiValue: 3
-                        vpiStmt Begin start:93:61 end:99:10:
-                          vpiParent: ForStmt
-                          vpiFullName: work@top.task_with_loop.configtlp
-                          vpiStmt (3 items):
-                            WaitStmt start:94:2 end:94:14:
-                              vpiParent: Begin
-                              vpiCondition RefObj name:fred start:94:8 end:94:12:
-                                vpiParent: WaitStmt
-                                vpiName: fred
-                                vpiFullName: work@top.task_with_loop.configtlp.fred
-                                vpiActual: Net name:fred
-                            IfStmt start:95:2 end:97:5:
-                              vpiParent: Begin
-                              vpiCondition RefObj name:abort start:95:6 end:95:11:
-                                vpiParent: IfStmt
-                                vpiName: abort
-                                vpiFullName: work@top.task_with_loop.configtlp.abort
-                                vpiActual: Net name:abort
-                              vpiStmt Begin start:95:13 end:97:5:
-                                vpiParent: IfStmt
-                                vpiFullName: work@top.task_with_loop.configtlp
-                                vpiStmt (1 items):
-                                  Disable start:96:4 end:96:22:
-                                    vpiParent: Begin
-                                    vpiExpr RefObj name:configtlp start:96:12 end:96:21:
-                                      vpiParent: Disable
-                                      vpiName: configtlp
-                                      vpiFullName: work@top.task_with_loop.configtlp.configtlp
-                                      vpiActual: Begin name:configtlp
-                            Assignment start:98:2 end:98:14:
-                              vpiParent: Begin
-                              vpiBlocking: true
-                              vpiLhs RefObj name:tlp_fail start:98:2 end:98:10:
-                                vpiParent: Assignment
-                                vpiName: tlp_fail
-                                vpiFullName: work@top.task_with_loop.configtlp.tlp_fail
-                                vpiActual: Net name:tlp_fail
-                              vpiRhs Constant start:98:13 end:98:14:
-                                vpiParent: Assignment
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: work@top.task_with_loop.configtlp
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                    vpiCondition Operation start:93:26 end:93:38:
+                      vpiParent: ForStmt
+                      vpiOpType: less than (20)
+                      vpiOperand (2 items):
+                        RefObj name:tlp_cntr start:93:26 end:93:34:
+                          vpiParent: Operation
+                          vpiName: tlp_cntr
+                          vpiFullName: work@top.task_with_loop.configtlp.tlp_cntr
+                          vpiActual: Net name:tlp_cntr
+                        Constant start:93:37 end:93:38:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@top.task_with_loop.configtlp
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "3"
+                          vpiValue: 3
+                    vpiStmt Begin start:93:61 end:99:10:
+                      vpiParent: ForStmt
+                      vpiFullName: work@top.task_with_loop.configtlp
+                      vpiStmt (3 items):
+                        WaitStmt start:94:2 end:94:14:
+                          vpiParent: Begin
+                          vpiCondition RefObj name:fred start:94:8 end:94:12:
+                            vpiParent: WaitStmt
+                            vpiName: fred
+                            vpiFullName: work@top.task_with_loop.configtlp.fred
+                            vpiActual: Net name:fred
+                        IfStmt start:95:2 end:97:5:
+                          vpiParent: Begin
+                          vpiCondition RefObj name:abort start:95:6 end:95:11:
+                            vpiParent: IfStmt
+                            vpiName: abort
+                            vpiFullName: work@top.task_with_loop.configtlp.abort
+                            vpiActual: Net name:abort
+                          vpiStmt Begin start:95:13 end:97:5:
+                            vpiParent: IfStmt
+                            vpiFullName: work@top.task_with_loop.configtlp
+                            vpiStmt (1 items):
+                              Disable start:96:4 end:96:22:
+                                vpiParent: Begin
+                                vpiExpr RefObj name:configtlp start:96:12 end:96:21:
+                                  vpiParent: Disable
+                                  vpiName: configtlp
+                                  vpiFullName: work@top.task_with_loop.configtlp.configtlp
+                                  vpiActual: Begin name:configtlp
+                        Assignment start:98:2 end:98:14:
+                          vpiParent: Begin
+                          vpiBlocking: true
+                          vpiLhs RefObj name:tlp_fail start:98:2 end:98:10:
+                            vpiParent: Assignment
+                            vpiName: tlp_fail
+                            vpiFullName: work@top.task_with_loop.configtlp.tlp_fail
+                            vpiActual: Net name:tlp_fail
+                          vpiRhs Constant start:98:13 end:98:14:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top.task_with_loop.configtlp
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
         Task name:task_with_fork start:104:1 end:122:8:
           vpiParent: Module name:work@top
           vpiName Identifier name:task_with_fork start:104:6 end:104:20:
             vpiParent: Task name:task_with_fork
             vpiName: task_with_fork
           vpiFullName: work@top.task_with_fork
-          vpiStmt Begin:
+          vpiStmt Begin start:105:3 end:121:6:
             vpiParent: Task name:task_with_fork
             vpiFullName: work@top.task_with_fork
-            vpiStmt (1 items):
-              Begin start:105:3 end:121:6:
+            vpiStmt (2 items):
+              DelayControl start:106:5 end:106:7:
                 vpiParent: Begin
-                vpiFullName: work@top.task_with_fork
+                vpiDelay Constant start:106:6 end:106:7:
+                  vpiParent: DelayControl
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@top.task_with_fork
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "2"
+                  vpiValue: 2
+              Begin name:forked_tasks_in_task start:107:5 end:120:8:
+                vpiParent: Begin
+                vpiName Identifier name:forked_tasks_in_task start:107:12 end:107:32:
+                  vpiParent: Begin name:forked_tasks_in_task
+                  vpiName: forked_tasks_in_task
+                vpiFullName: work@top.task_with_fork.forked_tasks_in_task
                 vpiStmt (2 items):
-                  DelayControl start:106:5 end:106:7:
-                    vpiParent: Begin
-                    vpiDelay Constant start:106:6 end:106:7:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@top.task_with_fork
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "2"
-                      vpiValue: 2
-                  Begin name:forked_tasks_in_task start:107:5 end:120:8:
-                    vpiParent: Begin
-                    vpiName Identifier name:forked_tasks_in_task start:107:12 end:107:32:
-                      vpiParent: Begin name:forked_tasks_in_task
-                      vpiName: forked_tasks_in_task
+                  ForkStmt start:108:7 end:118:11:
+                    vpiParent: Begin name:forked_tasks_in_task
                     vpiFullName: work@top.task_with_fork.forked_tasks_in_task
-                    vpiStmt (4 items):
-                      ForkStmt start:108:7 end:118:11:
-                        vpiParent: Begin name:forked_tasks_in_task
-                        vpiFullName: work@top.task_with_fork.forked_tasks_in_task
+                    vpiStmt (2 items):
                       Begin start:109:2 end:112:5:
-                        vpiParent: Begin name:forked_tasks_in_task
+                        vpiParent: ForkStmt
                         vpiFullName: work@top.task_with_fork.forked_tasks_in_task
                         vpiStmt (2 items):
                           DelayControl start:110:4 end:110:6:
@@ -1207,7 +1214,7 @@ Design name:unnamed:
                               vpiDecompile: "1"
                               vpiValue: 1
                       Begin start:113:2 end:117:5:
-                        vpiParent: Begin name:forked_tasks_in_task
+                        vpiParent: ForkStmt
                         vpiFullName: work@top.task_with_fork.forked_tasks_in_task
                         vpiStmt (3 items):
                           EventControl start:114:4 end:114:11:
@@ -1242,24 +1249,24 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "1"
                               vpiValue: 1
-                      Assignment start:119:7 end:119:19:
-                        vpiParent: Begin name:forked_tasks_in_task
-                        vpiBlocking: true
-                        vpiLhs RefObj name:tfk_fail start:119:7 end:119:15:
-                          vpiParent: Assignment
-                          vpiName: tfk_fail
-                          vpiFullName: work@top.task_with_fork.forked_tasks_in_task.tfk_fail
-                          vpiActual: Net name:tfk_fail
-                        vpiRhs Constant start:119:18 end:119:19:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@top.task_with_fork.forked_tasks_in_task
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
+                  Assignment start:119:7 end:119:19:
+                    vpiParent: Begin name:forked_tasks_in_task
+                    vpiBlocking: true
+                    vpiLhs RefObj name:tfk_fail start:119:7 end:119:15:
+                      vpiParent: Assignment
+                      vpiName: tfk_fail
+                      vpiFullName: work@top.task_with_fork.forked_tasks_in_task.tfk_fail
+                      vpiActual: Net name:tfk_fail
+                    vpiRhs Constant start:119:18 end:119:19:
+                      vpiParent: Assignment
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@top.task_with_fork.forked_tasks_in_task
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
       vpiNet (9 items):
         Net name:simple_fail start:11:11 end:11:22:
           vpiParent: Module name:work@top
@@ -1532,7 +1539,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 328
                         vpiDecompile: "\"\\n***** simple block disable FAILED *****\""
-                        vpiValue: \n***** simple block disable FAILED *****
+                        vpiValue: "\\n***** simple block disable FAILED *****"
                   vpiElseStmt SysFuncCall name:$display start:28:21 end:28:74:
                     vpiParent: IfElse
                     vpiName Identifier name:$display start:28:21 end:28:29:
@@ -1548,7 +1555,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 328
                         vpiDecompile: "\"\\n***** simple block disable PASSED *****\""
-                        vpiValue: \n***** simple block disable PASSED *****
+                        vpiValue: "\\n***** simple block disable PASSED *****"
                 vpiDelay Constant start:26:6 end:26:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1581,7 +1588,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 336
                       vpiDecompile: "\"***** block with loop disable FAILED *****\""
-                      vpiValue: ***** block with loop disable FAILED *****
+                      vpiValue: "***** block with loop disable FAILED *****"
                 vpiElseStmt SysFuncCall name:$display start:30:19 end:30:73:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:30:19 end:30:27:
@@ -1597,7 +1604,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 336
                       vpiDecompile: "\"***** block with loop disable PASSED *****\""
-                      vpiValue: ***** block with loop disable PASSED *****
+                      vpiValue: "***** block with loop disable PASSED *****"
               IfElse start:31:5 end:32:71:
                 vpiParent: Begin
                 vpiCondition RefObj name:fork_fail start:31:8 end:31:17:
@@ -1620,7 +1627,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 312
                       vpiDecompile: "\"***** forked block disable FAILED *****\""
-                      vpiValue: ***** forked block disable FAILED *****
+                      vpiValue: "***** forked block disable FAILED *****"
                 vpiElseStmt SysFuncCall name:$display start:32:19 end:32:70:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:32:19 end:32:27:
@@ -1636,7 +1643,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 312
                       vpiDecompile: "\"***** forked block disable PASSED *****\""
-                      vpiValue: ***** forked block disable PASSED *****
+                      vpiValue: "***** forked block disable PASSED *****"
               IfElse start:33:5 end:34:72:
                 vpiParent: Begin
                 vpiCondition RefObj name:tlp_fail start:33:8 end:33:16:
@@ -1659,7 +1666,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 328
                       vpiDecompile: "\"***** task with loop disable FAILED *****\""
-                      vpiValue: ***** task with loop disable FAILED *****
+                      vpiValue: "***** task with loop disable FAILED *****"
                 vpiElseStmt SysFuncCall name:$display start:34:18 end:34:71:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:34:18 end:34:26:
@@ -1675,7 +1682,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 328
                       vpiDecompile: "\"***** task with loop disable PASSED *****\""
-                      vpiValue: ***** task with loop disable PASSED *****
+                      vpiValue: "***** task with loop disable PASSED *****"
               IfElse start:35:5 end:36:81:
                 vpiParent: Begin
                 vpiCondition RefObj name:tfk_fail start:35:8 end:35:16:
@@ -1698,7 +1705,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 400
                       vpiDecompile: "\"***** task with forked block disable FAILED ****\\n\""
-                      vpiValue: ***** task with forked block disable FAILED ****\n
+                      vpiValue: "***** task with forked block disable FAILED ****\\n"
                 vpiElseStmt SysFuncCall name:$display start:36:18 end:36:80:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:36:18 end:36:26:
@@ -1714,7 +1721,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 400
                       vpiDecompile: "\"***** task with forked block disable PASSED ****\\n\""
-                      vpiValue: ***** task with forked block disable PASSED ****\n
+                      vpiValue: "***** task with forked block disable PASSED ****\\n"
               SysFuncCall name:$finish start:37:5 end:37:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:37:5 end:37:12:
@@ -1929,7 +1936,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 232
                       vpiDecompile: "\"\\n\\ttime: %0t, loop_cntr: %0d\""
-                      vpiValue: \n\ttime: %0t, loop_cntr: %0d
+                      vpiValue: "\\n\\ttime: %0t, loop_cntr: %0d"
                     SysTaskCall name:$time start:59:61 end:59:66:
                       vpiParent: SysFuncCall name:$display
                       vpiName Identifier name:$time start:59:61 end:59:66:
@@ -1964,80 +1971,81 @@ Design name:unnamed:
                   vpiParent: Begin name:forked_tasks
                   vpiName: forked_tasks
                 vpiFullName: work@top.forked_tasks
-                vpiStmt (4 items):
+                vpiStmt (2 items):
                   ForkStmt start:66:7 end:76:11:
                     vpiParent: Begin name:forked_tasks
                     vpiFullName: work@top.forked_tasks
-                  Begin start:67:2 end:70:5:
-                    vpiParent: Begin name:forked_tasks
-                    vpiFullName: work@top.forked_tasks
                     vpiStmt (2 items):
-                      DelayControl start:68:4 end:68:6:
-                        vpiParent: Begin
-                        vpiDelay Constant start:68:5 end:68:6:
-                          vpiParent: DelayControl
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@top.forked_tasks
-                            vpiActual: IntTypespec
-                          vpiConstType: int (7)
-                          vpiSize: 32
-                          vpiDecompile: "5"
-                          vpiValue: 5
-                      Assignment start:69:4 end:69:17:
-                        vpiParent: Begin
-                        vpiBlocking: true
-                        vpiLhs RefObj name:fork_fail start:69:4 end:69:13:
-                          vpiParent: Assignment
-                          vpiName: fork_fail
-                          vpiFullName: work@top.forked_tasks.fork_fail
-                          vpiActual: Net name:fork_fail
-                        vpiRhs Constant start:69:16 end:69:17:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@top.forked_tasks
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                  Begin start:71:2 end:75:5:
-                    vpiParent: Begin name:forked_tasks
-                    vpiFullName: work@top.forked_tasks
-                    vpiStmt (3 items):
-                      EventControl start:72:4 end:72:11:
-                        vpiParent: Begin
-                        vpiCondition RefObj name:fred start:72:6 end:72:10:
-                          vpiParent: EventControl
-                          vpiName: fred
-                          vpiFullName: work@top.forked_tasks.fred
-                          vpiActual: Net name:fred
-                      Disable start:73:4 end:73:25:
-                        vpiParent: Begin
-                        vpiExpr RefObj name:forked_tasks start:73:12 end:73:24:
-                          vpiParent: Disable
-                          vpiName: forked_tasks
-                          vpiFullName: work@top.forked_tasks.forked_tasks
-                          vpiActual: Begin name:forked_tasks
-                      Assignment start:74:4 end:74:17:
-                        vpiParent: Begin
-                        vpiBlocking: true
-                        vpiLhs RefObj name:fork_fail start:74:4 end:74:13:
-                          vpiParent: Assignment
-                          vpiName: fork_fail
-                          vpiFullName: work@top.forked_tasks.fork_fail
-                          vpiActual: Net name:fork_fail
-                        vpiRhs Constant start:74:16 end:74:17:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@top.forked_tasks
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
+                      Begin start:67:2 end:70:5:
+                        vpiParent: ForkStmt
+                        vpiFullName: work@top.forked_tasks
+                        vpiStmt (2 items):
+                          DelayControl start:68:4 end:68:6:
+                            vpiParent: Begin
+                            vpiDelay Constant start:68:5 end:68:6:
+                              vpiParent: DelayControl
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@top.forked_tasks
+                                vpiActual: IntTypespec
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "5"
+                              vpiValue: 5
+                          Assignment start:69:4 end:69:17:
+                            vpiParent: Begin
+                            vpiBlocking: true
+                            vpiLhs RefObj name:fork_fail start:69:4 end:69:13:
+                              vpiParent: Assignment
+                              vpiName: fork_fail
+                              vpiFullName: work@top.forked_tasks.fork_fail
+                              vpiActual: Net name:fork_fail
+                            vpiRhs Constant start:69:16 end:69:17:
+                              vpiParent: Assignment
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@top.forked_tasks
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                      Begin start:71:2 end:75:5:
+                        vpiParent: ForkStmt
+                        vpiFullName: work@top.forked_tasks
+                        vpiStmt (3 items):
+                          EventControl start:72:4 end:72:11:
+                            vpiParent: Begin
+                            vpiCondition RefObj name:fred start:72:6 end:72:10:
+                              vpiParent: EventControl
+                              vpiName: fred
+                              vpiFullName: work@top.forked_tasks.fred
+                              vpiActual: Net name:fred
+                          Disable start:73:4 end:73:25:
+                            vpiParent: Begin
+                            vpiExpr RefObj name:forked_tasks start:73:12 end:73:24:
+                              vpiParent: Disable
+                              vpiName: forked_tasks
+                              vpiFullName: work@top.forked_tasks.forked_tasks
+                              vpiActual: Begin name:forked_tasks
+                          Assignment start:74:4 end:74:17:
+                            vpiParent: Begin
+                            vpiBlocking: true
+                            vpiLhs RefObj name:fork_fail start:74:4 end:74:13:
+                              vpiParent: Assignment
+                              vpiName: fork_fail
+                              vpiFullName: work@top.forked_tasks.fork_fail
+                              vpiActual: Net name:fork_fail
+                            vpiRhs Constant start:74:16 end:74:17:
+                              vpiParent: Assignment
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@top.forked_tasks
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
                   Assignment start:77:7 end:77:20:
                     vpiParent: Begin name:forked_tasks
                     vpiBlocking: true
@@ -2091,37 +2099,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr540
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540/surelog.uhdm
+      test-name: Icarus/ivltests/pr540
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr540
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr540/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr540/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr540/lib/work/pr540.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 1813}},
+            'files': {'$Output/lib/work/pr540.v': {'post_len': 0,
+                                                   'pre_len': 1813}},
             'post_len': 0,
             'pre_len': 1813,
             'test_name': 'Icarus/ivltests/pr540'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr540.v |     1813 |         0 |
-+==================+==========+===========+
-|                  |     1813 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr540.v |     1813 |         0 |
++==========================+==========+===========+
+|                          |     1813 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2129,13 +2140,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr540/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr540/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr540/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr540/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             280     280       0         0
+Others                             279     279       0         0
 ----------------------------------------------------------------
-                                   280     280       0         0
+                                   279     279       0         0
 ===================== END REDUCTION RESULT =====================

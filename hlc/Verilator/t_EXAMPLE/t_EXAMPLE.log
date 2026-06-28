@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_EXAMPLE.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_EXAMPLE
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_EXAMPLE.v".
+[INF:PA0201] Parsing source file "$Source01/t_EXAMPLE.v".
 AST_DEBUG_BEGIN
 Count: 777
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v
-n<${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v> u<776> t<Top_level_rule> c<1> l<18:1> el<97:1>
+FILE: f<13>:$Source01/t_EXAMPLE.v
+n<$Source01/t_EXAMPLE.v> u<776> t<Top_level_rule> c<1> l<18:1> el<97:1>
   n<> u<1> t<Null_rule> p<776> s<2> l<18:1> el<18:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<776> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<776> s<4> l<2:1> el<2:3>
@@ -780,17 +789,17 @@ n<${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v> u<776> t<Top_level_rule> c<1> l<18
                                 n<> u<759> t<END> p<760> l<95:4> el<95:7>
         n<> u<772> t<ENDMODULE> p<773> l<96:1> el<96:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v:18:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v:77:1: Compile module "work@Test".
+[INF:CP0303] $Source01/t_EXAMPLE.v:18:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_EXAMPLE.v:77:1: Compile module "work@Test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_EXAMPLE.v file:${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_EXAMPLE.v file:$Source01/t_EXAMPLE.v:
       vpiParent: Design name:unnamed
       vpiName: t_EXAMPLE.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/lib/work/t_EXAMPLE.v"
+      vpiPreprocFile: "$Output/lib/work/t_EXAMPLE.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:EXPECTED_SUM start:68:1 end:68:42:
           vpiParent: SourceFile name:t_EXAMPLE.v
@@ -798,7 +807,7 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 22
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:EXPECTED_SUM file:${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v start:69:22 end:69:35:
+        PreprocMacroInstance name:EXPECTED_SUM file:$Source01/t_EXAMPLE.v start:69:22 end:69:35:
           vpiParent: SourceFile name:t_EXAMPLE.v
           vpiName: EXPECTED_SUM
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:EXPECTED_SUM
@@ -812,7 +821,7 @@ Design name:unnamed:
           vpiSourceEndColumn: 42
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v start:18:1 end:75:10:
+    Module name:work@t file:$Source01/t_EXAMPLE.v start:18:1 end:75:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:18:8 end:18:9:
         vpiParent: Module name:work@t
@@ -961,6 +970,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (7 items):
         Net name:clk start:22:10 end:22:13:
           vpiParent: Module name:work@t
@@ -1075,7 +1089,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 32
                 vpiDecompile: "32'h0"
-                vpiValue: 0
+                vpiValue: "0"
               RefObj name:out start:44:33 end:44:36:
                 vpiParent: Operation
                 vpiName: out
@@ -1406,7 +1420,7 @@ Design name:unnamed:
                           vpiConstType: hexadecimal (5)
                           vpiSize: 64
                           vpiDecompile: "64'h5aef0c8dd70a4497"
-                          vpiValue: 5aef0c8dd70a4497
+                          vpiValue: "5aef0c8dd70a4497"
                       Assignment start:57:10 end:57:19:
                         vpiParent: Begin
                         vpiLhs RefObj name:sum start:57:10 end:57:13:
@@ -1423,7 +1437,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "'0"
-                          vpiValue: 0
+                          vpiValue: "0"
                   vpiElseStmt IfElse start:59:12 end:72:10:
                     vpiParent: IfElse
                     vpiCondition Operation start:59:16 end:59:22:
@@ -1468,7 +1482,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "'0"
-                            vpiValue: 0
+                            vpiValue: "0"
                     vpiElseStmt IfElse start:62:12 end:72:10:
                       vpiParent: IfElse
                       vpiCondition Operation start:62:16 end:62:22:
@@ -1533,7 +1547,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 240
                                   vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: [%0t] cyc==%0d crc=%x sum=%x\n
+                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
                                 SysTaskCall name:$time start:65:50 end:65:55:
                                   vpiParent: SysFuncCall name:$write
                                   vpiName Identifier name:$time start:65:50 end:65:55:
@@ -1600,7 +1614,7 @@ Design name:unnamed:
                                     vpiConstType: hexadecimal (5)
                                     vpiSize: 64
                                     vpiDecompile: "64'h4afe43fb79d7b71e"
-                                    vpiValue: 4afe43fb79d7b71e
+                                    vpiValue: "4afe43fb79d7b71e"
                               vpiStmt SysFuncCall name:$stop start:69:37 end:69:42:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:69:37 end:69:42:
@@ -1621,7 +1635,7 @@ Design name:unnamed:
                                   vpiConstType: string (6)
                                   vpiSize: 176
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: *-* All Finished *-*\n
+                                  vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:71:10 end:71:17:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:71:10 end:71:17:
@@ -1726,7 +1740,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@Test file:${SURELOG_DIR}/tests/Verilator/t_EXAMPLE.v start:77:1 end:96:10:
+    Module name:work@Test file:$Source01/t_EXAMPLE.v start:77:1 end:96:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test start:77:8 end:77:12:
         vpiParent: Module name:work@Test
@@ -1789,6 +1803,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test
+        vpiName: work
+        vpiFullName: work@Test.work
+      vpiCell: Test
       vpiNet (3 items):
         Net name:out start:91:22 end:91:25:
           vpiParent: Module name:work@Test
@@ -1909,37 +1928,40 @@ Design name:unnamed:
         vpiName: work@Test
       vpiModule: Module name:work@Test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_EXAMPLE
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_EXAMPLE
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/surelog.uhdm
+      test-name: Verilator/t_EXAMPLE
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_EXAMPLE
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_EXAMPLE/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_EXAMPLE/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/lib/work/t_EXAMPLE.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 882}},
+            'files': {'$Output/lib/work/t_EXAMPLE.v': {'post_len': 0,
+                                                       'pre_len': 882}},
             'post_len': 0,
             'pre_len': 882,
             'test_name': 'Verilator/t_EXAMPLE'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_EXAMPLE.v |      882 |         0 |
-+======================+==========+===========+
-|                      |      882 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_EXAMPLE.v |      882 |         0 |
++==============================+==========+===========+
+|                              |      882 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1947,17 +1969,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_EXAMPLE/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_EXAMPLE/design.hldb ${HLC_DIR}/regression/Verilator/t_EXAMPLE/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            44      44       5         5
 Operation                           17      12       0         5
-RefObj                              41      36       0         5
+RefObj                              43      38       0         5
 RefTypespec                         59      59       5         5
 ----------------------------------------------------------------
 Others                             106     106       0         0
 ----------------------------------------------------------------
-                                   267     257      10        20
+                                   269     259      10        20
 ===================== END REDUCTION RESULT =====================

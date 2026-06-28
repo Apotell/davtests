@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ForeachArray/ForeachArray/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ForeachArray -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ForeachArray/ForeachArray
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 64
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ForeachArray/dut.sv
-n<${SURELOG_DIR}/tests/ForeachArray/dut.sv> u<63> t<Top_level_rule> c<1> l<1:1> el<11:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<63> t<Top_level_rule> c<1> l<1:1> el<11:1>
   n<> u<1> t<Null_rule> p<63> s<62> l<1:1>
   n<> u<62> t<Source_text> p<63> c<61> l<1:1> el<10:10>
     n<> u<61> t<Description> p<62> c<60> l<1:1> el<10:10>
@@ -67,19 +76,19 @@ n<${SURELOG_DIR}/tests/ForeachArray/dut.sv> u<63> t<Top_level_rule> c<1> l<1:1> 
                         n<> u<50> t<END> p<51> l<8:5> el<8:8>
         n<> u<59> t<ENDMODULE> p<60> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ForeachArray/dut.sv:1:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ForeachArray/dut.sv:1:1: No timescale set for "work@dut".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ForeachArray/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ForeachArray/ForeachArray/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/ForeachArray/dut.sv start:1:1 end:10:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -111,6 +120,11 @@ Design name:unnamed:
             vpiActual: IntTypespec
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (1 items):
         Net name:array start:3:9 end:3:14:
           vpiParent: Module name:work@dut
@@ -141,7 +155,7 @@ Design name:unnamed:
                   vpiFullName: work@dut.array
                   vpiActual: Net name:array
                 vpiLoopVars (1 items):
-                  Variable name:i
+                  Variable name:i:
                 vpiStmt Assignment start:7:13 end:7:25:
                   vpiParent: ForeachStmt
                   vpiBlocking: true
@@ -175,37 +189,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ForeachArray/ForeachArray
- test-dirpath: ${SURELOG_DIR}/regression/ForeachArray/ForeachArray
-uhdm-filepath: ${SURELOG_DIR}/regression/ForeachArray/ForeachArray/surelog.uhdm
+      test-name: ForeachArray/ForeachArray
+   test-dirpath: ${HLC_DIR}/regression/ForeachArray/ForeachArray
+  hldb-filepath: ${HLC_DIR}/regression/ForeachArray/ForeachArray/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/ForeachArray/ForeachArray/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ForeachArray/ForeachArray/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 80}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 80}},
             'post_len': 0,
             'pre_len': 80,
             'test_name': 'ForeachArray/ForeachArray'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       80 |         0 |
-+=================+==========+===========+
-|                 |       80 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       80 |         0 |
++=========================+==========+===========+
+|                         |       80 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -213,13 +230,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/ForeachArray/ForeachArray/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/ForeachArray/ForeachArray/surelog.uhdm ${SURELOG_DIR}/regression/ForeachArray/ForeachArray/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/ForeachArray/ForeachArray/design.hldb ${HLC_DIR}/regression/ForeachArray/ForeachArray/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    25      25       0         0
+                                    26      26       0         0
 ===================== END REDUCTION RESULT =====================

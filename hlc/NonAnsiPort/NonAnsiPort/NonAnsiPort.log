@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/NonAnsiPort -fileunit -writepp -d ast -d db dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 209
 LIB: work
-FILE: ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv
-n<${SURELOG_DIR}/tests/NonAnsiPort/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> el<26:1>
+FILE: f<14>:$Source01/dut.sv
+n<$Source01/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> el<26:1>
   n<> u<1> t<Null_rule> p<208> s<207> l<1:1>
   n<> u<207> t<Source_text> p<208> c<32> l<1:1> el<25:11>
     n<> u<32> t<Description> p<207> c<31> s<63> l<1:1> el<5:11>
@@ -213,26 +222,26 @@ n<${SURELOG_DIR}/tests/NonAnsiPort/dut.sv> u<208> t<Top_level_rule> c<1> l<1:1> 
       n<> u<205> t<Package_item> p<206> c<204> l<25:10> el<25:11>
         n<> u<204> t<Package_or_generate_item_declaration> p<205> l<25:10> el<25:11>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:1:1: Compile package "work@pkg1".
-[INF:CP0301] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:7:1: Compile package "work@pkg2".
-[INF:CP0303] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:13:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:1:1: No timescale set for "work@pkg1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:7:1: No timescale set for "work@pkg2".
-[WRN:PA0205] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:13:1: No timescale set for "work@dut".
-[ERR:EL0535] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:22:17: Illegal implicit net "id:80, name:first".
-[ERR:EL0535] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:23:17: Illegal implicit net "id:87, name:second".
-[ERR:EL0535] ${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:24:17: Illegal implicit net "id:94, name:third".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg1".
+[INF:CP0301] $Source01/dut.sv:7:1: Compile package "work@pkg2".
+[INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg1".
+[WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "work@pkg2".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@dut".
+[ERR:EL0535] $Source01/dut.sv:22:17: Illegal implicit net "id:83, name:first".
+[ERR:EL0535] $Source01/dut.sv:23:17: Illegal implicit net "id:90, name:second".
+[ERR:EL0535] $Source01/dut.sv:24:17: Illegal implicit net "id:97, name:third".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/NonAnsiPort/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pkg1 file:${SURELOG_DIR}/tests/NonAnsiPort/dut.sv start:1:1 end:5:11:
+    Package name:work@pkg1 file:$Source01/dut.sv start:1:1 end:5:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg1 start:1:9 end:1:13:
         vpiParent: Package name:work@pkg1
@@ -287,7 +296,12 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@pkg1
       vpiDefNetType: none (12)
-    Package name:work@pkg2 file:${SURELOG_DIR}/tests/NonAnsiPort/dut.sv start:7:1 end:11:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg1
+        vpiName: work
+        vpiFullName: work@pkg1::work
+      vpiCell: pkg1
+    Package name:work@pkg2 file:$Source01/dut.sv start:7:1 end:11:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg2 start:7:9 end:7:13:
         vpiParent: Package name:work@pkg2
@@ -342,8 +356,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@pkg2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg2
+        vpiName: work
+        vpiFullName: work@pkg2::work
+      vpiCell: pkg2
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/NonAnsiPort/dut.sv start:13:1 end:25:10:
+    Module name:work@dut file:$Source01/dut.sv start:13:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:13:8 end:13:11:
         vpiParent: Module name:work@dut
@@ -409,6 +428,11 @@ Design name:unnamed:
             vpiName: struct2
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (3 items):
         Net name:var1 start:18:26 end:18:30:
           vpiParent: Module name:work@dut
@@ -477,7 +501,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: var1.first
             vpiFullName: work@dut.var1.first
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:var1 start:22:12 end:22:16:
                 vpiParent: HierPath name:var1.first
                 vpiName: var1
@@ -503,7 +527,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: var2.second
             vpiFullName: work@dut.var2.second
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:var2 start:23:12 end:23:16:
                 vpiParent: HierPath name:var2.second
                 vpiName: var2
@@ -529,7 +553,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: var3.third
             vpiFullName: work@dut.var3.third
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:var3 start:24:12 end:24:16:
                 vpiParent: HierPath name:var3.third
                 vpiName: var3
@@ -560,37 +584,40 @@ Design name:unnamed:
         vpiName: work@dut
       vpiModule: Module name:work@dut
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 3
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: NonAnsiPort/NonAnsiPort
- test-dirpath: ${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort
-uhdm-filepath: ${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/surelog.uhdm
+      test-name: NonAnsiPort/NonAnsiPort
+   test-dirpath: ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort
+  hldb-filepath: ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 383}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 383}},
             'post_len': 0,
             'pre_len': 383,
             'test_name': 'NonAnsiPort/NonAnsiPort'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      383 |         0 |
-+=================+==========+===========+
-|                 |      383 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      383 |         0 |
++=========================+==========+===========+
+|                         |      383 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -598,13 +625,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/surelog.uhdm ${SURELOG_DIR}/regression/NonAnsiPort/NonAnsiPort/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort/design.hldb ${HLC_DIR}/regression/NonAnsiPort/NonAnsiPort/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              84      84       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    84      84       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

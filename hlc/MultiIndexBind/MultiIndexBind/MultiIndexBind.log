@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/MultiIndexBind -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/MultiIndexBind/MultiIndexBind
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 169
 LIB: work
-FILE: ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv
-n<${SURELOG_DIR}/tests/MultiIndexBind/dut.sv> u<168> t<Top_level_rule> c<1> l<1:1> el<31:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<168> t<Top_level_rule> c<1> l<1:1> el<31:1>
   n<> u<1> t<Null_rule> p<168> s<167> l<1:1>
   n<> u<167> t<Source_text> p<168> c<166> l<1:1> el<30:10>
     n<> u<166> t<Description> p<167> c<165> l<1:1> el<30:10>
@@ -172,24 +181,24 @@ n<${SURELOG_DIR}/tests/MultiIndexBind/dut.sv> u<168> t<Top_level_rule> c<1> l<1:
                               n<> u<152> t<Bit_select> p<153> l<28:48> el<28:48>
         n<> u<164> t<ENDMODULE> p<165> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:1:1: Compile module "work@PreDecodeStage".
-[WRN:PA0205] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:1:1: No timescale set for "work@PreDecodeStage".
-[ERR:EL0535] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:28:8: Illegal implicit net "id:71, name:o".
-[ERR:EL0535] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:28:21: Illegal implicit net "id:72, name:i".
-[ERR:EL0535] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:28:27: Illegal implicit net "id:80, name:operand".
-[ERR:EL0535] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:28:35: Illegal implicit net "id:81, name:intOp".
-[ERR:EL0535] ${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:28:41: Illegal implicit net "id:82, name:aluCode".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@PreDecodeStage".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@PreDecodeStage".
+[ERR:EL0535] $Source01/dut.sv:28:8: Illegal implicit net "id:72, name:o".
+[ERR:EL0535] $Source01/dut.sv:28:21: Illegal implicit net "id:73, name:i".
+[ERR:EL0535] $Source01/dut.sv:28:27: Illegal implicit net "id:81, name:operand".
+[ERR:EL0535] $Source01/dut.sv:28:35: Illegal implicit net "id:82, name:intOp".
+[ERR:EL0535] $Source01/dut.sv:28:41: Illegal implicit net "id:83, name:aluCode".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/MultiIndexBind/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@PreDecodeStage file:${SURELOG_DIR}/tests/MultiIndexBind/dut.sv start:1:1 end:30:10:
+    Module name:work@PreDecodeStage file:$Source01/dut.sv start:1:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@PreDecodeStage start:1:8 end:1:22:
         vpiParent: Module name:work@PreDecodeStage
@@ -243,7 +252,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b0000"
-                vpiValue: 0000
+                vpiValue: "0000"
         TypedefTypespec name:IntALU_Code start:4:1 end:7:15:
           vpiParent: Module name:work@PreDecodeStage
           vpiName Identifier name:IntALU_Code start:7:3 end:7:14:
@@ -379,6 +388,11 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:OpInfo
       vpiDefName: work@PreDecodeStage
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@PreDecodeStage
+        vpiName: work
+        vpiFullName: work@PreDecodeStage.work
+      vpiCell: PreDecodeStage
       vpiNet (1 items):
         Net name:microOps start:26:19 end:26:27:
           vpiParent: Module name:work@PreDecodeStage
@@ -400,7 +414,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: microOps[i][1].operand.intOp.aluCode
             vpiFullName: work@PreDecodeStage.microOps[i][1].operand.intOp.aluCode
-            vpiActual (4 items):
+            vpiPathElem (4 items):
               BitSelect name:microOps[i][1] start:28:12 end:28:25:
                 vpiParent: HierPath name:microOps[i][1].operand.intOp.aluCode
                 vpiName: microOps[i][1]
@@ -453,37 +467,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: MultiIndexBind/MultiIndexBind
- test-dirpath: ${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind
-uhdm-filepath: ${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/surelog.uhdm
+      test-name: MultiIndexBind/MultiIndexBind
+   test-dirpath: ${HLC_DIR}/regression/MultiIndexBind/MultiIndexBind
+  hldb-filepath: ${HLC_DIR}/regression/MultiIndexBind/MultiIndexBind/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/MultiIndexBind/MultiIndexBind/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 346}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 346}},
             'post_len': 0,
             'pre_len': 346,
             'test_name': 'MultiIndexBind/MultiIndexBind'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      346 |         0 |
-+=================+==========+===========+
-|                 |      346 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      346 |         0 |
++=========================+==========+===========+
+|                         |      346 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -491,13 +508,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/surelog.uhdm ${SURELOG_DIR}/regression/MultiIndexBind/MultiIndexBind/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/MultiIndexBind/MultiIndexBind/design.hldb ${HLC_DIR}/regression/MultiIndexBind/MultiIndexBind/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    69      69       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

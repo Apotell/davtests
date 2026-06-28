@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_default_warn/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_func_default_warn.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_func_default_warn
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_default_warn.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_default_warn.v".
 AST_DEBUG_BEGIN
 Count: 130
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_default_warn.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_default_warn.v> u<129> t<Top_level_rule> c<1> l<7:1> el<28:1>
+FILE: f<13>:$Source01/t_func_default_warn.v
+n<$Source01/t_func_default_warn.v> u<129> t<Top_level_rule> c<1> l<7:1> el<28:1>
   n<> u<1> t<Null_rule> p<129> s<2> l<7:1> el<7:1>
   n<// DESCRIPTION: Verilator: Test for warning (not error) on improperly width'ed> u<2> t<LINE_COMMENT> p<129> s<3> l<1:1> el<1:79>
   n<// default function argument> u<3> t<LINE_COMMENT> p<129> s<4> l<2:1> el<2:29>
@@ -133,19 +142,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_default_warn.v> u<129> t<Top_level_rule>
                           n<> u<115> t<END> p<116> l<25:4> el<25:7>
         n<> u<125> t<ENDMODULE> p<126> l<27:1> el<27:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_func_default_warn.v:16:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_func_default_warn.v:16:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_default_warn.v file:${SURELOG_DIR}/tests/Verilator/t_func_default_warn.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_default_warn.v file:$Source01/t_func_default_warn.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_default_warn.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_default_warn/lib/work/t_func_default_warn.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_default_warn.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_func_default_warn.v start:16:1 end:27:10:
+    Module name:work@t file:$Source01/t_func_default_warn.v start:16:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:16:8 end:16:9:
         vpiParent: Module name:work@t
@@ -156,6 +165,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:foo_val start:17:10 end:17:17:
           vpiParent: Module name:work@t
@@ -209,7 +223,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
                 vpiStmt SysFuncCall name:$stop start:21:28 end:21:33:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:21:28 end:21:33:
@@ -230,7 +244,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:24:7 end:24:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:24:7 end:24:14:
@@ -298,37 +312,40 @@ Design name:unnamed:
         vpiFullName: foo
         vpiActual: UnsupportedTypespec name:logic
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_default_warn
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_default_warn
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_default_warn/surelog.uhdm
+      test-name: Verilator/t_func_default_warn
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_func_default_warn
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_func_default_warn/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_func_default_warn/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_default_warn/lib/work/t_func_default_warn.v'): {'post_len': 0,
-                                                                                                                                                 'pre_len': 204}},
+            'files': {'$Output/lib/work/t_func_default_warn.v': {'post_len': 0,
+                                                                 'pre_len': 204}},
             'post_len': 0,
             'pre_len': 204,
             'test_name': 'Verilator/t_func_default_warn'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/t_func_default_warn.v |      204 |         0 |
-+================================+==========+===========+
-|                                |      204 |         0 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/t_func_default_warn.v |      204 |         0 |
++========================================+==========+===========+
+|                                        |      204 |         0 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -336,13 +353,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_default_warn/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_default_warn/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_func_default_warn/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_func_default_warn/design.hldb ${HLC_DIR}/regression/Verilator/t_func_default_warn/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/NamedEventHierPath -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NamedEventHierPath/NamedEventHierPath
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 69
 LIB: work
-FILE: ${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv
-n<${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv> u<68> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<68> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<68> s<66> l<1:1>
   n<> u<66> t<Source_text> p<68> c<65> s<67> l<1:1> el<14:11>
     n<> u<65> t<Description> p<66> c<64> l<1:1> el<14:11>
@@ -72,58 +81,69 @@ n<${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv> u<68> t<Top_level_rule> c<1> l
         n<> u<63> t<ENDPACKAGE> p<64> l<14:1> el<14:11>
   n<// pack> u<67> t<LINE_COMMENT> p<68> l<14:12> el<14:19>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv:1:1: Compile package "work@pack".
-[WRN:PA0205] ${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv:1:1: No timescale set for "work@pack".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pack".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pack".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pack file:${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv start:1:1 end:14:11:
+    Package name:work@pack file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pack start:1:9 end:1:13:
         vpiParent: Package name:work@pack
         vpiName: work@pack
       vpiFullName: work@pack
       vpiTypespec (1 items):
-        ClassTypespec name:uvm_event_base:
+        ClassTypespec name:work@uvm_event_base:
           vpiParent: Package name:work@pack
-          vpiName: uvm_event_base
-          vpiClassDefn: ClassDefn name:uvm_event_base
+          vpiName: work@uvm_event_base
+          vpiClassDefn: ClassDefn name:work@uvm_event_base
       vpiDefName: work@pack
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pack
+        vpiName: work
+        vpiFullName: work@pack::work
+      vpiCell: pack
       vpiClassDefn (1 items):
-        ClassDefn name:uvm_event_base file:${SURELOG_DIR}/tests/NamedEventHierPath/dut.sv start:3:1 end:12:9:
+        ClassDefn name:work@uvm_event_base file:$Source01/dut.sv start:3:1 end:12:9:
           vpiParent: Package name:work@pack
-          vpiName Identifier name:uvm_event_base start:3:15 end:3:29:
-            vpiParent: ClassDefn name:uvm_event_base
-            vpiName: uvm_event_base
-          vpiFullName: work@pack::uvm_event_base
+          vpiName Identifier name:work@uvm_event_base start:3:15 end:3:29:
+            vpiParent: ClassDefn name:work@uvm_event_base
+            vpiName: work@uvm_event_base
+          vpiFullName: work@pack::work@uvm_event_base
           vpiVariable (1 items):
             Variable name:m_event start:4:23 end:4:30:
-              vpiParent: ClassDefn name:uvm_event_base
+              vpiParent: ClassDefn name:work@uvm_event_base
               vpiTypespec RefTypespec start:4:12 end:4:17:
                 vpiParent: Variable name:m_event
-                vpiFullName: work@pack::uvm_event_base::m_event
+                vpiFullName: work@pack::work@uvm_event_base::m_event
                 vpiActual: EventTypespec
               vpiName: m_event
-              vpiFullName: work@pack::uvm_event_base::m_event
+              vpiFullName: work@pack::work@uvm_event_base::m_event
           vpiTypespec (1 items):
             EventTypespec start:4:12 end:4:17:
-              vpiParent: ClassDefn name:uvm_event_base
+              vpiParent: ClassDefn name:work@uvm_event_base
           vpiVirtual: true
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@uvm_event_base
+            vpiName: work
+            vpiFullName: work@pack::work@uvm_event_base::work
+          vpiCell: uvm_event_base
           vpiMethod (1 items):
             Function name:do_copy start:6:9 end:11:12:
-              vpiParent: ClassDefn name:uvm_event_base
+              vpiParent: ClassDefn name:work@uvm_event_base
               vpiName Identifier name:do_copy start:6:23 end:6:30:
                 vpiParent: Function name:do_copy
                 vpiName: do_copy
-              vpiFullName: work@pack::uvm_event_base::do_copy
+              vpiFullName: work@pack::work@uvm_event_base::do_copy
               vpiVisibility: public (1)
               vpiVirtual: true
               vpiIODecl (1 items):
@@ -133,21 +153,21 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiTypespec RefTypespec start:6:32 end:6:42:
                     vpiParent: IODecl name:rhs
-                    vpiFullName: work@pack::uvm_event_base::do_copy::rhs
+                    vpiFullName: work@pack::work@uvm_event_base::do_copy::rhs
                     vpiActual: UnsupportedTypespec name:uvm_object
               vpiStmt Begin:
                 vpiParent: Function name:do_copy
-                vpiFullName: work@pack::uvm_event_base::do_copy
+                vpiFullName: work@pack::work@uvm_event_base::do_copy
                 vpiVariable (1 items):
                   Variable name:e start:7:16 end:7:17:
                     vpiParent: Begin
                     vpiTypespec RefTypespec name:uvm_event_base start:7:1 end:7:15:
                       vpiParent: Variable name:e
                       vpiName: uvm_event_base
-                      vpiFullName: work@pack::uvm_event_base::do_copy::e::uvm_event_base
-                      vpiActual: ClassTypespec name:uvm_event_base
+                      vpiFullName: work@pack::work@uvm_event_base::do_copy::e::uvm_event_base
+                      vpiActual: ClassTypespec name:work@uvm_event_base
                     vpiName: e
-                    vpiFullName: work@pack::uvm_event_base::do_copy::e
+                    vpiFullName: work@pack::work@uvm_event_base::do_copy::e
                 vpiTypespec (1 items):
                   UnsupportedTypespec name:uvm_object start:6:32 end:6:42:
                     vpiParent: Begin
@@ -161,62 +181,65 @@ Design name:unnamed:
                     vpiLhs RefObj name:m_event start:9:1 end:9:8:
                       vpiParent: Assignment
                       vpiName: m_event
-                      vpiFullName: work@pack::uvm_event_base::do_copy::m_event
+                      vpiFullName: work@pack::work@uvm_event_base::do_copy::m_event
                       vpiActual: Variable name:m_event
                     vpiRhs HierPath name:e.m_event start:9:11 end:9:20:
                       vpiParent: Assignment
                       vpiName: e.m_event
-                      vpiFullName: work@pack::uvm_event_base::do_copy::e.m_event
-                      vpiActual (2 items):
+                      vpiFullName: work@pack::work@uvm_event_base::do_copy::e.m_event
+                      vpiPathElem (2 items):
                         RefObj name:e start:9:11 end:9:12:
                           vpiParent: HierPath name:e.m_event
                           vpiName: e
-                          vpiFullName: work@pack::uvm_event_base::do_copy::e
+                          vpiFullName: work@pack::work@uvm_event_base::do_copy::e
                           vpiActual: Variable name:e
                         RefObj name:m_event start:9:13 end:9:20:
                           vpiParent: HierPath name:e.m_event
                           vpiName: m_event
-                          vpiFullName: work@pack::uvm_event_base::do_copy::m_event
+                          vpiFullName: work@pack::work@uvm_event_base::do_copy::m_event
                           vpiActual: Variable name:m_event
               vpiReturn RefTypespec start:6:18 end:6:22:
                 vpiParent: Function name:do_copy
-                vpiFullName: work@pack::uvm_event_base::do_copy
+                vpiFullName: work@pack::work@uvm_event_base::do_copy
                 vpiActual: VoidTypespec
   vpiTypespec (1 items):
     VoidTypespec start:6:18 end:6:22:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: NamedEventHierPath/NamedEventHierPath
- test-dirpath: ${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath
-uhdm-filepath: ${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/surelog.uhdm
+      test-name: NamedEventHierPath/NamedEventHierPath
+   test-dirpath: ${HLC_DIR}/regression/NamedEventHierPath/NamedEventHierPath
+  hldb-filepath: ${HLC_DIR}/regression/NamedEventHierPath/NamedEventHierPath/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NamedEventHierPath/NamedEventHierPath/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                          'pre_len': 184}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 184}},
             'post_len': 0,
             'pre_len': 184,
             'test_name': 'NamedEventHierPath/NamedEventHierPath'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      184 |         0 |
-+=================+==========+===========+
-|                 |      184 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      184 |         0 |
++=========================+==========+===========+
+|                         |      184 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -224,13 +247,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/s
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/surelog.uhdm ${SURELOG_DIR}/regression/NamedEventHierPath/NamedEventHierPath/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/NamedEventHierPath/NamedEventHierPath/design.hldb ${HLC_DIR}/regression/NamedEventHierPath/NamedEventHierPath/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

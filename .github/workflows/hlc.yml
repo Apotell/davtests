@@ -40,8 +40,8 @@ jobs:
         echo "$artifacts"
         echo "$artifacts" | grep -q "hlc_ubuntu_release_${{ github.event.inputs.run_number }}" \
           || { echo "::error::Build artifact not found"; exit 1; }
-        echo "$artifacts" | grep -q "pyuhdm-" \
-          || { echo "::error::pyuhdm artifact not found"; exit 1; }
+        echo "$artifacts" | grep -q "pyhldb-" \
+          || { echo "::error::pyhldb artifact not found"; exit 1; }
 
 # Regression ##########################################################################################################
 
@@ -61,7 +61,7 @@ jobs:
 
     env:
       build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.inputs.run_number }}
-      pyuhdm-artifact-pattern: "pyuhdm-*-linux_x86_64.whl"
+      pyhldb-artifact-pattern: "pyhldb-*-linux_x86_64.whl"
       regression-artifact-name: Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_${{ matrix.shard }}
 
     steps:
@@ -91,10 +91,10 @@ jobs:
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
-    - name: Download artifact (pyuhdm)
+    - name: Download artifact (pyhldb)
       uses: actions/download-artifact@v7
       with:
-        pattern: ${{ env.pyuhdm-artifact-pattern }}
+        pattern: ${{ env.pyhldb-artifact-pattern }}
         run-id: ${{ github.event.inputs.run_id }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
@@ -113,12 +113,12 @@ jobs:
       shell: bash
       timeout-minutes: 60
       run: |
-        python -m pip install $(ls ${{ env.pyuhdm-artifact-pattern }} | head -n 1)
+        python -m pip install $(ls ${{ env.pyhldb-artifact-pattern }} | head -n 1)
 
         python3 scripts/regression.py                         \
           --build-dirpath ${{ github.workspace }}/build/bin   \
-          --surelog-filepath surelog                          \
-          --reducer-filepath uhdm-reduce                      \
+          --hlc-filepath hlc                          \
+          --reducer-filepath hldb-reduce                      \
           --output-dirpath ${{ github.workspace }}/regression \
           --jobs $(nproc)                                     \
           --num_shards=${{ matrix.num_shards }}               \

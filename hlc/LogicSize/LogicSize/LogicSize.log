@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LogicSize/LogicSize/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LogicSize dut.sv -nobuiltin -d ast -d db -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/LogicSize/LogicSize
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 117
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LogicSize/dut.sv
-n<${SURELOG_DIR}/tests/LogicSize/dut.sv> u<116> t<Top_level_rule> c<1> l<1:1> el<14:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<116> t<Top_level_rule> c<1> l<1:1> el<14:1>
   n<> u<1> t<Null_rule> p<116> s<114> l<1:1>
   n<> u<114> t<Source_text> p<116> c<50> s<115> l<1:1> el<13:10>
     n<> u<50> t<Description> p<114> c<49> s<51> l<1:1> el<4:10>
@@ -120,23 +129,23 @@ n<${SURELOG_DIR}/tests/LogicSize/dut.sv> u<116> t<Top_level_rule> c<1> l<1:1> el
         n<> u<111> t<ENDMODULE> p<112> l<13:1> el<13:10>
   n<// top> u<115> t<LINE_COMMENT> p<116> l<13:11> el<13:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/LogicSize/dut.sv:1:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/LogicSize/dut.sv:6:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LogicSize/dut.sv:1:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LogicSize/dut.sv:6:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LogicSize/dut.sv:9:8: Illegal implicit net "id:45, name:P".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LogicSize/dut.sv:11:8: Illegal implicit net "id:48, name:a".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:9:8: Illegal implicit net "id:47, name:P".
+[ERR:EL0535] $Source01/dut.sv:11:8: Illegal implicit net "id:50, name:a".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LogicSize/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LogicSize/LogicSize/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/LogicSize/dut.sv start:1:1 end:4:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -184,6 +193,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiPort (1 items):
         Port name:a start:1:25 end:1:26:
           vpiParent: Module name:work@dut
@@ -210,7 +224,7 @@ Design name:unnamed:
             vpiName: P
             vpiFullName: work@dut.P
             vpiActual: Parameter name:P
-    Module name:work@top file:${SURELOG_DIR}/tests/LogicSize/dut.sv start:6:1 end:13:10:
+    Module name:work@top file:$Source01/dut.sv start:6:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:6:8 end:6:11:
         vpiParent: Module name:work@top
@@ -263,6 +277,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiPort (1 items):
         Port name:o start:6:25 end:6:26:
           vpiParent: Module name:work@top
@@ -331,37 +350,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LogicSize/LogicSize
- test-dirpath: ${SURELOG_DIR}/regression/LogicSize/LogicSize
-uhdm-filepath: ${SURELOG_DIR}/regression/LogicSize/LogicSize/surelog.uhdm
+      test-name: LogicSize/LogicSize
+   test-dirpath: ${HLC_DIR}/regression/LogicSize/LogicSize
+  hldb-filepath: ${HLC_DIR}/regression/LogicSize/LogicSize/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/LogicSize/LogicSize/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LogicSize/LogicSize/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 156}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 156}},
             'post_len': 0,
             'pre_len': 156,
             'test_name': 'LogicSize/LogicSize'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      156 |         0 |
-+=================+==========+===========+
-|                 |      156 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      156 |         0 |
++=========================+==========+===========+
+|                         |      156 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -369,17 +391,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/LogicSize/LogicSize/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/LogicSize/LogicSize/surelog.uhdm ${SURELOG_DIR}/regression/LogicSize/LogicSize/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/LogicSize/LogicSize/design.hldb ${HLC_DIR}/regression/LogicSize/LogicSize/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             2       3       1         0
 Operation                            1       0       0         1
-RefObj                              10       9       0         1
+RefObj                              12      11       0         1
 RefTypespec                          9      10       1         0
 ----------------------------------------------------------------
 Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    49      49       2         2
+                                    51      51       2         2
 ===================== END REDUCTION RESULT =====================

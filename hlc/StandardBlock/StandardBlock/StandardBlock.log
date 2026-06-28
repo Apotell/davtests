@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/StandardBlock/StandardBlock/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/StandardBlock -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/StandardBlock/StandardBlock
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 260
 LIB: work
-FILE: ${SURELOG_DIR}/tests/StandardBlock/dut.sv
-n<${SURELOG_DIR}/tests/StandardBlock/dut.sv> u<259> t<Top_level_rule> c<1> l<1:1> el<29:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<259> t<Top_level_rule> c<1> l<1:1> el<29:1>
   n<> u<1> t<Null_rule> p<259> s<258> l<1:1>
   n<> u<258> t<Source_text> p<259> c<257> l<1:1> el<28:10>
     n<> u<257> t<Description> p<258> c<256> l<1:1> el<28:10>
@@ -263,20 +272,20 @@ n<${SURELOG_DIR}/tests/StandardBlock/dut.sv> u<259> t<Top_level_rule> c<1> l<1:1
         n<// top.genblk5.a> u<254> t<LINE_COMMENT> p<256> s<255> l<27:17> el<27:33>
         n<> u<255> t<ENDMODULE> p<256> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/StandardBlock/dut.sv:1:1: Compile module "work@top".
-[INF:CP0335] ${SURELOG_DIR}/tests/StandardBlock/dut.sv:13:39: Compile generate block "g1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/StandardBlock/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0335] $Source01/dut.sv:13:39: Compile generate block "g1".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/StandardBlock/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/StandardBlock/StandardBlock/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/StandardBlock/dut.sv start:1:1 end:28:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -314,6 +323,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:i start:3:8 end:3:9:
           vpiParent: Module name:work@top
@@ -634,37 +648,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: StandardBlock/StandardBlock
- test-dirpath: ${SURELOG_DIR}/regression/StandardBlock/StandardBlock
-uhdm-filepath: ${SURELOG_DIR}/regression/StandardBlock/StandardBlock/surelog.uhdm
+      test-name: StandardBlock/StandardBlock
+   test-dirpath: ${HLC_DIR}/regression/StandardBlock/StandardBlock
+  hldb-filepath: ${HLC_DIR}/regression/StandardBlock/StandardBlock/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/StandardBlock/StandardBlock/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/StandardBlock/StandardBlock/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 236}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 236}},
             'post_len': 0,
             'pre_len': 236,
             'test_name': 'StandardBlock/StandardBlock'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      236 |         0 |
-+=================+==========+===========+
-|                 |      236 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      236 |         0 |
++=========================+==========+===========+
+|                         |      236 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -672,13 +689,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/StandardBlock/StandardBlock/surelog.uhd
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/StandardBlock/StandardBlock/surelog.uhdm ${SURELOG_DIR}/regression/StandardBlock/StandardBlock/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/StandardBlock/StandardBlock/design.hldb ${HLC_DIR}/regression/StandardBlock/StandardBlock/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    89      89       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

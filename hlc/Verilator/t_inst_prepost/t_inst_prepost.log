@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_prepost/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_inst_prepost.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_inst_prepost
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_prepost.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_prepost.v".
 AST_DEBUG_BEGIN
 Count: 278
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v> u<277> t<Top_level_rule> c<1> l<6:1> el<33:1>
+FILE: f<13>:$Source01/t_inst_prepost.v
+n<$Source01/t_inst_prepost.v> u<277> t<Top_level_rule> c<1> l<6:1> el<33:1>
   n<> u<1> t<Null_rule> p<277> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<277> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<277> s<4> l<2:1> el<2:3>
@@ -281,21 +290,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v> u<277> t<Top_level_rule> c<1>
           n<> u<271> t<Package_import_declaration_list> p<272> l<31:10> el<31:10>
         n<> u<273> t<ENDMODULE> p<274> l<32:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v:11:1: Compile module "work@sub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v:31:1: Compile module "work@ip".
+[INF:CP0303] $Source01/t_inst_prepost.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_prepost.v:11:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_inst_prepost.v:31:1: Compile module "work@ip".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_prepost.v file:${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_prepost.v file:$Source01/t_inst_prepost.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_prepost.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_prepost/lib/work/t_inst_prepost.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_prepost.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v start:6:1 end:9:10:
+    Module name:work@t file:$Source01/t_inst_prepost.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -309,6 +318,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiRefInstance (1 items):
         RefInstance name:sub start:7:23 end:7:26:
           vpiParent: Module name:work@t
@@ -367,7 +381,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "13"
                 vpiValue: 13
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v start:11:1 end:29:10:
+    Module name:work@sub file:$Source01/t_inst_prepost.v start:11:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:11:9 end:11:12:
         vpiParent: Module name:work@sub
@@ -485,6 +499,11 @@ Design name:unnamed:
             vpiName: work@ip
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiProcess (1 items):
         Initial start:20:4 end:27:7:
           vpiParent: Module name:work@sub
@@ -611,7 +630,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:26:7 end:26:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:26:7 end:26:14:
@@ -626,7 +645,7 @@ Design name:unnamed:
             vpiName: work@ip
             vpiFullName: work@sub.ip.work@ip
             vpiActual: ModuleTypespec name:work@ip
-    Module name:work@ip file:${SURELOG_DIR}/tests/Verilator/t_inst_prepost.v start:31:1 end:32:10:
+    Module name:work@ip file:$Source01/t_inst_prepost.v start:31:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ip start:31:8 end:31:10:
         vpiParent: Module name:work@ip
@@ -634,6 +653,11 @@ Design name:unnamed:
       vpiFullName: work@ip
       vpiDefName: work@ip
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ip
+        vpiName: work
+        vpiFullName: work@ip.work
+      vpiCell: ip
   vpiTypespec (5 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -659,37 +683,40 @@ Design name:unnamed:
         vpiName: work@ip
       vpiModule: Module name:work@ip
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_prepost
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_prepost
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_prepost/surelog.uhdm
+      test-name: Verilator/t_inst_prepost
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_inst_prepost
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_inst_prepost/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_inst_prepost/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_prepost/lib/work/t_inst_prepost.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 284}},
+            'files': {'$Output/lib/work/t_inst_prepost.v': {'post_len': 0,
+                                                            'pre_len': 284}},
             'post_len': 0,
             'pre_len': 284,
             'test_name': 'Verilator/t_inst_prepost'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_inst_prepost.v |      284 |         0 |
-+===========================+==========+===========+
-|                           |      284 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_inst_prepost.v |      284 |         0 |
++===================================+==========+===========+
+|                                   |      284 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -697,17 +724,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_prepost/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_inst_prepost/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_inst_prepost/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_prepost/design.hldb ${HLC_DIR}/regression/Verilator/t_inst_prepost/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       4         4
 Operation                            4       0       0         4
-RefObj                               8       4       0         4
+RefObj                              11       7       0         4
 RefTypespec                         19      19       4         4
 ----------------------------------------------------------------
 Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    97      89       8        16
+                                   100      92       8        16
 ===================== END REDUCTION RESULT =====================

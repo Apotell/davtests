@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamTypespec -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ParamTypespec/ParamTypespec
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 160
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamTypespec/dut.sv
-n<${SURELOG_DIR}/tests/ParamTypespec/dut.sv> u<159> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<159> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<159> s<158> l<1:1>
   n<> u<158> t<Source_text> p<159> c<50> l<1:1> el<16:10>
     n<> u<50> t<Description> p<158> c<49> s<157> l<1:1> el<7:31>
@@ -163,25 +172,21 @@ n<${SURELOG_DIR}/tests/ParamTypespec/dut.sv> u<159> t<Top_level_rule> c<1> l<1:1
                                 n<part_buf_data> u<142> t<SIMPLE_IDENTIFIER> p<143> l<15:20> el<15:33>
         n<> u<155> t<ENDMODULE> p<156> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:1:1: Compile package "work@otp_ctrl_part_pkg".
-[ERR:CP0341] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:1:1: Unmached label "work@otp_ctrl_part_pkg",
-             ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:7:14: closing label "otp_ctrl_part_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:9:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:1:1: No timescale set for "work@otp_ctrl_part_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:9:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:12:18: Illegal implicit net "id:44, name:PartInvDefault".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamTypespec/dut.sv:14:17: Illegal implicit net "id:50, name:PartInvDefault".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@otp_ctrl_part_pkg".
+[INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@otp_ctrl_part_pkg".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamTypespec/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@otp_ctrl_part_pkg file:${SURELOG_DIR}/tests/ParamTypespec/dut.sv start:1:1 end:7:31:
+    Package name:work@otp_ctrl_part_pkg file:$Source01/dut.sv start:1:1 end:7:31:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@otp_ctrl_part_pkg start:1:9 end:1:26:
         vpiParent: Package name:work@otp_ctrl_part_pkg
@@ -206,7 +211,7 @@ Design name:unnamed:
             vpiActual: Parameter name:PartInvDefault
           vpiRhs Operation start:2:43 end:6:49:
             vpiParent: ParamAssign
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (2 items):
               Constant start:2:43 end:2:44:
                 vpiParent: Operation
@@ -224,7 +229,7 @@ Design name:unnamed:
                 vpiOperand (1 items):
                   Operation start:3:47 end:5:53:
                     vpiParent: Operation
-                    vpiOpType: cast (67)
+                    vpiOpType: cast (81)
                     vpiOperand (2 items):
                       Constant start:3:47 end:3:48:
                         vpiParent: Operation
@@ -249,7 +254,7 @@ Design name:unnamed:
                             vpiConstType: hexadecimal (5)
                             vpiSize: 3
                             vpiDecompile: "3'h1"
-                            vpiValue: 1
+                            vpiValue: "1"
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Package name:work@otp_ctrl_part_pkg
@@ -279,11 +284,16 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@otp_ctrl_part_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@otp_ctrl_part_pkg
+        vpiName: work
+        vpiFullName: work@otp_ctrl_part_pkg::work
+      vpiCell: otp_ctrl_part_pkg
       vpiEndLabel Identifier name:otp_ctrl_part_pkg start:7:14 end:7:31:
         vpiParent: Package name:work@otp_ctrl_part_pkg
         vpiName: otp_ctrl_part_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/ParamTypespec/dut.sv start:9:1 end:16:10:
+    Module name:work@top file:$Source01/dut.sv start:9:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:9:8 end:9:11:
         vpiParent: Module name:work@top
@@ -320,6 +330,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: PartInvDefault
             vpiFullName: work@top.PartInvDefault
+            vpiActual: Parameter name:PartInvDefault
       vpiTypespec (4 items):
         ImportTypespec name:otp_ctrl_part_pkg start:10:11 end:10:31:
           vpiParent: Module name:work@top
@@ -351,6 +362,7 @@ Design name:unnamed:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: PartInvDefault
                             vpiFullName: work@top.PartInvDefault
+                            vpiActual: Parameter name:PartInvDefault
                       Constant start:14:33 end:14:34:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -386,6 +398,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:part_buf_data start:14:40 end:14:53:
           vpiParent: Module name:work@top
@@ -404,7 +421,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'1"
-            vpiValue: 1
+            vpiValue: "1"
       vpiPort (1 items):
         Port name:o start:9:23 end:9:24:
           vpiParent: Module name:work@top
@@ -432,7 +449,7 @@ Design name:unnamed:
               vpiParent: Operation
               vpiFullName: work@top
               vpiActual: IntTypespec
-            vpiOpType: cast (67)
+            vpiOpType: cast (81)
             vpiOperand (1 items):
               RefObj name:part_buf_data start:15:20 end:15:33:
                 vpiParent: Operation
@@ -452,37 +469,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamTypespec/ParamTypespec
- test-dirpath: ${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/surelog.uhdm
+      test-name: ParamTypespec/ParamTypespec
+   test-dirpath: ${HLC_DIR}/regression/ParamTypespec/ParamTypespec
+  hldb-filepath: ${HLC_DIR}/regression/ParamTypespec/ParamTypespec/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/ParamTypespec/ParamTypespec/mounts.json
 
 
 {'result': {'coverage': 99.31,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/lib/work/dut.sv'): {'post_len': 2,
-                                                                                                                                'pre_len': 289}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 2,
+                                                  'pre_len': 289}},
             'post_len': 2,
             'pre_len': 289,
             'test_name': 'ParamTypespec/ParamTypespec'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      289 |         2 |
-+=================+==========+===========+
-|                 |      289 |         2 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      289 |         2 |
++=========================+==========+===========+
+|                         |      289 |         2 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.31
@@ -490,17 +510,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/surelog.uhd
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/surelog.uhdm ${SURELOG_DIR}/regression/ParamTypespec/ParamTypespec/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/ParamTypespec/ParamTypespec/design.hldb ${HLC_DIR}/regression/ParamTypespec/ParamTypespec/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             9       9       1         1
 Operation                            7       5       0         2
-RefObj                               7       6       0         1
+RefObj                               9       8       0         1
 RefTypespec                         15      13       0         2
 ----------------------------------------------------------------
 Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    67      62       1         6
+                                    69      64       1         6
 ===================== END REDUCTION RESULT =====================

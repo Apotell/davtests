@@ -23,35 +23,35 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 cmake_path(CONVERT "${INSTALL_DIR}" TO_CMAKE_PATH_LIST INSTALL_DIR)
 list(APPEND CMAKE_MODULE_PATH "${INSTALL_DIR}/lib/cmake/")
-list(APPEND CMAKE_MODULE_PATH "${INSTALL_DIR}/lib/cmake/UHDM")
-list(APPEND CMAKE_MODULE_PATH "${INSTALL_DIR}/lib/cmake/Surelog")
+list(APPEND CMAKE_MODULE_PATH "${INSTALL_DIR}/lib/cmake/HLDB")
+list(APPEND CMAKE_MODULE_PATH "${INSTALL_DIR}/lib/cmake/HLC")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../../cmake/modules")
 
 # Dependencies
-find_package(Surelog REQUIRED)
+find_package(HLC REQUIRED)
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
-if(SURELOG_USE_HOST)
+if(HLC_USE_HOST)
   find_package(ANTLR REQUIRED)
-  find_package(UHDM REQUIRED)
+  find_package(HLDB REQUIRED)
   find_package(CapnProto)
-  set(UHDM_LIBRARY uhdm::uhdm)
+  set(HLDB_LIBRARY hldb::hldb)
   set(CAPNPROTO_LIBRARY CapnProto::capnp)
   find_package(GTest REQUIRED)
   find_package(nlohmann_json)
   get_target_property(JSON_INCLUDE_DIR nlohmann_json INTERFACE_INCLUDE_DIRECTORIES)
 else()
   set(ANTLR_LIBRARY antlr4-runtime$<$<BOOL:${WIN32}>:-static>)
-  set(UHDM_LIBRARY uhdm)
-  set(UHDM_LIB_DIR "${INSTALL_DIR}/lib/uhdm" "${INSTALL_DIR}/lib64/uhdm")
+  set(HLDB_LIBRARY hldb)
+  set(HLDB_LIB_DIR "${INSTALL_DIR}/lib/hldb" "${INSTALL_DIR}/lib64/hldb")
   set(CAPNPROTO_LIBRARY capnp kj)
 endif()
 
 # Python
-if (SURELOG_WITH_PYTHON)
+if (HLC_WITH_PYTHON)
   find_package(Python3 3.3 REQUIRED COMPONENTS Interpreter Development)
   message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
   message(STATUS "Python3_EXECUTABLE = ${Python3_EXECUTABLE}")
@@ -82,31 +82,31 @@ endif()
 
 add_executable(test_hellosureworld ${PROJECT_SOURCE_DIR}/../../src/hellosureworld.cpp)
 target_include_directories(test_hellosureworld PRIVATE
-  ${SURELOG_INCLUDE_DIRS}
-  ${UHDM_INCLUDE_DIRS}
+  ${HLC_INCLUDE_DIRS}
+  ${HLDB_INCLUDE_DIRS}
   ${Python3_INCLUDE_DIRS}
 )
 
 target_link_directories(test_hellosureworld
     PRIVATE ${INSTALL_DIR}/lib
-    PRIVATE ${SURELOG_LIB_DIR}
-    PRIVATE ${UHDM_LIB_DIR}
+    PRIVATE ${HLC_LIB_DIR}
+    PRIVATE ${HLDB_LIB_DIR}
 )
 
-if (SURELOG_WITH_PYTHON)
+if (HLC_WITH_PYTHON)
   target_link_libraries(test_hellosureworld
-    surelog::surelog
+    hlc::hlc
     ${ANTLR_LIBRARY}
-    ${UHDM_LIBRARY}
+    ${HLDB_LIBRARY}
     ${CAPNPROTO_LIBRARY}
     ${Python3_LIBRARIES}
     $<$<BOOL:${TCMALLOC_LIBRARY}>:tcmalloc>
 )
 else()
   target_link_libraries(test_hellosureworld
-    surelog::surelog
+    hlc::hlc
     ${ANTLR_LIBRARY}
-    ${UHDM_LIBRARY}
+    ${HLDB_LIBRARY}
     ${CAPNPROTO_LIBRARY}
     $<$<BOOL:${TCMALLOC_LIBRARY}>:tcmalloc>
 )
@@ -130,7 +130,7 @@ elseif (UNIX)
   )
 endif()
 
-if (WIN32 AND SURELOG_WITH_PYTHON)
+if (WIN32 AND HLC_WITH_PYTHON)
   add_custom_command(
     TARGET test_hellosureworld
     POST_BUILD

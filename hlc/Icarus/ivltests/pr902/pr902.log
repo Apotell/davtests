@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr902/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr902.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr902
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr902.v".
+[INF:PA0201] Parsing source file "$Source01/pr902.v".
 AST_DEBUG_BEGIN
 Count: 48
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr902.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr902.v> u<47> t<Top_level_rule> c<1> l<8:1> el<12:1>
+FILE: f<13>:$Source01/pr902.v
+n<$Source01/pr902.v> u<47> t<Top_level_rule> c<1> l<8:1> el<12:1>
   n<> u<1> t<Null_rule> p<47> s<2> l<8:1> el<8:1>
   n</*\n * What matters here is the size of the display, which should reflect\n * the size of 20, which is written with an _ character. Weird, but\n * legal.\n */> u<2> t<BLOCK_COMMENT> p<47> s<46> l<8:1> el<11:10>
   n<> u<46> t<Source_text> p<47> c<45> l<8:1> el<11:10>
@@ -51,19 +60,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr902.v> u<47> t<Top_level_rule> c<1> l<8
                                     n<2_0'h0> u<28> t<INTEGRAL_NUMBER> p<29> l<10:52> el<10:58>
         n<> u<43> t<ENDMODULE> p<44> l<11:1> el<11:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr902.v:8:1: Compile module "work@underscore_in_size".
+[INF:CP0303] $Source01/pr902.v:8:1: Compile module "work@underscore_in_size".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr902.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr902.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr902.v file:$Source01/pr902.v:
       vpiParent: Design name:unnamed
       vpiName: pr902.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr902/lib/work/pr902.v"
+      vpiPreprocFile: "$Output/lib/work/pr902.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@underscore_in_size file:${SURELOG_DIR}/tests/Icarus/ivltests/pr902.v start:8:1 end:11:10:
+    Module name:work@underscore_in_size file:$Source01/pr902.v start:8:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@underscore_in_size start:8:8 end:8:26:
         vpiParent: Module name:work@underscore_in_size
@@ -71,6 +80,11 @@ Design name:unnamed:
       vpiFullName: work@underscore_in_size
       vpiDefName: work@underscore_in_size
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@underscore_in_size
+        vpiName: work
+        vpiFullName: work@underscore_in_size.work
+      vpiCell: underscore_in_size
       vpiProcess (1 items):
         Initial start:9:1 end:10:61:
           vpiParent: Module name:work@underscore_in_size
@@ -89,7 +103,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 88
                 vpiDecompile: "\"%d %d %d %d\""
-                vpiValue: %d %d %d %d
+                vpiValue: "%d %d %d %d"
               Constant start:10:28 end:10:34:
                 vpiParent: SysFuncCall name:$display
                 vpiTypespec RefTypespec:
@@ -99,7 +113,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 20
                 vpiDecompile: "20'b0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:10:36 end:10:42:
                 vpiParent: SysFuncCall name:$display
                 vpiTypespec RefTypespec:
@@ -109,7 +123,7 @@ Design name:unnamed:
                 vpiConstType: decimal (1)
                 vpiSize: 20
                 vpiDecompile: "20'd0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:10:44 end:10:50:
                 vpiParent: SysFuncCall name:$display
                 vpiTypespec RefTypespec:
@@ -119,7 +133,7 @@ Design name:unnamed:
                 vpiConstType: octal (4)
                 vpiSize: 20
                 vpiDecompile: "20'o0"
-                vpiValue: 0
+                vpiValue: "0"
               Constant start:10:52 end:10:58:
                 vpiParent: SysFuncCall name:$display
                 vpiTypespec RefTypespec:
@@ -129,7 +143,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 20
                 vpiDecompile: "20'h0"
-                vpiValue: 0
+                vpiValue: "0"
   vpiTypespec (5 items):
     ModuleTypespec name:work@underscore_in_size:
       vpiParent: Design name:unnamed
@@ -147,37 +161,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr902
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr902
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr902/surelog.uhdm
+      test-name: Icarus/ivltests/pr902
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr902
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr902/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr902/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr902/lib/work/pr902.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 101}},
+            'files': {'$Output/lib/work/pr902.v': {'post_len': 0,
+                                                   'pre_len': 101}},
             'post_len': 0,
             'pre_len': 101,
             'test_name': 'Icarus/ivltests/pr902'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr902.v |      101 |         0 |
-+==================+==========+===========+
-|                  |      101 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr902.v |      101 |         0 |
++==========================+==========+===========+
+|                          |      101 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -185,13 +202,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr902/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr902/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr902/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr902/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr902/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

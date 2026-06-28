@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr572b.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr572b
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr572b.v".
+[INF:PA0201] Parsing source file "$Source01/pr572b.v".
 AST_DEBUG_BEGIN
 Count: 168
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v> u<167> t<Top_level_rule> c<1> l<17:1> el<44:1>
+FILE: f<13>:$Source01/pr572b.v
+n<$Source01/pr572b.v> u<167> t<Top_level_rule> c<1> l<17:1> el<44:1>
   n<> u<1> t<Null_rule> p<167> s<2> l<17:1> el<17:1>
   n</*\n * Hierarchical event testcase\n *\n * Copyright (C) 2002 Charles Lepple <clepple@ghz.cc>\n *\n *   This program is free software; you can redistribute it and/or\n *   modify it under the terms of the GNU General Public License as\n *   published by the Free Software Foundation; either version 2 of\n *   the License, or (at your option) any later version.\n *\n * compilation options: none necessary\n */> u<2> t<BLOCK_COMMENT> p<167> s<3> l<17:1> el<39:10>
   n<// yields parse error when defined> u<3> t<LINE_COMMENT> p<167> s<162> l<15:1> el<15:35>
@@ -171,17 +180,17 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v> u<167> t<Top_level_rule> c<1> l
   n<// verilog-simulator: "iverilog"> u<165> t<LINE_COMMENT> p<167> s<166> l<42:1> el<42:33>
   n<// end:> u<166> t<LINE_COMMENT> p<167> l<43:1> el<43:8>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v:17:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v:25:1: Compile module "work@submodule".
+[INF:CP0303] $Source01/pr572b.v:17:1: Compile module "work@top".
+[INF:CP0303] $Source01/pr572b.v:25:1: Compile module "work@submodule".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr572b.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr572b.v file:$Source01/pr572b.v:
       vpiParent: Design name:unnamed
       vpiName: pr572b.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/lib/work/pr572b.v"
+      vpiPreprocFile: "$Output/lib/work/pr572b.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:TEST_HIERARCHICAL_EVENT start:14:1 end:15:1:
           vpiParent: SourceFile name:pr572b.v
@@ -189,7 +198,7 @@ Design name:unnamed:
           vpiNameStartColumn: 9
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v start:17:1 end:23:10:
+    Module name:work@top file:$Source01/pr572b.v start:17:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:17:8 end:17:11:
         vpiParent: Module name:work@top
@@ -205,6 +214,11 @@ Design name:unnamed:
             vpiName: work@submodule
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:toplevel_event start:18:10 end:18:24:
           vpiParent: Module name:work@top
@@ -240,7 +254,7 @@ Design name:unnamed:
             vpiName: work@submodule
             vpiFullName: work@top.sub.work@submodule
             vpiActual: ModuleTypespec name:work@submodule
-    Module name:work@submodule file:${SURELOG_DIR}/tests/Icarus/ivltests/pr572b.v start:25:1 end:39:10:
+    Module name:work@submodule file:$Source01/pr572b.v start:25:1 end:39:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@submodule start:25:8 end:25:17:
         vpiParent: Module name:work@submodule
@@ -251,6 +265,11 @@ Design name:unnamed:
           vpiParent: Module name:work@submodule
       vpiDefName: work@submodule
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@submodule
+        vpiName: work
+        vpiFullName: work@submodule.work
+      vpiCell: submodule
       vpiNet (1 items):
         Net name:local_event start:26:10 end:26:21:
           vpiParent: Module name:work@submodule
@@ -289,7 +308,7 @@ Design name:unnamed:
                   vpiParent: EventControl
                   vpiName: top.toplevel_event
                   vpiFullName: work@submodule.top.toplevel_event
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:top start:33:4 end:33:7:
                       vpiParent: HierPath name:top.toplevel_event
                       vpiName: top
@@ -315,7 +334,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 256
                       vpiDecompile: "\"at %0d: toplevel event triggered\""
-                      vpiValue: at %0d: toplevel event triggered
+                      vpiValue: "at %0d: toplevel event triggered"
                     SysTaskCall name:$time start:34:49 end:34:54:
                       vpiParent: SysFuncCall name:$display
                       vpiName Identifier name:$time start:34:49 end:34:54:
@@ -338,7 +357,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 232
                       vpiDecompile: "\"at %0d: local event triggered\""
-                      vpiValue: at %0d: local event triggered
+                      vpiValue: "at %0d: local event triggered"
                     SysTaskCall name:$time start:37:46 end:37:51:
                       vpiParent: SysFuncCall name:$display
                       vpiName Identifier name:$time start:37:46 end:37:51:
@@ -364,37 +383,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr572b
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr572b
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/surelog.uhdm
+      test-name: Icarus/ivltests/pr572b
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr572b
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr572b/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr572b/mounts.json
 
 
 {'result': {'coverage': 96.45,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/lib/work/pr572b.v'): {'post_len': 11,
-                                                                                                                             'pre_len': 310}},
+            'files': {'$Output/lib/work/pr572b.v': {'post_len': 11,
+                                                    'pre_len': 310}},
             'post_len': 11,
             'pre_len': 310,
             'test_name': 'Icarus/ivltests/pr572b'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/pr572b.v |      310 |        11 |
-+===================+==========+===========+
-|                   |      310 |        11 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/pr572b.v |      310 |        11 |
++===========================+==========+===========+
+|                           |      310 |        11 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.45
@@ -402,13 +424,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr572b/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr572b/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr572b/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

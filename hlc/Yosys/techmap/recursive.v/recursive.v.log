@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db techmap/recursive.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Yosys/techmap/recursive.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/techmap/recursive.v".
+[INF:PA0201] Parsing source file "$Source01/techmap/recursive.v".
 AST_DEBUG_BEGIN
 Count: 45
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/techmap/recursive.v
-n<${SURELOG_DIR}/tests/Yosys/techmap/recursive.v> u<44> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<13>:$Source01/techmap/recursive.v
+n<$Source01/techmap/recursive.v> u<44> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<44> s<43> l<1:1>
   n<> u<43> t<Source_text> p<44> c<26> l<1:1> el<8:10>
     n<> u<26> t<Description> p<43> c<25> s<42> l<1:1> el<4:10>
@@ -48,20 +57,20 @@ n<${SURELOG_DIR}/tests/Yosys/techmap/recursive.v> u<44> t<Top_level_rule> c<1> l
                   n<> u<34> t<Ordered_port_connection> p<35> l<7:8> el<7:8>
         n<> u<40> t<ENDMODULE> p<41> l<8:1> el<8:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/techmap/recursive.v:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/techmap/recursive.v:6:1: Compile module "work@foo".
+[INF:CP0303] $Source01/techmap/recursive.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/techmap/recursive.v:6:1: Compile module "work@foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:recursive.v file:${SURELOG_DIR}/tests/Yosys/techmap/recursive.v:
+  vpiSourceFile (1 items):
+    SourceFile name:recursive.v file:$Source01/techmap/recursive.v:
       vpiParent: Design name:unnamed
       vpiName: recursive.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/lib/work/techmap/recursive.v"
+      vpiPreprocFile: "$Output/lib/work/techmap/recursive.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Yosys/techmap/recursive.v start:1:1 end:4:10:
+    Module name:work@top file:$Source01/techmap/recursive.v start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -80,6 +89,11 @@ Design name:unnamed:
             vpiName: work@foo
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (2 items):
         RefInstance name:s0 start:2:5 end:2:7:
           vpiParent: Module name:work@top
@@ -97,7 +111,7 @@ Design name:unnamed:
             vpiName: work@foo
             vpiFullName: work@top.f0.work@foo
             vpiActual: ModuleTypespec name:work@foo
-    Module name:work@foo file:${SURELOG_DIR}/tests/Yosys/techmap/recursive.v start:6:1 end:8:10:
+    Module name:work@foo file:$Source01/techmap/recursive.v start:6:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo start:6:8 end:6:11:
         vpiParent: Module name:work@foo
@@ -111,6 +125,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@foo
+        vpiName: work
+        vpiFullName: work@foo.work
+      vpiCell: foo
       vpiRefInstance (1 items):
         RefInstance name:s0 start:7:5 end:7:7:
           vpiParent: Module name:work@foo
@@ -134,37 +153,40 @@ Design name:unnamed:
         vpiName: work@foo
       vpiModule: Module name:work@foo
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/techmap/recursive.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/techmap/recursive.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/surelog.uhdm
+      test-name: Yosys/techmap/recursive.v
+   test-dirpath: ${HLC_DIR}/regression/Yosys/techmap/recursive.v
+  hldb-filepath: ${HLC_DIR}/regression/Yosys/techmap/recursive.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Yosys/techmap/recursive.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/lib/work/techmap/recursive.v'): {'post_len': 0,
-                                                                                                                                           'pre_len': 67}},
+            'files': {'$Output/lib/work/techmap/recursive.v': {'post_len': 0,
+                                                               'pre_len': 67}},
             'post_len': 0,
             'pre_len': 67,
             'test_name': 'Yosys/techmap/recursive.v'}}
 
-+------------------------------+----------+-----------+
-| INPUT                        |   PRELEN |   POSTLEN |
-+==============================+==========+===========+
-| lib/work/techmap/recursive.v |       67 |         0 |
-+==============================+==========+===========+
-|                              |       67 |         0 |
-+------------------------------+----------+-----------+
++--------------------------------------+----------+-----------+
+| INPUT                                |   PRELEN |   POSTLEN |
++======================================+==========+===========+
+| $Output/lib/work/techmap/recursive.v |       67 |         0 |
++======================================+==========+===========+
+|                                      |       67 |         0 |
++--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -172,13 +194,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/surelog.uhdm ${SURELOG_DIR}/regression/Yosys/techmap/recursive.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Yosys/techmap/recursive.v/design.hldb ${HLC_DIR}/regression/Yosys/techmap/recursive.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

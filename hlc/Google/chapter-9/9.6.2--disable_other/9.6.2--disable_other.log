@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-9 -timescale=1ns/1ns -d ast -d db -nobuiltin 9.6.2--disable_other.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-9/9.6.2--disable_other
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/9.6.2--disable_other.sv".
+[INF:PA0201] Parsing source file "$Source01/9.6.2--disable_other.sv".
 AST_DEBUG_BEGIN
 Count: 141
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-9/9.6.2--disable_other.sv
-n<${SURELOG_DIR}/tests/Google/chapter-9/9.6.2--disable_other.sv> u<140> t<Top_level_rule> c<1> l<15:1> el<27:1>
+FILE: f<14>:$Source01/9.6.2--disable_other.sv
+n<$Source01/9.6.2--disable_other.sv> u<140> t<Top_level_rule> c<1> l<15:1> el<27:1>
   n<> u<1> t<Null_rule> p<140> s<2> l<15:1> el<15:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<140> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<140> s<4> l<2:1> el<2:3>
@@ -144,19 +153,20 @@ n<${SURELOG_DIR}/tests/Google/chapter-9/9.6.2--disable_other.sv> u<140> t<Top_le
                           n<> u<126> t<Join_keyword> p<127> l<25:2> el<25:6>
         n<> u<136> t<ENDMODULE> p<137> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-9/9.6.2--disable_other.sv:15:1: Compile module "work@fork_tb".
+[INF:CP0303] $Source01/9.6.2--disable_other.sv:15:1: Compile module "work@fork_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+[ERR:EL0535] $Source01/9.6.2--disable_other.sv:24:15: Illegal implicit net "id:53, name:block".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:9.6.2--disable_other.sv file:${SURELOG_DIR}/tests/Google/chapter-9/9.6.2--disable_other.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:9.6.2--disable_other.sv file:$Source01/9.6.2--disable_other.sv:
       vpiParent: Design name:unnamed
       vpiName: "9.6.2--disable_other.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other/lib/work/9.6.2--disable_other.sv"
+      vpiPreprocFile: "$Output/lib/work/9.6.2--disable_other.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@fork_tb file:${SURELOG_DIR}/tests/Google/chapter-9/9.6.2--disable_other.sv start:15:1 end:26:10:
+    Module name:work@fork_tb file:$Source01/9.6.2--disable_other.sv start:15:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@fork_tb start:15:8 end:15:15:
         vpiParent: Module name:work@fork_tb
@@ -167,6 +177,11 @@ Design name:unnamed:
           vpiParent: Module name:work@fork_tb
       vpiDefName: work@fork_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@fork_tb
+        vpiName: work
+        vpiFullName: work@fork_tb.work
+      vpiCell: fork_tb
       vpiNet (3 items):
         Net name:a start:16:6 end:16:7:
           vpiParent: Module name:work@fork_tb
@@ -228,6 +243,92 @@ Design name:unnamed:
           vpiStmt ForkStmt start:19:10 end:25:6:
             vpiParent: Initial
             vpiFullName: work@fork_tb
+            vpiStmt (2 items):
+              Begin name:block start:20:3 end:23:6:
+                vpiParent: ForkStmt
+                vpiName Identifier name:block start:20:10 end:20:15:
+                  vpiParent: Begin name:block
+                  vpiName: block
+                vpiFullName: work@fork_tb.block
+                vpiStmt (2 items):
+                  DelayControl start:21:4 end:21:14:
+                    vpiParent: Begin name:block
+                    vpiStmt Assignment start:21:8 end:21:13:
+                      vpiParent: DelayControl
+                      vpiBlocking: true
+                      vpiLhs RefObj name:a start:21:8 end:21:9:
+                        vpiParent: Assignment
+                        vpiName: a
+                        vpiFullName: work@fork_tb.block.a
+                        vpiActual: Net name:a
+                      vpiRhs Constant start:21:12 end:21:13:
+                        vpiParent: Assignment
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@fork_tb.block
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                    vpiDelay Constant start:21:5 end:21:7:
+                      vpiParent: DelayControl
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@fork_tb.block
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "10"
+                      vpiValue: 10
+                  DelayControl start:22:4 end:22:14:
+                    vpiParent: Begin name:block
+                    vpiStmt Assignment start:22:8 end:22:13:
+                      vpiParent: DelayControl
+                      vpiBlocking: true
+                      vpiLhs RefObj name:b start:22:8 end:22:9:
+                        vpiParent: Assignment
+                        vpiName: b
+                        vpiFullName: work@fork_tb.block.b
+                        vpiActual: Net name:b
+                      vpiRhs Constant start:22:12 end:22:13:
+                        vpiParent: Assignment
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@fork_tb.block
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                    vpiDelay Constant start:22:5 end:22:7:
+                      vpiParent: DelayControl
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@fork_tb.block
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "10"
+                      vpiValue: 10
+              DelayControl start:24:3 end:24:21:
+                vpiParent: ForkStmt
+                vpiStmt Disable start:24:7 end:24:21:
+                  vpiParent: DelayControl
+                  vpiExpr RefObj name:block start:24:15 end:24:20:
+                    vpiParent: Disable
+                    vpiName: block
+                    vpiFullName: work@fork_tb.block
+                vpiDelay Constant start:24:4 end:24:6:
+                  vpiParent: DelayControl
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@fork_tb
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "15"
+                  vpiValue: 15
   vpiTypespec (2 items):
     ModuleTypespec name:work@fork_tb:
       vpiParent: Design name:unnamed
@@ -239,51 +340,54 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-9/9.6.2--disable_other
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other/surelog.uhdm
+      test-name: Google/chapter-9/9.6.2--disable_other
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-9/9.6.2--disable_other
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.6.2--disable_other/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.6.2--disable_other/mounts.json
 
 
-{'result': {'coverage': 80.16,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other/lib/work/9.6.2--disable_other.sv'): {'post_len': 25,
-                                                                                                                                                           'pre_len': 126}},
-            'post_len': 25,
+            'files': {'$Output/lib/work/9.6.2--disable_other.sv': {'post_len': 0,
+                                                                   'pre_len': 126}},
+            'post_len': 0,
             'pre_len': 126,
             'test_name': 'Google/chapter-9/9.6.2--disable_other'}}
 
-+----------------------------------+----------+-----------+
-| INPUT                            |   PRELEN |   POSTLEN |
-+==================================+==========+===========+
-| lib/work/9.6.2--disable_other.sv |      126 |        25 |
-+==================================+==========+===========+
-|                                  |      126 |        25 |
-+----------------------------------+----------+-----------+
++------------------------------------------+----------+-----------+
+| INPUT                                    |   PRELEN |   POSTLEN |
++==========================================+==========+===========+
+| $Output/lib/work/9.6.2--disable_other.sv |      126 |         0 |
++==========================================+==========+===========+
+|                                          |      126 |         0 |
++------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 80.16
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other/surelog.uhdm ${SURELOG_DIR}/regression/Google/chapter-9/9.6.2--disable_other/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.6.2--disable_other/design.hldb ${HLC_DIR}/regression/Google/chapter-9/9.6.2--disable_other/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    44      44       0         0
 ===================== END REDUCTION RESULT =====================

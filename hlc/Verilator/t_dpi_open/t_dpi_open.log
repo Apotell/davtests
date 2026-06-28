@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_dpi_open/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_dpi_open.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_dpi_open
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_dpi_open.v".
+[INF:PA0201] Parsing source file "$Source01/t_dpi_open.v".
+[SNT:PA0207] $Source01/t_dpi_open.v:135:18: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off UNUSED\n   reg        i_rl_p0_u1 [-2:2];\n   reg        o_rl_p0_u1 [-2:2];\n   reg [1:-1] i_rl_p1_u1 [-2:2];\n   reg [1:-1] o_rl_p1_u1 [-2:2];\n   reg [1:-1] i_rl_p1_u2 [-2:2] [-3:3];\n   reg [1:-1] o_rl_p1_u2 [-2:2] [-3:3];\n   reg [1:-1] i_rl_p1_u3 [-2:2] [-3:3] [-4:4];\n   reg [1:-1] o_rl_p1_u3 [-2:2] [-3:3] [-4:4];\n\n   reg        i_rb_p0_u1 [2:-2];\n   reg        o_rb_p0_u1 [2:-2];\n   reg [1:-1] i_rb_p1_u1 [2:-2];\n   reg [1:-1] o_rb_p1_u1 [2:-2];\n   reg [1:-1] i_rb_p1_u2 [2:-2] [3:-3];\n   reg [1:-1] o_rb_p1_u2 [2:-2] [3:-3];\n   reg [1:-1] i_rb_p1_u3 [2:-2] [3:-3] [4:-4];\n   reg [1:-1] o_rb_p1_u3 [2:-2] [3:-3] [4:-4];\n\n   reg        i_rw_p0_u1 [2:-2];\n   reg        o_rw_p0_u1 [2:-2];\n   reg [95:1] i_rw_p1_u1 [2:-2];\n   reg [95:1] o_rw_p1_u1 [2:-2];\n   reg [95:1] i_rw_p1_u2 [2:-2] [3:-3];\n   reg [95:1] o_rw_p1_u2 [2:-2] [3:-3];\n   reg [95:1] i_rw_p1_u3 [2:-2] [3:-3] [4:-4];\n   reg [95:1] o_rw_p1_u3 [2:-2] [3:-3] [4:-4];\n\n   bit        i_bit [1:0];\n   bit        o_bit [1:0];\n   logic      i_logic [1:0];\n   logic      o_logic [1:0];\n   byte       i_byte [1:0];\n   byte       o_byte [1:0];\n   int        i_int [1:0];\n   int        o_int [1:0];\n   integer    i_integer [1:0];\n   integer    o_integer [1:0];\n   // verilator lint_on UNUSED\n\n   import "DPI-C" function int dpii_failure();\n\n   import "DPI-C" function void dpii_unused(input reg u []);\n\n   // [] on packed arrays is unsupported in VCS & NC, so not supporting this\n\n   import "DPI-C" function void dpii_open_p0_u1(input int c,p,u, input reg i [], output reg o []);\n   import "DPI-C" function void dpii_open_p1_u1(input int c,p,u, input reg [1:-1] i [], output reg [1:-1] o []);\n   import "DPI-C" function void dpii_open_p1_u2(input int c,p,u, input reg [1:-1] i [] [], output reg [1:-1] o [] []);\n   import "DPI-C" function void dpii_open_p1_u3(input int c,p,u, input reg [1:-1] i [] [] [], output reg [1:-1] o [] [] []);\n\n   import "DPI-C" function void dpii_open_pw_u1(input int c,p,u, input reg [95:1] i [], output reg [95:1] o []);\n   import "DPI-C" function void dpii_open_pw_u2(input int c,p,u, input reg [95:1] i [] [], output reg [95:1] o [] []);\n   import "DPI-C" function void dpii_open_pw_u3(input int c,p,u, input reg [95:1] i [] [] [], output reg [95:1] o [] [] []);\n\n   import "DPI-C" function void dpii_open_bit(input bit i [], output bit o []);\n   import "DPI-C" function void dpii_open_logic(input logic i [], output logic o []);\n   import "DPI-C" function void dpii_open_byte(input byte i [], output byte o []);\n   import "DPI-C" function void dpii_open_int(input int i [], output int o []);\n   import "DPI-C" function void dpii_open_integer(input integer i [], output integer o []);\n\n   import "DPI-C" function int dpii_failed();\n\n   reg [95:0] crc;\n\n   initial begin\n      crc = 96'h8a10a572_5aef0c8d_d70a4497;\n\n      for (int a=0; a<2; a=a+1) begin\n         i_bit[a] = crc[0];\n         i_logic[a] = crc[0];\n         i_byte[a] = crc[7:0];\n         i_int[a] = crc[31:0];\n         i_integer[a] = crc[31:0];\n         crc = {crc[94:0], crc[95]^crc[2]^crc[0]};\n      end\n\n      dpii_open_bit(i_bit, o_bit);\n      dpii_open_logic(i_logic, o_logic);\n      dpii_open_byte(i_byte, o_byte);\n      dpii_open_int(i_int, o_int);\n      dpii_open_integer(i_integer, o_integer);\n\n      for (int a=-2; a<=2; a=a+1) begin\n         i_rl_p0_u1[a] = crc[0];\n         i_rb_p0_u1[a] = crc[0];\n         i_rw_p0_u1[a] = crc[0];\n         i_rl_p1_u1[a] = crc[2:0];\n         i_rb_p1_u1[a] = crc[2:0];\n         i_rw_p1_u1[a] = crc[94:0];\n         for (int b=-3; b<=3; b=b+1) begin\n            i_rl_p1_u2[a][b] = crc[2:0];\n            i_rb_p1_u2[a][b] = crc[2:0];\n            i_rw_p1_u2[a][b] = crc[94:0];\n            for (int c=-4; c<=4; c=c+1) begin\n               i_rl_p1_u3[a][b][c] = crc[2:0];\n               i_rb_p1_u3[a][b][c] = crc[2:0];\n               i_rw_p1_u3[a][b][c] = crc[94:0];\n               crc = {crc[94:0], crc[95]^crc[2]^crc[0]};\n            end\n         end\n      end\n\n      dpii_open_p0_u1(0,0,1, i_rl_p0_u1, o_rl_p0_u1);\n      dpii_open_p0_u1(1,0,1, i_rb_p0_u1, o_rb_p0_u1);\n      dpii_open_p0_u1(2,0,1, i_rw_p0_u1, o_rw_p0_u1);\n      dpii_open_p1_u1(0,1,1, i_rl_p1_u1, o_rl_p1_u1);\n      dpii_open_p1_u2(0,1,2, i_rl_p1_u2, o_rl_p1_u2);\n      dpii_open_p1_u3(0,1,3, i_rl_p1_u3, o_rl_p1_u3);\n      dpii_open_p1_u1(1,1,1, i_rb_p1_u1, o_rb_p1_u1);\n      dpii_open_p1_u2(1,1,2, i_rb_p1_u2, o_rb_p1_u2);\n      dpii_open_p1_u3(1,1,3, i_rb_p1_u3, o_rb_p1_u3);\n      dpii_open_pw_u1(2,1,1, i_rw_p1_u1, o_rw_p1_u1);\n      dpii_open_pw_u2(2,1,2, i_rw_p1_u2, o_rw_p1_u2);\n      dpii_open_pw_u3(2,1,3, i_rw_p1_u3, o_rw_p1_u3);\n\n      for (int a=-2; a<=2; a=a+1) begin\n         for (int b=-3; b<=3; b=b+1) begin\n            for (int c=-4; c<=4; c=c+1) begin\n               do if',
+               do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_dpi_open.v",0, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0);
+                  ^-- $Source01/t_dpi_open.v:135:18:.
+[SNT:PA0207] $Source01/t_dpi_open.v:81:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_dpi_open.v:81:3:.
 AST_DEBUG_BEGIN
 Count: 1778
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_dpi_open.v
-n<${SURELOG_DIR}/tests/Verilator/t_dpi_open.v> u<1777> t<Top_level_rule> c<1> l<14:1> el<150:10>
+FILE: f<13>:$Source01/t_dpi_open.v
+n<$Source01/t_dpi_open.v> u<1777> t<Top_level_rule> c<1> l<14:1> el<150:10>
   n<> u<1> t<Null_rule> p<1777> s<2> l<14:1> el<14:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<1777> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<1777> s<4> l<2:1> el<2:3>
@@ -1781,21 +1796,15 @@ n<${SURELOG_DIR}/tests/Verilator/t_dpi_open.v> u<1777> t<Top_level_rule> c<1> l<
                 n<> u<1769> t<Variable_decl_assignment> p<1770> c<1768> l<79:15> el<79:18>
                   n<crc> u<1768> t<SIMPLE_IDENTIFIER> p<1769> l<79:15> el<79:18>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_dpi_open.v:135:18: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   // verilator lint_off UNUSED\n   reg        i_rl_p0_u1 [-2:2];\n   reg        o_rl_p0_u1 [-2:2];\n   reg [1:-1] i_rl_p1_u1 [-2:2];\n   reg [1:-1] o_rl_p1_u1 [-2:2];\n   reg [1:-1] i_rl_p1_u2 [-2:2] [-3:3];\n   reg [1:-1] o_rl_p1_u2 [-2:2] [-3:3];\n   reg [1:-1] i_rl_p1_u3 [-2:2] [-3:3] [-4:4];\n   reg [1:-1] o_rl_p1_u3 [-2:2] [-3:3] [-4:4];\n\n   reg        i_rb_p0_u1 [2:-2];\n   reg        o_rb_p0_u1 [2:-2];\n   reg [1:-1] i_rb_p1_u1 [2:-2];\n   reg [1:-1] o_rb_p1_u1 [2:-2];\n   reg [1:-1] i_rb_p1_u2 [2:-2] [3:-3];\n   reg [1:-1] o_rb_p1_u2 [2:-2] [3:-3];\n   reg [1:-1] i_rb_p1_u3 [2:-2] [3:-3] [4:-4];\n   reg [1:-1] o_rb_p1_u3 [2:-2] [3:-3] [4:-4];\n\n   reg        i_rw_p0_u1 [2:-2];\n   reg        o_rw_p0_u1 [2:-2];\n   reg [95:1] i_rw_p1_u1 [2:-2];\n   reg [95:1] o_rw_p1_u1 [2:-2];\n   reg [95:1] i_rw_p1_u2 [2:-2] [3:-3];\n   reg [95:1] o_rw_p1_u2 [2:-2] [3:-3];\n   reg [95:1] i_rw_p1_u3 [2:-2] [3:-3] [4:-4];\n   reg [95:1] o_rw_p1_u3 [2:-2] [3:-3] [4:-4];\n\n   bit        i_bit [1:0];\n   bit        o_bit [1:0];\n   logic      i_logic [1:0];\n   logic      o_logic [1:0];\n   byte       i_byte [1:0];\n   byte       o_byte [1:0];\n   int        i_int [1:0];\n   int        o_int [1:0];\n   integer    i_integer [1:0];\n   integer    o_integer [1:0];\n   // verilator lint_on UNUSED\n\n   import "DPI-C" function int dpii_failure();\n\n   import "DPI-C" function void dpii_unused(input reg u []);\n\n   // [] on packed arrays is unsupported in VCS & NC, so not supporting this\n\n   import "DPI-C" function void dpii_open_p0_u1(input int c,p,u, input reg i [], output reg o []);\n   import "DPI-C" function void dpii_open_p1_u1(input int c,p,u, input reg [1:-1] i [], output reg [1:-1] o []);\n   import "DPI-C" function void dpii_open_p1_u2(input int c,p,u, input reg [1:-1] i [] [], output reg [1:-1] o [] []);\n   import "DPI-C" function void dpii_open_p1_u3(input int c,p,u, input reg [1:-1] i [] [] [], output reg [1:-1] o [] [] []);\n\n   import "DPI-C" function void dpii_open_pw_u1(input int c,p,u, input reg [95:1] i [], output reg [95:1] o []);\n   import "DPI-C" function void dpii_open_pw_u2(input int c,p,u, input reg [95:1] i [] [], output reg [95:1] o [] []);\n   import "DPI-C" function void dpii_open_pw_u3(input int c,p,u, input reg [95:1] i [] [] [], output reg [95:1] o [] [] []);\n\n   import "DPI-C" function void dpii_open_bit(input bit i [], output bit o []);\n   import "DPI-C" function void dpii_open_logic(input logic i [], output logic o []);\n   import "DPI-C" function void dpii_open_byte(input byte i [], output byte o []);\n   import "DPI-C" function void dpii_open_int(input int i [], output int o []);\n   import "DPI-C" function void dpii_open_integer(input integer i [], output integer o []);\n\n   import "DPI-C" function int dpii_failed();\n\n   reg [95:0] crc;\n\n   initial begin\n      crc = 96'h8a10a572_5aef0c8d_d70a4497;\n\n      for (int a=0; a<2; a=a+1) begin\n         i_bit[a] = crc[0];\n         i_logic[a] = crc[0];\n         i_byte[a] = crc[7:0];\n         i_int[a] = crc[31:0];\n         i_integer[a] = crc[31:0];\n         crc = {crc[94:0], crc[95]^crc[2]^crc[0]};\n      end\n\n      dpii_open_bit(i_bit, o_bit);\n      dpii_open_logic(i_logic, o_logic);\n      dpii_open_byte(i_byte, o_byte);\n      dpii_open_int(i_int, o_int);\n      dpii_open_integer(i_integer, o_integer);\n\n      for (int a=-2; a<=2; a=a+1) begin\n         i_rl_p0_u1[a] = crc[0];\n         i_rb_p0_u1[a] = crc[0];\n         i_rw_p0_u1[a] = crc[0];\n         i_rl_p1_u1[a] = crc[2:0];\n         i_rb_p1_u1[a] = crc[2:0];\n         i_rw_p1_u1[a] = crc[94:0];\n         for (int b=-3; b<=3; b=b+1) begin\n            i_rl_p1_u2[a][b] = crc[2:0];\n            i_rb_p1_u2[a][b] = crc[2:0];\n            i_rw_p1_u2[a][b] = crc[94:0];\n            for (int c=-4; c<=4; c=c+1) begin\n               i_rl_p1_u3[a][b][c] = crc[2:0];\n               i_rb_p1_u3[a][b][c] = crc[2:0];\n               i_rw_p1_u3[a][b][c] = crc[94:0];\n               crc = {crc[94:0], crc[95]^crc[2]^crc[0]};\n            end\n         end\n      end\n\n      dpii_open_p0_u1(0,0,1, i_rl_p0_u1, o_rl_p0_u1);\n      dpii_open_p0_u1(1,0,1, i_rb_p0_u1, o_rb_p0_u1);\n      dpii_open_p0_u1(2,0,1, i_rw_p0_u1, o_rw_p0_u1);\n      dpii_open_p1_u1(0,1,1, i_rl_p1_u1, o_rl_p1_u1);\n      dpii_open_p1_u2(0,1,2, i_rl_p1_u2, o_rl_p1_u2);\n      dpii_open_p1_u3(0,1,3, i_rl_p1_u3, o_rl_p1_u3);\n      dpii_open_p1_u1(1,1,1, i_rb_p1_u1, o_rb_p1_u1);\n      dpii_open_p1_u2(1,1,2, i_rb_p1_u2, o_rb_p1_u2);\n      dpii_open_p1_u3(1,1,3, i_rb_p1_u3, o_rb_p1_u3);\n      dpii_open_pw_u1(2,1,1, i_rw_p1_u1, o_rw_p1_u1);\n      dpii_open_pw_u2(2,1,2, i_rw_p1_u2, o_rw_p1_u2);\n      dpii_open_pw_u3(2,1,3, i_rw_p1_u3, o_rw_p1_u3);\n\n      for (int a=-2; a<=2; a=a+1) begin\n         for (int b=-3; b<=3; b=b+1) begin\n            for (int c=-4; c<=4; c=c+1) begin\n               do if',
-               do if ((o_rw_p1_u3[a][b][c]) !== (~i_rw_p1_u3[a][b][c])) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "${SURELOG_DIR}/tests/Verilator/t_dpi_open.v",135, (o_rw_p1_u3[a][b][c]), (~i_rw_p1_u3[a][b][c])); end while(0);
-                  ^-- ${SURELOG_DIR}/tests/Verilator/t_dpi_open.v:135:18:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_dpi_open.v:81:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_dpi_open.v:81:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_dpi_open.v file:${SURELOG_DIR}/tests/Verilator/t_dpi_open.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_dpi_open.v file:$Source01/t_dpi_open.v:
       vpiParent: Design name:unnamed
       vpiName: t_dpi_open.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_dpi_open/lib/work/t_dpi_open.v"
+      vpiPreprocFile: "$Output/lib/work/t_dpi_open.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:checkh start:11:2 end:11:158:
           vpiParent: SourceFile name:t_dpi_open.v
@@ -1803,27 +1812,27 @@ Design name:unnamed:
           vpiNameStartColumn: 10
           vpiBodyStartColumn: 28
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_dpi_open.v start:135:16 end:135:66:
+        PreprocMacroInstance name:checkh file:$Source01/t_dpi_open.v start:135:16 end:135:66:
           vpiParent: SourceFile name:t_dpi_open.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 11
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 11
-          vpiSectionEndColumn: 271
+          vpiSectionEndColumn: 227
           vpiSourceStartLine: 135
           vpiSourceStartColumn: 16
           vpiSourceEndLine: 135
-          vpiSourceEndColumn: 259
+          vpiSourceEndColumn: 215
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_dpi_open.v start:14:1 end:14:1:
+    Module file:$Source01/t_dpi_open.v start:14:1 end:14:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_dpi_open.v start:14:1 end:14:7:
+    Module file:$Source01/t_dpi_open.v start:14:1 end:14:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-  vpiTypespec (80 items):
+  vpiTypespec (132 items):
     ModuleTypespec:
       vpiParent: Design name:unnamed
       vpiModule: Module
@@ -1835,6 +1844,66 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:17:26 end:17:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:17:27 end:17:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:17:28 end:17:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:17:30 end:17:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec start:17:4 end:17:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:18:26 end:18:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:18:27 end:18:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:18:28 end:18:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:18:30 end:18:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec start:18:4 end:18:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1863,6 +1932,36 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:19:26 end:19:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:19:27 end:19:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:19:28 end:19:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:19:30 end:19:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec start:19:4 end:19:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1891,6 +1990,36 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:20:26 end:20:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:20:27 end:20:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:20:28 end:20:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:20:30 end:20:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec start:20:4 end:20:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1919,6 +2048,66 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:21:26 end:21:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:21:27 end:21:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:21:28 end:21:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:21:30 end:21:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:21:33 end:21:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:21:34 end:21:36:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:21:35 end:21:36:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+        vpiRightRange Constant start:21:37 end:21:38:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+      vpiElemTypespec RefTypespec start:21:4 end:21:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1947,6 +2136,66 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:22:26 end:22:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:22:27 end:22:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:22:28 end:22:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:22:30 end:22:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:22:33 end:22:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:22:34 end:22:36:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:22:35 end:22:36:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+        vpiRightRange Constant start:22:37 end:22:38:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+      vpiElemTypespec RefTypespec start:22:4 end:22:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1975,6 +2224,96 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:23:26 end:23:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:23:27 end:23:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:23:28 end:23:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:23:30 end:23:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:23:33 end:23:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:23:34 end:23:36:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:23:35 end:23:36:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+        vpiRightRange Constant start:23:37 end:23:38:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:23:40 end:23:46:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:23:41 end:23:43:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:23:42 end:23:43:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "4"
+              vpiValue: 4
+        vpiRightRange Constant start:23:44 end:23:45:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "4"
+          vpiValue: 4
+      vpiElemTypespec RefTypespec start:23:4 end:23:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2003,6 +2342,156 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:24:26 end:24:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:24:27 end:24:29:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:24:28 end:24:29:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+        vpiRightRange Constant start:24:30 end:24:31:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:24:33 end:24:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:24:34 end:24:36:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:24:35 end:24:36:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+        vpiRightRange Constant start:24:37 end:24:38:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:24:40 end:24:46:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Operation start:24:41 end:24:43:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:24:42 end:24:43:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "4"
+              vpiValue: 4
+        vpiRightRange Constant start:24:44 end:24:45:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "4"
+          vpiValue: 4
+      vpiElemTypespec RefTypespec start:24:4 end:24:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:26:26 end:26:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:26:27 end:26:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:26:29 end:26:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:26:30 end:26:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:26:4 end:26:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:27:26 end:27:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:27:27 end:27:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:27:29 end:27:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:27:30 end:27:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:27:4 end:27:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2031,6 +2520,36 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:28:26 end:28:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:28:27 end:28:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:28:29 end:28:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:28:30 end:28:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:28:4 end:28:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2059,6 +2578,36 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:29:26 end:29:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:29:27 end:29:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:29:29 end:29:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:29:30 end:29:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:29:4 end:29:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2087,6 +2636,66 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:30:26 end:30:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:30:27 end:30:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:30:29 end:30:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:30:30 end:30:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:30:33 end:30:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:30:34 end:30:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:30:36 end:30:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:30:37 end:30:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec start:30:4 end:30:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2115,6 +2724,66 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:31:26 end:31:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:31:27 end:31:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:31:29 end:31:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:31:30 end:31:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:31:33 end:31:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:31:34 end:31:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:31:36 end:31:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:31:37 end:31:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec start:31:4 end:31:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2143,6 +2812,96 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:32:26 end:32:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:32:27 end:32:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:32:29 end:32:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:32:30 end:32:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:32:33 end:32:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:32:34 end:32:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:32:36 end:32:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:32:37 end:32:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:32:40 end:32:46:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:32:41 end:32:42:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "4"
+          vpiValue: 4
+        vpiRightRange Operation start:32:43 end:32:45:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:32:44 end:32:45:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "4"
+              vpiValue: 4
+      vpiElemTypespec RefTypespec start:32:4 end:32:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2171,6 +2930,156 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:33:26 end:33:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:33:27 end:33:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:33:29 end:33:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:33:30 end:33:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:33:33 end:33:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:33:34 end:33:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:33:36 end:33:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:33:37 end:33:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:33:40 end:33:46:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:33:41 end:33:42:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "4"
+          vpiValue: 4
+        vpiRightRange Operation start:33:43 end:33:45:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:33:44 end:33:45:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "4"
+              vpiValue: 4
+      vpiElemTypespec RefTypespec start:33:4 end:33:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:35:26 end:35:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:35:27 end:35:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:35:29 end:35:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:35:30 end:35:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:35:4 end:35:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:36:26 end:36:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:36:27 end:36:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:36:29 end:36:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:36:30 end:36:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:36:4 end:36:7:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2195,6 +3104,36 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:37:26 end:37:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:37:27 end:37:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:37:29 end:37:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:37:30 end:37:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:37:4 end:37:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2219,6 +3158,36 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:38:26 end:38:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:38:27 end:38:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:38:29 end:38:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:38:30 end:38:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec start:38:4 end:38:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2243,6 +3212,66 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:39:26 end:39:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:39:27 end:39:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:39:29 end:39:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:39:30 end:39:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:39:33 end:39:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:39:34 end:39:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:39:36 end:39:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:39:37 end:39:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec start:39:4 end:39:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2267,6 +3296,66 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:40:26 end:40:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:40:27 end:40:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:40:29 end:40:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:40:30 end:40:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:40:33 end:40:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:40:34 end:40:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:40:36 end:40:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:40:37 end:40:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec start:40:4 end:40:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2291,6 +3380,96 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:41:26 end:41:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:41:27 end:41:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:41:29 end:41:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:41:30 end:41:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:41:33 end:41:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:41:34 end:41:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:41:36 end:41:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:41:37 end:41:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:41:40 end:41:46:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:41:41 end:41:42:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "4"
+          vpiValue: 4
+        vpiRightRange Operation start:41:43 end:41:45:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:41:44 end:41:45:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "4"
+              vpiValue: 4
+      vpiElemTypespec RefTypespec start:41:4 end:41:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
     LogicTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -2315,9 +3494,353 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiVector: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:42:26 end:42:32:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:42:27 end:42:28:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "2"
+          vpiValue: 2
+        vpiRightRange Operation start:42:29 end:42:31:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:42:30 end:42:31:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:42:33 end:42:39:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:42:34 end:42:35:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "3"
+          vpiValue: 3
+        vpiRightRange Operation start:42:36 end:42:38:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:42:37 end:42:38:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "3"
+              vpiValue: 3
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+        vpiActual: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:42:40 end:42:46:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:42:41 end:42:42:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "4"
+          vpiValue: 4
+        vpiRightRange Operation start:42:43 end:42:45:
+          vpiParent: Range
+          vpiOpType: minus (1)
+          vpiOperand (1 items):
+            Constant start:42:44 end:42:45:
+              vpiParent: Operation
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "4"
+              vpiValue: 4
+      vpiElemTypespec RefTypespec start:42:4 end:42:14:
+        vpiParent: ArrayTypespec
+        vpiActual: LogicTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:44:21 end:44:26:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:44:22 end:44:23:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:44:24 end:44:25:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:45:21 end:45:26:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:45:22 end:45:23:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:45:24 end:45:25:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:46:23 end:46:28:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:46:24 end:46:25:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:46:26 end:46:27:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:47:23 end:47:28:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:47:24 end:47:25:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:47:26 end:47:27:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:48:22 end:48:27:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:48:23 end:48:24:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:48:25 end:48:26:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:49:22 end:49:27:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:49:23 end:49:24:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:49:25 end:49:26:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec:
+        vpiParent: ArrayTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:50:21 end:50:26:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:50:22 end:50:23:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:50:24 end:50:25:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:50:4 end:50:7:
+        vpiParent: ArrayTypespec
+        vpiActual: IntTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:51:21 end:51:26:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:51:22 end:51:23:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:51:24 end:51:25:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:51:4 end:51:7:
+        vpiParent: ArrayTypespec
+        vpiActual: IntTypespec
     IntegerTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:52:25 end:52:30:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:52:26 end:52:27:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:52:28 end:52:29:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:52:4 end:52:11:
+        vpiParent: ArrayTypespec
+        vpiActual: IntegerTypespec
+    ArrayTypespec:
+      vpiParent: Design name:unnamed
+      vpiArrayType: static (1)
+      vpiRange Range start:53:25 end:53:30:
+        vpiParent: ArrayTypespec
+        vpiLeftRange Constant start:53:26 end:53:27:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "1"
+          vpiValue: 1
+        vpiRightRange Constant start:53:28 end:53:29:
+          vpiParent: Range
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "0"
+          vpiValue: 0
+      vpiElemTypespec RefTypespec start:53:4 end:53:11:
+        vpiParent: ArrayTypespec
+        vpiActual: IntegerTypespec
     VoidTypespec start:58:28 end:58:32:
       vpiParent: Design name:unnamed
     ArrayTypespec:
@@ -3468,54 +4991,57 @@ Design name:unnamed:
         vpiFullName: dpii_failed
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_dpi_open
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_dpi_open
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_dpi_open/surelog.uhdm
+      test-name: Verilator/t_dpi_open
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_dpi_open
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_dpi_open/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_dpi_open/mounts.json
 
 
-{'result': {'coverage': 54.56,
+{'result': {'coverage': 59.94,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_dpi_open/lib/work/t_dpi_open.v'): {'post_len': 1980,
-                                                                                                                               'pre_len': 4357}},
-            'post_len': 1980,
-            'pre_len': 4357,
+            'files': {'$Output/lib/work/t_dpi_open.v': {'post_len': 1728,
+                                                        'pre_len': 4313}},
+            'post_len': 1728,
+            'pre_len': 4313,
             'test_name': 'Verilator/t_dpi_open'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/t_dpi_open.v |     4357 |      1980 |
-+=======================+==========+===========+
-|                       |     4357 |      1980 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/t_dpi_open.v |     4313 |      1728 |
++===============================+==========+===========+
+|                               |     4313 |      1728 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 54.56
+[COVERAGE] : 59.94
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_dpi_open/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_dpi_open/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_dpi_open/design.hldb ${HLC_DIR}/regression/Verilator/t_dpi_open/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            62      62      18        18
-Operation                           18       0       0        18
-RefTypespec                        160     160      18        18
+Constant                           166     166      60        60
+Operation                           60       0       0        60
+RefTypespec                        316     316      60        60
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             303     303       0         0
 ----------------------------------------------------------------
-                                   439     421      36        54
+                                   845     785     120       180
 ===================== END REDUCTION RESULT =====================

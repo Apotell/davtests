@@ -28,24 +28,24 @@
 //     full_case attrs attach to the CaseStmt directly.
 //   - All three case statements have vpiCaseType == 1 (exact / plain "case").
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/attribute.h>
-#include <uhdm/begin.h>
-#include <uhdm/case_item.h>
-#include <uhdm/case_stmt.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/attribute.h>
+#include <hldb/begin.h>
+#include <hldb/case_item.h>
+#include <hldb/case_stmt.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class AttributesCase : public Test {
  public:
@@ -68,25 +68,25 @@ class AttributesCase : public Test {
 
 // Helpers ----------------------------------------------------------------
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Begin *getInitialBegin(const uhdm::Module *top) {
+static const hldb::Begin *getInitialBegin(const hldb::Module *top) {
   if (!top->getProcesses()) return nullptr;
-  for (const uhdm::Process *const p : *top->getProcesses()) {
-    if (const uhdm::Initial *const i = any_cast<uhdm::Initial>(p))
-      return i->getStmt<uhdm::Begin>();
+  for (const hldb::Process *const p : *top->getProcesses()) {
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p))
+      return i->getStmt<hldb::Begin>();
   }
   return nullptr;
 }
 
 // Returns the Nth CaseStmt from the Begin block (0-based, skips non-CaseStmt stmts).
-static const uhdm::CaseStmt *getNthCase(const uhdm::Begin *blk, size_t n) {
+static const hldb::CaseStmt *getNthCase(const hldb::Begin *blk, size_t n) {
   if (!blk || !blk->getStmts()) return nullptr;
   size_t idx = 0;
-  for (const uhdm::Any *const s : *blk->getStmts()) {
-    if (const uhdm::CaseStmt *const cs = any_cast<uhdm::CaseStmt>(s)) {
+  for (const hldb::Any *const s : *blk->getStmts()) {
+    if (const hldb::CaseStmt *const cs = any_cast<hldb::CaseStmt>(s)) {
       if (idx++ == n) return cs;
     }
   }
@@ -94,10 +94,10 @@ static const uhdm::CaseStmt *getNthCase(const uhdm::Begin *blk, size_t n) {
 }
 
 // Returns the named Attribute from a CaseStmt, or nullptr if absent.
-static const uhdm::Attribute *findAttr(const uhdm::CaseStmt *cs,
+static const hldb::Attribute *findAttr(const hldb::CaseStmt *cs,
                                         std::string_view name) {
   if (!cs->getAttributes()) return nullptr;
-  for (const uhdm::Attribute *const a : *cs->getAttributes()) {
+  for (const hldb::Attribute *const a : *cs->getAttributes()) {
     if (a->getName() == name) return a;
   }
   return nullptr;
@@ -111,12 +111,12 @@ TEST_F(AttributesCase, ModuleExists) {
 }
 
 TEST_F(AttributesCase, NetsAAndBExist) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
   bool hasA = false, hasB = false;
-  for (const uhdm::Net *const n : *top->getNets()) {
+  for (const hldb::Net *const n : *top->getNets()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
   }
@@ -128,16 +128,16 @@ TEST_F(AttributesCase, NetsAAndBExist) {
 // Begin block contains exactly 3 CaseStmt nodes
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, InitialBlockHasThreeCaseStatements) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
 
-  const uhdm::Begin *const blk = getInitialBegin(top);
+  const hldb::Begin *const blk = getInitialBegin(top);
   ASSERT_NE(blk, nullptr) << "no Initial/Begin block found";
   ASSERT_NE(blk->getStmts(), nullptr);
 
   size_t count = 0;
-  for (const uhdm::Any *const s : *blk->getStmts())
-    if (any_cast<uhdm::CaseStmt>(s)) ++count;
+  for (const hldb::Any *const s : *blk->getStmts())
+    if (any_cast<hldb::CaseStmt>(s)) ++count;
   EXPECT_EQ(count, 3u);
 }
 
@@ -145,13 +145,13 @@ TEST_F(AttributesCase, InitialBlockHasThreeCaseStatements) {
 // All three cases use the "exact" (plain case) keyword
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, AllCasesAreExactType) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk = getInitialBegin(top);
+  const hldb::Begin *const blk = getInitialBegin(top);
   ASSERT_NE(blk, nullptr);
 
   for (size_t i = 0; i < 3u; ++i) {
-    const uhdm::CaseStmt *const cs = getNthCase(blk, i);
+    const hldb::CaseStmt *const cs = getNthCase(blk, i);
     ASSERT_NE(cs, nullptr) << "case[" << i << "] not found";
     EXPECT_EQ(cs->getCaseType(), 1) << "case[" << i << "] should be exact (1)";
   }
@@ -161,13 +161,13 @@ TEST_F(AttributesCase, AllCasesAreExactType) {
 // All three cases have 3 items and switch on net 'a'
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, AllCasesHaveThreeItems) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk = getInitialBegin(top);
+  const hldb::Begin *const blk = getInitialBegin(top);
   ASSERT_NE(blk, nullptr);
 
   for (size_t i = 0; i < 3u; ++i) {
-    const uhdm::CaseStmt *const cs = getNthCase(blk, i);
+    const hldb::CaseStmt *const cs = getNthCase(blk, i);
     ASSERT_NE(cs, nullptr) << "case[" << i << "] not found";
     ASSERT_NE(cs->getCaseItems(), nullptr) << "case[" << i << "] has no items";
     EXPECT_EQ(cs->getCaseItems()->size(), 3u) << "case[" << i << "] should have 3 items";
@@ -175,15 +175,15 @@ TEST_F(AttributesCase, AllCasesHaveThreeItems) {
 }
 
 TEST_F(AttributesCase, AllCasesConditionIsNetA) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk = getInitialBegin(top);
+  const hldb::Begin *const blk = getInitialBegin(top);
   ASSERT_NE(blk, nullptr);
 
   for (size_t i = 0; i < 3u; ++i) {
-    const uhdm::CaseStmt *const cs = getNthCase(blk, i);
+    const hldb::CaseStmt *const cs = getNthCase(blk, i);
     ASSERT_NE(cs, nullptr) << "case[" << i << "] not found";
-    const uhdm::RefObj *const cond = cs->getCondition<uhdm::RefObj>();
+    const hldb::RefObj *const cond = cs->getCondition<hldb::RefObj>();
     ASSERT_NE(cond, nullptr) << "case[" << i << "] condition is not a RefObj";
     EXPECT_EQ(cond->getName(), "a") << "case[" << i << "] condition should be 'a'";
   }
@@ -196,39 +196,39 @@ TEST_F(AttributesCase, AllCasesConditionIsNetA) {
 // Item 2: default → b = 0
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, FirstCaseItem0HasOneExpr) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
   ASSERT_NE(cs, nullptr);
   ASSERT_EQ(cs->getCaseItems()->size(), 3u);
 
-  const uhdm::CaseItem *const item0 = (*cs->getCaseItems())[0];
+  const hldb::CaseItem *const item0 = (*cs->getCaseItems())[0];
   ASSERT_NE(item0, nullptr);
   ASSERT_NE(item0->getExprs(), nullptr);
   EXPECT_EQ(item0->getExprs()->size(), 1u) << "item 0 (2'b00) should have 1 expression";
 }
 
 TEST_F(AttributesCase, FirstCaseItem1HasTwoExprs) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
   ASSERT_NE(cs, nullptr);
   ASSERT_EQ(cs->getCaseItems()->size(), 3u);
 
-  const uhdm::CaseItem *const item1 = (*cs->getCaseItems())[1];
+  const hldb::CaseItem *const item1 = (*cs->getCaseItems())[1];
   ASSERT_NE(item1, nullptr);
   ASSERT_NE(item1->getExprs(), nullptr);
   EXPECT_EQ(item1->getExprs()->size(), 2u) << "item 1 (2'b01, 2'b10) should have 2 expressions";
 }
 
 TEST_F(AttributesCase, FirstCaseDefaultItemHasNoExprs) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
   ASSERT_NE(cs, nullptr);
   ASSERT_EQ(cs->getCaseItems()->size(), 3u);
 
-  const uhdm::CaseItem *const def = (*cs->getCaseItems())[2];
+  const hldb::CaseItem *const def = (*cs->getCaseItems())[2];
   ASSERT_NE(def, nullptr);
   // default item has no match expressions
   EXPECT_TRUE(!def->getExprs() || def->getExprs()->empty())
@@ -240,12 +240,12 @@ TEST_F(AttributesCase, FirstCaseDefaultItemHasNoExprs) {
 //   full_case → attached to CaseStmt, no value (flag)
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, FirstCaseHasFullCaseFlagAttribute) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 0);
   ASSERT_NE(cs, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(cs, "full_case");
+  const hldb::Attribute *const attr = findAttr(cs, "full_case");
   ASSERT_NE(attr, nullptr) << "case 1 should have a 'full_case' attribute";
   EXPECT_EQ(attr->getValue(), nullptr) << "flag attribute 'full_case' should have no value";
 }
@@ -255,9 +255,9 @@ TEST_F(AttributesCase, FirstCaseHasFullCaseFlagAttribute) {
 //   Both attached to the CaseStmt with value = 1
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, SecondCaseHasTwoAttributes) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
   ASSERT_NE(cs, nullptr);
   ASSERT_NE(cs->getAttributes(), nullptr);
   EXPECT_EQ(cs->getAttributes()->size(), 2u)
@@ -265,27 +265,27 @@ TEST_F(AttributesCase, SecondCaseHasTwoAttributes) {
 }
 
 TEST_F(AttributesCase, SecondCaseFullCaseValueIsOne) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
   ASSERT_NE(cs, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(cs, "full_case");
+  const hldb::Attribute *const attr = findAttr(cs, "full_case");
   ASSERT_NE(attr, nullptr) << "case 2 should have 'full_case' attribute";
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "full_case attribute should have a Constant value";
   EXPECT_EQ(val->getDecompile(), "1");
 }
 
 TEST_F(AttributesCase, SecondCaseParallelCaseValueIsOne) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
   ASSERT_NE(cs, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(cs, "parallel_case");
+  const hldb::Attribute *const attr = findAttr(cs, "parallel_case");
   ASSERT_NE(attr, nullptr) << "case 2 should have 'parallel_case' attribute";
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "parallel_case attribute should have a Constant value";
   EXPECT_EQ(val->getDecompile(), "1");
 }
@@ -295,12 +295,12 @@ TEST_F(AttributesCase, SecondCaseParallelCaseValueIsOne) {
 //   full_case → attached to CaseStmt, no value (flag)
 // ---------------------------------------------------------------------------
 TEST_F(AttributesCase, ThirdCaseHasFullCaseFlagAttribute) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  const uhdm::CaseStmt *const cs = getNthCase(getInitialBegin(top), 2);
+  const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 2);
   ASSERT_NE(cs, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(cs, "full_case");
+  const hldb::Attribute *const attr = findAttr(cs, "full_case");
   ASSERT_NE(attr, nullptr) << "case 3 should have a 'full_case' attribute";
   EXPECT_EQ(attr->getValue(), nullptr) << "flag attribute 'full_case' should have no value";
 }

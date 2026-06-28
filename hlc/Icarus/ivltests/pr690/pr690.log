@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr690/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr690.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr690
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr690.v".
+[INF:PA0201] Parsing source file "$Source01/pr690.v".
 AST_DEBUG_BEGIN
 Count: 397
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr690.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr690.v> u<396> t<Top_level_rule> c<1> l<1:1> el<32:1>
+FILE: f<13>:$Source01/pr690.v
+n<$Source01/pr690.v> u<396> t<Top_level_rule> c<1> l<1:1> el<32:1>
   n<> u<1> t<Null_rule> p<396> s<395> l<1:1>
   n<> u<395> t<Source_text> p<396> c<394> l<1:1> el<31:10>
     n<> u<394> t<Description> p<395> c<393> l<1:1> el<31:10>
@@ -400,19 +409,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr690.v> u<396> t<Top_level_rule> c<1> l<
                           n<> u<382> t<END> p<383> l<28:1> el<28:4>
         n<> u<392> t<ENDMODULE> p<393> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr690.v:1:1: Compile module "work@test".
+[INF:CP0303] $Source01/pr690.v:1:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr690.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr690.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr690.v file:$Source01/pr690.v:
       vpiParent: Design name:unnamed
       vpiName: pr690.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr690/lib/work/pr690.v"
+      vpiPreprocFile: "$Output/lib/work/pr690.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/pr690.v start:1:1 end:31:10:
+    Module name:work@test file:$Source01/pr690.v start:1:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:8 end:1:12:
         vpiParent: Module name:work@test
@@ -703,6 +712,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (6 items):
         Net name:CLK start:7:7 end:7:10:
           vpiParent: Module name:work@test
@@ -1025,37 +1039,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr690
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr690
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr690/surelog.uhdm
+      test-name: Icarus/ivltests/pr690
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr690
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr690/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr690/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr690/lib/work/pr690.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 510}},
+            'files': {'$Output/lib/work/pr690.v': {'post_len': 0,
+                                                   'pre_len': 510}},
             'post_len': 0,
             'pre_len': 510,
             'test_name': 'Icarus/ivltests/pr690'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr690.v |      510 |         0 |
-+==================+==========+===========+
-|                  |      510 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr690.v |      510 |         0 |
++==========================+==========+===========+
+|                          |      510 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1063,17 +1080,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr690/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr690/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr690/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr690/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr690/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            24      24       5         5
 Operation                            7       2       0         5
-RefObj                              19      14       0         5
+RefObj                              20      15       0         5
 RefTypespec                         39      39       5         5
 ----------------------------------------------------------------
 Others                              59      59       0         0
 ----------------------------------------------------------------
-                                   148     138      10        20
+                                   149     139      10        20
 ===================== END REDUCTION RESULT =====================

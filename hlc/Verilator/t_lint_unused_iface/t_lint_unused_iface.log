@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_lint_unused_iface.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_lint_unused_iface
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_unused_iface.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_unused_iface.v".
 AST_DEBUG_BEGIN
 Count: 222
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v> u<221> t<Top_level_rule> c<1> l<6:1> el<60:1>
+FILE: f<13>:$Source01/t_lint_unused_iface.v
+n<$Source01/t_lint_unused_iface.v> u<221> t<Top_level_rule> c<1> l<6:1> el<60:1>
   n<> u<1> t<Null_rule> p<221> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<221> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<221> s<4> l<2:1> el<2:3>
@@ -225,28 +234,26 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v> u<221> t<Top_level_rule>
                       n<> u<209> t<CLOSE_PARENS> p<210> l<56:26> el<56:27>
         n<> u<217> t<ENDMODULE> p<218> l<59:1> el<59:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:6:1: Compile interface "work@dummy_if".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:6:11: Unmached label "dummy_if",
-             ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:18:15: closing label "dummy_if".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:20:1: Compile module "work@sub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:34:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:34:1: Multiply defined typedef "work@dummy_if".
+[INF:CP0304] $Source01/t_lint_unused_iface.v:6:1: Compile interface "work@dummy_if".
+[INF:CP0303] $Source01/t_lint_unused_iface.v:20:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_lint_unused_iface.v:34:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_lint_unused_iface.v:34:1: Multiply defined typedef "work@dummy_if".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:29:20: Illegal implicit net "id:57, name:signal".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:30:32: Illegal implicit net "id:63, name:signal".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:55:8: Illegal implicit net "id:97, name:dummy_in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:56:8: Illegal implicit net "id:100, name:dummy_out".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:29:20: Illegal implicit net "id:60, name:signal".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:30:32: Illegal implicit net "id:66, name:signal".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:55:8: Illegal implicit net "id:100, name:dummy_in".
+[ERR:EL0535] $Source01/t_lint_unused_iface.v:56:8: Illegal implicit net "id:103, name:dummy_out".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_unused_iface.v file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_unused_iface.v file:$Source01/t_lint_unused_iface.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_unused_iface.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/lib/work/t_lint_unused_iface.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_unused_iface.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@dummy_if file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v start:6:1 end:18:23:
+    Interface name:work@dummy_if file:$Source01/t_lint_unused_iface.v start:6:1 end:18:23:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dummy_if start:6:11 end:6:19:
         vpiParent: Interface name:work@dummy_if
@@ -266,6 +273,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@dummy_if
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@dummy_if
+        vpiName: work
+        vpiFullName: work@dummy_if.work
+      vpiCell: dummy_if
       vpiModport (2 items):
         Modport name:slave start:9:12 end:9:17:
           vpiParent: Interface name:work@dummy_if
@@ -299,7 +311,7 @@ Design name:unnamed:
         vpiParent: Interface name:work@dummy_if
         vpiName: dummy_if
   vpiAllModules (2 items):
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v start:20:1 end:31:10:
+    Module name:work@sub file:$Source01/t_lint_unused_iface.v start:20:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:20:8 end:20:11:
         vpiParent: Module name:work@sub
@@ -310,6 +322,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (4 items):
         Net name:signal_i start:22:16 end:22:24:
           vpiParent: Module name:work@sub
@@ -390,7 +407,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:dummy_if.master
               vpiName: dummy_if.master
               vpiFullName: work@sub.dummy_in.dummy_if.master.dummy_if.master
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:dummy_if start:25:4 end:25:12:
                   vpiParent: HierPath name:dummy_if.master
                   vpiName: dummy_if
@@ -417,7 +434,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:dummy_if.slave
               vpiName: dummy_if.slave
               vpiFullName: work@sub.dummy_out.dummy_if.slave.dummy_if.slave
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:dummy_if start:26:4 end:26:12:
                   vpiParent: HierPath name:dummy_if.slave
                   vpiName: dummy_if
@@ -435,7 +452,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dummy_in.signal
             vpiFullName: work@sub.dummy_in.signal
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:dummy_in start:29:11 end:29:19:
                 vpiParent: HierPath name:dummy_in.signal
                 vpiName: dummy_in
@@ -461,7 +478,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dummy_out.signal
             vpiFullName: work@sub.dummy_out.signal
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:dummy_out start:30:22 end:30:31:
                 vpiParent: HierPath name:dummy_out.signal
                 vpiName: dummy_out
@@ -471,7 +488,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:dummy_out.signal
                 vpiName: signal
                 vpiFullName: work@sub.signal
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface.v start:34:1 end:59:10:
+    Module name:work@t file:$Source01/t_lint_unused_iface.v start:34:1 end:59:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:34:8 end:34:9:
         vpiParent: Module name:work@t
@@ -497,6 +514,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:signal_o start:41:11 end:41:19:
           vpiParent: Module name:work@t
@@ -633,37 +655,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 4
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_unused_iface
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/surelog.uhdm
+      test-name: Verilator/t_lint_unused_iface
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/lib/work/t_lint_unused_iface.v'): {'post_len': 0,
-                                                                                                                                                 'pre_len': 497}},
+            'files': {'$Output/lib/work/t_lint_unused_iface.v': {'post_len': 0,
+                                                                 'pre_len': 497}},
             'post_len': 0,
             'pre_len': 497,
             'test_name': 'Verilator/t_lint_unused_iface'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/t_lint_unused_iface.v |      497 |         0 |
-+================================+==========+===========+
-|                                |      497 |         0 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/t_lint_unused_iface.v |      497 |         0 |
++========================================+==========+===========+
+|                                        |      497 |         0 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -671,13 +696,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface/design.hldb ${HLC_DIR}/regression/Verilator/t_lint_unused_iface/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                             101     101       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                   101     101       0         0
 ===================== END REDUCTION RESULT =====================

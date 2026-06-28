@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTestSuite/arch/ice40 -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db dpram.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/arch/ice40/dpram
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dpram.v".
+[INF:PA0201] Parsing source file "$Source01/dpram.v".
 AST_DEBUG_BEGIN
 Count: 347
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/dpram.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/dpram.v> u<346> t<Top_level_rule> c<1> l<4:1> el<24:1>
+FILE: f<13>:$Source01/dpram.v
+n<$Source01/dpram.v> u<346> t<Top_level_rule> c<1> l<4:1> el<24:1>
   n<> u<1> t<Null_rule> p<346> s<2> l<4:1> el<4:1>
   n</*\nExample from: https://www.latticesemi.com/-/media/LatticeSemi/Documents/UserManuals/EI/iCEcube201701UserGuide.ashx?document_id=52071 [p. 72].\n*/> u<2> t<BLOCK_COMMENT> p<346> s<345> l<4:1> el<23:10>
   n<> u<345> t<Source_text> p<346> c<344> l<4:1> el<23:10>
@@ -350,19 +359,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/dpram.v> u<346> t<Top_level_rul
                                 n<> u<329> t<END> p<330> l<22:1> el<22:4>
         n<> u<342> t<ENDMODULE> p<343> l<23:1> el<23:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/dpram.v:4:1: Compile module "work@top".
+[INF:CP0303] $Source01/dpram.v:4:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dpram.v file:${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/dpram.v:
+  vpiSourceFile (1 items):
+    SourceFile name:dpram.v file:$Source01/dpram.v:
       vpiParent: Design name:unnamed
       vpiName: dpram.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/lib/work/dpram.v"
+      vpiPreprocFile: "$Output/lib/work/dpram.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTestSuite/arch/ice40/dpram.v start:4:1 end:23:10:
+    Module name:work@top file:$Source01/dpram.v start:4:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:4:8 end:4:11:
         vpiParent: Module name:work@top
@@ -652,6 +661,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (8 items):
         Net name:din start:8:24 end:8:27:
           vpiParent: Module name:work@top
@@ -906,37 +920,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/arch/ice40/dpram
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/surelog.uhdm
+      test-name: YosysTestSuite/arch/ice40/dpram
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/arch/ice40/dpram
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/arch/ice40/dpram/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/arch/ice40/dpram/mounts.json
 
 
 {'result': {'coverage': 99.05,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/lib/work/dpram.v'): {'post_len': 4,
-                                                                                                                                     'pre_len': 420}},
+            'files': {'$Output/lib/work/dpram.v': {'post_len': 4,
+                                                   'pre_len': 420}},
             'post_len': 4,
             'pre_len': 420,
             'test_name': 'YosysTestSuite/arch/ice40/dpram'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/dpram.v |      420 |         4 |
-+==================+==========+===========+
-|                  |      420 |         4 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/dpram.v |      420 |         4 |
++==========================+==========+===========+
+|                          |      420 |         4 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.05
@@ -944,17 +961,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/arch/ice40/dpram/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/arch/ice40/dpram/design.hldb ${HLC_DIR}/regression/YosysTestSuite/arch/ice40/dpram/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            15      14       6         7
 Operation                            9       2       0         7
-RefObj                              24      18       0         6
+RefObj                              25      19       0         6
 RefTypespec                         33      32       6         7
 ----------------------------------------------------------------
 Others                              50      50       0         0
 ----------------------------------------------------------------
-                                   131     116      12        27
+                                   132     117      12        27
 ===================== END REDUCTION RESULT =====================

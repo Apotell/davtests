@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/wait3/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db wait3.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/wait3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/wait3.v".
+[INF:PA0201] Parsing source file "$Source01/wait3.v".
 AST_DEBUG_BEGIN
 Count: 583
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v> u<582> t<Top_level_rule> c<1> l<6:1> el<57:1>
+FILE: f<13>:$Source01/wait3.v
+n<$Source01/wait3.v> u<582> t<Top_level_rule> c<1> l<6:1> el<57:1>
   n<> u<1> t<Null_rule> p<582> s<2> l<6:1> el<6:1>
   n</*\n * this test attempts to show a problem with the waits. This skip\n * and skip2 modules should have identical behavior.\n */> u<2> t<BLOCK_COMMENT> p<582> s<581> l<6:1> el<56:10>
   n<> u<581> t<Source_text> p<582> c<152> l<6:1> el<56:10>
@@ -586,21 +595,21 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v> u<582> t<Top_level_rule> c<1> l<
                         n<> u<569> t<END> p<570> l<55:1> el<55:4>
         n<> u<578> t<ENDMODULE> p<579> l<56:1> el<56:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v:6:1: Compile module "work@skip".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v:21:1: Compile module "work@skip2".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v:38:1: Compile module "work@test".
+[INF:CP0303] $Source01/wait3.v:6:1: Compile module "work@skip".
+[INF:CP0303] $Source01/wait3.v:21:1: Compile module "work@skip2".
+[INF:CP0303] $Source01/wait3.v:38:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:wait3.v file:${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v:
+  vpiSourceFile (1 items):
+    SourceFile name:wait3.v file:$Source01/wait3.v:
       vpiParent: Design name:unnamed
       vpiName: wait3.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/wait3/lib/work/wait3.v"
+      vpiPreprocFile: "$Output/lib/work/wait3.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@skip file:${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v start:6:1 end:19:10:
+    Module name:work@skip file:$Source01/wait3.v start:6:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@skip start:6:8 end:6:12:
         vpiParent: Module name:work@skip
@@ -611,6 +620,11 @@ Design name:unnamed:
           vpiParent: Module name:work@skip
       vpiDefName: work@skip
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@skip
+        vpiName: work
+        vpiFullName: work@skip.work
+      vpiCell: skip
       vpiNet (2 items):
         Net name:r start:7:7 end:7:8:
           vpiParent: Module name:work@skip
@@ -762,7 +776,7 @@ Design name:unnamed:
                   vpiDecompile: "1"
                   vpiValue: 1
           vpiAlwaysType: always (1)
-    Module name:work@skip2 file:${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v start:21:1 end:36:10:
+    Module name:work@skip2 file:$Source01/wait3.v start:21:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@skip2 start:21:8 end:21:13:
         vpiParent: Module name:work@skip2
@@ -773,6 +787,11 @@ Design name:unnamed:
           vpiParent: Module name:work@skip2
       vpiDefName: work@skip2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@skip2
+        vpiName: work
+        vpiFullName: work@skip2.work
+      vpiCell: skip2
       vpiNet (2 items):
         Net name:r start:22:7 end:22:8:
           vpiParent: Module name:work@skip2
@@ -992,7 +1011,7 @@ Design name:unnamed:
                           vpiDecompile: "1"
                           vpiValue: 1
           vpiAlwaysType: always (1)
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/wait3.v start:38:1 end:56:10:
+    Module name:work@test file:$Source01/wait3.v start:38:1 end:56:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:38:8 end:38:12:
         vpiParent: Module name:work@test
@@ -1008,6 +1027,11 @@ Design name:unnamed:
             vpiName: work@skip
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (3 items):
         Net name:r1 start:39:5 end:39:7:
           vpiParent: Module name:work@test
@@ -1093,7 +1117,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 8
                     vpiDecompile: "\" \""
-                    vpiValue: 
+                    vpiValue: ""
                   RefObj name:r1 start:48:23 end:48:25:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName: r1
@@ -1305,37 +1329,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/wait3
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/wait3
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/wait3/surelog.uhdm
+      test-name: Icarus/ivltests/wait3
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/wait3
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/wait3/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/wait3/mounts.json
 
 
 {'result': {'coverage': 99.16,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/wait3/lib/work/wait3.v'): {'post_len': 4,
-                                                                                                                           'pre_len': 478}},
+            'files': {'$Output/lib/work/wait3.v': {'post_len': 4,
+                                                   'pre_len': 478}},
             'post_len': 4,
             'pre_len': 478,
             'test_name': 'Icarus/ivltests/wait3'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/wait3.v |      478 |         4 |
-+==================+==========+===========+
-|                  |      478 |         4 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/wait3.v |      478 |         4 |
++==========================+==========+===========+
+|                          |      478 |         4 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.16
@@ -1343,13 +1370,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/wait3/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/wait3/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/wait3/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/wait3/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/wait3/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             176     176       0         0
+Others                             179     179       0         0
 ----------------------------------------------------------------
-                                   176     176       0         0
+                                   179     179       0         0
 ===================== END REDUCTION RESULT =====================

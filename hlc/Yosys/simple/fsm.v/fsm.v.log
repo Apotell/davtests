@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/fsm.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db simple/fsm.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Yosys/simple/fsm.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/fsm.v".
+[INF:PA0201] Parsing source file "$Source01/simple/fsm.v".
 AST_DEBUG_BEGIN
 Count: 679
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/fsm.v
-n<${SURELOG_DIR}/tests/Yosys/simple/fsm.v> u<678> t<Top_level_rule> c<1> l<4:1> el<70:1>
+FILE: f<13>:$Source01/simple/fsm.v
+n<$Source01/simple/fsm.v> u<678> t<Top_level_rule> c<1> l<4:1> el<70:1>
   n<> u<1> t<Null_rule> p<678> s<2> l<4:1> el<4:1>
   n<// `define ASYNC_RESET> u<2> t<LINE_COMMENT> p<678> s<677> l<2:1> el<2:23>
   n<> u<677> t<Source_text> p<678> c<676> l<4:1> el<68:10>
@@ -682,19 +691,19 @@ n<${SURELOG_DIR}/tests/Yosys/simple/fsm.v> u<678> t<Top_level_rule> c<1> l<4:1> 
                                 n<> u<661> t<END> p<662> l<66:1> el<66:4>
         n<> u<674> t<ENDMODULE> p<675> l<68:1> el<68:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/fsm.v:4:1: Compile module "work@fsm_test".
+[INF:CP0303] $Source01/simple/fsm.v:4:1: Compile module "work@fsm_test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:fsm.v file:${SURELOG_DIR}/tests/Yosys/simple/fsm.v:
+  vpiSourceFile (1 items):
+    SourceFile name:fsm.v file:$Source01/simple/fsm.v:
       vpiParent: Design name:unnamed
       vpiName: fsm.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/fsm.v/lib/work/simple/fsm.v"
+      vpiPreprocFile: "$Output/lib/work/simple/fsm.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@fsm_test file:${SURELOG_DIR}/tests/Yosys/simple/fsm.v start:4:1 end:68:10:
+    Module name:work@fsm_test file:$Source01/simple/fsm.v start:4:1 end:68:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@fsm_test start:4:8 end:4:16:
         vpiParent: Module name:work@fsm_test
@@ -748,6 +757,11 @@ Design name:unnamed:
             vpiValue: 0
       vpiDefName: work@fsm_test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@fsm_test
+        vpiName: work
+        vpiFullName: work@fsm_test.work
+      vpiCell: fsm_test
       vpiNet (10 items):
         Net name:clk start:6:7 end:6:10:
           vpiParent: Module name:work@fsm_test
@@ -1656,37 +1670,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/fsm.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/fsm.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/fsm.v/surelog.uhdm
+      test-name: Yosys/simple/fsm.v
+   test-dirpath: ${HLC_DIR}/regression/Yosys/simple/fsm.v
+  hldb-filepath: ${HLC_DIR}/regression/Yosys/simple/fsm.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Yosys/simple/fsm.v/mounts.json
 
 
 {'result': {'coverage': 99.36,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/fsm.v/lib/work/simple/fsm.v'): {'post_len': 5,
-                                                                                                                             'pre_len': 778}},
+            'files': {'$Output/lib/work/simple/fsm.v': {'post_len': 5,
+                                                        'pre_len': 778}},
             'post_len': 5,
             'pre_len': 778,
             'test_name': 'Yosys/simple/fsm.v'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/simple/fsm.v |      778 |         5 |
-+=======================+==========+===========+
-|                       |      778 |         5 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/simple/fsm.v |      778 |         5 |
++===============================+==========+===========+
+|                               |      778 |         5 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.36
@@ -1694,13 +1711,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/fsm.v/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Yosys/simple/fsm.v/surelog.uhdm ${SURELOG_DIR}/regression/Yosys/simple/fsm.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Yosys/simple/fsm.v/design.hldb ${HLC_DIR}/regression/Yosys/simple/fsm.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             229     229       0         0
+Others                             230     230       0         0
 ----------------------------------------------------------------
-                                   229     229       0         0
+                                   230     230       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/InterfaceFuncCall -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 155
 LIB: work
-FILE: ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv
-n<${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv> u<154> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<154> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<154> s<153> l<1:1>
   n<> u<153> t<Source_text> p<154> c<68> l<1:1> el<16:10>
     n<> u<68> t<Description> p<153> c<67> s<152> l<1:1> el<7:13>
@@ -158,23 +167,23 @@ n<${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv> u<154> t<Top_level_rule> c<1> l
                         n<> u<141> t<END> p<142> l<15:5> el<15:8>
         n<> u<150> t<ENDMODULE> p<151> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:1:1: Compile interface "work@Foo".
-[INF:CP0303] ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:9:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:9:1: Multiply defined typedef "work@Foo".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:9:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:1:1: No timescale set for "work@Foo".
-[ERR:EL0535] ${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:11:12: Illegal implicit net "id:45, name:MULTIPLIER".
-====== UHDM =======
+[INF:CP0304] $Source01/dut.sv:1:1: Compile interface "work@Foo".
+[INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:9:1: Multiply defined typedef "work@Foo".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@Foo".
+[ERR:EL0535] $Source01/dut.sv:11:12: Illegal implicit net "id:47, name:MULTIPLIER".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@Foo file:${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv start:1:1 end:7:13:
+    Interface name:work@Foo file:$Source01/dut.sv start:1:1 end:7:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Foo start:1:11 end:1:14:
         vpiParent: Interface name:work@Foo
@@ -211,6 +220,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@Foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@Foo
+        vpiName: work
+        vpiFullName: work@Foo.work
+      vpiCell: Foo
       vpiTaskFunc (1 items):
         Function name:bar start:3:5 end:6:16:
           vpiParent: Interface name:work@Foo
@@ -274,7 +288,7 @@ Design name:unnamed:
             vpiFullName: work@Foo.bar
             vpiActual: IntegerTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/InterfaceFuncCall/dut.sv start:9:1 end:16:10:
+    Module name:work@top file:$Source01/dut.sv start:9:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:9:8 end:9:11:
         vpiParent: Module name:work@top
@@ -293,6 +307,11 @@ Design name:unnamed:
             vpiName: work@Foo
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:12:5 end:15:8:
           vpiParent: Module name:work@top
@@ -310,7 +329,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: foo_1.bar(3)
                     vpiFullName: work@top.foo_1.bar(3)
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:foo_1 start:13:18 end:13:23:
                         vpiParent: HierPath name:foo_1.bar(3)
                         vpiName: foo_1
@@ -342,7 +361,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: foo_2.bar(3)
                     vpiFullName: work@top.foo_2.bar(3)
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:foo_2 start:14:18 end:14:23:
                         vpiParent: HierPath name:foo_2.bar(3)
                         vpiName: foo_2
@@ -416,37 +435,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: InterfaceFuncCall/InterfaceFuncCall
- test-dirpath: ${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall
-uhdm-filepath: ${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/surelog.uhdm
+      test-name: InterfaceFuncCall/InterfaceFuncCall
+   test-dirpath: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall
+  hldb-filepath: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                        'pre_len': 249}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 249}},
             'post_len': 0,
             'pre_len': 249,
             'test_name': 'InterfaceFuncCall/InterfaceFuncCall'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      249 |         0 |
-+=================+==========+===========+
-|                 |      249 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      249 |         0 |
++=========================+==========+===========+
+|                         |      249 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -454,13 +476,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/sur
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/surelog.uhdm ${SURELOG_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/design.hldb ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================

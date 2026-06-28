@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/DataAttrib/DataAttrib/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/DataAttrib -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/DataAttrib/DataAttrib
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 44
 LIB: work
-FILE: ${SURELOG_DIR}/tests/DataAttrib/dut.sv
-n<${SURELOG_DIR}/tests/DataAttrib/dut.sv> u<43> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<43> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<43> s<41> l<1:1>
   n<> u<41> t<Source_text> p<43> c<40> s<42> l<1:1> el<7:10>
     n<> u<40> t<Description> p<41> c<39> l<1:1> el<7:10>
@@ -47,19 +56,19 @@ n<${SURELOG_DIR}/tests/DataAttrib/dut.sv> u<43> t<Top_level_rule> c<1> l<1:1> el
         n<> u<38> t<ENDMODULE> p<39> l<7:1> el<7:10>
   n<// top> u<42> t<LINE_COMMENT> p<43> l<7:11> el<7:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/DataAttrib/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/DataAttrib/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/DataAttrib/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/DataAttrib/DataAttrib/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/DataAttrib/dut.sv start:1:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -74,6 +83,11 @@ Design name:unnamed:
           vpiName: preserve
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:my_reg1 start:3:20 end:3:27:
           vpiParent: Module name:work@top
@@ -107,37 +121,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: DataAttrib/DataAttrib
- test-dirpath: ${SURELOG_DIR}/regression/DataAttrib/DataAttrib
-uhdm-filepath: ${SURELOG_DIR}/regression/DataAttrib/DataAttrib/surelog.uhdm
+      test-name: DataAttrib/DataAttrib
+   test-dirpath: ${HLC_DIR}/regression/DataAttrib/DataAttrib
+  hldb-filepath: ${HLC_DIR}/regression/DataAttrib/DataAttrib/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/DataAttrib/DataAttrib/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/DataAttrib/DataAttrib/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 72}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 72}},
             'post_len': 0,
             'pre_len': 72,
             'test_name': 'DataAttrib/DataAttrib'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       72 |         0 |
-+=================+==========+===========+
-|                 |       72 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       72 |         0 |
++=========================+==========+===========+
+|                         |       72 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -145,13 +162,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/DataAttrib/DataAttrib/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/DataAttrib/DataAttrib/surelog.uhdm ${SURELOG_DIR}/regression/DataAttrib/DataAttrib/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/DataAttrib/DataAttrib/design.hldb ${HLC_DIR}/regression/DataAttrib/DataAttrib/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              15      15       0         0
 ----------------------------------------------------------------
-                                    14      14       0         0
+                                    15      15       0         0
 ===================== END REDUCTION RESULT =====================

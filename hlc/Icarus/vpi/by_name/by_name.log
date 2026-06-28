@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/vpi/by_name/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/vpi +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db by_name.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/vpi/by_name
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/by_name.v".
+[INF:PA0201] Parsing source file "$Source01/by_name.v".
 AST_DEBUG_BEGIN
 Count: 477
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/vpi/by_name.v
-n<${SURELOG_DIR}/tests/Icarus/vpi/by_name.v> u<476> t<Top_level_rule> c<1> l<18:1> el<83:1>
+FILE: f<13>:$Source01/by_name.v
+n<$Source01/by_name.v> u<476> t<Top_level_rule> c<1> l<18:1> el<83:1>
   n<> u<1> t<Null_rule> p<476> s<2> l<18:1> el<18:1>
   n<// Copyright (c) 2002	Michael Ruff (mruff at chiaro.com)> u<2> t<LINE_COMMENT> p<476> s<3> l<1:1> el<1:57>
   n<//> u<3> t<LINE_COMMENT> p<476> s<4> l<2:1> el<2:3>
@@ -480,23 +489,23 @@ n<${SURELOG_DIR}/tests/Icarus/vpi/by_name.v> u<476> t<Top_level_rule> c<1> l<18:
                         n<> u<463> t<END> p<464> l<81:5> el<81:8>
         n<> u<472> t<ENDMODULE> p<473> l<82:1> el<82:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/by_name.v:18:1: Compile module "work@lvl2".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/by_name.v:44:1: Compile module "work@lvl1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/by_name.v:48:1: Compile module "work@top0".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Icarus/vpi/by_name.v:48:1: Multiply defined typedef "work@lvl1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/by_name.v:78:1: Compile module "work@top1".
+[INF:CP0303] $Source01/by_name.v:18:1: Compile module "work@lvl2".
+[INF:CP0303] $Source01/by_name.v:44:1: Compile module "work@lvl1".
+[INF:CP0303] $Source01/by_name.v:48:1: Compile module "work@top0".
+[WRN:CP0323] $Source01/by_name.v:48:1: Multiply defined typedef "work@lvl1".
+[INF:CP0303] $Source01/by_name.v:78:1: Compile module "work@top1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:by_name.v file:${SURELOG_DIR}/tests/Icarus/vpi/by_name.v:
+  vpiSourceFile (1 items):
+    SourceFile name:by_name.v file:$Source01/by_name.v:
       vpiParent: Design name:unnamed
       vpiName: by_name.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/vpi/by_name/lib/work/by_name.v"
+      vpiPreprocFile: "$Output/lib/work/by_name.v"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@lvl2 file:${SURELOG_DIR}/tests/Icarus/vpi/by_name.v start:18:1 end:42:10:
+    Module name:work@lvl2 file:$Source01/by_name.v start:18:1 end:42:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@lvl2 start:18:8 end:18:12:
         vpiParent: Module name:work@lvl2
@@ -512,6 +521,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@lvl2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@lvl2
+        vpiName: work
+        vpiFullName: work@lvl2.work
+      vpiCell: lvl2
       vpiTaskFunc (2 items):
         Task name:t_my start:24:5 end:26:12:
           vpiParent: Module name:work@lvl2
@@ -519,31 +533,27 @@ Design name:unnamed:
             vpiParent: Task name:t_my
             vpiName: t_my
           vpiFullName: work@lvl2.t_my
-          vpiStmt Begin:
+          vpiTypespec (1 items):
+            BitTypespec:
+              vpiParent: Task name:t_my
+          vpiStmt Assignment start:25:2 end:25:10:
             vpiParent: Task name:t_my
-            vpiFullName: work@lvl2.t_my
-            vpiTypespec (1 items):
-              BitTypespec:
-                vpiParent: Begin
-            vpiStmt (1 items):
-              Assignment start:25:2 end:25:10:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:r start:25:2 end:25:3:
-                  vpiParent: Assignment
-                  vpiName: r
-                  vpiFullName: work@lvl2.t_my.r
-                  vpiActual: Net name:r
-                vpiRhs Constant start:25:6 end:25:10:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@lvl2.t_my
-                    vpiActual: BitTypespec
-                  vpiConstType: binary (3)
-                  vpiSize: 1
-                  vpiDecompile: "1'b0"
-                  vpiValue: 0
+            vpiBlocking: true
+            vpiLhs RefObj name:r start:25:2 end:25:3:
+              vpiParent: Assignment
+              vpiName: r
+              vpiFullName: work@lvl2.t_my.r
+              vpiActual: Net name:r
+            vpiRhs Constant start:25:6 end:25:10:
+              vpiParent: Assignment
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: work@lvl2.t_my
+                vpiActual: BitTypespec
+              vpiConstType: binary (3)
+              vpiSize: 1
+              vpiDecompile: "1'b0"
+              vpiValue: "0"
         Function name:f_my start:28:5 end:33:16:
           vpiParent: Module name:work@lvl2
           vpiName Identifier name:f_my start:28:14 end:28:18:
@@ -709,7 +719,7 @@ Design name:unnamed:
                       vpiActual: Net name:t
               EventStmt start:40:2 end:40:6:
                 vpiParent: Begin name:init
-    Module name:work@lvl1 file:${SURELOG_DIR}/tests/Icarus/vpi/by_name.v start:44:1 end:46:10:
+    Module name:work@lvl1 file:$Source01/by_name.v start:44:1 end:46:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@lvl1 start:44:8 end:44:12:
         vpiParent: Module name:work@lvl1
@@ -723,6 +733,11 @@ Design name:unnamed:
             vpiName: work@lvl2
       vpiDefName: work@lvl1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@lvl1
+        vpiName: work
+        vpiFullName: work@lvl1.work
+      vpiCell: lvl1
       vpiRefInstance (1 items):
         RefInstance name:lvl2 start:45:10 end:45:14:
           vpiParent: Module name:work@lvl1
@@ -732,7 +747,7 @@ Design name:unnamed:
             vpiName: work@lvl2
             vpiFullName: work@lvl1.lvl2.work@lvl2
             vpiActual: ModuleTypespec name:work@lvl2
-    Module name:work@top0 file:${SURELOG_DIR}/tests/Icarus/vpi/by_name.v start:48:1 end:75:10:
+    Module name:work@top0 file:$Source01/by_name.v start:48:1 end:75:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top0 start:48:8 end:48:12:
         vpiParent: Module name:work@top0
@@ -758,6 +773,11 @@ Design name:unnamed:
             vpiName: work@lvl1
       vpiDefName: work@top0
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top0
+        vpiName: work
+        vpiFullName: work@top0.work
+      vpiCell: top0
       vpiTaskFunc (2 items):
         Task name:t_my start:54:5 end:56:12:
           vpiParent: Module name:work@top0
@@ -765,31 +785,27 @@ Design name:unnamed:
             vpiParent: Task name:t_my
             vpiName: t_my
           vpiFullName: work@top0.t_my
-          vpiStmt Begin:
+          vpiTypespec (1 items):
+            BitTypespec:
+              vpiParent: Task name:t_my
+          vpiStmt Assignment start:55:2 end:55:10:
             vpiParent: Task name:t_my
-            vpiFullName: work@top0.t_my
-            vpiTypespec (1 items):
-              BitTypespec:
-                vpiParent: Begin
-            vpiStmt (1 items):
-              Assignment start:55:2 end:55:10:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:r start:55:2 end:55:3:
-                  vpiParent: Assignment
-                  vpiName: r
-                  vpiFullName: work@top0.t_my.r
-                  vpiActual: Net name:r
-                vpiRhs Constant start:55:6 end:55:10:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@top0.t_my
-                    vpiActual: BitTypespec
-                  vpiConstType: binary (3)
-                  vpiSize: 1
-                  vpiDecompile: "1'b0"
-                  vpiValue: 0
+            vpiBlocking: true
+            vpiLhs RefObj name:r start:55:2 end:55:3:
+              vpiParent: Assignment
+              vpiName: r
+              vpiFullName: work@top0.t_my.r
+              vpiActual: Net name:r
+            vpiRhs Constant start:55:6 end:55:10:
+              vpiParent: Assignment
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: work@top0.t_my
+                vpiActual: BitTypespec
+              vpiConstType: binary (3)
+              vpiSize: 1
+              vpiDecompile: "1'b0"
+              vpiValue: "0"
         Function name:f_my start:58:5 end:63:16:
           vpiParent: Module name:work@top0
           vpiName Identifier name:f_my start:58:14 end:58:18:
@@ -972,7 +988,7 @@ Design name:unnamed:
             vpiName: work@lvl1
             vpiFullName: work@top0.lvl1_1.work@lvl1
             vpiActual: ModuleTypespec name:work@lvl1
-    Module name:work@top1 file:${SURELOG_DIR}/tests/Icarus/vpi/by_name.v start:78:1 end:82:10:
+    Module name:work@top1 file:$Source01/by_name.v start:78:1 end:82:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top1 start:78:8 end:78:12:
         vpiParent: Module name:work@top1
@@ -980,6 +996,11 @@ Design name:unnamed:
       vpiFullName: work@top1
       vpiDefName: work@top1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top1
+        vpiName: work
+        vpiFullName: work@top1.work
+      vpiCell: top1
       vpiProcess (1 items):
         Initial start:79:5 end:81:8:
           vpiParent: Module name:work@top1
@@ -1023,37 +1044,40 @@ Design name:unnamed:
         vpiName: work@top1
       vpiModule: Module name:work@top1
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/vpi/by_name
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/vpi/by_name
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/vpi/by_name/surelog.uhdm
+      test-name: Icarus/vpi/by_name
+   test-dirpath: ${HLC_DIR}/regression/Icarus/vpi/by_name
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/vpi/by_name/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/vpi/by_name/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/vpi/by_name/lib/work/by_name.v'): {'post_len': 0,
-                                                                                                                          'pre_len': 506}},
+            'files': {'$Output/lib/work/by_name.v': {'post_len': 0,
+                                                     'pre_len': 506}},
             'post_len': 0,
             'pre_len': 506,
             'test_name': 'Icarus/vpi/by_name'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/by_name.v |      506 |         0 |
-+====================+==========+===========+
-|                    |      506 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/by_name.v |      506 |         0 |
++============================+==========+===========+
+|                            |      506 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1061,13 +1085,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/vpi/by_name/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/vpi/by_name/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/vpi/by_name/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/vpi/by_name/design.hldb ${HLC_DIR}/regression/Icarus/vpi/by_name/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             144     144       0         0
+Others                             146     146       0         0
 ----------------------------------------------------------------
-                                   144     144       0         0
+                                   146     146       0         0
 ===================== END REDUCTION RESULT =====================

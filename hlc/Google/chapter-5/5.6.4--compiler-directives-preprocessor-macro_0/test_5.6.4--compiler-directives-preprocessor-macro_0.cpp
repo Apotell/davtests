@@ -31,14 +31,14 @@
 // and the syntax error in the `else branch leaves no compilable content.
 // The design contains only the SourceFile entry.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesPreprocessorMacro0 : public Test {
  public:

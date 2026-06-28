@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/AttributesNets/AttributesNets/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/AttributesNets -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/AttributesNets/AttributesNets
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 86
 LIB: work
-FILE: ${SURELOG_DIR}/tests/AttributesNets/dut.sv
-n<${SURELOG_DIR}/tests/AttributesNets/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<85> s<84> l<1:1>
   n<> u<84> t<Source_text> p<85> c<83> l<1:1> el<7:10>
     n<> u<83> t<Description> p<84> c<82> l<1:1> el<7:10>
@@ -89,20 +98,20 @@ n<${SURELOG_DIR}/tests/AttributesNets/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1
                             n<fw_first_addr> u<70> t<SIMPLE_IDENTIFIER> p<71> l<5:35> el<5:48>
         n<> u<81> t<ENDMODULE> p<82> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/AttributesNets/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/AttributesNets/dut.sv:1:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/AttributesNets/dut.sv:5:25: Illegal implicit net "id:28, name:LGFLEN".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:5:25: Illegal implicit net "id:29, name:LGFLEN".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/AttributesNets/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/AttributesNets/AttributesNets/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/AttributesNets/dut.sv start:1:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -182,6 +191,11 @@ Design name:unnamed:
           vpiName: anyconst
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (3 items):
         Net name:execute_RS1 start:3:47 end:3:58:
           vpiParent: Module name:work@top
@@ -221,37 +235,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: AttributesNets/AttributesNets
- test-dirpath: ${SURELOG_DIR}/regression/AttributesNets/AttributesNets
-uhdm-filepath: ${SURELOG_DIR}/regression/AttributesNets/AttributesNets/surelog.uhdm
+      test-name: AttributesNets/AttributesNets
+   test-dirpath: ${HLC_DIR}/regression/AttributesNets/AttributesNets
+  hldb-filepath: ${HLC_DIR}/regression/AttributesNets/AttributesNets/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/AttributesNets/AttributesNets/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/AttributesNets/AttributesNets/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 212}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 212}},
             'post_len': 0,
             'pre_len': 212,
             'test_name': 'AttributesNets/AttributesNets'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      212 |         0 |
-+=================+==========+===========+
-|                 |      212 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      212 |         0 |
++=========================+==========+===========+
+|                         |      212 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -259,13 +276,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/AttributesNets/AttributesNets/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/AttributesNets/AttributesNets/surelog.uhdm ${SURELOG_DIR}/regression/AttributesNets/AttributesNets/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/AttributesNets/AttributesNets/design.hldb ${HLC_DIR}/regression/AttributesNets/AttributesNets/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

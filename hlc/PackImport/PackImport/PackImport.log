@@ -1,25 +1,31 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackImport/PackImport/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackImport dut.sv -writepp -verbose -d inst -fileunit -nobuiltin -d db -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackImport/PackImport
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:PP0122] Preprocessing source file "${SURELOG_DIR}/tests/PackImport/dut.sv".
-[INF:PA0201] Parsing source file "${SURELOG_DIR}/tests/PackImport/dut.sv".
-[INF:CP0301] ${SURELOG_DIR}/tests/PackImport/dut.sv:3:1: Compile package "work@ibex_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/PackImport/dut.sv:11:1: Compile package "work@ibex_tracer_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/PackImport/dut.sv:18:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackImport/dut.sv:3:1: No timescale set for "work@ibex_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackImport/dut.sv:11:1: No timescale set for "work@ibex_tracer_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackImport/dut.sv:18:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackImport/dut.sv:13:45: Illegal implicit net "id:45, name:OPCODE_LUI".
-====== UHDM =======
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0301] $Source01/dut.sv:3:1: Compile package "work@ibex_pkg".
+[INF:CP0301] $Source01/dut.sv:11:1: Compile package "work@ibex_tracer_pkg".
+[INF:CP0303] $Source01/dut.sv:18:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@ibex_pkg".
+[WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@ibex_tracer_pkg".
+[WRN:PA0205] $Source01/dut.sv:18:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackImport/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackImport/PackImport/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@ibex_pkg file:${SURELOG_DIR}/tests/PackImport/dut.sv start:3:1 end:9:11:
+    Package name:work@ibex_pkg file:$Source01/dut.sv start:3:1 end:9:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ibex_pkg start:3:9 end:3:17:
         vpiParent: Package name:work@ibex_pkg
@@ -73,7 +79,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 7
                 vpiDecompile: "7'h03"
-                vpiValue: 03
+                vpiValue: "03"
             EnumConst name:OPCODE_LUI start:7:3 end:7:26:
               vpiParent: EnumTypespec
               vpiName Identifier name:OPCODE_LUI start:7:3 end:7:13:
@@ -88,7 +94,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 7
                 vpiDecompile: "7'h37"
-                vpiValue: 37
+                vpiValue: "37"
         TypedefTypespec name:opcode_e start:5:1 end:8:12:
           vpiParent: Package name:work@ibex_pkg
           vpiName Identifier name:opcode_e start:8:3 end:8:11:
@@ -100,7 +106,12 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@ibex_pkg
       vpiDefNetType: none (12)
-    Package name:work@ibex_tracer_pkg file:${SURELOG_DIR}/tests/PackImport/dut.sv start:11:1 end:14:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@ibex_pkg
+        vpiName: work
+        vpiFullName: work@ibex_pkg::work
+      vpiCell: ibex_pkg
+    Package name:work@ibex_tracer_pkg file:$Source01/dut.sv start:11:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ibex_tracer_pkg start:11:9 end:11:24:
         vpiParent: Package name:work@ibex_tracer_pkg
@@ -136,7 +147,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 25
                 vpiDecompile: "25'h?"
-                vpiValue: ?
+                vpiValue: "?"
               Operation start:13:44 end:13:58:
                 vpiParent: Operation
                 vpiOpType: concatenation (33)
@@ -145,6 +156,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: OPCODE_LUI
                     vpiFullName: work@ibex_tracer_pkg::OPCODE_LUI
+                    vpiActual: EnumConst name:OPCODE_LUI
       vpiTypespec (2 items):
         ImportTypespec name:ibex_pkg start:12:8 end:12:19:
           vpiParent: Package name:work@ibex_tracer_pkg
@@ -179,8 +191,13 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@ibex_tracer_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@ibex_tracer_pkg
+        vpiName: work
+        vpiFullName: work@ibex_tracer_pkg::work
+      vpiCell: ibex_tracer_pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/PackImport/dut.sv start:18:1 end:20:10:
+    Module name:work@top file:$Source01/dut.sv start:18:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:18:8 end:18:11:
         vpiParent: Module name:work@top
@@ -232,6 +249,11 @@ Design name:unnamed:
             vpiName: ibex_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:clk_i start:18:18 end:18:23:
           vpiParent: Module name:work@top
@@ -282,37 +304,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackImport/PackImport
- test-dirpath: ${SURELOG_DIR}/regression/PackImport/PackImport
-uhdm-filepath: ${SURELOG_DIR}/regression/PackImport/PackImport/surelog.uhdm
+      test-name: PackImport/PackImport
+   test-dirpath: ${HLC_DIR}/regression/PackImport/PackImport
+  hldb-filepath: ${HLC_DIR}/regression/PackImport/PackImport/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackImport/PackImport/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackImport/PackImport/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 299}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 299}},
             'post_len': 0,
             'pre_len': 299,
             'test_name': 'PackImport/PackImport'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      299 |         0 |
-+=================+==========+===========+
-|                 |      299 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      299 |         0 |
++=========================+==========+===========+
+|                         |      299 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -320,13 +345,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackImport/PackImport/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackImport/PackImport/surelog.uhdm ${SURELOG_DIR}/regression/PackImport/PackImport/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackImport/PackImport/design.hldb ${HLC_DIR}/regression/PackImport/PackImport/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             9       9       1         1
+Operation                            2       0       0         2
+RefObj                               7       6       0         1
+RefTypespec                         16      15       0         1
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    71      67       1         5
 ===================== END REDUCTION RESULT =====================

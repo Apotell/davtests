@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db task_scope.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/task_scope
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/task_scope.v".
+[INF:PA0201] Parsing source file "$Source01/task_scope.v".
 AST_DEBUG_BEGIN
 Count: 235
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v> u<234> t<Top_level_rule> c<1> l<28:1> el<68:1>
+FILE: f<13>:$Source01/task_scope.v
+n<$Source01/task_scope.v> u<234> t<Top_level_rule> c<1> l<28:1> el<68:1>
   n<> u<1> t<Null_rule> p<234> s<2> l<28:1> el<28:1>
   n</*\n * Copyright (c) 2001 Stephan Boettcher <stephan@nevis.columbia.edu>\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<234> s<3> l<28:1> el<66:10>
   n<// $Id: task_scope.v,v 1.1 2001/06/19 13:52:13 ka6s Exp $> u<3> t<LINE_COMMENT> p<234> s<4> l<20:1> el<20:58>
@@ -238,20 +247,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v> u<234> t<Top_level_rule> c<
         n<> u<229> t<ENDMODULE> p<230> l<66:1> el<66:10>
   n<// jobs> u<233> t<LINE_COMMENT> p<234> l<66:11> el<66:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v:28:1: Compile module "work@test".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v:54:1: Compile module "work@jobs".
+[INF:CP0303] $Source01/task_scope.v:28:1: Compile module "work@test".
+[INF:CP0303] $Source01/task_scope.v:54:1: Compile module "work@jobs".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:task_scope.v file:${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v:
+  vpiSourceFile (1 items):
+    SourceFile name:task_scope.v file:$Source01/task_scope.v:
       vpiParent: Design name:unnamed
       vpiName: task_scope.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/lib/work/task_scope.v"
+      vpiPreprocFile: "$Output/lib/work/task_scope.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v start:28:1 end:52:10:
+    Module name:work@test file:$Source01/task_scope.v start:28:1 end:52:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:28:8 end:28:12:
         vpiParent: Module name:work@test
@@ -267,6 +276,11 @@ Design name:unnamed:
             vpiName: work@jobs
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiTaskFunc (1 items):
         Task name:ini start:34:4 end:38:11:
           vpiParent: Module name:work@test
@@ -274,40 +288,36 @@ Design name:unnamed:
             vpiParent: Task name:ini
             vpiName: ini
           vpiFullName: work@test.ini
-          vpiStmt Begin:
+          vpiStmt Begin start:35:7 end:37:10:
             vpiParent: Task name:ini
             vpiFullName: work@test.ini
             vpiStmt (1 items):
-              Begin start:35:7 end:37:10:
+              "HierPath name:j.set(1'bz) start:36:3 end:36:13":
                 vpiParent: Begin
-                vpiFullName: work@test.ini
-                vpiStmt (1 items):
-                  "HierPath name:j.set(1'bz) start:36:3 end:36:13":
-                    vpiParent: Begin
-                    vpiName: "j.set(1'bz)"
-                    vpiFullName: "work@test.ini.j.set(1'bz)"
-                    vpiActual (2 items):
-                      RefObj name:j start:36:3 end:36:4:
-                        vpiParent: "HierPath name:j.set(1'bz)"
-                        vpiName: j
-                        vpiFullName: work@test.ini.j
-                        vpiActual: RefInstance name:j
-                      FuncCall name:set start:36:5 end:36:14:
-                        vpiParent: "HierPath name:j.set(1'bz)"
-                        vpiName Identifier name:set start:36:5 end:36:8:
-                          vpiParent: FuncCall name:set
-                          vpiName: set
-                        vpiArgument (1 items):
-                          Constant start:36:9 end:36:13:
-                            vpiParent: FuncCall name:set
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: "work@test.ini.j.set(1'bz)"
-                              vpiActual: LogicTypespec
-                            vpiConstType: binary (3)
-                            vpiSize: 1
-                            vpiDecompile: "1'bz"
-                            vpiValue: z
+                vpiName: "j.set(1'bz)"
+                vpiFullName: "work@test.ini.j.set(1'bz)"
+                vpiPathElem (2 items):
+                  RefObj name:j start:36:3 end:36:4:
+                    vpiParent: "HierPath name:j.set(1'bz)"
+                    vpiName: j
+                    vpiFullName: work@test.ini.j
+                    vpiActual: RefInstance name:j
+                  FuncCall name:set start:36:5 end:36:14:
+                    vpiParent: "HierPath name:j.set(1'bz)"
+                    vpiName Identifier name:set start:36:5 end:36:8:
+                      vpiParent: FuncCall name:set
+                      vpiName: set
+                    vpiArgument (1 items):
+                      Constant start:36:9 end:36:13:
+                        vpiParent: FuncCall name:set
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: "work@test.ini.j.set(1'bz)"
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 1
+                        vpiDecompile: "1'bz"
+                        vpiValue: z
       vpiNet (1 items):
         Net name:w start:30:9 end:30:10:
           vpiParent: Module name:work@test
@@ -349,7 +359,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: "j.set(1'b1)"
                 vpiFullName: "work@test.j.set(1'b1)"
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:j start:44:2 end:44:3:
                     vpiParent: "HierPath name:j.set(1'b1)"
                     vpiName: j
@@ -370,7 +380,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
               DelayControl start:45:2 end:45:4:
                 vpiParent: Begin
                 vpiDelay Constant start:45:3 end:45:4:
@@ -456,7 +466,7 @@ Design name:unnamed:
                 vpiName: w
                 vpiFullName: work@test.j.w
                 vpiActual: Net name:w
-    Module name:work@jobs file:${SURELOG_DIR}/tests/Icarus/ivltests/task_scope.v start:54:1 end:66:10:
+    Module name:work@jobs file:$Source01/task_scope.v start:54:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@jobs start:54:8 end:54:12:
         vpiParent: Module name:work@jobs
@@ -467,6 +477,11 @@ Design name:unnamed:
           vpiParent: Module name:work@jobs
       vpiDefName: work@jobs
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@jobs
+        vpiName: work
+        vpiFullName: work@jobs.work
+      vpiCell: jobs
       vpiTaskFunc (1 items):
         Task name:set start:59:4 end:64:11:
           vpiParent: Module name:work@jobs
@@ -571,37 +586,40 @@ Design name:unnamed:
         vpiName: work@jobs
       vpiModule: Module name:work@jobs
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/task_scope
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/task_scope
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/surelog.uhdm
+      test-name: Icarus/ivltests/task_scope
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/task_scope
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/task_scope/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/task_scope/mounts.json
 
 
 {'result': {'coverage': 98.84,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/lib/work/task_scope.v'): {'post_len': 3,
-                                                                                                                                     'pre_len': 259}},
+            'files': {'$Output/lib/work/task_scope.v': {'post_len': 3,
+                                                        'pre_len': 259}},
             'post_len': 3,
             'pre_len': 259,
             'test_name': 'Icarus/ivltests/task_scope'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/task_scope.v |      259 |         3 |
-+=======================+==========+===========+
-|                       |      259 |         3 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/task_scope.v |      259 |         3 |
++===============================+==========+===========+
+|                               |      259 |         3 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 98.84
@@ -609,13 +627,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/task_scope/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task_scope/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/task_scope/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              83      83       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                    83      83       0         0
+                                    84      84       0         0
 ===================== END REDUCTION RESULT =====================

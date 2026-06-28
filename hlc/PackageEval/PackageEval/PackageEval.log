@@ -1,18 +1,27 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageEval/PackageEval/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageEval -fileunit -writepp -d db -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageEval/PackageEval
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageEval/dut.sv:1:1: Compile package "work@test_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageEval/dut.sv:1:1: No timescale set for "work@test_pkg".
-====== UHDM =======
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@test_pkg".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@test_pkg".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageEval/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageEval/PackageEval/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@test_pkg file:${SURELOG_DIR}/tests/PackageEval/dut.sv start:1:1 end:14:11:
+    Package name:work@test_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test_pkg start:1:9 end:1:17:
         vpiParent: Package name:work@test_pkg
@@ -70,7 +79,7 @@ Design name:unnamed:
             vpiActual: Parameter name:MioStrapPos
           vpiRhs Operation start:4:44 end:4:51:
             vpiParent: ParamAssign
-            vpiOpType: assign pattern (75)
+            vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               Constant start:4:46 end:4:47:
                 vpiParent: Operation
@@ -206,42 +215,50 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@test_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@test_pkg
+        vpiName: work
+        vpiFullName: work@test_pkg::work
+      vpiCell: test_pkg
   vpiTypespec (1 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageEval/PackageEval
- test-dirpath: ${SURELOG_DIR}/regression/PackageEval/PackageEval
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageEval/PackageEval/surelog.uhdm
+      test-name: PackageEval/PackageEval
+   test-dirpath: ${HLC_DIR}/regression/PackageEval/PackageEval
+  hldb-filepath: ${HLC_DIR}/regression/PackageEval/PackageEval/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackageEval/PackageEval/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageEval/PackageEval/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 202}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 202}},
             'post_len': 0,
             'pre_len': 202,
             'test_name': 'PackageEval/PackageEval'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      202 |         0 |
-+=================+==========+===========+
-|                 |      202 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      202 |         0 |
++=========================+==========+===========+
+|                         |      202 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -249,17 +266,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackageEval/PackageEval/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackageEval/PackageEval/surelog.uhdm ${SURELOG_DIR}/regression/PackageEval/PackageEval/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackageEval/PackageEval/design.hldb ${HLC_DIR}/regression/PackageEval/PackageEval/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            2       1       0         1
-RefObj                               4       3       0         1
+RefObj                               5       4       0         1
 RefTypespec                         15      15       1         1
 ----------------------------------------------------------------
 Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    51      49       2         4
+                                    52      50       2         4
 ===================== END REDUCTION RESULT =====================

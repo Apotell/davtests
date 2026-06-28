@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db port-test3.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/port-test3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/port-test3.v".
+[INF:PA0201] Parsing source file "$Source01/port-test3.v".
 AST_DEBUG_BEGIN
 Count: 373
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v> u<372> t<Top_level_rule> c<1> l<9:1> el<49:1>
+FILE: f<13>:$Source01/port-test3.v
+n<$Source01/port-test3.v> u<372> t<Top_level_rule> c<1> l<9:1> el<49:1>
   n<> u<1> t<Null_rule> p<372> s<2> l<9:1> el<9:1>
   n</***********************************************************************\n\n  Incorrect direction non-detection test case   \n  Copyright (C) 2001  Eric LaForest, ecl@pet.dhs.org\n  Licenced under GPL\n\n***********************************************************************/> u<2> t<BLOCK_COMMENT> p<372> s<371> l<9:1> el<48:10>
   n<> u<371> t<Source_text> p<372> c<201> l<9:1> el<48:10>
@@ -376,20 +385,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v> u<372> t<Top_level_rule> c<
                         n<> u<359> t<END> p<360> l<46:9> el<46:12>
         n<> u<368> t<ENDMODULE> p<369> l<48:1> el<48:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v:9:1: Compile module "work@CPU".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v:30:1: Compile module "work@BENCH".
+[INF:CP0303] $Source01/port-test3.v:9:1: Compile module "work@CPU".
+[INF:CP0303] $Source01/port-test3.v:30:1: Compile module "work@BENCH".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:port-test3.v file:${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v:
+  vpiSourceFile (1 items):
+    SourceFile name:port-test3.v file:$Source01/port-test3.v:
       vpiParent: Design name:unnamed
       vpiName: port-test3.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/lib/work/port-test3.v"
+      vpiPreprocFile: "$Output/lib/work/port-test3.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@CPU file:${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v start:9:1 end:28:10:
+    Module name:work@CPU file:$Source01/port-test3.v start:9:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@CPU start:9:8 end:9:11:
         vpiParent: Module name:work@CPU
@@ -478,6 +487,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@CPU
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@CPU
+        vpiName: work
+        vpiFullName: work@CPU.work
+      vpiCell: CPU
       vpiNet (5 items):
         Net name:data start:10:22 end:10:26:
           vpiParent: Module name:work@CPU
@@ -622,7 +636,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
           vpiAlwaysType: always (1)
         Always start:24:9 end:26:12:
           vpiParent: Module name:work@CPU
@@ -660,9 +674,9 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
           vpiAlwaysType: always (1)
-    Module name:work@BENCH file:${SURELOG_DIR}/tests/Icarus/ivltests/port-test3.v start:30:1 end:48:10:
+    Module name:work@BENCH file:$Source01/port-test3.v start:30:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@BENCH start:30:8 end:30:13:
         vpiParent: Module name:work@BENCH
@@ -704,6 +718,11 @@ Design name:unnamed:
             vpiName: work@CPU
       vpiDefName: work@BENCH
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@BENCH
+        vpiName: work
+        vpiFullName: work@BENCH.work
+      vpiCell: BENCH
       vpiNet (5 items):
         Net name:address start:32:20 end:32:27:
           vpiParent: Module name:work@BENCH
@@ -915,37 +934,40 @@ Design name:unnamed:
         vpiName: work@BENCH
       vpiModule: Module name:work@BENCH
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/port-test3
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/port-test3
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/surelog.uhdm
+      test-name: Icarus/ivltests/port-test3
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/port-test3
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/port-test3/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/port-test3/mounts.json
 
 
 {'result': {'coverage': 96.82,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/lib/work/port-test3.v'): {'post_len': 14,
-                                                                                                                                     'pre_len': 440}},
+            'files': {'$Output/lib/work/port-test3.v': {'post_len': 14,
+                                                        'pre_len': 440}},
             'post_len': 14,
             'pre_len': 440,
             'test_name': 'Icarus/ivltests/port-test3'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/port-test3.v |      440 |        14 |
-+=======================+==========+===========+
-|                       |      440 |        14 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/port-test3.v |      440 |        14 |
++===============================+==========+===========+
+|                               |      440 |        14 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.82
@@ -953,13 +975,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/port-test3/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/port-test3/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/port-test3/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             135     135       0         0
+Others                             137     137       0         0
 ----------------------------------------------------------------
-                                   135     135       0         0
+                                   137     137       0         0
 ===================== END REDUCTION RESULT =====================

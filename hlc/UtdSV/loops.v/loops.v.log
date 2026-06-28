@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UtdSV/loops.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UtdSV -nobuiltin -timescale=1ns/1ns -d ast -d db loops.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UtdSV/loops.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/loops.v".
+[INF:PA0201] Parsing source file "$Source01/loops.v".
 AST_DEBUG_BEGIN
 Count: 140
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UtdSV/loops.v
-n<${SURELOG_DIR}/tests/UtdSV/loops.v> u<139> t<Top_level_rule> c<1> l<3:1> el<23:1>
+FILE: f<13>:$Source01/loops.v
+n<$Source01/loops.v> u<139> t<Top_level_rule> c<1> l<3:1> el<23:1>
   n<> u<1> t<Null_rule> p<139> s<138> l<3:1> el<3:1>
   n<> u<138> t<Source_text> p<139> c<137> l<3:1> el<22:10>
     n<> u<137> t<Description> p<138> c<136> l<3:1> el<22:10>
@@ -143,19 +152,19 @@ n<${SURELOG_DIR}/tests/UtdSV/loops.v> u<139> t<Top_level_rule> c<1> l<3:1> el<23
                         n<> u<126> t<END> p<127> l<20:1> el<20:4>
         n<> u<135> t<ENDMODULE> p<136> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/UtdSV/loops.v:3:1: Compile module "work@tb_loops".
+[INF:CP0303] $Source01/loops.v:3:1: Compile module "work@tb_loops".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:loops.v file:${SURELOG_DIR}/tests/UtdSV/loops.v:
+  vpiSourceFile (1 items):
+    SourceFile name:loops.v file:$Source01/loops.v:
       vpiParent: Design name:unnamed
       vpiName: loops.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UtdSV/loops.v/lib/work/loops.v"
+      vpiPreprocFile: "$Output/lib/work/loops.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb_loops file:${SURELOG_DIR}/tests/UtdSV/loops.v start:3:1 end:22:10:
+    Module name:work@tb_loops file:$Source01/loops.v start:3:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb_loops start:3:8 end:3:16:
         vpiParent: Module name:work@tb_loops
@@ -167,6 +176,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@tb_loops
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb_loops
+        vpiName: work
+        vpiFullName: work@tb_loops.work
+      vpiCell: tb_loops
       vpiNet (1 items):
         Net name:a start:5:9 end:5:10:
           vpiParent: Module name:work@tb_loops
@@ -327,37 +341,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UtdSV/loops.v
- test-dirpath: ${SURELOG_DIR}/regression/UtdSV/loops.v
-uhdm-filepath: ${SURELOG_DIR}/regression/UtdSV/loops.v/surelog.uhdm
+      test-name: UtdSV/loops.v
+   test-dirpath: ${HLC_DIR}/regression/UtdSV/loops.v
+  hldb-filepath: ${HLC_DIR}/regression/UtdSV/loops.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/UtdSV/loops.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UtdSV/loops.v/lib/work/loops.v'): {'post_len': 0,
-                                                                                                                   'pre_len': 142}},
+            'files': {'$Output/lib/work/loops.v': {'post_len': 0,
+                                                   'pre_len': 142}},
             'post_len': 0,
             'pre_len': 142,
             'test_name': 'UtdSV/loops.v'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/loops.v |      142 |         0 |
-+==================+==========+===========+
-|                  |      142 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/loops.v |      142 |         0 |
++==========================+==========+===========+
+|                          |      142 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -365,17 +382,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/UtdSV/loops.v/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/UtdSV/loops.v/surelog.uhdm ${SURELOG_DIR}/regression/UtdSV/loops.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/UtdSV/loops.v/design.hldb ${HLC_DIR}/regression/UtdSV/loops.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       4         4
 Operation                            4       0       0         4
-RefObj                               6       2       0         4
+RefObj                               7       3       0         4
 RefTypespec                          7       7       4         4
 ----------------------------------------------------------------
 Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    44      36       8        16
+                                    45      37       8        16
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_param_shift/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_param_shift.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_param_shift
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_param_shift.v".
+[INF:PA0201] Parsing source file "$Source01/t_param_shift.v".
 AST_DEBUG_BEGIN
 Count: 276
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_param_shift.v
-n<${SURELOG_DIR}/tests/Verilator/t_param_shift.v> u<275> t<Top_level_rule> c<1> l<6:1> el<31:1>
+FILE: f<13>:$Source01/t_param_shift.v
+n<$Source01/t_param_shift.v> u<275> t<Top_level_rule> c<1> l<6:1> el<31:1>
   n<> u<1> t<Null_rule> p<275> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<275> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<275> s<4> l<2:1> el<2:3>
@@ -279,19 +288,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_param_shift.v> u<275> t<Top_level_rule> c<1> 
                         n<> u<262> t<END> p<263> l<28:4> el<28:7>
         n<> u<271> t<ENDMODULE> p<272> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_param_shift.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_param_shift.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_param_shift.v file:${SURELOG_DIR}/tests/Verilator/t_param_shift.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_param_shift.v file:$Source01/t_param_shift.v:
       vpiParent: Design name:unnamed
       vpiName: t_param_shift.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_param_shift/lib/work/t_param_shift.v"
+      vpiPreprocFile: "$Output/lib/work/t_param_shift.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_param_shift.v start:6:1 end:30:10:
+    Module name:work@t file:$Source01/t_param_shift.v start:6:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -520,6 +529,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiTaskFunc (1 items):
         Function name:gen_matrix start:12:4 end:14:15:
           vpiParent: Module name:work@t
@@ -527,74 +541,70 @@ Design name:unnamed:
             vpiParent: Function name:gen_matrix
             vpiName: gen_matrix
           vpiFullName: work@t.gen_matrix
-          vpiVisibility: public (1)
-          vpiStmt Begin:
-            vpiParent: Function name:gen_matrix
-            vpiFullName: work@t.gen_matrix
-            vpiTypespec (1 items):
-              LogicTypespec start:12:13 end:12:18:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:12:13 end:12:18:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange RefObj name:M start:12:14 end:12:15:
-                      vpiParent: Range
-                      vpiName: M
-                      vpiFullName: work@t.gen_matrix.M
-                      vpiActual: Parameter name:M
-                    vpiRightRange Constant start:12:16 end:12:17:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@t.gen_matrix
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (1 items):
-              Assignment start:13:7 end:13:28:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs BitSelect name:gen_matrix[0] start:13:7 end:13:20:
-                  vpiParent: Assignment
-                  vpiName: gen_matrix[0]
-                  vpiFullName: work@t.gen_matrix.gen_matrix[0]
-                  vpiPrefix RefObj name:gen_matrix start:13:7 end:13:17:
-                    vpiParent: BitSelect name:gen_matrix[0]
-                    vpiName: gen_matrix
-                    vpiFullName: work@t.gen_matrix.gen_matrix
-                    vpiActual: Function name:gen_matrix
-                  vpiIndex Constant start:13:18 end:13:19:
-                    vpiParent: BitSelect name:gen_matrix[0]
+          vpiTypespec (1 items):
+            LogicTypespec start:12:13 end:12:18:
+              vpiParent: Function name:gen_matrix
+              vpiRange (1 items):
+                Range start:12:13 end:12:18:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange RefObj name:M start:12:14 end:12:15:
+                    vpiParent: Range
+                    vpiName: M
+                    vpiFullName: work@t.gen_matrix.M
+                    vpiActual: Parameter name:M
+                  vpiRightRange Constant start:12:16 end:12:17:
+                    vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@t.gen_matrix.gen_matrix[0]
+                      vpiFullName: work@t.gen_matrix
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-                vpiRhs Operation start:13:23 end:13:28:
-                  vpiParent: Assignment
-                  vpiOpType: logical shift right (23)
-                  vpiOperand (2 items):
-                    Constant start:13:23 end:13:24:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@t.gen_matrix
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                    RefObj name:M start:13:27 end:13:28:
-                      vpiParent: Operation
-                      vpiName: M
-                      vpiFullName: work@t.gen_matrix.M
-                      vpiActual: Parameter name:M
+              vpiVector: true
+          vpiVisibility: public (1)
+          vpiStmt Assignment start:13:7 end:13:28:
+            vpiParent: Function name:gen_matrix
+            vpiBlocking: true
+            vpiLhs BitSelect name:gen_matrix[0] start:13:7 end:13:20:
+              vpiParent: Assignment
+              vpiName: gen_matrix[0]
+              vpiFullName: work@t.gen_matrix.gen_matrix[0]
+              vpiPrefix RefObj name:gen_matrix start:13:7 end:13:17:
+                vpiParent: BitSelect name:gen_matrix[0]
+                vpiName: gen_matrix
+                vpiFullName: work@t.gen_matrix.gen_matrix
+                vpiActual: Function name:gen_matrix
+              vpiIndex Constant start:13:18 end:13:19:
+                vpiParent: BitSelect name:gen_matrix[0]
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@t.gen_matrix.gen_matrix[0]
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+            vpiRhs Operation start:13:23 end:13:28:
+              vpiParent: Assignment
+              vpiOpType: logical shift right (23)
+              vpiOperand (2 items):
+                Constant start:13:23 end:13:24:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@t.gen_matrix
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
+                RefObj name:M start:13:27 end:13:28:
+                  vpiParent: Operation
+                  vpiName: M
+                  vpiFullName: work@t.gen_matrix.M
+                  vpiActual: Parameter name:M
           vpiReturn RefTypespec start:12:13 end:12:18:
             vpiParent: Function name:gen_matrix
             vpiFullName: work@t.gen_matrix
@@ -734,7 +744,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:27:7 end:27:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:27:7 end:27:14:
@@ -753,37 +763,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_param_shift
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_param_shift
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_param_shift/surelog.uhdm
+      test-name: Verilator/t_param_shift
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_param_shift
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_param_shift/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_param_shift/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_param_shift/lib/work/t_param_shift.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 325}},
+            'files': {'$Output/lib/work/t_param_shift.v': {'post_len': 0,
+                                                           'pre_len': 325}},
             'post_len': 0,
             'pre_len': 325,
             'test_name': 'Verilator/t_param_shift'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_param_shift.v |      325 |         0 |
-+==========================+==========+===========+
-|                          |      325 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_param_shift.v |      325 |         0 |
++==================================+==========+===========+
+|                                  |      325 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -791,17 +804,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_param_shift/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_param_shift/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_param_shift/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_param_shift/design.hldb ${HLC_DIR}/regression/Verilator/t_param_shift/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      20       4         4
 Operation                            5       1       0         4
-RefObj                              12       8       0         4
+RefObj                              13       9       0         4
 RefTypespec                         28      28       4         4
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
                                    111     103       8        16
 ===================== END REDUCTION RESULT =====================

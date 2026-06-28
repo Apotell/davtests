@@ -46,17 +46,17 @@
 //   `undef      → name is non-empty AND bodyStartColumn == 0
 //   `undefineall → name is empty
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/preproc_macro_definition.h>
-#include <uhdm/source_file.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/preproc_macro_definition.h>
+#include <hldb/source_file.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesDefine : public Test {
  public:
@@ -77,14 +77,14 @@ class CompilerDirectivesDefine : public Test {
   }
 };
 
-static const uhdm::SourceFile *getSourceFile(const uhdm::Design *d) {
+static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
   if (!d->getSourceFiles() || d->getSourceFiles()->empty()) return nullptr;
   return (*d->getSourceFiles())[0];
 }
 
-static const uhdm::PreprocMacroDefinition *getMacro(const uhdm::Design *d,
+static const hldb::PreprocMacroDefinition *getMacro(const hldb::Design *d,
                                                      std::size_t idx) {
-  const uhdm::SourceFile *const sf = getSourceFile(d);
+  const hldb::SourceFile *const sf = getSourceFile(d);
   if (!sf || !sf->getPreprocMacroDefinitions()) return nullptr;
   if (sf->getPreprocMacroDefinitions()->size() <= idx) return nullptr;
   return (*sf->getPreprocMacroDefinitions())[idx];
@@ -95,7 +95,7 @@ static const uhdm::PreprocMacroDefinition *getMacro(const uhdm::Design *d,
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, ModuleExists) {
   ASSERT_NE(
-      uhdm::findByName<uhdm::Module>("work@d", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@d", m_design->getAllModules()),
       nullptr)
       << "module 'work@d' not found";
 }
@@ -104,7 +104,7 @@ TEST_F(CompilerDirectivesDefine, ModuleExists) {
 // SourceFile records exactly 4 preprocessor macro events
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, FourMacroEventsRecorded) {
-  const uhdm::SourceFile *const sf = getSourceFile(m_design);
+  const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   ASSERT_NE(sf->getPreprocMacroDefinitions(), nullptr);
   EXPECT_EQ(sf->getPreprocMacroDefinitions()->size(), 4u)
@@ -116,7 +116,7 @@ TEST_F(CompilerDirectivesDefine, FourMacroEventsRecorded) {
 // Event 0: `define XXX 1  — name="XXX", has body
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, FirstEventIsDefineXXX) {
-  const uhdm::PreprocMacroDefinition *const m = getMacro(m_design, 0);
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 0);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "XXX");
   EXPECT_GT(m->getBodyStartColumn(), 0u)
@@ -127,7 +127,7 @@ TEST_F(CompilerDirectivesDefine, FirstEventIsDefineXXX) {
 // Event 1: `undef XXX  — name="XXX", no body
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, SecondEventIsUndefXXX) {
-  const uhdm::PreprocMacroDefinition *const m = getMacro(m_design, 1);
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 1);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "XXX");
   EXPECT_EQ(m->getBodyStartColumn(), 0u)
@@ -140,7 +140,7 @@ TEST_F(CompilerDirectivesDefine, SecondEventIsUndefXXX) {
 // the taken `ifndef branch appears here.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, ThirdEventIsDefineYYY) {
-  const uhdm::PreprocMacroDefinition *const m = getMacro(m_design, 2);
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 2);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "YYY");
   EXPECT_GT(m->getBodyStartColumn(), 0u)
@@ -151,7 +151,7 @@ TEST_F(CompilerDirectivesDefine, ThirdEventIsDefineYYY) {
 // Event 3: `undefineall  — empty name, no body
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, FourthEventIsUndefineall) {
-  const uhdm::PreprocMacroDefinition *const m = getMacro(m_design, 3);
+  const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 3);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(m->getName().empty())
       << "`undefineall has no macro name, getName() should be empty";

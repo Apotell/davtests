@@ -31,16 +31,16 @@
 // vpiDefNetType integer values (from VPI standard):
 //   wire = 1,  none = 12
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/source_file.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/source_file.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesDefaultNettype : public Test {
  public:
@@ -62,8 +62,8 @@ class CompilerDirectivesDefaultNettype : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@dn", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@dn", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -74,7 +74,7 @@ TEST_F(CompilerDirectivesDefaultNettype, ModuleExists) {
 }
 
 TEST_F(CompilerDirectivesDefaultNettype, ModuleIsEmpty) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
@@ -84,7 +84,7 @@ TEST_F(CompilerDirectivesDefaultNettype, ModuleIsEmpty) {
 // Module defNetType — reflects `default_nettype none (last active directive)
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefaultNettype, ModuleDefNetTypeIsNone) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   // vpiNone = 12; `default_nettype none was active when 'dn' was compiled.
   EXPECT_EQ(m->getDefNetType(), 12)
@@ -97,7 +97,7 @@ TEST_F(CompilerDirectivesDefaultNettype, ModuleDefNetTypeIsNone) {
 TEST_F(CompilerDirectivesDefaultNettype, SourceFileDefNetTypeIsWire) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   ASSERT_FALSE(m_design->getSourceFiles()->empty());
-  const uhdm::SourceFile *const sf = (*m_design->getSourceFiles())[0];
+  const hldb::SourceFile *const sf = (*m_design->getSourceFiles())[0];
   ASSERT_NE(sf, nullptr);
   // vpiWire = 1; the first `default_nettype wire is captured on the SourceFile.
   EXPECT_EQ(sf->getDefNetType(), 1)

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db task3.14B.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/task3.14B
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/task3.14B.v".
+[INF:PA0201] Parsing source file "$Source01/task3.14B.v".
 AST_DEBUG_BEGIN
 Count: 141
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/task3.14B.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/task3.14B.v> u<140> t<Top_level_rule> c<1> l<22:1> el<42:1>
+FILE: f<13>:$Source01/task3.14B.v
+n<$Source01/task3.14B.v> u<140> t<Top_level_rule> c<1> l<22:1> el<42:1>
   n<> u<1> t<Null_rule> p<140> s<2> l<22:1> el<22:1>
   n<//> u<2> t<LINE_COMMENT> p<140> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 1999 Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<140> s<4> l<2:1> el<2:54>
@@ -144,19 +153,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/task3.14B.v> u<140> t<Top_level_rule> c<1
         n<> u<135> t<ENDMODULE> p<136> l<41:1> el<41:10>
   n<// main> u<139> t<LINE_COMMENT> p<140> l<41:11> el<41:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/task3.14B.v:22:1: Compile module "work@main".
+[INF:CP0303] $Source01/task3.14B.v:22:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:task3.14B.v file:${SURELOG_DIR}/tests/Icarus/ivltests/task3.14B.v:
+  vpiSourceFile (1 items):
+    SourceFile name:task3.14B.v file:$Source01/task3.14B.v:
       vpiParent: Design name:unnamed
       vpiName: task3.14B.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/lib/work/task3.14B.v"
+      vpiPreprocFile: "$Output/lib/work/task3.14B.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/task3.14B.v start:22:1 end:41:10:
+    Module name:work@main file:$Source01/task3.14B.v start:22:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:22:8 end:22:12:
         vpiParent: Module name:work@main
@@ -167,6 +176,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiTaskFunc (1 items):
         Task name:my_task start:26:1 end:29:8:
           vpiParent: Module name:work@main
@@ -247,7 +261,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               FuncCall name:my_task start:34:5 end:34:18:
                 vpiParent: Begin
                 vpiName Identifier name:my_task start:34:5 end:34:12:
@@ -263,7 +277,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
               IfElse start:35:5 end:38:79:
                 vpiParent: Begin
                 vpiCondition RefObj name:globvar start:35:8 end:35:15:
@@ -302,7 +316,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 472
                       vpiDecompile: "\"FAILED - task 3.14B task didn't correctly affect global var\""
-                      vpiValue: FAILED - task 3.14B task didn't correctly affect global var
+                      vpiValue: "FAILED - task 3.14B task didn't correctly affect global var"
   vpiTypespec (2 items):
     ModuleTypespec name:work@main:
       vpiParent: Design name:unnamed
@@ -313,37 +327,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/task3.14B
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/surelog.uhdm
+      test-name: Icarus/ivltests/task3.14B
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/task3.14B
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/task3.14B/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/task3.14B/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/lib/work/task3.14B.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 228}},
+            'files': {'$Output/lib/work/task3.14B.v': {'post_len': 0,
+                                                       'pre_len': 228}},
             'post_len': 0,
             'pre_len': 228,
             'test_name': 'Icarus/ivltests/task3.14B'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/task3.14B.v |      228 |         0 |
-+======================+==========+===========+
-|                      |      228 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/task3.14B.v |      228 |         0 |
++==============================+==========+===========+
+|                              |      228 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -351,13 +368,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/task3.14B/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task3.14B/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/task3.14B/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

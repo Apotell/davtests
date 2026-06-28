@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db sdw_force.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/sdw_force
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sdw_force.v".
+[INF:PA0201] Parsing source file "$Source01/sdw_force.v".
 AST_DEBUG_BEGIN
 Count: 308
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/sdw_force.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/sdw_force.v> u<307> t<Top_level_rule> c<1> l<25:1> el<61:1>
+FILE: f<13>:$Source01/sdw_force.v
+n<$Source01/sdw_force.v> u<307> t<Top_level_rule> c<1> l<25:1> el<61:1>
   n<> u<1> t<Null_rule> p<307> s<2> l<25:1> el<25:1>
   n<//> u<2> t<LINE_COMMENT> p<307> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 1999 Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<307> s<4> l<2:1> el<2:54>
@@ -311,19 +320,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/sdw_force.v> u<307> t<Top_level_rule> c<1
                           n<> u<293> t<END> p<294> l<58:3> el<58:6>
         n<> u<303> t<ENDMODULE> p<304> l<60:1> el<60:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/sdw_force.v:25:1: Compile module "work@main".
+[INF:CP0303] $Source01/sdw_force.v:25:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sdw_force.v file:${SURELOG_DIR}/tests/Icarus/ivltests/sdw_force.v:
+  vpiSourceFile (1 items):
+    SourceFile name:sdw_force.v file:$Source01/sdw_force.v:
       vpiParent: Design name:unnamed
       vpiName: sdw_force.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/lib/work/sdw_force.v"
+      vpiPreprocFile: "$Output/lib/work/sdw_force.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/sdw_force.v start:25:1 end:60:10:
+    Module name:work@main file:$Source01/sdw_force.v start:25:1 end:60:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:25:8 end:25:12:
         vpiParent: Module name:work@main
@@ -334,6 +343,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (2 items):
         Net name:working start:27:5 end:27:12:
           vpiParent: Module name:work@main
@@ -650,37 +664,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/sdw_force
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/surelog.uhdm
+      test-name: Icarus/ivltests/sdw_force
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/sdw_force
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/sdw_force/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/sdw_force/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/lib/work/sdw_force.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 290}},
+            'files': {'$Output/lib/work/sdw_force.v': {'post_len': 0,
+                                                       'pre_len': 290}},
             'post_len': 0,
             'pre_len': 290,
             'test_name': 'Icarus/ivltests/sdw_force'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/sdw_force.v |      290 |         0 |
-+======================+==========+===========+
-|                      |      290 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/sdw_force.v |      290 |         0 |
++==============================+==========+===========+
+|                              |      290 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -688,13 +705,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/sdw_force/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/sdw_force/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/sdw_force/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              83      83       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                    83      83       0         0
+                                    84      84       0         0
 ===================== END REDUCTION RESULT =====================

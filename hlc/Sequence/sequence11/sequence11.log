@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence11/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -d db -d ast sequence11.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Sequence/sequence11
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence11.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence11.sv".
 AST_DEBUG_BEGIN
 Count: 215
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence11.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence11.sv> u<214> t<Top_level_rule> c<1> l<1:1> el<17:10>
+FILE: f<13>:$Source01/sequence11.sv
+n<$Source01/sequence11.sv> u<214> t<Top_level_rule> c<1> l<1:1> el<17:10>
   n<> u<1> t<Null_rule> p<214> s<213> l<1:1>
   n<> u<213> t<Source_text> p<214> c<212> l<1:1> el<17:10>
     n<> u<212> t<Description> p<213> c<211> l<1:1> el<17:10>
@@ -218,20 +227,20 @@ n<${SURELOG_DIR}/tests/Sequence/sequence11.sv> u<214> t<Top_level_rule> c<1> l<1
                         n<> u<201> t<END> p<202> l<16:3> el<16:6>
         n<> u<210> t<ENDMODULE> p<211> l<17:1> el<17:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence11.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence11.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence11.sv:9:34: Illegal implicit net "id:42, name:seq11".
-====== UHDM =======
+[INF:CP0303] $Source01/sequence11.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/sequence11.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence11.sv:9:34: Illegal implicit net "id:43, name:seq11".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence11.sv file:${SURELOG_DIR}/tests/Sequence/sequence11.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence11.sv file:$Source01/sequence11.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence11.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence11/lib/work/sequence11.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence11.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence11.sv start:1:1 end:17:10:
+    Module name:work@tb file:$Source01/sequence11.sv start:1:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -246,12 +255,17 @@ Design name:unnamed:
           vpiFullName: work@tb.seq11
           vpiExpr Operation start:6:5 end:6:29:
             vpiParent: SequenceDecl name:seq11
-            vpiOpType: within (58)
+            vpiOpType: within (75)
             vpiOperand (2 items):
-              Operation start:6:8 end:6:13:
+              Operation start:6:6 end:6:13:
                 vpiParent: Operation
-                vpiOpType: unary cycle delay (53)
+                vpiOpType: binary cycle delay (71)
                 vpiOperand (3 items):
+                  RefObj name:a start:6:6 end:6:7:
+                    vpiParent: Operation
+                    vpiName: a
+                    vpiFullName: work@tb.seq11.a
+                    vpiActual: Net name:a
                   Constant start:6:10 end:6:11:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -262,11 +276,6 @@ Design name:unnamed:
                     vpiSize: 32
                     vpiDecompile: "1"
                     vpiValue: 1
-                  RefObj name:a start:6:6 end:6:7:
-                    vpiParent: Operation
-                    vpiName: a
-                    vpiFullName: work@tb.seq11.a
-                    vpiActual: Net name:a
                   RefObj name:b start:6:12 end:6:13:
                     vpiParent: Operation
                     vpiName: b
@@ -274,7 +283,7 @@ Design name:unnamed:
                     vpiActual: Net name:b
               Operation start:6:23 end:6:28:
                 vpiParent: Operation
-                vpiOpType: unary cycle delay (53)
+                vpiOpType: unary cycle delay (70)
                 vpiOperand (2 items):
                   Constant start:6:25 end:6:26:
                     vpiParent: Operation
@@ -314,6 +323,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (4 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -504,37 +518,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence11
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence11
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence11/surelog.uhdm
+      test-name: Sequence/sequence11
+   test-dirpath: ${HLC_DIR}/regression/Sequence/sequence11
+  hldb-filepath: ${HLC_DIR}/regression/Sequence/sequence11/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Sequence/sequence11/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence11/lib/work/sequence11.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 200}},
+            'files': {'$Output/lib/work/sequence11.sv': {'post_len': 0,
+                                                         'pre_len': 200}},
             'post_len': 0,
             'pre_len': 200,
             'test_name': 'Sequence/sequence11'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sequence11.sv |      200 |         0 |
-+========================+==========+===========+
-|                        |      200 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sequence11.sv |      200 |         0 |
++================================+==========+===========+
+|                                |      200 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -542,13 +559,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence11/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence11/surelog.uhdm ${SURELOG_DIR}/regression/Sequence/sequence11/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Sequence/sequence11/design.hldb ${HLC_DIR}/regression/Sequence/sequence11/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    69      69       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

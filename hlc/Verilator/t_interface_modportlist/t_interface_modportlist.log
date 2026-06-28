@@ -1,9 +1,21 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_interface_modportlist.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_interface_modportlist
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_interface_modportlist.v".
+[INF:PA0201] Parsing source file "$Source01/t_interface_modportlist.v".
+[SNT:PA0207] $Source01/t_interface_modportlist.v:10:26: Syntax error: no viable alternative at input 'my_module m(.clk(clk), iface',
+   my_module m(.clk(clk), iface);
+                          ^-- $Source01/t_interface_modportlist.v:10:26:.
 AST_DEBUG_BEGIN
 Count: 172
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v
-n<${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v> u<171> t<Top_level_rule> c<1> l<8:1> el<24:1>
+FILE: f<13>:$Source01/t_interface_modportlist.v
+n<$Source01/t_interface_modportlist.v> u<171> t<Top_level_rule> c<1> l<8:1> el<24:1>
   n<> u<1> t<Null_rule> p<171> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<171> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<171> s<4> l<2:1> el<2:3>
@@ -175,28 +187,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v> u<171> t<Top_level_r
                     n<c> u<160> t<SIMPLE_IDENTIFIER> p<161> l<22:39> el<22:40>
         n<> u<167> t<ENDINTERFACE> p<168> l<23:1> el<23:13>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:10:26: Syntax error: no viable alternative at input 'my_module m(.clk(clk), iface',
-   my_module m(.clk(clk), iface);
-                          ^-- ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:10:26:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:8:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:13:1: Compile module "work@my_module".
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:20:1: Compile interface "work@my_interface".
+[INF:CP0303] $Source01/t_interface_modportlist.v:8:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_interface_modportlist.v:13:1: Compile module "work@my_module".
+[INF:CP0304] $Source01/t_interface_modportlist.v:20:1: Compile interface "work@my_interface".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:15:13: Illegal implicit net "id:44, name:b".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:15:24: Illegal implicit net "id:47, name:a".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:16:13: Illegal implicit net "id:51, name:c".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:16:24: Illegal implicit net "id:54, name:a".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_interface_modportlist.v:15:13: Illegal implicit net "id:47, name:b".
+[ERR:EL0535] $Source01/t_interface_modportlist.v:15:24: Illegal implicit net "id:50, name:a".
+[ERR:EL0535] $Source01/t_interface_modportlist.v:16:13: Illegal implicit net "id:54, name:c".
+[ERR:EL0535] $Source01/t_interface_modportlist.v:16:24: Illegal implicit net "id:57, name:a".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_interface_modportlist.v file:${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_interface_modportlist.v file:$Source01/t_interface_modportlist.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_modportlist.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/lib/work/t_interface_modportlist.v"
+      vpiPreprocFile: "$Output/lib/work/t_interface_modportlist.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@my_interface file:${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v start:20:1 end:23:13:
+    Interface name:work@my_interface file:$Source01/t_interface_modportlist.v start:20:1 end:23:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_interface start:20:11 end:20:23:
         vpiParent: Interface name:work@my_interface
@@ -231,6 +240,11 @@ Design name:unnamed:
           vpiFullName: work@my_interface.c
           vpiNetType: none (12)
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@my_interface
+        vpiName: work
+        vpiFullName: work@my_interface.work
+      vpiCell: my_interface
       vpiModport (1 items):
         Modport name:my_port start:22:12 end:22:19:
           vpiParent: Interface name:work@my_interface
@@ -261,7 +275,7 @@ Design name:unnamed:
                 vpiFullName: work@my_interface.my_port.c
           vpiInterface: Interface name:work@my_interface
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v start:8:1 end:11:10:
+    Module name:work@t file:$Source01/t_interface_modportlist.v start:8:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:8:8 end:8:9:
         vpiParent: Module name:work@t
@@ -277,6 +291,11 @@ Design name:unnamed:
             vpiName: work@my_interface
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:clk start:8:16 end:8:19:
           vpiParent: Module name:work@t
@@ -309,7 +328,7 @@ Design name:unnamed:
             vpiName: work@my_interface
             vpiFullName: work@t.iface.work@my_interface
             vpiActual: InterfaceTypespec name:work@my_interface
-    Module name:work@my_module file:${SURELOG_DIR}/tests/Verilator/t_interface_modportlist.v start:13:1 end:18:10:
+    Module name:work@my_module file:$Source01/t_interface_modportlist.v start:13:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_module start:13:8 end:13:17:
         vpiParent: Module name:work@my_module
@@ -320,6 +339,11 @@ Design name:unnamed:
           vpiParent: Module name:work@my_module
       vpiDefName: work@my_module
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@my_module
+        vpiName: work
+        vpiFullName: work@my_module.work
+      vpiCell: my_module
       vpiNet (2 items):
         Net name:clk start:13:24 end:13:27:
           vpiParent: Module name:work@my_module
@@ -369,7 +393,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:my_interface.my_port
               vpiName: my_interface.my_port
               vpiFullName: work@my_module.iface.my_interface.my_port.my_interface.my_port
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:my_interface start:13:29 end:13:41:
                   vpiParent: HierPath name:my_interface.my_port
                   vpiName: my_interface
@@ -404,7 +428,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: iface.b
                     vpiFullName: work@my_module.iface.b
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:iface start:15:7 end:15:12:
                         vpiParent: HierPath name:iface.b
                         vpiName: iface
@@ -418,7 +442,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: iface.a
                     vpiFullName: work@my_module.iface.a
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:iface start:15:18 end:15:23:
                         vpiParent: HierPath name:iface.a
                         vpiName: iface
@@ -434,7 +458,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: iface.c
                     vpiFullName: work@my_module.iface.c
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:iface start:16:7 end:16:12:
                         vpiParent: HierPath name:iface.c
                         vpiName: iface
@@ -448,7 +472,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: iface.a
                     vpiFullName: work@my_module.iface.a
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:iface start:16:18 end:16:23:
                         vpiParent: HierPath name:iface.a
                         vpiName: iface
@@ -479,37 +503,40 @@ Design name:unnamed:
         vpiName: work@my_interface
       vpiInterface: Interface name:work@my_interface
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 4
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_interface_modportlist
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_modportlist
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/surelog.uhdm
+      test-name: Verilator/t_interface_modportlist
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_interface_modportlist
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/mounts.json
 
 
 {'result': {'coverage': 91.67,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/lib/work/t_interface_modportlist.v'): {'post_len': 25,
-                                                                                                                                                         'pre_len': 300}},
+            'files': {'$Output/lib/work/t_interface_modportlist.v': {'post_len': 25,
+                                                                     'pre_len': 300}},
             'post_len': 25,
             'pre_len': 300,
             'test_name': 'Verilator/t_interface_modportlist'}}
 
-+------------------------------------+----------+-----------+
-| INPUT                              |   PRELEN |   POSTLEN |
-+====================================+==========+===========+
-| lib/work/t_interface_modportlist.v |      300 |        25 |
-+====================================+==========+===========+
-|                                    |      300 |        25 |
-+------------------------------------+----------+-----------+
++--------------------------------------------+----------+-----------+
+| INPUT                                      |   PRELEN |   POSTLEN |
++============================================+==========+===========+
+| $Output/lib/work/t_interface_modportlist.v |      300 |        25 |
++============================================+==========+===========+
+|                                            |      300 |        25 |
++--------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 91.67
@@ -517,13 +544,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/surel
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_interface_modportlist/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb ${HLC_DIR}/regression/Verilator/t_interface_modportlist/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    71      71       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

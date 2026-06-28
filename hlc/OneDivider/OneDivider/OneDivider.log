@@ -1,29 +1,40 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/OneDivider/OneDivider/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/OneDivider -fileunit -writepp -d db -sv dut.v -sv tb.v -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/OneDivider/OneDivider
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0303] ${SURELOG_DIR}/tests/OneDivider/dut.v:1:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/OneDivider/tb.v:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/OneDivider/dut.v:1:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/OneDivider/tb.v:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/OneDivider/tb.v:25:24: Illegal implicit net "id:134, name:a".
-[ERR:EL0535] ${SURELOG_DIR}/tests/OneDivider/tb.v:25:32: Illegal implicit net "id:137, name:a".
-[ERR:EL0535] ${SURELOG_DIR}/tests/OneDivider/tb.v:25:35: Illegal implicit net "id:139, name:n".
-[ERR:EL0535] ${SURELOG_DIR}/tests/OneDivider/tb.v:25:50: Illegal implicit net "id:149, name:a".
-====== UHDM =======
+[INF:PP0122] Preprocessing source file "$Source01/dut.v".
+[INF:PP0122] Preprocessing source file "$Source01/tb.v".
+[INF:PA0201] Parsing source file "$Source01/dut.v".
+[INF:PA0201] Parsing source file "$Source01/tb.v".
+[INF:CP0303] $Source01/dut.v:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/tb.v:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/dut.v:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/tb.v:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/tb.v:25:24: Illegal implicit net "id:136, name:a".
+[ERR:EL0535] $Source01/tb.v:25:32: Illegal implicit net "id:139, name:a".
+[ERR:EL0535] $Source01/tb.v:25:35: Illegal implicit net "id:141, name:n".
+[ERR:EL0535] $Source01/tb.v:25:50: Illegal implicit net "id:150, name:a".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (2 items):
-    SourceFile name:dut.v file:${SURELOG_DIR}/tests/OneDivider/dut.v:
+  vpiSourceFile (2 items):
+    SourceFile name:dut.v file:$Source01/dut.v:
       vpiParent: Design name:unnamed
       vpiName: dut.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/OneDivider/OneDivider/lib/work/dut.v"
+      vpiPreprocFile: "$Output/lib/work/dut.v"
       vpiDefNetType: none (12)
-    SourceFile name:tb.v file:${SURELOG_DIR}/tests/OneDivider/tb.v:
+    SourceFile name:tb.v file:$Source01/tb.v:
       vpiParent: Design name:unnamed
       vpiName: tb.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/OneDivider/OneDivider/lib/work/tb.v"
+      vpiPreprocFile: "$Output/lib/work/tb.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/OneDivider/dut.v start:1:1 end:10:10:
+    Module name:work@dut file:$Source01/dut.v start:1:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -54,6 +65,11 @@ Design name:unnamed:
           vpiParent: Module name:work@dut
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (2 items):
         Net name:rstn start:1:24 end:1:28:
           vpiParent: Module name:work@dut
@@ -186,7 +202,7 @@ Design name:unnamed:
                       vpiFullName: work@dut.div
                       vpiActual: Variable name:div
           vpiAlwaysType: always (1)
-    Module name:work@tb file:${SURELOG_DIR}/tests/OneDivider/tb.v start:1:1 end:30:10:
+    Module name:work@tb file:$Source01/tb.v start:1:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -207,6 +223,7 @@ Design name:unnamed:
                 vpiParent: PropFormalDecl name:a
                 vpiFullName: work@tb.divide.a
                 vpiActual: UnsupportedTypespec name:bit
+              vpiFormalType: data (1)
             PropFormalDecl name:n start:24:30 end:24:31:
               vpiParent: PropertyDecl name:divide
               vpiName: n
@@ -214,6 +231,7 @@ Design name:unnamed:
                 vpiParent: PropFormalDecl name:n
                 vpiFullName: work@tb.divide.n
                 vpiActual: IntTypespec
+              vpiFormalType: data (1)
           vpiPropertySpec PropertySpec start:25:3 end:25:52:
             vpiParent: PropertyDecl name:divide
             vpiClockingEvent Operation:
@@ -239,24 +257,22 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$rose
                       vpiName: a
                       vpiFullName: work@tb.divide.a
-                Operation start:25:40 end:25:52:
+                Operation start:25:31 end:25:52:
                   vpiParent: Operation
-                  vpiOpType: unary cycle delay (53)
+                  vpiOpType: binary cycle delay (71)
                   vpiOperand (3 items):
-                    Constant start:25:42 end:25:43:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@tb.divide
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
                     Operation start:25:33 end:25:39:
                       vpiParent: Operation
-                      vpiOpType: consecutive repeat (60)
+                      vpiOpType: consecutive repeat (77)
                       vpiOperand (2 items):
+                        Operation start:25:31 end:25:33:
+                          vpiParent: Operation
+                          vpiOpType: not (3)
+                          vpiOperand (1 items):
+                            RefObj name:a start:25:32 end:25:33:
+                              vpiParent: Operation
+                              vpiName: a
+                              vpiFullName: work@tb.divide.a
                         Operation start:25:35 end:25:38:
                           vpiParent: Operation
                           vpiOpType: subtract (11)
@@ -275,14 +291,16 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "1"
                               vpiValue: 1
-                        Operation start:25:31 end:25:33:
-                          vpiParent: Operation
-                          vpiOpType: not (3)
-                          vpiOperand (1 items):
-                            RefObj name:a start:25:32 end:25:33:
-                              vpiParent: Operation
-                              vpiName: a
-                              vpiFullName: work@tb.divide.a
+                    Constant start:25:42 end:25:43:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@tb.divide
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
                     SysFuncCall name:$rose start:25:44 end:25:52:
                       vpiParent: Operation
                       vpiName Identifier name:$rose start:25:44 end:25:49:
@@ -402,6 +420,11 @@ Design name:unnamed:
             vpiName: bit
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (1 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -454,7 +477,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 168
                     vpiDecompile: "\"@%0dns clk = %0d, %0d\""
-                    vpiValue: @%0dns clk = %0d, %0d
+                    vpiValue: "@%0dns clk = %0d, %0d"
                   SysTaskCall name:$time start:8:38 end:8:43:
                     vpiParent: SysFuncCall name:$monitor
                     vpiName Identifier name:$time start:8:38 end:8:43:
@@ -650,40 +673,41 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: OneDivider/OneDivider
- test-dirpath: ${SURELOG_DIR}/regression/OneDivider/OneDivider
-uhdm-filepath: ${SURELOG_DIR}/regression/OneDivider/OneDivider/surelog.uhdm
+      test-name: OneDivider/OneDivider
+   test-dirpath: ${HLC_DIR}/regression/OneDivider/OneDivider
+  hldb-filepath: ${HLC_DIR}/regression/OneDivider/OneDivider/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/OneDivider/OneDivider/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 2,
-            'files': {PosixPath('${SURELOG_DIR}/regression/OneDivider/OneDivider/lib/work/dut.v'): {'post_len': 0,
-                                                                                                                         'pre_len': 142},
-                      PosixPath('${SURELOG_DIR}/regression/OneDivider/OneDivider/lib/work/tb.v'): {'post_len': 0,
-                                                                                                                        'pre_len': 449}},
+            'files': {'$Output/lib/work/dut.v': {'post_len': 0, 'pre_len': 142},
+                      '$Output/lib/work/tb.v': {'post_len': 0, 'pre_len': 449}},
             'post_len': 0,
             'pre_len': 591,
             'test_name': 'OneDivider/OneDivider'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/dut.v |      142 |         0 |
-| lib/work/tb.v  |      449 |         0 |
-+================+==========+===========+
-|                |      591 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/dut.v |      142 |         0 |
+| $Output/lib/work/tb.v  |      449 |         0 |
++========================+==========+===========+
+|                        |      591 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -691,13 +715,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/OneDivider/OneDivider/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/OneDivider/OneDivider/surelog.uhdm ${SURELOG_DIR}/regression/OneDivider/OneDivider/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/OneDivider/OneDivider/design.hldb ${HLC_DIR}/regression/OneDivider/OneDivider/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             163     163       0         0
+Others                             165     165       0         0
 ----------------------------------------------------------------
-                                   163     163       0         0
+                                   165     165       0         0
 ===================== END REDUCTION RESULT =====================

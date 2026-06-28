@@ -22,17 +22,17 @@
 // Module attributes are accessible via Scope::getAttributes() on the Module
 // node itself — they are NOT inside any process or statement.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/attribute.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/attribute.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class AttributesModule : public Test {
  public:
@@ -54,10 +54,10 @@ class AttributesModule : public Test {
 };
 
 // Helper: find the named Attribute on a Module, or nullptr.
-static const uhdm::Attribute *findAttr(const uhdm::Module *mod,
+static const hldb::Attribute *findAttr(const hldb::Module *mod,
                                         std::string_view name) {
   if (!mod->getAttributes()) return nullptr;
-  for (const uhdm::Attribute *const a : *mod->getAttributes()) {
+  for (const hldb::Attribute *const a : *mod->getAttributes()) {
     if (a->getName() == name) return a;
   }
   return nullptr;
@@ -73,23 +73,23 @@ TEST_F(AttributesModule, ThreeModulesExist) {
 }
 
 TEST_F(AttributesModule, TopaExists) {
-  EXPECT_NE(uhdm::findByName<uhdm::Module>("work@topa", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("work@topa", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesModule, TopbExists) {
-  EXPECT_NE(uhdm::findByName<uhdm::Module>("work@topb", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("work@topb", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesModule, TopcExists) {
-  EXPECT_NE(uhdm::findByName<uhdm::Module>("work@topc", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("work@topc", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // (* optimize_power *) — flag attribute, no value
 // ---------------------------------------------------------------------------
 TEST_F(AttributesModule, TopaHasOptimizePowerAttribute) {
-  const uhdm::Module *const topa =
-      uhdm::findByName<uhdm::Module>("work@topa", m_design->getAllModules());
+  const hldb::Module *const topa =
+      hldb::findByName<hldb::Module>("work@topa", m_design->getAllModules());
   ASSERT_NE(topa, nullptr);
   ASSERT_NE(topa->getAttributes(), nullptr);
   ASSERT_EQ(topa->getAttributes()->size(), 1u);
@@ -97,11 +97,11 @@ TEST_F(AttributesModule, TopaHasOptimizePowerAttribute) {
 }
 
 TEST_F(AttributesModule, TopaOptimizePowerIsFlagAttribute) {
-  const uhdm::Module *const topa =
-      uhdm::findByName<uhdm::Module>("work@topa", m_design->getAllModules());
+  const hldb::Module *const topa =
+      hldb::findByName<hldb::Module>("work@topa", m_design->getAllModules());
   ASSERT_NE(topa, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(topa, "optimize_power");
+  const hldb::Attribute *const attr = findAttr(topa, "optimize_power");
   ASSERT_NE(attr, nullptr) << "topa should have 'optimize_power' attribute";
   EXPECT_EQ(attr->getValue(), nullptr)
       << "(* optimize_power *) is a flag — getValue() should be null";
@@ -111,8 +111,8 @@ TEST_F(AttributesModule, TopaOptimizePowerIsFlagAttribute) {
 // (* optimize_power=0 *) — valued attribute, Constant "0"
 // ---------------------------------------------------------------------------
 TEST_F(AttributesModule, TopbHasOptimizePowerAttribute) {
-  const uhdm::Module *const topb =
-      uhdm::findByName<uhdm::Module>("work@topb", m_design->getAllModules());
+  const hldb::Module *const topb =
+      hldb::findByName<hldb::Module>("work@topb", m_design->getAllModules());
   ASSERT_NE(topb, nullptr);
   ASSERT_NE(topb->getAttributes(), nullptr);
   ASSERT_EQ(topb->getAttributes()->size(), 1u);
@@ -120,14 +120,14 @@ TEST_F(AttributesModule, TopbHasOptimizePowerAttribute) {
 }
 
 TEST_F(AttributesModule, TopbOptimizePowerValueIsZero) {
-  const uhdm::Module *const topb =
-      uhdm::findByName<uhdm::Module>("work@topb", m_design->getAllModules());
+  const hldb::Module *const topb =
+      hldb::findByName<hldb::Module>("work@topb", m_design->getAllModules());
   ASSERT_NE(topb, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(topb, "optimize_power");
+  const hldb::Attribute *const attr = findAttr(topb, "optimize_power");
   ASSERT_NE(attr, nullptr) << "topb should have 'optimize_power' attribute";
 
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "optimize_power=0 should have a Constant value";
   EXPECT_EQ(val->getDecompile(), "0");
 }
@@ -136,8 +136,8 @@ TEST_F(AttributesModule, TopbOptimizePowerValueIsZero) {
 // (* optimize_power=1 *) — valued attribute, Constant "1"
 // ---------------------------------------------------------------------------
 TEST_F(AttributesModule, TopcHasOptimizePowerAttribute) {
-  const uhdm::Module *const topc =
-      uhdm::findByName<uhdm::Module>("work@topc", m_design->getAllModules());
+  const hldb::Module *const topc =
+      hldb::findByName<hldb::Module>("work@topc", m_design->getAllModules());
   ASSERT_NE(topc, nullptr);
   ASSERT_NE(topc->getAttributes(), nullptr);
   ASSERT_EQ(topc->getAttributes()->size(), 1u);
@@ -145,14 +145,14 @@ TEST_F(AttributesModule, TopcHasOptimizePowerAttribute) {
 }
 
 TEST_F(AttributesModule, TopcOptimizePowerValueIsOne) {
-  const uhdm::Module *const topc =
-      uhdm::findByName<uhdm::Module>("work@topc", m_design->getAllModules());
+  const hldb::Module *const topc =
+      hldb::findByName<hldb::Module>("work@topc", m_design->getAllModules());
   ASSERT_NE(topc, nullptr);
 
-  const uhdm::Attribute *const attr = findAttr(topc, "optimize_power");
+  const hldb::Attribute *const attr = findAttr(topc, "optimize_power");
   ASSERT_NE(attr, nullptr) << "topc should have 'optimize_power' attribute";
 
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "optimize_power=1 should have a Constant value";
   EXPECT_EQ(val->getDecompile(), "1");
 }

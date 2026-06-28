@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/check_error -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db top.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/misc/check_error/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 127
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/check_error/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/check_error/top.v> u<126> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<126> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<126> s<125> l<1:1>
   n<> u<125> t<Source_text> p<126> c<124> l<1:1> el<15:10>
     n<> u<124> t<Description> p<125> c<123> l<1:1> el<15:10>
@@ -130,19 +139,19 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/check_error/top.v> u<126> t<Top_level_rul
                                     n<u> u<107> t<SIMPLE_IDENTIFIER> p<108> l<14:18> el<14:19>
         n<> u<122> t<ENDMODULE> p<123> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/check_error/top.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/check_error/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/check_error/top.v start:1:1 end:15:10:
+    Module name:work@top file:$Source01/top.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -163,6 +172,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (4 items):
         Net name:d start:2:13 end:2:14:
           vpiParent: Module name:work@top
@@ -309,37 +323,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/check_error/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/check_error/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/surelog.uhdm
+      test-name: YosysTests/misc/check_error/top
+   test-dirpath: ${HLC_DIR}/regression/YosysTests/misc/check_error/top
+  hldb-filepath: ${HLC_DIR}/regression/YosysTests/misc/check_error/top/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTests/misc/check_error/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 135}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 135}},
             'post_len': 0,
             'pre_len': 135,
             'test_name': 'YosysTests/misc/check_error/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      135 |         0 |
-+================+==========+===========+
-|                |      135 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      135 |         0 |
++========================+==========+===========+
+|                        |      135 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -347,13 +364,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/surelog.uhdm ${SURELOG_DIR}/regression/YosysTests/misc/check_error/top/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTests/misc/check_error/top/design.hldb ${HLC_DIR}/regression/YosysTests/misc/check_error/top/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

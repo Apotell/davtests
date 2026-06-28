@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr590/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr590.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr590
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr590.v".
+[INF:PA0201] Parsing source file "$Source01/pr590.v".
 AST_DEBUG_BEGIN
 Count: 454
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v> u<453> t<Top_level_rule> c<1> l<1:1> el<52:1>
+FILE: f<13>:$Source01/pr590.v
+n<$Source01/pr590.v> u<453> t<Top_level_rule> c<1> l<1:1> el<52:1>
   n<> u<1> t<Null_rule> p<453> s<452> l<1:1>
   n<> u<452> t<Source_text> p<453> c<171> l<1:1> el<51:10>
     n<> u<171> t<Description> p<452> c<170> s<451> l<1:1> el<21:10>
@@ -457,20 +466,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v> u<453> t<Top_level_rule> c<1> l<
                                           n<"..................clock tickling"> u<431> t<QUOTED_STRING> p<432> l<49:20> el<49:54>
         n<> u<449> t<ENDMODULE> p<450> l<51:1> el<51:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v:1:1: Compile module "work@ex1".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v:22:1: Compile module "work@main".
+[INF:CP0303] $Source01/pr590.v:1:1: Compile module "work@ex1".
+[INF:CP0303] $Source01/pr590.v:22:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr590.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr590.v file:$Source01/pr590.v:
       vpiParent: Design name:unnamed
       vpiName: pr590.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr590/lib/work/pr590.v"
+      vpiPreprocFile: "$Output/lib/work/pr590.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@ex1 file:${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v start:1:1 end:21:10:
+    Module name:work@ex1 file:$Source01/pr590.v start:1:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ex1 start:1:8 end:1:11:
         vpiParent: Module name:work@ex1
@@ -559,6 +568,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@ex1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ex1
+        vpiName: work
+        vpiFullName: work@ex1.work
+      vpiCell: ex1
       vpiNet (4 items):
         Net name:clk start:8:7 end:8:10:
           vpiParent: Module name:work@ex1
@@ -705,7 +719,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 120
                       vpiDecompile: "\"out: %b, in: %b\""
-                      vpiValue: out: %b, in: %b
+                      vpiValue: "out: %b, in: %b"
                     RefObj name:outsig start:18:36 end:18:42:
                       vpiParent: SysFuncCall name:$display
                       vpiName: outsig
@@ -717,7 +731,7 @@ Design name:unnamed:
                       vpiFullName: work@ex1.insig
                       vpiActual: Net name:insig
           vpiAlwaysType: always (1)
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/pr590.v start:22:1 end:51:10:
+    Module name:work@main file:$Source01/pr590.v start:22:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:22:8 end:22:12:
         vpiParent: Module name:work@main
@@ -785,6 +799,11 @@ Design name:unnamed:
             vpiName: work@ex1
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (4 items):
         Net name:clk start:23:17 end:23:20:
           vpiParent: Module name:work@main
@@ -844,7 +863,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 216
                     vpiDecompile: "\"\\n starting the testbench\\n\""
-                    vpiValue: \n starting the testbench\n
+                    vpiValue: "\\n starting the testbench\\n"
               Assignment start:37:4 end:37:21:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -862,7 +881,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               Assignment start:38:4 end:38:14:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -898,7 +917,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 4
                   vpiDecompile: "4'h0"
-                  vpiValue: 0
+                  vpiValue: "0"
               DelayControl start:40:4 end:40:21:
                 vpiParent: Begin
                 vpiStmt Assignment start:40:8 end:40:20:
@@ -918,7 +937,7 @@ Design name:unnamed:
                     vpiConstType: hexadecimal (5)
                     vpiSize: 4
                     vpiDecompile: "4'h2"
-                    vpiValue: 2
+                    vpiValue: "2"
                 vpiDelay Constant start:40:5 end:40:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1013,7 +1032,7 @@ Design name:unnamed:
                   vpiConstType: string (6)
                   vpiSize: 256
                   vpiDecompile: "\"..................clock tickling\""
-                  vpiValue: ..................clock tickling
+                  vpiValue: "..................clock tickling"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:ex1 start:27:5 end:27:8:
@@ -1094,37 +1113,40 @@ Design name:unnamed:
         vpiName: work@main
       vpiModule: Module name:work@main
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr590
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr590
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr590/surelog.uhdm
+      test-name: Icarus/ivltests/pr590
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr590
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr590/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr590/mounts.json
 
 
 {'result': {'coverage': 99.02,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr590/lib/work/pr590.v'): {'post_len': 6,
-                                                                                                                           'pre_len': 615}},
+            'files': {'$Output/lib/work/pr590.v': {'post_len': 6,
+                                                   'pre_len': 615}},
             'post_len': 6,
             'pre_len': 615,
             'test_name': 'Icarus/ivltests/pr590'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/pr590.v |      615 |         6 |
-+==================+==========+===========+
-|                  |      615 |         6 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/pr590.v |      615 |         6 |
++==========================+==========+===========+
+|                          |      615 |         6 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.02
@@ -1132,13 +1154,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr590/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr590/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr590/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr590/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr590/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             156     156       0         0
+Others                             158     158       0         0
 ----------------------------------------------------------------
-                                   156     156       0         0
+                                   158     158       0         0
 ===================== END REDUCTION RESULT =====================

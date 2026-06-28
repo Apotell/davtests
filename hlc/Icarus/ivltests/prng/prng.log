@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/prng/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db prng.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/prng
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/prng.v".
+[INF:PA0201] Parsing source file "$Source01/prng.v".
 AST_DEBUG_BEGIN
 Count: 526
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/prng.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/prng.v> u<525> t<Top_level_rule> c<1> l<4:1> el<42:1>
+FILE: f<13>:$Source01/prng.v
+n<$Source01/prng.v> u<525> t<Top_level_rule> c<1> l<4:1> el<42:1>
   n<> u<1> t<Null_rule> p<525> s<2> l<4:1> el<4:1>
   n<//> u<2> t<LINE_COMMENT> p<525> s<3> l<1:1> el<1:3>
   n<// Verifies that the PRNG seed streams are unique, well trys anyway.> u<3> t<LINE_COMMENT> p<525> s<4> l<2:1> el<2:69>
@@ -529,19 +538,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/prng.v> u<525> t<Top_level_rule> c<1> l<4
                         n<> u<512> t<END> p<513> l<39:5> el<39:8>
         n<> u<521> t<ENDMODULE> p<522> l<40:1> el<40:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/prng.v:4:1: Compile module "work@test".
+[INF:CP0303] $Source01/prng.v:4:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:prng.v file:${SURELOG_DIR}/tests/Icarus/ivltests/prng.v:
+  vpiSourceFile (1 items):
+    SourceFile name:prng.v file:$Source01/prng.v:
       vpiParent: Design name:unnamed
       vpiName: prng.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/prng/lib/work/prng.v"
+      vpiPreprocFile: "$Output/lib/work/prng.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/prng.v start:4:1 end:40:10:
+    Module name:work@test file:$Source01/prng.v start:4:1 end:40:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:4:8 end:4:12:
         vpiParent: Module name:work@test
@@ -689,6 +698,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (7 items):
         Net name:rtn start:5:16 end:5:19:
           vpiParent: Module name:work@test
@@ -1185,7 +1199,7 @@ Design name:unnamed:
                                 vpiConstType: string (6)
                                 vpiSize: 160
                                 vpiDecompile: "\"FAILED %0d: %x != %x\""
-                                vpiValue: FAILED %0d: %x != %x
+                                vpiValue: "FAILED %0d: %x != %x"
                               RefObj name:i start:32:36 end:32:37:
                                 vpiParent: SysFuncCall name:$display
                                 vpiName: i
@@ -1260,37 +1274,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/prng
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/prng
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/prng/surelog.uhdm
+      test-name: Icarus/ivltests/prng
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/prng
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/prng/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/prng/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/prng/lib/work/prng.v'): {'post_len': 0,
-                                                                                                                         'pre_len': 533}},
+            'files': {'$Output/lib/work/prng.v': {'post_len': 0,
+                                                  'pre_len': 533}},
             'post_len': 0,
             'pre_len': 533,
             'test_name': 'Icarus/ivltests/prng'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/prng.v |      533 |         0 |
-+=================+==========+===========+
-|                 |      533 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/prng.v |      533 |         0 |
++=========================+==========+===========+
+|                         |      533 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1298,13 +1315,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/prng/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/prng/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/prng/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/prng/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/prng/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             173     173       0         0
+Others                             174     174       0         0
 ----------------------------------------------------------------
-                                   173     173       0         0
+                                   174     174       0         0
 ===================== END REDUCTION RESULT =====================

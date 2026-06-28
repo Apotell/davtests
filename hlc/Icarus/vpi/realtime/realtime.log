@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/vpi/realtime/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/vpi +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db realtime.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/vpi/realtime
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/realtime.v".
+[INF:PA0201] Parsing source file "$Source01/realtime.v".
 AST_DEBUG_BEGIN
 Count: 208
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/vpi/realtime.v
-n<${SURELOG_DIR}/tests/Icarus/vpi/realtime.v> u<207> t<Top_level_rule> c<1> l<1:1> el<26:1>
+FILE: f<13>:$Source01/realtime.v
+n<$Source01/realtime.v> u<207> t<Top_level_rule> c<1> l<1:1> el<26:1>
   n<> u<1> t<Null_rule> p<207> s<206> l<1:1>
   n<> u<206> t<Source_text> p<207> c<10> l<1:1> el<25:10>
     n<> u<10> t<Description> p<206> c<9> s<104> l<1:1> el<1:23>
@@ -211,22 +220,22 @@ n<${SURELOG_DIR}/tests/Icarus/vpi/realtime.v> u<207> t<Top_level_rule> c<1> l<1:
                         n<> u<194> t<END> p<195> l<24:5> el<24:8>
         n<> u<203> t<ENDMODULE> p<204> l<25:1> el<25:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/realtime.v:2:1: Compile module "work@test".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/realtime.v:16:1: Compile module "work@test2".
+[INF:CP0303] $Source01/realtime.v:2:1: Compile module "work@test".
+[INF:CP0303] $Source01/realtime.v:16:1: Compile module "work@test2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:realtime.v file:${SURELOG_DIR}/tests/Icarus/vpi/realtime.v:
+  vpiSourceFile (1 items):
+    SourceFile name:realtime.v file:$Source01/realtime.v:
       vpiParent: Design name:unnamed
       vpiName: realtime.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/vpi/realtime/lib/work/realtime.v"
+      vpiPreprocFile: "$Output/lib/work/realtime.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
   vpiAllModules (2 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/vpi/realtime.v start:2:1 end:13:10:
+    Module name:work@test file:$Source01/realtime.v start:2:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:2:8 end:2:12:
         vpiParent: Module name:work@test
@@ -236,6 +245,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -3
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiProcess (1 items):
         Initial start:3:5 end:12:8:
           vpiParent: Module name:work@test
@@ -331,7 +345,7 @@ Design name:unnamed:
                     vpiName: test
                     vpiFullName: work@test.test
                     vpiActual: Module name:work@test
-    Module name:work@test2 file:${SURELOG_DIR}/tests/Icarus/vpi/realtime.v start:16:1 end:25:10:
+    Module name:work@test2 file:$Source01/realtime.v start:16:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test2 start:16:8 end:16:13:
         vpiParent: Module name:work@test2
@@ -341,6 +355,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -12
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test2
+        vpiName: work
+        vpiFullName: work@test2.work
+      vpiCell: test2
       vpiProcess (1 items):
         Initial start:17:5 end:24:8:
           vpiParent: Module name:work@test2
@@ -455,37 +474,40 @@ Design name:unnamed:
         vpiName: work@test2
       vpiModule: Module name:work@test2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/vpi/realtime
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/vpi/realtime
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/vpi/realtime/surelog.uhdm
+      test-name: Icarus/vpi/realtime
+   test-dirpath: ${HLC_DIR}/regression/Icarus/vpi/realtime
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/vpi/realtime/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/vpi/realtime/mounts.json
 
 
 {'result': {'coverage': 88.13,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/vpi/realtime/lib/work/realtime.v'): {'post_len': 40,
-                                                                                                                            'pre_len': 337}},
+            'files': {'$Output/lib/work/realtime.v': {'post_len': 40,
+                                                      'pre_len': 337}},
             'post_len': 40,
             'pre_len': 337,
             'test_name': 'Icarus/vpi/realtime'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/realtime.v |      337 |        40 |
-+=====================+==========+===========+
-|                     |      337 |        40 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/realtime.v |      337 |        40 |
++=============================+==========+===========+
+|                             |      337 |        40 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 88.13
@@ -493,13 +515,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/vpi/realtime/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/vpi/realtime/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/vpi/realtime/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/vpi/realtime/design.hldb ${HLC_DIR}/regression/Icarus/vpi/realtime/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

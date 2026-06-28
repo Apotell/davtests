@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageMemberTypespec -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 75
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv
-n<${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv> u<74> t<Top_level_rule> c<1> l<1:1> el<37:3>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<74> t<Top_level_rule> c<1> l<1:1> el<37:3>
   n<> u<1> t<Null_rule> p<74> s<72> l<1:1>
   n<> u<72> t<Source_text> p<74> c<23> s<73> l<1:1> el<31:17>
     n<> u<23> t<Description> p<72> c<22> s<24> l<1:1> el<5:23>
@@ -78,25 +87,21 @@ n<${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv> u<74> t<Top_level_rule> c<1
         n<goog> u<68> t<SIMPLE_IDENTIFIER> p<70> l<31:13> el<31:17>
   n</*\nmodule top ();\n  goog::top_flag_t a;\nendmodule\n*/> u<73> t<BLOCK_COMMENT> p<74> l<1:1> el<31:17>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:1:1: Compile package "work@foo_flags".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:1:1: Unmached label "work@foo_flags",
-             ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:5:14: closing label "foo_flags".
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:17:1: Compile package "work@goog".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:17:1: Unmached label "work@goog",
-             ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:31:13: closing label "goog".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:1:1: No timescale set for "work@foo_flags".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:17:1: No timescale set for "work@goog".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@foo_flags".
+[INF:CP0301] $Source01/dut.sv:17:1: Compile package "work@goog".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@foo_flags".
+[WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@goog".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@foo_flags file:${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv start:1:1 end:5:23:
+    Package name:work@foo_flags file:$Source01/dut.sv start:1:1 end:5:23:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@foo_flags start:1:9 end:1:18:
         vpiParent: Package name:work@foo_flags
@@ -127,10 +132,15 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@foo_flags
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@foo_flags
+        vpiName: work
+        vpiFullName: work@foo_flags::work
+      vpiCell: foo_flags
       vpiEndLabel Identifier name:foo_flags start:5:14 end:5:23:
         vpiParent: Package name:work@foo_flags
         vpiName: foo_flags
-    Package name:work@goog file:${SURELOG_DIR}/tests/PackageMemberTypespec/dut.sv start:17:1 end:31:17:
+    Package name:work@goog file:$Source01/dut.sv start:17:1 end:31:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@goog start:17:9 end:17:13:
         vpiParent: Package name:work@goog
@@ -229,6 +239,11 @@ Design name:unnamed:
             vpiActual: UnionTypespec
       vpiDefName: work@goog
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@goog
+        vpiName: work
+        vpiFullName: work@goog::work
+      vpiCell: goog
       vpiEndLabel Identifier name:goog start:31:13 end:31:17:
         vpiParent: Package name:work@goog
         vpiName: goog
@@ -237,37 +252,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageMemberTypespec/PackageMemberTypespec
- test-dirpath: ${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/surelog.uhdm
+      test-name: PackageMemberTypespec/PackageMemberTypespec
+   test-dirpath: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec
+  hldb-filepath: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                                'pre_len': 198}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 198}},
             'post_len': 0,
             'pre_len': 198,
             'test_name': 'PackageMemberTypespec/PackageMemberTypespec'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      198 |         0 |
-+=================+==========+===========+
-|                 |      198 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      198 |         0 |
++=========================+==========+===========+
+|                         |      198 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -275,13 +293,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberType
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/surelog.uhdm ${SURELOG_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/design.hldb ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

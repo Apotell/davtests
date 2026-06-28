@@ -78,27 +78,27 @@
 //       }
 //     }
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/immediate_assert.h>
-#include <uhdm/initial.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/process_stmt.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/immediate_assert.h>
+#include <hldb/initial.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/process_stmt.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/sys_func_call.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class ImmediateAssertTest : public Test {
  public:
@@ -119,42 +119,42 @@ class ImmediateAssertTest : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNetA(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNetA(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>("a", m->getNets());
+  return hldb::findByName<hldb::Net>("a", m->getNets());
 }
 
-static const uhdm::ImmediateAssert *getAssert(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
   const auto *initial =
-      any_cast<const uhdm::Initial *>((*m->getProcesses())[0]);
+      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   // §16.2 Rule 4: assert is the direct statement of Initial — no Begin.
-  return initial->getStmt<uhdm::ImmediateAssert>();
+  return initial->getStmt<hldb::ImmediateAssert>();
 }
 
-static const uhdm::SysFuncCall *getPassCall(const uhdm::Design *d) {
+static const hldb::SysFuncCall *getPassCall(const hldb::Design *d) {
   const auto *ia = getAssert(d);
   if (!ia) return nullptr;
-  return ia->getStmt<uhdm::SysFuncCall>();
+  return ia->getStmt<hldb::SysFuncCall>();
 }
 
-static const uhdm::SysFuncCall *getFailCall(const uhdm::Design *d) {
+static const hldb::SysFuncCall *getFailCall(const hldb::Design *d) {
   const auto *ia = getAssert(d);
   if (!ia) return nullptr;
-  return ia->getElseStmt<uhdm::SysFuncCall>();
+  return ia->getElseStmt<hldb::SysFuncCall>();
 }
 
-static const uhdm::Constant *getFirstArg(const uhdm::SysFuncCall *call) {
+static const hldb::Constant *getFirstArg(const hldb::SysFuncCall *call) {
   if (!call || !call->getArguments() || call->getArguments()->empty())
     return nullptr;
-  return any_cast<const uhdm::Constant *>((*call->getArguments())[0]);
+  return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
@@ -167,18 +167,18 @@ TEST_F(ImmediateAssertTest, ModuleExists) {
 TEST_F(ImmediateAssertTest, NetA_HasLogicTypespec) {
   // SV source: 'logic a' — §6.3 declares a 4-state single-bit net.
   // UHDM must represent it as LogicTypespec.
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic a' must produce a LogicTypespec";
 }
 
 TEST_F(ImmediateAssertTest, NetA_InlineValue_Is1) {
   // SV source: 'logic a = 1' — inline initializer literal 1.
-  const uhdm::Net *const net = getNetA(m_design);
+  const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
-  const auto *c = net->getValue<uhdm::Constant>();
+  const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline initializer value";
   EXPECT_EQ(std::string(c->getValue()), "1")
       << "'logic a = 1' — inline initializer must be 1";
@@ -201,7 +201,7 @@ TEST_F(ImmediateAssertTest, InitialHasDirectImmediateAssert) {
 TEST_F(ImmediateAssertTest, Assert_IsNotDeferred) {
   // §16.2: 'assert (expr)' without '#0' is simple. Deferred form requires
   // '#0'. If Surelog sets isDeferred=true, it misclassified the assert.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_FALSE(ia->getIsDeferred())
       << "§16.2 Rule 1: simple 'assert (expr)' must have isDeferred=false; "
@@ -211,7 +211,7 @@ TEST_F(ImmediateAssertTest, Assert_IsNotDeferred) {
 TEST_F(ImmediateAssertTest, Assert_IsNotFinal) {
   // §16.2: 'assert (expr)' without 'final' evaluates in the active region.
   // If Surelog sets isFinal=true, it misclassified the timing region.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_FALSE(ia->getIsFinal())
       << "§16.2 Rule 1: 'assert (expr)' without 'final' must have isFinal=false";
@@ -222,17 +222,17 @@ TEST_F(ImmediateAssertTest, Assert_IsNotFinal) {
 // §11.4.5 defines '!=' as the logical inequality operator (vpiNeqOp).
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, Assert_ExpressionIsOperation) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getExpr<uhdm::Operation>(), nullptr)
+  EXPECT_NE(ia->getExpr<hldb::Operation>(), nullptr)
       << "§16.2 Rule 2: assertion expression 'a != 0' must be an Operation node";
 }
 
 TEST_F(ImmediateAssertTest, Assert_ExpressionIsNotEqualOperator) {
   // §11.4.5: '!=' is the logical inequality operator → vpiNeqOp.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  const auto *op = ia->getExpr<uhdm::Operation>();
+  const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiNeqOp)
       << "§11.4.5: '!=' must be represented as vpiNeqOp";
@@ -240,9 +240,9 @@ TEST_F(ImmediateAssertTest, Assert_ExpressionIsNotEqualOperator) {
 
 TEST_F(ImmediateAssertTest, Assert_ExpressionHasTwoOperands) {
   // '!=' is a binary operator — exactly 2 operands.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  const auto *op = ia->getExpr<uhdm::Operation>();
+  const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 2u)
@@ -251,44 +251,44 @@ TEST_F(ImmediateAssertTest, Assert_ExpressionHasTwoOperands) {
 
 TEST_F(ImmediateAssertTest, Assert_LeftOperand_IsRefObj) {
   // A signal reference in an expression is a RefObj in UHDM.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  const auto *op = ia->getExpr<uhdm::Operation>();
+  const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<const uhdm::RefObj *>((*op->getOperands())[0]), nullptr)
+  EXPECT_NE(any_cast<const hldb::RefObj *>((*op->getOperands())[0]), nullptr)
       << "left operand of 'a != 0' must be a RefObj";
 }
 
 TEST_F(ImmediateAssertTest, Assert_LeftOperand_RefersToSignalA) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  const auto *op = ia->getExpr<uhdm::Operation>();
+  const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref = any_cast<const uhdm::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a")
       << "left operand of 'a != 0' must reference signal 'a'";
 }
 
 TEST_F(ImmediateAssertTest, Assert_RightOperand_IsConstant) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  const auto *op = ia->getExpr<uhdm::Operation>();
+  const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<const uhdm::Constant *>((*op->getOperands())[1]), nullptr)
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[1]), nullptr)
       << "right operand of 'a != 0' must be a Constant";
 }
 
 TEST_F(ImmediateAssertTest, Assert_RightOperand_ValueIsZero) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  const auto *op = ia->getExpr<uhdm::Operation>();
+  const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c = any_cast<const uhdm::Constant *>((*op->getOperands())[1]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "0")
       << "right operand of 'a != 0' must be the constant 0";
@@ -303,7 +303,7 @@ TEST_F(ImmediateAssertTest, Assert_RightOperand_ValueIsZero) {
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
   // §16.2: 'assert (expr) stmt' — the statement after the expression is
   // the pass action block. It must be non-null.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getStmt(), nullptr)
       << "§16.2 Rule 3: 'assert (...) $display(\"pass\")' must have a "
@@ -312,9 +312,9 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_IsSysFuncCall) {
   // $display is a system call — represented as SysFuncCall in UHDM.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getStmt<uhdm::SysFuncCall>(), nullptr)
+  EXPECT_NE(ia->getStmt<hldb::SysFuncCall>(), nullptr)
       << "§16.2: pass action '$display(...)' must be a SysFuncCall";
 }
 
@@ -374,7 +374,7 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_ConstType) {
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Exists) {
   // §16.2: '... else fail_stmt' — the else clause is the fail action block.
   // It must be non-null because the SV source includes 'else $display("fail")'.
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getElseStmt(), nullptr)
       << "§16.2 Rule 3: '... else $display(\"fail\")' must have a "
@@ -382,9 +382,9 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Exists) {
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_IsSysFuncCall) {
-  const uhdm::ImmediateAssert *const ia = getAssert(m_design);
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getElseStmt<uhdm::SysFuncCall>(), nullptr)
+  EXPECT_NE(ia->getElseStmt<hldb::SysFuncCall>(), nullptr)
       << "§16.2: fail action '$display(...)' must be a SysFuncCall";
 }
 

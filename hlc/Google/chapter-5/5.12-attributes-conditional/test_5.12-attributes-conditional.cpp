@@ -29,22 +29,22 @@
 // Key fact: the (* ... *) attribute is attached to the branch Expr node,
 // not to the ternary Operation itself.  Access via Expr::getAttributes().
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/attribute.h>
-#include <uhdm/begin.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/attribute.h>
+#include <hldb/begin.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class AttributesConditional : public Test {
  public:
@@ -66,16 +66,16 @@ class AttributesConditional : public Test {
 };
 
 // Helper: the one Assignment inside initial begin.
-static const uhdm::Assignment *getAssignment(const uhdm::Design *design) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", design->getAllModules());
+static const hldb::Assignment *getAssignment(const hldb::Design *design) {
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
-  for (const uhdm::Process *const p : *top->getProcesses()) {
-    if (const uhdm::Initial *const i = any_cast<uhdm::Initial>(p)) {
-      const uhdm::Begin *const blk = i->getStmt<uhdm::Begin>();
+  for (const hldb::Process *const p : *top->getProcesses()) {
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
+      const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
-      for (const uhdm::Any *const s : *blk->getStmts()) {
-        if (const uhdm::Assignment *const a = any_cast<uhdm::Assignment>(s))
+      for (const hldb::Any *const s : *blk->getStmts()) {
+        if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s))
           return a;
       }
     }
@@ -87,18 +87,18 @@ static const uhdm::Assignment *getAssignment(const uhdm::Design *design) {
 // Module and nets
 // ---------------------------------------------------------------------------
 TEST_F(AttributesConditional, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesConditional, FourBitNetsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 4u) << "expected 4 nets: a, b, c, d";
 
   bool hasA = false, hasB = false, hasC = false, hasD = false;
-  for (const uhdm::Net *const n : *top->getNets()) {
+  for (const hldb::Net *const n : *top->getNets()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
     if (n->getName() == "c") hasC = true;
@@ -118,15 +118,15 @@ TEST_F(AttributesConditional, AssignmentExists) {
 }
 
 TEST_F(AttributesConditional, AssignmentIsBlocking) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
   EXPECT_TRUE(a->getBlocking()) << "assignment should be blocking";
 }
 
 TEST_F(AttributesConditional, AssignmentLhsIsA) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::RefObj *const lhs = a->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = a->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "LHS is not a RefObj";
   EXPECT_EQ(lhs->getName(), "a");
 }
@@ -135,18 +135,18 @@ TEST_F(AttributesConditional, AssignmentLhsIsA) {
 // RHS: ternary Operation (condition)
 // ---------------------------------------------------------------------------
 TEST_F(AttributesConditional, RhsIsConditionalOperation) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "RHS is not an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiConditionOp)
       << "RHS opType should be vpiConditionOp (32)";
 }
 
 TEST_F(AttributesConditional, ConditionalHasThreeOperands) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   EXPECT_EQ(rhs->getOperands()->size(), 3u)
@@ -154,40 +154,40 @@ TEST_F(AttributesConditional, ConditionalHasThreeOperands) {
 }
 
 TEST_F(AttributesConditional, OperandZeroIsConditionB) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const uhdm::RefObj *const cond =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[0]);
+  const hldb::RefObj *const cond =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
   ASSERT_NE(cond, nullptr) << "operand[0] (condition) should be a RefObj";
   EXPECT_EQ(cond->getName(), "b");
 }
 
 TEST_F(AttributesConditional, OperandOneIsTrueBranchC) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const uhdm::RefObj *const trueBranch =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const trueBranch =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(trueBranch, nullptr) << "operand[1] (true branch) should be a RefObj";
   EXPECT_EQ(trueBranch->getName(), "c");
 }
 
 TEST_F(AttributesConditional, OperandTwoIsFalseBranchD) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const uhdm::RefObj *const falseBranch =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[2]);
+  const hldb::RefObj *const falseBranch =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[2]);
   ASSERT_NE(falseBranch, nullptr) << "operand[2] (false branch) should be a RefObj";
   EXPECT_EQ(falseBranch->getName(), "d");
 }
@@ -196,15 +196,15 @@ TEST_F(AttributesConditional, OperandTwoIsFalseBranchD) {
 // (* no_glitch *) attribute on the true-branch operand
 // ---------------------------------------------------------------------------
 TEST_F(AttributesConditional, TrueBranchHasNoGlitchAttribute) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
   // Attribute is on the branch Expr node, not on the Operation itself.
-  const uhdm::RefObj *const trueBranch =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const trueBranch =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(trueBranch, nullptr);
   ASSERT_NE(trueBranch->getAttributes(), nullptr)
       << "true branch 'c' should have attributes";
@@ -213,36 +213,36 @@ TEST_F(AttributesConditional, TrueBranchHasNoGlitchAttribute) {
 }
 
 TEST_F(AttributesConditional, NoGlitchIsFlagAttribute) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const uhdm::RefObj *const trueBranch =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const trueBranch =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(trueBranch, nullptr);
   ASSERT_NE(trueBranch->getAttributes(), nullptr);
   ASSERT_EQ(trueBranch->getAttributes()->size(), 1u);
 
   // Flag attribute: no = expr, so getValue() is null
-  const uhdm::Attribute *const attr = (*trueBranch->getAttributes())[0];
+  const hldb::Attribute *const attr = (*trueBranch->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getValue(), nullptr)
       << "'no_glitch' is a flag attribute and should have no value";
 }
 
 TEST_F(AttributesConditional, ConditionAndFalseBranchHaveNoAttributes) {
-  const uhdm::Assignment *const a = getAssignment(m_design);
+  const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const rhs = a->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const uhdm::RefObj *const cond  =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[0]);
-  const uhdm::RefObj *const falseBranch =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[2]);
+  const hldb::RefObj *const cond  =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
+  const hldb::RefObj *const falseBranch =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[2]);
   ASSERT_NE(cond,        nullptr);
   ASSERT_NE(falseBranch, nullptr);
 

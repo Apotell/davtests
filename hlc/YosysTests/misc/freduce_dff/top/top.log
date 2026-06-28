@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/freduce_dff -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db top.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/misc/freduce_dff/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 60
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/freduce_dff/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/freduce_dff/top.v> u<59> t<Top_level_rule> c<1> l<1:1> el<6:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<59> t<Top_level_rule> c<1> l<1:1> el<6:1>
   n<> u<1> t<Null_rule> p<59> s<58> l<1:1>
   n<> u<58> t<Source_text> p<59> c<57> l<1:1> el<5:10>
     n<> u<57> t<Description> p<58> c<56> l<1:1> el<5:10>
@@ -63,19 +72,19 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/freduce_dff/top.v> u<59> t<Top_level_rule
                                     n<d> u<40> t<SIMPLE_IDENTIFIER> p<41> l<4:18> el<4:19>
         n<> u<55> t<ENDMODULE> p<56> l<5:1> el<5:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/freduce_dff/top.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/freduce_dff/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/freduce_dff/top.v start:1:1 end:5:10:
+    Module name:work@top file:$Source01/top.v start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -96,6 +105,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:d start:2:13 end:2:14:
           vpiParent: Module name:work@top
@@ -187,37 +201,39 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/freduce_dff/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/surelog.uhdm
+      test-name: YosysTests/misc/freduce_dff/top
+   test-dirpath: ${HLC_DIR}/regression/YosysTests/misc/freduce_dff/top
+  hldb-filepath: ${HLC_DIR}/regression/YosysTests/misc/freduce_dff/top/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTests/misc/freduce_dff/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 80}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0, 'pre_len': 80}},
             'post_len': 0,
             'pre_len': 80,
             'test_name': 'YosysTests/misc/freduce_dff/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |       80 |         0 |
-+================+==========+===========+
-|                |       80 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |       80 |         0 |
++========================+==========+===========+
+|                        |       80 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -225,13 +241,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/surelog.uhdm ${SURELOG_DIR}/regression/YosysTests/misc/freduce_dff/top/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTests/misc/freduce_dff/top/design.hldb ${HLC_DIR}/regression/YosysTests/misc/freduce_dff/top/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    29      29       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

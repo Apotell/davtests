@@ -25,15 +25,15 @@
 //     stub Module nodes (fragments from the broken parse), neither with nets.
 //   - 'work@identifiers' does NOT appear — the module name was never captured.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class WrongIdentifiers : public Test {
  public:
@@ -60,7 +60,7 @@ class WrongIdentifiers : public Test {
 // ---------------------------------------------------------------------------
 TEST_F(WrongIdentifiers, NoModuleNamedIdentifiers) {
   EXPECT_EQ(
-      uhdm::findByName<uhdm::Module>("work@identifiers", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@identifiers", m_design->getAllModules()),
       nullptr)
       << "'work@identifiers' should not exist — parse failure swallowed the name";
 }
@@ -76,7 +76,7 @@ TEST_F(WrongIdentifiers, TwoStubModulesExist) {
 
 TEST_F(WrongIdentifiers, StubModulesHaveNoName) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const m : *m_design->getAllModules()) {
+  for (const hldb::Module *const m : *m_design->getAllModules()) {
     EXPECT_TRUE(m->getName().empty())
         << "stub module should have an empty name, got: " << m->getName();
   }
@@ -88,7 +88,7 @@ TEST_F(WrongIdentifiers, StubModulesHaveNoName) {
 // ---------------------------------------------------------------------------
 TEST_F(WrongIdentifiers, NoNetsInStubModules) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const m : *m_design->getAllModules()) {
+  for (const hldb::Module *const m : *m_design->getAllModules()) {
     EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
         << "stub module should have no nets";
   }

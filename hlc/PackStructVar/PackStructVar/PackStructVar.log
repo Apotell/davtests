@@ -1,22 +1,34 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackStructVar/PackStructVar/surelog.log".
-[INF:CP0301] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:1:1: Compile package "work@top_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:16:1: Compile package "work@tlul_pkg".
-[WRN:CP0323] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:16:1: Multiply defined typedef "top_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:41:1: Compile module "work@flash_ctrl".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:1:1: No timescale set for "work@top_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:16:1: No timescale set for "work@tlul_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackStructVar/dut.sv:41:1: No timescale set for "work@flash_ctrl".
-====== UHDM =======
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackStructVar -d db dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackStructVar/PackStructVar
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@top_pkg".
+[INF:CP0301] $Source01/dut.sv:16:1: Compile package "work@tlul_pkg".
+[WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "top_pkg".
+[WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "top_pkg".
+[WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "top_pkg".
+[WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "top_pkg".
+[INF:CP0303] $Source01/dut.sv:41:1: Compile module "work@flash_ctrl".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top_pkg".
+[WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@tlul_pkg".
+[WRN:PA0205] $Source01/dut.sv:41:1: No timescale set for "work@flash_ctrl".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackStructVar/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackStructVar/PackStructVar/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@top_pkg file:${SURELOG_DIR}/tests/PackStructVar/dut.sv start:1:1 end:13:11:
+    Package name:work@top_pkg file:$Source01/dut.sv start:1:1 end:13:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top_pkg start:1:9 end:1:16:
         vpiParent: Package name:work@top_pkg
@@ -342,7 +354,12 @@ Design name:unnamed:
             vpiValue: 4
       vpiDefName: work@top_pkg
       vpiDefNetType: none (12)
-    Package name:work@tlul_pkg file:${SURELOG_DIR}/tests/PackStructVar/dut.sv start:16:1 end:38:13:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@top_pkg
+        vpiName: work
+        vpiFullName: work@top_pkg::work
+      vpiCell: top_pkg
+    Package name:work@tlul_pkg file:$Source01/dut.sv start:16:1 end:38:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tlul_pkg start:16:9 end:16:17:
         vpiParent: Package name:work@tlul_pkg
@@ -396,7 +413,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 3
                 vpiDecompile: "3'h0"
-                vpiValue: 0
+                vpiValue: "0"
             EnumConst name:AccessAckData start:20:4 end:20:24:
               vpiParent: EnumTypespec
               vpiName Identifier name:AccessAckData start:20:4 end:20:17:
@@ -411,7 +428,7 @@ Design name:unnamed:
                 vpiConstType: hexadecimal (5)
                 vpiSize: 3
                 vpiDecompile: "3'h1"
-                vpiValue: 1
+                vpiValue: "1"
         TypedefTypespec name:tl_d_op_e start:18:2 end:21:14:
           vpiParent: Package name:work@tlul_pkg
           vpiName Identifier name:tl_d_op_e start:21:4 end:21:13:
@@ -462,8 +479,8 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: top_pkg::TL_SZW
                     vpiFullName: work@tlul_pkg::top_pkg::TL_SZW
-                    vpiActual (2 items):
-                      PackageTypespec name:top_pkg
+                    vpiPathElem (2 items):
+                      PackageTypespec name:top_pkg:
                       RefObj name:TL_SZW start:28:21 end:28:27:
                         vpiParent: HierPath name:top_pkg::TL_SZW
                         vpiName: TL_SZW
@@ -507,8 +524,8 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: top_pkg::TL_AIW
                     vpiFullName: work@tlul_pkg::top_pkg::TL_AIW
-                    vpiActual (2 items):
-                      PackageTypespec name:top_pkg
+                    vpiPathElem (2 items):
+                      PackageTypespec name:top_pkg:
                       RefObj name:TL_AIW start:29:21 end:29:27:
                         vpiParent: HierPath name:top_pkg::TL_AIW
                         vpiName: TL_AIW
@@ -552,8 +569,8 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: top_pkg::TL_DIW
                     vpiFullName: work@tlul_pkg::top_pkg::TL_DIW
-                    vpiActual (2 items):
-                      PackageTypespec name:top_pkg
+                    vpiPathElem (2 items):
+                      PackageTypespec name:top_pkg:
                       RefObj name:TL_DIW start:30:21 end:30:27:
                         vpiParent: HierPath name:top_pkg::TL_DIW
                         vpiName: TL_DIW
@@ -597,8 +614,8 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: top_pkg::TL_DW
                     vpiFullName: work@tlul_pkg::top_pkg::TL_DW
-                    vpiActual (2 items):
-                      PackageTypespec name:top_pkg
+                    vpiPathElem (2 items):
+                      PackageTypespec name:top_pkg:
                       RefObj name:TL_DW start:31:22 end:31:27:
                         vpiParent: HierPath name:top_pkg::TL_DW
                         vpiName: TL_DW
@@ -642,8 +659,8 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: top_pkg::TL_DUW
                     vpiFullName: work@tlul_pkg::top_pkg::TL_DUW
-                    vpiActual (2 items):
-                      PackageTypespec name:top_pkg
+                    vpiPathElem (2 items):
+                      PackageTypespec name:top_pkg:
                       RefObj name:TL_DUW start:32:21 end:32:27:
                         vpiParent: HierPath name:top_pkg::TL_DUW
                         vpiName: TL_DUW
@@ -760,8 +777,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@tlul_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@tlul_pkg
+        vpiName: work
+        vpiFullName: work@tlul_pkg::work
+      vpiCell: tlul_pkg
   vpiAllModules (1 items):
-    Module name:work@flash_ctrl file:${SURELOG_DIR}/tests/PackStructVar/dut.sv start:41:1 end:47:10:
+    Module name:work@flash_ctrl file:$Source01/dut.sv start:41:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@flash_ctrl start:41:8 end:41:18:
         vpiParent: Module name:work@flash_ctrl
@@ -797,6 +819,11 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:tl_h2d_t
       vpiDefName: work@flash_ctrl
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@flash_ctrl
+        vpiName: work
+        vpiFullName: work@flash_ctrl.work
+      vpiCell: flash_ctrl
       vpiNet (1 items):
         Net name:tl_fifo_h2d start:44:21 end:44:32:
           vpiParent: Module name:work@flash_ctrl
@@ -819,37 +846,40 @@ Design name:unnamed:
         vpiName: work@flash_ctrl
       vpiModule: Module name:work@flash_ctrl
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 7
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackStructVar/PackStructVar
- test-dirpath: ${SURELOG_DIR}/regression/PackStructVar/PackStructVar
-uhdm-filepath: ${SURELOG_DIR}/regression/PackStructVar/PackStructVar/surelog.uhdm
+      test-name: PackStructVar/PackStructVar
+   test-dirpath: ${HLC_DIR}/regression/PackStructVar/PackStructVar
+  hldb-filepath: ${HLC_DIR}/regression/PackStructVar/PackStructVar/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackStructVar/PackStructVar/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackStructVar/PackStructVar/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 957}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 957}},
             'post_len': 0,
             'pre_len': 957,
             'test_name': 'PackStructVar/PackStructVar'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      957 |         0 |
-+=================+==========+===========+
-|                 |      957 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      957 |         0 |
++=========================+==========+===========+
+|                         |      957 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -857,7 +887,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackStructVar/PackStructVar/surelog.uhd
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackStructVar/PackStructVar/surelog.uhdm ${SURELOG_DIR}/regression/PackStructVar/PackStructVar/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackStructVar/PackStructVar/design.hldb ${HLC_DIR}/regression/PackStructVar/PackStructVar/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -865,11 +895,11 @@ Name                            Before   After   Added   Removed
 Constant                            28      28       2         2
 Identifier                          10       8       0         2
 Operation                            8       6       0         2
-RefObj                              18      16       0         2
+RefObj                              21      19       0         2
 RefTypespec                         54      53       1         2
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                              75      75       0         0
 ----------------------------------------------------------------
-                                   195     186       3        12
+                                   198     189       3        12
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/disblock/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db disblock.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/disblock
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/disblock.v".
+[INF:PA0201] Parsing source file "$Source01/disblock.v".
 AST_DEBUG_BEGIN
 Count: 169
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/disblock.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/disblock.v> u<168> t<Top_level_rule> c<1> l<22:1> el<51:1>
+FILE: f<13>:$Source01/disblock.v
+n<$Source01/disblock.v> u<168> t<Top_level_rule> c<1> l<22:1> el<51:1>
   n<> u<1> t<Null_rule> p<168> s<2> l<22:1> el<22:1>
   n<//> u<2> t<LINE_COMMENT> p<168> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 2002 Philip Blundell <pb@nexus.co.uk>> u<3> t<LINE_COMMENT> p<168> s<4> l<2:1> el<2:55>
@@ -172,19 +181,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/disblock.v> u<168> t<Top_level_rule> c<1>
                           n<> u<154> t<END> p<155> l<47:1> el<47:4>
         n<> u<164> t<ENDMODULE> p<165> l<49:1> el<49:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/disblock.v:22:1: Compile module "work@m".
+[INF:CP0303] $Source01/disblock.v:22:1: Compile module "work@m".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:disblock.v file:${SURELOG_DIR}/tests/Icarus/ivltests/disblock.v:
+  vpiSourceFile (1 items):
+    SourceFile name:disblock.v file:$Source01/disblock.v:
       vpiParent: Design name:unnamed
       vpiName: disblock.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/disblock/lib/work/disblock.v"
+      vpiPreprocFile: "$Output/lib/work/disblock.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@m file:${SURELOG_DIR}/tests/Icarus/ivltests/disblock.v start:22:1 end:49:10:
+    Module name:work@m file:$Source01/disblock.v start:22:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@m start:22:8 end:22:9:
         vpiParent: Module name:work@m
@@ -192,6 +201,11 @@ Design name:unnamed:
       vpiFullName: work@m
       vpiDefName: work@m
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@m
+        vpiName: work
+        vpiFullName: work@m.work
+      vpiCell: m
       vpiTaskFunc (1 items):
         Task name:t start:31:1 end:41:8:
           vpiParent: Module name:work@m
@@ -199,68 +213,64 @@ Design name:unnamed:
             vpiParent: Task name:t
             vpiName: t
           vpiFullName: work@m.t
-          vpiStmt Begin:
+          vpiStmt Begin start:32:3 end:40:6:
             vpiParent: Task name:t
             vpiFullName: work@m.t
             vpiStmt (1 items):
-              Begin start:32:3 end:40:6:
+              Begin name:wait_loop start:33:5 end:39:8:
                 vpiParent: Begin
-                vpiFullName: work@m.t
-                vpiStmt (1 items):
-                  Begin name:wait_loop start:33:5 end:39:8:
-                    vpiParent: Begin
-                    vpiName Identifier name:wait_loop start:33:11 end:33:20:
-                      vpiParent: Begin name:wait_loop
-                      vpiName: wait_loop
-                    vpiFullName: work@m.t.wait_loop
-                    vpiStmt (2 items):
-                      DelayControl start:34:8 end:34:10:
-                        vpiParent: Begin name:wait_loop
-                        vpiDelay Constant start:34:9 end:34:10:
-                          vpiParent: DelayControl
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@m.t.wait_loop
-                            vpiActual: IntTypespec
-                          vpiConstType: int (7)
-                          vpiSize: 32
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                      WhileStmt start:35:8 end:38:11:
-                        vpiParent: Begin name:wait_loop
-                        vpiCondition Constant start:35:14 end:35:15:
-                          vpiParent: WhileStmt
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@m.t.wait_loop
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                        vpiStmt Begin start:35:17 end:38:11:
-                          vpiParent: WhileStmt
-                          vpiFullName: work@m.t.wait_loop
-                          vpiStmt (2 items):
-                            DelayControl start:36:11 end:36:13:
-                              vpiParent: Begin
-                              vpiDelay Constant start:36:12 end:36:13:
-                                vpiParent: DelayControl
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: work@m.t.wait_loop
-                                  vpiActual: IntTypespec
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                            Disable start:37:4 end:37:22:
-                              vpiParent: Begin
-                              vpiExpr RefObj name:wait_loop start:37:12 end:37:21:
-                                vpiParent: Disable
-                                vpiName: wait_loop
-                                vpiFullName: work@m.t.wait_loop.wait_loop
-                                vpiActual: Begin name:wait_loop
+                vpiName Identifier name:wait_loop start:33:11 end:33:20:
+                  vpiParent: Begin name:wait_loop
+                  vpiName: wait_loop
+                vpiFullName: work@m.t.wait_loop
+                vpiStmt (2 items):
+                  DelayControl start:34:8 end:34:10:
+                    vpiParent: Begin name:wait_loop
+                    vpiDelay Constant start:34:9 end:34:10:
+                      vpiParent: DelayControl
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@m.t.wait_loop
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                  WhileStmt start:35:8 end:38:11:
+                    vpiParent: Begin name:wait_loop
+                    vpiCondition Constant start:35:14 end:35:15:
+                      vpiParent: WhileStmt
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@m.t.wait_loop
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                    vpiStmt Begin start:35:17 end:38:11:
+                      vpiParent: WhileStmt
+                      vpiFullName: work@m.t.wait_loop
+                      vpiStmt (2 items):
+                        DelayControl start:36:11 end:36:13:
+                          vpiParent: Begin
+                          vpiDelay Constant start:36:12 end:36:13:
+                            vpiParent: DelayControl
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@m.t.wait_loop
+                              vpiActual: IntTypespec
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                        Disable start:37:4 end:37:22:
+                          vpiParent: Begin
+                          vpiExpr RefObj name:wait_loop start:37:12 end:37:21:
+                            vpiParent: Disable
+                            vpiName: wait_loop
+                            vpiFullName: work@m.t.wait_loop.wait_loop
+                            vpiActual: Begin name:wait_loop
       vpiProcess (2 items):
         Initial start:24:1 end:29:6:
           vpiParent: Module name:work@m
@@ -346,37 +356,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/disblock
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/disblock
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disblock/surelog.uhdm
+      test-name: Icarus/ivltests/disblock
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/disblock
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/disblock/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/disblock/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/disblock/lib/work/disblock.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 192}},
+            'files': {'$Output/lib/work/disblock.v': {'post_len': 0,
+                                                      'pre_len': 192}},
             'post_len': 0,
             'pre_len': 192,
             'test_name': 'Icarus/ivltests/disblock'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/disblock.v |      192 |         0 |
-+=====================+==========+===========+
-|                     |      192 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/disblock.v |      192 |         0 |
++=============================+==========+===========+
+|                             |      192 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -384,7 +397,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/disblock/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/disblock/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/disblock/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/disblock/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/disblock/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

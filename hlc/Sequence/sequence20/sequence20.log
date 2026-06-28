@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence20/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -d db -d ast sequence20.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Sequence/sequence20
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence20.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence20.sv".
 AST_DEBUG_BEGIN
 Count: 231
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence20.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
+FILE: f<13>:$Source01/sequence20.sv
+n<$Source01/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
   n<> u<1> t<Null_rule> p<230> s<229> l<1:1>
   n<> u<229> t<Source_text> p<230> c<228> l<1:1> el<21:10>
     n<> u<228> t<Description> p<229> c<227> l<1:1> el<21:10>
@@ -234,21 +243,22 @@ n<${SURELOG_DIR}/tests/Sequence/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1
                         n<> u<217> t<END> p<218> l<20:3> el<20:6>
         n<> u<226> t<ENDMODULE> p<227> l<21:1> el<21:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence20.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence20.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence20.sv:13:34: Illegal implicit net "id:39, name:seq_delay_star".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence20.sv:14:34: Illegal implicit net "id:44, name:seq_delay_plus".
-====== UHDM =======
+[INF:CP0303] $Source01/sequence20.sv:1:1: Compile module "work@tb".
+[ERR:CP0347] $Source01/sequence20.sv:1:1: Call to "ArrayTypespec::setParent" failed.
+[WRN:PA0205] $Source01/sequence20.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence20.sv:13:34: Illegal implicit net "id:40, name:seq_delay_star".
+[ERR:EL0535] $Source01/sequence20.sv:14:34: Illegal implicit net "id:45, name:seq_delay_plus".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence20.sv file:${SURELOG_DIR}/tests/Sequence/sequence20.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence20.sv file:$Source01/sequence20.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence20.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence20/lib/work/sequence20.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence20.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence20.sv start:1:1 end:21:10:
+    Module name:work@tb file:$Source01/sequence20.sv start:1:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -261,15 +271,16 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq_delay_star
             vpiName: seq_delay_star
           vpiFullName: work@tb.seq_delay_star
-          vpiExpr Operation start:6:7 end:6:14:
+          vpiExpr Operation start:6:5 end:6:14:
             vpiParent: SequenceDecl name:seq_delay_star
-            vpiOpType: unary cycle delay (53)
-            vpiOperand (2 items):
+            vpiOpType: binary cycle delay (71)
+            vpiOperand (3 items):
               RefObj name:a start:6:5 end:6:6:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: work@tb.seq_delay_star.a
                 vpiActual: Net name:a
+              ArrayTypespec:
               RefObj name:b start:6:13 end:6:14:
                 vpiParent: Operation
                 vpiName: b
@@ -281,9 +292,9 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq_delay_plus
             vpiName: seq_delay_plus
           vpiFullName: work@tb.seq_delay_plus
-          vpiExpr Operation start:10:7 end:10:14:
+          vpiExpr Operation start:10:5 end:10:14:
             vpiParent: SequenceDecl name:seq_delay_plus
-            vpiOpType: unary cycle delay (53)
+            vpiOpType: binary cycle delay (71)
             vpiOperand (2 items):
               RefObj name:a start:10:5 end:10:6:
                 vpiParent: Operation
@@ -344,6 +355,11 @@ Design name:unnamed:
             vpiFullName: work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (3 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -496,37 +512,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence20
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence20
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence20/surelog.uhdm
+      test-name: Sequence/sequence20
+   test-dirpath: ${HLC_DIR}/regression/Sequence/sequence20
+  hldb-filepath: ${HLC_DIR}/regression/Sequence/sequence20/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Sequence/sequence20/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence20/lib/work/sequence20.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 285}},
+            'files': {'$Output/lib/work/sequence20.sv': {'post_len': 0,
+                                                         'pre_len': 285}},
             'post_len': 0,
             'pre_len': 285,
             'test_name': 'Sequence/sequence20'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sequence20.sv |      285 |         0 |
-+========================+==========+===========+
-|                        |      285 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sequence20.sv |      285 |         0 |
++================================+==========+===========+
+|                                |      285 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -534,13 +553,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence20/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence20/surelog.uhdm ${SURELOG_DIR}/regression/Sequence/sequence20/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Sequence/sequence20/design.hldb ${HLC_DIR}/regression/Sequence/sequence20/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

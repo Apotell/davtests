@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/scc_feedback -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db top.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/misc/scc_feedback/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 144
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/scc_feedback/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/scc_feedback/top.v> u<143> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<143> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<143> s<142> l<1:1>
   n<> u<142> t<Source_text> p<143> c<141> l<1:1> el<19:10>
     n<> u<141> t<Description> p<142> c<140> l<1:1> el<19:10>
@@ -147,19 +156,19 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/scc_feedback/top.v> u<143> t<Top_level_ru
                             n<o_mid> u<127> t<SIMPLE_IDENTIFIER> p<128> l<17:20> el<17:25>
         n<> u<139> t<ENDMODULE> p<140> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/scc_feedback/top.v:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/scc_feedback/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/scc_feedback/top.v start:1:1 end:19:10:
+    Module name:work@top file:$Source01/top.v start:1:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -207,6 +216,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (6 items):
         Net name:x start:3:8 end:3:9:
           vpiParent: Module name:work@top
@@ -404,37 +418,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/scc_feedback/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/surelog.uhdm
+      test-name: YosysTests/misc/scc_feedback/top
+   test-dirpath: ${HLC_DIR}/regression/YosysTests/misc/scc_feedback/top
+  hldb-filepath: ${HLC_DIR}/regression/YosysTests/misc/scc_feedback/top/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTests/misc/scc_feedback/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                                    'pre_len': 187}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 187}},
             'post_len': 0,
             'pre_len': 187,
             'test_name': 'YosysTests/misc/scc_feedback/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      187 |         0 |
-+================+==========+===========+
-|                |      187 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      187 |         0 |
++========================+==========+===========+
+|                        |      187 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -442,13 +459,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/surelo
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/surelog.uhdm ${SURELOG_DIR}/regression/YosysTests/misc/scc_feedback/top/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTests/misc/scc_feedback/top/design.hldb ${HLC_DIR}/regression/YosysTests/misc/scc_feedback/top/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

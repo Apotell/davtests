@@ -27,18 +27,18 @@
 // IntegerTypespec with vpiSigned: true.  This is distinct from 'logic' which
 // produces a LogicTypespec, and from 'int' (SystemVerilog 2-state type).
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/integer_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/integer_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class IntegersToken : public Test {
  public:
@@ -59,8 +59,8 @@ class IntegersToken : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -71,20 +71,20 @@ TEST_F(IntegersToken, ModuleExists) {
 }
 
 TEST_F(IntegersToken, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u) << "expected exactly 1 net ('a')";
 }
 
 TEST_F(IntegersToken, NetIsNamedA) {
-  const uhdm::Net *const net =
-      uhdm::findByName<uhdm::Net>("a", getTop(m_design)->getNets());
+  const hldb::Net *const net =
+      hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
   EXPECT_NE(net, nullptr) << "net 'a' not found";
 }
 
 TEST_F(IntegersToken, NoProcesses) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
       << "module should have no initial/always processes";
@@ -95,23 +95,23 @@ TEST_F(IntegersToken, NoProcesses) {
 // The typespec chain: Net::getTypespec() → RefTypespec → getActual<IntegerTypespec>()
 // ---------------------------------------------------------------------------
 TEST_F(IntegersToken, NetTypespecIsInteger) {
-  const uhdm::Net *const net =
-      uhdm::findByName<uhdm::Net>("a", getTop(m_design)->getNets());
+  const hldb::Net *const net =
+      hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const ref = net->getTypespec();
+  const hldb::RefTypespec *const ref = net->getTypespec();
   ASSERT_NE(ref, nullptr) << "net 'a' has no typespec";
-  const auto *const intTs = ref->getActual<uhdm::IntegerTypespec>();
+  const auto *const intTs = ref->getActual<hldb::IntegerTypespec>();
   EXPECT_NE(intTs, nullptr)
       << "'integer a' should have an IntegerTypespec, not LogicTypespec or other";
 }
 
 TEST_F(IntegersToken, IntegerTypespecIsSigned) {
-  const uhdm::Net *const net =
-      uhdm::findByName<uhdm::Net>("a", getTop(m_design)->getNets());
+  const hldb::Net *const net =
+      hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const ref = net->getTypespec();
+  const hldb::RefTypespec *const ref = net->getTypespec();
   ASSERT_NE(ref, nullptr);
-  const auto *const intTs = ref->getActual<uhdm::IntegerTypespec>();
+  const auto *const intTs = ref->getActual<hldb::IntegerTypespec>();
   ASSERT_NE(intTs, nullptr);
   EXPECT_TRUE(intTs->getSigned())
       << "SV 'integer' is a signed 32-bit type; vpiSigned should be true";

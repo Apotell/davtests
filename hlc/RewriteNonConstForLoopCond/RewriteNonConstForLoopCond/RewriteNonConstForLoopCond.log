@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/RewriteNonConstForLoopCond -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 134
 LIB: work
-FILE: ${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv
-n<${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv> u<133> t<Top_level_rule> c<1> l<1:1> el<20:10>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<133> t<Top_level_rule> c<1> l<1:1> el<20:10>
   n<> u<1> t<Null_rule> p<133> s<132> l<1:1>
   n<> u<132> t<Source_text> p<133> c<131> l<1:1> el<20:10>
     n<> u<131> t<Description> p<132> c<130> l<1:1> el<20:10>
@@ -137,20 +146,20 @@ n<${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv> u<133> t<Top_level_rul
                         n<> u<120> t<END> p<121> l<17:6> el<17:9>
         n<> u<129> t<ENDMODULE> p<130> l<20:1> el<20:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv:1:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv:11:16: Illegal implicit net "id:38, name:cond".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:11:16: Illegal implicit net "id:39, name:cond".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/RewriteNonConstForLoopCond/dut.sv start:1:1 end:20:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -161,6 +170,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:found start:3:24 end:3:29:
           vpiParent: Module name:work@top
@@ -197,7 +211,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
               ForStmt start:10:9 end:16:12:
                 vpiParent: Begin
                 vpiFullName: work@top
@@ -227,7 +241,7 @@ Design name:unnamed:
                 vpiForIncStmt (1 items):
                   Operation start:10:41 end:10:44:
                     vpiParent: ForStmt
-                    vpiOpType: post inc (62)
+                    vpiOpType: post inc (64)
                     vpiOperand (1 items):
                       RefObj name:i start:10:41 end:10:42:
                         vpiParent: Operation
@@ -302,7 +316,7 @@ Design name:unnamed:
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b0"
-                            vpiValue: 0
+                            vpiValue: "0"
                       vpiStmt Begin start:11:30 end:13:15:
                         vpiParent: IfElse
                         vpiFullName: work@top
@@ -323,7 +337,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b1"
-                          vpiValue: 1
+                          vpiValue: "1"
           vpiAlwaysType: comb (2)
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
@@ -336,37 +350,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: RewriteNonConstForLoopCond/RewriteNonConstForLoopCond
- test-dirpath: ${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond
-uhdm-filepath: ${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/surelog.uhdm
+      test-name: RewriteNonConstForLoopCond/RewriteNonConstForLoopCond
+   test-dirpath: ${HLC_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond
+  hldb-filepath: ${HLC_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                                          'pre_len': 169}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 169}},
             'post_len': 0,
             'pre_len': 169,
             'test_name': 'RewriteNonConstForLoopCond/RewriteNonConstForLoopCond'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      169 |         0 |
-+=================+==========+===========+
-|                 |      169 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      169 |         0 |
++=========================+==========+===========+
+|                         |      169 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -374,13 +391,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonCo
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/surelog.uhdm ${SURELOG_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/design.hldb ${HLC_DIR}/regression/RewriteNonConstForLoopCond/RewriteNonConstForLoopCond/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

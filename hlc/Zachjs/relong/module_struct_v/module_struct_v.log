@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+relong+basic+lex+lib+resolve -nobuiltin -timescale=1ns/1ns -d ast -d db relong/module_struct.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Zachjs/relong/module_struct_v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/relong/module_struct.v".
+[INF:PA0201] Parsing source file "$Source01/relong/module_struct.v".
 AST_DEBUG_BEGIN
 Count: 271
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v
-n<${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:10>
+FILE: f<18>:$Source01/relong/module_struct.v
+n<$Source01/relong/module_struct.v> u<270> t<Top_level_rule> c<1> l<1:1> el<37:10>
   n<> u<1> t<Null_rule> p<270> s<269> l<1:1>
   n<> u<269> t<Source_text> p<270> c<5> l<1:1> el<37:10>
     n<> u<5> t<Description> p<269> c<4> s<6> l<1:1> el<1:22>
@@ -274,22 +283,22 @@ n<${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v> u<270> t<Top_level_rule> c
                           n<in> u<256> t<SIMPLE_IDENTIFIER> p<257> l<35:16> el<35:18>
         n<> u<266> t<ENDMODULE> p<267> l<37:1> el<37:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v:9:1: Compile module "work@Example".
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v:30:1: Compile module "work@SubModule".
+[INF:CP0303] $Source01/relong/module_struct.v:9:1: Compile module "work@Example".
+[INF:CP0303] $Source01/relong/module_struct.v:30:1: Compile module "work@SubModule".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v:20:6: Illegal implicit net "id:79, name:in".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v:21:6: Illegal implicit net "id:82, name:out".
-====== UHDM =======
+[ERR:EL0535] $Source01/relong/module_struct.v:20:6: Illegal implicit net "id:81, name:in".
+[ERR:EL0535] $Source01/relong/module_struct.v:21:6: Illegal implicit net "id:84, name:out".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:module_struct.v file:${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v:
+  vpiSourceFile (1 items):
+    SourceFile name:module_struct.v file:$Source01/relong/module_struct.v:
       vpiParent: Design name:unnamed
       vpiName: module_struct.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/lib/work/relong/module_struct.v"
+      vpiPreprocFile: "$Output/lib/work/relong/module_struct.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@Example file:${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v start:9:1 end:28:10:
+    Module name:work@Example file:$Source01/relong/module_struct.v start:9:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Example start:9:8 end:9:15:
         vpiParent: Module name:work@Example
@@ -409,6 +418,11 @@ Design name:unnamed:
             vpiName: work@SubModule
       vpiDefName: work@Example
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Example
+        vpiName: work
+        vpiFullName: work@Example.work
+      vpiCell: Example
       vpiNet (5 items):
         Net name:a start:10:22 end:10:23:
           vpiParent: Module name:work@Example
@@ -629,7 +643,7 @@ Design name:unnamed:
                 vpiName: "__s_out"
                 vpiFullName: work@Example.sub.__s_out
                 vpiActual: Net name:__s_out
-    Module name:work@SubModule file:${SURELOG_DIR}/tests/Zachjs/relong/module_struct.v start:30:1 end:37:10:
+    Module name:work@SubModule file:$Source01/relong/module_struct.v start:30:1 end:37:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@SubModule start:30:8 end:30:17:
         vpiParent: Module name:work@SubModule
@@ -690,6 +704,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@SubModule
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@SubModule
+        vpiName: work
+        vpiFullName: work@SubModule.work
+      vpiCell: SubModule
       vpiNet (2 items):
         Net name:in start:31:20 end:31:22:
           vpiParent: Module name:work@SubModule
@@ -764,37 +783,40 @@ Design name:unnamed:
         vpiName: work@SubModule
       vpiModule: Module name:work@SubModule
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/relong/module_struct_v
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/surelog.uhdm
+      test-name: Zachjs/relong/module_struct_v
+   test-dirpath: ${HLC_DIR}/regression/Zachjs/relong/module_struct_v
+  hldb-filepath: ${HLC_DIR}/regression/Zachjs/relong/module_struct_v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/module_struct_v/mounts.json
 
 
 {'result': {'coverage': 93.42,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/lib/work/relong/module_struct.v'): {'post_len': 21,
-                                                                                                                                                  'pre_len': 319}},
+            'files': {'$Output/lib/work/relong/module_struct.v': {'post_len': 21,
+                                                                  'pre_len': 319}},
             'post_len': 21,
             'pre_len': 319,
             'test_name': 'Zachjs/relong/module_struct_v'}}
 
-+---------------------------------+----------+-----------+
-| INPUT                           |   PRELEN |   POSTLEN |
-+=================================+==========+===========+
-| lib/work/relong/module_struct.v |      319 |        21 |
-+=================================+==========+===========+
-|                                 |      319 |        21 |
-+---------------------------------+----------+-----------+
++-----------------------------------------+----------+-----------+
+| INPUT                                   |   PRELEN |   POSTLEN |
++=========================================+==========+===========+
+| $Output/lib/work/relong/module_struct.v |      319 |        21 |
++=========================================+==========+===========+
+|                                         |      319 |        21 |
++-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 93.42
@@ -802,13 +824,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/surelog.uhdm ${SURELOG_DIR}/regression/Zachjs/relong/module_struct_v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Zachjs/relong/module_struct_v/design.hldb ${HLC_DIR}/regression/Zachjs/relong/module_struct_v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             118     118       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   118     118       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db nblkorder.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/nblkorder
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/nblkorder.v".
+[INF:PA0201] Parsing source file "$Source01/nblkorder.v".
 AST_DEBUG_BEGIN
 Count: 426
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/nblkorder.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/nblkorder.v> u<425> t<Top_level_rule> c<1> l<22:1> el<65:1>
+FILE: f<13>:$Source01/nblkorder.v
+n<$Source01/nblkorder.v> u<425> t<Top_level_rule> c<1> l<22:1> el<65:1>
   n<> u<1> t<Null_rule> p<425> s<2> l<22:1> el<22:1>
   n<//> u<2> t<LINE_COMMENT> p<425> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 1999 Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<425> s<4> l<2:1> el<2:54>
@@ -429,19 +438,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/nblkorder.v> u<425> t<Top_level_rule> c<1
                           n<> u<411> t<END> p<412> l<63:3> el<63:6>
         n<> u<421> t<ENDMODULE> p<422> l<64:1> el<64:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/nblkorder.v:22:1: Compile module "work@main".
+[INF:CP0303] $Source01/nblkorder.v:22:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:nblkorder.v file:${SURELOG_DIR}/tests/Icarus/ivltests/nblkorder.v:
+  vpiSourceFile (1 items):
+    SourceFile name:nblkorder.v file:$Source01/nblkorder.v:
       vpiParent: Design name:unnamed
       vpiName: nblkorder.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/lib/work/nblkorder.v"
+      vpiPreprocFile: "$Output/lib/work/nblkorder.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/nblkorder.v start:22:1 end:64:10:
+    Module name:work@main file:$Source01/nblkorder.v start:22:1 end:64:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:22:8 end:22:12:
         vpiParent: Module name:work@main
@@ -452,6 +461,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (4 items):
         Net name:x start:24:5 end:24:6:
           vpiParent: Module name:work@main
@@ -928,37 +942,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/nblkorder
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/surelog.uhdm
+      test-name: Icarus/ivltests/nblkorder
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/nblkorder
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/nblkorder/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/nblkorder/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/lib/work/nblkorder.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 453}},
+            'files': {'$Output/lib/work/nblkorder.v': {'post_len': 0,
+                                                       'pre_len': 453}},
             'post_len': 0,
             'pre_len': 453,
             'test_name': 'Icarus/ivltests/nblkorder'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/nblkorder.v |      453 |         0 |
-+======================+==========+===========+
-|                      |      453 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/nblkorder.v |      453 |         0 |
++==============================+==========+===========+
+|                              |      453 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -966,13 +983,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/nblkorder/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/nblkorder/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/nblkorder/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   120     120       0         0
+                                   121     121       0         0
 ===================== END REDUCTION RESULT =====================

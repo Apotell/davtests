@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PartSelectHierPath -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PartSelectHierPath/PartSelectHierPath
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 119
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv
-n<${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv> u<118> t<Top_level_rule> c<1> l<1:1> el<15:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<118> t<Top_level_rule> c<1> l<1:1> el<15:1>
   n<> u<1> t<Null_rule> p<118> s<117> l<1:1>
   n<> u<117> t<Source_text> p<118> c<49> l<1:1> el<14:10>
     n<> u<49> t<Description> p<117> c<48> s<50> l<1:1> el<8:11>
@@ -122,23 +131,23 @@ n<${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv> u<118> t<Top_level_rule> c<1> 
                                         n<0> u<97> t<INTEGRAL_NUMBER> p<98> l<13:82> el<13:83>
         n<> u<114> t<ENDMODULE> p<115> l<14:1> el<14:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:1:1: Compile package "work@swerv_types".
-[INF:CP0303] ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:10:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:1:1: No timescale set for "work@swerv_types".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:10:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:13:10: Illegal implicit net "id:40, name:trace_rv_i_insn_ip".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:13:60: Illegal implicit net "id:59, name:trace_rv_i_insn_ip".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@swerv_types".
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@swerv_types".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:13:10: Illegal implicit net "id:42, name:trace_rv_i_insn_ip".
+[ERR:EL0535] $Source01/dut.sv:13:60: Illegal implicit net "id:61, name:trace_rv_i_insn_ip".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@swerv_types file:${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv start:1:1 end:8:11:
+    Package name:work@swerv_types file:$Source01/dut.sv start:1:1 end:8:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@swerv_types start:1:9 end:1:20:
         vpiParent: Package name:work@swerv_types
@@ -226,8 +235,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@swerv_types
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@swerv_types
+        vpiName: work
+        vpiFullName: work@swerv_types::work
+      vpiCell: swerv_types
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/PartSelectHierPath/dut.sv start:10:1 end:14:10:
+    Module name:work@top file:$Source01/dut.sv start:10:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:10:8 end:10:11:
         vpiParent: Module name:work@top
@@ -243,6 +257,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:trace_rv_trace_pkt start:12:16 end:12:34:
           vpiParent: Module name:work@top
@@ -290,7 +309,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: trace_rv_trace_pkt.trace_rv_i_insn_ip[63:0]
             vpiFullName: work@top.trace_rv_trace_pkt.trace_rv_i_insn_ip[63:0]
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:trace_rv_trace_pkt start:13:41 end:13:59:
                 vpiParent: HierPath name:trace_rv_trace_pkt.trace_rv_i_insn_ip[63:0]
                 vpiName: trace_rv_trace_pkt
@@ -337,37 +356,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PartSelectHierPath/PartSelectHierPath
- test-dirpath: ${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath
-uhdm-filepath: ${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/surelog.uhdm
+      test-name: PartSelectHierPath/PartSelectHierPath
+   test-dirpath: ${HLC_DIR}/regression/PartSelectHierPath/PartSelectHierPath
+  hldb-filepath: ${HLC_DIR}/regression/PartSelectHierPath/PartSelectHierPath/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PartSelectHierPath/PartSelectHierPath/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                          'pre_len': 289}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 289}},
             'post_len': 0,
             'pre_len': 289,
             'test_name': 'PartSelectHierPath/PartSelectHierPath'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      289 |         0 |
-+=================+==========+===========+
-|                 |      289 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      289 |         0 |
++=========================+==========+===========+
+|                         |      289 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -375,13 +397,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/s
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/surelog.uhdm ${SURELOG_DIR}/regression/PartSelectHierPath/PartSelectHierPath/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PartSelectHierPath/PartSelectHierPath/design.hldb ${HLC_DIR}/regression/PartSelectHierPath/PartSelectHierPath/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

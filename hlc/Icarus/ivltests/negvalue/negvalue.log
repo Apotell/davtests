@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db negvalue.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/negvalue
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/negvalue.v".
+[INF:PA0201] Parsing source file "$Source01/negvalue.v".
 AST_DEBUG_BEGIN
 Count: 132
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/negvalue.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/negvalue.v> u<131> t<Top_level_rule> c<1> l<1:1> el<16:1>
+FILE: f<13>:$Source01/negvalue.v
+n<$Source01/negvalue.v> u<131> t<Top_level_rule> c<1> l<1:1> el<16:1>
   n<> u<1> t<Null_rule> p<131> s<130> l<1:1>
   n<> u<130> t<Source_text> p<131> c<129> l<1:1> el<15:10>
     n<> u<129> t<Description> p<130> c<128> l<1:1> el<15:10>
@@ -135,19 +144,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/negvalue.v> u<131> t<Top_level_rule> c<1>
                               n<> u<115> t<END> p<116> l<13:2> el<13:5>
         n<> u<127> t<ENDMODULE> p<128> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/negvalue.v:1:1: Compile module "work@negvalue".
+[INF:CP0303] $Source01/negvalue.v:1:1: Compile module "work@negvalue".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:negvalue.v file:${SURELOG_DIR}/tests/Icarus/ivltests/negvalue.v:
+  vpiSourceFile (1 items):
+    SourceFile name:negvalue.v file:$Source01/negvalue.v:
       vpiParent: Design name:unnamed
       vpiName: negvalue.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/lib/work/negvalue.v"
+      vpiPreprocFile: "$Output/lib/work/negvalue.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@negvalue file:${SURELOG_DIR}/tests/Icarus/ivltests/negvalue.v start:1:1 end:15:10:
+    Module name:work@negvalue file:$Source01/negvalue.v start:1:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@negvalue start:1:8 end:1:16:
         vpiParent: Module name:work@negvalue
@@ -182,6 +191,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@negvalue
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@negvalue
+        vpiName: work
+        vpiFullName: work@negvalue.work
+      vpiCell: negvalue
       vpiNet (1 items):
         Net name:reg1 start:3:10 end:3:14:
           vpiParent: Module name:work@negvalue
@@ -318,7 +332,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 128
                       vpiDecompile: "\"%d (should be 8)\""
-                      vpiValue: %d (should be 8)
+                      vpiValue: "%d (should be 8)"
                     RefObj name:reg1 start:12:31 end:12:35:
                       vpiParent: SysFuncCall name:$display
                       vpiName: reg1
@@ -338,37 +352,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/negvalue
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/negvalue
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/surelog.uhdm
+      test-name: Icarus/ivltests/negvalue
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/negvalue
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/negvalue/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/negvalue/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/lib/work/negvalue.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 149}},
+            'files': {'$Output/lib/work/negvalue.v': {'post_len': 0,
+                                                      'pre_len': 149}},
             'post_len': 0,
             'pre_len': 149,
             'test_name': 'Icarus/ivltests/negvalue'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/negvalue.v |      149 |         0 |
-+=====================+==========+===========+
-|                     |      149 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/negvalue.v |      149 |         0 |
++=============================+==========+===========+
+|                             |      149 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -376,7 +393,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/negvalue/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/negvalue/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/negvalue/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -385,7 +402,7 @@ Constant                             9       6       2         5
 Operation                            4       0       0         4
 RefTypespec                         10       7       2         5
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    48      38       4        14
+                                    49      39       4        14
 ===================== END REDUCTION RESULT =====================

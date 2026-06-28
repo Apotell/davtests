@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence18/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -d db -d ast sequence18.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Sequence/sequence18
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence18.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence18.sv".
 AST_DEBUG_BEGIN
 Count: 192
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence18.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence18.sv> u<191> t<Top_level_rule> c<1> l<1:1> el<17:10>
+FILE: f<13>:$Source01/sequence18.sv
+n<$Source01/sequence18.sv> u<191> t<Top_level_rule> c<1> l<1:1> el<17:10>
   n<> u<1> t<Null_rule> p<191> s<190> l<1:1>
   n<> u<190> t<Source_text> p<191> c<189> l<1:1> el<17:10>
     n<> u<189> t<Description> p<190> c<188> l<1:1> el<17:10>
@@ -195,20 +204,20 @@ n<${SURELOG_DIR}/tests/Sequence/sequence18.sv> u<191> t<Top_level_rule> c<1> l<1
                         n<> u<178> t<END> p<179> l<16:3> el<16:6>
         n<> u<187> t<ENDMODULE> p<188> l<17:1> el<17:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence18.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence18.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence18.sv:9:34: Illegal implicit net "id:35, name:seq_plus".
-====== UHDM =======
+[INF:CP0303] $Source01/sequence18.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/sequence18.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence18.sv:9:34: Illegal implicit net "id:36, name:seq_plus".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence18.sv file:${SURELOG_DIR}/tests/Sequence/sequence18.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence18.sv file:$Source01/sequence18.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence18.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence18/lib/work/sequence18.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence18.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence18.sv start:1:1 end:17:10:
+    Module name:work@tb file:$Source01/sequence18.sv start:1:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -223,8 +232,13 @@ Design name:unnamed:
           vpiFullName: work@tb.seq_plus
           vpiExpr Operation start:6:6 end:6:9:
             vpiParent: SequenceDecl name:seq_plus
-            vpiOpType: consecutive repeat (60)
+            vpiOpType: consecutive repeat (77)
             vpiOperand (2 items):
+              RefObj name:a start:6:5 end:6:6:
+                vpiParent: Operation
+                vpiName: a
+                vpiFullName: work@tb.seq_plus.a
+                vpiActual: Net name:a
               Range start:6:6 end:6:9:
                 vpiParent: Operation
                 vpiLeftRange Constant:
@@ -244,12 +258,7 @@ Design name:unnamed:
                     vpiActual: StringTypespec
                   vpiConstType: unbounded (11)
                   vpiDecompile: "$"
-                  vpiValue: $
-              RefObj name:a start:6:5 end:6:6:
-                vpiParent: Operation
-                vpiName: a
-                vpiFullName: work@tb.seq_plus.a
-                vpiActual: Net name:a
+                  vpiValue: "$"
       vpiConcurrentAssertions (1 items):
         Assert start:9:3 end:9:44:
           vpiParent: Module name:work@tb
@@ -273,6 +282,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiNet (2 items):
         Net name:clk start:2:7 end:2:10:
           vpiParent: Module name:work@tb
@@ -449,37 +463,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence18
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence18
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence18/surelog.uhdm
+      test-name: Sequence/sequence18
+   test-dirpath: ${HLC_DIR}/regression/Sequence/sequence18
+  hldb-filepath: ${HLC_DIR}/regression/Sequence/sequence18/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Sequence/sequence18/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence18/lib/work/sequence18.sv'): {'post_len': 0,
-                                                                                                                               'pre_len': 182}},
+            'files': {'$Output/lib/work/sequence18.sv': {'post_len': 0,
+                                                         'pre_len': 182}},
             'post_len': 0,
             'pre_len': 182,
             'test_name': 'Sequence/sequence18'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sequence18.sv |      182 |         0 |
-+========================+==========+===========+
-|                        |      182 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sequence18.sv |      182 |         0 |
++================================+==========+===========+
+|                                |      182 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -487,13 +504,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence18/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence18/surelog.uhdm ${SURELOG_DIR}/regression/Sequence/sequence18/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Sequence/sequence18/design.hldb ${HLC_DIR}/regression/Sequence/sequence18/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

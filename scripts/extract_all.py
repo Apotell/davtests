@@ -23,7 +23,7 @@ def _main():
   print(f'Starting batch CI artifact extraction @ {str(start_dt)}')
 
   parser = argparse.ArgumentParser(
-      description='Extract logs and/or UHDM DBs from one or more CI zip archives.')
+      description='Extract logs and/or DBs from one or more CI zip archives.')
   parser.add_argument('modes', nargs='+', choices=['db', 'log'], type=str, help='Pick what to extract')
   parser.add_argument(
       '--input', dest='input_path', required=True, type=str,

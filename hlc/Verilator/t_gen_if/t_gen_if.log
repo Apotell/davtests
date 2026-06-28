@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_gen_if/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_gen_if.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_gen_if
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_gen_if.v".
+[INF:PA0201] Parsing source file "$Source01/t_gen_if.v".
 AST_DEBUG_BEGIN
 Count: 227
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_gen_if.v
-n<${SURELOG_DIR}/tests/Verilator/t_gen_if.v> u<226> t<Top_level_rule> c<1> l<7:1> el<33:1>
+FILE: f<13>:$Source01/t_gen_if.v
+n<$Source01/t_gen_if.v> u<226> t<Top_level_rule> c<1> l<7:1> el<33:1>
   n<> u<1> t<Null_rule> p<226> s<2> l<7:1> el<7:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<226> s<3> l<1:1> el<1:47>
   n<//   simplistic example, should choose 1st conditional generate and assign straight through> u<3> t<LINE_COMMENT> p<226> s<4> l<2:1> el<2:92>
@@ -230,25 +239,25 @@ n<${SURELOG_DIR}/tests/Verilator/t_gen_if.v> u<226> t<Top_level_rule> c<1> l<7:1
               n<> u<218> t<ENDGENERATE> p<219> l<31:4> el<31:15>
         n<> u<222> t<ENDMODULE> p<223> l<32:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_gen_if.v:9:1: Compile module "work@t".
-[INF:CP0335] ${SURELOG_DIR}/tests/Verilator/t_gen_if.v:18:34: Compile generate block "general_case".
-[INF:CP0335] ${SURELOG_DIR}/tests/Verilator/t_gen_if.v:25:20: Compile generate block "special_case".
+[INF:CP0303] $Source01/t_gen_if.v:9:1: Compile module "work@t".
+[INF:CP0335] $Source01/t_gen_if.v:18:34: Compile generate block "general_case".
+[INF:CP0335] $Source01/t_gen_if.v:25:20: Compile generate block "special_case".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_gen_if.v:22:10: Illegal implicit net "id:67, name:imp".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_gen_if.v:28:10: Illegal implicit net "id:86, name:imp".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_gen_if.v:22:10: Illegal implicit net "id:68, name:imp".
+[ERR:EL0535] $Source01/t_gen_if.v:28:10: Illegal implicit net "id:87, name:imp".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_gen_if.v file:${SURELOG_DIR}/tests/Verilator/t_gen_if.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_gen_if.v file:$Source01/t_gen_if.v:
       vpiParent: Design name:unnamed
       vpiName: t_gen_if.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_gen_if/lib/work/t_gen_if.v"
+      vpiPreprocFile: "$Output/lib/work/t_gen_if.v"
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_gen_if.v start:9:1 end:32:10:
+    Module name:work@t file:$Source01/t_gen_if.v start:9:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:9:8 end:9:9:
         vpiParent: Module name:work@t
@@ -349,6 +358,11 @@ Design name:unnamed:
       vpiDefNetType: none (12)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:data_i start:11:25 end:11:31:
           vpiParent: Module name:work@t
@@ -526,7 +540,7 @@ Design name:unnamed:
                                 vpiConstType: binary (3)
                                 vpiSize: 1
                                 vpiDecompile: "1'b0"
-                                vpiValue: 0
+                                vpiValue: "0"
                       RefObj name:data_i start:26:49 end:26:55:
                         vpiParent: Operation
                         vpiName: data_i
@@ -554,37 +568,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_gen_if
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_gen_if
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_if/surelog.uhdm
+      test-name: Verilator/t_gen_if
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_gen_if
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_gen_if/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_gen_if/mounts.json
 
 
 {'result': {'coverage': 94.8,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_gen_if/lib/work/t_gen_if.v'): {'post_len': 18,
-                                                                                                                           'pre_len': 346}},
+            'files': {'$Output/lib/work/t_gen_if.v': {'post_len': 18,
+                                                      'pre_len': 346}},
             'post_len': 18,
             'pre_len': 346,
             'test_name': 'Verilator/t_gen_if'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/t_gen_if.v |      346 |        18 |
-+=====================+==========+===========+
-|                     |      346 |        18 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/t_gen_if.v |      346 |        18 |
++=============================+==========+===========+
+|                             |      346 |        18 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 94.8
@@ -592,17 +609,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_gen_if/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_gen_if/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_gen_if/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_if/design.hldb ${HLC_DIR}/regression/Verilator/t_gen_if/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       7       3         4
 Operation                            6       1       0         5
-RefObj                              15      12       0         3
+RefObj                              16      13       0         3
 RefTypespec                         15      13       2         4
 ----------------------------------------------------------------
 Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    75      64       5        16
+                                    76      65       5        16
 ===================== END REDUCTION RESULT =====================

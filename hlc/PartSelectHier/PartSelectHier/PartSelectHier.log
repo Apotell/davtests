@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PartSelectHier -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PartSelectHier/PartSelectHier
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 112
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PartSelectHier/dut.sv
-n<${SURELOG_DIR}/tests/PartSelectHier/dut.sv> u<111> t<Top_level_rule> c<1> l<1:1> el<11:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<111> t<Top_level_rule> c<1> l<1:1> el<11:1>
   n<> u<1> t<Null_rule> p<111> s<110> l<1:1>
   n<> u<110> t<Source_text> p<111> c<32> l<1:1> el<10:10>
     n<> u<32> t<Description> p<110> c<31> s<109> l<1:1> el<5:11>
@@ -115,21 +124,21 @@ n<${SURELOG_DIR}/tests/PartSelectHier/dut.sv> u<111> t<Top_level_rule> c<1> l<1:
                                         n<3> u<90> t<INTEGRAL_NUMBER> p<91> l<9:47> el<9:48>
         n<> u<107> t<ENDMODULE> p<108> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PartSelectHier/dut.sv:1:1: Compile package "work@tlul_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/PartSelectHier/dut.sv:6:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PartSelectHier/dut.sv:1:1: No timescale set for "work@tlul_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PartSelectHier/dut.sv:6:1: No timescale set for "work@dut".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@tlul_pkg".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@tlul_pkg".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@dut".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PartSelectHier/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@tlul_pkg file:${SURELOG_DIR}/tests/PartSelectHier/dut.sv start:1:1 end:5:11:
+    Package name:work@tlul_pkg file:$Source01/dut.sv start:1:1 end:5:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tlul_pkg start:1:9 end:1:17:
         vpiParent: Package name:work@tlul_pkg
@@ -184,8 +193,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@tlul_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@tlul_pkg
+        vpiName: work
+        vpiFullName: work@tlul_pkg::work
+      vpiCell: tlul_pkg
   vpiAllModules (1 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/PartSelectHier/dut.sv start:6:1 end:10:10:
+    Module name:work@dut file:$Source01/dut.sv start:6:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:6:8 end:6:11:
         vpiParent: Module name:work@dut
@@ -223,6 +237,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiNet (2 items):
         Net name:drsp_fifo_o start:7:22 end:7:33:
           vpiParent: Module name:work@dut
@@ -253,7 +272,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: drsp_fifo_o.d_source[8:3]
             vpiFullName: work@dut.drsp_fifo_o.d_source[8:3]
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:drsp_fifo_o start:9:24 end:9:35:
                 vpiParent: HierPath name:drsp_fifo_o.d_source[8:3]
                 vpiName: drsp_fifo_o
@@ -301,37 +320,40 @@ Design name:unnamed:
         vpiName: work@dut
       vpiModule: Module name:work@dut
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PartSelectHier/PartSelectHier
- test-dirpath: ${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier
-uhdm-filepath: ${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/surelog.uhdm
+      test-name: PartSelectHier/PartSelectHier
+   test-dirpath: ${HLC_DIR}/regression/PartSelectHier/PartSelectHier
+  hldb-filepath: ${HLC_DIR}/regression/PartSelectHier/PartSelectHier/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PartSelectHier/PartSelectHier/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 210}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 210}},
             'post_len': 0,
             'pre_len': 210,
             'test_name': 'PartSelectHier/PartSelectHier'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      210 |         0 |
-+=================+==========+===========+
-|                 |      210 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      210 |         0 |
++=========================+==========+===========+
+|                         |      210 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -339,13 +361,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/surelog.uhdm ${SURELOG_DIR}/regression/PartSelectHier/PartSelectHier/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PartSelectHier/PartSelectHier/design.hldb ${HLC_DIR}/regression/PartSelectHier/PartSelectHier/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

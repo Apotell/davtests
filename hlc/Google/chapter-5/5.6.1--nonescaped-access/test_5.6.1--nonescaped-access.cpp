@@ -30,18 +30,18 @@
 // Key assertion: the RHS of the ContAssign carries name "cpu3", confirming
 // that the non-escaped form is treated as identical to the escaped form.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/cont_assign.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/cont_assign.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class NonescapedAccess : public Test {
  public:
@@ -62,12 +62,12 @@ class NonescapedAccess : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@identifiers", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@identifiers", d->getAllModules());
 }
 
-static const uhdm::ContAssign *getContAssign(const uhdm::Design *d) {
-  const uhdm::Module *const top = getTop(d);
+static const hldb::ContAssign *getContAssign(const hldb::Design *d) {
+  const hldb::Module *const top = getTop(d);
   if (!top || !top->getContAssigns()) return nullptr;
   return (*top->getContAssigns())[0];
 }
@@ -80,7 +80,7 @@ TEST_F(NonescapedAccess, ModuleExists) {
 }
 
 TEST_F(NonescapedAccess, TwoNetsExist) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 2u);
@@ -88,16 +88,16 @@ TEST_F(NonescapedAccess, TwoNetsExist) {
 
 TEST_F(NonescapedAccess, NetCpu3ExistsWithoutBackslash) {
   // \cpu3 is declared with backslash but stored in UHDM as plain "cpu3".
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(uhdm::findByName<uhdm::Net>("cpu3", m->getNets()), nullptr)
+  EXPECT_NE(hldb::findByName<hldb::Net>("cpu3", m->getNets()), nullptr)
       << "net 'cpu3' should exist (escaped identifier stored without backslash)";
 }
 
 TEST_F(NonescapedAccess, NetReferenceTestExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(uhdm::findByName<uhdm::Net>("reference_test", m->getNets()), nullptr)
+  EXPECT_NE(hldb::findByName<hldb::Net>("reference_test", m->getNets()), nullptr)
       << "net 'reference_test' not found";
 }
 
@@ -105,16 +105,16 @@ TEST_F(NonescapedAccess, NetReferenceTestExists) {
 // Continuous assign: assign reference_test = cpu3
 // ---------------------------------------------------------------------------
 TEST_F(NonescapedAccess, OneContAssignExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getContAssigns(), nullptr);
   EXPECT_EQ(m->getContAssigns()->size(), 1u);
 }
 
 TEST_F(NonescapedAccess, ContAssignLhsIsReferenceTest) {
-  const uhdm::ContAssign *const ca = getContAssign(m_design);
+  const hldb::ContAssign *const ca = getContAssign(m_design);
   ASSERT_NE(ca, nullptr);
-  const uhdm::RefObj *const lhs = ca->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "ContAssign LHS should be a RefObj";
   EXPECT_EQ(lhs->getName(), "reference_test");
 }
@@ -122,9 +122,9 @@ TEST_F(NonescapedAccess, ContAssignLhsIsReferenceTest) {
 TEST_F(NonescapedAccess, ContAssignRhsIsCpu3) {
   // The non-escaped reference 'cpu3' resolves to the escaped-identifier net
   // '\cpu3'.  The RHS RefObj carries name "cpu3" (no backslash).
-  const uhdm::ContAssign *const ca = getContAssign(m_design);
+  const hldb::ContAssign *const ca = getContAssign(m_design);
   ASSERT_NE(ca, nullptr);
-  const uhdm::RefObj *const rhs = ca->getRhs<uhdm::RefObj>();
+  const hldb::RefObj *const rhs = ca->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS should be a RefObj";
   EXPECT_EQ(rhs->getName(), "cpu3")
       << "non-escaped 'cpu3' should resolve to the \\cpu3 net";
@@ -132,11 +132,11 @@ TEST_F(NonescapedAccess, ContAssignRhsIsCpu3) {
 
 TEST_F(NonescapedAccess, ContAssignRhsResolvesToCpu3Net) {
   // Confirm the RHS RefObj's vpiActual points to the cpu3 Net node.
-  const uhdm::ContAssign *const ca = getContAssign(m_design);
+  const hldb::ContAssign *const ca = getContAssign(m_design);
   ASSERT_NE(ca, nullptr);
-  const uhdm::RefObj *const rhs = ca->getRhs<uhdm::RefObj>();
+  const hldb::RefObj *const rhs = ca->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
-  const uhdm::Net *const net = any_cast<uhdm::Net>(rhs->getActual());
+  const hldb::Net *const net = any_cast<hldb::Net>(rhs->getActual());
   ASSERT_NE(net, nullptr) << "RHS vpiActual should resolve to a Net";
   EXPECT_EQ(net->getName(), "cpu3");
 }

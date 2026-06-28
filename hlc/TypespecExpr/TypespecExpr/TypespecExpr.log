@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/TypespecExpr -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/TypespecExpr/TypespecExpr
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 179
 LIB: work
-FILE: ${SURELOG_DIR}/tests/TypespecExpr/dut.sv
-n<${SURELOG_DIR}/tests/TypespecExpr/dut.sv> u<178> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<178> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<178> s<177> l<1:1>
   n<> u<177> t<Source_text> p<178> c<67> l<1:1> el<10:10>
     n<> u<67> t<Description> p<177> c<66> s<176> l<1:1> el<3:10>
@@ -182,22 +191,22 @@ n<${SURELOG_DIR}/tests/TypespecExpr/dut.sv> u<178> t<Top_level_rule> c<1> l<1:1>
                     n<> u<167> t<CLOSE_PARENS> p<168> l<9:36> el<9:37>
         n<> u<174> t<ENDMODULE> p<175> l<10:1> el<10:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/TypespecExpr/dut.sv:1:1: Compile module "work@Mod1".
-[INF:CP0303] ${SURELOG_DIR}/tests/TypespecExpr/dut.sv:5:1: Compile module "work@Mod2".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TypespecExpr/dut.sv:1:1: No timescale set for "work@Mod1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/TypespecExpr/dut.sv:5:1: No timescale set for "work@Mod2".
-[ERR:EL0535] ${SURELOG_DIR}/tests/TypespecExpr/dut.sv:9:12: Illegal implicit net "id:80, name:PARAM".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@Mod1".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@Mod2".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@Mod1".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@Mod2".
+[ERR:EL0535] $Source01/dut.sv:9:12: Illegal implicit net "id:82, name:PARAM".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/TypespecExpr/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@Mod1 file:${SURELOG_DIR}/tests/TypespecExpr/dut.sv start:1:1 end:3:10:
+    Module name:work@Mod1 file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Mod1 start:1:8 end:1:12:
         vpiParent: Module name:work@Mod1
@@ -239,7 +248,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
-            vpiValue: 0
+            vpiValue: "0"
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:work@Mod1
@@ -297,6 +306,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@Mod1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Mod1
+        vpiName: work
+        vpiFullName: work@Mod1.work
+      vpiCell: Mod1
       vpiPort (1 items):
         Port name:x start:1:71 end:1:72:
           vpiParent: Module name:work@Mod1
@@ -323,7 +337,7 @@ Design name:unnamed:
             vpiName: PARAM
             vpiFullName: work@Mod1.PARAM
             vpiActual: Parameter name:PARAM
-    Module name:work@Mod2 file:${SURELOG_DIR}/tests/TypespecExpr/dut.sv start:5:1 end:10:10:
+    Module name:work@Mod2 file:$Source01/dut.sv start:5:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Mod2 start:5:8 end:5:12:
         vpiParent: Module name:work@Mod2
@@ -349,7 +363,7 @@ Design name:unnamed:
             vpiActual: Parameter name:STRUCT
           vpiRhs Operation start:7:30 end:7:40:
             vpiParent: ParamAssign
-            vpiOpType: assign pattern (75)
+            vpiOpType: assign pattern (87)
             vpiOperand (1 items):
               TaggedPattern start:7:33 end:7:38:
                 vpiParent: Operation
@@ -367,7 +381,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "'0"
-                  vpiValue: 0
+                  vpiValue: "0"
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:work@Mod2
@@ -450,6 +464,11 @@ Design name:unnamed:
             vpiName: work@Mod1
       vpiDefName: work@Mod2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Mod2
+        vpiName: work
+        vpiFullName: work@Mod2.work
+      vpiCell: Mod2
       vpiNet (1 items):
         Net name:x start:8:16 end:8:17:
           vpiParent: Module name:work@Mod2
@@ -511,37 +530,40 @@ Design name:unnamed:
         vpiName: work@Mod2
       vpiModule: Module name:work@Mod2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: TypespecExpr/TypespecExpr
- test-dirpath: ${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr
-uhdm-filepath: ${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/surelog.uhdm
+      test-name: TypespecExpr/TypespecExpr
+   test-dirpath: ${HLC_DIR}/regression/TypespecExpr/TypespecExpr
+  hldb-filepath: ${HLC_DIR}/regression/TypespecExpr/TypespecExpr/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/TypespecExpr/TypespecExpr/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 254}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 254}},
             'post_len': 0,
             'pre_len': 254,
             'test_name': 'TypespecExpr/TypespecExpr'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      254 |         0 |
-+=================+==========+===========+
-|                 |      254 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      254 |         0 |
++=========================+==========+===========+
+|                         |      254 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -549,13 +571,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/surelog.uhdm ${SURELOG_DIR}/regression/TypespecExpr/TypespecExpr/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/TypespecExpr/TypespecExpr/design.hldb ${HLC_DIR}/regression/TypespecExpr/TypespecExpr/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                    78      78       0         0
+                                    80      80       0         0
 ===================== END REDUCTION RESULT =====================

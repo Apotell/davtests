@@ -1,20 +1,29 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PortPackage/PortPackage/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PortPackage -fileunit -writepp -d db -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PortPackage/PortPackage
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0301] ${SURELOG_DIR}/tests/PortPackage/dut.sv:1:1: Compile package "work@dm".
-[INF:CP0303] ${SURELOG_DIR}/tests/PortPackage/dut.sv:10:1: Compile module "work@dm_top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortPackage/dut.sv:1:1: No timescale set for "work@dm".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortPackage/dut.sv:10:1: No timescale set for "work@dm_top".
-====== UHDM =======
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@dm".
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@dm_top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dm".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@dm_top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PortPackage/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PortPackage/PortPackage/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@dm file:${SURELOG_DIR}/tests/PortPackage/dut.sv start:1:1 end:8:11:
+    Package name:work@dm file:$Source01/dut.sv start:1:1 end:8:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dm start:1:9 end:1:11:
         vpiParent: Package name:work@dm
@@ -78,8 +87,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@dm
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@dm
+        vpiName: work
+        vpiFullName: work@dm::work
+      vpiCell: dm
   vpiAllModules (1 items):
-    Module name:work@dm_top file:${SURELOG_DIR}/tests/PortPackage/dut.sv start:10:1 end:17:10:
+    Module name:work@dm_top file:$Source01/dut.sv start:10:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dm_top start:10:8 end:10:14:
         vpiParent: Module name:work@dm_top
@@ -163,6 +177,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:hartinfo_t
       vpiDefName: work@dm_top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dm_top
+        vpiName: work
+        vpiFullName: work@dm_top.work
+      vpiCell: dm_top
       vpiNet (1 items):
         Net name:hartinfo_i start:13:35 end:13:45:
           vpiParent: Module name:work@dm_top
@@ -170,7 +189,7 @@ Design name:unnamed:
             vpiParent: Net name:hartinfo_i
             vpiName: hartinfo_t
             vpiFullName: work@dm_top.hartinfo_i.hartinfo_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:dm::hartinfo_t [NrHarts-1:0]
             vpiActual: ArrayTypespec
           vpiName: hartinfo_i
           vpiFullName: work@dm_top.hartinfo_i
@@ -188,12 +207,13 @@ Design name:unnamed:
             vpiParent: Port name:hartinfo_i
             vpiName: hartinfo_t
             vpiFullName: work@dm_top.hartinfo_i.hartinfo_t
-            vpiPrefix HierPath start:13:5 end:13:9:
+            vpiPrefix HierPath name:dm::hartinfo_t [NrHarts-1:0] start:13:5 end:13:9:
               vpiParent: RefTypespec name:hartinfo_t
-              vpiFullName: work@dm_top.hartinfo_i.hartinfo_t
-              vpiActual (2 items):
-                ClassTypespec name:dm
-                ArrayTypespec
+              vpiName: dm::hartinfo_t [NrHarts-1:0]
+              vpiFullName: work@dm_top.hartinfo_i.hartinfo_t.dm::hartinfo_t [NrHarts-1:0]
+              vpiPathElem (2 items):
+                ClassTypespec name:dm:
+                ArrayTypespec:
             vpiActual: ArrayTypespec
   vpiTypespec (2 items):
     IntTypespec:
@@ -206,37 +226,40 @@ Design name:unnamed:
         vpiName: work@dm_top
       vpiModule: Module name:work@dm_top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PortPackage/PortPackage
- test-dirpath: ${SURELOG_DIR}/regression/PortPackage/PortPackage
-uhdm-filepath: ${SURELOG_DIR}/regression/PortPackage/PortPackage/surelog.uhdm
+      test-name: PortPackage/PortPackage
+   test-dirpath: ${HLC_DIR}/regression/PortPackage/PortPackage
+  hldb-filepath: ${HLC_DIR}/regression/PortPackage/PortPackage/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PortPackage/PortPackage/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PortPackage/PortPackage/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 222}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 222}},
             'post_len': 0,
             'pre_len': 222,
             'test_name': 'PortPackage/PortPackage'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      222 |         0 |
-+=================+==========+===========+
-|                 |      222 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      222 |         0 |
++=========================+==========+===========+
+|                         |      222 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -244,17 +267,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PortPackage/PortPackage/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PortPackage/PortPackage/surelog.uhdm ${SURELOG_DIR}/regression/PortPackage/PortPackage/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PortPackage/PortPackage/design.hldb ${HLC_DIR}/regression/PortPackage/PortPackage/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       1         1
 Operation                            1       0       0         1
-RefObj                               3       2       0         1
+RefObj                               5       4       0         1
 RefTypespec                         12      12       1         1
 ----------------------------------------------------------------
 Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    48      46       2         4
+                                    50      48       2         4
 ===================== END REDUCTION RESULT =====================

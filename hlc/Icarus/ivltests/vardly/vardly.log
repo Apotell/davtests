@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/vardly/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db vardly.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/vardly
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/vardly.v".
+[INF:PA0201] Parsing source file "$Source01/vardly.v".
 AST_DEBUG_BEGIN
 Count: 530
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/vardly.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/vardly.v> u<529> t<Top_level_rule> c<1> l<1:1> el<54:1>
+FILE: f<13>:$Source01/vardly.v
+n<$Source01/vardly.v> u<529> t<Top_level_rule> c<1> l<1:1> el<54:1>
   n<> u<1> t<Null_rule> p<529> s<528> l<1:1>
   n<> u<528> t<Source_text> p<529> c<527> l<1:1> el<53:10>
     n<> u<527> t<Description> p<528> c<526> l<1:1> el<53:10>
@@ -533,19 +542,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/vardly.v> u<529> t<Top_level_rule> c<1> l
                           n<> u<515> t<END> p<516> l<51:3> el<51:6>
         n<> u<525> t<ENDMODULE> p<526> l<53:1> el<53:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/vardly.v:1:1: Compile module "work@main".
+[INF:CP0303] $Source01/vardly.v:1:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:vardly.v file:${SURELOG_DIR}/tests/Icarus/ivltests/vardly.v:
+  vpiSourceFile (1 items):
+    SourceFile name:vardly.v file:$Source01/vardly.v:
       vpiParent: Design name:unnamed
       vpiName: vardly.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/vardly/lib/work/vardly.v"
+      vpiPreprocFile: "$Output/lib/work/vardly.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/vardly.v start:1:1 end:53:10:
+    Module name:work@main file:$Source01/vardly.v start:1:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:1:8 end:1:12:
         vpiParent: Module name:work@main
@@ -608,6 +617,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (4 items):
         Net name:tdelay start:3:12 end:3:18:
           vpiParent: Module name:work@main
@@ -1204,37 +1218,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/vardly
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/vardly
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/vardly/surelog.uhdm
+      test-name: Icarus/ivltests/vardly
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/vardly
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/vardly/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/vardly/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/vardly/lib/work/vardly.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 527}},
+            'files': {'$Output/lib/work/vardly.v': {'post_len': 0,
+                                                    'pre_len': 527}},
             'post_len': 0,
             'pre_len': 527,
             'test_name': 'Icarus/ivltests/vardly'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/vardly.v |      527 |         0 |
-+===================+==========+===========+
-|                   |      527 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/vardly.v |      527 |         0 |
++===========================+==========+===========+
+|                           |      527 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1242,13 +1259,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/vardly/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/vardly/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/vardly/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/vardly/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/vardly/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             165     165       0         0
+Others                             166     166       0         0
 ----------------------------------------------------------------
-                                   165     165       0         0
+                                   166     166       0         0
 ===================== END REDUCTION RESULT =====================

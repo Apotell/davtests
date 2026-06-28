@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/sva -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db sva_not.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/sva/sva_not
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sva_not.sv".
+[INF:PA0201] Parsing source file "$Source01/sva_not.sv".
 AST_DEBUG_BEGIN
 Count: 313
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/sva/sva_not.sv
-n<${SURELOG_DIR}/tests/YosysTestSuite/sva/sva_not.sv> u<312> t<Top_level_rule> c<1> l<1:1> el<35:1>
+FILE: f<13>:$Source01/sva_not.sv
+n<$Source01/sva_not.sv> u<312> t<Top_level_rule> c<1> l<1:1> el<35:1>
   n<> u<1> t<Null_rule> p<312> s<311> l<1:1>
   n<> u<311> t<Source_text> p<312> c<310> l<1:1> el<34:10>
     n<> u<310> t<Description> p<311> c<309> l<1:1> el<34:10>
@@ -316,19 +325,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/sva/sva_not.sv> u<312> t<Top_level_rule> c
                         n<> u<299> t<Statement_or_null> p<300> l<32:3> el<32:4>
         n<> u<308> t<ENDMODULE> p<309> l<34:1> el<34:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/sva/sva_not.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/sva_not.sv:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sva_not.sv file:${SURELOG_DIR}/tests/YosysTestSuite/sva/sva_not.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sva_not.sv file:$Source01/sva_not.sv:
       vpiParent: Design name:unnamed
       vpiName: sva_not.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/lib/work/sva_not.sv"
+      vpiPreprocFile: "$Output/lib/work/sva_not.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTestSuite/sva/sva_not.sv start:1:1 end:34:10:
+    Module name:work@top file:$Source01/sva_not.sv start:1:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -353,10 +362,15 @@ Design name:unnamed:
                   vpiName: clk
                   vpiFullName: work@top.clk
                   vpiActual: Net name:clk
-            vpiPropertyExpr Operation start:25:13 end:25:34:
+            vpiPropertyExpr Operation start:25:8 end:25:34:
               vpiParent: PropertySpec
-              vpiOpType: unary cycle delay (53)
+              vpiOpType: binary cycle delay (71)
               vpiOperand (3 items):
+                RefObj name:ping start:25:8 end:25:12:
+                  vpiParent: Operation
+                  vpiName: ping
+                  vpiFullName: work@top.ping
+                  vpiActual: Net name:ping
                 Constant start:25:15 end:25:16:
                   vpiParent: Operation
                   vpiTypespec RefTypespec:
@@ -367,20 +381,10 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-                RefObj name:ping start:25:8 end:25:12:
-                  vpiParent: Operation
-                  vpiName: ping
-                  vpiFullName: work@top.ping
-                  vpiActual: Net name:ping
                 Operation start:25:23 end:25:34:
                   vpiParent: Operation
-                  vpiOpType: consecutive repeat (60)
+                  vpiOpType: consecutive repeat (77)
                   vpiOperand (2 items):
-                    RefObj name:maxdelay start:25:25 end:25:33:
-                      vpiParent: Operation
-                      vpiName: maxdelay
-                      vpiFullName: work@top.maxdelay
-                      vpiActual: Parameter name:maxdelay
                     Operation start:25:17 end:25:22:
                       vpiParent: Operation
                       vpiOpType: not (3)
@@ -390,6 +394,11 @@ Design name:unnamed:
                           vpiName: pong
                           vpiFullName: work@top.pong
                           vpiActual: Variable name:pong
+                    RefObj name:maxdelay start:25:25 end:25:33:
+                      vpiParent: Operation
+                      vpiName: maxdelay
+                      vpiFullName: work@top.maxdelay
+                      vpiActual: Parameter name:maxdelay
         Assume start:29:2 end:32:4:
           vpiParent: Module name:work@top
           vpiProperty PropertySpec start:30:3 end:31:20:
@@ -515,6 +524,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:clk start:2:8 end:2:11:
           vpiParent: Module name:work@top
@@ -784,37 +798,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/sva/sva_not
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/surelog.uhdm
+      test-name: YosysTestSuite/sva/sva_not
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/sva/sva_not
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/sva/sva_not/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/sva/sva_not/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/lib/work/sva_not.sv'): {'post_len': 0,
-                                                                                                                                   'pre_len': 409}},
+            'files': {'$Output/lib/work/sva_not.sv': {'post_len': 0,
+                                                      'pre_len': 409}},
             'post_len': 0,
             'pre_len': 409,
             'test_name': 'YosysTestSuite/sva/sva_not'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/sva_not.sv |      409 |         0 |
-+=====================+==========+===========+
-|                     |      409 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/sva_not.sv |      409 |         0 |
++=============================+==========+===========+
+|                             |      409 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -822,13 +839,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/sva/sva_not/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/sva/sva_not/design.hldb ${HLC_DIR}/regression/YosysTestSuite/sva/sva_not/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             111     111       0         0
+Others                             112     112       0         0
 ----------------------------------------------------------------
-                                   111     111       0         0
+                                   112     112       0         0
 ===================== END REDUCTION RESULT =====================

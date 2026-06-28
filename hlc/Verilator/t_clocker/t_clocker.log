@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_clocker/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_clocker.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_clocker
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_clocker.v".
+[INF:PA0201] Parsing source file "$Source01/t_clocker.v".
 AST_DEBUG_BEGIN
 Count: 537
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_clocker.v
-n<${SURELOG_DIR}/tests/Verilator/t_clocker.v> u<536> t<Top_level_rule> c<1> l<8:1> el<67:1>
+FILE: f<13>:$Source01/t_clocker.v
+n<$Source01/t_clocker.v> u<536> t<Top_level_rule> c<1> l<8:1> el<67:1>
   n<> u<1> t<Null_rule> p<536> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Simple test of CLkDATA> u<2> t<LINE_COMMENT> p<536> s<3> l<1:1> el<1:50>
   n<//> u<3> t<LINE_COMMENT> p<536> s<4> l<2:1> el<2:3>
@@ -540,19 +549,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_clocker.v> u<536> t<Top_level_rule> c<1> l<8:
                                 n<> u<519> t<END> p<520> l<64:4> el<64:7>
         n<> u<532> t<ENDMODULE> p<533> l<66:1> el<66:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_clocker.v:11:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_clocker.v:11:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_clocker.v file:${SURELOG_DIR}/tests/Verilator/t_clocker.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_clocker.v file:$Source01/t_clocker.v:
       vpiParent: Design name:unnamed
       vpiName: t_clocker.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_clocker/lib/work/t_clocker.v"
+      vpiPreprocFile: "$Output/lib/work/t_clocker.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_clocker.v start:11:1 end:66:10:
+    Module name:work@t file:$Source01/t_clocker.v start:11:1 end:66:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:11:8 end:11:9:
         vpiParent: Module name:work@t
@@ -721,6 +730,11 @@ Design name:unnamed:
           vpiParent: Module name:work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (10 items):
         Net name:clk start:18:10 end:18:13:
           vpiParent: Module name:work@t
@@ -990,7 +1004,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:62:3 end:62:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:62:3 end:62:10:
@@ -1173,7 +1187,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
-                vpiValue: 0
+                vpiValue: "0"
               RefObj name:clk_4 start:44:33 end:44:38:
                 vpiParent: Operation
                 vpiName: clk_4
@@ -1254,37 +1268,40 @@ Design name:unnamed:
         vpiDecompile: "1"
         vpiValue: 1
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_clocker
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_clocker
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_clocker/surelog.uhdm
+      test-name: Verilator/t_clocker
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_clocker
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_clocker/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_clocker/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_clocker/lib/work/t_clocker.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 624}},
+            'files': {'$Output/lib/work/t_clocker.v': {'post_len': 0,
+                                                       'pre_len': 624}},
             'post_len': 0,
             'pre_len': 624,
             'test_name': 'Verilator/t_clocker'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_clocker.v |      624 |         0 |
-+======================+==========+===========+
-|                      |      624 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_clocker.v |      624 |         0 |
++==============================+==========+===========+
+|                              |      624 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1292,13 +1309,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_clocker/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_clocker/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_clocker/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_clocker/design.hldb ${HLC_DIR}/regression/Verilator/t_clocker/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             169     169       0         0
+Others                             170     170       0         0
 ----------------------------------------------------------------
-                                   169     169       0         0
+                                   170     170       0         0
 ===================== END REDUCTION RESULT =====================

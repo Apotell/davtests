@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_lint_unused_iface_bad.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_unused_iface_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_unused_iface_bad.v".
 AST_DEBUG_BEGIN
 Count: 113
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v> u<112> t<Top_level_rule> c<1> l<6:1> el<29:1>
+FILE: f<13>:$Source01/t_lint_unused_iface_bad.v
+n<$Source01/t_lint_unused_iface_bad.v> u<112> t<Top_level_rule> c<1> l<6:1> el<29:1>
   n<> u<1> t<Null_rule> p<112> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<112> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<112> s<4> l<2:1> el<2:3>
@@ -116,23 +125,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v> u<112> t<Top_level_r
                       n<> u<100> t<CLOSE_PARENS> p<101> l<25:19> el<25:20>
         n<> u<108> t<ENDMODULE> p<109> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v:6:1: Compile interface "work@dummy_if".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v:6:11: Unmached label "dummy_if",
-             ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v:9:15: closing label "dummy_if".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v:11:1: Compile module "work@sub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v:20:1: Compile module "work@t".
+[INF:CP0304] $Source01/t_lint_unused_iface_bad.v:6:1: Compile interface "work@dummy_if".
+[INF:CP0303] $Source01/t_lint_unused_iface_bad.v:11:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_lint_unused_iface_bad.v:20:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_unused_iface_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_unused_iface_bad.v file:$Source01/t_lint_unused_iface_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_unused_iface_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/lib/work/t_lint_unused_iface_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_unused_iface_bad.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@dummy_if file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v start:6:1 end:9:23:
+    Interface name:work@dummy_if file:$Source01/t_lint_unused_iface_bad.v start:6:1 end:9:23:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dummy_if start:6:11 end:6:19:
         vpiParent: Interface name:work@dummy_if
@@ -161,11 +168,16 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:work@dummy_if
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@dummy_if
+        vpiName: work
+        vpiFullName: work@dummy_if.work
+      vpiCell: dummy_if
       vpiEndLabel Identifier name:dummy_if start:9:15 end:9:23:
         vpiParent: Interface name:work@dummy_if
         vpiName: dummy_if
   vpiAllModules (2 items):
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v start:11:1 end:17:10:
+    Module name:work@sub file:$Source01/t_lint_unused_iface_bad.v start:11:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:11:8 end:11:11:
         vpiParent: Module name:work@sub
@@ -176,6 +188,11 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiNet (1 items):
         Net name:dummy start:13:13 end:13:18:
           vpiParent: Module name:work@sub
@@ -208,7 +225,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dummy.sig_uusd
             vpiFullName: work@sub.dummy.sig_uusd
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:dummy start:16:11 end:16:16:
                 vpiParent: HierPath name:dummy.sig_uusd
                 vpiName: dummy
@@ -232,12 +249,12 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
-                vpiValue: 0
+                vpiValue: "0"
               HierPath name:dummy.sig_udrv start:16:35 end:16:49:
                 vpiParent: Operation
                 vpiName: dummy.sig_udrv
                 vpiFullName: work@sub.dummy.sig_udrv
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:dummy start:16:35 end:16:40:
                     vpiParent: HierPath name:dummy.sig_udrv
                     vpiName: dummy
@@ -248,7 +265,7 @@ Design name:unnamed:
                     vpiName: sig_udrv
                     vpiFullName: work@sub.sig_udrv
                     vpiActual: Variable name:sig_udrv
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_unused_iface_bad.v start:20:1 end:28:10:
+    Module name:work@t file:$Source01/t_lint_unused_iface_bad.v start:20:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:20:8 end:20:9:
         vpiParent: Module name:work@t
@@ -267,6 +284,11 @@ Design name:unnamed:
             vpiName: work@sub
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiRefInstance (2 items):
         RefInstance name:dummy start:22:13 end:22:18:
           vpiParent: Module name:work@t
@@ -317,37 +339,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_unused_iface_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/surelog.uhdm
+      test-name: Verilator/t_lint_unused_iface_bad
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/lib/work/t_lint_unused_iface_bad.v'): {'post_len': 0,
-                                                                                                                                                         'pre_len': 229}},
+            'files': {'$Output/lib/work/t_lint_unused_iface_bad.v': {'post_len': 0,
+                                                                     'pre_len': 229}},
             'post_len': 0,
             'pre_len': 229,
             'test_name': 'Verilator/t_lint_unused_iface_bad'}}
 
-+------------------------------------+----------+-----------+
-| INPUT                              |   PRELEN |   POSTLEN |
-+====================================+==========+===========+
-| lib/work/t_lint_unused_iface_bad.v |      229 |         0 |
-+====================================+==========+===========+
-|                                    |      229 |         0 |
-+------------------------------------+----------+-----------+
++--------------------------------------------+----------+-----------+
+| INPUT                                      |   PRELEN |   POSTLEN |
++============================================+==========+===========+
+| $Output/lib/work/t_lint_unused_iface_bad.v |      229 |         0 |
++============================================+==========+===========+
+|                                            |      229 |         0 |
++--------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -355,13 +380,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/surel
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_lint_unused_iface_bad/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad/design.hldb ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    50      50       0         0
 ===================== END REDUCTION RESULT =====================

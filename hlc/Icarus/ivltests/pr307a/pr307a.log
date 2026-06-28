@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr307a.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr307a
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/pr307a.v".
+[INF:PA0201] Parsing source file "$Source01/pr307a.v".
 AST_DEBUG_BEGIN
 Count: 740
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v> u<739> t<Top_level_rule> c<1> l<3:1> el<80:1>
+FILE: f<13>:$Source01/pr307a.v
+n<$Source01/pr307a.v> u<739> t<Top_level_rule> c<1> l<3:1> el<80:1>
   n<> u<1> t<Null_rule> p<739> s<2> l<3:1> el<3:1>
   n<// ivl-bugs PR#307> u<2> t<LINE_COMMENT> p<739> s<738> l<1:1> el<1:19>
   n<> u<738> t<Source_text> p<739> c<737> l<3:1> el<79:10>
@@ -743,22 +752,22 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v> u<739> t<Top_level_rule> c<1> l
                         n<> u<726> t<END> p<727> l<78:4> el<78:7>
         n<> u<735> t<ENDMODULE> p<736> l<79:1> el<79:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v:3:1: Compile module "work@top".
+[INF:CP0303] $Source01/pr307a.v:3:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v:28:9: Illegal implicit net "id:104, name:errors".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v:74:13: Illegal implicit net "id:232, name:errors".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v:75:34: Illegal implicit net "id:238, name:errors".
-====== UHDM =======
+[ERR:EL0535] $Source01/pr307a.v:28:9: Illegal implicit net "id:105, name:errors".
+[ERR:EL0535] $Source01/pr307a.v:74:13: Illegal implicit net "id:233, name:errors".
+[ERR:EL0535] $Source01/pr307a.v:75:34: Illegal implicit net "id:239, name:errors".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:pr307a.v file:${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v:
+  vpiSourceFile (1 items):
+    SourceFile name:pr307a.v file:$Source01/pr307a.v:
       vpiParent: Design name:unnamed
       vpiName: pr307a.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/lib/work/pr307a.v"
+      vpiPreprocFile: "$Output/lib/work/pr307a.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/pr307a.v start:3:1 end:79:10:
+    Module name:work@top file:$Source01/pr307a.v start:3:1 end:79:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:3:8 end:3:11:
         vpiParent: Module name:work@top
@@ -871,6 +880,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiTaskFunc (1 items):
         Task name:r start:12:4 end:25:11:
           vpiParent: Module name:work@top
@@ -936,7 +950,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 112
                         vpiDecompile: "\"\\n   %h\\n+  %h\""
-                        vpiValue: \n   %h\n+  %h
+                        vpiValue: "\\n   %h\\n+  %h"
                       RefObj name:in1 start:16:34 end:16:37:
                         vpiParent: SysFuncCall name:$display
                         vpiName: in1
@@ -962,7 +976,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 32
                         vpiDecompile: "\"= %h\""
-                        vpiValue: = %h
+                        vpiValue: "= %h"
                       RefObj name:out1 start:17:24 end:17:28:
                         vpiParent: SysFuncCall name:$display
                         vpiName: out1
@@ -983,7 +997,7 @@ Design name:unnamed:
                         vpiConstType: string (6)
                         vpiSize: 32
                         vpiDecompile: "\"= %h\""
-                        vpiValue: = %h
+                        vpiValue: "= %h"
                       RefObj name:out2 start:18:24 end:18:28:
                         vpiParent: SysFuncCall name:$display
                         vpiName: out2
@@ -1100,7 +1114,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: r.errors
                   vpiFullName: work@top.r.errors
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:r start:28:7 end:28:8:
                       vpiParent: HierPath name:r.errors
                       vpiName: r
@@ -1196,7 +1210,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000000000000000000001"
-                  vpiValue: 00000000000000000000000000000001
+                  vpiValue: "00000000000000000000000000000001"
               RefObj name:r start:36:7 end:36:8:
                 vpiParent: Begin
                 vpiName: r
@@ -1219,7 +1233,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000000000000000000001"
-                  vpiValue: 00000000000000000000000000000001
+                  vpiValue: "00000000000000000000000000000001"
               Assignment start:39:7 end:39:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1260,7 +1274,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000000000000000000000"
-                  vpiValue: 00000000000000000000000000000000
+                  vpiValue: "00000000000000000000000000000000"
               Assignment start:43:7 end:43:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1342,7 +1356,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000000000000000000000"
-                  vpiValue: 00000000000000000000000000000000
+                  vpiValue: "00000000000000000000000000000000"
               Assignment start:51:7 end:51:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1360,7 +1374,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000000000000000000000"
-                  vpiValue: 00000000000000000000000000000000
+                  vpiValue: "00000000000000000000000000000000"
               RefObj name:r start:52:7 end:52:8:
                 vpiParent: Begin
                 vpiName: r
@@ -1383,7 +1397,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h80000000000000000000000000000000"
-                  vpiValue: 80000000000000000000000000000000
+                  vpiValue: "80000000000000000000000000000000"
               Assignment start:55:7 end:55:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1401,7 +1415,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h80000000000000000000000000000000"
-                  vpiValue: 80000000000000000000000000000000
+                  vpiValue: "80000000000000000000000000000000"
               RefObj name:r start:56:7 end:56:8:
                 vpiParent: Begin
                 vpiName: r
@@ -1424,7 +1438,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h08000000000000000000000000000000"
-                  vpiValue: 08000000000000000000000000000000
+                  vpiValue: "08000000000000000000000000000000"
               Assignment start:59:7 end:59:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1442,7 +1456,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h08000000000000000000000000000000"
-                  vpiValue: 08000000000000000000000000000000
+                  vpiValue: "08000000000000000000000000000000"
               RefObj name:r start:60:7 end:60:8:
                 vpiParent: Begin
                 vpiName: r
@@ -1465,7 +1479,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000008000000000000000"
-                  vpiValue: 00000000000000008000000000000000
+                  vpiValue: "00000000000000008000000000000000"
               Assignment start:63:7 end:63:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1483,7 +1497,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h00000000000000008000000000000000"
-                  vpiValue: 00000000000000008000000000000000
+                  vpiValue: "00000000000000008000000000000000"
               RefObj name:r start:64:7 end:64:8:
                 vpiParent: Begin
                 vpiName: r
@@ -1506,7 +1520,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h55555555555555555555555555555555"
-                  vpiValue: 55555555555555555555555555555555
+                  vpiValue: "55555555555555555555555555555555"
               Assignment start:67:7 end:67:50:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1524,7 +1538,7 @@ Design name:unnamed:
                   vpiConstType: hexadecimal (5)
                   vpiSize: 128
                   vpiDecompile: "128'h55555555555555555555555555555555"
-                  vpiValue: 55555555555555555555555555555555
+                  vpiValue: "55555555555555555555555555555555"
               RefObj name:r start:68:7 end:68:8:
                 vpiParent: Begin
                 vpiName: r
@@ -1577,7 +1591,7 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName: r.errors
                   vpiFullName: work@top.r.errors
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:r start:74:11 end:74:12:
                       vpiParent: HierPath name:r.errors
                       vpiName: r
@@ -1602,12 +1616,12 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 136
                       vpiDecompile: "\"FAILED: %d errors\""
-                      vpiValue: FAILED: %d errors
+                      vpiValue: "FAILED: %d errors"
                     HierPath name:r.errors start:75:32 end:75:40:
                       vpiParent: SysFuncCall name:$display
                       vpiName: r.errors
                       vpiFullName: work@top.r.errors
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         RefObj name:r start:75:32 end:75:33:
                           vpiParent: HierPath name:r.errors
                           vpiName: r
@@ -1672,37 +1686,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/pr307a
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr307a
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/surelog.uhdm
+      test-name: Icarus/ivltests/pr307a
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/pr307a
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr307a/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr307a/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/lib/work/pr307a.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 1410}},
+            'files': {'$Output/lib/work/pr307a.v': {'post_len': 0,
+                                                    'pre_len': 1410}},
             'post_len': 0,
             'pre_len': 1410,
             'test_name': 'Icarus/ivltests/pr307a'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/pr307a.v |     1410 |         0 |
-+===================+==========+===========+
-|                   |     1410 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/pr307a.v |     1410 |         0 |
++===========================+==========+===========+
+|                           |     1410 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1710,13 +1727,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/pr307a/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr307a/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/pr307a/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             212     212       0         0
+Others                             213     213       0         0
 ----------------------------------------------------------------
-                                   212     212       0         0
+                                   213     213       0         0
 ===================== END REDUCTION RESULT =====================

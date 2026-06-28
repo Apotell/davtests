@@ -35,15 +35,15 @@
 // it without error but the cell-flag distinction is not surfaced in UHDM.
 // Both modules appear as structurally identical empty Module nodes.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesCelldefine : public Test {
  public:
@@ -75,14 +75,14 @@ TEST_F(CompilerDirectivesCelldefine, TwoModulesExist) {
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleExists) {
   EXPECT_NE(
-      uhdm::findByName<uhdm::Module>("work@cd", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules()),
       nullptr)
       << "module 'work@cd' (inside `celldefine) not found";
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
   EXPECT_NE(
-      uhdm::findByName<uhdm::Module>("work@ncd", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules()),
       nullptr)
       << "module 'work@ncd' (outside `celldefine) not found";
 }
@@ -91,29 +91,29 @@ TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
 // Both modules are empty — no nets, no processes
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoNets) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@cd", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoNets) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@ncd", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoProcesses) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@cd", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoProcesses) {
-  const uhdm::Module *const m =
-      uhdm::findByName<uhdm::Module>("work@ncd", m_design->getAllModules());
+  const hldb::Module *const m =
+      hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }

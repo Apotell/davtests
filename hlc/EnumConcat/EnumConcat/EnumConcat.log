@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/EnumConcat/EnumConcat/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/EnumConcat -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/EnumConcat/EnumConcat
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 84
 LIB: work
-FILE: ${SURELOG_DIR}/tests/EnumConcat/dut.sv
-n<${SURELOG_DIR}/tests/EnumConcat/dut.sv> u<83> t<Top_level_rule> c<1> l<2:1> el<16:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<83> t<Top_level_rule> c<1> l<2:1> el<16:1>
   n<> u<1> t<Null_rule> p<83> s<82> l<2:1> el<2:1>
   n<> u<82> t<Source_text> p<83> c<9> l<2:1> el<15:10>
     n<> u<9> t<Description> p<82> c<8> s<81> l<2:1> el<3:10>
@@ -87,21 +96,21 @@ n<${SURELOG_DIR}/tests/EnumConcat/dut.sv> u<83> t<Top_level_rule> c<1> l<2:1> el
                         n<> u<69> t<END> p<70> l<13:3> el<13:6>
         n<> u<79> t<ENDMODULE> p<80> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/EnumConcat/dut.sv:2:1: Compile module "work@GOOD".
-[INF:CP0303] ${SURELOG_DIR}/tests/EnumConcat/dut.sv:6:1: Compile module "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/EnumConcat/dut.sv:2:1: No timescale set for "work@GOOD".
-[WRN:PA0205] ${SURELOG_DIR}/tests/EnumConcat/dut.sv:6:1: No timescale set for "work@dut".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@GOOD".
+[INF:CP0303] $Source01/dut.sv:6:1: Compile module "work@dut".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@GOOD".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@dut".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/EnumConcat/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/EnumConcat/EnumConcat/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@GOOD file:${SURELOG_DIR}/tests/EnumConcat/dut.sv start:2:1 end:3:10:
+    Module name:work@GOOD file:$Source01/dut.sv start:2:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@GOOD start:2:8 end:2:12:
         vpiParent: Module name:work@GOOD
@@ -109,7 +118,12 @@ Design name:unnamed:
       vpiFullName: work@GOOD
       vpiDefName: work@GOOD
       vpiDefNetType: none (12)
-    Module name:work@dut file:${SURELOG_DIR}/tests/EnumConcat/dut.sv start:6:1 end:15:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@GOOD
+        vpiName: work
+        vpiFullName: work@GOOD.work
+      vpiCell: GOOD
+    Module name:work@dut file:$Source01/dut.sv start:6:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:6:8 end:6:11:
         vpiParent: Module name:work@dut
@@ -173,7 +187,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
-                    vpiValue: 1
+                    vpiValue: "1"
                   Constant start:8:41 end:8:46:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -183,7 +197,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 5
                     vpiDecompile: "5'd03"
-                    vpiValue: 03
+                    vpiValue: "03"
         TypedefTypespec name:exc_cause_e start:7:1 end:9:15:
           vpiParent: Module name:work@dut
           vpiName Identifier name:exc_cause_e start:9:3 end:9:14:
@@ -195,6 +209,11 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiGenStmt (1 items):
         GenIf start:11:3 end:13:6:
           vpiParent: Module name:work@dut
@@ -216,7 +235,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 6
                 vpiDecompile: "6'b100011"
-                vpiValue: 100011
+                vpiValue: "100011"
           vpiStmt Begin start:11:46 end:13:6:
             vpiParent: GenIf
             vpiFullName: work@dut
@@ -254,37 +273,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: EnumConcat/EnumConcat
- test-dirpath: ${SURELOG_DIR}/regression/EnumConcat/EnumConcat
-uhdm-filepath: ${SURELOG_DIR}/regression/EnumConcat/EnumConcat/surelog.uhdm
+      test-name: EnumConcat/EnumConcat
+   test-dirpath: ${HLC_DIR}/regression/EnumConcat/EnumConcat
+  hldb-filepath: ${HLC_DIR}/regression/EnumConcat/EnumConcat/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/EnumConcat/EnumConcat/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/EnumConcat/EnumConcat/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 193}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 193}},
             'post_len': 0,
             'pre_len': 193,
             'test_name': 'EnumConcat/EnumConcat'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      193 |         0 |
-+=================+==========+===========+
-|                 |      193 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      193 |         0 |
++=========================+==========+===========+
+|                         |      193 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -292,7 +314,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/EnumConcat/EnumConcat/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/EnumConcat/EnumConcat/surelog.uhdm ${SURELOG_DIR}/regression/EnumConcat/EnumConcat/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/EnumConcat/EnumConcat/design.hldb ${HLC_DIR}/regression/EnumConcat/EnumConcat/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -301,7 +323,7 @@ Constant                             5       4       1         2
 Operation                            2       1       0         1
 RefTypespec                          9       6       0         3
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    42      37       1         6
+                                    44      39       1         6
 ===================== END REDUCTION RESULT =====================

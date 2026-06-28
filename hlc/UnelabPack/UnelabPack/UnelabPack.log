@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UnelabPack/UnelabPack/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UnelabPack -d ast -d db dut.sv -nocache -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnelabPack/UnelabPack
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 43
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UnelabPack/dut.sv
-n<${SURELOG_DIR}/tests/UnelabPack/dut.sv> u<42> t<Top_level_rule> c<1> l<1:1> el<8:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<42> t<Top_level_rule> c<1> l<1:1> el<8:1>
   n<> u<1> t<Null_rule> p<42> s<41> l<1:1>
   n<> u<41> t<Source_text> p<42> c<19> l<1:1> el<7:11>
     n<> u<19> t<Description> p<41> c<18> s<40> l<1:1> el<3:11>
@@ -46,21 +55,21 @@ n<${SURELOG_DIR}/tests/UnelabPack/dut.sv> u<42> t<Top_level_rule> c<1> l<1:1> el
                             n<> u<27> t<Constant_bit_select> p<28> l<6:23> el<6:23>
         n<> u<38> t<ENDPACKAGE> p<39> l<7:1> el<7:11>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/UnelabPack/dut.sv:1:1: Compile package "work@pkg1".
-[INF:CP0301] ${SURELOG_DIR}/tests/UnelabPack/dut.sv:5:1: Compile package "work@pkg2".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnelabPack/dut.sv:1:1: No timescale set for "work@pkg1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnelabPack/dut.sv:5:1: No timescale set for "work@pkg2".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg1".
+[INF:CP0301] $Source01/dut.sv:5:1: Compile package "work@pkg2".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg1".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@pkg2".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/UnelabPack/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UnelabPack/UnelabPack/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pkg1 file:${SURELOG_DIR}/tests/UnelabPack/dut.sv start:1:1 end:3:11:
+    Package name:work@pkg1 file:$Source01/dut.sv start:1:1 end:3:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg1 start:1:9 end:1:13:
         vpiParent: Package name:work@pkg1
@@ -99,7 +108,12 @@ Design name:unnamed:
           vpiParent: Package name:work@pkg1
       vpiDefName: work@pkg1
       vpiDefNetType: none (12)
-    Package name:work@pkg2 file:${SURELOG_DIR}/tests/UnelabPack/dut.sv start:5:1 end:7:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg1
+        vpiName: work
+        vpiFullName: work@pkg1::work
+      vpiCell: pkg1
+    Package name:work@pkg2 file:$Source01/dut.sv start:5:1 end:7:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg2 start:5:9 end:5:13:
         vpiParent: Package name:work@pkg2
@@ -127,8 +141,8 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: pkg1::X
             vpiFullName: work@pkg2::pkg1::X
-            vpiActual (2 items):
-              PackageTypespec name:pkg1
+            vpiPathElem (2 items):
+              PackageTypespec name:pkg1:
               RefObj name:X start:6:22 end:6:23:
                 vpiParent: HierPath name:pkg1::X
                 vpiName: X
@@ -143,42 +157,50 @@ Design name:unnamed:
           vpiPackage: Package name:work@pkg1
       vpiDefName: work@pkg2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg2
+        vpiName: work
+        vpiFullName: work@pkg2::work
+      vpiCell: pkg2
   vpiTypespec (1 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UnelabPack/UnelabPack
- test-dirpath: ${SURELOG_DIR}/regression/UnelabPack/UnelabPack
-uhdm-filepath: ${SURELOG_DIR}/regression/UnelabPack/UnelabPack/surelog.uhdm
+      test-name: UnelabPack/UnelabPack
+   test-dirpath: ${HLC_DIR}/regression/UnelabPack/UnelabPack
+  hldb-filepath: ${HLC_DIR}/regression/UnelabPack/UnelabPack/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/UnelabPack/UnelabPack/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UnelabPack/UnelabPack/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 86}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 86}},
             'post_len': 0,
             'pre_len': 86,
             'test_name': 'UnelabPack/UnelabPack'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       86 |         0 |
-+=================+==========+===========+
-|                 |       86 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       86 |         0 |
++=========================+==========+===========+
+|                         |       86 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -186,13 +208,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/UnelabPack/UnelabPack/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/UnelabPack/UnelabPack/surelog.uhdm ${SURELOG_DIR}/regression/UnelabPack/UnelabPack/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/UnelabPack/UnelabPack/design.hldb ${HLC_DIR}/regression/UnelabPack/UnelabPack/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

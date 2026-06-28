@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db monitor2.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/monitor2
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/monitor2.v".
+[INF:PA0201] Parsing source file "$Source01/monitor2.v".
 AST_DEBUG_BEGIN
 Count: 123
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/monitor2.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/monitor2.v> u<122> t<Top_level_rule> c<1> l<38:1> el<54:1>
+FILE: f<13>:$Source01/monitor2.v
+n<$Source01/monitor2.v> u<122> t<Top_level_rule> c<1> l<38:1> el<54:1>
   n<> u<1> t<Null_rule> p<122> s<2> l<38:1> el<38:1>
   n</*\n  I seem to have found a problem with the $monitor task/events.\n  (this is probably related to bug 399)\n  The problem only seems to arise in vvp mode and not in vvm.\n  Problem: $monitor seems to lose both the first and last time steps.\n\n  A complete copy of the run follows with source appended at the end.\n  (The correct output from vvm is shown in the last run)\n  This file compiles and produces the problem.\n\n  jungle_geo@hotmail.com\n\n*/> u<2> t<BLOCK_COMMENT> p<122> s<3> l<38:1> el<51:10>
   n</*\n\nbubba> uname -a\nLinux bubba 2.2.15-4mdk #1 Wed May 10 15:31:30 CEST 2000 i686 unknown\n\nbubba> iverilog -V\nIcarus Verilog version 0.6\nCopyright 1998-2002 Stephen Williams\n$Name:  $\n\nbubba> iverilog -Wall -tvvp stim.v\nbubba> a.out\nTime = 1 a = 1\n\nbubba> iverilog -Wall -tvvm stim.v\nbubba> a.out\nTime = 0 a = 0\nTime = 1 a = 1\nTime = 2 a = 0\n\n*/> u<3> t<BLOCK_COMMENT> p<122> s<4> l<38:1> el<51:10>
@@ -126,19 +135,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/monitor2.v> u<122> t<Top_level_rule> c<1>
                         n<> u<109> t<END> p<110> l<49:3> el<49:6>
         n<> u<118> t<ENDMODULE> p<119> l<51:1> el<51:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/monitor2.v:38:1: Compile module "work@stim".
+[INF:CP0303] $Source01/monitor2.v:38:1: Compile module "work@stim".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:monitor2.v file:${SURELOG_DIR}/tests/Icarus/ivltests/monitor2.v:
+  vpiSourceFile (1 items):
+    SourceFile name:monitor2.v file:$Source01/monitor2.v:
       vpiParent: Design name:unnamed
       vpiName: monitor2.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/lib/work/monitor2.v"
+      vpiPreprocFile: "$Output/lib/work/monitor2.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@stim file:${SURELOG_DIR}/tests/Icarus/ivltests/monitor2.v start:38:1 end:51:10:
+    Module name:work@stim file:$Source01/monitor2.v start:38:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@stim start:38:8 end:38:12:
         vpiParent: Module name:work@stim
@@ -149,6 +158,11 @@ Design name:unnamed:
           vpiParent: Module name:work@stim
       vpiDefName: work@stim
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@stim
+        vpiName: work
+        vpiFullName: work@stim.work
+      vpiCell: stim
       vpiNet (1 items):
         Net name:a start:39:8 end:39:9:
           vpiParent: Module name:work@stim
@@ -288,37 +302,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/monitor2
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/monitor2
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/surelog.uhdm
+      test-name: Icarus/ivltests/monitor2
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/monitor2
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/monitor2/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/monitor2/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/lib/work/monitor2.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 124}},
+            'files': {'$Output/lib/work/monitor2.v': {'post_len': 0,
+                                                      'pre_len': 124}},
             'post_len': 0,
             'pre_len': 124,
             'test_name': 'Icarus/ivltests/monitor2'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/monitor2.v |      124 |         0 |
-+=====================+==========+===========+
-|                     |      124 |         0 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/monitor2.v |      124 |         0 |
++=============================+==========+===========+
+|                             |      124 |         0 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -326,13 +343,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/monitor2/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/monitor2/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/monitor2/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

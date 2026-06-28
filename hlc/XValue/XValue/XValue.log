@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/XValue/XValue/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/XValue -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/XValue/XValue
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 86
 LIB: work
-FILE: ${SURELOG_DIR}/tests/XValue/dut.sv
-n<${SURELOG_DIR}/tests/XValue/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<85> s<84> l<1:1>
   n<> u<84> t<Source_text> p<85> c<83> l<1:1> el<8:10>
     n<> u<83> t<Description> p<84> c<82> l<1:1> el<8:10>
@@ -89,19 +98,19 @@ n<${SURELOG_DIR}/tests/XValue/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1> el<9:1
                           n<DESELECT> u<71> t<SIMPLE_IDENTIFIER> p<72> l<7:15> el<7:23>
         n<> u<81> t<ENDMODULE> p<82> l<8:1> el<8:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/XValue/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/XValue/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/XValue/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/XValue/XValue/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/XValue/dut.sv start:1:1 end:8:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -193,7 +202,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b0001"
-                vpiValue: 0001
+                vpiValue: "0001"
             EnumConst name:DESELECT start:4:9 end:4:27:
               vpiParent: EnumTypespec
               vpiName Identifier name:DESELECT start:4:9 end:4:17:
@@ -208,7 +217,7 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b1xxx"
-                vpiValue: 1xxx
+                vpiValue: "1xxx"
         TypedefTypespec name:dfi_cmd_e start:2:4 end:5:16:
           vpiParent: Module name:work@top
           vpiName Identifier name:dfi_cmd_e start:5:6 end:5:15:
@@ -220,6 +229,11 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:clk start:1:24 end:1:27:
           vpiParent: Module name:work@top
@@ -281,37 +295,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: XValue/XValue
- test-dirpath: ${SURELOG_DIR}/regression/XValue/XValue
-uhdm-filepath: ${SURELOG_DIR}/regression/XValue/XValue/surelog.uhdm
+      test-name: XValue/XValue
+   test-dirpath: ${HLC_DIR}/regression/XValue/XValue
+  hldb-filepath: ${HLC_DIR}/regression/XValue/XValue/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/XValue/XValue/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/XValue/XValue/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                  'pre_len': 153}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 153}},
             'post_len': 0,
             'pre_len': 153,
             'test_name': 'XValue/XValue'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      153 |         0 |
-+=================+==========+===========+
-|                 |      153 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      153 |         0 |
++=========================+==========+===========+
+|                         |      153 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -319,13 +336,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/XValue/XValue/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/XValue/XValue/surelog.uhdm ${SURELOG_DIR}/regression/XValue/XValue/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/XValue/XValue/design.hldb ${HLC_DIR}/regression/XValue/XValue/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    48      48       0         0
 ===================== END REDUCTION RESULT =====================

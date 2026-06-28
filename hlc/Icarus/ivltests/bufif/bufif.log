@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/bufif/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db bufif.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/bufif
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/bufif.v".
+[INF:PA0201] Parsing source file "$Source01/bufif.v".
 AST_DEBUG_BEGIN
 Count: 684
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v> u<683> t<Top_level_rule> c<1> l<25:1> el<93:1>
+FILE: f<13>:$Source01/bufif.v
+n<$Source01/bufif.v> u<683> t<Top_level_rule> c<1> l<25:1> el<93:1>
   n<> u<1> t<Null_rule> p<683> s<2> l<25:1> el<25:1>
   n<// Copyright (c) 2000 Stephen Williams (steve@icarus.com)> u<2> t<LINE_COMMENT> p<683> s<3> l<1:1> el<1:58>
   n<//> u<3> t<LINE_COMMENT> p<683> s<4> l<2:1> el<2:3>
@@ -687,20 +696,20 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v> u<683> t<Top_level_rule> c<1> l<
         n<> u<678> t<ENDMODULE> p<679> l<91:1> el<91:10>
   n<// main> u<682> t<LINE_COMMENT> p<683> l<91:11> el<91:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v:25:1: Compile module "work@grayGap".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v:41:1: Compile module "work@main".
+[INF:CP0303] $Source01/bufif.v:25:1: Compile module "work@grayGap".
+[INF:CP0303] $Source01/bufif.v:41:1: Compile module "work@main".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:bufif.v file:${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v:
+  vpiSourceFile (1 items):
+    SourceFile name:bufif.v file:$Source01/bufif.v:
       vpiParent: Design name:unnamed
       vpiName: bufif.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/bufif/lib/work/bufif.v"
+      vpiPreprocFile: "$Output/lib/work/bufif.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@grayGap file:${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v start:25:1 end:38:10:
+    Module name:work@grayGap file:$Source01/bufif.v start:25:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@grayGap start:25:8 end:25:15:
         vpiParent: Module name:work@grayGap
@@ -791,6 +800,11 @@ Design name:unnamed:
             vpiFullName: work@grayGap
       vpiDefName: work@grayGap
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@grayGap
+        vpiName: work
+        vpiFullName: work@grayGap.work
+      vpiCell: grayGap
       vpiNet (5 items):
         Net name:ad start:27:18 end:27:20:
           vpiParent: Module name:work@grayGap
@@ -981,7 +995,7 @@ Design name:unnamed:
                     vpiConstType: binary (3)
                     vpiSize: 16
                     vpiDecompile: "16'b0"
-                    vpiValue: 0
+                    vpiValue: "0"
                   RefObj name:regff start:32:38 end:32:43:
                     vpiParent: Operation
                     vpiName: regff
@@ -1001,7 +1015,7 @@ Design name:unnamed:
           vpiParent: Module name:work@grayGap
           vpiFullName: work@grayGap
           vpiGate: Gate name:ad_drv
-    Module name:work@main file:${SURELOG_DIR}/tests/Icarus/ivltests/bufif.v start:41:1 end:91:10:
+    Module name:work@main file:$Source01/bufif.v start:41:1 end:91:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:41:8 end:41:12:
         vpiParent: Module name:work@main
@@ -1097,6 +1111,11 @@ Design name:unnamed:
             vpiName: work@grayGap
       vpiDefName: work@main
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@main
+        vpiName: work
+        vpiFullName: work@main.work
+      vpiCell: main
       vpiNet (6 items):
         Net name:ad start:43:16 end:43:18:
           vpiParent: Module name:work@main
@@ -1484,7 +1503,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 32
                       vpiDecompile: "32'b00000000000000001010101010101010"
-                      vpiValue: 00000000000000001010101010101010
+                      vpiValue: "00000000000000001010101010101010"
                 vpiStmt Begin start:80:63 end:83:10:
                   vpiParent: IfStmt
                   vpiFullName: work@main
@@ -1680,37 +1699,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/bufif
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/bufif
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/bufif/surelog.uhdm
+      test-name: Icarus/ivltests/bufif
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/bufif
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/bufif/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/bufif/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/bufif/lib/work/bufif.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 773}},
+            'files': {'$Output/lib/work/bufif.v': {'post_len': 0,
+                                                   'pre_len': 773}},
             'post_len': 0,
             'pre_len': 773,
             'test_name': 'Icarus/ivltests/bufif'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/bufif.v |      773 |         0 |
-+==================+==========+===========+
-|                  |      773 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/bufif.v |      773 |         0 |
++==========================+==========+===========+
+|                          |      773 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1718,13 +1740,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/bufif/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/bufif/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/bufif/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/bufif/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/bufif/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             241     241       0         0
+Others                             243     243       0         0
 ----------------------------------------------------------------
-                                   241     241       0         0
+                                   243     243       0         0
 ===================== END REDUCTION RESULT =====================

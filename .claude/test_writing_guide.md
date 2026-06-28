@@ -6,23 +6,23 @@ Each test targets one SystemVerilog source file under `tests/`. A test consists 
 
 | File | Purpose |
 |---|---|
-| `<testname>.hlc` | Surelog command line (one line) |
+| `<testname>.hlc` | hlc command line (one line) |
 | `test_<testname>.cpp` | GTest fixture + TEST_F cases |
 
 The `.hlc` file and the SV file under `tests/` must already exist before writing a test. The `.hlc` file typically looks like:
 ```
--wd ../../../tests/<Group> -parse -d uhdm -d ast <testname>.sv -nobuiltin
+-wd ../../../tests/<Group> -parse -d db -d ast <testname>.sv -nobuiltin
 ```
 
 ## Step 1 — Read the SV source and grammar
 
-Read the `.sv` file under `tests/` to understand what SystemVerilog constructs are being tested. Then cross-reference `grammar/SV3_1aParser.g4` to understand the parse structure that Surelog will build.
+Read the `.sv` file under `tests/` to understand what SystemVerilog constructs are being tested. Then cross-reference `grammar/SV3_1aParser.g4` to understand the parse structure that HLC will build.
 
 The grammar tells you which rules fire for a given construct — e.g., `sequence_declaration`, `property_declaration`, `concurrent_assertion_statement` — and therefore which UHDM objects will be created. Look for the relevant grammar rules and trace how the SV constructs map to UHDM object types.
 
 ## Step 2 — Map grammar constructs to UHDM objects and C++ API
 
-The UHDM object model is generated from YAML files. Headers live in `build/include/uhdm/`. **Always read the actual header before using an API — never guess method names.**
+The UHDM object model is generated from YAML files. Headers live in `build/include/hldb/`. **Always read the actual header before using an API — never guess method names.**
 
 Common construct-to-object mappings:
 
@@ -55,30 +55,30 @@ Collection accessors return `XxxCollection*` (nullptr when absent).
 Scalar object accessors return `T*` (nullptr when absent).
 All UHDM classes also expose a template getter for direct downcasting:
 ```cpp
-seq->getExpr<uhdm::Operation>()          // equivalent to any_cast<uhdm::Operation>(seq->getExpr())
-found->getProperty<uhdm::PropertySpec>() // etc.
+seq->getExpr<hldb::Operation>()          // equivalent to any_cast<hldb::Operation>(seq->getExpr())
+found->getProperty<hldb::PropertySpec>() // etc.
 ```
 
 ## Step 3 — Identify which headers to include
 
-Read the relevant headers in `build/include/uhdm/` to confirm method signatures before writing any test code.
+Read the relevant headers in `build/include/hldb/` to confirm method signatures before writing any test code.
 
 Common includes:
 
 ```cpp
-#include <uhdm/Utils.h>              // findByName<T>()
-#include <uhdm/design.h>             // m_design->getAllModules()
-#include <uhdm/module.h>             // Module
-#include <uhdm/sequence_decl.h>      // SequenceDecl  →  getName(), getExpr()
-#include <uhdm/property_decl.h>      // PropertyDecl  →  getName(), getPropertySpec()
-#include <uhdm/property_spec.h>      // PropertySpec  →  getClockingEvent(), getPropertyExpr()
-#include <uhdm/concurrent_assertions.h>  // ConcurrentAssertions  →  getProperty()
-#include <uhdm/assert_stmt.h>        // Assert (inherits ConcurrentAssertions)
-#include <uhdm/operation.h>          // Operation  →  getOpType(), getOperands()
-#include <uhdm/ref_obj.h>            // RefObj  →  getName(), getActual()
+#include <hldb/Utils.h>              // findByName<T>()
+#include <hldb/design.h>             // m_design->getAllModules()
+#include <hldb/module.h>             // Module
+#include <hldb/sequence_decl.h>      // SequenceDecl  →  getName(), getExpr()
+#include <hldb/property_decl.h>      // PropertyDecl  →  getName(), getPropertySpec()
+#include <hldb/property_spec.h>      // PropertySpec  →  getClockingEvent(), getPropertyExpr()
+#include <hldb/concurrent_assertions.h>  // ConcurrentAssertions  →  getProperty()
+#include <hldb/assert_stmt.h>        // Assert (inherits ConcurrentAssertions)
+#include <hldb/operation.h>          // Operation  →  getOpType(), getOperands()
+#include <hldb/ref_obj.h>            // RefObj  →  getName(), getActual()
 ```
 
-Key constants in `build/include/uhdm/sv_vpi_user.h`:
+Key constants in `build/include/hldb/sv_vpi_user.h`:
 - `vpiUnaryCycleDelayOp` = 53 — `##N expr` or `expr ##N expr` (unary/binary cycle delay)
 - `vpiCycleDelayOp`      = 54 — binary cycle delay
 - `vpiPosedge`           = 39 — posedge event (opType on clocking Operation)
@@ -118,8 +118,8 @@ Typical progression per feature:
 
 Pattern for finding a named decl:
 ```cpp
-const uhdm::SequenceDecl *seq = nullptr;
-for (const uhdm::SequenceDecl *const s : *tb->getSequenceDecls()) {
+const hldb::SequenceDecl *seq = nullptr;
+for (const hldb::SequenceDecl *const s : *tb->getSequenceDecls()) {
   if (s->getName() == "myseq") { seq = s; break; }
 }
 ASSERT_NE(seq, nullptr) << "sequence 'myseq' not found";
@@ -127,9 +127,9 @@ ASSERT_NE(seq, nullptr) << "sequence 'myseq' not found";
 
 Pattern for polymorphic cast to a concrete type:
 ```cpp
-const uhdm::Assert *found = nullptr;
-for (const uhdm::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
-  if (const uhdm::Assert *const a = any_cast<uhdm::Assert>(ca)) {
+const hldb::Assert *found = nullptr;
+for (const hldb::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()) {
+  if (const hldb::Assert *const a = any_cast<hldb::Assert>(ca)) {
     found = a; break;
   }
 }

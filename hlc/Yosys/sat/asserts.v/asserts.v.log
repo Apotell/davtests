@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/sat/asserts.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db sat/asserts.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Yosys/sat/asserts.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sat/asserts.v".
+[INF:PA0201] Parsing source file "$Source01/sat/asserts.v".
 AST_DEBUG_BEGIN
 Count: 201
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/sat/asserts.v
-n<${SURELOG_DIR}/tests/Yosys/sat/asserts.v> u<200> t<Top_level_rule> c<1> l<2:1> el<15:1>
+FILE: f<13>:$Source01/sat/asserts.v
+n<$Source01/sat/asserts.v> u<200> t<Top_level_rule> c<1> l<2:1> el<15:1>
   n<> u<1> t<Null_rule> p<200> s<2> l<2:1> el<2:1>
   n<// http://www.reddit.com/r/yosys/comments/1vljks/new_support_for_systemveriloglike_asserts/> u<2> t<LINE_COMMENT> p<200> s<199> l<1:1> el<1:92>
   n<> u<199> t<Source_text> p<200> c<198> l<2:1> el<14:10>
@@ -204,19 +213,19 @@ n<${SURELOG_DIR}/tests/Yosys/sat/asserts.v> u<200> t<Top_level_rule> c<1> l<2:1>
                         n<> u<187> t<Statement_or_null> p<188> l<13:29> el<13:30>
         n<> u<196> t<ENDMODULE> p<197> l<14:1> el<14:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/sat/asserts.v:2:1: Compile module "work@test".
+[INF:CP0303] $Source01/sat/asserts.v:2:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:asserts.v file:${SURELOG_DIR}/tests/Yosys/sat/asserts.v:
+  vpiSourceFile (1 items):
+    SourceFile name:asserts.v file:$Source01/sat/asserts.v:
       vpiParent: Design name:unnamed
       vpiName: asserts.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/sat/asserts.v/lib/work/sat/asserts.v"
+      vpiPreprocFile: "$Output/lib/work/sat/asserts.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Yosys/sat/asserts.v start:2:1 end:14:10:
+    Module name:work@test file:$Source01/sat/asserts.v start:2:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:2:8 end:2:12:
         vpiParent: Module name:work@test
@@ -245,7 +254,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
-                  vpiValue: 1
+                  vpiValue: "1"
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:work@test
@@ -279,6 +288,11 @@ Design name:unnamed:
           vpiParent: Module name:work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (4 items):
         Net name:clk start:2:19 end:2:22:
           vpiParent: Module name:work@test
@@ -511,37 +525,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/sat/asserts.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/sat/asserts.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sat/asserts.v/surelog.uhdm
+      test-name: Yosys/sat/asserts.v
+   test-dirpath: ${HLC_DIR}/regression/Yosys/sat/asserts.v
+  hldb-filepath: ${HLC_DIR}/regression/Yosys/sat/asserts.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Yosys/sat/asserts.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/sat/asserts.v/lib/work/sat/asserts.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 241}},
+            'files': {'$Output/lib/work/sat/asserts.v': {'post_len': 0,
+                                                         'pre_len': 241}},
             'post_len': 0,
             'pre_len': 241,
             'test_name': 'Yosys/sat/asserts.v'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/sat/asserts.v |      241 |         0 |
-+========================+==========+===========+
-|                        |      241 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/sat/asserts.v |      241 |         0 |
++================================+==========+===========+
+|                                |      241 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -549,13 +566,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sat/asserts.v/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Yosys/sat/asserts.v/surelog.uhdm ${SURELOG_DIR}/regression/Yosys/sat/asserts.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Yosys/sat/asserts.v/design.hldb ${HLC_DIR}/regression/Yosys/sat/asserts.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

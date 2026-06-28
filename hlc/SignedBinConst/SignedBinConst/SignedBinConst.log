@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/SignedBinConst -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SignedBinConst/SignedBinConst
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 164
 LIB: work
-FILE: ${SURELOG_DIR}/tests/SignedBinConst/dut.sv
-n<${SURELOG_DIR}/tests/SignedBinConst/dut.sv> u<163> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<163> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<163> s<162> l<1:1>
   n<> u<162> t<Source_text> p<163> c<82> l<1:1> el<12:10>
     n<> u<82> t<Description> p<162> c<81> s<161> l<1:1> el<5:10>
@@ -167,21 +176,21 @@ n<${SURELOG_DIR}/tests/SignedBinConst/dut.sv> u<163> t<Top_level_rule> c<1> l<1:
                                   n<2'sb10> u<145> t<INTEGRAL_NUMBER> p<146> l<11:13> el<11:19>
         n<> u<159> t<ENDMODULE> p<160> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/SignedBinConst/dut.sv:1:1: Compile module "work@top1".
-[INF:CP0303] ${SURELOG_DIR}/tests/SignedBinConst/dut.sv:8:1: Compile module "work@top2".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SignedBinConst/dut.sv:1:1: No timescale set for "work@top1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SignedBinConst/dut.sv:8:1: No timescale set for "work@top2".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top1".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@top2".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top1".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@top2".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/SignedBinConst/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top1 file:${SURELOG_DIR}/tests/SignedBinConst/dut.sv start:1:1 end:5:10:
+    Module name:work@top1 file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top1 start:1:8 end:1:12:
         vpiParent: Module name:work@top1
@@ -229,7 +238,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'sb1"
-            vpiValue: 1
+            vpiValue: "1"
         ParamAssign start:3:19 end:3:31:
           vpiParent: Module name:work@top1
           vpiLhs RefObj name:p2 start:3:19 end:3:21:
@@ -246,7 +255,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'sb10"
-            vpiValue: 10
+            vpiValue: "10"
         ParamAssign start:4:17 end:4:29:
           vpiParent: Module name:work@top1
           vpiLhs RefObj name:p3 start:4:17 end:4:19:
@@ -263,7 +272,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'sb10"
-            vpiValue: 10
+            vpiValue: "10"
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@top1
@@ -319,7 +328,12 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top1
       vpiDefNetType: none (12)
-    Module name:work@top2 file:${SURELOG_DIR}/tests/SignedBinConst/dut.sv start:8:1 end:12:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top1
+        vpiName: work
+        vpiFullName: work@top1.work
+      vpiCell: top1
+    Module name:work@top2 file:$Source01/dut.sv start:8:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top2 start:8:8 end:8:12:
         vpiParent: Module name:work@top2
@@ -380,6 +394,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top2
+        vpiName: work
+        vpiFullName: work@top2.work
+      vpiCell: top2
       vpiNet (3 items):
         Net name:p1 start:9:13 end:9:15:
           vpiParent: Module name:work@top2
@@ -398,7 +417,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'sb1"
-            vpiValue: 1
+            vpiValue: "1"
         Net name:p2 start:10:13 end:10:15:
           vpiParent: Module name:work@top2
           vpiTypespec RefTypespec start:10:3 end:10:12:
@@ -416,7 +435,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'sb10"
-            vpiValue: 10
+            vpiValue: "10"
         Net name:p3 start:11:7 end:11:9:
           vpiParent: Module name:work@top2
           vpiTypespec RefTypespec start:11:3 end:11:6:
@@ -434,7 +453,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'sb10"
-            vpiValue: 10
+            vpiValue: "10"
   vpiTypespec (4 items):
     ModuleTypespec name:work@top1:
       vpiParent: Design name:unnamed
@@ -454,37 +473,40 @@ Design name:unnamed:
         vpiName: work@top2
       vpiModule: Module name:work@top2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SignedBinConst/SignedBinConst
- test-dirpath: ${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst
-uhdm-filepath: ${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/surelog.uhdm
+      test-name: SignedBinConst/SignedBinConst
+   test-dirpath: ${HLC_DIR}/regression/SignedBinConst/SignedBinConst
+  hldb-filepath: ${HLC_DIR}/regression/SignedBinConst/SignedBinConst/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/SignedBinConst/SignedBinConst/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 192}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 192}},
             'post_len': 0,
             'pre_len': 192,
             'test_name': 'SignedBinConst/SignedBinConst'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      192 |         0 |
-+=================+==========+===========+
-|                 |      192 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      192 |         0 |
++=========================+==========+===========+
+|                         |      192 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -492,13 +514,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/surelog.uhdm ${SURELOG_DIR}/regression/SignedBinConst/SignedBinConst/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/SignedBinConst/SignedBinConst/design.hldb ${HLC_DIR}/regression/SignedBinConst/SignedBinConst/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

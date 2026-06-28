@@ -1,9 +1,21 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_lint_rsvd_bad.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_lint_rsvd_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_lint_rsvd_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_lint_rsvd_bad.v".
+[SNT:PA0207] $Source01/t_lint_rsvd_bad.v:7: Syntax error: mismatched input 'endconfig' expecting {'design', 'localparam'},
+endconfig
+^-- $Source01/t_lint_rsvd_bad.v:7:0:.
 AST_DEBUG_BEGIN
 Count: 19
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v> u<18> t<Top_level_rule> c<1> l<6:1> el<11:1>
+FILE: f<13>:$Source01/t_lint_rsvd_bad.v
+n<$Source01/t_lint_rsvd_bad.v> u<18> t<Top_level_rule> c<1> l<6:1> el<11:1>
   n<> u<1> t<Null_rule> p<18> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<18> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<18> s<4> l<2:1> el<2:3>
@@ -22,22 +34,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v> u<18> t<Top_level_rule> c<1>
           n<> u<12> t<Package_import_declaration_list> p<13> l<9:9> el<9:9>
         n<> u<14> t<ENDMODULE> p<15> l<10:1> el<10:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v:7: Syntax error: mismatched input 'endconfig' expecting {'design', 'localparam'},
-endconfig
-^-- ${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v:7:0:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v:9:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_lint_rsvd_bad.v:9:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_lint_rsvd_bad.v file:${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_lint_rsvd_bad.v file:$Source01/t_lint_rsvd_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_lint_rsvd_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/lib/work/t_lint_rsvd_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_lint_rsvd_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_lint_rsvd_bad.v start:9:1 end:10:10:
+    Module name:work@t file:$Source01/t_lint_rsvd_bad.v start:9:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:9:8 end:9:9:
         vpiParent: Module name:work@t
@@ -45,6 +54,11 @@ Design name:unnamed:
       vpiFullName: work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
   vpiTypespec (1 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -52,38 +66,45 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@t
         vpiName: work@t
       vpiModule: Module name:work@t
+  vpiConfig (1 items):
+    ConfigDecl name:cfgBad:
+      vpiParent: Design name:unnamed
+      vpiName: cfgBad
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_lint_rsvd_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/surelog.uhdm
+      test-name: Verilator/t_lint_rsvd_bad
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_lint_rsvd_bad
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_lint_rsvd_bad/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_lint_rsvd_bad/mounts.json
 
 
 {'result': {'coverage': 85.37,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/lib/work/t_lint_rsvd_bad.v'): {'post_len': 6,
-                                                                                                                                         'pre_len': 41}},
+            'files': {'$Output/lib/work/t_lint_rsvd_bad.v': {'post_len': 6,
+                                                             'pre_len': 41}},
             'post_len': 6,
             'pre_len': 41,
             'test_name': 'Verilator/t_lint_rsvd_bad'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_lint_rsvd_bad.v |       41 |         6 |
-+============================+==========+===========+
-|                            |       41 |         6 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_lint_rsvd_bad.v |       41 |         6 |
++====================================+==========+===========+
+|                                    |       41 |         6 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 85.37
@@ -91,13 +112,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_lint_rsvd_bad/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_rsvd_bad/design.hldb ${HLC_DIR}/regression/Verilator/t_lint_rsvd_bad/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               6       6       0         0
+Others                               8       8       0         0
 ----------------------------------------------------------------
-                                     6       6       0         0
+                                     8       8       0         0
 ===================== END REDUCTION RESULT =====================

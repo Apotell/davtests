@@ -59,26 +59,26 @@
 //
 // All tests PASS. No Surelog bugs for this SV file.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/array_typespec.h>
-#include <uhdm/bit_typespec.h>
-#include <uhdm/byte_typespec.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/range.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/array_typespec.h>
+#include <hldb/bit_typespec.h>
+#include <hldb/byte_typespec.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/range.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringWordAssignment : public Test {
  public:
@@ -99,23 +99,23 @@ class StringWordAssignment : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNet(const uhdm::Design *d, std::string_view name) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>(name, m->getNets());
+  return hldb::findByName<hldb::Net>(name, m->getNets());
 }
 
 // Helper: get the BitTypespec range's left Operation for net 'a'.
-static const uhdm::Operation *getNetARangeLeft(const uhdm::Design *d) {
-  const uhdm::Net *net = getNet(d, "a");
+static const hldb::Operation *getNetARangeLeft(const hldb::Design *d) {
+  const hldb::Net *net = getNet(d, "a");
   if (!net || !net->getTypespec()) return nullptr;
-  const auto *bt = net->getTypespec()->getActual<uhdm::BitTypespec>();
+  const auto *bt = net->getTypespec()->getActual<hldb::BitTypespec>();
   if (!bt || !bt->getRanges() || bt->getRanges()->empty()) return nullptr;
-  return bt->getRanges()->front()->getLeftExpr<uhdm::Operation>();
+  return bt->getRanges()->front()->getLeftExpr<hldb::Operation>();
 }
 
 // ---------------------------------------------------------------------------
@@ -126,7 +126,7 @@ TEST_F(StringWordAssignment, ModuleExists) {
 }
 
 TEST_F(StringWordAssignment, TwoNetsExist) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 2u)
@@ -135,7 +135,7 @@ TEST_F(StringWordAssignment, TwoNetsExist) {
 
 TEST_F(StringWordAssignment, NoInitialBlock) {
   // Initializers are inline in the declarations — no separate initial block.
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
       << "module has no initial/always blocks; initializers are inline";
@@ -149,10 +149,10 @@ TEST_F(StringWordAssignment, NoInitialBlock) {
 // Type: BitTypespec with an expression-based packed dimension.
 // ---------------------------------------------------------------------------
 TEST_F(StringWordAssignment, NetA_HasBitTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "a");
+  const hldb::Net *const net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::BitTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "§5.9: 'bit [8*3-1:0] a' must produce a BitTypespec";
 }
 
@@ -171,7 +171,7 @@ TEST_F(StringWordAssignment, NetA_HasBitTypespec) {
 //   b) the operands are correct (8×3=24, 24-1=23) — verifying the calculation
 // ---------------------------------------------------------------------------
 TEST_F(StringWordAssignment, NetA_RangeLeft_IsSubtractOperation) {
-  const uhdm::Operation *const sub_op = getNetARangeLeft(m_design);
+  const hldb::Operation *const sub_op = getNetARangeLeft(m_design);
   ASSERT_NE(sub_op, nullptr)
       << "§5.9: range left of 'bit [8*3-1:0]' must be a subtract Operation";
   // vpiSubOp = 11
@@ -180,12 +180,12 @@ TEST_F(StringWordAssignment, NetA_RangeLeft_IsSubtractOperation) {
 }
 
 TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractFirstOperand_IsMultiply) {
-  const uhdm::Operation *const sub_op = getNetARangeLeft(m_design);
+  const hldb::Operation *const sub_op = getNetARangeLeft(m_design);
   ASSERT_NE(sub_op, nullptr);
   ASSERT_NE(sub_op->getOperands(), nullptr);
   ASSERT_GE(sub_op->getOperands()->size(), 1u);
   const auto *mult_op =
-      any_cast<const uhdm::Operation *>((*sub_op->getOperands())[0]);
+      any_cast<const hldb::Operation *>((*sub_op->getOperands())[0]);
   ASSERT_NE(mult_op, nullptr)
       << "first operand of subtract must be a multiply Operation";
   // vpiMultOp = 25
@@ -196,18 +196,18 @@ TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractFirstOperand_IsMultiply) {
 TEST_F(StringWordAssignment, NetA_RangeLeft_MultiplyOperands_Are8And3) {
   // Verifies that the multiply sub-expression is 8×3, confirming the packed
   // dimension width = 8*3 = 24.
-  const uhdm::Operation *const sub_op = getNetARangeLeft(m_design);
+  const hldb::Operation *const sub_op = getNetARangeLeft(m_design);
   ASSERT_NE(sub_op, nullptr);
   ASSERT_NE(sub_op->getOperands(), nullptr);
   const auto *mult_op =
-      any_cast<const uhdm::Operation *>((*sub_op->getOperands())[0]);
+      any_cast<const hldb::Operation *>((*sub_op->getOperands())[0]);
   ASSERT_NE(mult_op, nullptr);
   ASSERT_NE(mult_op->getOperands(), nullptr);
   ASSERT_EQ(mult_op->getOperands()->size(), 2u);
   const auto *c8 =
-      any_cast<const uhdm::Constant *>((*mult_op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*mult_op->getOperands())[0]);
   const auto *c3 =
-      any_cast<const uhdm::Constant *>((*mult_op->getOperands())[1]);
+      any_cast<const hldb::Constant *>((*mult_op->getOperands())[1]);
   ASSERT_NE(c8, nullptr) << "multiply left operand must be Constant 8";
   ASSERT_NE(c3, nullptr) << "multiply right operand must be Constant 3";
   EXPECT_EQ(std::string(c8->getValue()), "8")
@@ -218,26 +218,26 @@ TEST_F(StringWordAssignment, NetA_RangeLeft_MultiplyOperands_Are8And3) {
 
 TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractSecondOperand_Is1) {
   // 8*3-1 = 23: the subtract's second operand is 1 (converting width to MSB index).
-  const uhdm::Operation *const sub_op = getNetARangeLeft(m_design);
+  const hldb::Operation *const sub_op = getNetARangeLeft(m_design);
   ASSERT_NE(sub_op, nullptr);
   ASSERT_NE(sub_op->getOperands(), nullptr);
   ASSERT_EQ(sub_op->getOperands()->size(), 2u);
   const auto *c1 =
-      any_cast<const uhdm::Constant *>((*sub_op->getOperands())[1]);
+      any_cast<const hldb::Constant *>((*sub_op->getOperands())[1]);
   ASSERT_NE(c1, nullptr) << "subtract second operand must be Constant 1";
   EXPECT_EQ(std::string(c1->getValue()), "1")
       << "§5.9: '8*3-1' — second operand of subtract must be 1";
 }
 
 TEST_F(StringWordAssignment, NetA_RangeRight_Is0) {
-  const uhdm::Net *const net = getNet(m_design, "a");
+  const hldb::Net *const net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
-  const auto *bt = net->getTypespec()->getActual<uhdm::BitTypespec>();
+  const auto *bt = net->getTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
-  const uhdm::RangeCollection *const ranges = bt->getRanges();
+  const hldb::RangeCollection *const ranges = bt->getRanges();
   ASSERT_NE(ranges, nullptr);
   ASSERT_FALSE(ranges->empty());
-  const auto *right = ranges->front()->getRightExpr<uhdm::Constant>();
+  const auto *right = ranges->front()->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr) << "right bound of [8*3-1:0] must be a Constant";
   EXPECT_EQ(right->getDecompile(), "0")
       << "§5.9: right bound of [8*3-1:0] must be 0";
@@ -258,7 +258,7 @@ TEST_F(StringWordAssignment, NetA_RangeRight_Is0) {
 // are preserved in order. The decompile confirms the full source representation.
 // ---------------------------------------------------------------------------
 TEST_F(StringWordAssignment, NetA_Value_IsStringConst) {
-  const auto *c = getNet(m_design, "a")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline value Constant";
   EXPECT_EQ(c->getConstType(), 6)
       << "§5.9: string literal must be vpiStringConst (6)";
@@ -267,7 +267,7 @@ TEST_F(StringWordAssignment, NetA_Value_IsStringConst) {
 TEST_F(StringWordAssignment, NetA_Value_SizeIs24_ExactFit) {
   // §5.9: "hi0" = 3 chars × 8 bits = 24 bits.
   // Target 'bit [8*3-1:0]' = 24 bits. Size must equal 24 — no bits lost.
-  const auto *c = getNet(m_design, "a")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 24)
       << "§5.9: \"hi0\" = 3 chars × 8 = 24 bits; 'bit [8*3-1:0]' = 24 bits "
@@ -276,7 +276,7 @@ TEST_F(StringWordAssignment, NetA_Value_SizeIs24_ExactFit) {
 
 TEST_F(StringWordAssignment, NetA_Value_AllCharsPreserved) {
   // §5.9: no characters were truncated — value holds all 3 source chars.
-  const auto *c = getNet(m_design, "a")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "hi0")
       << "§5.9: all 3 characters of \"hi0\" must be preserved in the packed "
@@ -284,10 +284,10 @@ TEST_F(StringWordAssignment, NetA_Value_AllCharsPreserved) {
 }
 
 TEST_F(StringWordAssignment, NetA_Value_HasStringTypespec) {
-  const auto *c = getNet(m_design, "a")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getTypespec(), nullptr);
-  EXPECT_NE(c->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+  EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
       << "§5.9: string literal initializer must have a StringTypespec";
 }
 
@@ -299,16 +299,16 @@ TEST_F(StringWordAssignment, NetA_Value_HasStringTypespec) {
 // Type: ArrayTypespec (unpacked static array of byte elements).
 // ---------------------------------------------------------------------------
 TEST_F(StringWordAssignment, NetB_HasArrayTypespec) {
-  const uhdm::Net *const net = getNet(m_design, "b");
+  const hldb::Net *const net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'b' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::ArrayTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::ArrayTypespec>(), nullptr)
       << "§5.9: 'byte b[3:0]' (unpacked array) must produce an ArrayTypespec";
 }
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_IsUnpacked) {
   const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<uhdm::ArrayTypespec>();
+      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_FALSE(at->getPacked())
       << "§5.9: 'byte b[3:0]' uses an unpacked dimension — getPacked() "
@@ -318,20 +318,20 @@ TEST_F(StringWordAssignment, NetB_ArrayTypespec_IsUnpacked) {
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_ElemIsByteTypespec) {
   // §5.9: each element is a 'byte' (implicit 8-bit signed 2-state type).
   const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<uhdm::ArrayTypespec>();
+      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr) << "ArrayTypespec has no element typespec";
-  EXPECT_NE(at->getElemTypespec()->getActual<uhdm::ByteTypespec>(), nullptr)
+  EXPECT_NE(at->getElemTypespec()->getActual<hldb::ByteTypespec>(), nullptr)
       << "§5.9: element type of 'byte b[3:0]' must be ByteTypespec";
 }
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeLeft_Is3) {
   const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<uhdm::ArrayTypespec>();
+      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  const uhdm::Range *const range = at->getRange();
+  const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr) << "ArrayTypespec for 'byte b[3:0]' has no range";
-  const auto *left = range->getLeftExpr<uhdm::Constant>();
+  const auto *left = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "3")
       << "'byte b[3:0]': left (high) bound must be 3";
@@ -339,11 +339,11 @@ TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeLeft_Is3) {
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeRight_Is0) {
   const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<uhdm::ArrayTypespec>();
+      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  const uhdm::Range *const range = at->getRange();
+  const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
-  const auto *right = range->getRightExpr<uhdm::Constant>();
+  const auto *right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0")
       << "'byte b[3:0]': right (low) bound must be 0";
@@ -365,7 +365,7 @@ TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeRight_Is0) {
 // size=24 < 32 is the indicator that padding applies for b[3].
 // ---------------------------------------------------------------------------
 TEST_F(StringWordAssignment, NetB_Value_IsStringConst) {
-  const auto *c = getNet(m_design, "b")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'b' has no inline value Constant";
   EXPECT_EQ(c->getConstType(), 6)
       << "§5.9: string literal must be vpiStringConst (6)";
@@ -376,7 +376,7 @@ TEST_F(StringWordAssignment, NetB_Value_SizeIs24_ShorterThanArray) {
   // Array capacity = 4 elements × 8 bits = 32 bits.
   // size=24 < 32 confirms the string is shorter than the array, so §5.9
   // left-zero-padding applies: b[3] = 0x00.
-  const auto *c = getNet(m_design, "b")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 24)
       << "§5.9: \"hi2\" = 3 chars × 8 = 24 bits; array 'byte b[3:0]' = 32 bits "
@@ -386,7 +386,7 @@ TEST_F(StringWordAssignment, NetB_Value_SizeIs24_ShorterThanArray) {
 TEST_F(StringWordAssignment, NetB_Value_AllCharsPreserved) {
   // §5.9: "hi2" has 3 chars and the array has 4 elements — no truncation.
   // Only zero-padding at b[3] occurs; b[2..0] hold all source characters.
-  const auto *c = getNet(m_design, "b")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue(), "hi2")
       << "§5.9: all 3 source characters of \"hi2\" must be preserved "
@@ -394,10 +394,10 @@ TEST_F(StringWordAssignment, NetB_Value_AllCharsPreserved) {
 }
 
 TEST_F(StringWordAssignment, NetB_Value_HasStringTypespec) {
-  const auto *c = getNet(m_design, "b")->getValue<uhdm::Constant>();
+  const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getTypespec(), nullptr);
-  EXPECT_NE(c->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+  EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
       << "§5.9: string literal initializer must have a StringTypespec";
 }
 

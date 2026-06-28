@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_program/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_program.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_program
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_program.v".
+[INF:PA0201] Parsing source file "$Source01/t_program.v".
 AST_DEBUG_BEGIN
 Count: 43
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_program.v
-n<${SURELOG_DIR}/tests/Verilator/t_program.v> u<42> t<Top_level_rule> c<1> l<6:1> el<12:1>
+FILE: f<13>:$Source01/t_program.v
+n<$Source01/t_program.v> u<42> t<Top_level_rule> c<1> l<6:1> el<12:1>
   n<> u<1> t<Null_rule> p<42> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<42> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<42> s<4> l<2:1> el<2:3>
@@ -46,26 +55,31 @@ n<${SURELOG_DIR}/tests/Verilator/t_program.v> u<42> t<Top_level_rule> c<1> l<6:1
                     n<> u<31> t<END> p<32> l<10:4> el<10:7>
         n<> u<38> t<ENDPROGRAM> p<39> l<11:1> el<11:11>
 AST_DEBUG_END
-[INF:CP0306] ${SURELOG_DIR}/tests/Verilator/t_program.v:6:9: Compile program "t".
-[WRN:CP0314] ${SURELOG_DIR}/tests/Verilator/t_program.v:6:9: Using programs is discouraged "t", programs are obsoleted by UVM.
+[INF:CP0306] $Source01/t_program.v:6:9: Compile program "t".
+[WRN:CP0314] $Source01/t_program.v:6:9: Using programs is discouraged "t", programs are obsoleted by UVM.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_program.v file:${SURELOG_DIR}/tests/Verilator/t_program.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_program.v file:$Source01/t_program.v:
       vpiParent: Design name:unnamed
       vpiName: t_program.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_program/lib/work/t_program.v"
+      vpiPreprocFile: "$Output/lib/work/t_program.v"
       vpiDefNetType: none (12)
   vpiAllPrograms (1 items):
-    Program name:work@t file:${SURELOG_DIR}/tests/Verilator/t_program.v start:6:1 end:11:11:
+    Program name:work@t file:$Source01/t_program.v start:6:1 end:11:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:9 end:6:10:
         vpiParent: Program name:work@t
         vpiName: work@t
       vpiFullName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Program name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:7:4 end:10:7:
           vpiParent: Program name:work@t
@@ -88,7 +102,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:9:7 end:9:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:9:7 end:9:14:
@@ -104,37 +118,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_program
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_program
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_program/surelog.uhdm
+      test-name: Verilator/t_program
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_program
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_program/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_program/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_program/lib/work/t_program.v'): {'post_len': 0,
-                                                                                                                             'pre_len': 77}},
+            'files': {'$Output/lib/work/t_program.v': {'post_len': 0,
+                                                       'pre_len': 77}},
             'post_len': 0,
             'pre_len': 77,
             'test_name': 'Verilator/t_program'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_program.v |       77 |         0 |
-+======================+==========+===========+
-|                      |       77 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_program.v |       77 |         0 |
++==============================+==========+===========+
+|                              |       77 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -142,13 +159,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_program/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_program/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_program/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_program/design.hldb ${HLC_DIR}/regression/Verilator/t_program/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              15      15       0         0
+Others                              16      16       0         0
 ----------------------------------------------------------------
-                                    15      15       0         0
+                                    16      16       0         0
 ===================== END REDUCTION RESULT =====================

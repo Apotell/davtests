@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-9 -timescale=1ns/1ns -d ast -d db -nobuiltin 9.7--process_cls_self.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/9.7--process_cls_self.sv".
+[INF:PA0201] Parsing source file "$Source01/9.7--process_cls_self.sv".
 AST_DEBUG_BEGIN
 Count: 142
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-9/9.7--process_cls_self.sv
-n<${SURELOG_DIR}/tests/Google/chapter-9/9.7--process_cls_self.sv> u<141> t<Top_level_rule> c<1> l<15:1> el<34:1>
+FILE: f<14>:$Source01/9.7--process_cls_self.sv
+n<$Source01/9.7--process_cls_self.sv> u<141> t<Top_level_rule> c<1> l<15:1> el<34:1>
   n<> u<1> t<Null_rule> p<141> s<2> l<15:1> el<15:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<141> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<141> s<4> l<2:1> el<2:3>
@@ -145,19 +154,19 @@ n<${SURELOG_DIR}/tests/Google/chapter-9/9.7--process_cls_self.sv> u<141> t<Top_l
                           n<> u<127> t<END> p<128> l<31:2> el<31:5>
         n<> u<137> t<ENDMODULE> p<138> l<33:1> el<33:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-9/9.7--process_cls_self.sv:15:1: Compile module "work@process_tb".
+[INF:CP0303] $Source01/9.7--process_cls_self.sv:15:1: Compile module "work@process_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:9.7--process_cls_self.sv file:${SURELOG_DIR}/tests/Google/chapter-9/9.7--process_cls_self.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:9.7--process_cls_self.sv file:$Source01/9.7--process_cls_self.sv:
       vpiParent: Design name:unnamed
       vpiName: "9.7--process_cls_self.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self/lib/work/9.7--process_cls_self.sv"
+      vpiPreprocFile: "$Output/lib/work/9.7--process_cls_self.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@process_tb file:${SURELOG_DIR}/tests/Google/chapter-9/9.7--process_cls_self.sv start:15:1 end:33:10:
+    Module name:work@process_tb file:$Source01/9.7--process_cls_self.sv start:15:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@process_tb start:15:8 end:15:18:
         vpiParent: Module name:work@process_tb
@@ -165,6 +174,11 @@ Design name:unnamed:
       vpiFullName: work@process_tb
       vpiDefName: work@process_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@process_tb
+        vpiName: work
+        vpiFullName: work@process_tb.work
+      vpiCell: process_tb
       vpiTaskFunc (1 items):
         Task name:test start:16:2 end:27:9:
           vpiParent: Module name:work@process_tb
@@ -230,7 +244,7 @@ Design name:unnamed:
                   vpiFullName: work@process_tb.test.job
                   vpiActual: Variable name:job
                 vpiLoopVars (1 items):
-                  Variable name:i
+                  Variable name:i:
                 vpiStmt ForkStmt start:20:4 end:26:13:
                   vpiParent: ForeachStmt
                   vpiFullName: work@process_tb.test
@@ -249,6 +263,64 @@ Design name:unnamed:
                         vpiFullName: work@process_tb.test.k.i
                         vpiActual: Variable name:i
                   vpiJoinType: none (1)
+                  vpiStmt (1 items):
+                    Begin start:22:5 end:25:8:
+                      vpiParent: ForkStmt
+                      vpiFullName: work@process_tb.test
+                      vpiTypespec (1 items):
+                        ClassTypespec name:process start:23:15 end:23:22:
+                          vpiParent: Begin
+                          vpiName: process
+                      vpiStmt (2 items):
+                        Assignment start:23:6 end:23:30:
+                          vpiParent: Begin
+                          vpiBlocking: true
+                          vpiLhs BitSelect name:job[k] start:23:6 end:23:12:
+                            vpiParent: Assignment
+                            vpiName: job[k]
+                            vpiFullName: work@process_tb.test.job[k]
+                            vpiPrefix RefObj name:job start:23:6 end:23:9:
+                              vpiParent: BitSelect name:job[k]
+                              vpiName: job
+                              vpiFullName: work@process_tb.test.job
+                              vpiActual: Variable name:job
+                            vpiIndex RefObj name:k start:23:10 end:23:11:
+                              vpiParent: BitSelect name:job[k]
+                              vpiName: k
+                              vpiFullName: work@process_tb.test.k
+                              vpiActual: Variable name:k
+                          vpiRhs HierPath name:process::self() start:23:15 end:23:29:
+                            vpiParent: Assignment
+                            vpiName: process::self()
+                            vpiFullName: work@process_tb.test.process::self()
+                            vpiPathElem (2 items):
+                              ClassTypespec name:process:
+                              FuncCall name:self start:23:24 end:23:30:
+                                vpiParent: HierPath name:process::self()
+                                vpiName Identifier name:self start:23:24 end:23:28:
+                                  vpiParent: FuncCall name:self
+                                  vpiName: self
+                        SysFuncCall name:$display start:24:6 end:24:31:
+                          vpiParent: Begin
+                          vpiName Identifier name:$display start:24:6 end:24:14:
+                            vpiParent: SysFuncCall name:$display
+                            vpiName: "$display"
+                          vpiArgument (2 items):
+                            Constant start:24:15 end:24:27:
+                              vpiParent: SysFuncCall name:$display
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@process_tb.test
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 80
+                              vpiDecompile: "\"process %d\""
+                              vpiValue: process %d
+                            RefObj name:k start:24:29 end:24:30:
+                              vpiParent: SysFuncCall name:$display
+                              vpiName: k
+                              vpiFullName: work@process_tb.test.k
+                              vpiActual: Variable name:k
       vpiProcess (1 items):
         Initial start:29:2 end:31:5:
           vpiParent: Module name:work@process_tb
@@ -285,51 +357,54 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-9/9.7--process_cls_self
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self/surelog.uhdm
+      test-name: Google/chapter-9/9.7--process_cls_self
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self/mounts.json
 
 
-{'result': {'coverage': 81.36,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self/lib/work/9.7--process_cls_self.sv'): {'post_len': 41,
-                                                                                                                                                             'pre_len': 220}},
-            'post_len': 41,
+            'files': {'$Output/lib/work/9.7--process_cls_self.sv': {'post_len': 0,
+                                                                    'pre_len': 220}},
+            'post_len': 0,
             'pre_len': 220,
             'test_name': 'Google/chapter-9/9.7--process_cls_self'}}
 
-+-----------------------------------+----------+-----------+
-| INPUT                             |   PRELEN |   POSTLEN |
-+===================================+==========+===========+
-| lib/work/9.7--process_cls_self.sv |      220 |        41 |
-+===================================+==========+===========+
-|                                   |      220 |        41 |
-+-----------------------------------+----------+-----------+
++-------------------------------------------+----------+-----------+
+| INPUT                                     |   PRELEN |   POSTLEN |
++===========================================+==========+===========+
+| $Output/lib/work/9.7--process_cls_self.sv |      220 |         0 |
++===========================================+==========+===========+
+|                                           |      220 |         0 |
++-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 81.36
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self/surelog.uhdm ${SURELOG_DIR}/regression/Google/chapter-9/9.7--process_cls_self/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self/design.hldb ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

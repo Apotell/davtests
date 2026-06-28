@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/NegParam/NegParam/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/NegParam -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/NegParam/NegParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 319
 LIB: work
-FILE: ${SURELOG_DIR}/tests/NegParam/dut.sv
-n<${SURELOG_DIR}/tests/NegParam/dut.sv> u<318> t<Top_level_rule> c<1> l<1:1> el<32:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<318> t<Top_level_rule> c<1> l<1:1> el<32:1>
   n<> u<1> t<Null_rule> p<318> s<317> l<1:1>
   n<> u<317> t<Source_text> p<318> c<52> l<1:1> el<31:10>
     n<> u<52> t<Description> p<317> c<51> s<316> l<1:1> el<9:10>
@@ -322,22 +331,22 @@ n<${SURELOG_DIR}/tests/NegParam/dut.sv> u<318> t<Top_level_rule> c<1> l<1:1> el<
                         n<> u<304> t<END> p<305> l<28:3> el<28:6>
         n<> u<314> t<ENDMODULE> p<315> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/NegParam/dut.sv:1:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/NegParam/dut.sv:11:1: Compile module "work@prim_packer".
-[WRN:PA0205] ${SURELOG_DIR}/tests/NegParam/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/NegParam/dut.sv:11:1: No timescale set for "work@prim_packer".
-[ERR:EL0535] ${SURELOG_DIR}/tests/NegParam/dut.sv:6:7: Illegal implicit net "id:19, name:boot_pc".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:11:1: Compile module "work@prim_packer".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@prim_packer".
+[ERR:EL0535] $Source01/dut.sv:6:7: Illegal implicit net "id:21, name:boot_pc".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/NegParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/NegParam/NegParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/NegParam/dut.sv start:1:1 end:9:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -380,7 +389,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 40
             vpiDecompile: "40'h0080000000"
-            vpiValue: 0080000000
+            vpiValue: "0080000000"
         ParamAssign start:4:29 end:7:6:
           vpiParent: Module name:work@top
           vpiLhs RefObj name:bp_default_cfg_p start:4:29 end:4:45:
@@ -390,7 +399,7 @@ Design name:unnamed:
             vpiActual: Parameter name:bp_default_cfg_p
           vpiRhs Operation start:5:5 end:7:6:
             vpiParent: ParamAssign
-            vpiOpType: assign pattern (75)
+            vpiOpType: assign pattern (87)
             vpiOperand (1 items):
               TaggedPattern start:6:7 end:6:40:
                 vpiParent: Operation
@@ -413,7 +422,12 @@ Design name:unnamed:
             vpiName: bp_proc_param_s
       vpiDefName: work@top
       vpiDefNetType: none (12)
-    Module name:work@prim_packer file:${SURELOG_DIR}/tests/NegParam/dut.sv start:11:1 end:31:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
+    Module name:work@prim_packer file:$Source01/dut.sv start:11:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@prim_packer start:11:8 end:11:19:
         vpiParent: Module name:work@prim_packer
@@ -715,6 +729,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@prim_packer
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@prim_packer
+        vpiName: work
+        vpiFullName: work@prim_packer.work
+      vpiCell: prim_packer
       vpiNet (3 items):
         Net name:pos start:22:29 end:22:32:
           vpiParent: Module name:work@prim_packer
@@ -799,37 +818,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: NegParam/NegParam
- test-dirpath: ${SURELOG_DIR}/regression/NegParam/NegParam
-uhdm-filepath: ${SURELOG_DIR}/regression/NegParam/NegParam/surelog.uhdm
+      test-name: NegParam/NegParam
+   test-dirpath: ${HLC_DIR}/regression/NegParam/NegParam
+  hldb-filepath: ${HLC_DIR}/regression/NegParam/NegParam/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/NegParam/NegParam/mounts.json
 
 
 {'result': {'coverage': 99.82,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/NegParam/NegParam/lib/work/dut.sv'): {'post_len': 1,
-                                                                                                                      'pre_len': 541}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
+                                                  'pre_len': 541}},
             'post_len': 1,
             'pre_len': 541,
             'test_name': 'NegParam/NegParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      541 |         1 |
-+=================+==========+===========+
-|                 |      541 |         1 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      541 |         1 |
++=========================+==========+===========+
+|                         |      541 |         1 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.82
@@ -837,7 +859,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/NegParam/NegParam/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/NegParam/NegParam/surelog.uhdm ${SURELOG_DIR}/regression/NegParam/NegParam/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/NegParam/NegParam/design.hldb ${HLC_DIR}/regression/NegParam/NegParam/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -845,11 +867,11 @@ Name                            Before   After   Added   Removed
 Constant                            10      14       6         2
 Identifier                           9       6       0         3
 Operation                            9       5       0         4
-RefObj                              21      13       0         8
+RefObj                              23      15       0         8
 RefTypespec                         23      24       3         2
 SysFuncCall                          3       0       0         3
 ----------------------------------------------------------------
 Others                              40      40       0         0
 ----------------------------------------------------------------
-                                   115     102       9        22
+                                   117     104       9        22
 ===================== END REDUCTION RESULT =====================

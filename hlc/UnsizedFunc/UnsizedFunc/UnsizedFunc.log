@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UnsizedFunc -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnsizedFunc/UnsizedFunc
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 181
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UnsizedFunc/dut.sv
-n<${SURELOG_DIR}/tests/UnsizedFunc/dut.sv> u<180> t<Top_level_rule> c<1> l<3:1> el<103:3>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<180> t<Top_level_rule> c<1> l<3:1> el<103:3>
   n<> u<1> t<Null_rule> p<180> s<178> l<3:1> el<3:1>
   n<> u<178> t<Source_text> p<180> c<135> s<179> l<3:1> el<19:10>
     n<> u<135> t<Description> p<178> c<134> s<177> l<3:1> el<13:10>
@@ -184,22 +193,22 @@ n<${SURELOG_DIR}/tests/UnsizedFunc/dut.sv> u<180> t<Top_level_rule> c<1> l<3:1> 
         n<> u<175> t<ENDMODULE> p<176> l<19:1> el<19:10>
   n</*\npackage sha3_pkg;\n  parameter int MsgWidth = 64;\n  parameter int MsgStrbW = MsgWidth / 8;\nendpackage\n\n\npackage kmac_pkg;\n  parameter int MsgWidth = sha3_pkg::MsgWidth;\n  parameter int MsgStrbW = sha3_pkg::MsgStrbW;\n  parameter int RegIntfWidth = 32; // 32bit interface\n  parameter int RegLatency   = 5;  // 5 cycle to write one Word\n  parameter int Sha3Latency  = 72; // Expected masked sha3 processing time 24x3\n\n  // Total required buffer size while SHA3 is in processing\n  parameter int BufferCycles   = (Sha3Latency + RegLatency - 1)/RegLatency;\n  parameter int BufferSizeBits = RegIntfWidth * BufferCycles;\n   parameter int MsgFifoDepth   = 2 + ((BufferSizeBits + MsgWidth - 1)/MsgWidth);\n   parameter int MsgFifoDepthW  = $clog2(MsgFifoDepth+1);\nendpackage\n\n\nmodule prim_fifo_sync #(\n  parameter int unsigned Width       = 16,\n  parameter bit Pass                 = 1'b1, // if == 1 allow requests to pass through empty FIFO\n  parameter int unsigned Depth       = 4,\n  parameter bit OutputZeroIfEmpty    = 1'b1, // if == 1 always output 0 when FIFO is empty\n  // derived parameter\n  localparam int unsigned DepthWNorm = $clog2(Depth+1),\n  localparam int unsigned DepthW     = (DepthWNorm == 0) ? 1 : DepthWNorm\n) (output  [DepthW-1:0]    depth);\n\nassign depth = 1'b0;\n\n\nendmodule\n\nmodule kmac_msgfifo\n  import kmac_pkg::*;\n#(\n  // OutWidth is MsgFIFO data width. prim_packer converts InW to OutW prior to\n  // pushing to MsgFIFO\n  parameter int OutWidth = 64,\n\n  // Internal MsgFIFO Entry count\n  parameter  int MsgDepth = 9,\n  localparam int MsgDepthW = $clog2(MsgDepth+1) // derived parameter\n) (\n    output logic [MsgDepthW-1:0] fifo_depth_o);\n\n    typedef struct packed {\n        logic [OutWidth-1:0]   data;\n        logic [OutWidth/8-1:0] strb; // one bit per byte\n      } fifo_t;\n     \n    prim_fifo_sync #(\n        .Width ($bits(fifo_t)),\n        .Pass  (1'b 1),\n        .Depth (MsgDepth)\n      ) u_msgfifo (\n        .depth (fifo_depth_o)\n      );\n\n\nendmodule\n\nmodule kmac ();\n\nlogic [kmac_pkg::MsgFifoDepthW-1:0] msgfifo_depth;\n\nassign o = msgfifo_depth;\n\nkmac_msgfifo #(\n    .OutWidth (kmac_pkg::MsgWidth),\n    .MsgDepth (kmac_pkg::MsgFifoDepth)\n  ) u_msgfifo (\n   \n    .fifo_depth_o (msgfifo_depth)\n  );\n\n\nendmodule\n*/> u<179> t<BLOCK_COMMENT> p<180> l<3:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/UnsizedFunc/dut.sv:3:1: Compile module "work@prim_lfsr".
-[INF:CP0303] ${SURELOG_DIR}/tests/UnsizedFunc/dut.sv:15:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnsizedFunc/dut.sv:3:1: No timescale set for "work@prim_lfsr".
-[WRN:PA0205] ${SURELOG_DIR}/tests/UnsizedFunc/dut.sv:15:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/UnsizedFunc/dut.sv:17:8: Illegal implicit net "id:75, name:LfsrDw".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@prim_lfsr".
+[INF:CP0303] $Source01/dut.sv:15:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@prim_lfsr".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:17:8: Illegal implicit net "id:77, name:LfsrDw".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/UnsizedFunc/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@prim_lfsr file:${SURELOG_DIR}/tests/UnsizedFunc/dut.sv start:3:1 end:13:10:
+    Module name:work@prim_lfsr file:$Source01/dut.sv start:3:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@prim_lfsr start:3:8 end:3:17:
         vpiParent: Module name:work@prim_lfsr
@@ -244,6 +253,11 @@ Design name:unnamed:
             vpiValue: 12
       vpiDefName: work@prim_lfsr
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@prim_lfsr
+        vpiName: work
+        vpiFullName: work@prim_lfsr.work
+      vpiCell: prim_lfsr
       vpiTaskFunc (1 items):
         Function name:get_1s start:5:4 end:8:15:
           vpiParent: Module name:work@prim_lfsr
@@ -274,7 +288,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "'1"
-                  vpiValue: 1
+                  vpiValue: "1"
             vpiTypespec (3 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -394,14 +408,14 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiFullName: work@prim_lfsr
                     vpiActual: IntTypespec
-                  vpiOpType: cast (67)
+                  vpiOpType: cast (81)
                   vpiOperand (1 items):
                     FuncCall name:get_1s start:11:16 end:11:24:
                       vpiParent: Operation
                       vpiName Identifier name:get_1s start:11:16 end:11:22:
                         vpiParent: FuncCall name:get_1s
                         vpiName: get_1s
-    Module name:work@top file:${SURELOG_DIR}/tests/UnsizedFunc/dut.sv start:15:1 end:19:10:
+    Module name:work@top file:$Source01/dut.sv start:15:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:15:8 end:15:11:
         vpiParent: Module name:work@top
@@ -425,6 +439,11 @@ Design name:unnamed:
             vpiName: work@prim_lfsr
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiPort (1 items):
         Port name:o start:15:23 end:15:24:
           vpiParent: Module name:work@top
@@ -497,37 +516,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UnsizedFunc/UnsizedFunc
- test-dirpath: ${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc
-uhdm-filepath: ${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/surelog.uhdm
+      test-name: UnsizedFunc/UnsizedFunc
+   test-dirpath: ${HLC_DIR}/regression/UnsizedFunc/UnsizedFunc
+  hldb-filepath: ${HLC_DIR}/regression/UnsizedFunc/UnsizedFunc/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/UnsizedFunc/UnsizedFunc/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 276}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 276}},
             'post_len': 0,
             'pre_len': 276,
             'test_name': 'UnsizedFunc/UnsizedFunc'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      276 |         0 |
-+=================+==========+===========+
-|                 |      276 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      276 |         0 |
++=========================+==========+===========+
+|                         |      276 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -535,17 +557,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/surelog.uhdm ${SURELOG_DIR}/regression/UnsizedFunc/UnsizedFunc/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/UnsizedFunc/UnsizedFunc/design.hldb ${HLC_DIR}/regression/UnsizedFunc/UnsizedFunc/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       2         2
 Operation                            3       1       0         2
-RefObj                              10       8       0         2
+RefObj                              12      10       0         2
 RefTypespec                         16      16       2         2
 ----------------------------------------------------------------
 Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    74      70       4         8
+                                    76      72       4         8
 ===================== END REDUCTION RESULT =====================

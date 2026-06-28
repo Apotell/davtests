@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/various -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db shregmap.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/various/shregmap
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/shregmap.v".
+[INF:PA0201] Parsing source file "$Source01/shregmap.v".
+[SNT:PA0207] $Source01/shregmap.v:15:7: Syntax error: no viable alternative at input 'module $',
+module $__SHREG_DFF_P_(input C, D, output Q);
+       ^-- $Source01/shregmap.v:15:7:.
+[SNT:PA0207] $Source01/shregmap.v:19: Syntax error: mismatched input 'always' expecting <EOF>,
+always @(posedge C) 
+^-- $Source01/shregmap.v:19:0:.
 AST_DEBUG_BEGIN
 Count: 352
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v> u<351> t<Top_level_rule> c<1> l<1:1> el<48:10>
+FILE: f<13>:$Source01/shregmap.v
+n<$Source01/shregmap.v> u<351> t<Top_level_rule> c<1> l<1:1> el<48:10>
   n<> u<1> t<Null_rule> p<351> s<350> l<1:1>
   n<> u<350> t<Source_text> p<351> c<236> l<1:1> el<18:26>
     n<> u<236> t<Description> p<350> c<235> s<238> l<1:1> el<13:10>
@@ -355,25 +370,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v> u<351> t<Top_level_rul
                       n<> u<340> t<Primary_literal> p<341> c<339> l<18:21> el<18:25>
                         n<INIT> u<339> t<SIMPLE_IDENTIFIER> p<340> l<18:21> el<18:25>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v:15:7: Syntax error: no viable alternative at input 'module $',
-module $__SHREG_DFF_P_(input C, D, output Q);
-       ^-- ${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v:15:7:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v:19: Syntax error: mismatched input 'always' expecting <EOF>,
-always @(posedge C) 
-^-- ${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v:19:0:.
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v:1:1: Compile module "work@shregmap_static_test".
+[INF:CP0303] $Source01/shregmap.v:1:1: Compile module "work@shregmap_static_test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:shregmap.v file:${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v:
+  vpiSourceFile (1 items):
+    SourceFile name:shregmap.v file:$Source01/shregmap.v:
       vpiParent: Design name:unnamed
       vpiName: shregmap.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/lib/work/shregmap.v"
+      vpiPreprocFile: "$Output/lib/work/shregmap.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@shregmap_static_test file:${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v start:1:1 end:13:10:
+    Module name:work@shregmap_static_test file:$Source01/shregmap.v start:1:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@shregmap_static_test start:1:8 end:1:28:
         vpiParent: Module name:work@shregmap_static_test
@@ -464,6 +473,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@shregmap_static_test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@shregmap_static_test
+        vpiName: work
+        vpiFullName: work@shregmap_static_test.work
+      vpiCell: shregmap_static_test
       vpiNet (6 items):
         Net name:i start:1:35 end:1:36:
           vpiParent: Module name:work@shregmap_static_test
@@ -509,7 +523,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
-            vpiValue: 0
+            vpiValue: "0"
         Net name:shift1 start:3:11 end:3:17:
           vpiParent: Module name:work@shregmap_static_test
           vpiTypespec RefTypespec start:3:1 end:3:10:
@@ -527,7 +541,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 4
             vpiDecompile: "4'b0000"
-            vpiValue: 0000
+            vpiValue: "0000"
         Net name:shift2 start:4:11 end:4:17:
           vpiParent: Module name:work@shregmap_static_test
           vpiTypespec RefTypespec start:4:1 end:4:10:
@@ -545,7 +559,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 4
             vpiDecompile: "4'b0000"
-            vpiValue: 0000
+            vpiValue: "0000"
       vpiPort (3 items):
         Port name:i start:1:35 end:1:36:
           vpiParent: Module name:work@shregmap_static_test
@@ -758,10 +772,10 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "3"
                   vpiValue: 3
-    Module file:${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v start:15:1 end:15:1:
+    Module file:$Source01/shregmap.v start:15:1 end:15:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/YosysTestSuite/various/shregmap.v start:15:1 end:15:9:
+    Module file:$Source01/shregmap.v start:15:1 end:15:9:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
   vpiTypespec (8 items):
@@ -912,39 +926,42 @@ Design name:unnamed:
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
-                vpiValue: 0
+                vpiValue: "0"
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/various/shregmap
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/surelog.uhdm
+      test-name: YosysTestSuite/various/shregmap
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/various/shregmap
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/various/shregmap/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/various/shregmap/mounts.json
 
 
 {'result': {'coverage': 67.77,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/lib/work/shregmap.v'): {'post_len': 340,
-                                                                                                                                        'pre_len': 1055}},
+            'files': {'$Output/lib/work/shregmap.v': {'post_len': 340,
+                                                      'pre_len': 1055}},
             'post_len': 340,
             'pre_len': 1055,
             'test_name': 'YosysTestSuite/various/shregmap'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/shregmap.v |     1055 |       340 |
-+=====================+==========+===========+
-|                     |     1055 |       340 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/shregmap.v |     1055 |       340 |
++=============================+==========+===========+
+|                             |     1055 |       340 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 67.77
@@ -952,7 +969,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/various/shregmap/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/various/shregmap/design.hldb ${HLC_DIR}/regression/YosysTestSuite/various/shregmap/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -961,7 +978,7 @@ Constant                            21      20       0         1
 Operation                            8       7       0         1
 RefTypespec                         32      31       0         1
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                   132     129       0         3
+                                   133     130       0         3
 ===================== END REDUCTION RESULT =====================

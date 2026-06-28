@@ -51,23 +51,23 @@
 // ── VPI constants ─────────────────────────────────────────────────────────
 //   vpiUIntConst = 9
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/param_assign.h>
-#include <uhdm/parameter.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/param_assign.h>
+#include <hldb/parameter.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class ParameterTest : public Test {
  public:
@@ -92,18 +92,18 @@ class ParameterTest : public Test {
 // Helpers
 // ---------------------------------------------------------------------------
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Parameter *getParam(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Parameter *getParam(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
-  return uhdm::findByName<uhdm::Parameter>("p", m->getParameters());
+  return hldb::findByName<hldb::Parameter>("p", m->getParameters());
 }
 
-static const uhdm::ParamAssign *getParamAssign(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty())
     return nullptr;
   return (*m->getParamAssigns())[0];
@@ -122,7 +122,7 @@ TEST_F(ParameterTest, ModuleExists) {
 // ===========================================================================
 
 TEST_F(ParameterTest, Parameter_Collection_HasOneEntry) {
-  const uhdm::Module *m = getTop(m_design);
+  const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 1u);
@@ -135,11 +135,11 @@ TEST_F(ParameterTest, Parameter_p_Exists) {
 // IEEE 1800-2017 §6.20.2: a parameter without an explicit type is inferred
 // as logic; Surelog represents this as LogicTypespec via RefTypespec.
 TEST_F(ParameterTest, Parameter_p_HasLogicTypespec) {
-  const uhdm::Parameter *p = getParam(m_design);
+  const hldb::Parameter *p = getParam(m_design);
   ASSERT_NE(p, nullptr);
-  const uhdm::RefTypespec *rt = p->getTypespec();
+  const hldb::RefTypespec *rt = p->getTypespec();
   ASSERT_NE(rt, nullptr) << "Parameter 'p' must have a RefTypespec";
-  EXPECT_NE(rt->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr)
       << "RefTypespec must resolve to LogicTypespec for an untyped parameter";
 }
 
@@ -148,7 +148,7 @@ TEST_F(ParameterTest, Parameter_p_HasLogicTypespec) {
 // ===========================================================================
 
 TEST_F(ParameterTest, ParamAssign_Collection_HasOneEntry) {
-  const uhdm::Module *m = getTop(m_design);
+  const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParamAssigns(), nullptr);
   EXPECT_EQ(m->getParamAssigns()->size(), 1u);
@@ -159,27 +159,27 @@ TEST_F(ParameterTest, ParamAssign_Collection_HasOneEntry) {
 // ===========================================================================
 
 TEST_F(ParameterTest, ParamAssign_Lhs_IsRefObj) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getLhs<uhdm::RefObj>(), nullptr)
+  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr)
       << "ParamAssign LHS must be a RefObj";
 }
 
 TEST_F(ParameterTest, ParamAssign_Lhs_NameIsP) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  const uhdm::RefObj *lhs = pa->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "p");
 }
 
 // The LHS RefObj's vpiActual must resolve to the Parameter declaration.
 TEST_F(ParameterTest, ParamAssign_Lhs_ActualIsParameter) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  const uhdm::RefObj *lhs = pa->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<uhdm::Parameter>(), nullptr)
+  EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr)
       << "LHS RefObj must resolve to a Parameter";
 }
 
@@ -188,18 +188,18 @@ TEST_F(ParameterTest, ParamAssign_Lhs_ActualIsParameter) {
 // ===========================================================================
 
 TEST_F(ParameterTest, ParamAssign_Rhs_IsConstant) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<uhdm::Constant>(), nullptr)
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
       << "ParamAssign RHS must be a Constant";
 }
 
 // IEEE 1800-2017 §5.7.1: unsized decimal integer literals without a sign
 // qualifier are unsigned; Surelog encodes this as vpiUIntConst (9).
 TEST_F(ParameterTest, ParamAssign_Rhs_ConstType_IsUnsignedInt) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  const uhdm::Constant *rhs = pa->getRhs<uhdm::Constant>();
+  const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getConstType(), vpiUIntConst)
       << "Constant for '123' must have vpiConstType == vpiUIntConst (9)";
@@ -207,9 +207,9 @@ TEST_F(ParameterTest, ParamAssign_Rhs_ConstType_IsUnsignedInt) {
 
 // The value string must reproduce the exact source literal.
 TEST_F(ParameterTest, ParamAssign_Rhs_ValueIs_123) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  const uhdm::Constant *rhs = pa->getRhs<uhdm::Constant>();
+  const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(std::string(rhs->getValue()), "123");
 }
@@ -218,12 +218,16 @@ TEST_F(ParameterTest, ParamAssign_Rhs_ValueIs_123) {
 // constant expression. An unsized decimal literal uses the host integer
 // width; Surelog represents this as 64 bits.
 TEST_F(ParameterTest, ParamAssign_Rhs_SizeIs64) {
-  const uhdm::ParamAssign *pa = getParamAssign(m_design);
+  const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  const uhdm::Constant *rhs = pa->getRhs<uhdm::Constant>();
+  const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getSize(), 64)
       << "unsized decimal literal in untyped parameter must have host-int size (64)";
 }
-
 }  // namespace SURELOG
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

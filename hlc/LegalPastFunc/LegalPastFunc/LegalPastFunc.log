@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LegalPastFunc -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/LegalPastFunc/LegalPastFunc
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 116
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv
-n<${SURELOG_DIR}/tests/LegalPastFunc/dut.sv> u<115> t<Top_level_rule> c<1> l<1:1> el<15:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<115> t<Top_level_rule> c<1> l<1:1> el<15:1>
   n<> u<1> t<Null_rule> p<115> s<114> l<1:1>
   n<> u<114> t<Source_text> p<115> c<113> l<1:1> el<14:10>
     n<> u<113> t<Description> p<114> c<112> l<1:1> el<14:10>
@@ -119,25 +128,25 @@ n<${SURELOG_DIR}/tests/LegalPastFunc/dut.sv> u<115> t<Top_level_rule> c<1> l<1:1
                         n<> u<102> t<ENDSEQUENCE> p<103> l<12:1> el<12:12>
         n<> u<111> t<ENDMODULE> p<112> l<14:1> el<14:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:1:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:4:14: Illegal implicit net "id:7, name:clk".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:5:9: Illegal implicit net "id:10, name:req".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:5:25: Illegal implicit net "id:17, name:req".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:10:14: Illegal implicit net "id:26, name:clk".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:11:9: Illegal implicit net "id:29, name:req".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:11:25: Illegal implicit net "id:36, name:req".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:4:14: Illegal implicit net "id:8, name:clk".
+[ERR:EL0535] $Source01/dut.sv:5:9: Illegal implicit net "id:11, name:req".
+[ERR:EL0535] $Source01/dut.sv:5:25: Illegal implicit net "id:17, name:req".
+[ERR:EL0535] $Source01/dut.sv:10:14: Illegal implicit net "id:27, name:clk".
+[ERR:EL0535] $Source01/dut.sv:11:9: Illegal implicit net "id:30, name:req".
+[ERR:EL0535] $Source01/dut.sv:11:25: Illegal implicit net "id:36, name:req".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LegalPastFunc/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/LegalPastFunc/dut.sv start:1:1 end:14:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -160,20 +169,10 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: work@top.s_req_bad.clk
-            vpiSequenceExpr Operation start:5:14 end:5:31:
+            vpiSequenceExpr Operation start:5:3 end:5:31:
               vpiParent: ClockedSeq
-              vpiOpType: unary cycle delay (53)
+              vpiOpType: binary cycle delay (71)
               vpiOperand (3 items):
-                Constant start:5:16 end:5:17:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@top.s_req_bad
-                    vpiActual: IntTypespec
-                  vpiConstType: int (7)
-                  vpiSize: 32
-                  vpiDecompile: "1"
-                  vpiValue: 1
                 SysFuncCall name:$rose start:5:3 end:5:13:
                   vpiParent: Operation
                   vpiName Identifier name:$rose start:5:3 end:5:8:
@@ -184,6 +183,16 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$rose
                       vpiName: req
                       vpiFullName: work@top.s_req_bad.req
+                Constant start:5:16 end:5:17:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@top.s_req_bad
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "1"
+                  vpiValue: 1
                 SysFuncCall name:$past start:5:18 end:5:31:
                   vpiParent: Operation
                   vpiName Identifier name:$past start:5:18 end:5:23:
@@ -224,20 +233,10 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: work@top.s_req_ok.clk
-            vpiSequenceExpr Operation start:11:14 end:11:31:
+            vpiSequenceExpr Operation start:11:3 end:11:31:
               vpiParent: ClockedSeq
-              vpiOpType: unary cycle delay (53)
+              vpiOpType: binary cycle delay (71)
               vpiOperand (3 items):
-                Constant start:11:16 end:11:17:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@top.s_req_ok
-                    vpiActual: IntTypespec
-                  vpiConstType: int (7)
-                  vpiSize: 32
-                  vpiDecompile: "1"
-                  vpiValue: 1
                 SysFuncCall name:$rose start:11:3 end:11:13:
                   vpiParent: Operation
                   vpiName Identifier name:$rose start:11:3 end:11:8:
@@ -248,6 +247,16 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$rose
                       vpiName: req
                       vpiFullName: work@top.s_req_ok.req
+                Constant start:11:16 end:11:17:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@top.s_req_ok
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "1"
+                  vpiValue: 1
                 SysFuncCall name:$past start:11:18 end:11:31:
                   vpiParent: Operation
                   vpiName Identifier name:$past start:11:18 end:11:23:
@@ -274,6 +283,11 @@ Design name:unnamed:
                       vpiValue: 1
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -285,37 +299,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LegalPastFunc/LegalPastFunc
- test-dirpath: ${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc
-uhdm-filepath: ${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/surelog.uhdm
+      test-name: LegalPastFunc/LegalPastFunc
+   test-dirpath: ${HLC_DIR}/regression/LegalPastFunc/LegalPastFunc
+  hldb-filepath: ${HLC_DIR}/regression/LegalPastFunc/LegalPastFunc/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/LegalPastFunc/LegalPastFunc/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 169}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 169}},
             'post_len': 0,
             'pre_len': 169,
             'test_name': 'LegalPastFunc/LegalPastFunc'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      169 |         0 |
-+=================+==========+===========+
-|                 |      169 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      169 |         0 |
++=========================+==========+===========+
+|                         |      169 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -323,13 +340,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/surelog.uhd
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/surelog.uhdm ${SURELOG_DIR}/regression/LegalPastFunc/LegalPastFunc/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/LegalPastFunc/LegalPastFunc/design.hldb ${HLC_DIR}/regression/LegalPastFunc/LegalPastFunc/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    41      41       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

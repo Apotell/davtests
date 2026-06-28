@@ -1,23 +1,34 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ModPortHighConn -fileunit -d inst -d db -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
-[INF:CP0303] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:2:1: Compile module "work@moduleA".
-[INF:CP0303] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:5:1: Compile module "work@top".
-[WRN:CP0323] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:5:1: Multiply defined typedef "work@moduleA".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:2:1: No timescale set for "work@moduleA".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:5:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:7:24: Illegal implicit net "id:41, name:port0".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:7:41: Illegal implicit net "id:48, name:port1".
-====== UHDM =======
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@moduleA".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@top".
+[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "work@moduleA".
+[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "work@moduleA".
+[WRN:CP0323] $Source01/dut.sv:5:1: Multiply defined typedef "work@moduleA".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@moduleA".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:7:24: Illegal implicit net "id:43, name:port0".
+[ERR:EL0535] $Source01/dut.sv:7:41: Illegal implicit net "id:50, name:port1".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ModPortHighConn/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@moduleA file:${SURELOG_DIR}/tests/ModPortHighConn/dut.sv start:2:1 end:3:10:
+    Module name:work@moduleA file:$Source01/dut.sv start:2:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@moduleA start:2:8 end:2:15:
         vpiParent: Module name:work@moduleA
@@ -28,6 +39,11 @@ Design name:unnamed:
           vpiParent: Module name:work@moduleA
       vpiDefName: work@moduleA
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@moduleA
+        vpiName: work
+        vpiFullName: work@moduleA.work
+      vpiCell: moduleA
       vpiNet (2 items):
         Net name:port0 start:2:23 end:2:28:
           vpiParent: Module name:work@moduleA
@@ -72,7 +88,7 @@ Design name:unnamed:
             vpiParent: Port name:port1
             vpiFullName: work@moduleA.port1
             vpiActual: LogicTypespec
-    Module name:work@top file:${SURELOG_DIR}/tests/ModPortHighConn/dut.sv start:5:1 end:11:10:
+    Module name:work@top file:$Source01/dut.sv start:5:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:5:8 end:5:11:
         vpiParent: Module name:work@top
@@ -127,6 +143,11 @@ Design name:unnamed:
             vpiName: work@moduleA
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:topA start:6:16 end:6:20:
           vpiParent: Module name:work@top
@@ -440,37 +461,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 3
+[WARNING] : 5
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ModPortHighConn/ModPortHighConn
- test-dirpath: ${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn
-uhdm-filepath: ${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/surelog.uhdm
+      test-name: ModPortHighConn/ModPortHighConn
+   test-dirpath: ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn
+  hldb-filepath: ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                    'pre_len': 265}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 265}},
             'post_len': 0,
             'pre_len': 265,
             'test_name': 'ModPortHighConn/ModPortHighConn'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      265 |         0 |
-+=================+==========+===========+
-|                 |      265 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      265 |         0 |
++=========================+==========+===========+
+|                         |      265 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -478,13 +502,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/surelog.uhdm ${SURELOG_DIR}/regression/ModPortHighConn/ModPortHighConn/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn/design.hldb ${HLC_DIR}/regression/ModPortHighConn/ModPortHighConn/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             106     106       0         0
+Others                             108     108       0         0
 ----------------------------------------------------------------
-                                   106     106       0         0
+                                   108     108       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_interface_star/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_interface_star.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_interface_star
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_interface_star.v".
+[INF:PA0201] Parsing source file "$Source01/t_interface_star.v".
 AST_DEBUG_BEGIN
 Count: 274
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_interface_star.v
-n<${SURELOG_DIR}/tests/Verilator/t_interface_star.v> u<273> t<Top_level_rule> c<1> l<6:1> el<44:1>
+FILE: f<13>:$Source01/t_interface_star.v
+n<$Source01/t_interface_star.v> u<273> t<Top_level_rule> c<1> l<6:1> el<44:1>
   n<> u<1> t<Null_rule> p<273> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<273> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<273> s<4> l<2:1> el<2:3>
@@ -277,25 +286,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_interface_star.v> u<273> t<Top_level_rule> c<
         n<> u<269> t<ENDMODULE> p<270> s<268> l<43:1> el<43:10>
         n<counter_ansi> u<268> t<SIMPLE_IDENTIFIER> p<270> l<43:13> el<43:25>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:6:1: Compile module "work@t".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:6:1: Multiply defined typedef "work@counter_ansi".
-[INF:CP0304] ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:30:1: Compile interface "work@counter_io".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:34:1: Compile module "work@counter_ansi".
-[ERR:CP0341] ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:34:1: Unmached label "work@counter_ansi",
-             ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:43:13: closing label "counter_ansi".
+[INF:CP0303] $Source01/t_interface_star.v:6:1: Compile module "work@t".
+[WRN:CP0323] $Source01/t_interface_star.v:6:1: Multiply defined typedef "work@counter_ansi".
+[INF:CP0304] $Source01/t_interface_star.v:30:1: Compile interface "work@counter_io".
+[INF:CP0303] $Source01/t_interface_star.v:34:1: Compile module "work@counter_ansi".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_interface_star.v:23:14: Illegal implicit net "id:63, name:value".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_interface_star.v:23:14: Illegal implicit net "id:66, name:value".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_interface_star.v file:${SURELOG_DIR}/tests/Verilator/t_interface_star.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_interface_star.v file:$Source01/t_interface_star.v:
       vpiParent: Design name:unnamed
       vpiName: t_interface_star.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_interface_star/lib/work/t_interface_star.v"
+      vpiPreprocFile: "$Output/lib/work/t_interface_star.v"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@counter_io file:${SURELOG_DIR}/tests/Verilator/t_interface_star.v start:30:1 end:32:13:
+    Interface name:work@counter_io file:$Source01/t_interface_star.v start:30:1 end:32:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@counter_io start:30:11 end:30:21:
         vpiParent: Interface name:work@counter_io
@@ -315,8 +322,13 @@ Design name:unnamed:
           vpiParent: Interface name:work@counter_io
           vpiSigned: true
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@counter_io
+        vpiName: work
+        vpiFullName: work@counter_io.work
+      vpiCell: counter_io
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_interface_star.v start:6:1 end:28:10:
+    Module name:work@t file:$Source01/t_interface_star.v start:6:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -345,6 +357,11 @@ Design name:unnamed:
             vpiName: work@counter_ansi
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (2 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:work@t
@@ -465,7 +482,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: c_data.value
                               vpiFullName: work@t.c_data.value
-                              vpiActual (2 items):
+                              vpiPathElem (2 items):
                                 RefObj name:c_data start:23:7 end:23:13:
                                   vpiParent: HierPath name:c_data.value
                                   vpiName: c_data
@@ -505,7 +522,7 @@ Design name:unnamed:
                             vpiConstType: string (6)
                             vpiSize: 176
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: *-* All Finished *-*\n
+                            vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:25:3 end:25:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:25:3 end:25:10:
@@ -565,7 +582,7 @@ Design name:unnamed:
                 vpiName: c_data
                 vpiFullName: work@t.c2.c_data
                 vpiActual: RefInstance name:c_data
-    Module name:work@counter_ansi file:${SURELOG_DIR}/tests/Verilator/t_interface_star.v start:34:1 end:43:25:
+    Module name:work@counter_ansi file:$Source01/t_interface_star.v start:34:1 end:43:25:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@counter_ansi start:34:8 end:34:20:
         vpiParent: Module name:work@counter_ansi
@@ -576,6 +593,11 @@ Design name:unnamed:
           vpiParent: Module name:work@counter_ansi
       vpiDefName: work@counter_ansi
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@counter_ansi
+        vpiName: work
+        vpiFullName: work@counter_ansi.work
+      vpiCell: counter_ansi
       vpiNet (2 items):
         Net name:clk start:36:10 end:36:13:
           vpiParent: Module name:work@counter_ansi
@@ -646,7 +668,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: c_data.value
                     vpiFullName: work@counter_ansi.c_data.value
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:c_data start:41:7 end:41:13:
                         vpiParent: HierPath name:c_data.value
                         vpiName: c_data
@@ -696,37 +718,40 @@ Design name:unnamed:
         vpiName: work@counter_ansi
       vpiModule: Module name:work@counter_ansi
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_interface_star
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_interface_star
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_star/surelog.uhdm
+      test-name: Verilator/t_interface_star
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_interface_star
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_interface_star/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_star/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_interface_star/lib/work/t_interface_star.v'): {'post_len': 0,
-                                                                                                                                           'pre_len': 444}},
+            'files': {'$Output/lib/work/t_interface_star.v': {'post_len': 0,
+                                                              'pre_len': 444}},
             'post_len': 0,
             'pre_len': 444,
             'test_name': 'Verilator/t_interface_star'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/t_interface_star.v |      444 |         0 |
-+=============================+==========+===========+
-|                             |      444 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/t_interface_star.v |      444 |         0 |
++=====================================+==========+===========+
+|                                     |      444 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -734,17 +759,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_interface_star/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_interface_star/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_interface_star/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_star/design.hldb ${HLC_DIR}/regression/Verilator/t_interface_star/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       2         2
 Operation                            5       3       0         2
-RefObj                              16      14       0         2
+RefObj                              19      17       0         2
 RefTypespec                         17      17       2         2
 ----------------------------------------------------------------
 Others                              61      61       0         0
 ----------------------------------------------------------------
-                                   105     101       4         8
+                                   108     104       4         8
 ===================== END REDUCTION RESULT =====================

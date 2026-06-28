@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_sys_rand/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_sys_rand.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_sys_rand
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_sys_rand.v".
+[INF:PA0201] Parsing source file "$Source01/t_sys_rand.v".
 AST_DEBUG_BEGIN
 Count: 300
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_sys_rand.v
-n<${SURELOG_DIR}/tests/Verilator/t_sys_rand.v> u<299> t<Top_level_rule> c<1> l<6:1> el<37:1>
+FILE: f<13>:$Source01/t_sys_rand.v
+n<$Source01/t_sys_rand.v> u<299> t<Top_level_rule> c<1> l<6:1> el<37:1>
   n<> u<1> t<Null_rule> p<299> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<299> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<299> s<4> l<2:1> el<2:3>
@@ -303,16 +312,16 @@ n<${SURELOG_DIR}/tests/Verilator/t_sys_rand.v> u<299> t<Top_level_rule> c<1> l<6
                         n<> u<286> t<END> p<287> l<34:4> el<34:7>
         n<> u<295> t<ENDMODULE> p<296> l<36:1> el<36:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_sys_rand.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_sys_rand.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_sys_rand.v file:${SURELOG_DIR}/tests/Verilator/t_sys_rand.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_sys_rand.v file:$Source01/t_sys_rand.v:
       vpiParent: Design name:unnamed
       vpiName: t_sys_rand.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_sys_rand/lib/work/t_sys_rand.v"
+      vpiPreprocFile: "$Output/lib/work/t_sys_rand.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:TRIES start:14:1 end:14:17:
           vpiParent: SourceFile name:t_sys_rand.v
@@ -320,7 +329,7 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 15
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:TRIES file:${SURELOG_DIR}/tests/Verilator/t_sys_rand.v start:20:19 end:20:25:
+        PreprocMacroInstance name:TRIES file:$Source01/t_sys_rand.v start:20:19 end:20:25:
           vpiParent: SourceFile name:t_sys_rand.v
           vpiName: TRIES
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:TRIES
@@ -334,7 +343,7 @@ Design name:unnamed:
           vpiSourceEndColumn: 21
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_sys_rand.v start:6:1 end:36:10:
+    Module name:work@t file:$Source01/t_sys_rand.v start:6:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -398,6 +407,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (4 items):
         Net name:lastrand start:8:15 end:8:23:
           vpiParent: Module name:work@t
@@ -643,7 +657,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 312
                           vpiDecompile: "\"%%Error: Too many similar numbers: %d\\n\""
-                          vpiValue: %%Error: Too many similar numbers: %d\n
+                          vpiValue: "%%Error: Too many similar numbers: %d\\n"
                         RefObj name:same start:29:53 end:29:57:
                           vpiParent: SysFuncCall name:$write
                           vpiName: same
@@ -669,7 +683,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:33:7 end:33:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:33:7 end:33:14:
@@ -688,37 +702,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_sys_rand
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sys_rand
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sys_rand/surelog.uhdm
+      test-name: Verilator/t_sys_rand
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_sys_rand
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_sys_rand/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sys_rand/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_sys_rand/lib/work/t_sys_rand.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 359}},
+            'files': {'$Output/lib/work/t_sys_rand.v': {'post_len': 0,
+                                                        'pre_len': 359}},
             'post_len': 0,
             'pre_len': 359,
             'test_name': 'Verilator/t_sys_rand'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/t_sys_rand.v |      359 |         0 |
-+=======================+==========+===========+
-|                       |      359 |         0 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/t_sys_rand.v |      359 |         0 |
++===============================+==========+===========+
+|                               |      359 |         0 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -726,17 +743,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sys_rand/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_sys_rand/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_sys_rand/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_sys_rand/design.hldb ${HLC_DIR}/regression/Verilator/t_sys_rand/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      12       2         2
 Operation                            5       3       0         2
-RefObj                              14      12       0         2
+RefObj                              15      13       0         2
 RefTypespec                         16      16       2         2
 ----------------------------------------------------------------
 Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    91      87       4         8
+                                    92      88       4         8
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_inst_implicit/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_inst_implicit.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_inst_implicit
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_inst_implicit.v".
+[INF:PA0201] Parsing source file "$Source01/t_inst_implicit.v".
 AST_DEBUG_BEGIN
 Count: 471
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v
-n<${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v> u<470> t<Top_level_rule> c<1> l<6:1> el<51:1>
+FILE: f<13>:$Source01/t_inst_implicit.v
+n<$Source01/t_inst_implicit.v> u<470> t<Top_level_rule> c<1> l<6:1> el<51:1>
   n<> u<1> t<Null_rule> p<470> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION:tor:ilog Test module> u<2> t<LINE_COMMENT> p<470> s<3> l<1:1> el<1:36>
   n<//> u<3> t<LINE_COMMENT> p<470> s<4> l<2:1> el<2:3>
@@ -474,23 +483,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v> u<470> t<Top_level_rule> c<1
         n<// verilator lint_on IMPLICIT> u<465> t<LINE_COMMENT> p<467> s<466> l<49:4> el<49:33>
         n<> u<466> t<ENDMODULE> p<467> l<50:1> el<50:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v:30:1: Compile module "work@subimp".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v:37:1: Compile module "work@Test".
+[INF:CP0303] $Source01/t_inst_implicit.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_inst_implicit.v:30:1: Compile module "work@subimp".
+[INF:CP0303] $Source01/t_inst_implicit.v:37:1: Compile module "work@Test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v:44:18: Illegal implicit net "id:180, name:x".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v:46:15: Illegal implicit net "id:195, name:x".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_inst_implicit.v:44:18: Illegal implicit net "id:183, name:x".
+[ERR:EL0535] $Source01/t_inst_implicit.v:46:15: Illegal implicit net "id:198, name:x".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_inst_implicit.v file:${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_inst_implicit.v file:$Source01/t_inst_implicit.v:
       vpiParent: Design name:unnamed
       vpiName: t_inst_implicit.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_inst_implicit/lib/work/t_inst_implicit.v"
+      vpiPreprocFile: "$Output/lib/work/t_inst_implicit.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v start:6:1 end:28:10:
+    Module name:work@t file:$Source01/t_inst_implicit.v start:6:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -558,6 +567,11 @@ Design name:unnamed:
             vpiName: work@Test
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (3 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:work@t
@@ -637,7 +651,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
                         vpiDecompile: "32'h00000001"
-                        vpiValue: 00000001
+                        vpiValue: "00000001"
                   vpiStmt SysFuncCall name:$stop start:22:32 end:22:37:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:22:32 end:22:37:
@@ -663,7 +677,7 @@ Design name:unnamed:
                         vpiConstType: hexadecimal (5)
                         vpiSize: 32
                         vpiDecompile: "32'h00000001"
-                        vpiValue: 00000001
+                        vpiValue: "00000001"
                   vpiStmt SysFuncCall name:$stop start:23:32 end:23:37:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:23:32 end:23:37:
@@ -684,7 +698,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 176
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: *-* All Finished *-*\n
+                      vpiValue: "*-* All Finished *-*\\n"
                 SysFuncCall name:$finish start:25:7 end:25:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:25:7 end:25:14:
@@ -777,7 +791,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-    Module name:work@subimp file:${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v start:30:1 end:35:10:
+    Module name:work@subimp file:$Source01/t_inst_implicit.v start:30:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@subimp start:30:8 end:30:14:
         vpiParent: Module name:work@subimp
@@ -838,6 +852,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@subimp
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@subimp
+        vpiName: work
+        vpiFullName: work@subimp.work
+      vpiCell: subimp
       vpiNet (2 items):
         Net name:o start:31:18 end:31:19:
           vpiParent: Module name:work@subimp
@@ -899,7 +918,7 @@ Design name:unnamed:
             vpiConstType: hexadecimal (5)
             vpiSize: 32
             vpiDecompile: "32'h12345679"
-            vpiValue: 12345679
+            vpiValue: "12345679"
         ContAssign start:34:11 end:34:28:
           vpiParent: Module name:work@subimp
           vpiLhs RefObj name:oe start:34:11 end:34:13:
@@ -917,7 +936,7 @@ Design name:unnamed:
             vpiSize: 32
             vpiDecompile: "32'hab345679"
             vpiValue: ab345679
-    Module name:work@Test file:${SURELOG_DIR}/tests/Verilator/t_inst_implicit.v start:37:1 end:50:10:
+    Module name:work@Test file:$Source01/t_inst_implicit.v start:37:1 end:50:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Test start:37:8 end:37:12:
         vpiParent: Module name:work@Test
@@ -1009,6 +1028,11 @@ Design name:unnamed:
             vpiName: work@subimp
       vpiDefName: work@Test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Test
+        vpiName: work
+        vpiFullName: work@Test.work
+      vpiCell: Test
       vpiNet (3 items):
         Net name:o start:38:18 end:38:19:
           vpiParent: Module name:work@Test
@@ -1199,37 +1223,40 @@ Design name:unnamed:
         vpiName: work@Test
       vpiModule: Module name:work@Test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_inst_implicit
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_inst_implicit
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_implicit/surelog.uhdm
+      test-name: Verilator/t_inst_implicit
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_inst_implicit
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_inst_implicit/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_inst_implicit/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_inst_implicit/lib/work/t_inst_implicit.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 500}},
+            'files': {'$Output/lib/work/t_inst_implicit.v': {'post_len': 0,
+                                                             'pre_len': 500}},
             'post_len': 0,
             'pre_len': 500,
             'test_name': 'Verilator/t_inst_implicit'}}
 
-+----------------------------+----------+-----------+
-| INPUT                      |   PRELEN |   POSTLEN |
-+============================+==========+===========+
-| lib/work/t_inst_implicit.v |      500 |         0 |
-+============================+==========+===========+
-|                            |      500 |         0 |
-+----------------------------+----------+-----------+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/t_inst_implicit.v |      500 |         0 |
++====================================+==========+===========+
+|                                    |      500 |         0 |
++------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1237,13 +1264,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_inst_implicit/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_inst_implicit/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_inst_implicit/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_implicit/design.hldb ${HLC_DIR}/regression/Verilator/t_inst_implicit/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             175     175       0         0
+Others                             178     178       0         0
 ----------------------------------------------------------------
-                                   175     175       0         0
+                                   178     178       0         0
 ===================== END REDUCTION RESULT =====================

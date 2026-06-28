@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db sva/sva_range.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Yosys/sva/sva_range.sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sva/sva_range.sv".
+[INF:PA0201] Parsing source file "$Source01/sva/sva_range.sv".
 AST_DEBUG_BEGIN
 Count: 165
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/sva/sva_range.sv
-n<${SURELOG_DIR}/tests/Yosys/sva/sva_range.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
+FILE: f<13>:$Source01/sva/sva_range.sv
+n<$Source01/sva/sva_range.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
   n<> u<1> t<Null_rule> p<164> s<163> l<1:1>
   n<> u<163> t<Source_text> p<164> c<162> l<1:1> el<19:10>
     n<> u<162> t<Description> p<163> c<161> l<1:1> el<19:10>
@@ -168,19 +177,20 @@ n<${SURELOG_DIR}/tests/Yosys/sva/sva_range.sv> u<164> t<Top_level_rule> c<1> l<1
                         n<> u<151> t<Statement_or_null> p<152> l<17:3> el<17:4>
         n<> u<160> t<ENDMODULE> p<161> l<19:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/sva/sva_range.sv:1:1: Compile module "work@top".
+[INF:CP0303] $Source01/sva/sva_range.sv:1:1: Compile module "work@top".
+[ERR:CP0347] $Source01/sva/sva_range.sv:1:1: Call to "ArrayTypespec::setParent" failed.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sva_range.sv file:${SURELOG_DIR}/tests/Yosys/sva/sva_range.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sva_range.sv file:$Source01/sva/sva_range.sv:
       vpiParent: Design name:unnamed
       vpiName: sva_range.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/lib/work/sva/sva_range.sv"
+      vpiPreprocFile: "$Output/lib/work/sva/sva_range.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Yosys/sva/sva_range.sv start:1:1 end:19:10:
+    Module name:work@top file:$Source01/sva/sva_range.sv start:1:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -193,21 +203,22 @@ Design name:unnamed:
             vpiParent: Assert
             vpiPropertyExpr Operation start:8:3 end:8:26:
               vpiParent: PropertySpec
-              vpiOpType: until (92)
+              vpiOpType: until (62)
               vpiOperand (2 items):
                 Operation start:8:3 end:8:18:
                   vpiParent: Operation
                   vpiOpType: non overlap imply (51)
                   vpiOperand (2 items):
-                    Operation start:8:5 end:8:12:
+                    Operation start:8:3 end:8:12:
                       vpiParent: Operation
-                      vpiOpType: unary cycle delay (53)
-                      vpiOperand (2 items):
+                      vpiOpType: binary cycle delay (71)
+                      vpiOperand (3 items):
                         RefObj name:a start:8:3 end:8:4:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: work@top.a
                           vpiActual: Net name:a
+                        ArrayTypespec:
                         RefObj name:b start:8:11 end:8:12:
                           vpiParent: Operation
                           vpiName: b
@@ -238,7 +249,7 @@ Design name:unnamed:
                   vpiActual: Net name:b
                 Operation start:13:9 end:13:14:
                   vpiParent: Operation
-                  vpiOpType: unary cycle delay (53)
+                  vpiOpType: unary cycle delay (70)
                   vpiOperand (2 items):
                     Constant start:13:11 end:13:12:
                       vpiParent: Operation
@@ -309,6 +320,11 @@ Design name:unnamed:
             vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:clk start:2:8 end:2:11:
           vpiParent: Module name:work@top
@@ -431,7 +447,7 @@ Design name:unnamed:
             vpiFullName: work@top.d
             vpiActual: LogicTypespec
       vpiClockingBlock (1 items):
-        ClockingBlock
+        ClockingBlock:
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -443,37 +459,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/sva/sva_range.sv
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/surelog.uhdm
+      test-name: Yosys/sva/sva_range.sv
+   test-dirpath: ${HLC_DIR}/regression/Yosys/sva/sva_range.sv
+  hldb-filepath: ${HLC_DIR}/regression/Yosys/sva/sva_range.sv/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Yosys/sva/sva_range.sv/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/lib/work/sva/sva_range.sv'): {'post_len': 0,
-                                                                                                                                     'pre_len': 204}},
+            'files': {'$Output/lib/work/sva/sva_range.sv': {'post_len': 0,
+                                                            'pre_len': 204}},
             'post_len': 0,
             'pre_len': 204,
             'test_name': 'Yosys/sva/sva_range.sv'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/sva/sva_range.sv |      204 |         0 |
-+===========================+==========+===========+
-|                           |      204 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/sva/sva_range.sv |      204 |         0 |
++===================================+==========+===========+
+|                                   |      204 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -481,13 +500,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/surelog.uhdm ${SURELOG_DIR}/regression/Yosys/sva/sva_range.sv/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Yosys/sva/sva_range.sv/design.hldb ${HLC_DIR}/regression/Yosys/sva/sva_range.sv/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    67      67       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

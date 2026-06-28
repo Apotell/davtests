@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageParamConst -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageParamConst/PackageParamConst
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 72
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackageParamConst/dut.sv
-n<${SURELOG_DIR}/tests/PackageParamConst/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<71> s<70> l<1:1>
   n<> u<70> t<Source_text> p<71> c<31> l<1:1> el<7:10>
     n<> u<31> t<Description> p<70> c<30> s<69> l<1:1> el<3:11>
@@ -75,22 +84,22 @@ n<${SURELOG_DIR}/tests/PackageParamConst/dut.sv> u<71> t<Top_level_rule> c<1> l<
                                     n<0> u<52> t<INTEGRAL_NUMBER> p<53> l<6:22> el<6:23>
         n<> u<67> t<ENDMODULE> p<68> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageParamConst/dut.sv:1:1: Compile package "work@pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/PackageParamConst/dut.sv:5:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageParamConst/dut.sv:1:1: No timescale set for "work@pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageParamConst/dut.sv:5:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackageParamConst/dut.sv:6:20: Illegal implicit net "id:37, name:A".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:6:20: Illegal implicit net "id:39, name:A".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageParamConst/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@pkg file:${SURELOG_DIR}/tests/PackageParamConst/dut.sv start:1:1 end:3:11:
+    Package name:work@pkg file:$Source01/dut.sv start:1:1 end:3:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pkg start:1:9 end:1:12:
         vpiParent: Package name:work@pkg
@@ -152,8 +161,13 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/PackageParamConst/dut.sv start:5:1 end:7:10:
+    Module name:work@top file:$Source01/dut.sv start:5:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:5:8 end:5:11:
         vpiParent: Module name:work@top
@@ -167,6 +181,11 @@ Design name:unnamed:
           vpiName: pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:a start:5:19 end:5:20:
           vpiParent: Module name:work@top
@@ -202,8 +221,8 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: pkg::A[0]
             vpiFullName: work@top.pkg::A[0]
-            vpiActual (2 items):
-              ClassTypespec name:pkg
+            vpiPathElem (2 items):
+              ClassTypespec name:pkg:
               BitSelect name:A[0] start:6:20 end:6:24:
                 vpiParent: HierPath name:pkg::A[0]
                 vpiName: A[0]
@@ -235,37 +254,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageParamConst/PackageParamConst
- test-dirpath: ${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/surelog.uhdm
+      test-name: PackageParamConst/PackageParamConst
+   test-dirpath: ${HLC_DIR}/regression/PackageParamConst/PackageParamConst
+  hldb-filepath: ${HLC_DIR}/regression/PackageParamConst/PackageParamConst/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackageParamConst/PackageParamConst/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                        'pre_len': 104}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 104}},
             'post_len': 0,
             'pre_len': 104,
             'test_name': 'PackageParamConst/PackageParamConst'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      104 |         0 |
-+=================+==========+===========+
-|                 |      104 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      104 |         0 |
++=========================+==========+===========+
+|                         |      104 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -273,13 +295,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/sur
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/surelog.uhdm ${SURELOG_DIR}/regression/PackageParamConst/PackageParamConst/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackageParamConst/PackageParamConst/design.hldb ${HLC_DIR}/regression/PackageParamConst/PackageParamConst/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_tri_public/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_tri_public.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_tri_public
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_tri_public.v".
+[INF:PA0201] Parsing source file "$Source01/t_tri_public.v".
 AST_DEBUG_BEGIN
 Count: 501
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_tri_public.v
-n<${SURELOG_DIR}/tests/Verilator/t_tri_public.v> u<500> t<Top_level_rule> c<1> l<8:1> el<79:1>
+FILE: f<13>:$Source01/t_tri_public.v
+n<$Source01/t_tri_public.v> u<500> t<Top_level_rule> c<1> l<8:1> el<79:1>
   n<> u<1> t<Null_rule> p<500> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Unsupported tristate constructur error> u<2> t<LINE_COMMENT> p<500> s<3> l<1:1> el<1:66>
   n<//> u<3> t<LINE_COMMENT> p<500> s<4> l<2:1> el<2:3>
@@ -504,21 +513,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_tri_public.v> u<500> t<Top_level_rule> c<1> l
                                         n<> u<479> t<END> p<480> l<77:6> el<77:9>
         n<> u<496> t<ENDMODULE> p<497> l<78:1> el<78:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_public.v:8:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_tri_public.v:47:1: Compile module "work@sub_mod".
+[INF:CP0303] $Source01/t_tri_public.v:8:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_tri_public.v:47:1: Compile module "work@sub_mod".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_tri_public.v:41:8: Illegal implicit net "id:109, name:q".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_tri_public.v:41:8: Illegal implicit net "id:111, name:q".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_tri_public.v file:${SURELOG_DIR}/tests/Verilator/t_tri_public.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_tri_public.v file:$Source01/t_tri_public.v:
       vpiParent: Design name:unnamed
       vpiName: t_tri_public.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_tri_public/lib/work/t_tri_public.v"
+      vpiPreprocFile: "$Output/lib/work/t_tri_public.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_tri_public.v start:8:1 end:45:10:
+    Module name:work@t file:$Source01/t_tri_public.v start:8:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:8:8 end:8:9:
         vpiParent: Module name:work@t
@@ -648,6 +657,11 @@ Design name:unnamed:
             vpiName: work@sub_mod
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (6 items):
         Net name:out start:16:17 end:16:20:
           vpiParent: Module name:work@t
@@ -805,7 +819,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 8
                       vpiDecompile: "8'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
               vpiElseStmt IfElse start:29:15 end:33:9:
                 vpiParent: IfElse
                 vpiCondition RefObj name:up_down start:29:19 end:29:26:
@@ -917,7 +931,7 @@ Design name:unnamed:
                 vpiName: q_out
                 vpiFullName: work@t.sub_mod.q_out
                 vpiActual: Net name:q_out
-    Module name:work@sub_mod file:${SURELOG_DIR}/tests/Verilator/t_tri_public.v start:47:1 end:78:10:
+    Module name:work@sub_mod file:$Source01/t_tri_public.v start:47:1 end:78:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub_mod start:47:8 end:47:15:
         vpiParent: Module name:work@sub_mod
@@ -1016,6 +1030,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: work@sub_mod
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub_mod
+        vpiName: work
+        vpiFullName: work@sub_mod.work
+      vpiCell: sub_mod
       vpiNet (7 items):
         Net name:q start:63:17 end:63:18:
           vpiParent: Module name:work@sub_mod
@@ -1198,7 +1217,7 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 8
                       vpiDecompile: "8'b0"
-                      vpiValue: 0
+                      vpiValue: "0"
               vpiElseStmt Begin start:75:15 end:77:9:
                 vpiParent: IfElse
                 vpiFullName: work@sub_mod
@@ -1248,37 +1267,40 @@ Design name:unnamed:
         vpiName: work@sub_mod
       vpiModule: Module name:work@sub_mod
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_tri_public
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_tri_public
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_public/surelog.uhdm
+      test-name: Verilator/t_tri_public
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_tri_public
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_tri_public/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_tri_public/mounts.json
 
 
 {'result': {'coverage': 99.52,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_tri_public/lib/work/t_tri_public.v'): {'post_len': 3,
-                                                                                                                                   'pre_len': 626}},
+            'files': {'$Output/lib/work/t_tri_public.v': {'post_len': 3,
+                                                          'pre_len': 626}},
             'post_len': 3,
             'pre_len': 626,
             'test_name': 'Verilator/t_tri_public'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_tri_public.v |      626 |         3 |
-+=========================+==========+===========+
-|                         |      626 |         3 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_tri_public.v |      626 |         3 |
++=================================+==========+===========+
+|                                 |      626 |         3 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.52
@@ -1286,13 +1308,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_tri_public/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_tri_public/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_tri_public/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_tri_public/design.hldb ${HLC_DIR}/regression/Verilator/t_tri_public/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             180     180       0         0
+Others                             182     182       0         0
 ----------------------------------------------------------------
-                                   180     180       0         0
+                                   182     182       0         0
 ===================== END REDUCTION RESULT =====================

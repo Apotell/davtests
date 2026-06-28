@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PreprocString/PreprocString/surelog.log".
-[WRN:PP0113] ${SURELOG_DIR}/tests/PreprocString/dut.sv:3:9: Unused macro argument "TOTO".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PreprocString -DMEM_ROOT=test -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PreprocString/PreprocString
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[WRN:PP0113] $Source01/dut.sv:3:9: Unused macro argument "TOTO".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 34
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PreprocString/dut.sv
-n<${SURELOG_DIR}/tests/PreprocString/dut.sv> u<33> t<Top_level_rule> c<1> l<1:1> el<10:1>
+FILE: f<14>:$Source01/dut.sv
+n<$Source01/dut.sv> u<33> t<Top_level_rule> c<1> l<1:1> el<10:1>
   n<> u<1> t<Null_rule> p<33> s<32> l<1:1>
   n<> u<32> t<Source_text> p<33> c<31> l<1:1> el<9:10>
     n<> u<31> t<Description> p<32> c<30> l<1:1> el<9:10>
@@ -38,16 +47,16 @@ n<${SURELOG_DIR}/tests/PreprocString/dut.sv> u<33> t<Top_level_rule> c<1> l<1:1>
                           n<> u<19> t<END> p<20> l<8:5> el<8:8>
         n<> u<29> t<ENDMODULE> p<30> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/PreprocString/dut.sv:1:1: Compile module "work@test".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PreprocString/dut.sv:1:1: No timescale set for "work@test".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@test".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@test".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PreprocString/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PreprocString/PreprocString/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiPreprocMacroDefinition (2 items):
         PreprocMacroDefinition name:message start:3:1 end:3:27:
           vpiParent: SourceFile name:dut.sv
@@ -60,12 +69,12 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 33
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:MAKE_MEM_PATH file:${SURELOG_DIR}/tests/PreprocString/dut.sv start:7:14 end:7:37:
+        PreprocMacroInstance name:MAKE_MEM_PATH file:$Source01/dut.sv start:7:14 end:7:37:
           vpiParent: SourceFile name:dut.sv
           vpiName: MAKE_MEM_PATH
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:MAKE_MEM_PATH
           vpiPreprocMacroInstance (1 items):
-            PreprocMacroInstance name:message file:${SURELOG_DIR}/tests/PreprocString/dut.sv start:5:51 end:5:59:
+            PreprocMacroInstance name:message file:$Source01/dut.sv start:5:51 end:5:59:
               vpiParent: PreprocMacroInstance name:MAKE_MEM_PATH
               vpiName: message
               vpiPreprocMacroDefinition: PreprocMacroDefinition name:message
@@ -87,7 +96,7 @@ Design name:unnamed:
           vpiSourceEndColumn: 36
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/PreprocString/dut.sv start:1:1 end:9:10:
+    Module name:work@test file:$Source01/dut.sv start:1:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:8 end:1:12:
         vpiParent: Module name:work@test
@@ -95,6 +104,11 @@ Design name:unnamed:
       vpiFullName: work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiProcess (1 items):
         Initial start:6:1 end:8:8:
           vpiParent: Module name:work@test
@@ -128,37 +142,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PreprocString/PreprocString
- test-dirpath: ${SURELOG_DIR}/regression/PreprocString/PreprocString
-uhdm-filepath: ${SURELOG_DIR}/regression/PreprocString/PreprocString/surelog.uhdm
+      test-name: PreprocString/PreprocString
+   test-dirpath: ${HLC_DIR}/regression/PreprocString/PreprocString
+  hldb-filepath: ${HLC_DIR}/regression/PreprocString/PreprocString/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PreprocString/PreprocString/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PreprocString/PreprocString/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                'pre_len': 72}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 72}},
             'post_len': 0,
             'pre_len': 72,
             'test_name': 'PreprocString/PreprocString'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       72 |         0 |
-+=================+==========+===========+
-|                 |       72 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       72 |         0 |
++=========================+==========+===========+
+|                         |       72 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -166,13 +183,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PreprocString/PreprocString/surelog.uhd
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PreprocString/PreprocString/surelog.uhdm ${SURELOG_DIR}/regression/PreprocString/PreprocString/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PreprocString/PreprocString/design.hldb ${HLC_DIR}/regression/PreprocString/PreprocString/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              17      17       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    17      17       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

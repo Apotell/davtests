@@ -31,18 +31,18 @@
 //   index 1: (* fsm_state=1 *) → Constant, getDecompile() == "1"
 //   index 2: (* fsm_state=0 *) → Constant, getDecompile() == "0"
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/attribute.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
+#include <hldb/Utils.h>
+#include <hldb/attribute.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class AttributesVariable : public Test {
  public:
@@ -63,8 +63,8 @@ class AttributesVariable : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -75,13 +75,13 @@ TEST_F(AttributesVariable, ModuleExists) {
 }
 
 TEST_F(AttributesVariable, ThreeNetsExist) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 
   bool hasA = false, hasB = false, hasC = false;
-  for (const uhdm::Net *const n : *top->getNets()) {
+  for (const hldb::Net *const n : *top->getNets()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
     if (n->getName() == "c") hasC = true;
@@ -95,18 +95,18 @@ TEST_F(AttributesVariable, ThreeNetsExist) {
 // Variable attributes are hoisted to the module's attribute list, not the net.
 // ---------------------------------------------------------------------------
 TEST_F(AttributesVariable, NetsHaveNoDirectAttributes) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
-  for (const uhdm::Net *const n : *top->getNets()) {
+  for (const hldb::Net *const n : *top->getNets()) {
     EXPECT_TRUE(!n->getAttributes() || n->getAttributes()->empty())
         << "net '" << n->getName() << "' should have no direct attributes";
   }
 }
 
 TEST_F(AttributesVariable, ModuleHasThreeFsmStateAttributes) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAttributes(), nullptr);
   ASSERT_EQ(top->getAttributes()->size(), 3u);
@@ -121,12 +121,12 @@ TEST_F(AttributesVariable, ModuleHasThreeFsmStateAttributes) {
 // (* fsm_state *) — attribute for net 'a', flag (no value)
 // ---------------------------------------------------------------------------
 TEST_F(AttributesVariable, FsmStateForAIsFlagAttribute) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAttributes(), nullptr);
   ASSERT_EQ(top->getAttributes()->size(), 3u);
 
-  const uhdm::Attribute *const attr = (*top->getAttributes())[0];
+  const hldb::Attribute *const attr = (*top->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
   EXPECT_EQ(attr->getValue(), nullptr)
@@ -137,16 +137,16 @@ TEST_F(AttributesVariable, FsmStateForAIsFlagAttribute) {
 // (* fsm_state=1 *) — attribute for net 'b', value = 1
 // ---------------------------------------------------------------------------
 TEST_F(AttributesVariable, FsmStateForBValueIsOne) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAttributes(), nullptr);
   ASSERT_EQ(top->getAttributes()->size(), 3u);
 
-  const uhdm::Attribute *const attr = (*top->getAttributes())[1];
+  const hldb::Attribute *const attr = (*top->getAttributes())[1];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
 
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "fsm_state=1 should have a Constant value";
   EXPECT_EQ(val->getDecompile(), "1");
 }
@@ -155,16 +155,16 @@ TEST_F(AttributesVariable, FsmStateForBValueIsOne) {
 // (* fsm_state=0 *) — attribute for net 'c', value = 0
 // ---------------------------------------------------------------------------
 TEST_F(AttributesVariable, FsmStateForCValueIsZero) {
-  const uhdm::Module *const top = getTop(m_design);
+  const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAttributes(), nullptr);
   ASSERT_EQ(top->getAttributes()->size(), 3u);
 
-  const uhdm::Attribute *const attr = (*top->getAttributes())[2];
+  const hldb::Attribute *const attr = (*top->getAttributes())[2];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
 
-  const uhdm::Constant *const val = attr->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = attr->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "fsm_state=0 should have a Constant value";
   EXPECT_EQ(val->getDecompile(), "0");
 }

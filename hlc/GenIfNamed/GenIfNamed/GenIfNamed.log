@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/GenIfNamed -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/GenIfNamed/GenIfNamed
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 125
 LIB: work
-FILE: ${SURELOG_DIR}/tests/GenIfNamed/dut.sv
-n<${SURELOG_DIR}/tests/GenIfNamed/dut.sv> u<124> t<Top_level_rule> c<1> l<2:1> el<14:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<124> t<Top_level_rule> c<1> l<2:1> el<14:1>
   n<> u<1> t<Null_rule> p<124> s<123> l<2:1> el<2:1>
   n<> u<123> t<Source_text> p<124> c<122> l<2:1> el<13:10>
     n<> u<122> t<Description> p<123> c<121> l<2:1> el<13:10>
@@ -128,25 +137,25 @@ n<${SURELOG_DIR}/tests/GenIfNamed/dut.sv> u<124> t<Top_level_rule> c<1> l<2:1> e
                       n<> u<112> t<END> p<113> l<11:3> el<11:6>
         n<> u<120> t<ENDMODULE> p<121> l<13:1> el<13:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:2:1: Compile module "work@top".
-[INF:CP0335] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:4:41: Compile generate block "tag1".
-[INF:CP0335] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:5:20: Compile generate block "tag2".
-[INF:CP0335] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:7:22: Compile generate block "tag3".
-[WRN:PA0205] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:2:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:6:16: Illegal implicit net "id:33, name:tmp".
-[ERR:EL0535] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:8:16: Illegal implicit net "id:42, name:tmp".
-[ERR:EL0535] ${SURELOG_DIR}/tests/GenIfNamed/dut.sv:9:16: Illegal implicit net "id:49, name:tmp2".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@top".
+[INF:CP0335] $Source01/dut.sv:4:41: Compile generate block "tag1".
+[INF:CP0335] $Source01/dut.sv:5:20: Compile generate block "tag2".
+[INF:CP0335] $Source01/dut.sv:7:22: Compile generate block "tag3".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:6:16: Illegal implicit net "id:34, name:tmp".
+[ERR:EL0535] $Source01/dut.sv:8:16: Illegal implicit net "id:43, name:tmp".
+[ERR:EL0535] $Source01/dut.sv:9:16: Illegal implicit net "id:50, name:tmp2".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/GenIfNamed/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/GenIfNamed/dut.sv start:2:1 end:13:10:
+    Module name:work@top file:$Source01/dut.sv start:2:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:2:8 end:2:11:
         vpiParent: Module name:work@top
@@ -154,6 +163,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiGenStmt (1 items):
         GenFor start:4:3 end:11:6:
           vpiParent: Module name:work@top
@@ -277,7 +291,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
                 vpiElseStmt Begin name:tag3 start:7:15 end:10:9:
                   vpiParent: GenIfElse
                   vpiName Identifier name:tag3 start:7:22 end:7:26:
@@ -312,7 +326,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b0"
-                        vpiValue: 0
+                        vpiValue: "0"
                     ContAssign start:9:16 end:9:30:
                       vpiParent: Begin name:tag3
                       vpiLhs BitSelect name:tmp2[i] start:9:16 end:9:23:
@@ -337,7 +351,7 @@ Design name:unnamed:
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
-                        vpiValue: 1
+                        vpiValue: "1"
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -349,37 +363,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: GenIfNamed/GenIfNamed
- test-dirpath: ${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed
-uhdm-filepath: ${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/surelog.uhdm
+      test-name: GenIfNamed/GenIfNamed
+   test-dirpath: ${HLC_DIR}/regression/GenIfNamed/GenIfNamed
+  hldb-filepath: ${HLC_DIR}/regression/GenIfNamed/GenIfNamed/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/GenIfNamed/GenIfNamed/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 172}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 172}},
             'post_len': 0,
             'pre_len': 172,
             'test_name': 'GenIfNamed/GenIfNamed'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      172 |         0 |
-+=================+==========+===========+
-|                 |      172 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      172 |         0 |
++=========================+==========+===========+
+|                         |      172 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -387,13 +404,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/surelog.uhdm ${SURELOG_DIR}/regression/GenIfNamed/GenIfNamed/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/GenIfNamed/GenIfNamed/design.hldb ${HLC_DIR}/regression/GenIfNamed/GenIfNamed/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

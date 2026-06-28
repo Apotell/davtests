@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Zachjs +incdir+basic+lex+lib+relong+resolve -nobuiltin -timescale=1ns/1ns -d ast -d db basic/top_tf.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Zachjs/basic/top_tf_sv
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/basic/top_tf.sv".
+[INF:PA0201] Parsing source file "$Source01/basic/top_tf.sv".
 AST_DEBUG_BEGIN
 Count: 198
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Zachjs/basic/top_tf.sv
-n<${SURELOG_DIR}/tests/Zachjs/basic/top_tf.sv> u<197> t<Top_level_rule> c<1> l<1:1> el<18:1>
+FILE: f<18>:$Source01/basic/top_tf.sv
+n<$Source01/basic/top_tf.sv> u<197> t<Top_level_rule> c<1> l<1:1> el<18:1>
   n<> u<1> t<Null_rule> p<197> s<196> l<1:1>
   n<> u<196> t<Source_text> p<197> c<21> l<1:1> el<17:10>
     n<> u<21> t<Description> p<196> c<20> s<71> l<1:1> el<3:8>
@@ -201,19 +210,19 @@ n<${SURELOG_DIR}/tests/Zachjs/basic/top_tf.sv> u<197> t<Top_level_rule> c<1> l<1
                                     n<PARAM> u<178> t<SIMPLE_IDENTIFIER> p<179> l<16:36> el<16:41>
         n<> u<193> t<ENDMODULE> p<194> l<17:1> el<17:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Zachjs/basic/top_tf.sv:13:1: Compile module "work@top".
+[INF:CP0303] $Source01/basic/top_tf.sv:13:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top_tf.sv file:${SURELOG_DIR}/tests/Zachjs/basic/top_tf.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:top_tf.sv file:$Source01/basic/top_tf.sv:
       vpiParent: Design name:unnamed
       vpiName: top_tf.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/lib/work/basic/top_tf.sv"
+      vpiPreprocFile: "$Output/lib/work/basic/top_tf.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Zachjs/basic/top_tf.sv start:13:1 end:17:10:
+    Module name:work@top file:$Source01/basic/top_tf.sv start:13:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:13:8 end:13:11:
         vpiParent: Module name:work@top
@@ -221,6 +230,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiProcess (3 items):
         Initial start:14:5 end:14:19:
           vpiParent: Module name:work@top
@@ -307,26 +321,22 @@ Design name:unnamed:
         vpiParent: Task name:foo
         vpiName: foo
       vpiFullName: foo
-      vpiStmt Begin:
+      vpiStmt SysFuncCall name:$display start:2:5 end:2:34:
         vpiParent: Task name:foo
-        vpiFullName: foo
-        vpiStmt (1 items):
-          SysFuncCall name:$display start:2:5 end:2:34:
-            vpiParent: Begin
-            vpiName Identifier name:$display start:2:5 end:2:13:
-              vpiParent: SysFuncCall name:$display
-              vpiName: "$display"
-            vpiArgument (1 items):
-              Constant start:2:14 end:2:33:
-                vpiParent: SysFuncCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foo
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 136
-                vpiDecompile: "\"task foo() called\""
-                vpiValue: task foo() called
+        vpiName Identifier name:$display start:2:5 end:2:13:
+          vpiParent: SysFuncCall name:$display
+          vpiName: "$display"
+        vpiArgument (1 items):
+          Constant start:2:14 end:2:33:
+            vpiParent: SysFuncCall name:$display
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: foo
+              vpiActual: StringTypespec
+            vpiConstType: string (6)
+            vpiSize: 136
+            vpiDecompile: "\"task foo() called\""
+            vpiValue: task foo() called
     Function name:bar start:4:1 end:7:12:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:4:10 end:4:13:
@@ -537,37 +547,40 @@ Design name:unnamed:
         vpiDecompile: "37"
         vpiValue: 37
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Zachjs/basic/top_tf_sv
- test-dirpath: ${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv
-uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/surelog.uhdm
+      test-name: Zachjs/basic/top_tf_sv
+   test-dirpath: ${HLC_DIR}/regression/Zachjs/basic/top_tf_sv
+  hldb-filepath: ${HLC_DIR}/regression/Zachjs/basic/top_tf_sv/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Zachjs/basic/top_tf_sv/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/lib/work/basic/top_tf.sv'): {'post_len': 0,
-                                                                                                                                    'pre_len': 285}},
+            'files': {'$Output/lib/work/basic/top_tf.sv': {'post_len': 0,
+                                                           'pre_len': 285}},
             'post_len': 0,
             'pre_len': 285,
             'test_name': 'Zachjs/basic/top_tf_sv'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/basic/top_tf.sv |      285 |         0 |
-+==========================+==========+===========+
-|                          |      285 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/basic/top_tf.sv |      285 |         0 |
++==================================+==========+===========+
+|                                  |      285 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -575,7 +588,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/surelog.uhdm ${SURELOG_DIR}/regression/Zachjs/basic/top_tf_sv/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Zachjs/basic/top_tf_sv/design.hldb ${HLC_DIR}/regression/Zachjs/basic/top_tf_sv/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

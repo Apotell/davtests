@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/YosysTests/misc/bugpoint_error -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db top.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/misc/bugpoint_error/top
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/top.v".
+[INF:PA0201] Parsing source file "$Source01/top.v".
 AST_DEBUG_BEGIN
 Count: 146
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v
-n<${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v> u<145> t<Top_level_rule> c<1> l<1:1> el<32:1>
+FILE: f<13>:$Source01/top.v
+n<$Source01/top.v> u<145> t<Top_level_rule> c<1> l<1:1> el<32:1>
   n<> u<1> t<Null_rule> p<145> s<144> l<1:1>
   n<> u<144> t<Source_text> p<145> c<72> l<1:1> el<31:10>
     n<> u<72> t<Description> p<144> c<71> s<143> l<1:1> el<17:10>
@@ -149,20 +158,20 @@ n<${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v> u<145> t<Top_level_
                           n<cout> u<131> t<SIMPLE_IDENTIFIER> p<132> l<29:20> el<29:24>
         n<> u<141> t<ENDMODULE> p<142> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v:1:1: Compile module "work@bb".
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v:19:1: Compile module "work@top".
+[INF:CP0303] $Source01/top.v:1:1: Compile module "work@bb".
+[INF:CP0303] $Source01/top.v:19:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:top.v file:${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v:
+  vpiSourceFile (1 items):
+    SourceFile name:top.v file:$Source01/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/lib/work/top.v"
+      vpiPreprocFile: "$Output/lib/work/top.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@bb file:${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v start:1:1 end:17:10:
+    Module name:work@bb file:$Source01/top.v start:1:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bb start:1:8 end:1:10:
         vpiParent: Module name:work@bb
@@ -173,6 +182,11 @@ Design name:unnamed:
           vpiParent: Module name:work@bb
       vpiDefName: work@bb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bb
+        vpiName: work
+        vpiFullName: work@bb.work
+      vpiCell: bb
       vpiNet (5 items):
         Net name:x start:3:8 end:3:9:
           vpiParent: Module name:work@bb
@@ -320,7 +334,7 @@ Design name:unnamed:
                 vpiName: x
                 vpiFullName: work@bb.x
                 vpiActual: Net name:x
-    Module name:work@top file:${SURELOG_DIR}/tests/YosysTests/misc/bugpoint_error/top.v start:19:1 end:31:10:
+    Module name:work@top file:$Source01/top.v start:19:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:19:8 end:19:11:
         vpiParent: Module name:work@top
@@ -336,6 +350,11 @@ Design name:unnamed:
             vpiName: work@bb
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (5 items):
         Net name:x start:21:8 end:21:9:
           vpiParent: Module name:work@top
@@ -517,37 +536,40 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTests/misc/bugpoint_error/top
- test-dirpath: ${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/surelog.uhdm
+      test-name: YosysTests/misc/bugpoint_error/top
+   test-dirpath: ${HLC_DIR}/regression/YosysTests/misc/bugpoint_error/top
+  hldb-filepath: ${HLC_DIR}/regression/YosysTests/misc/bugpoint_error/top/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTests/misc/bugpoint_error/top/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/lib/work/top.v'): {'post_len': 0,
-                                                                                                                                      'pre_len': 191}},
+            'files': {'$Output/lib/work/top.v': {'post_len': 0,
+                                                 'pre_len': 191}},
             'post_len': 0,
             'pre_len': 191,
             'test_name': 'YosysTests/misc/bugpoint_error/top'}}
 
-+----------------+----------+-----------+
-| INPUT          |   PRELEN |   POSTLEN |
-+================+==========+===========+
-| lib/work/top.v |      191 |         0 |
-+================+==========+===========+
-|                |      191 |         0 |
-+----------------+----------+-----------+
++------------------------+----------+-----------+
+| INPUT                  |   PRELEN |   POSTLEN |
++========================+==========+===========+
+| $Output/lib/work/top.v |      191 |         0 |
++========================+==========+===========+
+|                        |      191 |         0 |
++------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -555,13 +577,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/sure
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/surelog.uhdm ${SURELOG_DIR}/regression/YosysTests/misc/bugpoint_error/top/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTests/misc/bugpoint_error/top/design.hldb ${HLC_DIR}/regression/YosysTests/misc/bugpoint_error/top/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              90      90       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                    90      90       0         0
+                                    92      92       0         0
 ===================== END REDUCTION RESULT =====================

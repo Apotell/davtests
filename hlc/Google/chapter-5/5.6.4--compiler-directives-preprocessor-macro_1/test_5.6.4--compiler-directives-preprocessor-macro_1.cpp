@@ -31,15 +31,15 @@
 // UHDM: 2 nameless stub modules (parse fragments) — the module name "top"
 // was never captured due to the parse failure on line 18.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesPreprocessorMacro1 : public Test {
  public:
@@ -68,7 +68,7 @@ class CompilerDirectivesPreprocessorMacro1 : public Test {
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoModuleNamedTop) {
   EXPECT_EQ(
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()),
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()),
       nullptr)
       << "'work@top' should not exist — parse failure swallowed the module name";
 }
@@ -84,7 +84,7 @@ TEST_F(CompilerDirectivesPreprocessorMacro1, TwoStubModulesExist) {
 
 TEST_F(CompilerDirectivesPreprocessorMacro1, StubModulesHaveNoName) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const m : *m_design->getAllModules()) {
+  for (const hldb::Module *const m : *m_design->getAllModules()) {
     EXPECT_TRUE(m->getName().empty())
         << "stub module should have an empty name, got: " << m->getName();
   }
@@ -96,7 +96,7 @@ TEST_F(CompilerDirectivesPreprocessorMacro1, StubModulesHaveNoName) {
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoNetsInStubModules) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const m : *m_design->getAllModules()) {
+  for (const hldb::Module *const m : *m_design->getAllModules()) {
     EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
         << "stub module should have no nets";
   }

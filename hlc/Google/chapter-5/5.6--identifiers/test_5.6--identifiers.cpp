@@ -27,16 +27,16 @@
 // UHDM: Module name:work@identifiers with 8 Net nodes, all LogicTypespec.
 // Case sensitivity: 'sensitive' and 'Sensitive' are distinct nets.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Identifiers : public Test {
  public:
@@ -57,13 +57,13 @@ class Identifiers : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@identifiers", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@identifiers", d->getAllModules());
 }
 
-static bool hasNet(const uhdm::Module *m, std::string_view name) {
+static bool hasNet(const hldb::Module *m, std::string_view name) {
   if (!m->getNets()) return false;
-  for (const uhdm::Net *const n : *m->getNets())
+  for (const hldb::Net *const n : *m->getNets())
     if (n->getName() == name) return true;
   return false;
 }
@@ -76,7 +76,7 @@ TEST_F(Identifiers, ModuleExists) {
 }
 
 TEST_F(Identifiers, EightNetsExist) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 8u);
@@ -135,13 +135,13 @@ TEST_F(Identifiers, NetSensitiveUppercase) {
 }
 
 TEST_F(Identifiers, SensitiveAndSensitiveAreDistinct) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
 
-  const uhdm::Net *lower = nullptr;
-  const uhdm::Net *upper = nullptr;
-  for (const uhdm::Net *const n : *m->getNets()) {
+  const hldb::Net *lower = nullptr;
+  const hldb::Net *upper = nullptr;
+  for (const hldb::Net *const n : *m->getNets()) {
     if (n->getName() == "sensitive") lower = n;
     if (n->getName() == "Sensitive") upper = n;
   }

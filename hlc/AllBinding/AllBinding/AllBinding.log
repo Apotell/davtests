@@ -1,9 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/AllBinding/AllBinding/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/AllBinding -d db -d ast enum.sv dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/AllBinding/AllBinding
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/enum.sv".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/enum.sv".
 AST_DEBUG_BEGIN
 Count: 41
 LIB: work
-FILE: ${SURELOG_DIR}/tests/AllBinding/enum.sv
-n<${SURELOG_DIR}/tests/AllBinding/enum.sv> u<40> t<Top_level_rule> c<1> l<1:1> el<6:1>
+FILE: f<13>:$Source01/enum.sv
+n<$Source01/enum.sv> u<40> t<Top_level_rule> c<1> l<1:1> el<6:1>
   n<> u<1> t<Null_rule> p<40> s<39> l<1:1>
   n<> u<39> t<Source_text> p<40> c<38> l<1:1> el<5:24>
     n<> u<38> t<Description> p<39> c<37> l<1:1> el<5:24>
@@ -44,11 +54,12 @@ n<${SURELOG_DIR}/tests/AllBinding/enum.sv> u<40> t<Top_level_rule> c<1> l<1:1> e
                         n<2'b10> u<27> t<INTEGRAL_NUMBER> p<28> l<4:31> el<4:36>
               n<type_scr1_mem_resp_e> u<33> t<SIMPLE_IDENTIFIER> p<34> l<5:3> el<5:23>
 AST_DEBUG_END
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 30
 LIB: work
-FILE: ${SURELOG_DIR}/tests/AllBinding/dut.sv
-n<${SURELOG_DIR}/tests/AllBinding/dut.sv> u<29> t<Top_level_rule> c<1> l<1:1> el<6:1>
+FILE: f<14>:$Source01/dut.sv
+n<$Source01/dut.sv> u<29> t<Top_level_rule> c<1> l<1:1> el<6:1>
   n<> u<1> t<Null_rule> p<29> s<28> l<1:1>
   n<> u<28> t<Source_text> p<29> c<27> l<1:1> el<5:10>
     n<> u<27> t<Description> p<28> c<26> l<1:1> el<5:10>
@@ -78,24 +89,24 @@ n<${SURELOG_DIR}/tests/AllBinding/dut.sv> u<29> t<Top_level_rule> c<1> l<1:1> el
                         n<dmem2exu_resp_ii> u<16> t<SIMPLE_IDENTIFIER> p<17> l<3:37> el<3:53>
         n<> u<25> t<ENDMODULE> p<26> l<5:1> el<5:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/AllBinding/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/AllBinding/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (2 items):
-    SourceFile name:enum.sv file:${SURELOG_DIR}/tests/AllBinding/enum.sv:
+  vpiSourceFile (2 items):
+    SourceFile name:enum.sv file:$Source01/enum.sv:
       vpiParent: Design name:unnamed
       vpiName: enum.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/AllBinding/AllBinding/lib/work/enum.sv"
+      vpiPreprocFile: "$Output/lib/work/enum.sv"
       vpiDefNetType: none (12)
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/AllBinding/dut.sv:
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/AllBinding/AllBinding/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/AllBinding/dut.sv start:1:1 end:5:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:5:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -114,6 +125,11 @@ Design name:unnamed:
           vpiNetType: none (12)
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:dmem2exu_resp_i start:1:57 end:1:72:
           vpiParent: Module name:work@top
@@ -189,7 +205,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'b00"
-            vpiValue: 00
+            vpiValue: "00"
         EnumConst name:SCR1_MEM_RESP_RDY_OK start:3:5 end:3:36:
           vpiParent: EnumTypespec
           vpiName Identifier name:SCR1_MEM_RESP_RDY_OK start:3:5 end:3:25:
@@ -204,7 +220,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'b01"
-            vpiValue: 01
+            vpiValue: "01"
         EnumConst name:SCR1_MEM_RESP_RDY_ER start:4:5 end:4:36:
           vpiParent: EnumTypespec
           vpiName Identifier name:SCR1_MEM_RESP_RDY_ER start:4:5 end:4:25:
@@ -219,7 +235,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 2
             vpiDecompile: "2'b10"
-            vpiValue: 10
+            vpiValue: "10"
     TypedefTypespec name:type_scr1_mem_resp_e start:1:1 end:5:24:
       vpiParent: Design name:unnamed
       vpiName Identifier name:type_scr1_mem_resp_e start:5:3 end:5:23:
@@ -236,40 +252,43 @@ Design name:unnamed:
         vpiName: work@top
       vpiModule: Module name:work@top
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: AllBinding/AllBinding
- test-dirpath: ${SURELOG_DIR}/regression/AllBinding/AllBinding
-uhdm-filepath: ${SURELOG_DIR}/regression/AllBinding/AllBinding/surelog.uhdm
+      test-name: AllBinding/AllBinding
+   test-dirpath: ${HLC_DIR}/regression/AllBinding/AllBinding
+  hldb-filepath: ${HLC_DIR}/regression/AllBinding/AllBinding/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/AllBinding/AllBinding/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 2,
-            'files': {PosixPath('${SURELOG_DIR}/regression/AllBinding/AllBinding/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 135},
-                      PosixPath('${SURELOG_DIR}/regression/AllBinding/AllBinding/lib/work/enum.sv'): {'post_len': 0,
-                                                                                                                           'pre_len': 143}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 135},
+                      '$Output/lib/work/enum.sv': {'post_len': 0,
+                                                   'pre_len': 143}},
             'post_len': 0,
             'pre_len': 278,
             'test_name': 'AllBinding/AllBinding'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/enum.sv |      143 |         0 |
-| lib/work/dut.sv  |      135 |         0 |
-+==================+==========+===========+
-|                  |      278 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/enum.sv |      143 |         0 |
+| $Output/lib/work/dut.sv  |      135 |         0 |
++==========================+==========+===========+
+|                          |      278 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -277,13 +296,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/AllBinding/AllBinding/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/AllBinding/AllBinding/surelog.uhdm ${SURELOG_DIR}/regression/AllBinding/AllBinding/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/AllBinding/AllBinding/design.hldb ${HLC_DIR}/regression/AllBinding/AllBinding/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

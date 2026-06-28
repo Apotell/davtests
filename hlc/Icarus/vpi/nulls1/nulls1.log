@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/vpi/nulls1/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/vpi +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db nulls1.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/vpi/nulls1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/nulls1.v".
+[INF:PA0201] Parsing source file "$Source01/nulls1.v".
 AST_DEBUG_BEGIN
 Count: 133
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/vpi/nulls1.v
-n<${SURELOG_DIR}/tests/Icarus/vpi/nulls1.v> u<132> t<Top_level_rule> c<1> l<20:1> el<36:1>
+FILE: f<13>:$Source01/nulls1.v
+n<$Source01/nulls1.v> u<132> t<Top_level_rule> c<1> l<20:1> el<36:1>
   n<> u<1> t<Null_rule> p<132> s<2> l<20:1> el<20:1>
   n<// Copyright (c) 2002 Michael Ruff (mruff at chiaro.com)> u<2> t<LINE_COMMENT> p<132> s<3> l<1:1> el<1:57>
   n<//                    Michael Runyan (mrunyan at chiaro.com)> u<3> t<LINE_COMMENT> p<132> s<4> l<2:1> el<2:61>
@@ -136,19 +145,19 @@ n<${SURELOG_DIR}/tests/Icarus/vpi/nulls1.v> u<132> t<Top_level_rule> c<1> l<20:1
                                   n<foo> u<114> t<SIMPLE_IDENTIFIER> p<115> l<33:13> el<33:16>
         n<> u<128> t<ENDMODULE> p<129> l<35:1> el<35:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/vpi/nulls1.v:20:1: Compile module "work@test".
+[INF:CP0303] $Source01/nulls1.v:20:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:nulls1.v file:${SURELOG_DIR}/tests/Icarus/vpi/nulls1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:nulls1.v file:$Source01/nulls1.v:
       vpiParent: Design name:unnamed
       vpiName: nulls1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/vpi/nulls1/lib/work/nulls1.v"
+      vpiPreprocFile: "$Output/lib/work/nulls1.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/vpi/nulls1.v start:20:1 end:35:10:
+    Module name:work@test file:$Source01/nulls1.v start:20:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:20:8 end:20:12:
         vpiParent: Module name:work@test
@@ -159,6 +168,11 @@ Design name:unnamed:
           vpiParent: Module name:work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (1 items):
         Net name:foo start:21:6 end:21:9:
           vpiParent: Module name:work@test
@@ -271,37 +285,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/vpi/nulls1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/vpi/nulls1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/vpi/nulls1/surelog.uhdm
+      test-name: Icarus/vpi/nulls1
+   test-dirpath: ${HLC_DIR}/regression/Icarus/vpi/nulls1
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/vpi/nulls1/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/vpi/nulls1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/vpi/nulls1/lib/work/nulls1.v'): {'post_len': 0,
-                                                                                                                        'pre_len': 123}},
+            'files': {'$Output/lib/work/nulls1.v': {'post_len': 0,
+                                                    'pre_len': 123}},
             'post_len': 0,
             'pre_len': 123,
             'test_name': 'Icarus/vpi/nulls1'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/nulls1.v |      123 |         0 |
-+===================+==========+===========+
-|                   |      123 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/nulls1.v |      123 |         0 |
++===========================+==========+===========+
+|                           |      123 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -309,13 +326,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/vpi/nulls1/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/vpi/nulls1/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/vpi/nulls1/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/vpi/nulls1/design.hldb ${HLC_DIR}/regression/Icarus/vpi/nulls1/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              35      35       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    35      35       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/escape4/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db escape4.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/escape4
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/escape4.v".
+[INF:PA0201] Parsing source file "$Source01/escape4.v".
 AST_DEBUG_BEGIN
 Count: 253
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v> u<252> t<Top_level_rule> c<1> l<20:1> el<55:1>
+FILE: f<13>:$Source01/escape4.v
+n<$Source01/escape4.v> u<252> t<Top_level_rule> c<1> l<20:1> el<55:1>
   n<> u<1> t<Null_rule> p<252> s<2> l<20:1> el<20:1>
   n</*\n * Copyright (c) 2002 Michael Ruff (mruff @chiaro.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<252> s<251> l<20:1> el<54:10>
   n<> u<251> t<Source_text> p<252> c<207> l<20:1> el<54:10>
@@ -256,22 +265,22 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v> u<252> t<Top_level_rule> c<1> 
                         n<> u<239> t<END> p<240> l<53:4> el<53:7>
         n<> u<248> t<ENDMODULE> p<249> l<54:1> el<54:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v:20:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v:47:1: Compile module "work@bot".
+[INF:CP0303] $Source01/escape4.v:20:1: Compile module "work@top".
+[INF:CP0303] $Source01/escape4.v:47:1: Compile module "work@bot".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v:31:35: Illegal implicit net "id:42, name:r".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v:38:15: Illegal implicit net "id:61, name:r".
-====== UHDM =======
+[ERR:EL0535] $Source01/escape4.v:31:35: Illegal implicit net "id:44, name:r".
+[ERR:EL0535] $Source01/escape4.v:38:15: Illegal implicit net "id:63, name:r".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:escape4.v file:${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v:
+  vpiSourceFile (1 items):
+    SourceFile name:escape4.v file:$Source01/escape4.v:
       vpiParent: Design name:unnamed
       vpiName: escape4.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/escape4/lib/work/escape4.v"
+      vpiPreprocFile: "$Output/lib/work/escape4.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v start:20:1 end:45:10:
+    Module name:work@top file:$Source01/escape4.v start:20:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:20:8 end:20:11:
         vpiParent: Module name:work@top
@@ -287,6 +296,11 @@ Design name:unnamed:
             vpiName: work@bot
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:bot.r start:22:8 end:22:19:
           vpiParent: Module name:work@top
@@ -360,7 +374,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 104
                     vpiDecompile: "\"\\\\bot.r == %b\""
-                    vpiValue: \\bot.r == %b
+                    vpiValue: "\\\\bot.r == %b"
                   RefObj name:bot.r start:30:33 end:30:44:
                     vpiParent: SysFuncCall name:$display
                     vpiName: bot.r
@@ -386,7 +400,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$display
                     vpiName: bot.r
                     vpiFullName: work@top.bot.r
-                    vpiActual (2 items):
+                    vpiPathElem (2 items):
                       RefObj name:bot start:31:31 end:31:34:
                         vpiParent: HierPath name:bot.r
                         vpiName: bot
@@ -452,7 +466,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: bot.r
                       vpiFullName: work@top.bot.r
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         RefObj name:bot start:38:11 end:38:14:
                           vpiParent: HierPath name:bot.r
                           vpiName: bot
@@ -522,7 +536,7 @@ Design name:unnamed:
             vpiName: work@bot
             vpiFullName: work@top.bot.work@bot
             vpiActual: ModuleTypespec name:work@bot
-    Module name:work@bot file:${SURELOG_DIR}/tests/Icarus/ivltests/escape4.v start:47:1 end:54:10:
+    Module name:work@bot file:$Source01/escape4.v start:47:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bot start:47:8 end:47:11:
         vpiParent: Module name:work@bot
@@ -533,6 +547,11 @@ Design name:unnamed:
           vpiParent: Module name:work@bot
       vpiDefName: work@bot
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@bot
+        vpiName: work
+        vpiFullName: work@bot.work
+      vpiCell: bot
       vpiNet (1 items):
         Net name:r start:49:8 end:49:9:
           vpiParent: Module name:work@bot
@@ -586,37 +605,40 @@ Design name:unnamed:
         vpiName: work@bot
       vpiModule: Module name:work@bot
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/escape4
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4/surelog.uhdm
+      test-name: Icarus/ivltests/escape4
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/escape4
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/escape4/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/escape4/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/escape4/lib/work/escape4.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 362}},
+            'files': {'$Output/lib/work/escape4.v': {'post_len': 0,
+                                                     'pre_len': 362}},
             'post_len': 0,
             'pre_len': 362,
             'test_name': 'Icarus/ivltests/escape4'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/escape4.v |      362 |         0 |
-+====================+==========+===========+
-|                    |      362 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/escape4.v |      362 |         0 |
++============================+==========+===========+
+|                            |      362 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -624,13 +646,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/escape4/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/escape4/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/escape4/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/escape4/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                    82      82       0         0
+                                    84      84       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_func_named/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_func_named.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_func_named
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_func_named.v".
+[INF:PA0201] Parsing source file "$Source01/t_func_named.v".
+[SNT:PA0207] $Source01/t_func_named.v:15:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   function int f( int j = 1, int s = 0 );\n      return (j<<16) | s;\n   endfunction\n\n\n\n   initial begin\n      do if',
+      do if ((f(.j(2), .s(1))	) !== (32'h2_0001 )) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",0, (f(.j(2), .s(1))	), (32'h2_0001 )); $stop; end while(0);;
+         ^-- $Source01/t_func_named.v:15:9:.
+[SNT:PA0207] $Source01/t_func_named.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
+   initial begin
+   ^-- $Source01/t_func_named.v:14:3:.
 AST_DEBUG_BEGIN
 Count: 74
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_func_named.v
-n<${SURELOG_DIR}/tests/Verilator/t_func_named.v> u<73> t<Top_level_rule> c<1> l<6:1> el<28:10>
+FILE: f<13>:$Source01/t_func_named.v
+n<$Source01/t_func_named.v> u<73> t<Top_level_rule> c<1> l<6:1> el<28:10>
   n<> u<1> t<Null_rule> p<73> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<73> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<73> s<4> l<2:1> el<2:3>
@@ -77,21 +92,15 @@ n<${SURELOG_DIR}/tests/Verilator/t_func_named.v> u<73> t<Top_level_rule> c<1> l<
                               n<s> u<55> t<SIMPLE_IDENTIFIER> p<56> l<9:24> el<9:25>
               n<> u<66> t<ENDFUNCTION> p<67> l<10:4> el<10:15>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_func_named.v:15:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   function int f( int j = 1, int s = 0 );\n      return (j<<16) | s;\n   endfunction\n\n\n\n   initial begin\n      do if',
-      do if ((f(.j(2), .s(1))	) !== (32'h2_0001 )) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "${SURELOG_DIR}/tests/Verilator/t_func_named.v",15, (f(.j(2), .s(1))	), (32'h2_0001 )); $stop; end while(0);;
-         ^-- ${SURELOG_DIR}/tests/Verilator/t_func_named.v:15:9:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Verilator/t_func_named.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- ${SURELOG_DIR}/tests/Verilator/t_func_named.v:14:3:.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_func_named.v file:${SURELOG_DIR}/tests/Verilator/t_func_named.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_func_named.v file:$Source01/t_func_named.v:
       vpiParent: Design name:unnamed
       vpiName: t_func_named.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_func_named/lib/work/t_func_named.v"
+      vpiPreprocFile: "$Output/lib/work/t_func_named.v"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:checkh start:12:1 end:12:165:
           vpiParent: SourceFile name:t_func_named.v
@@ -99,108 +108,108 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 27
       vpiPreprocMacroInstance (8 items):
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:15:7 end:15:46:
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:15:7 end:15:46:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 255
+          vpiSectionEndColumn: 212
           vpiSourceStartLine: 15
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 15
-          vpiSourceEndColumn: 235
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:16:7 end:16:40:
+          vpiSourceEndColumn: 192
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:16:7 end:16:40:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 243
+          vpiSectionEndColumn: 200
           vpiSourceStartLine: 16
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 16
-          vpiSourceEndColumn: 223
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:17:7 end:17:38:
+          vpiSourceEndColumn: 180
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:17:7 end:17:38:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 239
+          vpiSectionEndColumn: 196
           vpiSourceStartLine: 17
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 17
-          vpiSourceEndColumn: 219
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:18:7 end:18:40:
+          vpiSourceEndColumn: 176
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:18:7 end:18:40:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 243
+          vpiSectionEndColumn: 200
           vpiSourceStartLine: 18
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 18
-          vpiSourceEndColumn: 223
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:19:7 end:19:46:
+          vpiSourceEndColumn: 180
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:19:7 end:19:46:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 255
+          vpiSectionEndColumn: 212
           vpiSourceStartLine: 19
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 19
-          vpiSourceEndColumn: 235
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:20:7 end:20:44:
+          vpiSourceEndColumn: 192
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:20:7 end:20:44:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 251
+          vpiSectionEndColumn: 208
           vpiSourceStartLine: 20
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 20
-          vpiSourceEndColumn: 231
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:21:7 end:21:36:
+          vpiSourceEndColumn: 188
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:21:7 end:21:36:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 235
+          vpiSectionEndColumn: 192
           vpiSourceStartLine: 21
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 21
-          vpiSourceEndColumn: 215
-        PreprocMacroInstance name:checkh file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:22:7 end:22:35:
+          vpiSourceEndColumn: 172
+        PreprocMacroInstance name:checkh file:$Source01/t_func_named.v start:22:7 end:22:35:
           vpiParent: SourceFile name:t_func_named.v
           vpiName: checkh
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:checkh
           vpiSectionStartLine: 12
           vpiSectionStartColumn: 27
           vpiSectionEndLine: 12
-          vpiSectionEndColumn: 233
+          vpiSectionEndColumn: 190
           vpiSourceStartLine: 22
           vpiSourceStartColumn: 7
           vpiSourceEndLine: 22
-          vpiSourceEndColumn: 213
+          vpiSourceEndColumn: 170
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:6:1 end:6:1:
+    Module file:$Source01/t_func_named.v start:6:1 end:6:1:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
-    Module file:${SURELOG_DIR}/tests/Verilator/t_func_named.v start:6:1 end:6:7:
+    Module file:$Source01/t_func_named.v start:6:1 end:6:7:
       vpiParent: Design name:unnamed
       vpiDefNetType: none (12)
   vpiTypespec (3 items):
@@ -293,45 +302,48 @@ Design name:unnamed:
         vpiFullName: f
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_func_named
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_func_named
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_func_named/surelog.uhdm
+      test-name: Verilator/t_func_named
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_func_named
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_func_named/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_func_named/mounts.json
 
 
-{'result': {'coverage': 31.46,
+{'result': {'coverage': 38.4,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_func_named/lib/work/t_func_named.v'): {'post_len': 1305,
-                                                                                                                                   'pre_len': 1904}},
-            'post_len': 1305,
-            'pre_len': 1904,
+            'files': {'$Output/lib/work/t_func_named.v': {'post_len': 961,
+                                                          'pre_len': 1560}},
+            'post_len': 961,
+            'pre_len': 1560,
             'test_name': 'Verilator/t_func_named'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/t_func_named.v |     1904 |      1305 |
-+=========================+==========+===========+
-|                         |     1904 |      1305 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/t_func_named.v |     1560 |       961 |
++=================================+==========+===========+
+|                                 |     1560 |       961 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 31.46
+[COVERAGE] : 38.4
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_func_named/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_func_named/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_func_named/design.hldb ${HLC_DIR}/regression/Verilator/t_func_named/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

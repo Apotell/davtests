@@ -31,16 +31,16 @@
 // Key assertion: the compiler accepted "logic" as a plain identifier name
 // (not a type keyword), confirming that `begin_keywords switched the ruleset.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesBeginKeywords : public Test {
  public:
@@ -62,8 +62,8 @@ class CompilerDirectivesBeginKeywords : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@b_kw", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@b_kw", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ TEST_F(CompilerDirectivesBeginKeywords, ModuleExists) {
 // it is accepted as an ordinary identifier and becomes a net name.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesBeginKeywords, OneNetExists) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   EXPECT_EQ(m->getNets()->size(), 1u);
@@ -89,7 +89,7 @@ TEST_F(CompilerDirectivesBeginKeywords, NetIsNamedLogic) {
   // "logic" would be a type keyword under SystemVerilog rules, but the
   // `begin_keywords "1364-2001" directive reverts to Verilog-2001 keywords
   // where "logic" has no special meaning.
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
   ASSERT_EQ(m->getNets()->size(), 1u);
@@ -100,7 +100,7 @@ TEST_F(CompilerDirectivesBeginKeywords, NetIsNamedLogic) {
 // No processes — the module body contains only the one net declaration
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesBeginKeywords, NoProcesses) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }

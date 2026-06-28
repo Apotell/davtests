@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db scopes.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/simple/scopes
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/scopes.v".
+[INF:PA0201] Parsing source file "$Source01/scopes.v".
 AST_DEBUG_BEGIN
 Count: 734
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/scopes.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/scopes.v> u<733> t<Top_level_rule> c<1> l<1:1> el<64:1>
+FILE: f<13>:$Source01/scopes.v
+n<$Source01/scopes.v> u<733> t<Top_level_rule> c<1> l<1:1> el<64:1>
   n<> u<1> t<Null_rule> p<733> s<732> l<1:1>
   n<> u<732> t<Source_text> p<733> c<731> l<1:1> el<63:10>
     n<> u<731> t<Description> p<732> c<730> l<1:1> el<63:10>
@@ -737,19 +746,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/scopes.v> u<733> t<Top_level_rule> 
                               n<> u<717> t<END> p<718> l<62:2> el<62:5>
         n<> u<729> t<ENDMODULE> p<730> l<63:1> el<63:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/scopes.v:1:1: Compile module "work@scopes_test_01".
+[INF:CP0303] $Source01/scopes.v:1:1: Compile module "work@scopes_test_01".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:scopes.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/scopes.v:
+  vpiSourceFile (1 items):
+    SourceFile name:scopes.v file:$Source01/scopes.v:
       vpiParent: Design name:unnamed
       vpiName: scopes.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/lib/work/scopes.v"
+      vpiPreprocFile: "$Output/lib/work/scopes.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@scopes_test_01 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/scopes.v start:1:1 end:63:10:
+    Module name:work@scopes_test_01 file:$Source01/scopes.v start:1:1 end:63:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@scopes_test_01 start:1:8 end:1:22:
         vpiParent: Module name:work@scopes_test_01
@@ -822,6 +831,11 @@ Design name:unnamed:
           vpiParent: Module name:work@scopes_test_01
       vpiDefName: work@scopes_test_01
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@scopes_test_01
+        vpiName: work
+        vpiFullName: work@scopes_test_01.work
+      vpiCell: scopes_test_01
       vpiTaskFunc (4 items):
         Function name:func_01 start:2:2 end:13:13:
           vpiParent: Module name:work@scopes_test_01
@@ -1911,37 +1925,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/scopes
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/surelog.uhdm
+      test-name: YosysTestSuite/simple/scopes
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/simple/scopes
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/simple/scopes/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/simple/scopes/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/lib/work/scopes.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 702}},
+            'files': {'$Output/lib/work/scopes.v': {'post_len': 0,
+                                                    'pre_len': 702}},
             'post_len': 0,
             'pre_len': 702,
             'test_name': 'YosysTestSuite/simple/scopes'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/scopes.v |      702 |         0 |
-+===================+==========+===========+
-|                   |      702 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/scopes.v |      702 |         0 |
++===========================+==========+===========+
+|                           |      702 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1949,13 +1966,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/surelog.uh
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/simple/scopes/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/scopes/design.hldb ${HLC_DIR}/regression/YosysTestSuite/simple/scopes/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             276     276       0         0
+Others                             277     277       0         0
 ----------------------------------------------------------------
-                                   276     276       0         0
+                                   277     277       0         0
 ===================== END REDUCTION RESULT =====================

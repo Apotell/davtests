@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/BitsLogic/BitsLogic/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/BitsLogic -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/BitsLogic/BitsLogic
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 177
 LIB: work
-FILE: ${SURELOG_DIR}/tests/BitsLogic/dut.sv
-n<${SURELOG_DIR}/tests/BitsLogic/dut.sv> u<176> t<Top_level_rule> c<1> l<1:1> el<29:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<176> t<Top_level_rule> c<1> l<1:1> el<29:1>
   n<> u<1> t<Null_rule> p<176> s<174> l<1:1>
   n<> u<174> t<Source_text> p<176> c<23> s<175> l<1:1> el<28:10>
     n<> u<23> t<Description> p<174> c<22> s<30> l<1:1> el<8:11>
@@ -180,21 +189,21 @@ n<${SURELOG_DIR}/tests/BitsLogic/dut.sv> u<176> t<Top_level_rule> c<1> l<1:1> el
         n<> u<171> t<ENDMODULE> p<172> l<28:1> el<28:10>
   n<// top> u<175> t<LINE_COMMENT> p<176> l<28:11> el<28:17>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/BitsLogic/dut.sv:1:1: Compile package "work@SchedulerTypes".
-[INF:CP0303] ${SURELOG_DIR}/tests/BitsLogic/dut.sv:12:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitsLogic/dut.sv:1:1: No timescale set for "work@SchedulerTypes".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitsLogic/dut.sv:12:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@SchedulerTypes".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@SchedulerTypes".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/BitsLogic/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/BitsLogic/BitsLogic/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@SchedulerTypes file:${SURELOG_DIR}/tests/BitsLogic/dut.sv start:1:1 end:8:11:
+    Package name:work@SchedulerTypes file:$Source01/dut.sv start:1:1 end:8:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@SchedulerTypes start:1:9 end:1:23:
         vpiParent: Package name:work@SchedulerTypes
@@ -225,8 +234,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@SchedulerTypes
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@SchedulerTypes
+        vpiName: work
+        vpiFullName: work@SchedulerTypes::work
+      vpiCell: SchedulerTypes
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/BitsLogic/dut.sv start:12:1 end:28:10:
+    Module name:work@top file:$Source01/dut.sv start:12:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:12:8 end:12:11:
         vpiParent: Module name:work@top
@@ -260,7 +274,7 @@ Design name:unnamed:
                 vpiName: ReplayQueueEntry
                 vpiFullName: work@top.ReplayQueueEntry
                 vpiActual: TypedefTypespec name:ReplayQueueEntry
-      vpiTypespec (9 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:work@top
           vpiRange (1 items):
@@ -287,11 +301,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:IntIssueQueueEntry start:17:9 end:17:27:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:IntIssueQueueEntry:
-            vpiParent: UnsupportedTypespec name:IntIssueQueueEntry
-            vpiName: IntIssueQueueEntry
         ArrayTypespec:
           vpiParent: Module name:work@top
           vpiArrayType: static (1)
@@ -322,7 +331,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: IntIssueQueueEntry
             vpiFullName: work@top.IntIssueQueueEntry
-            vpiActual: UnsupportedTypespec name:IntIssueQueueEntry
+            vpiActual: TypedefTypespec name:IntIssueQueueEntry
         LogicTypespec:
           vpiParent: Module name:work@top
           vpiRange (1 items):
@@ -456,6 +465,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:b start:26:15 end:26:16:
           vpiParent: Module name:work@top
@@ -481,37 +495,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: BitsLogic/BitsLogic
- test-dirpath: ${SURELOG_DIR}/regression/BitsLogic/BitsLogic
-uhdm-filepath: ${SURELOG_DIR}/regression/BitsLogic/BitsLogic/surelog.uhdm
+      test-name: BitsLogic/BitsLogic
+   test-dirpath: ${HLC_DIR}/regression/BitsLogic/BitsLogic
+  hldb-filepath: ${HLC_DIR}/regression/BitsLogic/BitsLogic/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/BitsLogic/BitsLogic/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/BitsLogic/BitsLogic/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 332}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 332}},
             'post_len': 0,
             'pre_len': 332,
             'test_name': 'BitsLogic/BitsLogic'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      332 |         0 |
-+=================+==========+===========+
-|                 |      332 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      332 |         0 |
++=========================+==========+===========+
+|                         |      332 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -519,7 +536,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/BitsLogic/BitsLogic/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/BitsLogic/BitsLogic/surelog.uhdm ${SURELOG_DIR}/regression/BitsLogic/BitsLogic/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/BitsLogic/BitsLogic/design.hldb ${HLC_DIR}/regression/BitsLogic/BitsLogic/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

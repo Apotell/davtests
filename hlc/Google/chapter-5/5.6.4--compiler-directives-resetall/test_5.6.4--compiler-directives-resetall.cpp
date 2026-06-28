@@ -31,15 +31,15 @@
 // Note: Surelog records defNetType as none (12) after `resetall, which is
 // Surelog's internal reset state for this property.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CompilerDirectivesResetall : public Test {
  public:
@@ -60,8 +60,8 @@ class CompilerDirectivesResetall : public Test {
   }
 };
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@ts", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
@@ -72,7 +72,7 @@ TEST_F(CompilerDirectivesResetall, ModuleExists) {
 }
 
 TEST_F(CompilerDirectivesResetall, ModuleIsEmpty) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
@@ -82,7 +82,7 @@ TEST_F(CompilerDirectivesResetall, ModuleIsEmpty) {
 // After `resetall, Surelog sets defNetType to none (12).
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesResetall, ModuleDefNetTypeIsNone) {
-  const uhdm::Module *const m = getTop(m_design);
+  const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   // vpiNone = 12; `resetall yields none as Surelog's reset state.
   EXPECT_EQ(m->getDefNetType(), 12);

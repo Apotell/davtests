@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/BitSelectSelect -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/BitSelectSelect/BitSelectSelect
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 107
 LIB: work
-FILE: ${SURELOG_DIR}/tests/BitSelectSelect/dut.sv
-n<${SURELOG_DIR}/tests/BitSelectSelect/dut.sv> u<106> t<Top_level_rule> c<1> l<2:1> el<10:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<106> t<Top_level_rule> c<1> l<2:1> el<10:1>
   n<> u<1> t<Null_rule> p<106> s<105> l<2:1> el<2:1>
   n<> u<105> t<Source_text> p<106> c<104> l<2:1> el<9:10>
     n<> u<104> t<Description> p<105> c<103> l<2:1> el<9:10>
@@ -110,20 +119,20 @@ n<${SURELOG_DIR}/tests/BitSelectSelect/dut.sv> u<106> t<Top_level_rule> c<1> l<2
                           n<> u<92> t<TICK_1> p<93> l<8:27> el<8:29>
         n<> u<102> t<ENDMODULE> p<103> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/BitSelectSelect/dut.sv:2:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/BitSelectSelect/dut.sv:2:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/BitSelectSelect/dut.sv:8:19: Illegal implicit net "id:59, name:min_v".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:2:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:8:19: Illegal implicit net "id:60, name:min_v".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/BitSelectSelect/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/BitSelectSelect/dut.sv start:2:1 end:9:10:
+    Module name:work@top file:$Source01/dut.sv start:2:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:2:8 end:2:11:
         vpiParent: Module name:work@top
@@ -251,6 +260,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (1 items):
         Net name:a start:7:28 end:7:29:
           vpiParent: Module name:work@top
@@ -277,28 +291,29 @@ Design name:unnamed:
       vpiContAssign (1 items):
         ContAssign start:8:11 end:8:29:
           vpiParent: Module name:work@top
-          vpiLhs HierPath start:8:11 end:8:24:
+          vpiLhs HierPath name:a[0][0].min_v start:8:11 end:8:24:
             vpiParent: ContAssign
-            vpiFullName: work@top
-            vpiActual (2 items):
+            vpiName: a[0][0].min_v
+            vpiFullName: work@top.a[0][0].min_v
+            vpiPathElem (2 items):
               BitSelect name:a[0][0] start:8:11 end:8:17:
-                vpiParent: HierPath
+                vpiParent: HierPath name:a[0][0].min_v
                 vpiName: a[0][0]
-                vpiFullName: work@top.a[0][0]
+                vpiFullName: work@top.a[0][0].min_v.a[0][0]
                 vpiPrefix BitSelect name:a[0] start:8:11 end:8:14:
                   vpiParent: BitSelect name:a[0][0]
                   vpiName: a[0]
-                  vpiFullName: work@top.a[0][0].a[0]
+                  vpiFullName: work@top.a[0][0].min_v.a[0][0].a[0]
                   vpiPrefix RefObj name:a start:8:11 end:8:12:
                     vpiParent: BitSelect name:a[0]
                     vpiName: a
-                    vpiFullName: work@top.a[0][0].a
+                    vpiFullName: work@top.a[0][0].min_v.a[0][0].a
                     vpiActual: Net name:a
                   vpiIndex Constant start:8:13 end:8:14:
                     vpiParent: BitSelect name:a[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top.a[0][0].a[0]
+                      vpiFullName: work@top.a[0][0].min_v.a[0][0].a[0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -308,14 +323,14 @@ Design name:unnamed:
                   vpiParent: BitSelect name:a[0][0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@top.a[0][0]
+                    vpiFullName: work@top.a[0][0].min_v.a[0][0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
               RefObj name:min_v start:8:19 end:8:24:
-                vpiParent: HierPath
+                vpiParent: HierPath name:a[0][0].min_v
                 vpiName: min_v
                 vpiFullName: work@top.min_v
           vpiRhs Constant start:8:27 end:8:29:
@@ -327,7 +342,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'1"
-            vpiValue: 1
+            vpiValue: "1"
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -339,37 +354,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: BitSelectSelect/BitSelectSelect
- test-dirpath: ${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect
-uhdm-filepath: ${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/surelog.uhdm
+      test-name: BitSelectSelect/BitSelectSelect
+   test-dirpath: ${HLC_DIR}/regression/BitSelectSelect/BitSelectSelect
+  hldb-filepath: ${HLC_DIR}/regression/BitSelectSelect/BitSelectSelect/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/BitSelectSelect/BitSelectSelect/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                    'pre_len': 142}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 142}},
             'post_len': 0,
             'pre_len': 142,
             'test_name': 'BitSelectSelect/BitSelectSelect'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      142 |         0 |
-+=================+==========+===========+
-|                 |      142 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      142 |         0 |
++=========================+==========+===========+
+|                         |      142 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -377,13 +395,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/surelog.uhdm ${SURELOG_DIR}/regression/BitSelectSelect/BitSelectSelect/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/BitSelectSelect/BitSelectSelect/design.hldb ${HLC_DIR}/regression/BitSelectSelect/BitSelectSelect/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

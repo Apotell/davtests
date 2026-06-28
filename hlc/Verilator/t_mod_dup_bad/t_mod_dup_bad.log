@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_mod_dup_bad.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_mod_dup_bad
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_mod_dup_bad.v".
+[INF:PA0201] Parsing source file "$Source01/t_mod_dup_bad.v".
 AST_DEBUG_BEGIN
 Count: 50
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v
-n<${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v> u<49> t<Top_level_rule> c<1> l<6:1> el<18:1>
+FILE: f<13>:$Source01/t_mod_dup_bad.v
+n<$Source01/t_mod_dup_bad.v> u<49> t<Top_level_rule> c<1> l<6:1> el<18:1>
   n<> u<1> t<Null_rule> p<49> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<49> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<49> s<4> l<2:1> el<2:3>
@@ -53,23 +62,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v> u<49> t<Top_level_rule> c<1> l
           n<> u<43> t<Port_list> p<44> l<16:9> el<16:11>
         n<> u<45> t<ENDMODULE> p<46> l<17:1> el<17:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v:6:1: Compile module "work@a".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v:9:1: Compile module "work@test".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v:13:1: Compile module "work@a".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v:16:1: Compile module "work@b".
+[INF:CP0303] $Source01/t_mod_dup_bad.v:6:1: Compile module "work@a".
+[INF:CP0303] $Source01/t_mod_dup_bad.v:9:1: Compile module "work@test".
+[INF:CP0303] $Source01/t_mod_dup_bad.v:13:1: Compile module "work@a".
+[INF:CP0303] $Source01/t_mod_dup_bad.v:16:1: Compile module "work@b".
 [WRN:CP0334] Colliding compilation unit name: "work@a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_mod_dup_bad.v file:${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_mod_dup_bad.v file:$Source01/t_mod_dup_bad.v:
       vpiParent: Design name:unnamed
       vpiName: t_mod_dup_bad.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/lib/work/t_mod_dup_bad.v"
+      vpiPreprocFile: "$Output/lib/work/t_mod_dup_bad.v"
       vpiDefNetType: none (12)
   vpiAllModules (4 items):
-    Module name:work@a file:${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v start:6:1 end:7:10:
+    Module name:work@a file:$Source01/t_mod_dup_bad.v start:6:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@a start:6:8 end:6:9:
         vpiParent: Module name:work@a
@@ -77,7 +86,12 @@ Design name:unnamed:
       vpiFullName: work@a
       vpiDefName: work@a
       vpiDefNetType: none (12)
-    Module name:work@test file:${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v start:9:1 end:11:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@a
+        vpiName: work
+        vpiFullName: work@a.work
+      vpiCell: a
+    Module name:work@test file:$Source01/t_mod_dup_bad.v start:9:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:9:8 end:9:12:
         vpiParent: Module name:work@test
@@ -91,6 +105,11 @@ Design name:unnamed:
             vpiName: work@a
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiRefInstance (1 items):
         RefInstance name:a start:10:6 end:10:7:
           vpiParent: Module name:work@test
@@ -100,7 +119,7 @@ Design name:unnamed:
             vpiName: work@a
             vpiFullName: work@test.a.work@a
             vpiActual: ModuleTypespec name:work@a
-    Module name:work@a file:${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v start:13:1 end:14:10:
+    Module name:work@a file:$Source01/t_mod_dup_bad.v start:13:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@a start:13:8 end:13:9:
         vpiParent: Module name:work@a
@@ -108,7 +127,12 @@ Design name:unnamed:
       vpiFullName: work@a
       vpiDefName: work@a
       vpiDefNetType: none (12)
-    Module name:work@b file:${SURELOG_DIR}/tests/Verilator/t_mod_dup_bad.v start:16:1 end:17:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@a
+        vpiName: work
+        vpiFullName: work@a.work
+      vpiCell: a
+    Module name:work@b file:$Source01/t_mod_dup_bad.v start:16:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@b start:16:8 end:16:9:
         vpiParent: Module name:work@b
@@ -116,6 +140,11 @@ Design name:unnamed:
       vpiFullName: work@b
       vpiDefName: work@b
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@b
+        vpiName: work
+        vpiFullName: work@b.work
+      vpiCell: b
   vpiTypespec (4 items):
     ModuleTypespec name:work@a:
       vpiParent: Design name:unnamed
@@ -142,37 +171,40 @@ Design name:unnamed:
         vpiName: work@b
       vpiModule: Module name:work@b
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_mod_dup_bad
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/surelog.uhdm
+      test-name: Verilator/t_mod_dup_bad
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_mod_dup_bad
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_mod_dup_bad/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_mod_dup_bad/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/lib/work/t_mod_dup_bad.v'): {'post_len': 0,
-                                                                                                                                     'pre_len': 89}},
+            'files': {'$Output/lib/work/t_mod_dup_bad.v': {'post_len': 0,
+                                                           'pre_len': 89}},
             'post_len': 0,
             'pre_len': 89,
             'test_name': 'Verilator/t_mod_dup_bad'}}
 
-+--------------------------+----------+-----------+
-| INPUT                    |   PRELEN |   POSTLEN |
-+==========================+==========+===========+
-| lib/work/t_mod_dup_bad.v |       89 |         0 |
-+==========================+==========+===========+
-|                          |       89 |         0 |
-+--------------------------+----------+-----------+
++----------------------------------+----------+-----------+
+| INPUT                            |   PRELEN |   POSTLEN |
++==================================+==========+===========+
+| $Output/lib/work/t_mod_dup_bad.v |       89 |         0 |
++==================================+==========+===========+
+|                                  |       89 |         0 |
++----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -180,13 +212,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_mod_dup_bad/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_dup_bad/design.hldb ${HLC_DIR}/regression/Verilator/t_mod_dup_bad/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    26      26       0         0
 ===================== END REDUCTION RESULT =====================

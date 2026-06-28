@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/InterfHierPath -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/InterfHierPath/InterfHierPath
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 87
 LIB: work
-FILE: ${SURELOG_DIR}/tests/InterfHierPath/dut.sv
-n<${SURELOG_DIR}/tests/InterfHierPath/dut.sv> u<86> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<86> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<86> s<84> l<1:1>
   n<> u<84> t<Source_text> p<86> c<31> s<85> l<1:1> el<16:10>
     n<> u<31> t<Description> p<84> c<30> s<83> l<1:1> el<5:13>
@@ -90,21 +99,21 @@ n<${SURELOG_DIR}/tests/InterfHierPath/dut.sv> u<86> t<Top_level_rule> c<1> l<1:1
         n<> u<81> t<ENDMODULE> p<82> l<16:1> el<16:10>
   n<// or_ex> u<85> t<LINE_COMMENT> p<86> l<16:11> el<16:19>
 AST_DEBUG_END
-[INF:CP0304] ${SURELOG_DIR}/tests/InterfHierPath/dut.sv:1:1: Compile interface "work@logic_gate_if".
-[INF:CP0303] ${SURELOG_DIR}/tests/InterfHierPath/dut.sv:8:1: Compile module "work@or_ex".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfHierPath/dut.sv:8:1: No timescale set for "work@or_ex".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfHierPath/dut.sv:1:1: No timescale set for "work@logic_gate_if".
-====== UHDM =======
+[INF:CP0304] $Source01/dut.sv:1:1: Compile interface "work@logic_gate_if".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@or_ex".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@or_ex".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@logic_gate_if".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/InterfHierPath/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
-    Interface name:work@logic_gate_if file:${SURELOG_DIR}/tests/InterfHierPath/dut.sv start:1:1 end:5:13:
+    Interface name:work@logic_gate_if file:$Source01/dut.sv start:1:1 end:5:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@logic_gate_if start:1:11 end:1:24:
         vpiParent: Interface name:work@logic_gate_if
@@ -147,8 +156,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@logic_gate_if
+        vpiName: work
+        vpiFullName: work@logic_gate_if.work
+      vpiCell: logic_gate_if
   vpiAllModules (1 items):
-    Module name:work@or_ex file:${SURELOG_DIR}/tests/InterfHierPath/dut.sv start:8:1 end:16:10:
+    Module name:work@or_ex file:$Source01/dut.sv start:8:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@or_ex start:8:8 end:8:13:
         vpiParent: Module name:work@or_ex
@@ -188,6 +202,11 @@ Design name:unnamed:
             vpiName: work@logic_gate_if
       vpiDefName: work@or_ex
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@or_ex
+        vpiName: work
+        vpiFullName: work@or_ex.work
+      vpiCell: or_ex
       vpiNet (1 items):
         Net name:a start:9:22 end:9:23:
           vpiParent: Module name:work@or_ex
@@ -218,7 +237,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: lg.a
             vpiFullName: work@or_ex.lg.a
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:lg start:14:10 end:14:12:
                 vpiParent: HierPath name:lg.a
                 vpiName: lg
@@ -260,37 +279,40 @@ Design name:unnamed:
         vpiName: work@or_ex
       vpiModule: Module name:work@or_ex
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: InterfHierPath/InterfHierPath
- test-dirpath: ${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath
-uhdm-filepath: ${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/surelog.uhdm
+      test-name: InterfHierPath/InterfHierPath
+   test-dirpath: ${HLC_DIR}/regression/InterfHierPath/InterfHierPath
+  hldb-filepath: ${HLC_DIR}/regression/InterfHierPath/InterfHierPath/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/InterfHierPath/InterfHierPath/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 127}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 127}},
             'post_len': 0,
             'pre_len': 127,
             'test_name': 'InterfHierPath/InterfHierPath'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      127 |         0 |
-+=================+==========+===========+
-|                 |      127 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      127 |         0 |
++=========================+==========+===========+
+|                         |      127 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -298,13 +320,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/surelog.uhdm ${SURELOG_DIR}/regression/InterfHierPath/InterfHierPath/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/InterfHierPath/InterfHierPath/design.hldb ${HLC_DIR}/regression/InterfHierPath/InterfHierPath/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/UtdSV/simple_task.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/UtdSV -nobuiltin -timescale=1ns/1ns -d ast -d db simple_task.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UtdSV/simple_task.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple_task.v".
+[INF:PA0201] Parsing source file "$Source01/simple_task.v".
 AST_DEBUG_BEGIN
 Count: 94
 LIB: work
-FILE: ${SURELOG_DIR}/tests/UtdSV/simple_task.v
-n<${SURELOG_DIR}/tests/UtdSV/simple_task.v> u<93> t<Top_level_rule> c<1> l<1:1> el<12:1>
+FILE: f<13>:$Source01/simple_task.v
+n<$Source01/simple_task.v> u<93> t<Top_level_rule> c<1> l<1:1> el<12:1>
   n<> u<1> t<Null_rule> p<93> s<92> l<1:1>
   n<> u<92> t<Source_text> p<93> c<91> l<1:1> el<11:10>
     n<> u<91> t<Description> p<92> c<90> l<1:1> el<11:10>
@@ -97,19 +106,19 @@ n<${SURELOG_DIR}/tests/UtdSV/simple_task.v> u<93> t<Top_level_rule> c<1> l<1:1> 
                         n<> u<80> t<ENDTASK> p<81> l<9:1> el<9:8>
         n<> u<89> t<ENDMODULE> p<90> l<11:1> el<11:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/UtdSV/simple_task.v:1:1: Compile module "work@simple_task".
+[INF:CP0303] $Source01/simple_task.v:1:1: Compile module "work@simple_task".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:simple_task.v file:${SURELOG_DIR}/tests/UtdSV/simple_task.v:
+  vpiSourceFile (1 items):
+    SourceFile name:simple_task.v file:$Source01/simple_task.v:
       vpiParent: Design name:unnamed
       vpiName: simple_task.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/UtdSV/simple_task.v/lib/work/simple_task.v"
+      vpiPreprocFile: "$Output/lib/work/simple_task.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@simple_task file:${SURELOG_DIR}/tests/UtdSV/simple_task.v start:1:1 end:11:10:
+    Module name:work@simple_task file:$Source01/simple_task.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@simple_task start:1:8 end:1:19:
         vpiParent: Module name:work@simple_task
@@ -117,6 +126,11 @@ Design name:unnamed:
       vpiFullName: work@simple_task
       vpiDefName: work@simple_task
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@simple_task
+        vpiName: work
+        vpiFullName: work@simple_task.work
+      vpiCell: simple_task
       vpiTaskFunc (1 items):
         Task name:convert start:3:1 end:9:8:
           vpiParent: Module name:work@simple_task
@@ -283,37 +297,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: UtdSV/simple_task.v
- test-dirpath: ${SURELOG_DIR}/regression/UtdSV/simple_task.v
-uhdm-filepath: ${SURELOG_DIR}/regression/UtdSV/simple_task.v/surelog.uhdm
+      test-name: UtdSV/simple_task.v
+   test-dirpath: ${HLC_DIR}/regression/UtdSV/simple_task.v
+  hldb-filepath: ${HLC_DIR}/regression/UtdSV/simple_task.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/UtdSV/simple_task.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/UtdSV/simple_task.v/lib/work/simple_task.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 134}},
+            'files': {'$Output/lib/work/simple_task.v': {'post_len': 0,
+                                                         'pre_len': 134}},
             'post_len': 0,
             'pre_len': 134,
             'test_name': 'UtdSV/simple_task.v'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/simple_task.v |      134 |         0 |
-+========================+==========+===========+
-|                        |      134 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/simple_task.v |      134 |         0 |
++================================+==========+===========+
+|                                |      134 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -321,7 +338,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/UtdSV/simple_task.v/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/UtdSV/simple_task.v/surelog.uhdm ${SURELOG_DIR}/regression/UtdSV/simple_task.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/UtdSV/simple_task.v/design.hldb ${HLC_DIR}/regression/UtdSV/simple_task.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -330,7 +347,7 @@ Constant                             7       6       1         2
 Operation                            3       2       0         1
 RefTypespec                         11      10       1         2
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    43      40       2         5
+                                    44      41       2         5
 ===================== END REDUCTION RESULT =====================

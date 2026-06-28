@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LocalScopeAssign -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 66
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv
-n<${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<9:1>
   n<> u<1> t<Null_rule> p<65> s<64> l<1:1>
   n<> u<64> t<Source_text> p<65> c<5> l<1:1> el<8:10>
     n<> u<5> t<Description> p<64> c<4> s<63> l<1:1> el<1:22>
@@ -69,20 +78,20 @@ n<${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv> u<65> t<Top_level_rule> c<1> l<1
                             n<v2> u<50> t<SIMPLE_IDENTIFIER> p<51> l<7:37> el<7:39>
         n<> u<61> t<ENDMODULE> p<62> l<8:1> el<8:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv:3:1: Compile module "work@module_scope_Example".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv:3:1: No timescale set for "work@module_scope_Example".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv:7:37: Illegal implicit net "id:28, name:v2".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@module_scope_Example".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@module_scope_Example".
+[ERR:EL0535] $Source01/dut.sv:7:37: Illegal implicit net "id:29, name:v2".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@module_scope_Example file:${SURELOG_DIR}/tests/LocalScopeAssign/dut.sv start:3:1 end:8:10:
+    Module name:work@module_scope_Example file:$Source01/dut.sv start:3:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@module_scope_Example start:3:8 end:3:28:
         vpiParent: Module name:work@module_scope_Example
@@ -117,6 +126,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@module_scope_Example
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@module_scope_Example
+        vpiName: work
+        vpiFullName: work@module_scope_Example.work
+      vpiCell: module_scope_Example
       vpiNet (2 items):
         Net name:o1 start:4:23 end:4:25:
           vpiParent: Module name:work@module_scope_Example
@@ -170,7 +184,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: module_scope_Example.o2
             vpiFullName: work@module_scope_Example.module_scope_Example.o2
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:module_scope_Example start:7:11 end:7:31:
                 vpiParent: HierPath name:module_scope_Example.o2
                 vpiName: module_scope_Example
@@ -196,37 +210,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LocalScopeAssign/LocalScopeAssign
- test-dirpath: ${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign
-uhdm-filepath: ${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/surelog.uhdm
+      test-name: LocalScopeAssign/LocalScopeAssign
+   test-dirpath: ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign
+  hldb-filepath: ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign/mounts.json
 
 
 {'result': {'coverage': 83.59,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/lib/work/dut.sv'): {'post_len': 21,
-                                                                                                                                      'pre_len': 128}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 21,
+                                                  'pre_len': 128}},
             'post_len': 21,
             'pre_len': 128,
             'test_name': 'LocalScopeAssign/LocalScopeAssign'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      128 |        21 |
-+=================+==========+===========+
-|                 |      128 |        21 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      128 |        21 |
++=========================+==========+===========+
+|                         |      128 |        21 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 83.59
@@ -234,13 +251,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/surel
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/surelog.uhdm ${SURELOG_DIR}/regression/LocalScopeAssign/LocalScopeAssign/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign/design.hldb ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    29      29       0         0
 ===================== END REDUCTION RESULT =====================

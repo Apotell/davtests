@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db always02.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/simple/always02
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/always02.v".
+[INF:PA0201] Parsing source file "$Source01/always02.v".
 AST_DEBUG_BEGIN
 Count: 142
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/always02.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/always02.v> u<141> t<Top_level_rule> c<1> l<1:1> el<14:1>
+FILE: f<13>:$Source01/always02.v
+n<$Source01/always02.v> u<141> t<Top_level_rule> c<1> l<1:1> el<14:1>
   n<> u<1> t<Null_rule> p<141> s<140> l<1:1>
   n<> u<140> t<Source_text> p<141> c<139> l<1:1> el<13:10>
     n<> u<139> t<Description> p<140> c<138> l<1:1> el<13:10>
@@ -145,19 +154,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/always02.v> u<141> t<Top_level_rule
                                 n<> u<124> t<END> p<125> l<11:1> el<11:4>
         n<> u<137> t<ENDMODULE> p<138> l<13:1> el<13:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/always02.v:1:1: Compile module "work@uut_always02".
+[INF:CP0303] $Source01/always02.v:1:1: Compile module "work@uut_always02".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:always02.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/always02.v:
+  vpiSourceFile (1 items):
+    SourceFile name:always02.v file:$Source01/always02.v:
       vpiParent: Design name:unnamed
       vpiName: always02.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/lib/work/always02.v"
+      vpiPreprocFile: "$Output/lib/work/always02.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@uut_always02 file:${SURELOG_DIR}/tests/YosysTestSuite/simple/always02.v start:1:1 end:13:10:
+    Module name:work@uut_always02 file:$Source01/always02.v start:1:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@uut_always02 start:1:8 end:1:20:
         vpiParent: Module name:work@uut_always02
@@ -220,6 +229,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@uut_always02
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@uut_always02
+        vpiName: work
+        vpiFullName: work@uut_always02.work
+      vpiCell: uut_always02
       vpiNet (3 items):
         Net name:clock start:3:7 end:3:12:
           vpiParent: Module name:work@uut_always02
@@ -365,37 +379,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/always02
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/always02
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/surelog.uhdm
+      test-name: YosysTestSuite/simple/always02
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/simple/always02
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/simple/always02/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/simple/always02/mounts.json
 
 
 {'result': {'coverage': 97.16,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/lib/work/always02.v'): {'post_len': 5,
-                                                                                                                                       'pre_len': 176}},
+            'files': {'$Output/lib/work/always02.v': {'post_len': 5,
+                                                      'pre_len': 176}},
             'post_len': 5,
             'pre_len': 176,
             'test_name': 'YosysTestSuite/simple/always02'}}
 
-+---------------------+----------+-----------+
-| INPUT               |   PRELEN |   POSTLEN |
-+=====================+==========+===========+
-| lib/work/always02.v |      176 |         5 |
-+=====================+==========+===========+
-|                     |      176 |         5 |
-+---------------------+----------+-----------+
++-----------------------------+----------+-----------+
+| INPUT                       |   PRELEN |   POSTLEN |
++=============================+==========+===========+
+| $Output/lib/work/always02.v |      176 |         5 |
++=============================+==========+===========+
+|                             |      176 |         5 |
++-----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.16
@@ -403,13 +420,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/surelog.
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/simple/always02/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/always02/design.hldb ${HLC_DIR}/regression/YosysTestSuite/simple/always02/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

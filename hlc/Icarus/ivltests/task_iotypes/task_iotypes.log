@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db task_iotypes.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/task_iotypes
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/task_iotypes.v".
+[INF:PA0201] Parsing source file "$Source01/task_iotypes.v".
 AST_DEBUG_BEGIN
 Count: 178
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/task_iotypes.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/task_iotypes.v> u<177> t<Top_level_rule> c<1> l<29:1> el<51:1>
+FILE: f<13>:$Source01/task_iotypes.v
+n<$Source01/task_iotypes.v> u<177> t<Top_level_rule> c<1> l<29:1> el<51:1>
   n<> u<1> t<Null_rule> p<177> s<2> l<29:1> el<29:1>
   n</*\n * Copyright (c) 2001 Stephen Williams (steve@icarus.com)\n *\n *    This source code is free software; you can redistribute it\n *    and/or modify it in source code form under the terms of the GNU\n *    General Public License as published by the Free Software\n *    Foundation; either version 2 of the License, or (at your option)\n *    any later version.\n *\n *    This program is distributed in the hope that it will be useful,\n *    but WITHOUT ANY WARRANTY; without even the implied warranty of\n *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n *    GNU General Public License for more details.\n *\n *    You should have received a copy of the GNU General Public License\n *    along with this program; if not, write to the Free Software\n *    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA\n */> u<2> t<BLOCK_COMMENT> p<177> s<3> l<29:1> el<50:10>
   n</*\n * This program, based on PR#150, need only compile. It is testing\n * the syntax of giving types to task ports. I'm careful to *not*\n * invoke this task because there are potential optimization gotchas\n * that have been known to trip up the compiler. Specifically, ports\n * that are unused in a task that is not called can cause crashes in\n * some Icarus Verilog versions\n */> u<3> t<BLOCK_COMMENT> p<177> s<176> l<29:1> el<50:10>
@@ -181,19 +190,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/task_iotypes.v> u<177> t<Top_level_rule> 
                         n<> u<164> t<END> p<165> l<48:4> el<48:7>
         n<> u<173> t<ENDMODULE> p<174> l<50:1> el<50:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/task_iotypes.v:29:1: Compile module "work@gen_errors".
+[INF:CP0303] $Source01/task_iotypes.v:29:1: Compile module "work@gen_errors".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:task_iotypes.v file:${SURELOG_DIR}/tests/Icarus/ivltests/task_iotypes.v:
+  vpiSourceFile (1 items):
+    SourceFile name:task_iotypes.v file:$Source01/task_iotypes.v:
       vpiParent: Design name:unnamed
       vpiName: task_iotypes.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/lib/work/task_iotypes.v"
+      vpiPreprocFile: "$Output/lib/work/task_iotypes.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@gen_errors file:${SURELOG_DIR}/tests/Icarus/ivltests/task_iotypes.v start:29:1 end:50:10:
+    Module name:work@gen_errors file:$Source01/task_iotypes.v start:29:1 end:50:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@gen_errors start:29:8 end:29:18:
         vpiParent: Module name:work@gen_errors
@@ -201,6 +210,11 @@ Design name:unnamed:
       vpiFullName: work@gen_errors
       vpiDefName: work@gen_errors
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@gen_errors
+        vpiName: work
+        vpiFullName: work@gen_errors.work
+      vpiCell: gen_errors
       vpiTaskFunc (1 items):
         Task name:A start:30:4 end:44:11:
           vpiParent: Module name:work@gen_errors
@@ -493,37 +507,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/task_iotypes
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/surelog.uhdm
+      test-name: Icarus/ivltests/task_iotypes
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/task_iotypes
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/task_iotypes/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/task_iotypes/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/lib/work/task_iotypes.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 209}},
+            'files': {'$Output/lib/work/task_iotypes.v': {'post_len': 0,
+                                                          'pre_len': 209}},
             'post_len': 0,
             'pre_len': 209,
             'test_name': 'Icarus/ivltests/task_iotypes'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| lib/work/task_iotypes.v |      209 |         0 |
-+=========================+==========+===========+
-|                         |      209 |         0 |
-+-------------------------+----------+-----------+
++---------------------------------+----------+-----------+
+| INPUT                           |   PRELEN |   POSTLEN |
++=================================+==========+===========+
+| $Output/lib/work/task_iotypes.v |      209 |         0 |
++=================================+==========+===========+
+|                                 |      209 |         0 |
++---------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -531,13 +548,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/surelog.uh
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/task_iotypes/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task_iotypes/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/task_iotypes/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              77      77       0         0
+Others                              78      78       0         0
 ----------------------------------------------------------------
-                                    77      77       0         0
+                                    78      78       0         0
 ===================== END REDUCTION RESULT =====================

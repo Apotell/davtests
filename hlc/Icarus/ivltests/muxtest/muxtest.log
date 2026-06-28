@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db muxtest.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/muxtest
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/muxtest.v".
+[INF:PA0201] Parsing source file "$Source01/muxtest.v".
 AST_DEBUG_BEGIN
 Count: 959
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/muxtest.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/muxtest.v> u<958> t<Top_level_rule> c<1> l<1:1> el<93:1>
+FILE: f<13>:$Source01/muxtest.v
+n<$Source01/muxtest.v> u<958> t<Top_level_rule> c<1> l<1:1> el<93:1>
   n<> u<1> t<Null_rule> p<958> s<957> l<1:1>
   n<> u<957> t<Source_text> p<958> c<956> l<1:1> el<92:10>
     n<> u<956> t<Description> p<957> c<955> l<1:1> el<92:10>
@@ -962,19 +971,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/muxtest.v> u<958> t<Top_level_rule> c<1> 
                         n<> u<945> t<END> p<946> l<90:3> el<90:6>
         n<> u<954> t<ENDMODULE> p<955> l<92:1> el<92:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/muxtest.v:1:1: Compile module "work@test".
+[INF:CP0303] $Source01/muxtest.v:1:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:muxtest.v file:${SURELOG_DIR}/tests/Icarus/ivltests/muxtest.v:
+  vpiSourceFile (1 items):
+    SourceFile name:muxtest.v file:$Source01/muxtest.v:
       vpiParent: Design name:unnamed
       vpiName: muxtest.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/lib/work/muxtest.v"
+      vpiPreprocFile: "$Output/lib/work/muxtest.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/muxtest.v start:1:1 end:92:10:
+    Module name:work@test file:$Source01/muxtest.v start:1:1 end:92:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:1:8 end:1:12:
         vpiParent: Module name:work@test
@@ -985,6 +994,11 @@ Design name:unnamed:
           vpiParent: Module name:work@test
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (5 items):
         Net name:a start:3:6 end:3:7:
           vpiParent: Module name:work@test
@@ -2181,37 +2195,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/muxtest
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/muxtest
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/surelog.uhdm
+      test-name: Icarus/ivltests/muxtest
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/muxtest
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/muxtest/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/muxtest/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/lib/work/muxtest.v'): {'post_len': 0,
-                                                                                                                               'pre_len': 1337}},
+            'files': {'$Output/lib/work/muxtest.v': {'post_len': 0,
+                                                     'pre_len': 1337}},
             'post_len': 0,
             'pre_len': 1337,
             'test_name': 'Icarus/ivltests/muxtest'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/muxtest.v |     1337 |         0 |
-+====================+==========+===========+
-|                    |     1337 |         0 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/muxtest.v |     1337 |         0 |
++============================+==========+===========+
+|                            |     1337 |         0 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -2219,13 +2236,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/muxtest/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/muxtest/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/muxtest/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             285     285       0         0
+Others                             286     286       0         0
 ----------------------------------------------------------------
-                                   285     285       0         0
+                                   286     286       0         0
 ===================== END REDUCTION RESULT =====================

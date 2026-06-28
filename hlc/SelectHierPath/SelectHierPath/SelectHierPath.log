@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/SelectHierPath -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SelectHierPath/SelectHierPath
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 85
 LIB: work
-FILE: ${SURELOG_DIR}/tests/SelectHierPath/dut.sv
-n<${SURELOG_DIR}/tests/SelectHierPath/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<17:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<17:1>
   n<> u<1> t<Null_rule> p<84> s<83> l<1:1>
   n<> u<83> t<Source_text> p<84> c<18> l<1:1> el<16:10>
     n<> u<18> t<Description> p<83> c<17> s<35> l<1:1> el<3:16>
@@ -88,22 +97,22 @@ n<${SURELOG_DIR}/tests/SelectHierPath/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1
                               n<> u<68> t<Bit_select> p<69> l<14:40> el<14:40>
         n<> u<80> t<ENDMODULE> p<81> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/SelectHierPath/dut.sv:10:1: Compile module "work@IntegerRegisterWriteStage".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SelectHierPath/dut.sv:10:1: No timescale set for "work@IntegerRegisterWriteStage".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SelectHierPath/dut.sv:14:8: Illegal implicit net "id:34, name:o".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SelectHierPath/dut.sv:14:23: Illegal implicit net "id:41, name:brResult".
-[ERR:EL0535] ${SURELOG_DIR}/tests/SelectHierPath/dut.sv:14:32: Illegal implicit net "id:42, name:nextAddr".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@IntegerRegisterWriteStage".
+[WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@IntegerRegisterWriteStage".
+[ERR:EL0535] $Source01/dut.sv:14:8: Illegal implicit net "id:35, name:o".
+[ERR:EL0535] $Source01/dut.sv:14:23: Illegal implicit net "id:42, name:brResult".
+[ERR:EL0535] $Source01/dut.sv:14:32: Illegal implicit net "id:43, name:nextAddr".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/SelectHierPath/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@IntegerRegisterWriteStage file:${SURELOG_DIR}/tests/SelectHierPath/dut.sv start:10:1 end:16:10:
+    Module name:work@IntegerRegisterWriteStage file:$Source01/dut.sv start:10:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@IntegerRegisterWriteStage start:10:8 end:10:33:
         vpiParent: Module name:work@IntegerRegisterWriteStage
@@ -138,6 +147,11 @@ Design name:unnamed:
           vpiParent: Module name:work@IntegerRegisterWriteStage
       vpiDefName: work@IntegerRegisterWriteStage
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@IntegerRegisterWriteStage
+        vpiName: work
+        vpiFullName: work@IntegerRegisterWriteStage.work
+      vpiCell: IntegerRegisterWriteStage
       vpiNet (1 items):
         Net name:pipeReg start:12:34 end:12:41:
           vpiParent: Module name:work@IntegerRegisterWriteStage
@@ -158,7 +172,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: pipeReg[1].brResult.nextAddr
             vpiFullName: work@IntegerRegisterWriteStage.pipeReg[1].brResult.nextAddr
-            vpiActual (3 items):
+            vpiPathElem (3 items):
               BitSelect name:pipeReg[1] start:14:12 end:14:21:
                 vpiParent: HierPath name:pipeReg[1].brResult.nextAddr
                 vpiName: pipeReg[1]
@@ -238,37 +252,40 @@ Design name:unnamed:
         vpiName: work@IntegerRegisterWriteStage
       vpiModule: Module name:work@IntegerRegisterWriteStage
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SelectHierPath/SelectHierPath
- test-dirpath: ${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath
-uhdm-filepath: ${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/surelog.uhdm
+      test-name: SelectHierPath/SelectHierPath
+   test-dirpath: ${HLC_DIR}/regression/SelectHierPath/SelectHierPath
+  hldb-filepath: ${HLC_DIR}/regression/SelectHierPath/SelectHierPath/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/SelectHierPath/SelectHierPath/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                  'pre_len': 260}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 260}},
             'post_len': 0,
             'pre_len': 260,
             'test_name': 'SelectHierPath/SelectHierPath'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      260 |         0 |
-+=================+==========+===========+
-|                 |      260 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      260 |         0 |
++=========================+==========+===========+
+|                         |      260 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -276,13 +293,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/surelog.u
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/surelog.uhdm ${SURELOG_DIR}/regression/SelectHierPath/SelectHierPath/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/SelectHierPath/SelectHierPath/design.hldb ${HLC_DIR}/regression/SelectHierPath/SelectHierPath/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Sequence/sequence5/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Sequence -d db -d ast sequence5.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Sequence/sequence5
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/sequence5.sv".
+[INF:PA0201] Parsing source file "$Source01/sequence5.sv".
 AST_DEBUG_BEGIN
 Count: 164
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Sequence/sequence5.sv
-n<${SURELOG_DIR}/tests/Sequence/sequence5.sv> u<163> t<Top_level_rule> c<1> l<1:1> el<16:10>
+FILE: f<13>:$Source01/sequence5.sv
+n<$Source01/sequence5.sv> u<163> t<Top_level_rule> c<1> l<1:1> el<16:10>
   n<> u<1> t<Null_rule> p<163> s<162> l<1:1>
   n<> u<162> t<Source_text> p<163> c<161> l<1:1> el<16:10>
     n<> u<161> t<Description> p<162> c<160> l<1:1> el<16:10>
@@ -167,20 +176,20 @@ n<${SURELOG_DIR}/tests/Sequence/sequence5.sv> u<163> t<Top_level_rule> c<1> l<1:
                         n<> u<150> t<END> p<151> l<15:3> el<15:6>
         n<> u<159> t<ENDMODULE> p<160> l<16:1> el<16:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Sequence/sequence5.sv:1:1: Compile module "work@tb".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Sequence/sequence5.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Sequence/sequence5.sv:11:34: Illegal implicit net "id:42, name:seq5".
-====== UHDM =======
+[INF:CP0303] $Source01/sequence5.sv:1:1: Compile module "work@tb".
+[WRN:PA0205] $Source01/sequence5.sv:1:1: No timescale set for "work@tb".
+[ERR:EL0535] $Source01/sequence5.sv:11:34: Illegal implicit net "id:44, name:seq5".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:sequence5.sv file:${SURELOG_DIR}/tests/Sequence/sequence5.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:sequence5.sv file:$Source01/sequence5.sv:
       vpiParent: Design name:unnamed
       vpiName: sequence5.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Sequence/sequence5/lib/work/sequence5.sv"
+      vpiPreprocFile: "$Output/lib/work/sequence5.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@tb file:${SURELOG_DIR}/tests/Sequence/sequence5.sv start:1:1 end:16:10:
+    Module name:work@tb file:$Source01/sequence5.sv start:1:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
         vpiParent: Module name:work@tb
@@ -193,16 +202,43 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq5
             vpiName: seq5
           vpiFullName: work@tb.seq5
-          vpiExpr Constant start:8:6 end:8:7:
+          vpiExpr Operation start:8:5 end:8:18:
             vpiParent: SequenceDecl name:seq5
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@tb.seq5
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
+            vpiOpType: list (37)
+            vpiOperand (3 items):
+              Constant start:8:6 end:8:7:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@tb.seq5
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+              Assignment start:8:9 end:8:12:
+                vpiParent: Operation
+                vpiBlocking: true
+                vpiLhs RefObj name:x start:8:9 end:8:10:
+                  vpiParent: Assignment
+                  vpiName: x
+                  vpiFullName: work@tb.seq5.x
+                  vpiActual: Net name:x
+                vpiRhs Constant start:8:11 end:8:12:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@tb.seq5
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+              FuncCall name:f start:8:14 end:8:17:
+                vpiParent: Operation
+                vpiName Identifier name:f start:8:14 end:8:15:
+                  vpiParent: FuncCall name:f
+                  vpiName: f
       vpiConcurrentAssertions (1 items):
         Assert start:11:3 end:11:40:
           vpiParent: Module name:work@tb
@@ -226,6 +262,11 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@tb
+        vpiName: work
+        vpiFullName: work@tb.work
+      vpiCell: tb
       vpiTaskFunc (1 items):
         Function name:f start:5:3 end:5:38:
           vpiParent: Module name:work@tb
@@ -236,7 +277,7 @@ Design name:unnamed:
           vpiVisibility: public (1)
           vpiStmt Operation start:5:22 end:5:25:
             vpiParent: Function name:f
-            vpiOpType: post inc (62)
+            vpiOpType: post inc (64)
             vpiOperand (1 items):
               RefObj name:x start:5:22 end:5:23:
                 vpiParent: Operation
@@ -333,51 +374,54 @@ Design name:unnamed:
     VoidTypespec start:5:12 end:5:16:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Sequence/sequence5
- test-dirpath: ${SURELOG_DIR}/regression/Sequence/sequence5
-uhdm-filepath: ${SURELOG_DIR}/regression/Sequence/sequence5/surelog.uhdm
+      test-name: Sequence/sequence5
+   test-dirpath: ${HLC_DIR}/regression/Sequence/sequence5
+  hldb-filepath: ${HLC_DIR}/regression/Sequence/sequence5/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Sequence/sequence5/mounts.json
 
 
-{'result': {'coverage': 97.42,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Sequence/sequence5/lib/work/sequence5.sv'): {'post_len': 5,
-                                                                                                                             'pre_len': 194}},
-            'post_len': 5,
+            'files': {'$Output/lib/work/sequence5.sv': {'post_len': 0,
+                                                        'pre_len': 194}},
+            'post_len': 0,
             'pre_len': 194,
             'test_name': 'Sequence/sequence5'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/sequence5.sv |      194 |         5 |
-+=======================+==========+===========+
-|                       |      194 |         5 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/sequence5.sv |      194 |         0 |
++===============================+==========+===========+
+|                               |      194 |         0 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.42
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Sequence/sequence5/surelog.uhdm ${SURELOG_DIR}/regression/Sequence/sequence5/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Sequence/sequence5/design.hldb ${HLC_DIR}/regression/Sequence/sequence5/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    50      50       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PortComplex/PortComplex/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PortComplex -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PortComplex/PortComplex
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 229
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PortComplex/dut.sv
-n<${SURELOG_DIR}/tests/PortComplex/dut.sv> u<228> t<Top_level_rule> c<1> l<1:1> el<34:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<228> t<Top_level_rule> c<1> l<1:1> el<34:1>
   n<> u<1> t<Null_rule> p<228> s<227> l<1:1>
   n<> u<227> t<Source_text> p<228> c<29> l<1:1> el<33:10>
     n<> u<29> t<Description> p<227> c<28> s<58> l<1:1> el<7:11>
@@ -232,26 +241,26 @@ n<${SURELOG_DIR}/tests/PortComplex/dut.sv> u<228> t<Top_level_rule> c<1> l<1:1> 
               n<hart_info_i_without_range> u<220> t<SIMPLE_IDENTIFIER> p<221> l<31:44> el<31:69>
         n<> u<224> t<ENDMODULE> p<225> l<33:1> el<33:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PortComplex/dut.sv:1:1: Compile package "work@pr_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/PortComplex/dut.sv:9:1: Compile module "work@dut".
-[INF:CP0301] ${SURELOG_DIR}/tests/PortComplex/dut.sv:15:1: Compile package "work@dm".
-[INF:CP0303] ${SURELOG_DIR}/tests/PortComplex/dut.sv:26:1: Compile module "work@dut2".
-[WRN:CP0323] ${SURELOG_DIR}/tests/PortComplex/dut.sv:26:1: Multiply defined typedef "dm".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortComplex/dut.sv:1:1: No timescale set for "work@pr_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortComplex/dut.sv:15:1: No timescale set for "work@dm".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortComplex/dut.sv:9:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PortComplex/dut.sv:26:1: No timescale set for "work@dut2".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pr_pkg".
+[INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@dut".
+[INF:CP0301] $Source01/dut.sv:15:1: Compile package "work@dm".
+[INF:CP0303] $Source01/dut.sv:26:1: Compile module "work@dut2".
+[WRN:CP0323] $Source01/dut.sv:26:1: Multiply defined typedef "dm".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pr_pkg".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@dm".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:26:1: No timescale set for "work@dut2".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PortComplex/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PortComplex/PortComplex/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pr_pkg file:${SURELOG_DIR}/tests/PortComplex/dut.sv start:1:1 end:7:11:
+    Package name:work@pr_pkg file:$Source01/dut.sv start:1:1 end:7:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@pr_pkg start:1:9 end:1:15:
         vpiParent: Package name:work@pr_pkg
@@ -289,7 +298,12 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@pr_pkg
       vpiDefNetType: none (12)
-    Package name:work@dm file:${SURELOG_DIR}/tests/PortComplex/dut.sv start:15:1 end:24:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pr_pkg
+        vpiName: work
+        vpiFullName: work@pr_pkg::work
+      vpiCell: pr_pkg
+    Package name:work@dm file:$Source01/dut.sv start:15:1 end:24:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dm start:15:9 end:15:11:
         vpiParent: Package name:work@dm
@@ -485,8 +499,13 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@dm
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@dm
+        vpiName: work
+        vpiFullName: work@dm::work
+      vpiCell: dm
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/PortComplex/dut.sv start:9:1 end:13:10:
+    Module name:work@dut file:$Source01/dut.sv start:9:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:9:8 end:9:11:
         vpiParent: Module name:work@dut
@@ -499,7 +518,7 @@ Design name:unnamed:
             vpiParent: Variable name:alert_tx_o
             vpiName: alert_tx_t
             vpiFullName: work@dut.alert_tx_o.alert_tx_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:pr_pkg::alert_tx_t [2:0]
             vpiActual: ArrayTypespec
           vpiName: alert_tx_o
           vpiFullName: work@dut.alert_tx_o
@@ -546,6 +565,11 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:alert_tx_t
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiPort (1 items):
         Port name:alert_tx_o start:10:33 end:10:43:
           vpiParent: Module name:work@dut
@@ -559,14 +583,15 @@ Design name:unnamed:
             vpiParent: Port name:alert_tx_o
             vpiName: alert_tx_t
             vpiFullName: work@dut.alert_tx_o.alert_tx_t
-            vpiPrefix HierPath start:10:8 end:10:16:
+            vpiPrefix HierPath name:pr_pkg::alert_tx_t [2:0] start:10:8 end:10:16:
               vpiParent: RefTypespec name:alert_tx_t
-              vpiFullName: work@dut.alert_tx_o.alert_tx_t
-              vpiActual (2 items):
-                ClassTypespec name:pr_pkg
-                ArrayTypespec
+              vpiName: pr_pkg::alert_tx_t [2:0]
+              vpiFullName: work@dut.alert_tx_o.alert_tx_t.pr_pkg::alert_tx_t [2:0]
+              vpiPathElem (2 items):
+                ClassTypespec name:pr_pkg:
+                ArrayTypespec:
             vpiActual: ArrayTypespec
-    Module name:work@dut2 file:${SURELOG_DIR}/tests/PortComplex/dut.sv start:26:1 end:33:10:
+    Module name:work@dut2 file:$Source01/dut.sv start:26:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut2 start:26:8 end:26:12:
         vpiParent: Module name:work@dut2
@@ -658,6 +683,11 @@ Design name:unnamed:
             vpiName: hartinfo_t
       vpiDefName: work@dut2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut2
+        vpiName: work
+        vpiFullName: work@dut2.work
+      vpiCell: dut2
       vpiNet (2 items):
         Net name:hartinfo_i start:30:44 end:30:54:
           vpiParent: Module name:work@dut2
@@ -665,7 +695,7 @@ Design name:unnamed:
             vpiParent: Net name:hartinfo_i
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hartinfo_i.hartinfo_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:dm::hartinfo_t [NrHarts-1:0]
             vpiActual: ArrayTypespec
           vpiName: hartinfo_i
           vpiFullName: work@dut2.hartinfo_i
@@ -676,7 +706,7 @@ Design name:unnamed:
             vpiParent: Net name:hart_info_i_without_range
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t
-            vpiPrefix: HierPath
+            vpiPrefix: HierPath name:dm::hartinfo_t
             vpiActual: UnsupportedTypespec name:hartinfo_t
           vpiName: hart_info_i_without_range
           vpiFullName: work@dut2.hart_info_i_without_range
@@ -694,12 +724,13 @@ Design name:unnamed:
             vpiParent: Port name:hartinfo_i
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hartinfo_i.hartinfo_t
-            vpiPrefix HierPath start:30:9 end:30:13:
+            vpiPrefix HierPath name:dm::hartinfo_t [NrHarts-1:0] start:30:9 end:30:13:
               vpiParent: RefTypespec name:hartinfo_t
-              vpiFullName: work@dut2.hartinfo_i.hartinfo_t
-              vpiActual (2 items):
-                ClassTypespec name:dm
-                ArrayTypespec
+              vpiName: dm::hartinfo_t [NrHarts-1:0]
+              vpiFullName: work@dut2.hartinfo_i.hartinfo_t.dm::hartinfo_t [NrHarts-1:0]
+              vpiPathElem (2 items):
+                ClassTypespec name:dm:
+                ArrayTypespec:
             vpiActual: ArrayTypespec
         Port name:hart_info_i_without_range start:31:44 end:31:69:
           vpiParent: Module name:work@dut2
@@ -713,12 +744,13 @@ Design name:unnamed:
             vpiParent: Port name:hart_info_i_without_range
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t
-            vpiPrefix HierPath start:31:9 end:31:13:
+            vpiPrefix HierPath name:dm::hartinfo_t start:31:9 end:31:13:
               vpiParent: RefTypespec name:hartinfo_t
-              vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t
-              vpiActual (2 items):
-                ClassTypespec name:dm
-                UnsupportedTypespec name:hartinfo_t
+              vpiName: dm::hartinfo_t
+              vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t.dm::hartinfo_t
+              vpiPathElem (2 items):
+                ClassTypespec name:dm:
+                UnsupportedTypespec name:hartinfo_t:
             vpiActual: UnsupportedTypespec name:hartinfo_t
   vpiTypespec (4 items):
     ModuleTypespec name:work@dut:
@@ -739,37 +771,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 5
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PortComplex/PortComplex
- test-dirpath: ${SURELOG_DIR}/regression/PortComplex/PortComplex
-uhdm-filepath: ${SURELOG_DIR}/regression/PortComplex/PortComplex/surelog.uhdm
+      test-name: PortComplex/PortComplex
+   test-dirpath: ${HLC_DIR}/regression/PortComplex/PortComplex
+  hldb-filepath: ${HLC_DIR}/regression/PortComplex/PortComplex/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PortComplex/PortComplex/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PortComplex/PortComplex/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                            'pre_len': 539}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 539}},
             'post_len': 0,
             'pre_len': 539,
             'test_name': 'PortComplex/PortComplex'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      539 |         0 |
-+=================+==========+===========+
-|                 |      539 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      539 |         0 |
++=========================+==========+===========+
+|                         |      539 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -777,17 +812,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PortComplex/PortComplex/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PortComplex/PortComplex/surelog.uhdm ${SURELOG_DIR}/regression/PortComplex/PortComplex/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PortComplex/PortComplex/design.hldb ${HLC_DIR}/regression/PortComplex/PortComplex/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            15      15       1         1
 Operation                            1       0       0         1
-RefObj                               5       4       0         1
+RefObj                               9       8       0         1
 RefTypespec                         34      34       1         1
 ----------------------------------------------------------------
 Others                              66      66       0         0
 ----------------------------------------------------------------
-                                   121     119       2         4
+                                   125     123       2         4
 ===================== END REDUCTION RESULT =====================

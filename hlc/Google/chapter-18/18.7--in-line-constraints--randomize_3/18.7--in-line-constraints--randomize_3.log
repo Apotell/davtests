@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.7--in-line-constraints--randomize_3.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/18.7--in-line-constraints--randomize_3.sv".
+[INF:PA0201] Parsing source file "$Source01/18.7--in-line-constraints--randomize_3.sv".
 AST_DEBUG_BEGIN
 Count: 100
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.sv
-n<${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.sv> u<99> t<Top_level_rule> c<1> l<16:1> el<23:1>
+FILE: f<14>:$Source01/18.7--in-line-constraints--randomize_3.sv
+n<$Source01/18.7--in-line-constraints--randomize_3.sv> u<99> t<Top_level_rule> c<1> l<16:1> el<23:1>
   n<> u<1> t<Null_rule> p<99> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<99> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<99> s<4> l<2:1> el<2:3>
@@ -104,38 +113,44 @@ n<${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.
               n<> u<92> t<ENDFUNCTION> p<93> l<22:1> el<22:12>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.sv:21:36: Illegal implicit net "id:21, name:x".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.sv:21:43: Illegal implicit net "id:27, name:x".
-====== UHDM =======
+[ERR:EL0535] $Source01/18.7--in-line-constraints--randomize_3.sv:21:36: Illegal implicit net "id:22, name:x".
+[ERR:EL0535] $Source01/18.7--in-line-constraints--randomize_3.sv:21:43: Illegal implicit net "id:28, name:x".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:18.7--in-line-constraints--randomize_3.sv file:${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:18.7--in-line-constraints--randomize_3.sv file:$Source01/18.7--in-line-constraints--randomize_3.sv:
       vpiParent: Design name:unnamed
       vpiName: "18.7--in-line-constraints--randomize_3.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/lib/work/18.7--in-line-constraints--randomize_3.sv"
+      vpiPreprocFile: "$Output/lib/work/18.7--in-line-constraints--randomize_3.sv"
       vpiDefNetType: none (12)
   vpiAllClasses (1 items):
-    ClassDefn name:a file:${SURELOG_DIR}/tests/Google/chapter-18/18.7--in-line-constraints--randomize_3.sv start:16:1 end:18:9:
+    ClassDefn name:work@a file:$Source01/18.7--in-line-constraints--randomize_3.sv start:16:1 end:18:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:a start:16:7 end:16:8:
-        vpiParent: ClassDefn name:a
-        vpiName: a
-      vpiFullName: a
+      vpiName Identifier name:work@a start:16:7 end:16:8:
+        vpiParent: ClassDefn name:work@a
+        vpiName: work@a
+      vpiFullName: work@a
       vpiVariable (1 items):
         Variable name:x start:17:14 end:17:15:
-          vpiParent: ClassDefn name:a
+          vpiParent: ClassDefn name:work@a
           vpiTypespec RefTypespec start:17:10 end:17:13:
             vpiParent: Variable name:x
-            vpiFullName: a::x
+            vpiFullName: work@a::x
             vpiActual: IntTypespec
           vpiName: x
-          vpiFullName: a::x
+          vpiFullName: work@a::x
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@a
+        vpiName: work
+        vpiFullName: work@a::work
+      vpiCell: a
   vpiTypespec (2 items):
-    ClassTypespec name:a:
+    ClassTypespec name:work@a:
       vpiParent: Design name:unnamed
-      vpiName: a
-      vpiClassDefn: ClassDefn name:a
+      vpiName: work@a
+      vpiClassDefn: ClassDefn name:work@a
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -182,7 +197,7 @@ Design name:unnamed:
           vpiParent: Assignment
           vpiName: obj.randomize
           vpiFullName: F.obj.randomize
-          vpiActual (2 items):
+          vpiPathElem (2 items):
             RefObj name:obj start:21:9 end:21:12:
               vpiParent: HierPath name:obj.randomize
               vpiName: obj
@@ -237,37 +252,40 @@ Design name:unnamed:
         vpiFullName: F
         vpiActual: IntTypespec
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-18/18.7--in-line-constraints--randomize_3
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/surelog.uhdm
+      test-name: Google/chapter-18/18.7--in-line-constraints--randomize_3
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/lib/work/18.7--in-line-constraints--randomize_3.sv'): {'post_len': 0,
-                                                                                                                                                                                                'pre_len': 114}},
+            'files': {'$Output/lib/work/18.7--in-line-constraints--randomize_3.sv': {'post_len': 0,
+                                                                                     'pre_len': 114}},
             'post_len': 0,
             'pre_len': 114,
             'test_name': 'Google/chapter-18/18.7--in-line-constraints--randomize_3'}}
 
-+----------------------------------------------------+----------+-----------+
-| INPUT                                              |   PRELEN |   POSTLEN |
-+====================================================+==========+===========+
-| lib/work/18.7--in-line-constraints--randomize_3.sv |      114 |         0 |
-+====================================================+==========+===========+
-|                                                    |      114 |         0 |
-+----------------------------------------------------+----------+-----------+
++------------------------------------------------------------+----------+-----------+
+| INPUT                                                      |   PRELEN |   POSTLEN |
++============================================================+==========+===========+
+| $Output/lib/work/18.7--in-line-constraints--randomize_3.sv |      114 |         0 |
++============================================================+==========+===========+
+|                                                            |      114 |         0 |
++------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -275,13 +293,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constra
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/surelog.uhdm ${SURELOG_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/design.hldb ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--randomize_3/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    34      34       0         0
 ===================== END REDUCTION RESULT =====================

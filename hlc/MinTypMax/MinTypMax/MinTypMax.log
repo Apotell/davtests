@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/MinTypMax/MinTypMax/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/MinTypMax -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/MinTypMax/MinTypMax
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 54
 LIB: work
-FILE: ${SURELOG_DIR}/tests/MinTypMax/dut.sv
-n<${SURELOG_DIR}/tests/MinTypMax/dut.sv> u<53> t<Top_level_rule> c<1> l<1:1> el<5:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<53> t<Top_level_rule> c<1> l<1:1> el<5:1>
   n<> u<1> t<Null_rule> p<53> s<52> l<1:1>
   n<> u<52> t<Source_text> p<53> c<51> l<1:1> el<4:10>
     n<> u<51> t<Description> p<52> c<50> l<1:1> el<4:10>
@@ -57,19 +66,19 @@ n<${SURELOG_DIR}/tests/MinTypMax/dut.sv> u<53> t<Top_level_rule> c<1> l<1:1> el<
                                   n<value> u<35> t<SIMPLE_IDENTIFIER> p<36> l<3:20> el<3:25>
         n<> u<49> t<ENDMODULE> p<50> l<4:1> el<4:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/MinTypMax/dut.sv:1:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/MinTypMax/dut.sv:1:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/MinTypMax/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/MinTypMax/MinTypMax/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/MinTypMax/dut.sv start:1:1 end:4:10:
+    Module name:work@top file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
         vpiParent: Module name:work@top
@@ -131,6 +140,11 @@ Design name:unnamed:
           vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:3:3 end:3:27:
           vpiParent: Module name:work@top
@@ -156,37 +170,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: MinTypMax/MinTypMax
- test-dirpath: ${SURELOG_DIR}/regression/MinTypMax/MinTypMax
-uhdm-filepath: ${SURELOG_DIR}/regression/MinTypMax/MinTypMax/surelog.uhdm
+      test-name: MinTypMax/MinTypMax
+   test-dirpath: ${HLC_DIR}/regression/MinTypMax/MinTypMax
+  hldb-filepath: ${HLC_DIR}/regression/MinTypMax/MinTypMax/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/MinTypMax/MinTypMax/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/MinTypMax/MinTypMax/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 70}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 70}},
             'post_len': 0,
             'pre_len': 70,
             'test_name': 'MinTypMax/MinTypMax'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       70 |         0 |
-+=================+==========+===========+
-|                 |       70 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       70 |         0 |
++=========================+==========+===========+
+|                         |       70 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -194,13 +211,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/MinTypMax/MinTypMax/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/MinTypMax/MinTypMax/surelog.uhdm ${SURELOG_DIR}/regression/MinTypMax/MinTypMax/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/MinTypMax/MinTypMax/design.hldb ${HLC_DIR}/regression/MinTypMax/MinTypMax/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

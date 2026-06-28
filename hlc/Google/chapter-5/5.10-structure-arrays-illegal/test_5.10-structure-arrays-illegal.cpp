@@ -20,23 +20,23 @@
 // :should_fail_because: C-like assignment is illegal (simulation-time failure only).
 // Grammar: assignment_pattern with expression_list (4 items) — no inner '{} per element.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/array_typespec.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/struct_typespec.h>
-#include <uhdm/typedef_typespec.h>
-#include <uhdm/typespec_member.h>
-#include <uhdm/variable.h>
+#include <hldb/Utils.h>
+#include <hldb/array_typespec.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/struct_typespec.h>
+#include <hldb/typedef_typespec.h>
+#include <hldb/typespec_member.h>
+#include <hldb/variable.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StructuredArraysIllegal : public Test {
  public:
@@ -58,21 +58,21 @@ class StructuredArraysIllegal : public Test {
 };
 
 TEST_F(StructuredArraysIllegal, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Typedef and struct — same structure as the legal variant
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArraysIllegal, TypedefMsTExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr) << "module has no typespecs";
 
-  const uhdm::TypedefTypespec *msT = nullptr;
-  for (const uhdm::Typespec *const ts : *top->getTypespecs()) {
-    if (const uhdm::TypedefTypespec *const tdt = any_cast<uhdm::TypedefTypespec>(ts)) {
+  const hldb::TypedefTypespec *msT = nullptr;
+  for (const hldb::Typespec *const ts : *top->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
       if (tdt->getName() == "ms_t") { msT = tdt; break; }
     }
   }
@@ -80,21 +80,21 @@ TEST_F(StructuredArraysIllegal, TypedefMsTExists) {
 }
 
 TEST_F(StructuredArraysIllegal, StructHasTwoMembers) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
-  const uhdm::TypedefTypespec *msT = nullptr;
-  for (const uhdm::Typespec *const ts : *top->getTypespecs()) {
-    if (const uhdm::TypedefTypespec *const tdt = any_cast<uhdm::TypedefTypespec>(ts)) {
+  const hldb::TypedefTypespec *msT = nullptr;
+  for (const hldb::Typespec *const ts : *top->getTypespecs()) {
+    if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
       if (tdt->getName() == "ms_t") { msT = tdt; break; }
     }
   }
   ASSERT_NE(msT, nullptr);
 
-  const uhdm::StructTypespec *const st =
-      any_cast<uhdm::StructTypespec>(msT->getTypedefAlias()->getActual());
+  const hldb::StructTypespec *const st =
+      any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
   ASSERT_NE(st, nullptr) << "ms_t alias does not resolve to a StructTypespec";
   ASSERT_NE(st->getMembers(), nullptr) << "StructTypespec has no members";
   EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
@@ -104,33 +104,33 @@ TEST_F(StructuredArraysIllegal, StructHasTwoMembers) {
 // Variable ms — still present and array-typed despite the illegal initializer
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArraysIllegal, ArrayVarExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr) << "module has no variables";
 
-  const uhdm::Variable *ms = nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  const hldb::Variable *ms = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "ms") { ms = v; break; }
   }
   ASSERT_NE(ms, nullptr) << "variable 'ms' not found in module";
 }
 
 TEST_F(StructuredArraysIllegal, ArrayVarTypespecIsArray) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const uhdm::Variable *ms = nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  const hldb::Variable *ms = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "ms") { ms = v; break; }
   }
   ASSERT_NE(ms, nullptr);
   ASSERT_NE(ms->getTypespec(), nullptr) << "variable 'ms' has no typespec";
 
-  const uhdm::ArrayTypespec *const at =
-      any_cast<uhdm::ArrayTypespec>(ms->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at =
+      any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
   ASSERT_NE(at, nullptr) << "variable 'ms' typespec is not an ArrayTypespec";
 }
 
@@ -140,37 +140,37 @@ TEST_F(StructuredArraysIllegal, ArrayVarTypespecIsArray) {
 // not 2 nested patterns. No inner '{} per struct element.
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArraysIllegal, InitializerIsFlatAssignPattern) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const uhdm::Variable *ms = nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  const hldb::Variable *ms = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "ms") { ms = v; break; }
   }
   ASSERT_NE(ms, nullptr);
   ASSERT_NE(ms->getValue(), nullptr) << "variable 'ms' has no initializer";
 
-  const uhdm::Operation *const init = ms->getValue<uhdm::Operation>();
+  const hldb::Operation *const init = ms->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr) << "initializer is not an Operation";
   EXPECT_EQ(init->getOpType(), vpiAssignmentPatternOp)
       << "initializer op is not vpiAssignmentPatternOp";
 }
 
 TEST_F(StructuredArraysIllegal, InitializerHasFourOperands) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const uhdm::Variable *ms = nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  const hldb::Variable *ms = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "ms") { ms = v; break; }
   }
   ASSERT_NE(ms, nullptr);
 
-  const uhdm::Operation *const init = ms->getValue<uhdm::Operation>();
+  const hldb::Operation *const init = ms->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
   ASSERT_NE(init->getOperands(), nullptr) << "initializer has no operands";
   // '{0, 0, 1, 1} — flat C-like list: 4 Constants, not 2 nested patterns
@@ -179,48 +179,48 @@ TEST_F(StructuredArraysIllegal, InitializerHasFourOperands) {
 }
 
 TEST_F(StructuredArraysIllegal, OperandsAreAllConstants) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const uhdm::Variable *ms = nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  const hldb::Variable *ms = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "ms") { ms = v; break; }
   }
   ASSERT_NE(ms, nullptr);
 
-  const uhdm::Operation *const init = ms->getValue<uhdm::Operation>();
+  const hldb::Operation *const init = ms->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
   ASSERT_NE(init->getOperands(), nullptr);
   ASSERT_EQ(init->getOperands()->size(), 4u);
 
   for (size_t i = 0; i < 4u; ++i) {
-    const uhdm::Constant *const c = any_cast<uhdm::Constant>((*init->getOperands())[i]);
+    const hldb::Constant *const c = any_cast<hldb::Constant>((*init->getOperands())[i]);
     EXPECT_NE(c, nullptr)
         << "operand [" << i << "] is not a Constant — illegal flat pattern was not preserved";
   }
 }
 
 TEST_F(StructuredArraysIllegal, NoNestedAssignPatterns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const uhdm::Variable *ms = nullptr;
-  for (const uhdm::Variable *const v : *top->getVariables()) {
+  const hldb::Variable *ms = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "ms") { ms = v; break; }
   }
   ASSERT_NE(ms, nullptr);
 
-  const uhdm::Operation *const init = ms->getValue<uhdm::Operation>();
+  const hldb::Operation *const init = ms->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
   ASSERT_NE(init->getOperands(), nullptr);
 
   for (size_t i = 0; i < init->getOperands()->size(); ++i) {
-    const uhdm::Operation *const nested =
-        any_cast<uhdm::Operation>((*init->getOperands())[i]);
+    const hldb::Operation *const nested =
+        any_cast<hldb::Operation>((*init->getOperands())[i]);
     EXPECT_EQ(nested, nullptr)
         << "operand [" << i << "] is a nested Operation — expected a flat list of Constants";
   }

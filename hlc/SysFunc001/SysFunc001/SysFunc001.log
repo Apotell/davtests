@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/SysFunc001/SysFunc001/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/SysFunc001 -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SysFunc001/SysFunc001
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 2258
 LIB: work
-FILE: ${SURELOG_DIR}/tests/SysFunc001/dut.sv
-n<${SURELOG_DIR}/tests/SysFunc001/dut.sv> u<2257> t<Top_level_rule> c<1> l<3:1> el<126:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<2257> t<Top_level_rule> c<1> l<3:1> el<126:1>
   n<> u<1> t<Null_rule> p<2257> s<2> l<3:1> el<3:1>
   n<// Code your testbench here> u<2> t<LINE_COMMENT> p<2257> s<3> l<1:1> el<1:28>
   n<// or browse Examples> u<3> t<LINE_COMMENT> p<2257> s<2256> l<2:1> el<2:22>
@@ -2261,19 +2270,19 @@ n<${SURELOG_DIR}/tests/SysFunc001/dut.sv> u<2257> t<Top_level_rule> c<1> l<3:1> 
                           n<> u<2243> t<END> p<2244> l<124:3> el<124:6>
         n<> u<2253> t<ENDMODULE> p<2254> l<125:1> el<125:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/SysFunc001/dut.sv:3:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/SysFunc001/dut.sv:3:1: No timescale set for "work@top".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/SysFunc001/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/SysFunc001/SysFunc001/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/SysFunc001/dut.sv start:3:1 end:125:10:
+    Module name:work@top file:$Source01/dut.sv start:3:1 end:125:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:3:8 end:3:11:
         vpiParent: Module name:work@top
@@ -2281,6 +2290,11 @@ Design name:unnamed:
       vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:4:3 end:124:6:
           vpiParent: Module name:work@top
@@ -5113,37 +5127,40 @@ Design name:unnamed:
     RealTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: SysFunc001/SysFunc001
- test-dirpath: ${SURELOG_DIR}/regression/SysFunc001/SysFunc001
-uhdm-filepath: ${SURELOG_DIR}/regression/SysFunc001/SysFunc001/surelog.uhdm
+      test-name: SysFunc001/SysFunc001
+   test-dirpath: ${HLC_DIR}/regression/SysFunc001/SysFunc001
+  hldb-filepath: ${HLC_DIR}/regression/SysFunc001/SysFunc001/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/SysFunc001/SysFunc001/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/SysFunc001/SysFunc001/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 2059}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 2059}},
             'post_len': 0,
             'pre_len': 2059,
             'test_name': 'SysFunc001/SysFunc001'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |     2059 |         0 |
-+=================+==========+===========+
-|                 |     2059 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |     2059 |         0 |
++=========================+==========+===========+
+|                         |     2059 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -5151,7 +5168,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/SysFunc001/SysFunc001/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/SysFunc001/SysFunc001/surelog.uhdm ${SURELOG_DIR}/regression/SysFunc001/SysFunc001/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/SysFunc001/SysFunc001/design.hldb ${HLC_DIR}/regression/SysFunc001/SysFunc001/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -5162,7 +5179,7 @@ Operation                           31       0       0        31
 RefTypespec                        125       2       0       123
 SysFuncCall                        103       0       0       103
 ----------------------------------------------------------------
-Others                             214     214       0         0
+Others                             215     215       0         0
 ----------------------------------------------------------------
-                                   702     322     103       483
+                                   703     323     103       483
 ===================== END REDUCTION RESULT =====================

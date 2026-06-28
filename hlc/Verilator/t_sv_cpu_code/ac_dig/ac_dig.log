@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Verilator/t_sv_cpu_code +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db ac_dig.sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/ac_dig.sv".
+[INF:PA0201] Parsing source file "$Source01/ac_dig.sv".
 AST_DEBUG_BEGIN
 Count: 795
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv
-n<${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
+FILE: f<13>:$Source01/ac_dig.sv
+n<$Source01/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
   n<> u<1> t<Null_rule> p<794> s<2> l<8:1> el<8:1>
   n<// DESCRIPTION: Verilator: Large test for SystemVerilog> u<2> t<LINE_COMMENT> p<794> s<3> l<1:1> el<1:56>
   n<// This file ONLY is placed into the Public Domain, for any use,> u<3> t<LINE_COMMENT> p<794> s<4> l<3:1> el<3:65>
@@ -798,21 +807,21 @@ n<${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv> u<794> t<Top_level_rul
         n<> u<789> t<ENDMODULE> p<790> l<143:1> el<143:10>
   n<// ac_dig> u<793> t<LINE_COMMENT> p<794> l<143:11> el<143:20>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv:8:1: Compile module "work@ac_dig".
+[INF:CP0303] $Source01/ac_dig.sv:8:1: Compile module "work@ac_dig".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv:17:3: Illegal implicit net "id:16, name:genbus_if".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv:17:13: Illegal implicit net "id:17, name:slave".
-====== UHDM =======
+[ERR:EL0535] $Source01/ac_dig.sv:17:3: Illegal implicit net "id:17, name:genbus_if".
+[ERR:EL0535] $Source01/ac_dig.sv:17:13: Illegal implicit net "id:18, name:slave".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:ac_dig.sv file:${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:ac_dig.sv file:$Source01/ac_dig.sv:
       vpiParent: Design name:unnamed
       vpiName: ac_dig.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/lib/work/ac_dig.sv"
+      vpiPreprocFile: "$Output/lib/work/ac_dig.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@ac_dig file:${SURELOG_DIR}/tests/Verilator/t_sv_cpu_code/ac_dig.sv start:8:1 end:143:10:
+    Module name:work@ac_dig file:$Source01/ac_dig.sv start:8:1 end:143:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ac_dig start:8:8 end:8:14:
         vpiParent: Module name:work@ac_dig
@@ -1104,6 +1113,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@ac_dig
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ac_dig
+        vpiName: work
+        vpiFullName: work@ac_dig.work
+      vpiCell: ac_dig
       vpiNet (13 items):
         Net name:dbus start:17:19 end:17:23:
           vpiParent: Module name:work@ac_dig
@@ -1231,7 +1245,7 @@ Design name:unnamed:
               vpiParent: RefTypespec name:genbus_if.slave
               vpiName: genbus_if.slave
               vpiFullName: work@ac_dig.dbus.genbus_if.slave.genbus_if.slave
-              vpiActual (2 items):
+              vpiPathElem (2 items):
                 RefObj name:genbus_if start:17:3 end:17:12:
                   vpiParent: HierPath name:genbus_if.slave
                   vpiName: genbus_if
@@ -1299,7 +1313,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
                 vpiFullName: work@ac_dig.dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:dbus start:81:7 end:81:11:
                     vpiParent: HierPath name:dbus.sConnect(id, rst, sdata, ws, mdata, adr, we, re)
                     vpiName: dbus
@@ -1442,7 +1456,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'h00"
-                      vpiValue: 00
+                      vpiValue: "00"
                   vpiElseStmt IfStmt start:97:12 end:98:31:
                     vpiParent: IfElse
                     vpiCondition Operation start:97:17 end:97:44:
@@ -1493,7 +1507,7 @@ Design name:unnamed:
                               vpiConstType: binary (3)
                               vpiSize: 2
                               vpiDecompile: "2'b00"
-                              vpiValue: 00
+                              vpiValue: "00"
                         BitSelect name:we[0] start:97:39 end:97:44:
                           vpiParent: Operation
                           vpiName: we[0]
@@ -1638,7 +1652,7 @@ Design name:unnamed:
                   vpiActual: Variable name:data
                 vpiRhs Operation start:109:14 end:112:24:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (75)
+                  vpiOpType: assign pattern (87)
                   vpiOperand (4 items):
                     RefObj name:control start:109:17 end:109:24:
                       vpiParent: Operation
@@ -1659,7 +1673,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'h00"
-                      vpiValue: 00
+                      vpiValue: "00"
                     Constant start:112:17 end:112:22:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1669,7 +1683,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'h00"
-                      vpiValue: 00
+                      vpiValue: "00"
               Assignment start:115:7 end:115:42:
                 vpiParent: Begin name:RegisterRead
                 vpiBlocking: true
@@ -1691,7 +1705,7 @@ Design name:unnamed:
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'h00"
-                      vpiValue: 00
+                      vpiValue: "00"
                     BitSelect name:data[adr[1:0]] start:115:24 end:115:40:
                       vpiParent: Operation
                       vpiName: data[adr[1:0]]
@@ -1749,7 +1763,7 @@ Design name:unnamed:
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
-                  vpiValue: 0
+                  vpiValue: "0"
           vpiAlwaysType: comb (2)
         Always start:126:3 end:132:8:
           vpiParent: Module name:work@ac_dig
@@ -1791,14 +1805,14 @@ Design name:unnamed:
                       vpiConstType: binary (3)
                       vpiSize: 2
                       vpiDecompile: "2'b00"
-                      vpiValue: 00
+                      vpiValue: "00"
                   vpiElseStmt IfStmt start:130:12 end:131:34:
                     vpiParent: IfElse
                     vpiCondition HierPath name:control.enable start:130:17 end:130:31:
                       vpiParent: IfStmt
                       vpiName: control.enable
                       vpiFullName: work@ac_dig.control.enable
-                      vpiActual (2 items):
+                      vpiPathElem (2 items):
                         RefObj name:control start:130:17 end:130:24:
                           vpiParent: HierPath name:control.enable
                           vpiName: control
@@ -1890,7 +1904,7 @@ Design name:unnamed:
                           vpiConstType: binary (3)
                           vpiSize: 1
                           vpiDecompile: "1'b0"
-                          vpiValue: 0
+                          vpiValue: "0"
               Assignment start:140:7 end:140:29:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1898,7 +1912,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: status.acout
                   vpiFullName: work@ac_dig.status.acout
-                  vpiActual (2 items):
+                  vpiPathElem (2 items):
                     RefObj name:status start:140:7 end:140:13:
                       vpiParent: HierPath name:status.acout
                       vpiName: status
@@ -1941,7 +1955,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: control.enable
             vpiFullName: work@ac_dig.control.enable
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:control start:68:21 end:68:28:
                 vpiParent: HierPath name:control.enable
                 vpiName: control
@@ -1967,37 +1981,40 @@ Design name:unnamed:
     LogicTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_sv_cpu_code/ac_dig
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/surelog.uhdm
+      test-name: Verilator/t_sv_cpu_code/ac_dig
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/mounts.json
 
 
 {'result': {'coverage': 99.9,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/lib/work/ac_dig.sv'): {'post_len': 1,
-                                                                                                                                      'pre_len': 1019}},
+            'files': {'$Output/lib/work/ac_dig.sv': {'post_len': 1,
+                                                     'pre_len': 1019}},
             'post_len': 1,
             'pre_len': 1019,
             'test_name': 'Verilator/t_sv_cpu_code/ac_dig'}}
 
-+--------------------+----------+-----------+
-| INPUT              |   PRELEN |   POSTLEN |
-+====================+==========+===========+
-| lib/work/ac_dig.sv |     1019 |         1 |
-+====================+==========+===========+
-|                    |     1019 |         1 |
-+--------------------+----------+-----------+
++----------------------------+----------+-----------+
+| INPUT                      |   PRELEN |   POSTLEN |
++============================+==========+===========+
+| $Output/lib/work/ac_dig.sv |     1019 |         1 |
++============================+==========+===========+
+|                            |     1019 |         1 |
++----------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.9
@@ -2005,7 +2022,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/surelog.
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/design.hldb ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_dig/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -2014,7 +2031,7 @@ Constant                            40      39       0         1
 Operation                            9       8       0         1
 RefTypespec                         66      65       0         1
 ----------------------------------------------------------------
-Others                             163     163       0         0
+Others                             164     164       0         0
 ----------------------------------------------------------------
-                                   278     275       0         3
+                                   279     276       0         3
 ===================== END REDUCTION RESULT =====================

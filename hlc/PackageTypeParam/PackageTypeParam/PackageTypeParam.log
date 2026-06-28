@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageTypeParam -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageTypeParam/PackageTypeParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 154
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv
-n<${SURELOG_DIR}/tests/PackageTypeParam/dut.sv> u<153> t<Top_level_rule> c<1> l<1:1> el<29:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<153> t<Top_level_rule> c<1> l<1:1> el<29:1>
   n<> u<1> t<Null_rule> p<153> s<152> l<1:1>
   n<> u<152> t<Source_text> p<153> c<71> l<1:1> el<28:21>
     n<> u<71> t<Description> p<152> c<70> s<74> l<1:1> el<9:25>
@@ -157,25 +166,21 @@ n<${SURELOG_DIR}/tests/PackageTypeParam/dut.sv> u<153> t<Top_level_rule> c<1> l<
         n<> u<149> t<ENDMODULE> p<150> s<148> l<28:1> el<28:10>
         n<module_a> u<148> t<SIMPLE_IDENTIFIER> p<150> l<28:13> el<28:21>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:1:1: Compile package "work@new_package".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:1:1: Unmached label "work@new_package",
-             ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:9:14: closing label "new_package".
-[INF:CP0303] ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:12:1: Compile module "work@module_a".
-[ERR:CP0341] ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:12:1: Unmached label "work@module_a",
-             ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:28:13: closing label "module_a".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:1:1: No timescale set for "work@new_package".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:12:1: No timescale set for "work@module_a".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@new_package".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@module_a".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@new_package".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@module_a".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageTypeParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@new_package file:${SURELOG_DIR}/tests/PackageTypeParam/dut.sv start:1:1 end:9:25:
+    Package name:work@new_package file:$Source01/dut.sv start:1:1 end:9:25:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@new_package start:1:9 end:1:20:
         vpiParent: Package name:work@new_package
@@ -286,11 +291,16 @@ Design name:unnamed:
             vpiActual: StructTypespec
       vpiDefName: work@new_package
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@new_package
+        vpiName: work
+        vpiFullName: work@new_package::work
+      vpiCell: new_package
       vpiEndLabel Identifier name:new_package start:9:14 end:9:25:
         vpiParent: Package name:work@new_package
         vpiName: new_package
   vpiAllModules (1 items):
-    Module name:work@module_a file:${SURELOG_DIR}/tests/PackageTypeParam/dut.sv start:12:1 end:28:21:
+    Module name:work@module_a file:$Source01/dut.sv start:12:1 end:28:21:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@module_a start:12:8 end:12:16:
         vpiParent: Module name:work@module_a
@@ -323,12 +333,13 @@ Design name:unnamed:
           vpiRhs RefTypespec start:14:37 end:14:53:
             vpiParent: ParamAssign
             vpiFullName: work@module_a
-            vpiPrefix HierPath start:14:37 end:14:50:
+            vpiPrefix HierPath name:new_package::zzz start:14:37 end:14:50:
               vpiParent: RefTypespec
-              vpiFullName: work@module_a
-              vpiActual (2 items):
-                ClassTypespec name:new_package
-                UnsupportedTypespec name:zzz
+              vpiName: new_package::zzz
+              vpiFullName: work@module_a.new_package::zzz
+              vpiPathElem (2 items):
+                ClassTypespec name:new_package:
+                UnsupportedTypespec name:zzz:
             vpiActual: UnsupportedTypespec name:zzz
       vpiTypespec (4 items):
         ClassTypespec name:new_package start:14:37 end:14:48:
@@ -341,9 +352,14 @@ Design name:unnamed:
             vpiName: zzz
         LogicTypespec:
           vpiParent: Module name:work@module_a
-        TypeParameter name:TYPE_PARAMETER
+        TypeParameter name:TYPE_PARAMETER:
       vpiDefName: work@module_a
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@module_a
+        vpiName: work
+        vpiFullName: work@module_a.work
+      vpiCell: module_a
       vpiNet (2 items):
         Net name:input_struct start:17:25 end:17:37:
           vpiParent: Module name:work@module_a
@@ -448,37 +464,40 @@ Design name:unnamed:
         vpiName: work@module_a
       vpiModule: Module name:work@module_a
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageTypeParam/PackageTypeParam
- test-dirpath: ${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/surelog.uhdm
+      test-name: PackageTypeParam/PackageTypeParam
+   test-dirpath: ${HLC_DIR}/regression/PackageTypeParam/PackageTypeParam
+  hldb-filepath: ${HLC_DIR}/regression/PackageTypeParam/PackageTypeParam/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackageTypeParam/PackageTypeParam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                      'pre_len': 385}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 385}},
             'post_len': 0,
             'pre_len': 385,
             'test_name': 'PackageTypeParam/PackageTypeParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      385 |         0 |
-+=================+==========+===========+
-|                 |      385 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      385 |         0 |
++=========================+==========+===========+
+|                         |      385 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -486,13 +505,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/surel
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/surelog.uhdm ${SURELOG_DIR}/regression/PackageTypeParam/PackageTypeParam/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackageTypeParam/PackageTypeParam/design.hldb ${HLC_DIR}/regression/PackageTypeParam/PackageTypeParam/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

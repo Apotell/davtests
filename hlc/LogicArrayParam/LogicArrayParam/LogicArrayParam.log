@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LogicArrayParam -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/LogicArrayParam/LogicArrayParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 208
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv
-n<${SURELOG_DIR}/tests/LogicArrayParam/dut.sv> u<207> t<Top_level_rule> c<1> l<1:1> el<108:3>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<207> t<Top_level_rule> c<1> l<1:1> el<108:3>
   n<> u<1> t<Null_rule> p<207> s<205> l<1:1>
   n<> u<205> t<Source_text> p<207> c<53> s<206> l<1:1> el<32:10>
     n<> u<53> t<Description> p<205> c<52> s<112> l<1:1> el<6:11>
@@ -211,29 +220,27 @@ n<${SURELOG_DIR}/tests/LogicArrayParam/dut.sv> u<207> t<Top_level_rule> c<1> l<1
         n<> u<202> t<ENDMODULE> p<203> l<32:1> el<32:10>
   n</*\n\n\nmodule rggen_or_reducer #(\n  parameter int WIDTH = 2,\n  parameter int N     = 4\n)(\n // input   logic [N-1:0][WIDTH-1:0]  i_data,\n//  output  logic [WIDTH-1:0]         o_result\n);\n\n  function automatic bit [N-1:0][15:0] get_sub_n_list(int n);\n    bit [N-1:0][15:0] list;\n    int               list_index;\n    bit [15:0]        current_n;\n    bit [15:0]        half_n;\n\n    list        = '0;\n    list_index  = 0;\n    current_n   = 16'(n);\n    while (current_n > 0) begin\n      half_n  = current_n / 2;\n      if ((current_n > 4) && (half_n <= 4)) begin\n        list[list_index]  = half_n;\n      end\n      else if (current_n >= 4) begin\n        list[list_index]  = 4;\n      end\n      else begin\n        list[list_index]  = current_n;\n      end\n\n      current_n   -= list[list_index];\n      list_index  += 1;\n    end\n\n    return list;\n  endfunction\n\n\n  function automatic bit [N-1:0][15:0] get_offset_list(bit [N-1:0][15:0] sub_n_list);\n    bit [N-1:0][15:0] list;\n\n    for (int i = 0;i < N;++i) begin\n      if (i == 0) begin\n        list[i] = 0;\n      end\n      else begin\n        list[i] = sub_n_list[i-1] + list[i-1];\n      end\n    end\n\n    return list;\n  endfunction\n\n  function automatic int get_next_n(bit [N-1:0][15:0] sub_n_list);\n    int next_n;\n\n    next_n  = 0;\n    for (int i = 0;i < N;++i) begin\n      next_n  += ((sub_n_list[i] != 0) ? 1 : 0);\n    end\n\n    return next_n;\n  endfunction\n\n  localparam  bit [N-1:0][15:0] SUB_N_LIST_P  = get_sub_n_list(N);\n  localparam  bit [N-1:0][15:0] OFFSET_LIST = get_offset_list(SUB_N_LIST_P);\n  localparam  int               NEXT_N      = get_next_n(OFFSET_LIST);\n\n  logic [NEXT_N-1:0][WIDTH-1:0] next_data;\n\nendmodule\n*/> u<206> t<BLOCK_COMMENT> p<207> l<1:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:1:1: Compile package "work@alert_handler_reg_pkg".
-[INF:CP0301] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:9:1: Compile package "work@alert_pkg".
-[WRN:CP0323] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:9:1: Multiply defined typedef "alert_handler_reg_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:17:1: Compile module "work@M".
-[INF:CP0303] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:20:1: Compile module "work@alert_handler".
-[INF:CP0335] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:25:50: Compile generate block "gen_alerts".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:1:1: No timescale set for "work@alert_handler_reg_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:9:1: No timescale set for "work@alert_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:17:1: No timescale set for "work@M".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:20:1: No timescale set for "work@alert_handler".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:25:27: Illegal implicit net "id:74, name:NAlerts".
-[ERR:EL0535] ${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:26:24: Illegal implicit net "id:83, name:AsyncOn".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@alert_handler_reg_pkg".
+[INF:CP0301] $Source01/dut.sv:9:1: Compile package "work@alert_pkg".
+[WRN:CP0323] $Source01/dut.sv:9:1: Multiply defined typedef "alert_handler_reg_pkg".
+[INF:CP0303] $Source01/dut.sv:17:1: Compile module "work@M".
+[INF:CP0303] $Source01/dut.sv:20:1: Compile module "work@alert_handler".
+[INF:CP0335] $Source01/dut.sv:25:50: Compile generate block "gen_alerts".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@alert_handler_reg_pkg".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@alert_pkg".
+[WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@M".
+[WRN:PA0205] $Source01/dut.sv:20:1: No timescale set for "work@alert_handler".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LogicArrayParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@alert_handler_reg_pkg file:${SURELOG_DIR}/tests/LogicArrayParam/dut.sv start:1:1 end:6:11:
+    Package name:work@alert_handler_reg_pkg file:$Source01/dut.sv start:1:1 end:6:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@alert_handler_reg_pkg start:1:9 end:1:30:
         vpiParent: Package name:work@alert_handler_reg_pkg
@@ -290,7 +297,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 20
             vpiDecompile: "20'b01100001100000001111"
-            vpiValue: 01100001100000001111
+            vpiValue: "01100001100000001111"
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Package name:work@alert_handler_reg_pkg
@@ -329,7 +336,12 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@alert_handler_reg_pkg
       vpiDefNetType: none (12)
-    Package name:work@alert_pkg file:${SURELOG_DIR}/tests/LogicArrayParam/dut.sv start:9:1 end:15:11:
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@alert_handler_reg_pkg
+        vpiName: work
+        vpiFullName: work@alert_handler_reg_pkg::work
+      vpiCell: alert_handler_reg_pkg
+    Package name:work@alert_pkg file:$Source01/dut.sv start:9:1 end:15:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@alert_pkg start:9:9 end:9:18:
         vpiParent: Package name:work@alert_pkg
@@ -366,8 +378,8 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: alert_handler_reg_pkg::NAlerts
             vpiFullName: work@alert_pkg::alert_handler_reg_pkg::NAlerts
-            vpiActual (2 items):
-              PackageTypespec name:alert_handler_reg_pkg
+            vpiPathElem (2 items):
+              PackageTypespec name:alert_handler_reg_pkg:
               RefObj name:NAlerts start:12:67 end:12:74:
                 vpiParent: HierPath name:alert_handler_reg_pkg::NAlerts
                 vpiName: NAlerts
@@ -384,8 +396,8 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: alert_handler_reg_pkg::AsyncOn
             vpiFullName: work@alert_pkg::alert_handler_reg_pkg::AsyncOn
-            vpiActual (2 items):
-              PackageTypespec name:alert_handler_reg_pkg
+            vpiPathElem (2 items):
+              PackageTypespec name:alert_handler_reg_pkg:
               RefObj name:AsyncOn start:13:67 end:13:74:
                 vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn
                 vpiName: AsyncOn
@@ -437,8 +449,13 @@ Design name:unnamed:
           vpiPackage: Package name:work@alert_handler_reg_pkg
       vpiDefName: work@alert_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@alert_pkg
+        vpiName: work
+        vpiFullName: work@alert_pkg::work
+      vpiCell: alert_pkg
   vpiAllModules (2 items):
-    Module name:work@M file:${SURELOG_DIR}/tests/LogicArrayParam/dut.sv start:17:1 end:18:10:
+    Module name:work@M file:$Source01/dut.sv start:17:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@M start:17:8 end:17:9:
         vpiParent: Module name:work@M
@@ -446,7 +463,12 @@ Design name:unnamed:
       vpiFullName: work@M
       vpiDefName: work@M
       vpiDefNetType: none (12)
-    Module name:work@alert_handler file:${SURELOG_DIR}/tests/LogicArrayParam/dut.sv start:20:1 end:32:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@M
+        vpiName: work
+        vpiFullName: work@M.work
+      vpiCell: M
+    Module name:work@alert_handler file:$Source01/dut.sv start:20:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@alert_handler start:20:8 end:20:21:
         vpiParent: Module name:work@alert_handler
@@ -460,6 +482,11 @@ Design name:unnamed:
             vpiName: alert_pkg
       vpiDefName: work@alert_handler
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@alert_handler
+        vpiName: work
+        vpiFullName: work@alert_handler.work
+      vpiCell: alert_handler
       vpiGenStmt (1 items):
         GenFor start:25:3 end:30:6:
           vpiParent: Module name:work@alert_handler
@@ -486,7 +513,7 @@ Design name:unnamed:
           vpiForIncStmt (1 items):
             Operation start:25:37 end:25:40:
               vpiParent: GenFor
-              vpiOpType: post inc (62)
+              vpiOpType: post inc (64)
               vpiOperand (1 items):
                 RefObj name:k start:25:37 end:25:38:
                   vpiParent: Operation
@@ -506,6 +533,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: NAlerts
                 vpiFullName: work@alert_handler.NAlerts
+                vpiActual: Parameter name:NAlerts
           vpiStmt Begin name:gen_alerts start:25:42 end:30:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_alerts start:25:50 end:25:60:
@@ -538,6 +566,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:AsyncOn[k]
                     vpiName: AsyncOn
                     vpiFullName: work@alert_handler.gen_alerts.AsyncOn
+                    vpiActual: Parameter name:AsyncOn
                   vpiIndex RefObj name:k start:26:32 end:26:33:
                     vpiParent: BitSelect name:AsyncOn[k]
                     vpiName: k
@@ -547,8 +576,8 @@ Design name:unnamed:
               LogicTypespec:
                 vpiParent: Begin name:gen_alerts
             vpiStmt (3 items):
-              Parameter name:debug
-              ParamAssign
+              Parameter name:debug:
+              ParamAssign:
               GenIf start:27:5 end:29:8:
                 vpiParent: Begin name:gen_alerts
                 vpiCondition RefObj name:debug start:27:9 end:27:14:
@@ -595,37 +624,40 @@ Design name:unnamed:
         vpiName: work@alert_handler
       vpiModule: Module name:work@alert_handler
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 5
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LogicArrayParam/LogicArrayParam
- test-dirpath: ${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam
-uhdm-filepath: ${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/surelog.uhdm
+      test-name: LogicArrayParam/LogicArrayParam
+   test-dirpath: ${HLC_DIR}/regression/LogicArrayParam/LogicArrayParam
+  hldb-filepath: ${HLC_DIR}/regression/LogicArrayParam/LogicArrayParam/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/LogicArrayParam/LogicArrayParam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                                    'pre_len': 495}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 495}},
             'post_len': 0,
             'pre_len': 495,
             'test_name': 'LogicArrayParam/LogicArrayParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      495 |         0 |
-+=================+==========+===========+
-|                 |      495 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      495 |         0 |
++=========================+==========+===========+
+|                         |      495 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -633,17 +665,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/surelog.uhdm ${SURELOG_DIR}/regression/LogicArrayParam/LogicArrayParam/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/LogicArrayParam/LogicArrayParam/design.hldb ${HLC_DIR}/regression/LogicArrayParam/LogicArrayParam/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            4       3       0         1
-RefObj                              15      14       0         1
+RefObj                              19      18       0         1
 RefTypespec                         13      13       1         1
 ----------------------------------------------------------------
 Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    88      86       2         4
+                                    92      90       2         4
 ===================== END REDUCTION RESULT =====================

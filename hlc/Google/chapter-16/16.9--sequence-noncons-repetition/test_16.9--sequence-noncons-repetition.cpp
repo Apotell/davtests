@@ -70,29 +70,29 @@
 //   The §16.12 'not' negation is completely lost.
 //   Test ConcAssert_not_seq_PropertyExpr_ShouldBeOperation FAILS intentionally.
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/clocked_seq.h>
-#include <uhdm/concurrent_assertions.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/property_spec.h>
-#include <uhdm/range.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/sequence_decl.h>
-#include <uhdm/sequence_inst.h>
+#include <hldb/Utils.h>
+#include <hldb/clocked_seq.h>
+#include <hldb/concurrent_assertions.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/property_spec.h>
+#include <hldb/range.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/sequence_decl.h>
+#include <hldb/sequence_inst.h>
 
 #include <string>
 
-namespace SURELOG {
+namespace hlc {
 
 class NonconsecutiveRepetitionTest : public Test {
  public:
@@ -117,65 +117,65 @@ class NonconsecutiveRepetitionTest : public Test {
 // Helpers
 // ---------------------------------------------------------------------------
 
-static const uhdm::Module *getTop(const uhdm::Design *d) {
-  return uhdm::findByName<uhdm::Module>("work@top", d->getAllModules());
+static const hldb::Module *getTop(const hldb::Design *d) {
+  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const uhdm::Net *getNet(const uhdm::Design *d, std::string_view name) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getNets()) return nullptr;
-  return uhdm::findByName<uhdm::Net>(name, m->getNets());
+  return hldb::findByName<hldb::Net>(name, m->getNets());
 }
 
-static const uhdm::ClockedSeq *getClockedSeq(const uhdm::Design *d) {
-  const uhdm::Module *m = getTop(d);
+static const hldb::ClockedSeq *getClockedSeq(const hldb::Design *d) {
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getSequenceDecls()) return nullptr;
-  const auto *sd = uhdm::findByName<uhdm::SequenceDecl>(
+  const auto *sd = hldb::findByName<hldb::SequenceDecl>(
       "seq", m->getSequenceDecls());
   if (!sd) return nullptr;
-  return sd->getExpr<uhdm::ClockedSeq>();
+  return sd->getExpr<hldb::ClockedSeq>();
 }
 
-static const uhdm::Operation *outerSeqOp(const uhdm::Design *d) {
+static const hldb::Operation *outerSeqOp(const hldb::Design *d) {
   const auto *cs = getClockedSeq(d);
   if (!cs) return nullptr;
-  return cs->getSequenceExpr<uhdm::Operation>();
+  return cs->getSequenceExpr<hldb::Operation>();
 }
 
-static const uhdm::Operation *innerSeqOp(const uhdm::Design *d) {
+static const hldb::Operation *innerSeqOp(const hldb::Design *d) {
   const auto *outer = outerSeqOp(d);
   if (!outer || !outer->getOperands() ||
       outer->getOperands()->size() < 3) return nullptr;
-  return any_cast<const uhdm::Operation *>((*outer->getOperands())[2]);
+  return any_cast<const hldb::Operation *>((*outer->getOperands())[2]);
 }
 
 // operands[1] of inner ##1 — the non-consecutive repeat op 'a [=2:10]'
-static const uhdm::Operation *repOp(const uhdm::Design *d) {
+static const hldb::Operation *repOp(const hldb::Design *d) {
   const auto *inner = innerSeqOp(d);
   if (!inner || !inner->getOperands() ||
       inner->getOperands()->size() < 2) return nullptr;
-  return any_cast<const uhdm::Operation *>((*inner->getOperands())[1]);
+  return any_cast<const hldb::Operation *>((*inner->getOperands())[1]);
 }
 
-static const uhdm::Range *repRange(const uhdm::Design *d) {
+static const hldb::Range *repRange(const hldb::Design *d) {
   const auto *rep = repOp(d);
   if (!rep || !rep->getOperands() || rep->getOperands()->empty()) return nullptr;
-  return any_cast<const uhdm::Range *>((*rep->getOperands())[0]);
+  return any_cast<const hldb::Range *>((*rep->getOperands())[0]);
 }
 
-static const uhdm::ConcurrentAssertions *getAssertAt(const uhdm::Design *d,
+static const hldb::ConcurrentAssertions *getAssertAt(const hldb::Design *d,
                                                        size_t idx) {
-  const uhdm::Module *m = getTop(d);
+  const hldb::Module *m = getTop(d);
   if (!m || !m->getConcurrentAssertions() ||
       m->getConcurrentAssertions()->size() <= idx) return nullptr;
   return (*m->getConcurrentAssertions())[idx];
 }
 
-static const uhdm::PropertySpec *getPropSpec(const uhdm::Design *d,
+static const hldb::PropertySpec *getPropSpec(const hldb::Design *d,
                                               size_t assertIdx) {
   const auto *ca = getAssertAt(d, assertIdx);
   if (!ca) return nullptr;
-  return ca->getProperty<uhdm::PropertySpec>();
+  return ca->getProperty<hldb::PropertySpec>();
 }
 
 // ===========================================================================
@@ -194,7 +194,7 @@ TEST_F(NonconsecutiveRepetitionTest, Net_clk_HasLogicTypespec) {
   const auto *net = getNet(m_design, "clk");
   ASSERT_NE(net, nullptr) << "net 'clk' not found";
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic clk' must produce a LogicTypespec";
 }
 
@@ -202,7 +202,7 @@ TEST_F(NonconsecutiveRepetitionTest, Net_a_HasLogicTypespec) {
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic a' must produce a LogicTypespec";
 }
 
@@ -210,7 +210,7 @@ TEST_F(NonconsecutiveRepetitionTest, Net_b_HasLogicTypespec) {
   const auto *net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr) << "net 'b' not found";
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic b' must produce a LogicTypespec";
 }
 
@@ -227,18 +227,18 @@ TEST_F(NonconsecutiveRepetitionTest, SeqDecl_Collection_HasOneEntry) {
 }
 
 TEST_F(NonconsecutiveRepetitionTest, SeqDecl_seq_Exists) {
-  const uhdm::Module *m = getTop(m_design);
+  const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getSequenceDecls(), nullptr);
-  EXPECT_NE(uhdm::findByName<uhdm::SequenceDecl>("seq",
+  EXPECT_NE(hldb::findByName<hldb::SequenceDecl>("seq",
                 m->getSequenceDecls()), nullptr)
       << "SequenceDecl named 'seq' not found";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, SeqDecl_seq_HasNoFormalArgs) {
-  const uhdm::Module *m = getTop(m_design);
+  const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  const auto *sd = uhdm::findByName<uhdm::SequenceDecl>(
+  const auto *sd = hldb::findByName<hldb::SequenceDecl>(
       "seq", m->getSequenceDecls());
   ASSERT_NE(sd, nullptr);
   EXPECT_EQ(sd->getSeqFormalDecls(), nullptr)
@@ -246,12 +246,12 @@ TEST_F(NonconsecutiveRepetitionTest, SeqDecl_seq_HasNoFormalArgs) {
 }
 
 TEST_F(NonconsecutiveRepetitionTest, SeqDecl_seq_IsClockedSeq) {
-  const uhdm::Module *m = getTop(m_design);
+  const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  const auto *sd = uhdm::findByName<uhdm::SequenceDecl>(
+  const auto *sd = hldb::findByName<hldb::SequenceDecl>(
       "seq", m->getSequenceDecls());
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(sd->getExpr<uhdm::ClockedSeq>(), nullptr)
+  EXPECT_NE(sd->getExpr<hldb::ClockedSeq>(), nullptr)
       << "seq: '@(posedge clk) …' body must be a ClockedSeq";
 }
 
@@ -262,7 +262,7 @@ TEST_F(NonconsecutiveRepetitionTest, SeqDecl_seq_IsClockedSeq) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_ClockingEvent_IsPosedge) {
   const auto *cs = getClockedSeq(m_design);
   ASSERT_NE(cs, nullptr);
-  const auto *op = cs->getClockingEvent<uhdm::Operation>();
+  const auto *op = cs->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiPosedgeOp)
       << "'@(posedge clk)' must use vpiPosedgeOp (39)";
@@ -271,12 +271,12 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_ClockingEvent_IsPosedge) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_ClockingEvent_OperandIsClk) {
   const auto *cs = getClockedSeq(m_design);
   ASSERT_NE(cs, nullptr);
-  const auto *op = cs->getClockingEvent<uhdm::Operation>();
+  const auto *op = cs->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const uhdm::RefObj *>((*op->getOperands())[0]);
+      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "clk");
 }
@@ -306,7 +306,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_DelayIsOne) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *c =
-      any_cast<const uhdm::Constant *>((*op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "1");
 }
@@ -317,7 +317,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_LeftSeq_IsRefObjB) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *ref =
-      any_cast<const uhdm::RefObj *>((*op->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b")
       << "outer ##1 left operand must be 'b' (first 'b' in source)";
@@ -348,7 +348,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_DelayIsOne) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *c =
-      any_cast<const uhdm::Constant *>((*op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "1");
 }
@@ -384,7 +384,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_RightSeq_IsRefObjB) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
   const auto *ref =
-      any_cast<const uhdm::RefObj *>((*op->getOperands())[2]);
+      any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b")
       << "inner ##1 right operand must be 'b' (final 'b' in source)";
@@ -411,7 +411,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_FirstOperand_IsRange) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_LowerBound_IsTwo) {
   const auto *range = repRange(m_design);
   ASSERT_NE(range, nullptr);
-  const auto *lo = range->getLeftExpr<uhdm::Constant>();
+  const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(std::string(lo->getValue()), "2")
       << "§16.9: '[=2:10]' lower bound must be 2";
@@ -420,7 +420,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_LowerBound_IsTwo) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
   const auto *range = repRange(m_design);
   ASSERT_NE(range, nullptr);
-  const auto *hi = range->getRightExpr<uhdm::Constant>();
+  const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(std::string(hi->getValue()), "10")
       << "§16.9: '[=2:10]' upper bound must be 10";
@@ -429,8 +429,8 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_BoundsAreUnsignedInt) {
   const auto *range = repRange(m_design);
   ASSERT_NE(range, nullptr);
-  const auto *lo = range->getLeftExpr<uhdm::Constant>();
-  const auto *hi = range->getRightExpr<uhdm::Constant>();
+  const auto *lo = range->getLeftExpr<hldb::Constant>();
+  const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(lo->getConstType(), vpiUIntConst)
@@ -445,7 +445,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_RepeatedExpr_IsRefObjA) {
   ASSERT_NE(rep->getOperands(), nullptr);
   ASSERT_GE(rep->getOperands()->size(), 2u);
   const auto *ref =
-      any_cast<const uhdm::RefObj *>((*rep->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*rep->getOperands())[1]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a")
       << "§16.9: 'a [=2:10]' repeated expression must be signal 'a'";
@@ -478,7 +478,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_seq_HasNoActionBlock) {
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_seq_Property_IsPropertySpec) {
   const auto *ca = getAssertAt(m_design, 0);
   ASSERT_NE(ca, nullptr);
-  EXPECT_NE(ca->getProperty<uhdm::PropertySpec>(), nullptr)
+  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr)
       << "assert property must produce a PropertySpec node";
 }
 
@@ -487,7 +487,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_IsSequenceInst)
   // Surelog bug EL0535: returns RefObj instead. This test FAILS intentionally.
   const auto *ps = getPropSpec(m_design, 0);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<uhdm::SequenceInst>(), nullptr)
+  EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
       << "§16.9: property expr must be SequenceInst; "
          "Surelog EL0535: RefObj returned instead";
 }
@@ -527,7 +527,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_HasNoActionBlock) {
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_Property_IsPropertySpec) {
   const auto *ca = getAssertAt(m_design, 1);
   ASSERT_NE(ca, nullptr);
-  EXPECT_NE(ca->getProperty<uhdm::PropertySpec>(), nullptr)
+  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr)
       << "assert property must produce a PropertySpec node";
 }
 
@@ -537,7 +537,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_PropertyExpr_ShouldBeOpe
   // This test FAILS intentionally — documents the dropped 'not' bug.
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<uhdm::Operation>(), nullptr)
+  EXPECT_NE(ps->getPropertyExpr<hldb::Operation>(), nullptr)
       << "§16.12: 'not seq' property expr must be an Operation; "
          "Surelog silently drops 'not' — RefObj returned instead";
 }
@@ -547,7 +547,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_PropertyExpr_IsRefObj) {
   // because the §16.12 'not' operator was dropped.
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<uhdm::RefObj>(), nullptr)
+  EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr)
       << "Surelog drops 'not' — propertyExpr is RefObj, same as EL0535 case";
 }
 
@@ -555,7 +555,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_PropertyExpr_NameIsSeq) 
   // Despite 'not' being dropped, the inner RefObj still references 'seq'.
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  const auto *ref = ps->getPropertyExpr<uhdm::RefObj>();
+  const auto *ref = ps->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "seq")
       << "'not seq' inner operand must reference sequence 'seq'";

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-24 -timescale=1ns/1ns -d ast -d db -nobuiltin 24.3--program.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-24/24.3--program
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/24.3--program.sv".
+[INF:PA0201] Parsing source file "$Source01/24.3--program.sv".
 AST_DEBUG_BEGIN
 Count: 118
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv
-n<${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv> u<117> t<Top_level_rule> c<1> l<16:1> el<28:1>
+FILE: f<14>:$Source01/24.3--program.sv
+n<$Source01/24.3--program.sv> u<117> t<Top_level_rule> c<1> l<16:1> el<28:1>
   n<> u<1> t<Null_rule> p<117> s<2> l<16:1> el<16:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<117> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<117> s<4> l<2:1> el<2:3>
@@ -121,21 +130,21 @@ n<${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv> u<117> t<Top_level_ru
                               n<b> u<101> t<SIMPLE_IDENTIFIER> p<102> l<25:14> el<25:15>
         n<> u<113> t<ENDMODULE> p<114> l<27:1> el<27:10>
 AST_DEBUG_END
-[INF:CP0306] ${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv:16:9: Compile program "prog".
-[WRN:CP0314] ${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv:16:9: Using programs is discouraged "prog", programs are obsoleted by UVM.
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv:20:1: Compile module "work@top".
+[INF:CP0306] $Source01/24.3--program.sv:16:9: Compile program "prog".
+[WRN:CP0314] $Source01/24.3--program.sv:16:9: Using programs is discouraged "prog", programs are obsoleted by UVM.
+[INF:CP0303] $Source01/24.3--program.sv:20:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:24.3--program.sv file:${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:24.3--program.sv file:$Source01/24.3--program.sv:
       vpiParent: Design name:unnamed
       vpiName: "24.3--program.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/lib/work/24.3--program.sv"
+      vpiPreprocFile: "$Output/lib/work/24.3--program.sv"
       vpiDefNetType: none (12)
   vpiAllPrograms (1 items):
-    Program name:work@prog file:${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv start:16:1 end:18:11:
+    Program name:work@prog file:$Source01/24.3--program.sv start:16:1 end:18:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@prog start:16:9 end:16:13:
         vpiParent: Program name:work@prog
@@ -164,6 +173,11 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Program name:work@prog
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Program name:work@prog
+        vpiName: work
+        vpiFullName: work@prog.work
+      vpiCell: prog
       vpiProcess (1 items):
         Initial start:17:2 end:17:48:
           vpiParent: Program name:work@prog
@@ -182,7 +196,7 @@ Design name:unnamed:
                 vpiConstType: string (6)
                 vpiSize: 152
                 vpiDecompile: "\":assert: (%d == %d)\""
-                vpiValue: :assert: (%d == %d)
+                vpiValue: ":assert: (%d == %d)"
               RefObj name:a start:17:42 end:17:43:
                 vpiParent: SysFuncCall name:$display
                 vpiName: a
@@ -219,7 +233,7 @@ Design name:unnamed:
             vpiFullName: work@prog.b
             vpiActual: LogicTypespec
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Google/chapter-24/24.3--program.sv start:20:1 end:27:10:
+    Module name:work@top file:$Source01/24.3--program.sv start:20:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:20:8 end:20:11:
         vpiParent: Module name:work@top
@@ -235,6 +249,11 @@ Design name:unnamed:
             vpiName: work@prog
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (2 items):
         Net name:a start:22:9 end:22:10:
           vpiParent: Module name:work@top
@@ -323,37 +342,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-24/24.3--program
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-24/24.3--program
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/surelog.uhdm
+      test-name: Google/chapter-24/24.3--program
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-24/24.3--program
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-24/24.3--program/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-24/24.3--program/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/lib/work/24.3--program.sv'): {'post_len': 0,
-                                                                                                                                              'pre_len': 154}},
+            'files': {'$Output/lib/work/24.3--program.sv': {'post_len': 0,
+                                                            'pre_len': 154}},
             'post_len': 0,
             'pre_len': 154,
             'test_name': 'Google/chapter-24/24.3--program'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/24.3--program.sv |      154 |         0 |
-+===========================+==========+===========+
-|                           |      154 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/24.3--program.sv |      154 |         0 |
++===================================+==========+===========+
+|                                   |      154 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -361,13 +383,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/surelog
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/surelog.uhdm ${SURELOG_DIR}/regression/Google/chapter-24/24.3--program/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Google/chapter-24/24.3--program/design.hldb ${HLC_DIR}/regression/Google/chapter-24/24.3--program/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              51      51       0         0
 ----------------------------------------------------------------
-                                    49      49       0         0
+                                    51      51       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,17 +1,26 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Unsized/Unsized/surelog.log".
-[INF:CP0303] ${SURELOG_DIR}/tests/Unsized/dut.sv:1:2: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/Unsized/dut.sv:1:2: No timescale set for "work@top".
-====== UHDM =======
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Unsized -d db dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Unsized/Unsized
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
+[INF:CP0303] $Source01/dut.sv:1:2: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:2: No timescale set for "work@top".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/Unsized/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Unsized/Unsized/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Unsized/dut.sv start:1:2 end:6:10:
+    Module name:work@top file:$Source01/dut.sv start:1:2 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:9 end:1:12:
         vpiParent: Module name:work@top
@@ -126,6 +135,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (4 items):
         Net name:a start:2:17 end:2:18:
           vpiParent: Module name:work@top
@@ -160,7 +174,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
-            vpiValue: 0
+            vpiValue: "0"
         Net name:d start:5:17 end:5:18:
           vpiParent: Module name:work@top
           vpiTypespec RefTypespec start:5:4 end:5:16:
@@ -178,7 +192,7 @@ Design name:unnamed:
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'1"
-            vpiValue: 1
+            vpiValue: "1"
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -190,37 +204,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Unsized/Unsized
- test-dirpath: ${SURELOG_DIR}/regression/Unsized/Unsized
-uhdm-filepath: ${SURELOG_DIR}/regression/Unsized/Unsized/surelog.uhdm
+      test-name: Unsized/Unsized
+   test-dirpath: ${HLC_DIR}/regression/Unsized/Unsized
+  hldb-filepath: ${HLC_DIR}/regression/Unsized/Unsized/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Unsized/Unsized/mounts.json
 
 
 {'result': {'coverage': 96.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Unsized/Unsized/lib/work/dut.sv'): {'post_len': 4,
-                                                                                                                    'pre_len': 100}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 4,
+                                                  'pre_len': 100}},
             'post_len': 4,
             'pre_len': 100,
             'test_name': 'Unsized/Unsized'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      100 |         4 |
-+=================+==========+===========+
-|                 |      100 |         4 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      100 |         4 |
++=========================+==========+===========+
+|                         |      100 |         4 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 96.0
@@ -228,13 +245,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Unsized/Unsized/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Unsized/Unsized/surelog.uhdm ${SURELOG_DIR}/regression/Unsized/Unsized/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Unsized/Unsized/design.hldb ${HLC_DIR}/regression/Unsized/Unsized/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

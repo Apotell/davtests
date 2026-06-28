@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/InterfImport/InterfImport/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/InterfImport -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/InterfImport/InterfImport
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 266
 LIB: work
-FILE: ${SURELOG_DIR}/tests/InterfImport/dut.sv
-n<${SURELOG_DIR}/tests/InterfImport/dut.sv> u<265> t<Top_level_rule> c<1> l<1:1> el<35:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<265> t<Top_level_rule> c<1> l<1:1> el<35:1>
   n<> u<1> t<Null_rule> p<265> s<264> l<1:1>
   n<> u<264> t<Source_text> p<265> c<19> l<1:1> el<34:13>
     n<> u<19> t<Description> p<264> c<18> s<263> l<1:1> el<4:11>
@@ -269,23 +278,22 @@ n<${SURELOG_DIR}/tests/InterfImport/dut.sv> u<265> t<Top_level_rule> c<1> l<1:1>
                     n<end_of_packet> u<254> t<SIMPLE_IDENTIFIER> p<255> l<32:13> el<32:26>
         n<> u<261> t<ENDINTERFACE> p<262> l<34:1> el<34:13>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/InterfImport/dut.sv:1:1: Compile package "work@tnoc_pkg".
-[INF:CP0304] ${SURELOG_DIR}/tests/InterfImport/dut.sv:6:1: Compile interface "work@tnoc_port_control_if".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfImport/dut.sv:1:1: No timescale set for "work@tnoc_pkg".
-[WRN:PA0205] ${SURELOG_DIR}/tests/InterfImport/dut.sv:6:1: No timescale set for "work@tnoc_port_control_if".
-[ERR:EL0535] ${SURELOG_DIR}/tests/InterfImport/dut.sv:9:50: Illegal implicit net "id:21, name:TNOC_DEFAULT_PACKET_CONFIG".
-[ERR:EL0535] ${SURELOG_DIR}/tests/InterfImport/dut.sv:11:45: Illegal implicit net "id:28, name:virtual_channels".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@tnoc_pkg".
+[INF:CP0304] $Source01/dut.sv:6:1: Compile interface "work@tnoc_port_control_if".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@tnoc_pkg".
+[WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@tnoc_port_control_if".
+[ERR:EL0535] $Source01/dut.sv:11:45: Illegal implicit net "id:30, name:virtual_channels".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/InterfImport/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/InterfImport/InterfImport/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@tnoc_pkg file:${SURELOG_DIR}/tests/InterfImport/dut.sv start:1:1 end:4:11:
+    Package name:work@tnoc_pkg file:$Source01/dut.sv start:1:1 end:4:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tnoc_pkg start:1:9 end:1:17:
         vpiParent: Package name:work@tnoc_pkg
@@ -324,8 +332,13 @@ Design name:unnamed:
           vpiParent: Package name:work@tnoc_pkg
       vpiDefName: work@tnoc_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@tnoc_pkg
+        vpiName: work
+        vpiFullName: work@tnoc_pkg::work
+      vpiCell: tnoc_pkg
   vpiAllInterfaces (1 items):
-    Interface name:work@tnoc_port_control_if file:${SURELOG_DIR}/tests/InterfImport/dut.sv start:6:1 end:34:13:
+    Interface name:work@tnoc_port_control_if file:$Source01/dut.sv start:6:1 end:34:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tnoc_port_control_if start:6:11 end:6:31:
         vpiParent: Interface name:work@tnoc_port_control_if
@@ -403,6 +416,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: TNOC_DEFAULT_PACKET_CONFIG
             vpiFullName: work@tnoc_port_control_if.TNOC_DEFAULT_PACKET_CONFIG
+            vpiActual: Parameter name:TNOC_DEFAULT_PACKET_CONFIG
         ParamAssign start:11:19 end:11:61:
           vpiParent: Interface name:work@tnoc_port_control_if
           vpiLhs RefObj name:CHANNELS start:11:19 end:11:27:
@@ -414,7 +428,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName: PACKET_CONFIG.virtual_channels
             vpiFullName: work@tnoc_port_control_if.PACKET_CONFIG.virtual_channels
-            vpiActual (2 items):
+            vpiPathElem (2 items):
               RefObj name:PACKET_CONFIG start:11:31 end:11:44:
                 vpiParent: HierPath name:PACKET_CONFIG.virtual_channels
                 vpiName: PACKET_CONFIG
@@ -611,6 +625,11 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Interface name:work@tnoc_port_control_if
+        vpiName: work
+        vpiFullName: work@tnoc_port_control_if.work
+      vpiCell: tnoc_port_control_if
       vpiModport (2 items):
         Modport name:requester start:19:11 end:19:20:
           vpiParent: Interface name:work@tnoc_port_control_if
@@ -707,37 +726,40 @@ Design name:unnamed:
         vpiName: work@tnoc_port_control_if
       vpiInterface: Interface name:work@tnoc_port_control_if
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: InterfImport/InterfImport
- test-dirpath: ${SURELOG_DIR}/regression/InterfImport/InterfImport
-uhdm-filepath: ${SURELOG_DIR}/regression/InterfImport/InterfImport/surelog.uhdm
+      test-name: InterfImport/InterfImport
+   test-dirpath: ${HLC_DIR}/regression/InterfImport/InterfImport
+  hldb-filepath: ${HLC_DIR}/regression/InterfImport/InterfImport/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/InterfImport/InterfImport/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/InterfImport/InterfImport/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                              'pre_len': 646}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 646}},
             'post_len': 0,
             'pre_len': 646,
             'test_name': 'InterfImport/InterfImport'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      646 |         0 |
-+=================+==========+===========+
-|                 |      646 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      646 |         0 |
++=========================+==========+===========+
+|                         |      646 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -745,13 +767,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/InterfImport/InterfImport/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/InterfImport/InterfImport/surelog.uhdm ${SURELOG_DIR}/regression/InterfImport/InterfImport/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/InterfImport/InterfImport/design.hldb ${HLC_DIR}/regression/InterfImport/InterfImport/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             106     106       0         0
+Others                             108     108       0         0
 ----------------------------------------------------------------
-                                   106     106       0         0
+                                   108     108       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/simple -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db retime.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/simple/retime
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/retime.v".
+[INF:PA0201] Parsing source file "$Source01/retime.v".
 AST_DEBUG_BEGIN
 Count: 137
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/simple/retime.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/simple/retime.v> u<136> t<Top_level_rule> c<1> l<1:1> el<7:1>
+FILE: f<13>:$Source01/retime.v
+n<$Source01/retime.v> u<136> t<Top_level_rule> c<1> l<1:1> el<7:1>
   n<> u<1> t<Null_rule> p<136> s<135> l<1:1>
   n<> u<135> t<Source_text> p<136> c<134> l<1:1> el<6:10>
     n<> u<134> t<Description> p<135> c<133> l<1:1> el<6:10>
@@ -140,19 +149,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/simple/retime.v> u<136> t<Top_level_rule> 
                                     n<7> u<117> t<INTEGRAL_NUMBER> p<118> l<5:19> el<5:20>
         n<> u<132> t<ENDMODULE> p<133> l<6:1> el<6:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/simple/retime.v:1:1: Compile module "work@retime_test".
+[INF:CP0303] $Source01/retime.v:1:1: Compile module "work@retime_test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:retime.v file:${SURELOG_DIR}/tests/YosysTestSuite/simple/retime.v:
+  vpiSourceFile (1 items):
+    SourceFile name:retime.v file:$Source01/retime.v:
       vpiParent: Design name:unnamed
       vpiName: retime.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/lib/work/retime.v"
+      vpiPreprocFile: "$Output/lib/work/retime.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@retime_test file:${SURELOG_DIR}/tests/YosysTestSuite/simple/retime.v start:1:1 end:6:10:
+    Module name:work@retime_test file:$Source01/retime.v start:1:1 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@retime_test start:1:8 end:1:19:
         vpiParent: Module name:work@retime_test
@@ -215,6 +224,11 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@retime_test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@retime_test
+        vpiName: work
+        vpiFullName: work@retime_test.work
+      vpiCell: retime_test
       vpiNet (4 items):
         Net name:clk start:1:26 end:1:29:
           vpiParent: Module name:work@retime_test
@@ -404,37 +418,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/simple/retime
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/retime
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/surelog.uhdm
+      test-name: YosysTestSuite/simple/retime
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/simple/retime
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/simple/retime/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/simple/retime/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/lib/work/retime.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 143}},
+            'files': {'$Output/lib/work/retime.v': {'post_len': 0,
+                                                    'pre_len': 143}},
             'post_len': 0,
             'pre_len': 143,
             'test_name': 'YosysTestSuite/simple/retime'}}
 
-+-------------------+----------+-----------+
-| INPUT             |   PRELEN |   POSTLEN |
-+===================+==========+===========+
-| lib/work/retime.v |      143 |         0 |
-+===================+==========+===========+
-|                   |      143 |         0 |
-+-------------------+----------+-----------+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/retime.v |      143 |         0 |
++===========================+==========+===========+
+|                           |      143 |         0 |
++---------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -442,13 +459,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/surelog.uh
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/simple/retime/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/retime/design.hldb ${HLC_DIR}/regression/YosysTestSuite/simple/retime/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    63      63       0         0
 ===================== END REDUCTION RESULT =====================

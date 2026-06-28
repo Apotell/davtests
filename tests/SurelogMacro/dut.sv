@@ -1,4 +1,4 @@
-`ifdef SURELOG
+`ifdef HLC
 
 module top();
 

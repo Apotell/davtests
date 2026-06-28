@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/PackageNet/PackageNet/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/PackageNet -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageNet/PackageNet
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 107
 LIB: work
-FILE: ${SURELOG_DIR}/tests/PackageNet/dut.sv
-n<${SURELOG_DIR}/tests/PackageNet/dut.sv> u<106> t<Top_level_rule> c<1> l<1:1> el<23:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<106> t<Top_level_rule> c<1> l<1:1> el<23:1>
   n<> u<1> t<Null_rule> p<106> s<105> l<1:1>
   n<> u<105> t<Source_text> p<106> c<56> l<1:1> el<21:10>
     n<> u<56> t<Description> p<105> c<55> s<104> l<1:1> el<10:11>
@@ -110,24 +119,21 @@ n<${SURELOG_DIR}/tests/PackageNet/dut.sv> u<106> t<Top_level_rule> c<1> l<1:1> e
                           n<> u<92> t<END> p<93> l<19:1> el<19:4>
         n<> u<102> t<ENDMODULE> p<103> l<21:1> el<21:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/PackageNet/dut.sv:1:1: Compile package "work@my_package1".
-[INF:CP0303] ${SURELOG_DIR}/tests/PackageNet/dut.sv:13:1: Compile module "work@test".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageNet/dut.sv:1:1: No timescale set for "work@my_package1".
-[WRN:PA0205] ${SURELOG_DIR}/tests/PackageNet/dut.sv:13:1: No timescale set for "work@test".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackageNet/dut.sv:18:3: Illegal implicit net "id:42, name:v".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackageNet/dut.sv:18:7: Illegal implicit net "id:43, name:p1".
-[ERR:EL0535] ${SURELOG_DIR}/tests/PackageNet/dut.sv:18:12: Illegal implicit net "id:44, name:p2".
-====== UHDM =======
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@my_package1".
+[INF:CP0303] $Source01/dut.sv:13:1: Compile module "work@test".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@my_package1".
+[WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@test".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/PackageNet/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/PackageNet/PackageNet/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@my_package1 file:${SURELOG_DIR}/tests/PackageNet/dut.sv start:1:1 end:10:11:
+    Package name:work@my_package1 file:$Source01/dut.sv start:1:1 end:10:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@my_package1 start:1:9 end:1:20:
         vpiParent: Package name:work@my_package1
@@ -237,8 +243,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiDefName: work@my_package1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@my_package1
+        vpiName: work
+        vpiFullName: work@my_package1::work
+      vpiCell: my_package1
   vpiAllModules (1 items):
-    Module name:work@test file:${SURELOG_DIR}/tests/PackageNet/dut.sv start:13:1 end:21:10:
+    Module name:work@test file:$Source01/dut.sv start:13:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:13:8 end:13:12:
         vpiParent: Module name:work@test
@@ -252,6 +263,11 @@ Design name:unnamed:
             vpiName: my_package1
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiProcess (1 items):
         Initial start:17:1 end:19:4:
           vpiParent: Module name:work@test
@@ -266,6 +282,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: v
                   vpiFullName: work@test.v
+                  vpiActual: Variable name:v
                 vpiRhs Operation start:18:7 end:18:14:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -274,10 +291,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: p1
                       vpiFullName: work@test.p1
+                      vpiActual: Parameter name:p1
                     RefObj name:p2 start:18:12 end:18:14:
                       vpiParent: Operation
                       vpiName: p2
                       vpiFullName: work@test.p2
+                      vpiActual: Parameter name:p2
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -289,37 +308,40 @@ Design name:unnamed:
         vpiName: work@test
       vpiModule: Module name:work@test
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: PackageNet/PackageNet
- test-dirpath: ${SURELOG_DIR}/regression/PackageNet/PackageNet
-uhdm-filepath: ${SURELOG_DIR}/regression/PackageNet/PackageNet/surelog.uhdm
+      test-name: PackageNet/PackageNet
+   test-dirpath: ${HLC_DIR}/regression/PackageNet/PackageNet
+  hldb-filepath: ${HLC_DIR}/regression/PackageNet/PackageNet/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/PackageNet/PackageNet/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/PackageNet/PackageNet/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                          'pre_len': 171}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 171}},
             'post_len': 0,
             'pre_len': 171,
             'test_name': 'PackageNet/PackageNet'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      171 |         0 |
-+=================+==========+===========+
-|                 |      171 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      171 |         0 |
++=========================+==========+===========+
+|                         |      171 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -327,13 +349,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/PackageNet/PackageNet/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/PackageNet/PackageNet/surelog.uhdm ${SURELOG_DIR}/regression/PackageNet/PackageNet/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/PackageNet/PackageNet/design.hldb ${HLC_DIR}/regression/PackageNet/PackageNet/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             4       5       1         0
+Operation                            1       0       0         1
+RefObj                               7       5       0         2
+RefTypespec                          8       9       1         0
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    44      43       2         3
 ===================== END REDUCTION RESULT =====================

@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_display/surelog.log".
-[WRN:PP0118] ${SURELOG_DIR}/tests/Verilator/t_display.v:13:40: Unknown escaped sequence '\2'.
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_display.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_display
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_display.v".
+[WRN:PP0118] $Source01/t_display.v:13:40: Unknown escaped sequence '\2'.
+[INF:PA0201] Parsing source file "$Source01/t_display.v".
 AST_DEBUG_BEGIN
 Count: 2543
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_display.v
-n<${SURELOG_DIR}/tests/Verilator/t_display.v> u<2542> t<Top_level_rule> c<1> l<6:1> el<169:1>
+FILE: f<13>:$Source01/t_display.v
+n<$Source01/t_display.v> u<2542> t<Top_level_rule> c<1> l<6:1> el<169:1>
   n<> u<1> t<Null_rule> p<2542> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<2542> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<2542> s<4> l<2:1> el<2:3>
@@ -2547,23 +2556,23 @@ n<${SURELOG_DIR}/tests/Verilator/t_display.v> u<2542> t<Top_level_rule> c<1> l<6
                       n<> u<2530> t<ENDTASK> p<2531> l<167:4> el<167:11>
         n<> u<2538> t<ENDMODULE> p<2539> l<168:1> el<168:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_display.v:6:1: Compile module "work@t".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_display.v:147:1: Compile module "work@sub".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_display.v:158:1: Compile module "work@sub2".
+[INF:CP0303] $Source01/t_display.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_display.v:147:1: Compile module "work@sub".
+[INF:CP0303] $Source01/t_display.v:158:1: Compile module "work@sub2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_display.v:23:11: Illegal implicit net "id:183, name:write_m".
-[ERR:EL0535] ${SURELOG_DIR}/tests/Verilator/t_display.v:24:12: Illegal implicit net "id:186, name:write_m".
-====== UHDM =======
+[ERR:EL0535] $Source01/t_display.v:23:11: Illegal implicit net "id:186, name:write_m".
+[ERR:EL0535] $Source01/t_display.v:24:12: Illegal implicit net "id:189, name:write_m".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_display.v file:${SURELOG_DIR}/tests/Verilator/t_display.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_display.v file:$Source01/t_display.v:
       vpiParent: Design name:unnamed
       vpiName: t_display.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_display/lib/work/t_display.v"
+      vpiPreprocFile: "$Output/lib/work/t_display.v"
       vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_display.v start:6:1 end:145:10:
+    Module name:work@t file:$Source01/t_display.v start:6:1 end:145:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -2819,6 +2828,11 @@ Design name:unnamed:
             vpiName: work@sub2
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (10 items):
         Net name:quad start:7:15 end:7:19:
           vpiParent: Module name:work@t
@@ -3063,7 +3077,7 @@ Design name:unnamed:
               vpiConstType: string (6)
               vpiSize: 112
               vpiDecompile: "\"\\000\\277\\021\\n\""
-              vpiValue: \000\277\021\n
+              vpiValue: "\\000\\277\\021\\n"
         Initial start:14:21 end:14:48:
           vpiParent: Module name:work@t
           vpiStmt Assignment start:14:29 end:14:47:
@@ -3083,7 +3097,7 @@ Design name:unnamed:
               vpiConstType: string (6)
               vpiSize: 72
               vpiDecompile: "\"\\000what!\""
-              vpiValue: \000what!
+              vpiValue: "\\000what!"
         Initial start:15:21 end:15:52:
           vpiParent: Module name:work@t
           vpiStmt Assignment start:15:29 end:15:51:
@@ -3103,7 +3117,7 @@ Design name:unnamed:
               vpiConstType: string (6)
               vpiSize: 104
               vpiDecompile: "\"\\000hmmm!1234\""
-              vpiValue: \000hmmm!1234
+              vpiValue: "\\000hmmm!1234"
         Initial start:21:4 end:144:7:
           vpiParent: Module name:work@t
           vpiStmt Begin start:21:12 end:144:7:
@@ -3125,7 +3139,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 136
                     vpiDecompile: "\"[%0t] In %m: Hi\\n\""
-                    vpiValue: [%0t] In %m: Hi\n
+                    vpiValue: "[%0t] In %m: Hi\\n"
                   SysTaskCall name:$time start:22:35 end:22:40:
                     vpiParent: SysFuncCall name:$write
                     vpiName Identifier name:$time start:22:35 end:22:40:
@@ -3135,7 +3149,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: sub.write_m
                 vpiFullName: work@t.sub.write_m
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:sub start:23:7 end:23:10:
                     vpiParent: HierPath name:sub.write_m
                     vpiName: sub
@@ -3149,7 +3163,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: sub2.write_m
                 vpiFullName: work@t.sub2.write_m
-                vpiActual (2 items):
+                vpiPathElem (2 items):
                   RefObj name:sub2 start:24:7 end:24:11:
                     vpiParent: HierPath name:sub2.write_m
                     vpiName: sub2
@@ -3174,7 +3188,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"[%0t] Back \\\\ Quote \\\"\""
-                    vpiValue: [%0t] Back \\ Quote \"
+                    vpiValue: "[%0t] Back \\\\ Quote \\\""
                   SysTaskCall name:$time start:27:42 end:27:47:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:27:42 end:27:47:
@@ -3195,7 +3209,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%b=%b %%0b=%0b  %%b=%b %%0b=%0b  %%b=%b %%0b=%0b\""
-                    vpiValue: [%0t] %%b=%b %%0b=%0b  %%b=%b %%0b=%0b  %%b=%b %%0b=%0b
+                    vpiValue: "[%0t] %%b=%b %%0b=%0b  %%b=%b %%0b=%0b  %%b=%b %%0b=%0b"
                   SysTaskCall name:$time start:30:75 end:30:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:30:75 end:30:80:
@@ -3210,7 +3224,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:31:23 end:31:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3220,7 +3234,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:31:30 end:31:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3276,7 +3290,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%B=%B %%0B=%0B  %%B=%B %%0B=%0B  %%B=%B %%0B=%0B\""
-                    vpiValue: [%0t] %%B=%B %%0B=%0B  %%B=%B %%0B=%0B  %%B=%B %%0B=%0B
+                    vpiValue: "[%0t] %%B=%B %%0B=%0B  %%B=%B %%0B=%0B  %%B=%B %%0B=%0B"
                   SysTaskCall name:$time start:33:75 end:33:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:33:75 end:33:80:
@@ -3291,7 +3305,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:34:23 end:34:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3301,7 +3315,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:34:30 end:34:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3357,7 +3371,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d\""
-                    vpiValue: [%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d
+                    vpiValue: "[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d"
                   SysTaskCall name:$time start:36:75 end:36:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:36:75 end:36:80:
@@ -3372,7 +3386,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:37:23 end:37:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3382,7 +3396,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:37:30 end:37:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3438,7 +3452,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D\""
-                    vpiValue: [%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D
+                    vpiValue: "[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D"
                   SysTaskCall name:$time start:39:75 end:39:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:39:75 end:39:80:
@@ -3453,7 +3467,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:40:23 end:40:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3463,7 +3477,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:40:30 end:40:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3519,7 +3533,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%h=%h %%0h=%0h  %%h=%h %%0h=%0h  %%h=%h %%0h=%0h\""
-                    vpiValue: [%0t] %%h=%h %%0h=%0h  %%h=%h %%0h=%0h  %%h=%h %%0h=%0h
+                    vpiValue: "[%0t] %%h=%h %%0h=%0h  %%h=%h %%0h=%0h  %%h=%h %%0h=%0h"
                   SysTaskCall name:$time start:42:75 end:42:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:42:75 end:42:80:
@@ -3534,7 +3548,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:43:23 end:43:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3544,7 +3558,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:43:30 end:43:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3600,7 +3614,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%H=%H %%0H=%0H  %%H=%H %%0H=%0H  %%H=%H %%0H=%0H\""
-                    vpiValue: [%0t] %%H=%H %%0H=%0H  %%H=%H %%0H=%0H  %%H=%H %%0H=%0H
+                    vpiValue: "[%0t] %%H=%H %%0H=%0H  %%H=%H %%0H=%0H  %%H=%H %%0H=%0H"
                   SysTaskCall name:$time start:45:75 end:45:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:45:75 end:45:80:
@@ -3615,7 +3629,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:46:23 end:46:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3625,7 +3639,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:46:30 end:46:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3681,7 +3695,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%o=%o %%0o=%0o  %%o=%o %%0o=%0o  %%o=%o %%0o=%0o\""
-                    vpiValue: [%0t] %%o=%o %%0o=%0o  %%o=%o %%0o=%0o  %%o=%o %%0o=%0o
+                    vpiValue: "[%0t] %%o=%o %%0o=%0o  %%o=%o %%0o=%0o  %%o=%o %%0o=%0o"
                   SysTaskCall name:$time start:48:75 end:48:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:48:75 end:48:80:
@@ -3696,7 +3710,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:49:23 end:49:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3706,7 +3720,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:49:30 end:49:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3762,7 +3776,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%O=%O %%0O=%0O  %%O=%O %%0O=%0O  %%O=%O %%0O=%0o\""
-                    vpiValue: [%0t] %%O=%O %%0O=%0O  %%O=%O %%0O=%0O  %%O=%O %%0O=%0o
+                    vpiValue: "[%0t] %%O=%O %%0O=%0O  %%O=%O %%0O=%0O  %%O=%O %%0O=%0o"
                   SysTaskCall name:$time start:51:75 end:51:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:51:75 end:51:80:
@@ -3777,7 +3791,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:52:23 end:52:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3787,7 +3801,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:52:30 end:52:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3843,7 +3857,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%x=%x %%0x=%0x  %%x=%x %%0x=%0x  %%x=%x %%0x=%0x\""
-                    vpiValue: [%0t] %%x=%x %%0x=%0x  %%x=%x %%0x=%0x  %%x=%x %%0x=%0x
+                    vpiValue: "[%0t] %%x=%x %%0x=%0x  %%x=%x %%0x=%0x  %%x=%x %%0x=%0x"
                   SysTaskCall name:$time start:54:75 end:54:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:54:75 end:54:80:
@@ -3858,7 +3872,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:55:23 end:55:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3868,7 +3882,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:55:30 end:55:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3924,7 +3938,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%X=%X %%0X=%0X  %%X=%X %%0X=%0X  %%X=%X %%0X=%0X\""
-                    vpiValue: [%0t] %%X=%X %%0X=%0X  %%X=%X %%0X=%0X  %%X=%X %%0X=%0X
+                    vpiValue: "[%0t] %%X=%X %%0X=%0X  %%X=%X %%0X=%0X  %%X=%X %%0X=%0X"
                   SysTaskCall name:$time start:57:75 end:57:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:57:75 end:57:80:
@@ -3939,7 +3953,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:58:23 end:58:28:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -3949,7 +3963,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:58:30 end:58:43:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -4005,7 +4019,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d\""
-                    vpiValue: [%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d
+                    vpiValue: "[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d"
                   SysTaskCall name:$time start:61:75 end:61:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:61:75 end:61:80:
@@ -4020,7 +4034,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'sd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:62:24 end:62:30:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -4030,7 +4044,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'sd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Operation start:62:32 end:62:49:
                     vpiParent: SysFuncCall name:$display
                     vpiOpType: minus (1)
@@ -4094,7 +4108,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D\""
-                    vpiValue: [%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D
+                    vpiValue: "[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D"
                   SysTaskCall name:$time start:64:75 end:64:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:64:75 end:64:80:
@@ -4109,7 +4123,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'sd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Constant start:65:24 end:65:30:
                     vpiParent: SysFuncCall name:$display
                     vpiTypespec RefTypespec:
@@ -4119,7 +4133,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 9
                     vpiDecompile: "9'sd12"
-                    vpiValue: 12
+                    vpiValue: "12"
                   Operation start:65:32 end:65:49:
                     vpiParent: SysFuncCall name:$display
                     vpiOpType: minus (1)
@@ -4191,7 +4205,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%b=%b %%0b=%0b  %%b=%b %%0b=%0b  %%b=%b %%0b=%0b\""
-                    vpiValue: [%0t] %%b=%b %%0b=%0b  %%b=%b %%0b=%0b  %%b=%b %%0b=%0b
+                    vpiValue: "[%0t] %%b=%b %%0b=%0b  %%b=%b %%0b=%0b  %%b=%b %%0b=%0b"
                   SysTaskCall name:$time start:69:75 end:69:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:69:75 end:69:80:
@@ -4242,7 +4256,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%B=%B %%0B=%0B  %%B=%B %%0B=%0B  %%B=%B %%0B=%0B\""
-                    vpiValue: [%0t] %%B=%B %%0B=%0B  %%B=%B %%0B=%0B  %%B=%B %%0B=%0B
+                    vpiValue: "[%0t] %%B=%B %%0B=%0B  %%B=%B %%0B=%0B  %%B=%B %%0B=%0B"
                   SysTaskCall name:$time start:71:75 end:71:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:71:75 end:71:80:
@@ -4293,7 +4307,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d\""
-                    vpiValue: [%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d
+                    vpiValue: "[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d"
                   SysTaskCall name:$time start:73:75 end:73:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:73:75 end:73:80:
@@ -4344,7 +4358,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D\""
-                    vpiValue: [%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D
+                    vpiValue: "[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D"
                   SysTaskCall name:$time start:75:75 end:75:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:75:75 end:75:80:
@@ -4395,7 +4409,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%h=%h %%0h=%0h  %%h=%h %%0h=%0h  %%h=%h %%0h=%0h\""
-                    vpiValue: [%0t] %%h=%h %%0h=%0h  %%h=%h %%0h=%0h  %%h=%h %%0h=%0h
+                    vpiValue: "[%0t] %%h=%h %%0h=%0h  %%h=%h %%0h=%0h  %%h=%h %%0h=%0h"
                   SysTaskCall name:$time start:77:75 end:77:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:77:75 end:77:80:
@@ -4446,7 +4460,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%H=%H %%0H=%0H  %%H=%H %%0H=%0H  %%H=%H %%0H=%0H\""
-                    vpiValue: [%0t] %%H=%H %%0H=%0H  %%H=%H %%0H=%0H  %%H=%H %%0H=%0H
+                    vpiValue: "[%0t] %%H=%H %%0H=%0H  %%H=%H %%0H=%0H  %%H=%H %%0H=%0H"
                   SysTaskCall name:$time start:79:75 end:79:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:79:75 end:79:80:
@@ -4497,7 +4511,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%o=%o %%0o=%0o  %%o=%o %%0o=%0o  %%o=%o %%0o=%0o\""
-                    vpiValue: [%0t] %%o=%o %%0o=%0o  %%o=%o %%0o=%0o  %%o=%o %%0o=%0o
+                    vpiValue: "[%0t] %%o=%o %%0o=%0o  %%o=%o %%0o=%0o  %%o=%o %%0o=%0o"
                   SysTaskCall name:$time start:81:75 end:81:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:81:75 end:81:80:
@@ -4548,7 +4562,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%O=%O %%0O=%0O  %%O=%O %%0O=%0O  %%O=%O %%0O=%0o\""
-                    vpiValue: [%0t] %%O=%O %%0O=%0O  %%O=%O %%0O=%0O  %%O=%O %%0O=%0o
+                    vpiValue: "[%0t] %%O=%O %%0O=%0O  %%O=%O %%0O=%0O  %%O=%O %%0O=%0o"
                   SysTaskCall name:$time start:83:75 end:83:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:83:75 end:83:80:
@@ -4599,7 +4613,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%x=%x %%0x=%0x  %%x=%x %%0x=%0x  %%x=%x %%0x=%0x\""
-                    vpiValue: [%0t] %%x=%x %%0x=%0x  %%x=%x %%0x=%0x  %%x=%x %%0x=%0x
+                    vpiValue: "[%0t] %%x=%x %%0x=%0x  %%x=%x %%0x=%0x  %%x=%x %%0x=%0x"
                   SysTaskCall name:$time start:85:75 end:85:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:85:75 end:85:80:
@@ -4650,7 +4664,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%X=%X %%0X=%0X  %%X=%X %%0X=%0X  %%X=%X %%0X=%0X\""
-                    vpiValue: [%0t] %%X=%X %%0X=%0X  %%X=%X %%0X=%0X  %%X=%X %%0X=%0X
+                    vpiValue: "[%0t] %%X=%X %%0X=%0X  %%X=%X %%0X=%0X  %%X=%X %%0X=%0X"
                   SysTaskCall name:$time start:87:75 end:87:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:87:75 end:87:80:
@@ -4701,7 +4715,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d\""
-                    vpiValue: [%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d
+                    vpiValue: "[%0t] %%d=%d %%0d=%0d  %%d=%d %%0d=%0d  %%d=%d %%0d=%0d"
                   SysTaskCall name:$time start:90:75 end:90:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:90:75 end:90:80:
@@ -4752,7 +4766,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D\""
-                    vpiValue: [%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D
+                    vpiValue: "[%0t] %%D=%D %%0D=%0D  %%D=%D %%0D=%0D  %%D=%D %%0D=%0D"
                   SysTaskCall name:$time start:92:75 end:92:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:92:75 end:92:80:
@@ -4803,7 +4817,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 168
                     vpiDecompile: "\"[%0t] %%C=%C %%0C=%0C\""
-                    vpiValue: [%0t] %%C=%C %%0C=%0C
+                    vpiValue: "[%0t] %%C=%C %%0C=%0C"
                   SysTaskCall name:$time start:96:41 end:96:46:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:96:41 end:96:46:
@@ -4862,7 +4876,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 168
                     vpiDecompile: "\"[%0t] %%c=%c %%0c=%0c\""
-                    vpiValue: [%0t] %%c=%c %%0c=%0c
+                    vpiValue: "[%0t] %%c=%c %%0c=%0c"
                   SysTaskCall name:$time start:98:41 end:98:46:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:98:41 end:98:46:
@@ -4921,7 +4935,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 456
                     vpiDecompile: "\"[%0t] %%v=%v %%0v=%0v  %%v=%v %%0v=%0v  %%v=%v %%0v=%0v <\""
-                    vpiValue: [%0t] %%v=%v %%0v=%0v  %%v=%v %%0v=%0v  %%v=%v %%0v=%0v <
+                    vpiValue: "[%0t] %%v=%v %%0v=%0v  %%v=%v %%0v=%0v  %%v=%v %%0v=%0v <"
                   SysTaskCall name:$time start:102:77 end:102:82:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:102:77 end:102:82:
@@ -4972,7 +4986,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 456
                     vpiDecompile: "\"[%0t] %%V=%V %%0V=%0V  %%V=%V %%0V=%0V  %%V=%V %%0V=%0V <\""
-                    vpiValue: [%0t] %%V=%V %%0V=%0V  %%V=%V %%0V=%0V  %%V=%V %%0V=%0V <
+                    vpiValue: "[%0t] %%V=%V %%0V=%0V  %%V=%V %%0V=%0V  %%V=%V %%0V=%0V <"
                   SysTaskCall name:$time start:104:77 end:104:82:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:104:77 end:104:82:
@@ -5023,7 +5037,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%p=%p %%0p=%0p  %%p=%p %%0p=%0p  %%p=%p %%0p=%0p\""
-                    vpiValue: [%0t] %%p=%p %%0p=%0p  %%p=%p %%0p=%0p  %%p=%p %%0p=%0p
+                    vpiValue: "[%0t] %%p=%p %%0p=%0p  %%p=%p %%0p=%0p  %%p=%p %%0p=%0p"
                   SysTaskCall name:$time start:106:75 end:106:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:106:75 end:106:80:
@@ -5074,7 +5088,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 440
                     vpiDecompile: "\"[%0t] %%P=%P %%0P=%0P  %%P=%P %%0P=%0P  %%P=%P %%0P=%0P\""
-                    vpiValue: [%0t] %%P=%P %%0P=%0P  %%P=%P %%0P=%0P  %%P=%P %%0P=%0P
+                    vpiValue: "[%0t] %%P=%P %%0P=%0P  %%P=%P %%0P=%0P  %%P=%P %%0P=%0P"
                   SysTaskCall name:$time start:108:75 end:108:80:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:108:75 end:108:80:
@@ -5125,7 +5139,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 96
                     vpiDecompile: "\"[%0t] %%P=%P\""
-                    vpiValue: [%0t] %%P=%P
+                    vpiValue: "[%0t] %%P=%P"
                   SysTaskCall name:$time start:110:32 end:110:37:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:110:32 end:110:37:
@@ -5151,7 +5165,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 168
                     vpiDecompile: "\"[%0t] %%u=%u %%0u=%0u\""
-                    vpiValue: [%0t] %%u=%u %%0u=%0u
+                    vpiValue: "[%0t] %%u=%u %%0u=%0u"
                   SysTaskCall name:$time start:113:41 end:113:46:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:113:41 end:113:46:
@@ -5260,7 +5274,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 168
                     vpiDecompile: "\"[%0t] %%U=%U %%0U=%0U\""
-                    vpiValue: [%0t] %%U=%U %%0U=%0U
+                    vpiValue: "[%0t] %%U=%U %%0U=%0U"
                   SysTaskCall name:$time start:115:41 end:115:46:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:115:41 end:115:46:
@@ -5369,7 +5383,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 400
                     vpiDecompile: "\"[%0t] %%D=%D %%d=%d %%01d=%01d %%06d=%06d %%6d=%6d\""
-                    vpiValue: [%0t] %%D=%D %%d=%d %%01d=%01d %%06d=%06d %%6d=%6d
+                    vpiValue: "[%0t] %%D=%D %%d=%d %%01d=%01d %%06d=%06d %%6d=%6d"
                   SysTaskCall name:$time start:119:70 end:119:75:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:119:70 end:119:75:
@@ -5415,7 +5429,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 256
                     vpiDecompile: "\"[%0t] %%t=%t %%03t=%03t %%0t=%0t\""
-                    vpiValue: [%0t] %%t=%t %%03t=%03t %%0t=%0t
+                    vpiValue: "[%0t] %%t=%t %%03t=%03t %%0t=%0t"
                   SysTaskCall name:$time start:121:52 end:121:57:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:121:52 end:121:57:
@@ -5456,7 +5470,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 208
                     vpiDecompile: "\"[%0t] %%s=%s %%s=%s %%s=%s\""
-                    vpiValue: [%0t] %%s=%s %%s=%s %%s=%s
+                    vpiValue: "[%0t] %%s=%s %%s=%s %%s=%s"
                   SysTaskCall name:$time start:125:46 end:125:51:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:125:46 end:125:51:
@@ -5518,7 +5532,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 96
                     vpiDecompile: "\"[%0t] %s%s%s\""
-                    vpiValue: [%0t] %s%s%s
+                    vpiValue: "[%0t] %s%s%s"
                   SysTaskCall name:$time start:128:32 end:128:37:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:128:32 end:128:37:
@@ -5646,7 +5660,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 128
                     vpiDecompile: "\"extra argument: \""
-                    vpiValue: extra argument: 
+                    vpiValue: "extra argument: "
                   SysTaskCall name:$time start:132:36 end:132:41:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:132:36 end:132:41:
@@ -5672,7 +5686,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 112
                     vpiDecompile: "\": pre argument\""
-                    vpiValue: : pre argument
+                    vpiValue: ": pre argument"
               SysFuncCall name:$write start:134:7 end:134:50:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:134:7 end:134:13:
@@ -5688,7 +5702,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 208
                     vpiDecompile: "\"[%0t] Embedded \\r return\\n\""
-                    vpiValue: [%0t] Embedded \r return\n
+                    vpiValue: "[%0t] Embedded \\r return\\n"
                   SysTaskCall name:$time start:134:44 end:134:49:
                     vpiParent: SysFuncCall name:$write
                     vpiName Identifier name:$time start:134:44 end:134:49:
@@ -5710,8 +5724,8 @@ Design name:unnamed:
                     vpiSize: 200
                     vpiDecompile: "\"[%0t] Embedded\\
 multiline\""
-                    vpiValue: [%0t] Embedded\
-multiline
+                    vpiValue: "[%0t] Embedded\\
+multiline"
                   SysTaskCall name:$time start:136:13 end:136:18:
                     vpiParent: SysFuncCall name:$display
                     vpiName Identifier name:$time start:136:13 end:136:18:
@@ -5737,7 +5751,7 @@ multiline
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'h00bf110a"
-                      vpiValue: 00bf110a
+                      vpiValue: "00bf110a"
                 vpiStmt SysFuncCall name:$stop start:140:36 end:140:41:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:140:36 end:140:41:
@@ -5758,7 +5772,7 @@ multiline
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:143:7 end:143:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:143:7 end:143:14:
@@ -5781,7 +5795,7 @@ multiline
             vpiName: work@sub2
             vpiFullName: work@t.sub2.work@sub2
             vpiActual: ModuleTypespec name:work@sub2
-    Module name:work@sub file:${SURELOG_DIR}/tests/Verilator/t_display.v start:147:1 end:156:10:
+    Module name:work@sub file:$Source01/t_display.v start:147:1 end:156:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:147:8 end:147:11:
         vpiParent: Module name:work@sub
@@ -5789,6 +5803,11 @@ multiline
       vpiFullName: work@sub
       vpiDefName: work@sub
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub
+        vpiName: work
+        vpiFullName: work@sub.work
+      vpiCell: sub
       vpiTaskFunc (1 items):
         Task name:write_m start:148:4 end:155:11:
           vpiParent: Module name:work@sub
@@ -5796,64 +5815,60 @@ multiline
             vpiParent: Task name:write_m
             vpiName: write_m
           vpiFullName: work@sub.write_m
-          vpiStmt Begin:
+          vpiStmt Begin start:149:7 end:154:10:
             vpiParent: Task name:write_m
             vpiFullName: work@sub.write_m
-            vpiStmt (1 items):
-              Begin start:149:7 end:154:10:
+            vpiStmt (2 items):
+              SysFuncCall name:$write start:150:10 end:150:45:
                 vpiParent: Begin
-                vpiFullName: work@sub.write_m
-                vpiStmt (2 items):
-                  SysFuncCall name:$write start:150:10 end:150:45:
-                    vpiParent: Begin
-                    vpiName Identifier name:$write start:150:10 end:150:16:
+                vpiName Identifier name:$write start:150:10 end:150:16:
+                  vpiParent: SysFuncCall name:$write
+                  vpiName: "$write"
+                vpiArgument (2 items):
+                  Constant start:150:17 end:150:37:
+                    vpiParent: SysFuncCall name:$write
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sub.write_m
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 144
+                    vpiDecompile: "\"[%0t] In %m (%l)\\n\""
+                    vpiValue: "[%0t] In %m (%l)\\n"
+                  SysTaskCall name:$time start:150:39 end:150:44:
+                    vpiParent: SysFuncCall name:$write
+                    vpiName Identifier name:$time start:150:39 end:150:44:
+                      vpiParent: SysTaskCall name:$time
+                      vpiName: "$time"
+              Begin name:subblock start:151:10 end:153:13:
+                vpiParent: Begin
+                vpiName Identifier name:subblock start:151:18 end:151:26:
+                  vpiParent: Begin name:subblock
+                  vpiName: subblock
+                vpiFullName: work@sub.write_m.subblock
+                vpiStmt (1 items):
+                  SysFuncCall name:$write start:152:13 end:152:48:
+                    vpiParent: Begin name:subblock
+                    vpiName Identifier name:$write start:152:13 end:152:19:
                       vpiParent: SysFuncCall name:$write
                       vpiName: "$write"
                     vpiArgument (2 items):
-                      Constant start:150:17 end:150:37:
+                      Constant start:152:20 end:152:40:
                         vpiParent: SysFuncCall name:$write
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@sub.write_m
+                          vpiFullName: work@sub.write_m.subblock
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 144
-                        vpiDecompile: "\"[%0t] In %m (%l)\\n\""
-                        vpiValue: [%0t] In %m (%l)\n
-                      SysTaskCall name:$time start:150:39 end:150:44:
+                        vpiDecompile: "\"[%0t] In %M (%L)\\n\""
+                        vpiValue: "[%0t] In %M (%L)\\n"
+                      SysTaskCall name:$time start:152:42 end:152:47:
                         vpiParent: SysFuncCall name:$write
-                        vpiName Identifier name:$time start:150:39 end:150:44:
+                        vpiName Identifier name:$time start:152:42 end:152:47:
                           vpiParent: SysTaskCall name:$time
                           vpiName: "$time"
-                  Begin name:subblock start:151:10 end:153:13:
-                    vpiParent: Begin
-                    vpiName Identifier name:subblock start:151:18 end:151:26:
-                      vpiParent: Begin name:subblock
-                      vpiName: subblock
-                    vpiFullName: work@sub.write_m.subblock
-                    vpiStmt (1 items):
-                      SysFuncCall name:$write start:152:13 end:152:48:
-                        vpiParent: Begin name:subblock
-                        vpiName Identifier name:$write start:152:13 end:152:19:
-                          vpiParent: SysFuncCall name:$write
-                          vpiName: "$write"
-                        vpiArgument (2 items):
-                          Constant start:152:20 end:152:40:
-                            vpiParent: SysFuncCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: work@sub.write_m.subblock
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 144
-                            vpiDecompile: "\"[%0t] In %M (%L)\\n\""
-                            vpiValue: [%0t] In %M (%L)\n
-                          SysTaskCall name:$time start:152:42 end:152:47:
-                            vpiParent: SysFuncCall name:$write
-                            vpiName Identifier name:$time start:152:42 end:152:47:
-                              vpiParent: SysTaskCall name:$time
-                              vpiName: "$time"
-    Module name:work@sub2 file:${SURELOG_DIR}/tests/Verilator/t_display.v start:158:1 end:168:10:
+    Module name:work@sub2 file:$Source01/t_display.v start:158:1 end:168:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub2 start:158:8 end:158:12:
         vpiParent: Module name:work@sub2
@@ -5861,6 +5876,11 @@ multiline
       vpiFullName: work@sub2
       vpiDefName: work@sub2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@sub2
+        vpiName: work
+        vpiFullName: work@sub2.work
+      vpiCell: sub2
       vpiTaskFunc (1 items):
         Task name:write_m start:160:4 end:167:11:
           vpiParent: Module name:work@sub2
@@ -5868,63 +5888,59 @@ multiline
             vpiParent: Task name:write_m
             vpiName: write_m
           vpiFullName: work@sub2.write_m
-          vpiStmt Begin:
+          vpiStmt Begin start:161:7 end:166:10:
             vpiParent: Task name:write_m
             vpiFullName: work@sub2.write_m
-            vpiStmt (1 items):
-              Begin start:161:7 end:166:10:
+            vpiStmt (2 items):
+              SysFuncCall name:$write start:162:10 end:162:45:
                 vpiParent: Begin
-                vpiFullName: work@sub2.write_m
-                vpiStmt (2 items):
-                  SysFuncCall name:$write start:162:10 end:162:45:
-                    vpiParent: Begin
-                    vpiName Identifier name:$write start:162:10 end:162:16:
+                vpiName Identifier name:$write start:162:10 end:162:16:
+                  vpiParent: SysFuncCall name:$write
+                  vpiName: "$write"
+                vpiArgument (2 items):
+                  Constant start:162:17 end:162:37:
+                    vpiParent: SysFuncCall name:$write
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sub2.write_m
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 144
+                    vpiDecompile: "\"[%0t] In %m (%l)\\n\""
+                    vpiValue: "[%0t] In %m (%l)\\n"
+                  SysTaskCall name:$time start:162:39 end:162:44:
+                    vpiParent: SysFuncCall name:$write
+                    vpiName Identifier name:$time start:162:39 end:162:44:
+                      vpiParent: SysTaskCall name:$time
+                      vpiName: "$time"
+              Begin name:subblock2 start:163:10 end:165:13:
+                vpiParent: Begin
+                vpiName Identifier name:subblock2 start:163:18 end:163:27:
+                  vpiParent: Begin name:subblock2
+                  vpiName: subblock2
+                vpiFullName: work@sub2.write_m.subblock2
+                vpiStmt (1 items):
+                  SysFuncCall name:$write start:164:13 end:164:48:
+                    vpiParent: Begin name:subblock2
+                    vpiName Identifier name:$write start:164:13 end:164:19:
                       vpiParent: SysFuncCall name:$write
                       vpiName: "$write"
                     vpiArgument (2 items):
-                      Constant start:162:17 end:162:37:
+                      Constant start:164:20 end:164:40:
                         vpiParent: SysFuncCall name:$write
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@sub2.write_m
+                          vpiFullName: work@sub2.write_m.subblock2
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 144
-                        vpiDecompile: "\"[%0t] In %m (%l)\\n\""
-                        vpiValue: [%0t] In %m (%l)\n
-                      SysTaskCall name:$time start:162:39 end:162:44:
+                        vpiDecompile: "\"[%0t] In %m (%L)\\n\""
+                        vpiValue: "[%0t] In %m (%L)\\n"
+                      SysTaskCall name:$time start:164:42 end:164:47:
                         vpiParent: SysFuncCall name:$write
-                        vpiName Identifier name:$time start:162:39 end:162:44:
+                        vpiName Identifier name:$time start:164:42 end:164:47:
                           vpiParent: SysTaskCall name:$time
                           vpiName: "$time"
-                  Begin name:subblock2 start:163:10 end:165:13:
-                    vpiParent: Begin
-                    vpiName Identifier name:subblock2 start:163:18 end:163:27:
-                      vpiParent: Begin name:subblock2
-                      vpiName: subblock2
-                    vpiFullName: work@sub2.write_m.subblock2
-                    vpiStmt (1 items):
-                      SysFuncCall name:$write start:164:13 end:164:48:
-                        vpiParent: Begin name:subblock2
-                        vpiName Identifier name:$write start:164:13 end:164:19:
-                          vpiParent: SysFuncCall name:$write
-                          vpiName: "$write"
-                        vpiArgument (2 items):
-                          Constant start:164:20 end:164:40:
-                            vpiParent: SysFuncCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: work@sub2.write_m.subblock2
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 144
-                            vpiDecompile: "\"[%0t] In %m (%L)\\n\""
-                            vpiValue: [%0t] In %m (%L)\n
-                          SysTaskCall name:$time start:164:42 end:164:47:
-                            vpiParent: SysFuncCall name:$write
-                            vpiName Identifier name:$time start:164:42 end:164:47:
-                              vpiParent: SysTaskCall name:$time
-                              vpiName: "$time"
   vpiTypespec (7 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -5954,37 +5970,40 @@ multiline
         vpiName: work@sub2
       vpiModule: Module name:work@sub2
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_display
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_display
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_display/surelog.uhdm
+      test-name: Verilator/t_display
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_display
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_display/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_display/mounts.json
 
 
 {'result': {'coverage': 99.57,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_display/lib/work/t_display.v'): {'post_len': 25,
-                                                                                                                             'pre_len': 5870}},
+            'files': {'$Output/lib/work/t_display.v': {'post_len': 25,
+                                                       'pre_len': 5870}},
             'post_len': 25,
             'pre_len': 5870,
             'test_name': 'Verilator/t_display'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/t_display.v |     5870 |        25 |
-+======================+==========+===========+
-|                      |     5870 |        25 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/t_display.v |     5870 |        25 |
++==============================+==========+===========+
+|                              |     5870 |        25 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 99.57
@@ -5992,7 +6011,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_display/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_display/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_display/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_display/design.hldb ${HLC_DIR}/regression/Verilator/t_display/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -6001,7 +6020,7 @@ Constant                           180     168      10        22
 Operation                           18       8       0        10
 RefTypespec                        192     176       6        22
 ----------------------------------------------------------------
-Others                             420     420       0         0
+Others                             421     421       0         0
 ----------------------------------------------------------------
-                                   810     772      16        54
+                                   811     773      16        54
 ===================== END REDUCTION RESULT =====================

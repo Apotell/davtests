@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_display_l/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_display_l.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_display_l
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_display_l.v".
+[INF:PA0201] Parsing source file "$Source01/t_display_l.v".
 AST_DEBUG_BEGIN
 Count: 101
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_display_l.v
-n<${SURELOG_DIR}/tests/Verilator/t_display_l.v> u<100> t<Top_level_rule> c<1> l<6:1> el<16:1>
+FILE: f<13>:$Source01/t_display_l.v
+n<$Source01/t_display_l.v> u<100> t<Top_level_rule> c<1> l<6:1> el<16:1>
   n<> u<1> t<Null_rule> p<100> s<2> l<6:1> el<6:1>
   n<// DESCRIPTION: Verilator: $display() test for %l> u<2> t<LINE_COMMENT> p<100> s<3> l<1:1> el<1:50>
   n<//> u<3> t<LINE_COMMENT> p<100> s<4> l<2:1> el<2:3>
@@ -104,19 +113,19 @@ n<${SURELOG_DIR}/tests/Verilator/t_display_l.v> u<100> t<Top_level_rule> c<1> l<
                           n<> u<86> t<END> p<87> l<13:4> el<13:7>
         n<> u<96> t<ENDMODULE> p<97> l<15:1> el<15:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_display_l.v:6:1: Compile module "work@t".
+[INF:CP0303] $Source01/t_display_l.v:6:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_display_l.v file:${SURELOG_DIR}/tests/Verilator/t_display_l.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_display_l.v file:$Source01/t_display_l.v:
       vpiParent: Design name:unnamed
       vpiName: t_display_l.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_display_l/lib/work/t_display_l.v"
+      vpiPreprocFile: "$Output/lib/work/t_display_l.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_display_l.v start:6:1 end:15:10:
+    Module name:work@t file:$Source01/t_display_l.v start:6:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:6:8 end:6:9:
         vpiParent: Module name:work@t
@@ -124,6 +133,11 @@ Design name:unnamed:
       vpiFullName: work@t
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiProcess (1 items):
         Initial start:8:4 end:13:7:
           vpiParent: Module name:work@t
@@ -182,7 +196,7 @@ Design name:unnamed:
                       vpiConstType: string (6)
                       vpiSize: 80
                       vpiDecompile: "\"%l %m : %d\""
-                      vpiValue: %l %m : %d
+                      vpiValue: "%l %m : %d"
                     Constant start:9:52 end:9:53:
                       vpiParent: SysFuncCall name:$fatal
                       vpiTypespec RefTypespec:
@@ -208,7 +222,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 40
                     vpiDecompile: "\"%l %m\""
-                    vpiValue: %l %m
+                    vpiValue: "%l %m"
               SysFuncCall name:$write start:11:7 end:11:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:11:7 end:11:13:
@@ -224,7 +238,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:12:7 end:12:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:12:7 end:12:14:
@@ -243,37 +257,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_display_l
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_display_l
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_display_l/surelog.uhdm
+      test-name: Verilator/t_display_l
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_display_l
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_display_l/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_display_l/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_display_l/lib/work/t_display_l.v'): {'post_len': 0,
-                                                                                                                                 'pre_len': 155}},
+            'files': {'$Output/lib/work/t_display_l.v': {'post_len': 0,
+                                                         'pre_len': 155}},
             'post_len': 0,
             'pre_len': 155,
             'test_name': 'Verilator/t_display_l'}}
 
-+------------------------+----------+-----------+
-| INPUT                  |   PRELEN |   POSTLEN |
-+========================+==========+===========+
-| lib/work/t_display_l.v |      155 |         0 |
-+========================+==========+===========+
-|                        |      155 |         0 |
-+------------------------+----------+-----------+
++--------------------------------+----------+-----------+
+| INPUT                          |   PRELEN |   POSTLEN |
++================================+==========+===========+
+| $Output/lib/work/t_display_l.v |      155 |         0 |
++================================+==========+===========+
+|                                |      155 |         0 |
++--------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -281,7 +298,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_display_l/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_display_l/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_display_l/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_display_l/design.hldb ${HLC_DIR}/regression/Verilator/t_display_l/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -290,7 +307,7 @@ Constant                             7       6       1         2
 Operation                            1       0       0         1
 RefTypespec                          7       6       1         2
 ----------------------------------------------------------------
-Others                              19      19       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    34      31       2         5
+                                    35      32       2         5
 ===================== END REDUCTION RESULT =====================

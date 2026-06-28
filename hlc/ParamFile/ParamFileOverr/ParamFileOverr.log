@@ -1,10 +1,19 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/ParamFile -fileunit -writepp -d ast -d db dut.sv -nobuiltin -nocache -PSRAMInitFile=/blah -top dut -o slpp_overr -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ParamFile/ParamFileOverr
+[INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 203
 LIB: work
-FILE: ${SURELOG_DIR}/tests/ParamFile/dut.sv
-n<${SURELOG_DIR}/tests/ParamFile/dut.sv> u<202> t<Top_level_rule> c<1> l<3:1> el<32:1>
+FILE: f<14>:$Source01/dut.sv
+n<$Source01/dut.sv> u<202> t<Top_level_rule> c<1> l<3:1> el<32:1>
   n<> u<1> t<Null_rule> p<202> s<201> l<3:1> el<3:1>
   n<> u<201> t<Source_text> p<202> c<59> l<3:1> el<30:10>
     n<> u<59> t<Description> p<201> c<58> s<200> l<3:1> el<10:10>
@@ -207,20 +216,20 @@ n<${SURELOG_DIR}/tests/ParamFile/dut.sv> u<202> t<Top_level_rule> c<1> l<3:1> el
                         n<> u<189> t<END> p<190> l<28:1> el<28:4>
         n<> u<198> t<ENDMODULE> p<199> l<30:1> el<30:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamFile/dut.sv:3:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/ParamFile/dut.sv:12:1: Compile module "work@ram_1p".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamFile/dut.sv:3:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/ParamFile/dut.sv:12:1: No timescale set for "work@ram_1p".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamFile/dut.sv:6:7: Illegal implicit net "id:27, name:MemInitFile".
-[ERR:EL0535] ${SURELOG_DIR}/tests/ParamFile/dut.sv:8:13: Illegal implicit net "id:30, name:out".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@ram_1p".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@ram_1p".
+[ERR:EL0535] $Source01/dut.sv:6:7: Illegal implicit net "id:29, name:MemInitFile".
+[ERR:EL0535] $Source01/dut.sv:8:13: Illegal implicit net "id:32, name:out".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/ParamFile/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:PARAM_FILE start:1:1 end:1:22:
           vpiParent: SourceFile name:dut.sv
@@ -228,7 +237,7 @@ Design name:unnamed:
           vpiNameStartColumn: 9
           vpiBodyStartColumn: 20
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:PARAM_FILE file:${SURELOG_DIR}/tests/ParamFile/dut.sv start:4:29 end:4:40:
+        PreprocMacroInstance name:PARAM_FILE file:$Source01/dut.sv start:4:29 end:4:40:
           vpiParent: SourceFile name:dut.sv
           vpiName: PARAM_FILE
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:PARAM_FILE
@@ -242,7 +251,7 @@ Design name:unnamed:
           vpiSourceEndColumn: 31
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/ParamFile/dut.sv start:3:1 end:10:10:
+    Module name:work@dut file:$Source01/dut.sv start:3:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:3:8 end:3:11:
         vpiParent: Module name:work@dut
@@ -283,7 +292,7 @@ Design name:unnamed:
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiDecompile: "\"\""
-            vpiValue: 
+            vpiValue: ""
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@dut
@@ -294,6 +303,11 @@ Design name:unnamed:
             vpiName: work@ram_1p
       vpiDefName: work@dut
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
       vpiPort (1 items):
         Port name:o start:3:26 end:3:27:
           vpiParent: Module name:work@dut
@@ -341,7 +355,7 @@ Design name:unnamed:
                 vpiName: o
                 vpiFullName: work@dut.u_ram.o
                 vpiActual: Variable name:o
-    Module name:work@ram_1p file:${SURELOG_DIR}/tests/ParamFile/dut.sv start:12:1 end:30:10:
+    Module name:work@ram_1p file:$Source01/dut.sv start:12:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ram_1p start:12:8 end:12:14:
         vpiParent: Module name:work@ram_1p
@@ -382,12 +396,17 @@ Design name:unnamed:
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiDecompile: "\"\""
-            vpiValue: 
+            vpiValue: ""
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:work@ram_1p
       vpiDefName: work@ram_1p
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ram_1p
+        vpiName: work
+        vpiFullName: work@ram_1p.work
+      vpiCell: ram_1p
       vpiPort (1 items):
         Port name:out start:15:22 end:15:25:
           vpiParent: Module name:work@ram_1p
@@ -427,7 +446,7 @@ Design name:unnamed:
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiDecompile: "\"\""
-                      vpiValue: 
+                      vpiValue: ""
                 vpiStmt Begin name:gen_meminit start:19:26 end:22:6:
                   vpiParent: IfStmt
                   vpiName Identifier name:gen_meminit start:19:34 end:19:45:
@@ -453,7 +472,7 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiSize: 304
                           vpiDecompile: "\"Initializing memory %m from file '%s'.\""
-                          vpiValue: Initializing memory %m from file '%s'.
+                          vpiValue: "Initializing memory %m from file '%s'."
                         RefObj name:MemInitFile start:20:58 end:20:69:
                           vpiParent: SysFuncCall name:$display
                           vpiName: MemInitFile
@@ -480,7 +499,7 @@ Design name:unnamed:
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiDecompile: "\"\""
-                      vpiValue: 
+                      vpiValue: ""
                 vpiStmt Begin name:gen_nomeminit start:24:26 end:27:6:
                   vpiParent: IfStmt
                   vpiName Identifier name:gen_nomeminit start:24:34 end:24:47:
@@ -525,37 +544,40 @@ Design name:unnamed:
         vpiName: work@ram_1p
       vpiModule: Module name:work@ram_1p
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: ParamFile/ParamFileOverr
- test-dirpath: ${SURELOG_DIR}/regression/ParamFile/ParamFileOverr
-uhdm-filepath: ${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/surelog.uhdm
+      test-name: ParamFile/ParamFileOverr
+   test-dirpath: ${HLC_DIR}/regression/ParamFile/ParamFileOverr
+  hldb-filepath: ${HLC_DIR}/regression/ParamFile/ParamFileOverr/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/ParamFile/ParamFileOverr/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                             'pre_len': 449}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 449}},
             'post_len': 0,
             'pre_len': 449,
             'test_name': 'ParamFile/ParamFileOverr'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      449 |         0 |
-+=================+==========+===========+
-|                 |      449 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      449 |         0 |
++=========================+==========+===========+
+|                         |      449 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -563,13 +585,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/surelog.uhdm ${SURELOG_DIR}/regression/ParamFile/ParamFileOverr/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/ParamFile/ParamFileOverr/design.hldb ${HLC_DIR}/regression/ParamFile/ParamFileOverr/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              78      78       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    78      78       0         0
 ===================== END REDUCTION RESULT =====================

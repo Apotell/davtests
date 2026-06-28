@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/consttern/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db consttern.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/consttern
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/consttern.v".
+[INF:PA0201] Parsing source file "$Source01/consttern.v".
 AST_DEBUG_BEGIN
 Count: 159
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v> u<158> t<Top_level_rule> c<1> l<1:1> el<13:1>
+FILE: f<13>:$Source01/consttern.v
+n<$Source01/consttern.v> u<158> t<Top_level_rule> c<1> l<1:1> el<13:1>
   n<> u<1> t<Null_rule> p<158> s<157> l<1:1>
   n<> u<157> t<Source_text> p<158> c<22> l<1:1> el<12:10>
     n<> u<22> t<Description> p<157> c<21> s<156> l<1:1> el<3:10>
@@ -162,21 +171,21 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v> u<158> t<Top_level_rule> c<1
                                     n<"PASSED"> u<139> t<QUOTED_STRING> p<140> l<11:22> el<11:30>
         n<> u<154> t<ENDMODULE> p<155> l<12:1> el<12:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v:1:1: Compile module "work@rega".
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v:5:1: Compile module "work@test".
-[WRN:CP0323] ${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v:5:1: Multiply defined typedef "work@rega".
+[INF:CP0303] $Source01/consttern.v:1:1: Compile module "work@rega".
+[INF:CP0303] $Source01/consttern.v:5:1: Compile module "work@test".
+[WRN:CP0323] $Source01/consttern.v:5:1: Multiply defined typedef "work@rega".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:consttern.v file:${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v:
+  vpiSourceFile (1 items):
+    SourceFile name:consttern.v file:$Source01/consttern.v:
       vpiParent: Design name:unnamed
       vpiName: consttern.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/consttern/lib/work/consttern.v"
+      vpiPreprocFile: "$Output/lib/work/consttern.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@rega file:${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v start:1:1 end:3:10:
+    Module name:work@rega file:$Source01/consttern.v start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@rega start:1:8 end:1:12:
         vpiParent: Module name:work@rega
@@ -187,6 +196,11 @@ Design name:unnamed:
           vpiParent: Module name:work@rega
       vpiDefName: work@rega
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@rega
+        vpiName: work
+        vpiFullName: work@rega.work
+      vpiCell: rega
       vpiNet (1 items):
         Net name:A start:2:7 end:2:8:
           vpiParent: Module name:work@rega
@@ -210,7 +224,7 @@ Design name:unnamed:
             vpiParent: Port name:A
             vpiFullName: work@rega.A
             vpiActual: LogicTypespec
-    Module name:work@test file:${SURELOG_DIR}/tests/Icarus/ivltests/consttern.v start:5:1 end:12:10:
+    Module name:work@test file:$Source01/consttern.v start:5:1 end:12:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@test start:5:8 end:5:12:
         vpiParent: Module name:work@test
@@ -231,6 +245,11 @@ Design name:unnamed:
             vpiName: work@rega
       vpiDefName: work@test
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@test
+        vpiName: work
+        vpiFullName: work@test.work
+      vpiCell: test
       vpiNet (1 items):
         Net name:A start:6:7 end:6:8:
           vpiParent: Module name:work@test
@@ -290,17 +309,17 @@ Design name:unnamed:
                 vpiName: A
                 vpiFullName: work@test.a.A
                 vpiActual: Net name:A
-              vpiHighConn PartSelect name:A[5>4 ? 0 : 1:0] start:8:16 end:8:38:
+              "vpiHighConn PartSelect name:A[5>4 ? 0 : 1:0] start:8:16 end:8:38":
                 vpiParent: Port
                 vpiName: "A[5>4 ? 0 : 1:0]"
                 vpiFullName: "work@test.a.A[5>4 ? 0 : 1:0]"
                 vpiPrefix RefObj name:A start:8:16 end:8:17:
-                  vpiParent: PartSelect name:A[5>4 ? 0 : 1:0]
+                  vpiParent: "PartSelect name:A[5>4 ? 0 : 1:0]"
                   vpiName: A
                   vpiFullName: "work@test.a.A[5>4 ? 0 : 1:0].A"
                   vpiActual: Net name:A
                 vpiRange Range start:8:18 end:8:37:
-                  vpiParent: PartSelect name:A[5>4 ? 0 : 1:0]
+                  vpiParent: "PartSelect name:A[5>4 ? 0 : 1:0]"
                   vpiLeftRange Operation start:8:19 end:8:32:
                     vpiParent: Range
                     vpiOpType: condition (32)
@@ -375,17 +394,17 @@ Design name:unnamed:
                 vpiName: A
                 vpiFullName: work@test.b.A
                 vpiActual: Net name:A
-              vpiHighConn PartSelect name:A[4<5 ? 0 : 1:0] start:9:16 end:9:38:
+              "vpiHighConn PartSelect name:A[4<5 ? 0 : 1:0] start:9:16 end:9:38":
                 vpiParent: Port
                 vpiName: "A[4<5 ? 0 : 1:0]"
                 vpiFullName: "work@test.b.A[4<5 ? 0 : 1:0]"
                 vpiPrefix RefObj name:A start:9:16 end:9:17:
-                  vpiParent: PartSelect name:A[4<5 ? 0 : 1:0]
+                  vpiParent: "PartSelect name:A[4<5 ? 0 : 1:0]"
                   vpiName: A
                   vpiFullName: "work@test.b.A[4<5 ? 0 : 1:0].A"
                   vpiActual: Net name:A
                 vpiRange Range start:9:18 end:9:37:
-                  vpiParent: PartSelect name:A[4<5 ? 0 : 1:0]
+                  vpiParent: "PartSelect name:A[4<5 ? 0 : 1:0]"
                   vpiLeftRange Operation start:9:19 end:9:32:
                     vpiParent: Range
                     vpiOpType: condition (32)
@@ -463,37 +482,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/consttern
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/consttern
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/consttern/surelog.uhdm
+      test-name: Icarus/ivltests/consttern
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/consttern
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/consttern/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/consttern/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/consttern/lib/work/consttern.v'): {'post_len': 0,
-                                                                                                                                   'pre_len': 163}},
+            'files': {'$Output/lib/work/consttern.v': {'post_len': 0,
+                                                       'pre_len': 163}},
             'post_len': 0,
             'pre_len': 163,
             'test_name': 'Icarus/ivltests/consttern'}}
 
-+----------------------+----------+-----------+
-| INPUT                |   PRELEN |   POSTLEN |
-+======================+==========+===========+
-| lib/work/consttern.v |      163 |         0 |
-+======================+==========+===========+
-|                      |      163 |         0 |
-+----------------------+----------+-----------+
++------------------------------+----------+-----------+
+| INPUT                        |   PRELEN |   POSTLEN |
++==============================+==========+===========+
+| $Output/lib/work/consttern.v |      163 |         0 |
++==============================+==========+===========+
+|                              |      163 |         0 |
++------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -501,7 +523,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/consttern/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/consttern/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/consttern/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/consttern/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/consttern/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -510,7 +532,7 @@ Constant                            11       3       0         8
 Operation                            4       0       0         4
 RefTypespec                         17       9       0         8
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    71      51       0        20
+                                    73      53       0        20
 ===================== END REDUCTION RESULT =====================

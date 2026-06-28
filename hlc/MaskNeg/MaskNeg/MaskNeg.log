@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/MaskNeg/MaskNeg/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/MaskNeg -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/MaskNeg/MaskNeg
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 63
 LIB: work
-FILE: ${SURELOG_DIR}/tests/MaskNeg/dut.sv
-n<${SURELOG_DIR}/tests/MaskNeg/dut.sv> u<62> t<Top_level_rule> c<1> l<1:1> el<10:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<62> t<Top_level_rule> c<1> l<1:1> el<10:1>
   n<> u<1> t<Null_rule> p<62> s<60> l<1:1>
   n<> u<60> t<Source_text> p<62> c<30> s<61> l<1:1> el<9:10>
     n<> u<30> t<Description> p<60> c<29> s<59> l<1:1> el<3:10>
@@ -66,22 +75,22 @@ n<${SURELOG_DIR}/tests/MaskNeg/dut.sv> u<62> t<Top_level_rule> c<1> l<1:1> el<10
         n<> u<57> t<ENDMODULE> p<58> l<9:1> el<9:10>
   n<// top> u<61> t<LINE_COMMENT> p<62> l<9:11> el<9:17>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/MaskNeg/dut.sv:1:1: Compile module "work@dut".
-[INF:CP0303] ${SURELOG_DIR}/tests/MaskNeg/dut.sv:5:1: Compile module "work@top".
-[WRN:PA0205] ${SURELOG_DIR}/tests/MaskNeg/dut.sv:1:1: No timescale set for "work@dut".
-[WRN:PA0205] ${SURELOG_DIR}/tests/MaskNeg/dut.sv:5:1: No timescale set for "work@top".
-[ERR:EL0535] ${SURELOG_DIR}/tests/MaskNeg/dut.sv:7:8: Illegal implicit net "id:28, name:RESVAL".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@top".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@top".
+[ERR:EL0535] $Source01/dut.sv:7:8: Illegal implicit net "id:30, name:RESVAL".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/MaskNeg/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/MaskNeg/MaskNeg/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:${SURELOG_DIR}/tests/MaskNeg/dut.sv start:1:1 end:3:10:
+    Module name:work@dut file:$Source01/dut.sv start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:1:8 end:1:11:
         vpiParent: Module name:work@dut
@@ -133,7 +142,12 @@ Design name:unnamed:
           vpiVector: true
       vpiDefName: work@dut
       vpiDefNetType: none (12)
-    Module name:work@top file:${SURELOG_DIR}/tests/MaskNeg/dut.sv start:5:1 end:9:10:
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@dut
+        vpiName: work
+        vpiFullName: work@dut.work
+      vpiCell: dut
+    Module name:work@top file:$Source01/dut.sv start:5:1 end:9:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:5:8 end:5:11:
         vpiParent: Module name:work@top
@@ -147,6 +161,11 @@ Design name:unnamed:
             vpiName: work@dut
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:u_dut start:8:6 end:8:11:
           vpiParent: Module name:work@top
@@ -177,7 +196,7 @@ Design name:unnamed:
                     vpiConstType: hexadecimal (5)
                     vpiSize: 2
                     vpiDecompile: "2'h0"
-                    vpiValue: 0
+                    vpiValue: "0"
   vpiTypespec (4 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -197,37 +216,40 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: MaskNeg/MaskNeg
- test-dirpath: ${SURELOG_DIR}/regression/MaskNeg/MaskNeg
-uhdm-filepath: ${SURELOG_DIR}/regression/MaskNeg/MaskNeg/surelog.uhdm
+      test-name: MaskNeg/MaskNeg
+   test-dirpath: ${HLC_DIR}/regression/MaskNeg/MaskNeg
+  hldb-filepath: ${HLC_DIR}/regression/MaskNeg/MaskNeg/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/MaskNeg/MaskNeg/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/MaskNeg/MaskNeg/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                    'pre_len': 101}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 101}},
             'post_len': 0,
             'pre_len': 101,
             'test_name': 'MaskNeg/MaskNeg'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |      101 |         0 |
-+=================+==========+===========+
-|                 |      101 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |      101 |         0 |
++=========================+==========+===========+
+|                         |      101 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -235,7 +257,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/MaskNeg/MaskNeg/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/MaskNeg/MaskNeg/surelog.uhdm ${SURELOG_DIR}/regression/MaskNeg/MaskNeg/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/MaskNeg/MaskNeg/design.hldb ${HLC_DIR}/regression/MaskNeg/MaskNeg/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -244,7 +266,7 @@ Constant                             3       3       1         1
 Operation                            1       0       0         1
 RefTypespec                          5       5       1         1
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    31      30       2         3
+                                    33      32       2         3
 ===================== END REDUCTION RESULT =====================

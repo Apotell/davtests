@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-9 -timescale=1ns/1ns -d ast -d db -nobuiltin 9.3.3--fork_return.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-9/9.3.3--fork_return
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/9.3.3--fork_return.sv".
+[INF:PA0201] Parsing source file "$Source01/9.3.3--fork_return.sv".
 AST_DEBUG_BEGIN
 Count: 49
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--fork_return.sv
-n<${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--fork_return.sv> u<48> t<Top_level_rule> c<1> l<17:1> el<25:1>
+FILE: f<14>:$Source01/9.3.3--fork_return.sv
+n<$Source01/9.3.3--fork_return.sv> u<48> t<Top_level_rule> c<1> l<17:1> el<25:1>
   n<> u<1> t<Null_rule> p<48> s<2> l<17:1> el<17:1>
   n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<48> s<3> l<1:1> el<1:51>
   n<//> u<3> t<LINE_COMMENT> p<48> s<4> l<2:1> el<2:3>
@@ -52,19 +61,19 @@ n<${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--fork_return.sv> u<48> t<Top_level
                         n<> u<35> t<ENDTASK> p<36> l<23:2> el<23:9>
         n<> u<44> t<ENDMODULE> p<45> l<24:1> el<24:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--fork_return.sv:17:1: Compile module "work@block_tb".
+[INF:CP0303] $Source01/9.3.3--fork_return.sv:17:1: Compile module "work@block_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:9.3.3--fork_return.sv file:${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--fork_return.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:9.3.3--fork_return.sv file:$Source01/9.3.3--fork_return.sv:
       vpiParent: Design name:unnamed
       vpiName: "9.3.3--fork_return.sv"
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/lib/work/9.3.3--fork_return.sv"
+      vpiPreprocFile: "$Output/lib/work/9.3.3--fork_return.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@block_tb file:${SURELOG_DIR}/tests/Google/chapter-9/9.3.3--fork_return.sv start:17:1 end:24:10:
+    Module name:work@block_tb file:$Source01/9.3.3--fork_return.sv start:17:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@block_tb start:17:8 end:17:16:
         vpiParent: Module name:work@block_tb
@@ -72,6 +81,11 @@ Design name:unnamed:
       vpiFullName: work@block_tb
       vpiDefName: work@block_tb
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@block_tb
+        vpiName: work
+        vpiFullName: work@block_tb.work
+      vpiCell: block_tb
       vpiTaskFunc (1 items):
         Task name:fork_test start:18:2 end:23:9:
           vpiParent: Module name:work@block_tb
@@ -79,16 +93,13 @@ Design name:unnamed:
             vpiParent: Task name:fork_test
             vpiName: fork_test
           vpiFullName: work@block_tb.fork_test
-          vpiStmt Begin:
+          vpiStmt ForkStmt start:19:3 end:22:12:
             vpiParent: Task name:fork_test
             vpiFullName: work@block_tb.fork_test
-            vpiStmt (3 items):
-              ForkStmt start:19:3 end:22:12:
-                vpiParent: Begin
-                vpiFullName: work@block_tb.fork_test
-                vpiJoinType: none (1)
+            vpiJoinType: none (1)
+            vpiStmt (2 items):
               DelayControl start:20:4 end:20:7:
-                vpiParent: Begin
+                vpiParent: ForkStmt
                 vpiDelay Constant start:20:5 end:20:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -100,7 +111,7 @@ Design name:unnamed:
                   vpiDecompile: "20"
                   vpiValue: 20
               ReturnStmt start:21:4 end:21:10:
-                vpiParent: Begin
+                vpiParent: ForkStmt
   vpiTypespec (2 items):
     ModuleTypespec name:work@block_tb:
       vpiParent: Design name:unnamed
@@ -112,37 +123,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Google/chapter-9/9.3.3--fork_return
- test-dirpath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return
-uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/surelog.uhdm
+      test-name: Google/chapter-9/9.3.3--fork_return
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-9/9.3.3--fork_return
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.3.3--fork_return/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.3.3--fork_return/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/lib/work/9.3.3--fork_return.sv'): {'post_len': 0,
-                                                                                                                                                       'pre_len': 74}},
+            'files': {'$Output/lib/work/9.3.3--fork_return.sv': {'post_len': 0,
+                                                                 'pre_len': 74}},
             'post_len': 0,
             'pre_len': 74,
             'test_name': 'Google/chapter-9/9.3.3--fork_return'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/9.3.3--fork_return.sv |       74 |         0 |
-+================================+==========+===========+
-|                                |       74 |         0 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/9.3.3--fork_return.sv |       74 |         0 |
++========================================+==========+===========+
+|                                        |       74 |         0 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -150,7 +164,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/sur
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/surelog.uhdm ${SURELOG_DIR}/regression/Google/chapter-9/9.3.3--fork_return/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.3.3--fork_return/design.hldb ${HLC_DIR}/regression/Google/chapter-9/9.3.3--fork_return/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed

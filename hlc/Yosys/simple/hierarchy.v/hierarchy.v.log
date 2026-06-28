@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db simple/hierarchy.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Yosys/simple/hierarchy.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/simple/hierarchy.v".
+[INF:PA0201] Parsing source file "$Source01/simple/hierarchy.v".
 AST_DEBUG_BEGIN
 Count: 361
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v
-n<${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v> u<360> t<Top_level_rule> c<1> l<2:1> el<28:1>
+FILE: f<13>:$Source01/simple/hierarchy.v
+n<$Source01/simple/hierarchy.v> u<360> t<Top_level_rule> c<1> l<2:1> el<28:1>
   n<> u<1> t<Null_rule> p<360> s<359> l<2:1> el<2:1>
   n<> u<359> t<Source_text> p<360> c<165> l<2:1> el<26:10>
     n<> u<165> t<Description> p<359> c<164> s<358> l<2:1> el<14:10>
@@ -364,20 +373,20 @@ n<${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v> u<360> t<Top_level_rule> c<1> l
                             n<d> u<345> t<SIMPLE_IDENTIFIER> p<346> l<25:13> el<25:14>
         n<> u<356> t<ENDMODULE> p<357> l<26:1> el<26:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v:2:1: Compile module "work@top".
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v:16:1: Compile module "work@submod".
+[INF:CP0303] $Source01/simple/hierarchy.v:2:1: Compile module "work@top".
+[INF:CP0303] $Source01/simple/hierarchy.v:16:1: Compile module "work@submod".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:hierarchy.v file:${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v:
+  vpiSourceFile (1 items):
+    SourceFile name:hierarchy.v file:$Source01/simple/hierarchy.v:
       vpiParent: Design name:unnamed
       vpiName: hierarchy.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/lib/work/simple/hierarchy.v"
+      vpiPreprocFile: "$Output/lib/work/simple/hierarchy.v"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v start:2:1 end:14:10:
+    Module name:work@top file:$Source01/simple/hierarchy.v start:2:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:3:8 end:3:11:
         vpiParent: Module name:work@top
@@ -473,6 +482,11 @@ Design name:unnamed:
           vpiName: top
       vpiDefName: work@top
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@top
+        vpiName: work
+        vpiFullName: work@top.work
+      vpiCell: top
       vpiNet (6 items):
         Net name:a start:4:13 end:4:14:
           vpiParent: Module name:work@top
@@ -626,7 +640,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 3
                     vpiDecompile: "3'sd1"
-                    vpiValue: 1
+                    vpiValue: "1"
             ParamAssign start:12:18 end:12:24:
               vpiParent: RefInstance name:foo
               vpiRhs Operation start:12:18 end:12:24:
@@ -642,7 +656,7 @@ Design name:unnamed:
                     vpiConstType: decimal (1)
                     vpiSize: 3
                     vpiDecompile: "3'sd1"
-                    vpiValue: 1
+                    vpiValue: "1"
           vpiPort (6 items):
             Port start:12:31 end:12:32:
               vpiParent: RefInstance name:foo
@@ -704,7 +718,7 @@ Design name:unnamed:
                 vpiName: y4
                 vpiFullName: work@top.foo.y4
                 vpiActual: Net name:y4
-    Module name:work@submod file:${SURELOG_DIR}/tests/Yosys/simple/hierarchy.v start:16:1 end:26:10:
+    Module name:work@submod file:$Source01/simple/hierarchy.v start:16:1 end:26:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@submod start:17:8 end:17:14:
         vpiParent: Module name:work@submod
@@ -849,6 +863,11 @@ Design name:unnamed:
           vpiName: gentb_skip
       vpiDefName: work@submod
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@submod
+        vpiName: work
+        vpiFullName: work@submod.work
+      vpiCell: submod
       vpiNet (6 items):
         Net name:a start:20:13 end:20:14:
           vpiParent: Module name:work@submod
@@ -1043,37 +1062,40 @@ Design name:unnamed:
         vpiName: work@submod
       vpiModule: Module name:work@submod
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/simple/hierarchy.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/surelog.uhdm
+      test-name: Yosys/simple/hierarchy.v
+   test-dirpath: ${HLC_DIR}/regression/Yosys/simple/hierarchy.v
+  hldb-filepath: ${HLC_DIR}/regression/Yosys/simple/hierarchy.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Yosys/simple/hierarchy.v/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/lib/work/simple/hierarchy.v'): {'post_len': 0,
-                                                                                                                                         'pre_len': 366}},
+            'files': {'$Output/lib/work/simple/hierarchy.v': {'post_len': 0,
+                                                              'pre_len': 366}},
             'post_len': 0,
             'pre_len': 366,
             'test_name': 'Yosys/simple/hierarchy.v'}}
 
-+-----------------------------+----------+-----------+
-| INPUT                       |   PRELEN |   POSTLEN |
-+=============================+==========+===========+
-| lib/work/simple/hierarchy.v |      366 |         0 |
-+=============================+==========+===========+
-|                             |      366 |         0 |
-+-----------------------------+----------+-----------+
++-------------------------------------+----------+-----------+
+| INPUT                               |   PRELEN |   POSTLEN |
++=====================================+==========+===========+
+| $Output/lib/work/simple/hierarchy.v |      366 |         0 |
++=====================================+==========+===========+
+|                                     |      366 |         0 |
++-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -1081,7 +1103,7 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/surelog.uhdm ${SURELOG_DIR}/regression/Yosys/simple/hierarchy.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Yosys/simple/hierarchy.v/design.hldb ${HLC_DIR}/regression/Yosys/simple/hierarchy.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
@@ -1090,7 +1112,7 @@ Constant                            16      16       2         2
 Operation                            2       0       0         2
 RefTypespec                         43      43       2         2
 ----------------------------------------------------------------
-Others                             103     103       0         0
+Others                             105     105       0         0
 ----------------------------------------------------------------
-                                   164     162       4         6
+                                   166     164       4         6
 ===================== END REDUCTION RESULT =====================

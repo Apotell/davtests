@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/LoopParam/LoopParam/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/LoopParam -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/LoopParam/LoopParam
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/dut.sv".
+[INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 46
 LIB: work
-FILE: ${SURELOG_DIR}/tests/LoopParam/dut.sv
-n<${SURELOG_DIR}/tests/LoopParam/dut.sv> u<45> t<Top_level_rule> c<1> l<3:1> el<9:1>
+FILE: f<13>:$Source01/dut.sv
+n<$Source01/dut.sv> u<45> t<Top_level_rule> c<1> l<3:1> el<9:1>
   n<> u<1> t<Null_rule> p<45> s<44> l<3:1> el<3:1>
   n<> u<44> t<Source_text> p<45> c<43> l<3:1> el<7:10>
     n<> u<43> t<Description> p<44> c<42> l<3:1> el<7:10>
@@ -49,19 +58,19 @@ n<${SURELOG_DIR}/tests/LoopParam/dut.sv> u<45> t<Top_level_rule> c<1> l<3:1> el<
                                     n<P1> u<26> t<SIMPLE_IDENTIFIER> p<27> l<5:17> el<5:19>
         n<> u<41> t<ENDMODULE> p<42> l<7:1> el<7:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/LoopParam/dut.sv:3:1: Compile module "work@Foo".
-[WRN:PA0205] ${SURELOG_DIR}/tests/LoopParam/dut.sv:3:1: No timescale set for "work@Foo".
-====== UHDM =======
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@Foo".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@Foo".
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:dut.sv file:${SURELOG_DIR}/tests/LoopParam/dut.sv:
+  vpiSourceFile (1 items):
+    SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
-      vpiPreprocFile: "${SURELOG_DIR}/regression/LoopParam/LoopParam/lib/work/dut.sv"
+      vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@Foo file:${SURELOG_DIR}/tests/LoopParam/dut.sv start:3:1 end:7:10:
+    Module name:work@Foo file:$Source01/dut.sv start:3:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Foo start:3:8 end:3:11:
         vpiParent: Module name:work@Foo
@@ -114,6 +123,11 @@ Design name:unnamed:
           vpiParent: Module name:work@Foo
       vpiDefName: work@Foo
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@Foo
+        vpiName: work
+        vpiFullName: work@Foo.work
+      vpiCell: Foo
   vpiTypespec (1 items):
     ModuleTypespec name:work@Foo:
       vpiParent: Design name:unnamed
@@ -122,37 +136,40 @@ Design name:unnamed:
         vpiName: work@Foo
       vpiModule: Module name:work@Foo
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: LoopParam/LoopParam
- test-dirpath: ${SURELOG_DIR}/regression/LoopParam/LoopParam
-uhdm-filepath: ${SURELOG_DIR}/regression/LoopParam/LoopParam/surelog.uhdm
+      test-name: LoopParam/LoopParam
+   test-dirpath: ${HLC_DIR}/regression/LoopParam/LoopParam
+  hldb-filepath: ${HLC_DIR}/regression/LoopParam/LoopParam/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/LoopParam/LoopParam/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/LoopParam/LoopParam/lib/work/dut.sv'): {'post_len': 0,
-                                                                                                                        'pre_len': 59}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+                                                  'pre_len': 59}},
             'post_len': 0,
             'pre_len': 59,
             'test_name': 'LoopParam/LoopParam'}}
 
-+-----------------+----------+-----------+
-| INPUT           |   PRELEN |   POSTLEN |
-+=================+==========+===========+
-| lib/work/dut.sv |       59 |         0 |
-+=================+==========+===========+
-|                 |       59 |         0 |
-+-----------------+----------+-----------+
++-------------------------+----------+-----------+
+| INPUT                   |   PRELEN |   POSTLEN |
++=========================+==========+===========+
+| $Output/lib/work/dut.sv |       59 |         0 |
++=========================+==========+===========+
+|                         |       59 |         0 |
++-------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -160,13 +177,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/LoopParam/LoopParam/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/LoopParam/LoopParam/surelog.uhdm ${SURELOG_DIR}/regression/LoopParam/LoopParam/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/LoopParam/LoopParam/design.hldb ${HLC_DIR}/regression/LoopParam/LoopParam/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              17      17       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    17      17       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

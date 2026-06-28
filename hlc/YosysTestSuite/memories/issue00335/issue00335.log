@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/YosysTestSuite/memories -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db issue00335.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTestSuite/memories/issue00335
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/issue00335.v".
+[INF:PA0201] Parsing source file "$Source01/issue00335.v".
 AST_DEBUG_BEGIN
 Count: 329
 LIB: work
-FILE: ${SURELOG_DIR}/tests/YosysTestSuite/memories/issue00335.v
-n<${SURELOG_DIR}/tests/YosysTestSuite/memories/issue00335.v> u<328> t<Top_level_rule> c<1> l<5:1> el<29:1>
+FILE: f<13>:$Source01/issue00335.v
+n<$Source01/issue00335.v> u<328> t<Top_level_rule> c<1> l<5:1> el<29:1>
   n<> u<1> t<Null_rule> p<328> s<2> l<5:1> el<5:1>
   n<// expect-wr-ports 1> u<2> t<LINE_COMMENT> p<328> s<3> l<1:1> el<1:21>
   n<// expect-rd-ports 1> u<3> t<LINE_COMMENT> p<328> s<4> l<2:1> el<2:21>
@@ -332,19 +341,19 @@ n<${SURELOG_DIR}/tests/YosysTestSuite/memories/issue00335.v> u<328> t<Top_level_
                                       n<> u<308> t<END> p<309> l<27:6> el<27:9>
         n<> u<324> t<ENDMODULE> p<325> l<28:1> el<28:10>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/YosysTestSuite/memories/issue00335.v:5:1: Compile module "work@ram2".
+[INF:CP0303] $Source01/issue00335.v:5:1: Compile module "work@ram2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:issue00335.v file:${SURELOG_DIR}/tests/YosysTestSuite/memories/issue00335.v:
+  vpiSourceFile (1 items):
+    SourceFile name:issue00335.v file:$Source01/issue00335.v:
       vpiParent: Design name:unnamed
       vpiName: issue00335.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/lib/work/issue00335.v"
+      vpiPreprocFile: "$Output/lib/work/issue00335.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@ram2 file:${SURELOG_DIR}/tests/YosysTestSuite/memories/issue00335.v start:5:1 end:28:10:
+    Module name:work@ram2 file:$Source01/issue00335.v start:5:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ram2 start:5:8 end:5:12:
         vpiParent: Module name:work@ram2
@@ -560,6 +569,11 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: work@ram2
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ram2
+        vpiName: work
+        vpiFullName: work@ram2.work
+      vpiCell: ram2
       vpiNet (7 items):
         Net name:clk start:5:20 end:5:23:
           vpiParent: Module name:work@ram2
@@ -909,37 +923,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: YosysTestSuite/memories/issue00335
- test-dirpath: ${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335
-uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/surelog.uhdm
+      test-name: YosysTestSuite/memories/issue00335
+   test-dirpath: ${HLC_DIR}/regression/YosysTestSuite/memories/issue00335
+  hldb-filepath: ${HLC_DIR}/regression/YosysTestSuite/memories/issue00335/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/memories/issue00335/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/lib/work/issue00335.v'): {'post_len': 0,
-                                                                                                                                             'pre_len': 367}},
+            'files': {'$Output/lib/work/issue00335.v': {'post_len': 0,
+                                                        'pre_len': 367}},
             'post_len': 0,
             'pre_len': 367,
             'test_name': 'YosysTestSuite/memories/issue00335'}}
 
-+-----------------------+----------+-----------+
-| INPUT                 |   PRELEN |   POSTLEN |
-+=======================+==========+===========+
-| lib/work/issue00335.v |      367 |         0 |
-+=======================+==========+===========+
-|                       |      367 |         0 |
-+-----------------------+----------+-----------+
++-------------------------------+----------+-----------+
+| INPUT                         |   PRELEN |   POSTLEN |
++===============================+==========+===========+
+| $Output/lib/work/issue00335.v |      367 |         0 |
++===============================+==========+===========+
+|                               |      367 |         0 |
++-------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -947,17 +964,17 @@ uhdm-filepath: ${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/sure
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/surelog.uhdm ${SURELOG_DIR}/regression/YosysTestSuite/memories/issue00335/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/YosysTestSuite/memories/issue00335/design.hldb ${HLC_DIR}/regression/YosysTestSuite/memories/issue00335/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            17      15       3         5
 Operation                            9       4       0         5
-RefObj                              25      22       0         3
+RefObj                              26      23       0         3
 RefTypespec                         33      31       3         5
 ----------------------------------------------------------------
 Others                              51      51       0         0
 ----------------------------------------------------------------
-                                   135     123       6        18
+                                   136     124       6        18
 ===================== END REDUCTION RESULT =====================

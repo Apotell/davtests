@@ -1,9 +1,24 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Yosys +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db errors/syntax_err01.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Yosys/errors/syntax_err01.v
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/errors/syntax_err01.v".
+[INF:PA0201] Parsing source file "$Source01/errors/syntax_err01.v".
+[SNT:PA0207] $Source01/errors/syntax_err01.v:2:8: Syntax error: missing {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER} at '[',
+integer [31:0]w;
+        ^-- $Source01/errors/syntax_err01.v:2:8:.
+[SNT:PA0207] $Source01/errors/syntax_err01.v:2:14: Syntax error: extraneous input 'w' expecting ';',
+integer [31:0]w;
+              ^-- $Source01/errors/syntax_err01.v:2:14:.
 AST_DEBUG_BEGIN
 Count: 33
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v
-n<${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v> u<32> t<Top_level_rule> c<1> l<1:1> el<5:1>
+FILE: f<13>:$Source01/errors/syntax_err01.v
+n<$Source01/errors/syntax_err01.v> u<32> t<Top_level_rule> c<1> l<1:1> el<5:1>
   n<> u<1> t<Null_rule> p<32> s<31> l<1:1>
   n<> u<31> t<Source_text> p<32> c<30> l<1:1> el<3:10>
     n<> u<30> t<Description> p<31> c<29> l<1:1> el<3:10>
@@ -36,25 +51,19 @@ n<${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v> u<32> t<Top_level_rule> c<1>
                                       n<0> u<12> t<INTEGRAL_NUMBER> p<13> l<2:13> el<2:14>
         n<> u<28> t<ENDMODULE> p<29> l<3:1> el<3:10>
 AST_DEBUG_END
-[SNT:PA0207] ${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v:2:8: Syntax error: missing {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER} at '[',
-integer [31:0]w;
-        ^-- ${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v:2:8:.
-[SNT:PA0207] ${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v:2:14: Syntax error: extraneous input 'w' expecting ';',
-integer [31:0]w;
-              ^-- ${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v:2:14:.
-[INF:CP0303] ${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v:1:1: Compile module "work@a".
+[INF:CP0303] $Source01/errors/syntax_err01.v:1:1: Compile module "work@a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:syntax_err01.v file:${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v:
+  vpiSourceFile (1 items):
+    SourceFile name:syntax_err01.v file:$Source01/errors/syntax_err01.v:
       vpiParent: Design name:unnamed
       vpiName: syntax_err01.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/lib/work/errors/syntax_err01.v"
+      vpiPreprocFile: "$Output/lib/work/errors/syntax_err01.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@a file:${SURELOG_DIR}/tests/Yosys/errors/syntax_err01.v start:1:1 end:3:10:
+    Module name:work@a file:$Source01/errors/syntax_err01.v start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@a start:1:8 end:1:9:
         vpiParent: Module name:work@a
@@ -94,6 +103,11 @@ Design name:unnamed:
             vpiFullName: work@a
       vpiDefName: work@a
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@a
+        vpiName: work
+        vpiFullName: work@a.work
+      vpiCell: a
   vpiTypespec (2 items):
     ModuleTypespec name:work@a:
       vpiParent: Design name:unnamed
@@ -105,37 +119,40 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Yosys/errors/syntax_err01.v
- test-dirpath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v
-uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/surelog.uhdm
+      test-name: Yosys/errors/syntax_err01.v
+   test-dirpath: ${HLC_DIR}/regression/Yosys/errors/syntax_err01.v
+  hldb-filepath: ${HLC_DIR}/regression/Yosys/errors/syntax_err01.v/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Yosys/errors/syntax_err01.v/mounts.json
 
 
 {'result': {'coverage': 97.06,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/lib/work/errors/syntax_err01.v'): {'post_len': 1,
-                                                                                                                                               'pre_len': 34}},
+            'files': {'$Output/lib/work/errors/syntax_err01.v': {'post_len': 1,
+                                                                 'pre_len': 34}},
             'post_len': 1,
             'pre_len': 34,
             'test_name': 'Yosys/errors/syntax_err01.v'}}
 
-+--------------------------------+----------+-----------+
-| INPUT                          |   PRELEN |   POSTLEN |
-+================================+==========+===========+
-| lib/work/errors/syntax_err01.v |       34 |         1 |
-+================================+==========+===========+
-|                                |       34 |         1 |
-+--------------------------------+----------+-----------+
++----------------------------------------+----------+-----------+
+| INPUT                                  |   PRELEN |   POSTLEN |
++========================================+==========+===========+
+| $Output/lib/work/errors/syntax_err01.v |       34 |         1 |
++========================================+==========+===========+
+|                                        |       34 |         1 |
++----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 97.06
@@ -143,13 +160,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/surelog.uhd
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/surelog.uhdm ${SURELOG_DIR}/regression/Yosys/errors/syntax_err01.v/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Yosys/errors/syntax_err01.v/design.hldb ${HLC_DIR}/regression/Yosys/errors/syntax_err01.v/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              15      15       0         0
+Others                              16      16       0         0
 ----------------------------------------------------------------
-                                    15      15       0         0
+                                    16      16       0         0
 ===================== END REDUCTION RESULT =====================

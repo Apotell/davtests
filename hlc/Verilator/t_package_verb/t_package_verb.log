@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Verilator/t_package_verb/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_package_verb.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_package_verb
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/t_package_verb.v".
+[INF:PA0201] Parsing source file "$Source01/t_package_verb.v".
 AST_DEBUG_BEGIN
 Count: 112
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Verilator/t_package_verb.v
-n<${SURELOG_DIR}/tests/Verilator/t_package_verb.v> u<111> t<Top_level_rule> c<1> l<7:1> el<23:1>
+FILE: f<13>:$Source01/t_package_verb.v
+n<$Source01/t_package_verb.v> u<111> t<Top_level_rule> c<1> l<7:1> el<23:1>
   n<> u<1> t<Null_rule> p<111> s<2> l<7:1> el<7:1>
   n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<111> s<3> l<1:1> el<1:47>
   n<//> u<3> t<LINE_COMMENT> p<111> s<4> l<2:1> el<2:3>
@@ -115,20 +124,20 @@ n<${SURELOG_DIR}/tests/Verilator/t_package_verb.v> u<111> t<Top_level_rule> c<1>
                         n<> u<98> t<END> p<99> l<21:4> el<21:7>
         n<> u<107> t<ENDMODULE> p<108> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0301] ${SURELOG_DIR}/tests/Verilator/t_package_verb.v:7:1: Compile package "work@verb_pkg".
-[INF:CP0303] ${SURELOG_DIR}/tests/Verilator/t_package_verb.v:14:1: Compile module "work@t".
+[INF:CP0301] $Source01/t_package_verb.v:7:1: Compile package "work@verb_pkg".
+[INF:CP0303] $Source01/t_package_verb.v:14:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:t_package_verb.v file:${SURELOG_DIR}/tests/Verilator/t_package_verb.v:
+  vpiSourceFile (1 items):
+    SourceFile name:t_package_verb.v file:$Source01/t_package_verb.v:
       vpiParent: Design name:unnamed
       vpiName: t_package_verb.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Verilator/t_package_verb/lib/work/t_package_verb.v"
+      vpiPreprocFile: "$Output/lib/work/t_package_verb.v"
       vpiDefNetType: none (12)
   vpiAllPackages (1 items):
-    Package name:work@verb_pkg file:${SURELOG_DIR}/tests/Verilator/t_package_verb.v start:7:1 end:12:11:
+    Package name:work@verb_pkg file:$Source01/t_package_verb.v start:7:1 end:12:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@verb_pkg start:7:9 end:7:17:
         vpiParent: Package name:work@verb_pkg
@@ -168,7 +177,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 8
             vpiDecompile: "\" \""
-            vpiValue: 
+            vpiValue: ""
       vpiTypespec (2 items):
         EnumTypespec start:8:12 end:9:29:
           vpiParent: Package name:work@verb_pkg
@@ -198,8 +207,13 @@ Design name:unnamed:
             vpiActual: EnumTypespec
       vpiDefName: work@verb_pkg
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@verb_pkg
+        vpiName: work
+        vpiFullName: work@verb_pkg::work
+      vpiCell: verb_pkg
   vpiAllModules (1 items):
-    Module name:work@t file:${SURELOG_DIR}/tests/Verilator/t_package_verb.v start:14:1 end:22:10:
+    Module name:work@t file:$Source01/t_package_verb.v start:14:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:14:8 end:14:9:
         vpiParent: Module name:work@t
@@ -213,6 +227,11 @@ Design name:unnamed:
             vpiName: verb_pkg
       vpiDefName: work@t
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@t
+        vpiName: work
+        vpiFullName: work@t.work
+      vpiCell: t
       vpiNet (1 items):
         Net name:message start:17:11 end:17:18:
           vpiParent: Module name:work@t
@@ -232,7 +251,7 @@ Design name:unnamed:
             vpiConstType: string (6)
             vpiSize: 24
             vpiDecompile: "\"*x*\""
-            vpiValue: *x*
+            vpiValue: "*x*"
       vpiProcess (1 items):
         Initial start:18:4 end:21:7:
           vpiParent: Module name:work@t
@@ -255,7 +274,7 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiSize: 176
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: *-* All Finished *-*\n
+                    vpiValue: "*-* All Finished *-*\\n"
               SysFuncCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
@@ -274,37 +293,40 @@ Design name:unnamed:
         vpiName: work@t
       vpiModule: Module name:work@t
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Verilator/t_package_verb
- test-dirpath: ${SURELOG_DIR}/regression/Verilator/t_package_verb
-uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_verb/surelog.uhdm
+      test-name: Verilator/t_package_verb
+   test-dirpath: ${HLC_DIR}/regression/Verilator/t_package_verb
+  hldb-filepath: ${HLC_DIR}/regression/Verilator/t_package_verb/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Verilator/t_package_verb/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Verilator/t_package_verb/lib/work/t_package_verb.v'): {'post_len': 0,
-                                                                                                                                       'pre_len': 228}},
+            'files': {'$Output/lib/work/t_package_verb.v': {'post_len': 0,
+                                                            'pre_len': 228}},
             'post_len': 0,
             'pre_len': 228,
             'test_name': 'Verilator/t_package_verb'}}
 
-+---------------------------+----------+-----------+
-| INPUT                     |   PRELEN |   POSTLEN |
-+===========================+==========+===========+
-| lib/work/t_package_verb.v |      228 |         0 |
-+===========================+==========+===========+
-|                           |      228 |         0 |
-+---------------------------+----------+-----------+
++-----------------------------------+----------+-----------+
+| INPUT                             |   PRELEN |   POSTLEN |
++===================================+==========+===========+
+| $Output/lib/work/t_package_verb.v |      228 |         0 |
++===================================+==========+===========+
+|                                   |      228 |         0 |
++-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -312,13 +334,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Verilator/t_package_verb/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Verilator/t_package_verb/surelog.uhdm ${SURELOG_DIR}/regression/Verilator/t_package_verb/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Verilator/t_package_verb/design.hldb ${HLC_DIR}/regression/Verilator/t_package_verb/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,9 +1,18 @@
-[INF:CM0023] Creating log file "${SURELOG_DIR}/regression/Icarus/ivltests/else1/surelog.log".
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2017-2023 Alain Dargelas,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db else1.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/else1
+[INF:CM0023] Creating log file "$Output/hlc.log".
+[INF:PP0122] Preprocessing source file "$Source01/else1.v".
+[INF:PA0201] Parsing source file "$Source01/else1.v".
 AST_DEBUG_BEGIN
 Count: 162
 LIB: work
-FILE: ${SURELOG_DIR}/tests/Icarus/ivltests/else1.v
-n<${SURELOG_DIR}/tests/Icarus/ivltests/else1.v> u<161> t<Top_level_rule> c<1> l<23:1> el<56:1>
+FILE: f<13>:$Source01/else1.v
+n<$Source01/else1.v> u<161> t<Top_level_rule> c<1> l<23:1> el<56:1>
   n<> u<1> t<Null_rule> p<161> s<2> l<23:1> el<23:1>
   n<//> u<2> t<LINE_COMMENT> p<161> s<3> l<1:1> el<1:3>
   n<// Copyright (c) 1999 Steven Wilson (stevew@home.com)> u<3> t<LINE_COMMENT> p<161> s<4> l<2:1> el<2:54>
@@ -165,19 +174,19 @@ n<${SURELOG_DIR}/tests/Icarus/ivltests/else1.v> u<161> t<Top_level_rule> c<1> l<
         n<> u<156> t<ENDMODULE> p<157> l<55:1> el<55:10>
   n<// main> u<160> t<LINE_COMMENT> p<161> l<55:11> el<55:18>
 AST_DEBUG_END
-[INF:CP0303] ${SURELOG_DIR}/tests/Icarus/ivltests/else1.v:23:1: Compile module "work@ifdef1".
+[INF:CP0303] $Source01/else1.v:23:1: Compile module "work@ifdef1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-====== UHDM =======
+====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFiles (1 items):
-    SourceFile name:else1.v file:${SURELOG_DIR}/tests/Icarus/ivltests/else1.v:
+  vpiSourceFile (1 items):
+    SourceFile name:else1.v file:$Source01/else1.v:
       vpiParent: Design name:unnamed
       vpiName: else1.v
-      vpiPreprocFile: "${SURELOG_DIR}/regression/Icarus/ivltests/else1/lib/work/else1.v"
+      vpiPreprocFile: "$Output/lib/work/else1.v"
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@ifdef1 file:${SURELOG_DIR}/tests/Icarus/ivltests/else1.v start:23:1 end:55:10:
+    Module name:work@ifdef1 file:$Source01/else1.v start:23:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@ifdef1 start:23:8 end:23:14:
         vpiParent: Module name:work@ifdef1
@@ -188,6 +197,11 @@ Design name:unnamed:
           vpiParent: Module name:work@ifdef1
       vpiDefName: work@ifdef1
       vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:work@ifdef1
+        vpiName: work
+        vpiFullName: work@ifdef1.work
+      vpiCell: ifdef1
       vpiNet (1 items):
         Net name:error start:25:5 end:25:10:
           vpiParent: Module name:work@ifdef1
@@ -360,37 +374,40 @@ Design name:unnamed:
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================
-
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
 Environment:
-    test-name: Icarus/ivltests/else1
- test-dirpath: ${SURELOG_DIR}/regression/Icarus/ivltests/else1
-uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/else1/surelog.uhdm
+      test-name: Icarus/ivltests/else1
+   test-dirpath: ${HLC_DIR}/regression/Icarus/ivltests/else1
+  hldb-filepath: ${HLC_DIR}/regression/Icarus/ivltests/else1/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/else1/mounts.json
 
 
 {'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {PosixPath('${SURELOG_DIR}/regression/Icarus/ivltests/else1/lib/work/else1.v'): {'post_len': 0,
-                                                                                                                           'pre_len': 155}},
+            'files': {'$Output/lib/work/else1.v': {'post_len': 0,
+                                                   'pre_len': 155}},
             'post_len': 0,
             'pre_len': 155,
             'test_name': 'Icarus/ivltests/else1'}}
 
-+------------------+----------+-----------+
-| INPUT            |   PRELEN |   POSTLEN |
-+==================+==========+===========+
-| lib/work/else1.v |      155 |         0 |
-+==================+==========+===========+
-|                  |      155 |         0 |
-+------------------+----------+-----------+
++--------------------------+----------+-----------+
+| INPUT                    |   PRELEN |   POSTLEN |
++==========================+==========+===========+
+| $Output/lib/work/else1.v |      155 |         0 |
++==========================+==========+===========+
+|                          |      155 |         0 |
++--------------------------+----------+-----------+
 
 [   ERROR] : 0
 [COVERAGE] : 100.0
@@ -398,13 +415,13 @@ uhdm-filepath: ${SURELOG_DIR}/regression/Icarus/ivltests/else1/surelog.uhdm
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
 
-COMMAND: ${SURELOG_DIR}/regression/Icarus/ivltests/else1/surelog.uhdm ${SURELOG_DIR}/regression/Icarus/ivltests/else1/reduced.uhdm
+COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/else1/design.hldb ${HLC_DIR}/regression/Icarus/ivltests/else1/reduced.hldb
 
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    48      48       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================
