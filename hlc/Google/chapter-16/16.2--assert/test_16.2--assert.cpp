@@ -14,65 +14,65 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 §16.2 simple immediate assertion.
+// Spec-based validation of IEEE 1800-2017 �16.2 simple immediate assertion.
 //
-// All expected values are derived from §16.2 of the spec and the SV source.
+// All expected values are derived from �16.2 of the spec and the SV source.
 // No expected value is taken from the UHDM log. Failing tests document
 // Surelog bugs.
 //
-// ── §16.2 rules under test ─────────────────────────────────────────────────
+// -- �16.2 rules under test -------------------------------------------------
 //
-// §16.2 defines three forms of immediate assertion:
+// �16.2 defines three forms of immediate assertion:
 //   simple:   assert (expr) [pass_stmt] [else fail_stmt]
-//   deferred: assert #0 (expr) ...       → isDeferred = true
-//   final:    assert final (expr) ...    → isFinal    = true
+//   deferred: assert #0 (expr) ...       ? isDeferred = true
+//   final:    assert final (expr) ...    ? isFinal    = true
 //
-// Rule 1 — 'assert (expr)' without '#0' or 'final' is a SIMPLE immediate
+// Rule 1 � 'assert (expr)' without '#0' or 'final' is a SIMPLE immediate
 //   assertion: it evaluates in the active simulation region.
-//   → ImmediateAssert::isDeferred must be false.
-//   → ImmediateAssert::isFinal   must be false.
+//   ? ImmediateAssert::isDeferred must be false.
+//   ? ImmediateAssert::isFinal   must be false.
 //
-// Rule 2 — The expression is evaluated as a boolean (false = 0/X/Z → fail).
-//   'a != 0' is a binary inequality (§11.4.5: vpiNeqOp).
+// Rule 2 � The expression is evaluated as a boolean (false = 0/X/Z ? fail).
+//   'a != 0' is a binary inequality (�11.4.5: vpiNeqOp).
 //
-// Rule 3 — Action blocks are optional single statements; no begin...end needed.
+// Rule 3 � Action blocks are optional single statements; no begin...end needed.
 //   The SV source provides both:
 //     pass block: $display("pass")
 //     fail block: $display("fail")
-//   → getStmt()     must be non-null (SysFuncCall for $display)
-//   → getElseStmt() must be non-null (SysFuncCall for $display)
+//   ? getStmt()     must be non-null (SysFuncCall for $display)
+//   ? getElseStmt() must be non-null (SysFuncCall for $display)
 //
-// Rule 4 — 'initial assert (expr)' is a single statement. No begin...end
+// Rule 4 � 'initial assert (expr)' is a single statement. No begin...end
 //   wrapper. ImmediateAssert is the direct stmt of the Initial process.
 //
-// ── SV source ──────────────────────────────────────────────────────────────
+// -- SV source --------------------------------------------------------------
 //   logic a = 1;
 //   initial assert (a != 0) $display("pass") else $display("fail");
 //
-// ── Spec-correct UHDM ──────────────────────────────────────────────────────
+// -- Spec-correct UHDM ------------------------------------------------------
 //   Net 'a': LogicTypespec, inline value = 1
 //   Initial:
 //     stmt = ImmediateAssert {
 //       isDeferred = false,            // Rule 1
 //       isFinal    = false,            // Rule 1
-//       expr = Operation {             // Rule 2 — 'a != 0'
+//       expr = Operation {             // Rule 2 � 'a != 0'
 //         opType:      vpiNeqOp
-//         operands[0]: RefObj → 'a'
-//         operands[1]: Constant → "0"
+//         operands[0]: RefObj ? 'a'
+//         operands[1]: Constant ? "0"
 //       },
-//       stmt = SysFuncCall {           // Rule 3 — pass block
+//       stmt = SysFuncCall {           // Rule 3 � pass block
 //         name: "$display"
 //         arguments[0]: Constant {
 //           value:     "pass"
-//           size:      32   // §5.9: 4 chars × 8 bits
+//           size:      32   // �5.9: 4 chars � 8 bits
 //           constType: vpiStringConst
 //         }
 //       },
-//       elseStmt = SysFuncCall {       // Rule 3 — fail block
+//       elseStmt = SysFuncCall {       // Rule 3 � fail block
 //         name: "$display"
 //         arguments[0]: Constant {
 //           value:     "fail"
-//           size:      32   // §5.9: 4 chars × 8 bits
+//           size:      32   // �5.9: 4 chars � 8 bits
 //           constType: vpiStringConst
 //         }
 //       }
@@ -135,7 +135,7 @@ static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
   const auto *initial =
       any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
-  // §16.2 Rule 4: assert is the direct statement of Initial — no Begin.
+  // �16.2 Rule 4: assert is the direct statement of Initial � no Begin.
   return initial->getStmt<hldb::ImmediateAssert>();
 }
 
@@ -165,7 +165,7 @@ TEST_F(ImmediateAssertTest, ModuleExists) {
 }
 
 TEST_F(ImmediateAssertTest, NetA_HasLogicTypespec) {
-  // SV source: 'logic a' — §6.3 declares a 4-state single-bit net.
+  // SV source: 'logic a' � �6.3 declares a 4-state single-bit net.
   // UHDM must represent it as LogicTypespec.
   const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr) << "net 'a' not found";
@@ -175,71 +175,71 @@ TEST_F(ImmediateAssertTest, NetA_HasLogicTypespec) {
 }
 
 TEST_F(ImmediateAssertTest, NetA_InlineValue_Is1) {
-  // SV source: 'logic a = 1' — inline initializer literal 1.
+  // SV source: 'logic a = 1' � inline initializer literal 1.
   const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline initializer value";
   EXPECT_EQ(std::string(c->getValue()), "1")
-      << "'logic a = 1' — inline initializer must be 1";
+      << "'logic a = 1' � inline initializer must be 1";
 }
 
 // ---------------------------------------------------------------------------
-// §16.2 Rule 4: ImmediateAssert is the direct statement of the Initial
+// �16.2 Rule 4: ImmediateAssert is the direct statement of the Initial
 // process. 'initial assert (expr)' does not need begin...end.
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, InitialHasDirectImmediateAssert) {
   ASSERT_NE(getAssert(m_design), nullptr)
-      << "§16.2 Rule 4: 'initial assert (...)' must produce an ImmediateAssert "
-         "as the direct statement of the Initial — no Begin wrapper needed "
+      << "�16.2 Rule 4: 'initial assert (...)' must produce an ImmediateAssert "
+         "as the direct statement of the Initial � no Begin wrapper needed "
          "for a single immediate assert statement";
 }
 
 // ---------------------------------------------------------------------------
-// §16.2 Rule 1: simple immediate assertion — not deferred, not final.
+// �16.2 Rule 1: simple immediate assertion � not deferred, not final.
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, Assert_IsNotDeferred) {
-  // §16.2: 'assert (expr)' without '#0' is simple. Deferred form requires
+  // �16.2: 'assert (expr)' without '#0' is simple. Deferred form requires
   // '#0'. If Surelog sets isDeferred=true, it misclassified the assert.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_FALSE(ia->getIsDeferred())
-      << "§16.2 Rule 1: simple 'assert (expr)' must have isDeferred=false; "
+      << "�16.2 Rule 1: simple 'assert (expr)' must have isDeferred=false; "
          "deferred form requires '#0' keyword";
 }
 
 TEST_F(ImmediateAssertTest, Assert_IsNotFinal) {
-  // §16.2: 'assert (expr)' without 'final' evaluates in the active region.
+  // �16.2: 'assert (expr)' without 'final' evaluates in the active region.
   // If Surelog sets isFinal=true, it misclassified the timing region.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_FALSE(ia->getIsFinal())
-      << "§16.2 Rule 1: 'assert (expr)' without 'final' must have isFinal=false";
+      << "�16.2 Rule 1: 'assert (expr)' without 'final' must have isFinal=false";
 }
 
 // ---------------------------------------------------------------------------
-// §16.2 Rule 2: assertion expression 'a != 0'.
-// §11.4.5 defines '!=' as the logical inequality operator (vpiNeqOp).
+// �16.2 Rule 2: assertion expression 'a != 0'.
+// �11.4.5 defines '!=' as the logical inequality operator (vpiNeqOp).
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, Assert_ExpressionIsOperation) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getExpr<hldb::Operation>(), nullptr)
-      << "§16.2 Rule 2: assertion expression 'a != 0' must be an Operation node";
+      << "�16.2 Rule 2: assertion expression 'a != 0' must be an Operation node";
 }
 
 TEST_F(ImmediateAssertTest, Assert_ExpressionIsNotEqualOperator) {
-  // §11.4.5: '!=' is the logical inequality operator → vpiNeqOp.
+  // �11.4.5: '!=' is the logical inequality operator ? vpiNeqOp.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiNeqOp)
-      << "§11.4.5: '!=' must be represented as vpiNeqOp";
+      << "�11.4.5: '!=' must be represented as vpiNeqOp";
 }
 
 TEST_F(ImmediateAssertTest, Assert_ExpressionHasTwoOperands) {
-  // '!=' is a binary operator — exactly 2 operands.
+  // '!=' is a binary operator � exactly 2 operands.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   const auto *op = ia->getExpr<hldb::Operation>();
@@ -295,27 +295,27 @@ TEST_F(ImmediateAssertTest, Assert_RightOperand_ValueIsZero) {
 }
 
 // ---------------------------------------------------------------------------
-// §16.2 Rule 3: pass action block — $display("pass").
+// �16.2 Rule 3: pass action block � $display("pass").
 // The pass action executes when the assertion expression evaluates to true.
-// §16.2 allows a single statement without begin...end as the action block.
+// �16.2 allows a single statement without begin...end as the action block.
 // $display is a system task call represented as SysFuncCall in UHDM.
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
-  // §16.2: 'assert (expr) stmt' — the statement after the expression is
+  // �16.2: 'assert (expr) stmt' � the statement after the expression is
   // the pass action block. It must be non-null.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getStmt(), nullptr)
-      << "§16.2 Rule 3: 'assert (...) $display(\"pass\")' must have a "
+      << "�16.2 Rule 3: 'assert (...) $display(\"pass\")' must have a "
          "non-null pass action block";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_IsSysFuncCall) {
-  // $display is a system call — represented as SysFuncCall in UHDM.
+  // $display is a system call � represented as SysFuncCall in UHDM.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getStmt<hldb::SysFuncCall>(), nullptr)
-      << "§16.2: pass action '$display(...)' must be a SysFuncCall";
+      << "�16.2: pass action '$display(...)' must be a SysFuncCall";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Name) {
@@ -342,7 +342,7 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_IsConstant) {
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_Value) {
-  // SV source: $display("pass") — the literal string is "pass".
+  // SV source: $display("pass") � the literal string is "pass".
   const auto *c = getFirstArg(getPassCall(m_design));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "pass")
@@ -350,34 +350,34 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_Value) {
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_Size) {
-  // §5.9: string size = number of characters × 8 bits.
-  // "pass" has 4 characters → 4 × 8 = 32 bits.
+  // �5.9: string size = number of characters � 8 bits.
+  // "pass" has 4 characters ? 4 � 8 = 32 bits.
   const auto *c = getFirstArg(getPassCall(m_design));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 32)
-      << "§5.9: \"pass\" is 4 chars × 8 bits = 32 bits";
+      << "�5.9: \"pass\" is 4 chars � 8 bits = 32 bits";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_ConstType) {
-  // §5.9: string literals have string constant type → vpiStringConst.
+  // �5.9: string literals have string constant type ? vpiStringConst.
   const auto *c = getFirstArg(getPassCall(m_design));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiStringConst)
-      << "§5.9: string literal \"pass\" must have constType vpiStringConst";
+      << "�5.9: string literal \"pass\" must have constType vpiStringConst";
 }
 
 // ---------------------------------------------------------------------------
-// §16.2 Rule 3: fail action block (else clause) — $display("fail").
+// �16.2 Rule 3: fail action block (else clause) � $display("fail").
 // The fail action executes when the assertion expression evaluates to false
 // (0, X, or Z). The else clause is optional; when present it is non-null.
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Exists) {
-  // §16.2: '... else fail_stmt' — the else clause is the fail action block.
+  // �16.2: '... else fail_stmt' � the else clause is the fail action block.
   // It must be non-null because the SV source includes 'else $display("fail")'.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getElseStmt(), nullptr)
-      << "§16.2 Rule 3: '... else $display(\"fail\")' must have a "
+      << "�16.2 Rule 3: '... else $display(\"fail\")' must have a "
          "non-null fail action block";
 }
 
@@ -385,7 +385,7 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_IsSysFuncCall) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
   EXPECT_NE(ia->getElseStmt<hldb::SysFuncCall>(), nullptr)
-      << "§16.2: fail action '$display(...)' must be a SysFuncCall";
+      << "�16.2: fail action '$display(...)' must be a SysFuncCall";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Name) {
@@ -410,7 +410,7 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_IsConstant) {
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_Value) {
-  // SV source: $display("fail") — the literal string is "fail".
+  // SV source: $display("fail") � the literal string is "fail".
   const auto *c = getFirstArg(getFailCall(m_design));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "fail")
@@ -418,19 +418,19 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_Value) {
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_Size) {
-  // §5.9: "fail" has 4 characters → 4 × 8 = 32 bits.
+  // �5.9: "fail" has 4 characters ? 4 � 8 = 32 bits.
   const auto *c = getFirstArg(getFailCall(m_design));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 32)
-      << "§5.9: \"fail\" is 4 chars × 8 bits = 32 bits";
+      << "�5.9: \"fail\" is 4 chars � 8 bits = 32 bits";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_ConstType) {
-  // §5.9: string literal "fail" must be vpiStringConst.
+  // �5.9: string literal "fail" must be vpiStringConst.
   const auto *c = getFirstArg(getFailCall(m_design));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiStringConst)
-      << "§5.9: string literal \"fail\" must have constType vpiStringConst";
+      << "�5.9: string literal \"fail\" must have constType vpiStringConst";
 }
 
 }  // namespace SURELOG
