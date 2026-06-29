@@ -196,19 +196,19 @@ jobs:
       uses: egor-tensin/setup-clang@v2
 
     - name: Setup compiler cache
-      uses: hendrikmuhs/ccache-action@v1
+      uses: hendrikmuhs/ccache-action@v1.2
       with:
         variant: ${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}
-        key: ${{ matrix.platform }}-${{ github.ref_name }}
+        key: ${{ matrix.platform }}-${{ github.head_ref }}
         restore-keys: ${{ matrix.platform }}-master
 
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
       with:
-        name:          ${{ env.build-artifact-name }}
-        run-id:        ${{ needs.preflight.outputs.build_run_id }}
-        repository:    Apotell/artifacts
-        github-token:  ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ needs.preflight.outputs.build_run_id }}
+        repository: Apotell/artifacts
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
     - name: Extract build artifact
       shell: bash
@@ -218,7 +218,11 @@ jobs:
 
     - name: Configure
       shell: bash
+      env:
+        SCCACHE_GHA_ENABLED: "true"
       run: |
+        export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+
         cmake                                       \
           -G Ninja                                  \
           -DCMAKE_BUILD_TYPE=RelWithDebInfo         \
