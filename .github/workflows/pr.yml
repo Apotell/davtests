@@ -223,10 +223,12 @@ jobs:
       run: |
         export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
-        cmake                                       \
-          -G Ninja                                  \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo         \
-          -DBUILD_DIR=${{ github.workspace }}/build \
+        cmake                                                                                   \
+          -G Ninja                                                                              \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo                                                     \
+          -DCMAKE_C_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}   \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }} \
+          -DBUILD_DIR=${{ github.workspace }}/build                                            \
           -S . -B out/build
 
     - name: Build
