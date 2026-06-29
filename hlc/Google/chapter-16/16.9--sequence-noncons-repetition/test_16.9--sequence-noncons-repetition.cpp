@@ -149,18 +149,18 @@ static const hldb::Operation *innerSeqOp(const hldb::Design *d) {
   return any_cast<const hldb::Operation *>((*outer->getOperands())[2]);
 }
 
-// operands[1] of inner ##1 — the non-consecutive repeat op 'a [=2:10]'
+// operands[0] of inner ##1 -- the non-consecutive repeat op 'a [=2:10]'
 static const hldb::Operation *repOp(const hldb::Design *d) {
   const auto *inner = innerSeqOp(d);
   if (!inner || !inner->getOperands() ||
-      inner->getOperands()->size() < 2) return nullptr;
-  return any_cast<const hldb::Operation *>((*inner->getOperands())[1]);
+      inner->getOperands()->size() < 1) return nullptr;
+  return any_cast<const hldb::Operation *>((*inner->getOperands())[0]);
 }
 
 static const hldb::Range *repRange(const hldb::Design *d) {
   const auto *rep = repOp(d);
-  if (!rep || !rep->getOperands() || rep->getOperands()->empty()) return nullptr;
-  return any_cast<const hldb::Range *>((*rep->getOperands())[0]);
+  if (!rep || !rep->getOperands() || rep->getOperands()->size() < 2) return nullptr;
+  return any_cast<const hldb::Range *>((*rep->getOperands())[1]);
 }
 
 static const hldb::ConcurrentAssertions *getAssertAt(const hldb::Design *d,
@@ -288,8 +288,8 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_ClockingEvent_OperandIsClk) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_IsCycleDelayOp) {
   const auto *op = outerSeqOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "outer '##1' must use vpiUnaryCycleDelayOp (53)";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "outer '##1' must use vpiCycleDelayOp (71)";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_HasThreeOperands) {
@@ -297,27 +297,27 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "outer ##1: [delay, left-seq, right-seq]";
+      << "outer ##1: [left-seq, delay, right-seq]";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_DelayIsOne) {
   const auto *op = outerSeqOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
+  ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1");
+  EXPECT_EQ(std::string(c->getDecompile()), "1");
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_LeftSeq_IsRefObjB) {
   const auto *op = outerSeqOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
+  ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b")
       << "outer ##1 left operand must be 'b' (first 'b' in source)";
@@ -330,8 +330,8 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_OuterSeqOp_LeftSeq_IsRefObjB) {
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_IsCycleDelayOp) {
   const auto *op = innerSeqOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "inner '##1' must use vpiUnaryCycleDelayOp (53)";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "inner '##1' must use vpiCycleDelayOp (71)";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_HasThreeOperands) {
@@ -339,43 +339,43 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "inner ##1: [delay, left-seq, right-seq]";
+      << "inner ##1: [left-seq, delay, right-seq]";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_DelayIsOne) {
   const auto *op = innerSeqOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
+  ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1");
+  EXPECT_EQ(std::string(c->getDecompile()), "1");
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_LeftSeq_IsNonConsecRepeat) {
-  // §16.9: the three repetition operators use adjacent VPI opTypes.
-  // [=] non-consecutive → vpiRepeatOp(59)
-  // [*] consecutive     → vpiConsecutiveRepeatOp(60)
-  // [->] goto           → vpiGotoRepeatOp(61)
+  // §16.9: the three repetition operators:
+  // [=] non-consecutive -> vpiRepeatOp(76)
+  // [*] consecutive     -> vpiConsecutiveRepeatOp(77)
+  // [->] goto           -> vpiGotoRepeatOp(78)
   const auto *rep = repOp(m_design);
-  ASSERT_NE(rep, nullptr) << "inner ##1 operands[1] must be an Operation";
+  ASSERT_NE(rep, nullptr) << "inner ##1 operands[0] must be an Operation";
   EXPECT_EQ(rep->getOpType(), vpiRepeatOp)
-      << "§16.9: '[=2:10]' non-consecutive repetition must use vpiRepeatOp (59)";
+      << "§16.9: '[=2:10]' non-consecutive repetition must use vpiRepeatOp (76)";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_LeftSeq_IsNotConsecRepeat) {
   const auto *rep = repOp(m_design);
   ASSERT_NE(rep, nullptr);
   EXPECT_NE(rep->getOpType(), vpiConsecutiveRepeatOp)
-      << "'[=]' non-consecutive must NOT be vpiConsecutiveRepeatOp (60)";
+      << "'[=]' non-consecutive must NOT be vpiConsecutiveRepeatOp (77)";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_LeftSeq_IsNotGotoRepeat) {
   const auto *rep = repOp(m_design);
   ASSERT_NE(rep, nullptr);
   EXPECT_NE(rep->getOpType(), vpiGotoRepeatOp)
-      << "'[=]' non-consecutive must NOT be vpiGotoRepeatOp (61)";
+      << "'[=]' non-consecutive must NOT be vpiGotoRepeatOp (78)";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, Seq_InnerSeqOp_RightSeq_IsRefObjB) {
@@ -399,10 +399,10 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_HasTwoOperands) {
   ASSERT_NE(rep, nullptr);
   ASSERT_NE(rep->getOperands(), nullptr);
   EXPECT_EQ(rep->getOperands()->size(), 2u)
-      << "non-consecutive repeat: [range, repeated-expr]";
+      << "non-consecutive repeat: [repeated-expr, range]";
 }
 
-TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_FirstOperand_IsRange) {
+TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_SecondOperand_IsRange) {
   const auto *range = repRange(m_design);
   ASSERT_NE(range, nullptr)
       << "'a [=2:10]' bounds must be a Range node";
@@ -413,7 +413,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_LowerBound_IsTwo) {
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getValue()), "2")
+  EXPECT_EQ(std::string(lo->getDecompile()), "2")
       << "§16.9: '[=2:10]' lower bound must be 2";
 }
 
@@ -422,7 +422,7 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
   ASSERT_NE(range, nullptr);
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(std::string(hi->getValue()), "10")
+  EXPECT_EQ(std::string(hi->getDecompile()), "10")
       << "§16.9: '[=2:10]' upper bound must be 10";
 }
 
@@ -443,9 +443,9 @@ TEST_F(NonconsecutiveRepetitionTest, Seq_RepOp_RepeatedExpr_IsRefObjA) {
   const auto *rep = repOp(m_design);
   ASSERT_NE(rep, nullptr);
   ASSERT_NE(rep->getOperands(), nullptr);
-  ASSERT_GE(rep->getOperands()->size(), 2u);
+  ASSERT_GE(rep->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const hldb::RefObj *>((*rep->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*rep->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a")
       << "§16.9: 'a [=2:10]' repeated expression must be signal 'a'";

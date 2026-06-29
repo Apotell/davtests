@@ -31,56 +31,49 @@
 // '[*n]' single-count form: uses constant_expression (no ':').
 // '##[n:m]' variable delay uses a Range node as the delay operand.
 //
-// ── UHDM tree for seq (from log) ───────────────────────────────────────────
+// ── UHDM tree for seq ──────────────────────────────────────────────────────
 //
 //   ClockedSeq
 //   ├── clockingEvent  Operation { posedgeOp(39) }
 //   │   └── operands[0]  RefObj("clk")
-//   └── sequenceExpr   Operation { unaryCycleDelayOp(53) }   ← outer ##1
-//       ├── operands[0]  Constant("1", intConst=7)
-//       ├── operands[1]  RefObj("b")
-//       └── operands[2]  Operation { unaryCycleDelayOp(53) }  ← inner ##1
-//           ├── operands[0]  Constant("1", intConst=7)
-//           ├── operands[1]  Operation { consecutiveRepeatOp(60) }
-//           │   ├── operands[0]  Range { left: Const("2",uint=9),
-//           │   │                        right: Const("10",uint=9) }
-//           │   └── operands[1]  RefObj("a")
+//   └── sequenceExpr   Operation { vpiCycleDelayOp(71) }       ← outer ##1
+//       ├── operands[0]  RefObj("b")
+//       ├── operands[1]  Constant("1", uintConst=9)
+//       └── operands[2]  Operation { vpiCycleDelayOp(71) }     ← inner ##1
+//           ├── operands[0]  Operation { vpiConsecutiveRepeatOp(77) }
+//           │   ├── operands[0]  RefObj("a")
+//           │   └── operands[1]  Range { left: Const("2",uint=9),
+//           │                            right: Const("10",uint=9) }
+//           ├── operands[1]  Constant("1", uintConst=9)
 //           └── operands[2]  RefObj("b")
 //
-// ── UHDM tree for seq_2 (from log) ────────────────────────────────────────
+// ── UHDM tree for seq_2 ────────────────────────────────────────────────────
 //
 //   ClockedSeq
-//   ├── clockingEvent  Operation { negedgeOp(40) }             ← negedge ✓
+//   ├── clockingEvent  Operation { negedgeOp(40) }              ← negedge
 //   │   └── operands[0]  RefObj("clk")
-//   └── sequenceExpr   Operation { unaryCycleDelayOp(53) }    ← outer ##1
-//       ├── operands[0]  Constant("1", intConst=7)
-//       ├── operands[1]  RefObj("b")
-//       └── operands[2]  Operation { unaryCycleDelayOp(53) }  ← inner ##1
-//           ├── operands[0]  Constant("1", intConst=7)
-//           ├── operands[1]  Operation { cycleDelayOp(54) }   ← a ##[1:2] b
-//           │   │                          ^^^ SURELOG BUG — see below
-//           │   ├── operands[0]  Range { left: Const("1",uint=9),
-//           │   │                        right: Const("2",uint=9) }
-//           │   ├── operands[1]  RefObj("a")
-//           │   └── operands[2]  RefObj("b")
+//   └── sequenceExpr   Operation { vpiCycleDelayOp(71) }        ← outer ##1
+//       ├── operands[0]  RefObj("b")
+//       ├── operands[1]  Constant("1", uintConst=9)
+//       └── operands[2]  Operation { vpiCycleDelayOp(71) }      ← inner ##1
+//           ├── operands[0]  Operation { vpiConsecutiveRepeatOp(77) }
+//           │   ├── operands[0]  Operation { vpiCycleDelayOp(71) }
+//           │   │   ├── operands[0]  RefObj("a")
+//           │   │   ├── operands[1]  Range { left: Const("1",uint=9),
+//           │   │   │                        right: Const("2",uint=9) }
+//           │   │   └── operands[2]  RefObj("b")
+//           │   └── operands[1]  Constant("2", uintConst=9)
+//           ├── operands[1]  Constant("1", uintConst=9)
 //           └── operands[2]  RefObj("b")
 //
 // ── Surelog bugs ──────────────────────────────────────────────────────────
 //
-// BUG 1 — EL0535 (both asserts):
+// BUG — EL0535 (both asserts):
 //   'assert property (seq)' and 'assert property (seq_2)': sequence names
 //   treated as implicit nets; getPropertyExpr() returns RefObj instead of
 //   SequenceInst.  Tests *_PropertyExpr_IsSequenceInst FAIL intentionally.
 //
-// BUG 2 — Dropped '[*2]' on sub-sequence in seq_2:
-//   The source '(a ##[1:2] b) [*2]' should produce a consecutiveRepeatOp(60)
-//   wrapping the sub-sequence. Surelog silently drops '[*2]' and places the
-//   inner cycleDelayOp(54) directly at inner-##1 operands[1].
-//   §16.9 explicitly permits consecutive repetition of a sequence expression.
-//   Test Seq2_InnerSeqOp_LeftSeq_ShouldBeConsecRepeat FAILS intentionally.
-//
-// NOTE: '##1' fixed delay → unaryCycleDelayOp(53).
-//       '##[n:m]' ranged delay → cycleDelayOp(54) — different opType.
+// NOTE: both '##1' and '##[n:m]' produce vpiCycleDelayOp(71).
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -170,22 +163,29 @@ static const hldb::Operation *innerSeqOp(const hldb::Design *d,
   return any_cast<const hldb::Operation *>((*outer->getOperands())[2]);
 }
 
-// operands[1] of inner ##1:
-//   seq   → consecutiveRepeatOp(60)   for 'a [*2:10]'
-//   seq_2 → cycleDelayOp(54)          [Surelog bug: '[*2]' dropped]
+// operands[0] of inner ##1:
+//   seq   -> vpiConsecutiveRepeatOp(77) for 'a [*2:10]'
+//   seq_2 -> vpiConsecutiveRepeatOp(77) for '(a ##[1:2] b) [*2]'
 static const hldb::Operation *innerLeftOp(const hldb::Design *d,
                                            std::string_view seqName) {
   const auto *inner = innerSeqOp(d, seqName);
   if (!inner || !inner->getOperands() ||
-      inner->getOperands()->size() < 2) return nullptr;
-  return any_cast<const hldb::Operation *>((*inner->getOperands())[1]);
+      inner->getOperands()->size() < 1) return nullptr;
+  return any_cast<const hldb::Operation *>((*inner->getOperands())[0]);
 }
 
 // helpers specific to seq's consecutive repeat op
 static const hldb::Range *seqRepRange(const hldb::Design *d) {
   const auto *rep = innerLeftOp(d, "seq");
-  if (!rep || !rep->getOperands() || rep->getOperands()->empty()) return nullptr;
-  return any_cast<const hldb::Range *>((*rep->getOperands())[0]);
+  if (!rep || !rep->getOperands() || rep->getOperands()->size() < 2) return nullptr;
+  return any_cast<const hldb::Range *>((*rep->getOperands())[1]);
+}
+
+// operands[0] of seq_2's consecutive repeat: the 'a ##[1:2] b' sub-sequence
+static const hldb::Operation *seq2CycleDelayOp(const hldb::Design *d) {
+  const auto *rep = innerLeftOp(d, "seq_2");
+  if (!rep || !rep->getOperands() || rep->getOperands()->size() < 1) return nullptr;
+  return any_cast<const hldb::Operation *>((*rep->getOperands())[0]);
 }
 
 // ConcurrentAssertions by index (no labels in this SV)
@@ -309,8 +309,8 @@ TEST_F(ConsecutiveRepetitionTest, Seq_ClockingEvent_OperandIsClk) {
 TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_IsCycleDelayOp) {
   const auto *op = outerSeqOp(m_design, "seq");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "seq: outer '##1' must use vpiUnaryCycleDelayOp (53)";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "seq: outer '##1' must use vpiCycleDelayOp (71) -- binary form";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_HasThreeOperands) {
@@ -318,27 +318,27 @@ TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "outer ##1: [delay, left-seq, right-seq]";
+      << "outer ##1: [left-seq, delay, right-seq]";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_DelayIsOne) {
   const auto *op = outerSeqOp(m_design, "seq");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
+  ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1");
+  EXPECT_EQ(std::string(c->getDecompile()), "1");
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_LeftSeq_IsRefObjB) {
   const auto *op = outerSeqOp(m_design, "seq");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
+  ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b")
       << "seq: outer ##1 left operand must be 'b' (first 'b' in source)";
@@ -349,8 +349,8 @@ TEST_F(ConsecutiveRepetitionTest, Seq_OuterSeqOp_LeftSeq_IsRefObjB) {
 TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_IsCycleDelayOp) {
   const auto *op = innerSeqOp(m_design, "seq");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "seq: inner '##1' must use vpiUnaryCycleDelayOp (53)";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "seq: inner '##1' must use vpiCycleDelayOp (71) -- binary form";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_HasThreeOperands) {
@@ -358,23 +358,23 @@ TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "inner ##1: [delay, left-seq, right-seq]";
+      << "inner ##1: [left-seq, delay, right-seq]";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_DelayIsOne) {
   const auto *op = innerSeqOp(m_design, "seq");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
+  ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[0]);
+      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1");
+  EXPECT_EQ(std::string(c->getDecompile()), "1");
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_InnerSeqOp_LeftSeq_IsConsecRepeat) {
   const auto *rep = innerLeftOp(m_design, "seq");
-  ASSERT_NE(rep, nullptr) << "inner ##1 operands[1] must be an Operation";
+  ASSERT_NE(rep, nullptr) << "inner ##1 operands[0] must be an Operation";
   EXPECT_EQ(rep->getOpType(), vpiConsecutiveRepeatOp)
       << "seq: 'a [*2:10]' must be left operand of inner ##1";
 }
@@ -398,10 +398,10 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_HasTwoOperands) {
   ASSERT_NE(rep, nullptr);
   ASSERT_NE(rep->getOperands(), nullptr);
   EXPECT_EQ(rep->getOperands()->size(), 2u)
-      << "consecutive repeat: [range, repeated-expr]";
+      << "consecutive repeat: [repeated-expr, range]";
 }
 
-TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_FirstOperand_IsRange) {
+TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_SecondOperand_IsRange) {
   const auto *range = seqRepRange(m_design);
   ASSERT_NE(range, nullptr)
       << "'a [*2:10]' bounds must be a Range node";
@@ -412,7 +412,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_LowerBound_IsTwo) {
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getValue()), "2")
+  EXPECT_EQ(std::string(lo->getDecompile()), "2")
       << "§16.9: '[*2:10]' lower bound must be 2";
 }
 
@@ -421,7 +421,7 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
   ASSERT_NE(range, nullptr);
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(std::string(hi->getValue()), "10")
+  EXPECT_EQ(std::string(hi->getDecompile()), "10")
       << "§16.9: '[*2:10]' upper bound must be 10";
 }
 
@@ -442,9 +442,9 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_RepeatedExpr_IsRefObjA) {
   const auto *rep = innerLeftOp(m_design, "seq");
   ASSERT_NE(rep, nullptr);
   ASSERT_NE(rep->getOperands(), nullptr);
-  ASSERT_GE(rep->getOperands()->size(), 2u);
+  ASSERT_GE(rep->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const hldb::RefObj *>((*rep->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*rep->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a")
       << "§16.9: 'a [*2:10]' repeated expression must be signal 'a'";
@@ -506,8 +506,8 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_ClockingEvent_OperandIsClk) {
 TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_IsCycleDelayOp) {
   const auto *op = outerSeqOp(m_design, "seq_2");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "seq_2: outer '##1' must use vpiUnaryCycleDelayOp (53)";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "seq_2: outer '##1' must use vpiCycleDelayOp (71)";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_HasThreeOperands) {
@@ -515,16 +515,16 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "outer ##1: [delay, left-seq, right-seq]";
+      << "outer ##1: [left-seq, delay, right-seq]";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_LeftSeq_IsRefObjB) {
   const auto *op = outerSeqOp(m_design, "seq_2");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
+  ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b")
       << "seq_2: outer ##1 left operand must be 'b' (first 'b' in source)";
@@ -535,8 +535,8 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_OuterSeqOp_LeftSeq_IsRefObjB) {
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_IsCycleDelayOp) {
   const auto *op = innerSeqOp(m_design, "seq_2");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "seq_2: inner '##1' must use vpiUnaryCycleDelayOp (53)";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "seq_2: inner '##1' must use vpiCycleDelayOp (71)";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_HasThreeOperands) {
@@ -544,29 +544,16 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "inner ##1: [delay, left-seq, right-seq]";
+      << "inner ##1: [left-seq, delay, right-seq]";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_LeftSeq_ShouldBeConsecRepeat) {
-  // §16.9: '(a ##[1:2] b) [*2]' is valid; UHDM should have
-  // consecutiveRepeatOp(60) here wrapping the sub-sequence.
-  // Surelog silently drops '[*2]', leaving cycleDelayOp(54) directly.
-  // This test FAILS intentionally — Surelog bug.
+  // §16.9: '(a ##[1:2] b) [*2]' wraps the sub-sequence in
+  // vpiConsecutiveRepeatOp(77).
   const auto *op = innerLeftOp(m_design, "seq_2");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiConsecutiveRepeatOp)
-      << "§16.9: '(a ##[1:2] b) [*2]' must produce consecutiveRepeatOp(60); "
-         "Surelog bug: '[*2]' dropped, cycleDelayOp(54) returned instead";
-}
-
-TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_LeftSeq_IsVarCycleDelay) {
-  // Documents what Surelog ACTUALLY returns after dropping '[*2]':
-  // the bare sub-sequence 'a ##[1:2] b' with cycleDelayOp(54).
-  // '##[n:m]' ranged delay uses opType 54; fixed '##n' uses opType 53.
-  const auto *op = innerLeftOp(m_design, "seq_2");
-  ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), 54 /* vpiCycleDelayOp */)
-      << "After Surelog drops '[*2]', inner left op must be cycleDelayOp(54)";
+      << "§16.9: '(a ##[1:2] b) [*2]' must produce vpiConsecutiveRepeatOp(77)";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_RightSeq_IsRefObjB) {
@@ -581,67 +568,67 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_InnerSeqOp_RightSeq_IsRefObjB) {
       << "seq_2: inner ##1 right operand must be 'b' (final 'b' in source)";
 }
 
-// ── sub-sequence 'a ##[1:2] b' (as returned by Surelog after [*2] dropped) ──
+// ── sub-sequence 'a ##[1:2] b' inside seq_2's consecutive repeat ───────────
 //
-// cycleDelayOp(54) node at inner-##1 operands[1]:
-//   operands[0]  Range { left: Const("1",uint=9), right: Const("2",uint=9) }
-//   operands[1]  RefObj("a")
+// vpiCycleDelayOp(71) at vpiConsecutiveRepeatOp(77) operands[0]:
+//   operands[0]  RefObj("a")
+//   operands[1]  Range { left: Const("1",uint=9), right: Const("2",uint=9) }
 //   operands[2]  RefObj("b")
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_HasThreeOperands) {
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
   EXPECT_EQ(sub->getOperands()->size(), 3u)
-      << "'a ##[1:2] b': [delay-range, a, b]";
+      << "'a ##[1:2] b': [a, delay-range, b]";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayIsRange) {
-  // '##[1:2]' variable delay — operands[0] is a Range, not a Constant.
-  // '##1' fixed delay would have Constant as operands[0].
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  // '##[1:2]' variable delay — operands[1] is a Range, not a Constant.
+  // '##1' fixed delay would have Constant as operands[1].
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_GE(sub->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<const hldb::Range *>((*sub->getOperands())[0]), nullptr)
+  ASSERT_GE(sub->getOperands()->size(), 2u);
+  EXPECT_NE(any_cast<const hldb::Range *>((*sub->getOperands())[1]), nullptr)
       << "'##[1:2]' variable delay operand must be a Range, not a Constant";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayRange_LowerIsOne) {
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_GE(sub->getOperands()->size(), 1u);
+  ASSERT_GE(sub->getOperands()->size(), 2u);
   const auto *range =
-      any_cast<const hldb::Range *>((*sub->getOperands())[0]);
+      any_cast<const hldb::Range *>((*sub->getOperands())[1]);
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getValue()), "1")
+  EXPECT_EQ(std::string(lo->getDecompile()), "1")
       << "'##[1:2]' lower delay bound must be 1";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayRange_UpperIsTwo) {
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_GE(sub->getOperands()->size(), 1u);
+  ASSERT_GE(sub->getOperands()->size(), 2u);
   const auto *range =
-      any_cast<const hldb::Range *>((*sub->getOperands())[0]);
+      any_cast<const hldb::Range *>((*sub->getOperands())[1]);
   ASSERT_NE(range, nullptr);
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(std::string(hi->getValue()), "2")
+  EXPECT_EQ(std::string(hi->getDecompile()), "2")
       << "'##[1:2]' upper delay bound must be 2";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayRange_BoundsAreUnsignedInt) {
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_GE(sub->getOperands()->size(), 1u);
+  ASSERT_GE(sub->getOperands()->size(), 2u);
   const auto *range =
-      any_cast<const hldb::Range *>((*sub->getOperands())[0]);
+      any_cast<const hldb::Range *>((*sub->getOperands())[1]);
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   const auto *hi = range->getRightExpr<hldb::Constant>();
@@ -654,19 +641,19 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayRange_BoundsAreUnsigne
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_LeftIsRefObjA) {
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_GE(sub->getOperands()->size(), 2u);
+  ASSERT_GE(sub->getOperands()->size(), 1u);
   const auto *ref =
-      any_cast<const hldb::RefObj *>((*sub->getOperands())[1]);
+      any_cast<const hldb::RefObj *>((*sub->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a")
       << "'(a ##[1:2] b)' left element must be signal 'a'";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_RightIsRefObjB) {
-  const auto *sub = innerLeftOp(m_design, "seq_2");
+  const auto *sub = seq2CycleDelayOp(m_design);
   ASSERT_NE(sub, nullptr);
   ASSERT_NE(sub->getOperands(), nullptr);
   ASSERT_GE(sub->getOperands()->size(), 3u);

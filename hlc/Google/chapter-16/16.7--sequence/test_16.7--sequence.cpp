@@ -341,10 +341,10 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_OperandIsClk) {
 // ---------------------------------------------------------------------------
 // §16.7 Rule 3: sequence expression 'a ##1 b'.
 // '##1' is the binary cycle delay — one clock cycle between 'a' and 'b'.
-// UHDM: Operation with opType vpiUnaryCycleDelayOp, 3 operands:
-//   [0] Constant("1") — the delay amount
-//   [1] RefObj("a")   — left sequence expression
-//   [2] RefObj("b")   — right sequence expression
+// UHDM: Operation with opType vpiCycleDelayOp(71), 3 operands:
+//   [0] RefObj("a")   -- left sequence expression
+//   [1] Constant("1") -- the delay amount
+//   [2] RefObj("b")   -- right sequence expression
 // ---------------------------------------------------------------------------
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_HasSeqExpr) {
@@ -356,53 +356,54 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_HasSeqExpr) {
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_IsCycleDelayOp) {
-  // §16.7: '##1' is the cycle delay operator → vpiUnaryCycleDelayOp (53).
+  // §16.7: 'a ##1 b' has a left operand so '##1' is the binary form ->
+  // vpiCycleDelayOp(71). vpiUnaryCycleDelayOp(70) is for '##n expr' only.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp)
-      << "§16.7: 'a ##1 b' must use vpiUnaryCycleDelayOp; "
-         "'##' is the cycle delay sequence operator";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
+      << "§16.7: 'a ##1 b' must use vpiCycleDelayOp(71); "
+         "binary '##' with a left operand uses vpiCycleDelayOp";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_HasThreeOperands) {
   // '##1' with a delay amount produces 3 operands:
-  // [0] delay amount (Constant 1), [1] left seq, [2] right seq.
+  // [0] left seq, [1] delay amount (Constant 1), [2] right seq.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "'a ##1 b' must have 3 operands: delay amount, left seq, right seq";
+      << "'a ##1 b' must have 3 operands: left seq, delay amount, right seq";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsConstant) {
-  // operands[0] is the cycle delay amount — integer literal 1 → Constant.
-  const auto *op = getSeqExprOp(m_design);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[0]), nullptr)
-      << "'##1' delay amount must be a Constant node";
-}
-
-TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsOne) {
-  // §16.7: '##1' — the delay amount is the integer literal 1.
-  const auto *op = getSeqExprOp(m_design);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
-  ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1")
-      << "'##1' cycle delay amount must be the constant 1";
-}
-
-TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
-  // operands[1] is the left sequence expression: signal 'a'.
+  // operands[1] is the cycle delay amount -- integer literal 1 -> Constant.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[1]), nullptr)
+      << "'##1' delay amount must be a Constant node";
+}
+
+TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsOne) {
+  // §16.7: '##1' -- the delay amount is the integer literal 1.
+  const auto *op = getSeqExprOp(m_design);
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_GE(op->getOperands()->size(), 2u);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  ASSERT_NE(c, nullptr);
+  EXPECT_EQ(std::string(c->getDecompile()), "1")
+      << "'##1' cycle delay amount must be the constant 1";
+}
+
+TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
+  // operands[0] is the left sequence expression: signal 'a'.
+  const auto *op = getSeqExprOp(m_design);
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_GE(op->getOperands()->size(), 1u);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr)
       << "'a ##1 b' left operand must be a RefObj";
   EXPECT_EQ(ref->getName(), "a")
