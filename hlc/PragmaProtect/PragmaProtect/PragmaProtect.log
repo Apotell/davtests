@@ -11,7 +11,6 @@ COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writ
 [INF:PA0201] Parsing source file "$Source00/builtin.sv".
 [INF:PA0201] Parsing source file "$Source01/top.sv".
 [INF:CP0303] $Source01/top.sv:2:1: Compile module "work@sram".
-[WRN:CP0348] $Source01/top.sv:22:1: Feature not yet implemented.
 [INF:CP0303] $Source01/top.sv:74:1: Compile module "work@sram".
 [WRN:CP0334] Colliding compilation unit name: "work@sram".
 ====== HLDB =======
@@ -2734,6 +2733,41 @@ Design name:unnamed:
                             vpiDecompile: "10"
                             vpiValue: 10
           vpiAlwaysType: always (1)
+      vpiSpecifyBlock (1 items):
+        SpecifyBlock start:22:1 end:24:11:
+          vpiParent: Module name:work@sram
+          vpiSpecifyItem (1 items):
+            Tchk start:23:3 end:23:31:
+              vpiParent: SpecifyBlock
+              vpiExpr (3 items):
+                TchkTerm start:23:10 end:23:14:
+                  vpiParent: Tchk
+                  vpiExpr RefObj name:ABUS start:23:10 end:23:14:
+                    vpiParent: TchkTerm
+                    vpiName: ABUS
+                    vpiFullName: work@sram.ABUS
+                    vpiActual: Net name:ABUS
+                TchkTerm start:23:15 end:23:26:
+                  vpiParent: Tchk
+                  vpiExpr RefObj name:WRB start:23:23 end:23:26:
+                    vpiParent: TchkTerm
+                    vpiName: WRB
+                    vpiFullName: work@sram.WRB
+                    vpiActual: Net name:WRB
+                  vpiEdge: posedge (13)
+                TchkTerm start:23:27 end:23:29:
+                  vpiParent: Tchk
+                  vpiExpr Constant start:23:27 end:23:29:
+                    vpiParent: TchkTerm
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: work@sram
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "10"
+                    vpiValue: 10
+              vpiTchkType: setup (1)
     Module name:work@sram file:$Source01/top.sv start:74:1 end:102:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sram start:74:8 end:74:12:
@@ -2930,7 +2964,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2945,25 +2979,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/mounts.json
 
 
-{'result': {'coverage': 87.25,
+{'result': {'coverage': 89.28,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 113,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 95,
                                                   'pre_len': 886}},
-            'post_len': 113,
+            'post_len': 95,
             'pre_len': 886,
             'test_name': 'PragmaProtect/PragmaProtect'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      886 |       113 |
+| $Output/lib/work/top.sv |      886 |        95 |
 +=========================+==========+===========+
-|                         |      886 |       113 |
+|                         |      886 |        95 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 87.25
+[COVERAGE] : 89.28
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2974,7 +3008,7 @@ COMMAND: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             799     799       0         0
+Others                             808     808       0         0
 ----------------------------------------------------------------
-                                   799     799       0         0
+                                   808     808       0         0
 ===================== END REDUCTION RESULT =====================

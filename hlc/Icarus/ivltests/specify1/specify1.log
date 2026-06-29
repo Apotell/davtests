@@ -1381,8 +1381,11 @@ n<$Source01/specify1.v> u<1367> t<Top_level_rule> c<1> l<14:1> el<98:1>
         n<> u<1363> t<Endcelldefine_directive> p<1364> l<97:1> el<97:15>
 AST_DEBUG_END
 [INF:CP0303] $Source01/specify1.v:17:1: Compile module "work@MULT_8x8_f".
-[WRN:CP0348] $Source01/specify1.v:86:4: Feature not yet implemented.
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/specify1.v:92:22: Illegal implicit net "id:646, name:td".
+[ERR:EL0535] $Source01/specify1.v:92:26: Illegal implicit net "id:647, name:td".
+[ERR:EL0535] $Source01/specify1.v:92:30: Illegal implicit net "id:648, name:th".
+[ERR:EL0535] $Source01/specify1.v:92:37: Illegal implicit net "id:652, name:th".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -3771,6 +3774,104 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "15"
                   vpiValue: 15
+      vpiSpecifyBlock (1 items):
+        SpecifyBlock start:86:4 end:93:14:
+          vpiParent: Module name:work@MULT_8x8_f
+          vpiSpecifyItem (3 items):
+            SpecParam name:th start:88:10 end:88:20:
+              vpiParent: SpecifyBlock
+              vpiName: th
+              vpiFullName: work@MULT_8x8_f.th
+              vpiExpr (1 items):
+                Constant start:88:15 end:88:20:
+                  vpiParent: SpecParam name:th
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@MULT_8x8_f.th
+                    vpiActual: RealTypespec
+                  vpiConstType: real (2)
+                  vpiSize: 64
+                  vpiDecompile: "0.940"
+                  vpiValue: 0.94
+            SpecParam name:td start:89:10 end:89:20:
+              vpiParent: SpecifyBlock
+              vpiName: td
+              vpiFullName: work@MULT_8x8_f.td
+              vpiExpr (1 items):
+                Constant start:89:15 end:89:20:
+                  vpiParent: SpecParam name:td
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@MULT_8x8_f.td
+                    vpiActual: RealTypespec
+                  vpiConstType: real (2)
+                  vpiSize: 64
+                  vpiDecompile: "4.930"
+                  vpiValue: 4.93
+            ModPath start:92:7 end:92:43:
+              vpiParent: SpecifyBlock
+              vpiModPathIn (2 items):
+                PathTerm start:92:8 end:92:9:
+                  vpiParent: ModPath
+                  vpiExpr RefObj name:A start:92:8 end:92:9:
+                    vpiParent: PathTerm
+                    vpiName: A
+                    vpiFullName: work@MULT_8x8_f.A
+                    vpiActual: Net name:A
+                PathTerm start:92:11 end:92:12:
+                  vpiParent: ModPath
+                  vpiExpr RefObj name:B start:92:11 end:92:12:
+                    vpiParent: PathTerm
+                    vpiName: B
+                    vpiFullName: work@MULT_8x8_f.B
+                    vpiActual: Net name:B
+              vpiModPathOut (1 items):
+                PathTerm start:92:16 end:92:17:
+                  vpiParent: ModPath
+                  vpiExpr RefObj name:P start:92:16 end:92:17:
+                    vpiParent: PathTerm
+                    vpiName: P
+                    vpiFullName: work@MULT_8x8_f.P
+                    vpiActual: Net name:P
+              vpiDelay (6 items):
+                RefObj name:td start:92:22 end:92:24:
+                  vpiParent: ModPath
+                  vpiName: td
+                  vpiFullName: work@MULT_8x8_f.td
+                RefObj name:td start:92:26 end:92:28:
+                  vpiParent: ModPath
+                  vpiName: td
+                  vpiFullName: work@MULT_8x8_f.td
+                RefObj name:th start:92:30 end:92:32:
+                  vpiParent: ModPath
+                  vpiName: th
+                  vpiFullName: work@MULT_8x8_f.th
+                Constant start:92:34 end:92:35:
+                  vpiParent: ModPath
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@MULT_8x8_f
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                RefObj name:th start:92:37 end:92:39:
+                  vpiParent: ModPath
+                  vpiName: th
+                  vpiFullName: work@MULT_8x8_f.th
+                Constant start:92:41 end:92:42:
+                  vpiParent: ModPath
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@MULT_8x8_f
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+              vpiPathType: full path (1)
+              vpiPolarity: unknown (3)
   vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3788,8 +3889,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 1
+[  ERROR] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3804,25 +3905,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/specify1/mounts.json
 
 
-{'result': {'coverage': 93.17,
+{'result': {'coverage': 96.29,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/specify1.v': {'post_len': 81,
+            'files': {'$Output/lib/work/specify1.v': {'post_len': 44,
                                                       'pre_len': 1186}},
-            'post_len': 81,
+            'post_len': 44,
             'pre_len': 1186,
             'test_name': 'Icarus/ivltests/specify1'}}
 
 +-----------------------------+----------+-----------+
 | INPUT                       |   PRELEN |   POSTLEN |
 +=============================+==========+===========+
-| $Output/lib/work/specify1.v |     1186 |        81 |
+| $Output/lib/work/specify1.v |     1186 |        44 |
 +=============================+==========+===========+
-|                             |     1186 |        81 |
+|                             |     1186 |        44 |
 +-----------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.17
+[COVERAGE] : 96.29
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3832,12 +3933,12 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/specify1/design.hldb ${HLC_DIR}/r
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            88      88       9         9
+Constant                            92      92       9         9
 Operation                            9       0       0         9
-RefObj                              86      77       0         9
-RefTypespec                        107     107       9         9
+RefObj                              93      84       0         9
+RefTypespec                        111     111       9         9
 ----------------------------------------------------------------
-Others                             250     250       0         0
+Others                             257     257       0         0
 ----------------------------------------------------------------
-                                   540     522      18        36
+                                   562     544      18        36
 ===================== END REDUCTION RESULT =====================
