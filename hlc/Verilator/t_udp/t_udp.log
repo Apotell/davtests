@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_udp.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_udp
@@ -332,12 +332,12 @@ n<$Source01/t_udp.v> u<1351> t<Top_level_rule> c<1> l<6:1> el<145:1>
           n<> u<360> t<Non_port_module_item> p<361> c<359> l<33:4> el<33:52>
             n<> u<359> t<Module_or_generate_item> p<360> c<358> l<33:4> el<33:52>
               n<> u<358> t<Udp_instantiation> p<359> c<313> l<33:4> el<33:52>
-                n<udp_mux2> u<313> t<SIMPLE_IDENTIFIER> p<358> s<317> l<33:4> el<33:12>
-                n<> u<317> t<Delay2> p<358> c<316> s<357> l<33:13> el<33:22>
-                  n<#0.1> u<316> t<POUND_DELAY> p<317> c<315> l<33:13> el<33:22>
-                    n<> u<315> t<Name_of_instance> p<316> c<314> l<33:20> el<33:22>
-                      n<m1> u<314> t<SIMPLE_IDENTIFIER> p<315> l<33:20> el<33:22>
-                n<> u<357> t<Udp_instance> p<358> c<326> l<33:23> el<33:51>
+                n<udp_mux2> u<313> t<SIMPLE_IDENTIFIER> p<358> s<315> l<33:4> el<33:12>
+                n<> u<315> t<Delay2> p<358> c<314> s<357> l<33:13> el<33:17>
+                  n<#0.1> u<314> t<POUND_DELAY> p<315> l<33:13> el<33:17>
+                n<> u<357> t<Udp_instance> p<358> c<317> l<33:20> el<33:51>
+                  n<> u<317> t<Name_of_instance> p<357> c<316> s<326> l<33:20> el<33:22>
+                    n<m1> u<316> t<SIMPLE_IDENTIFIER> p<317> l<33:20> el<33:22>
                   n<> u<326> t<Net_lvalue> p<357> c<319> s<336> l<33:24> el<33:29>
                     n<> u<319> t<Ps_or_hierarchical_identifier> p<326> c<318> s<325> l<33:24> el<33:26>
                       n<qm> u<318> t<SIMPLE_IDENTIFIER> p<319> l<33:24> el<33:26>
@@ -3043,7 +3043,7 @@ Design name:unnamed:
                                 vpiParent: SysFuncCall name:$finish
                                 vpiName: "$finish"
           vpiAlwaysType: always (1)
-      vpiPrimitive (1 items):
+      vpiPrimitive (2 items):
         Udp name:m0 file:$Source01/t_udp.v start:32:20 end:32:22:
           vpiParent: Module name:work@t
           vpiName: m0
@@ -3143,6 +3143,105 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
+        Udp name:m1 file:$Source01/t_udp.v start:33:20 end:33:22:
+          vpiParent: Module name:work@t
+          vpiName: m1
+          vpiFullName: work@t.m1
+          vpiDefName Identifier name:work@udp_mux2 start:33:4 end:33:12:
+            vpiParent: Udp name:m1
+            vpiName: work@udp_mux2
+          vpiPrimTerm (4 items):
+            PrimTerm start:33:24 end:33:29:
+              vpiParent: Udp name:m1
+              vpiDirection: output (2)
+              vpiExpr BitSelect name:qm[1] start:33:24 end:33:29:
+                vpiParent: PrimTerm
+                vpiName: qm[1]
+                vpiFullName: work@t.m1.qm[1]
+                vpiPrefix RefObj name:qm start:33:24 end:33:26:
+                  vpiParent: BitSelect name:qm[1]
+                  vpiName: qm
+                  vpiFullName: work@t.m1.qm
+                  vpiActual: Net name:qm
+                vpiIndex Constant start:33:27 end:33:28:
+                  vpiParent: BitSelect name:qm[1]
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@t.m1.qm[1]
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
+            PrimTerm start:33:31 end:33:36:
+              vpiParent: Udp name:m1
+              vpiDirection: input (1)
+              vpiTermIndex: 1
+              vpiExpr BitSelect name:in[1] start:33:31 end:33:36:
+                vpiParent: PrimTerm
+                vpiName: in[1]
+                vpiFullName: work@t.m1.in[1]
+                vpiPrefix RefObj name:in start:33:31 end:33:33:
+                  vpiParent: BitSelect name:in[1]
+                  vpiName: in
+                  vpiFullName: work@t.m1.in
+                  vpiActual: Net name:in
+                vpiIndex Constant start:33:34 end:33:35:
+                  vpiParent: BitSelect name:in[1]
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@t.m1.in[1]
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
+            PrimTerm start:33:38 end:33:43:
+              vpiParent: Udp name:m1
+              vpiDirection: input (1)
+              vpiTermIndex: 2
+              vpiExpr BitSelect name:in[3] start:33:38 end:33:43:
+                vpiParent: PrimTerm
+                vpiName: in[3]
+                vpiFullName: work@t.m1.in[3]
+                vpiPrefix RefObj name:in start:33:38 end:33:40:
+                  vpiParent: BitSelect name:in[3]
+                  vpiName: in
+                  vpiFullName: work@t.m1.in
+                  vpiActual: Net name:in
+                vpiIndex Constant start:33:41 end:33:42:
+                  vpiParent: BitSelect name:in[3]
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@t.m1.in[3]
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "3"
+                  vpiValue: 3
+            PrimTerm start:33:45 end:33:50:
+              vpiParent: Udp name:m1
+              vpiDirection: input (1)
+              vpiTermIndex: 3
+              vpiExpr BitSelect name:in[4] start:33:45 end:33:50:
+                vpiParent: PrimTerm
+                vpiName: in[4]
+                vpiFullName: work@t.m1.in[4]
+                vpiPrefix RefObj name:in start:33:45 end:33:47:
+                  vpiParent: BitSelect name:in[4]
+                  vpiName: in
+                  vpiFullName: work@t.m1.in
+                  vpiActual: Net name:in
+                vpiIndex Constant start:33:48 end:33:49:
+                  vpiParent: BitSelect name:in[4]
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@t.m1.in[4]
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "4"
+                  vpiValue: 4
   vpiTypespec (10 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -3191,25 +3290,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_udp/mounts.json
 
 
-{'result': {'coverage': 98.24,
+{'result': {'coverage': 99.55,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_udp.v': {'post_len': 31,
+            'files': {'$Output/lib/work/t_udp.v': {'post_len': 8,
                                                    'pre_len': 1759}},
-            'post_len': 31,
+            'post_len': 8,
             'pre_len': 1759,
             'test_name': 'Verilator/t_udp'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/t_udp.v |     1759 |        31 |
+| $Output/lib/work/t_udp.v |     1759 |         8 |
 +==========================+==========+===========+
-|                          |     1759 |        31 |
+|                          |     1759 |         8 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.24
+[COVERAGE] : 99.55
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3219,12 +3318,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_udp/design.hldb ${HLC_DIR}/regression
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            76      76       6         6
+Constant                            80      80       6         6
 Operation                           25      19       0         6
-RefObj                              51      46       0         5
-RefTypespec                        112     112       6         6
+RefObj                              55      50       0         5
+RefTypespec                        116     116       6         6
 ----------------------------------------------------------------
-Others                             173     173       0         0
+Others                             183     183       0         0
 ----------------------------------------------------------------
-                                   437     426      12        23
+                                   459     448      12        23
 ===================== END REDUCTION RESULT =====================
