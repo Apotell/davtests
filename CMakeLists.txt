@@ -23,7 +23,7 @@ file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
   "${CMAKE_SOURCE_DIR}/hlc/test_*.cpp")
 
 foreach(TEST_SRC IN LISTS TEST_SOURCES)
-  get_filename_component(TEST_NAME "${TEST_SRC}" NAME_WE)
+  get_filename_component(TEST_NAME "${TEST_SRC}" NAME_WLE)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
 
   add_executable(${TEST_NAME} ${TEST_SRC} ${HLC_BUILD_DIR}/src/Tests/Test.cpp)

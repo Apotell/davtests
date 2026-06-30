@@ -190,28 +190,25 @@ jobs:
 
     - name: Install Dependencies (Windows)
       if: runner.os == 'Windows'
-      shell: bash
-      run: ninja --version 2>/dev/null || choco install ninja --no-progress -y
+      run: choco install ninja --no-progress -y
 
     - name: Setup Clang
       uses: egor-tensin/setup-clang@v2
-      with:
-        version: 20
 
     - name: Setup compiler cache
-      uses: hendrikmuhs/ccache-action@v1
+      uses: hendrikmuhs/ccache-action@v1.2
       with:
         variant: ${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}
-        key: ${{ matrix.platform }}-${{ github.ref_name }}
+        key: ${{ matrix.platform }}-${{ github.head_ref }}
         restore-keys: ${{ matrix.platform }}-master
 
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
       with:
-        name:          ${{ env.build-artifact-name }}
-        run-id:        ${{ needs.preflight.outputs.build_run_id }}
-        repository:    Apotell/artifacts
-        github-token:  ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ needs.preflight.outputs.build_run_id }}
+        repository: Apotell/artifacts
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
     - name: Extract build artifact
       shell: bash
@@ -219,30 +216,19 @@ jobs:
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
         mv ${{ env.build-artifact-name }} build
 
-    - name: Debug build contents
-      shell: bash
-      run: |
-        echo "=== all cmake config files in artifact ==="
-        find ${{ github.workspace }}/build -name "*Config.cmake" -o -name "*-config.cmake" 2>/dev/null || true
-        echo "=== HLCConfig.cmake ==="
-        cat ${{ github.workspace }}/build/lib/cmake/HLC/HLCConfig.cmake 2>/dev/null || true
-        echo "=== HLDBConfig.cmake ==="
-        cat ${{ github.workspace }}/build/lib/cmake/HLDB/HLDBConfig.cmake 2>/dev/null || true
-
-    - name: Create include aliases (Linux)
-      if: runner.os == 'Linux'
-      run: |
-        ln -sfn ${{ github.workspace }}/build/include/hlc ${{ github.workspace }}/build/include/Surelog
-        ln -sfn ${{ github.workspace }}/build/include/hldb ${{ github.workspace }}/build/include/uhdm
-
     - name: Configure
       shell: bash
+      env:
+        SCCACHE_GHA_ENABLED: "true"
       run: |
-        cmake                                                                    \
-          -G Ninja                                                               \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo                                      \
-          "-DHLC_BUILD_DIR=${{ github.workspace }}/build"                        \
-          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/build"                    \
+        export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+
+        cmake                                                                                   \
+          -G Ninja                                                                              \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo                                                     \
+          -DCMAKE_C_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}   \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }} \
+          -DBUILD_DIR=${{ github.workspace }}/build                                            \
           -S . -B out/build
 
     - name: Build
