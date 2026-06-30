@@ -35,27 +35,27 @@
 //   - Surelog does not emit a compile error for this invalid assignment;
 //     this test validates only the UHDM representation, not semantic enforcement
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/enum_const.h>
-#include <uhdm/enum_typespec.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/scope.h>
-#include <uhdm/typedef_typespec.h>
-#include <uhdm/variable.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/enum_const.h>
+#include <hldb/enum_typespec.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/scope.h>
+#include <hldb/typedef_typespec.h>
+#include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class EnumTypeCheckingInv : public Test {
  public:
@@ -77,31 +77,31 @@ class EnumTypeCheckingInv : public Test {
 };
 
 TEST_F(EnumTypeCheckingInv, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Module typespec — same typedef enum {a,b,c,d} as the valid variant
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypeCheckingInv, TypedefEExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  EXPECT_NE(td->getTypedefAlias()->getActual<uhdm::EnumTypespec>(), nullptr);
+  EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumTypeCheckingInv, EnumHasFourConsts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  const uhdm::EnumTypespec *const enumTs =
-      td->getTypedefAlias()->getActual<uhdm::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs =
+      td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
@@ -115,13 +115,13 @@ TEST_F(EnumTypeCheckingInv, EnumHasFourConsts) {
 // Variable "val" in begin block
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypeCheckingInv, BeginHasVariableVal) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getVariables(), nullptr);
   ASSERT_EQ(blk->getVariables()->size(), 1u);
@@ -132,33 +132,33 @@ TEST_F(EnumTypeCheckingInv, BeginHasVariableVal) {
 // Assignment: val = 1 — rhs is Constant "1" (not RefObj → EnumConst)
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypeCheckingInv, AssignmentRhsIsIntegerConstant) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getStmts(), nullptr);
   ASSERT_EQ(blk->getStmts()->size(), 1u);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const uhdm::RefObj *const lhs = assign->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "val");
   // rhs is a Constant "1" — NOT a RefObj → EnumConst
-  const uhdm::Constant *const rhs = assign->getRhs<uhdm::Constant>();
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "invalid assignment rhs should be stored as Constant in UHDM";
   EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(assign->getRhs<uhdm::RefObj>(), nullptr)
+  EXPECT_EQ(assign->getRhs<hldb::RefObj>(), nullptr)
       << "rhs is an integer literal, not a RefObj → EnumConst";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

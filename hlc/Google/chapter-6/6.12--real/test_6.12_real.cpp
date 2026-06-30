@@ -30,20 +30,20 @@
 // Not checked:
 //   - net type of 'a' (vpiRealVar — the SV real keyword maps to a special net type)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/real_typespec.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/real_typespec.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Real : public Test {
  public:
@@ -65,22 +65,22 @@ class Real : public Test {
 };
 
 TEST_F(Real, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Real, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly one net 'a'";
 }
 
 TEST_F(Real, ANetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("a", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr)
       << "net 'a' not found";
 }
 
@@ -88,15 +88,15 @@ TEST_F(Real, ANetExists) {
 // Typespec — net 'a' must resolve to RealTypespec
 // ---------------------------------------------------------------------------
 TEST_F(Real, ANetTypespecIsReal) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
 
-  const uhdm::RefTypespec *const rts = a->getTypespec();
+  const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(rts->getActual<uhdm::RealTypespec>(), nullptr)
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr)
       << "net 'a' typespec does not resolve to RealTypespec";
 }
 
@@ -104,46 +104,46 @@ TEST_F(Real, ANetTypespecIsReal) {
 // Initial value — vpiConstType=vpiRealConst, decompile "0.5"
 // ---------------------------------------------------------------------------
 TEST_F(Real, ANetInitialValueConstType) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
 
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "net 'a' has no initial value Constant";
   EXPECT_EQ(init->getConstType(), vpiRealConst)
       << "expected vpiRealConst (2) for a real-typed initial value";
 }
 
 TEST_F(Real, ANetInitialValueIsHalf) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
 
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getDecompile(), "0.5");
 }
 
 TEST_F(Real, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "module should have no continuous assignments";
 }
 
 TEST_F(Real, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

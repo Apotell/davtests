@@ -35,24 +35,24 @@
 //   - realtoa() is void — no return value; there is no net to capture a result
 //   - a's value after a.realtoa(4.76) is set at simulation runtime only
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/func_call.h>
-#include <uhdm/hier_path.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/func_call.h>
+#include <hldb/hier_path.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringRealtoa : public Test {
  public:
@@ -74,57 +74,57 @@ class StringRealtoa : public Test {
 };
 
 TEST_F(StringRealtoa, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net — only 'a' (string, uninitialized)
 // ---------------------------------------------------------------------------
 TEST_F(StringRealtoa, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(StringRealtoa, ANetTypespecIsString) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr);
+  EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
 TEST_F(StringRealtoa, ANetHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getValue<uhdm::Any>(), nullptr);
+  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Initial process — initial a.realtoa(4.76)
 // ---------------------------------------------------------------------------
 TEST_F(StringRealtoa, InitialProcessExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringRealtoa, InitialStmtIsHierPath) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
   EXPECT_EQ(hp->getName(), "a.realtoa(4.76)");
 }
@@ -133,62 +133,62 @@ TEST_F(StringRealtoa, InitialStmtIsHierPath) {
 // HierPath — receiver 'a' and FuncCall 'realtoa' with 1 real argument
 // ---------------------------------------------------------------------------
 TEST_F(StringRealtoa, HierPathReceiverIsA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
-  const uhdm::RefObj *const receiver =
-      any_cast<uhdm::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver =
+      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
-  EXPECT_NE(receiver->getActual<uhdm::Net>(), nullptr);
+  EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
 }
 
 TEST_F(StringRealtoa, HierPathMethodIsRealtoa) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "realtoa");
 }
 
 TEST_F(StringRealtoa, RealtoaArgumentIs4dot76) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const uhdm::Constant *const arg =
-      any_cast<uhdm::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg =
+      any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "realtoa argument is not a Constant";
   // The argument 4.76 is encoded as a real literal (vpiRealConst)
   EXPECT_EQ(arg->getConstType(), vpiRealConst);
   EXPECT_EQ(arg->getDecompile(), "4.76");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

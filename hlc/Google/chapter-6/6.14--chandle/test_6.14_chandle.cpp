@@ -31,18 +31,18 @@
 //   - no function call exists in this design; return value concept does not apply
 //   - ChandleTypespec resolution — unresolved in this Surelog version
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Chandle : public Test {
  public:
@@ -64,22 +64,22 @@ class Chandle : public Test {
 };
 
 TEST_F(Chandle, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Chandle, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Chandle, ANetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("a", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr)
       << "net 'a' not found";
 }
 
@@ -87,22 +87,22 @@ TEST_F(Chandle, ANetExists) {
 // Typespec — RefTypespec node present but vpiActual is unresolved
 // ---------------------------------------------------------------------------
 TEST_F(Chandle, ANetHasTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec(), nullptr)
       << "net 'a' should have a RefTypespec node";
 }
 
 TEST_F(Chandle, ANetTypespecActualIsNull) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::RefTypespec *const rts = a->getTypespec();
+  const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_EQ(rts->getActual(), nullptr)
       << "chandle net typespec vpiActual is unresolved in this Surelog version";
@@ -112,30 +112,30 @@ TEST_F(Chandle, ANetTypespecActualIsNull) {
 // No initial value, no continuous assignments, no processes
 // ---------------------------------------------------------------------------
 TEST_F(Chandle, ANetHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getValue<uhdm::Any>(), nullptr)
+  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr)
       << "chandle variable 'a' should have no initial value";
 }
 
 TEST_F(Chandle, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Chandle, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

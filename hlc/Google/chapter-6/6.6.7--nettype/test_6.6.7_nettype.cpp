@@ -27,18 +27,18 @@
 // Not checked:
 //   - full name / scope path of the TypedefTypespec
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/real_typespec.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/typedef_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/real_typespec.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/typedef_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Nettype : public Test {
  public:
@@ -60,27 +60,27 @@ class Nettype : public Test {
 };
 
 TEST_F(Nettype, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Module has exactly one typespec: TypedefTypespec "real_net"
 // ---------------------------------------------------------------------------
 TEST_F(Nettype, ModuleHasOneTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
 TEST_F(Nettype, NettypeIsTypedefTypespecNamedRealNet) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
-  const uhdm::TypedefTypespec *const td =
-      any_cast<uhdm::TypedefTypespec>(top->getTypespecs()->at(0));
+  const hldb::TypedefTypespec *const td =
+      any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr) << "nettype declaration creates a TypedefTypespec";
   EXPECT_EQ(td->getName(), "real_net");
 }
@@ -89,15 +89,15 @@ TEST_F(Nettype, NettypeIsTypedefTypespecNamedRealNet) {
 // TypedefTypespec alias: RefTypespec → RealTypespec
 // ---------------------------------------------------------------------------
 TEST_F(Nettype, NettypeAliasIsRealTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      any_cast<uhdm::TypedefTypespec>(top->getTypespecs()->at(0));
+  const hldb::TypedefTypespec *const td =
+      any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
-  const uhdm::RefTypespec *const alias = td->getTypedefAlias();
+  const hldb::RefTypespec *const alias = td->getTypedefAlias();
   ASSERT_NE(alias, nullptr);
-  EXPECT_NE(alias->getActual<uhdm::RealTypespec>(), nullptr)
+  EXPECT_NE(alias->getActual<hldb::RealTypespec>(), nullptr)
       << "nettype real real_net: alias base type is RealTypespec";
 }
 
@@ -105,11 +105,11 @@ TEST_F(Nettype, NettypeAliasIsRealTypespec) {
 // No resolution function — this nettype has no 'with' clause
 // ---------------------------------------------------------------------------
 TEST_F(Nettype, NettypeHasNoResolutionFunction) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      any_cast<uhdm::TypedefTypespec>(top->getTypespecs()->at(0));
+  const hldb::TypedefTypespec *const td =
+      any_cast<hldb::TypedefTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(td, nullptr);
   EXPECT_EQ(td->getResolutionFunc(), nullptr)
       << "nettype without 'with' clause has no resolution function";
@@ -119,29 +119,29 @@ TEST_F(Nettype, NettypeHasNoResolutionFunction) {
 // No nets or processes — nettype declaration does not instantiate a net
 // ---------------------------------------------------------------------------
 TEST_F(Nettype, NoNets) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "nettype declaration does not create a net instance in the module";
 }
 
 TEST_F(Nettype, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(Nettype, NoTaskFunctions) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getTaskFuncs() == nullptr || top->getTaskFuncs()->empty())
       << "nettype without resolution function has no task/function declarations";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

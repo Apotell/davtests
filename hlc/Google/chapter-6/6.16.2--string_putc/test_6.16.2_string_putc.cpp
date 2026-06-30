@@ -24,24 +24,24 @@
 // "a.putc(2, \"B\")" whose FuncCall carries two arguments: Constant 2 and
 // Constant "B".
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/func_call.h>
-#include <uhdm/hier_path.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/func_call.h>
+#include <hldb/hier_path.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringPutc : public Test {
  public:
@@ -63,38 +63,38 @@ class StringPutc : public Test {
 };
 
 TEST_F(StringPutc, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net — only 'a' (string); putc is void so no result net 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "only net 'a'; putc is void";
 }
 
 TEST_F(StringPutc, ANetTypespecIsString) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::RefTypespec *const rts = a->getTypespec();
+  const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<uhdm::StringTypespec>(), nullptr);
+  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr);
 }
 
 TEST_F(StringPutc, ANetInitialValueIsTest) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getConstType(), vpiStringConst);
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
@@ -104,21 +104,21 @@ TEST_F(StringPutc, ANetInitialValueIsTest) {
 // Initial process — initial a.putc(2, "B")
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, InitialProcessExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringPutc, InitialStmtIsHierPath) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
   EXPECT_EQ(hp->getName(), "a.putc(2, \"B\")");
 }
@@ -127,85 +127,85 @@ TEST_F(StringPutc, InitialStmtIsHierPath) {
 // HierPath — receiver 'a' and FuncCall 'putc' with 2 arguments
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, HierPathReceiverIsA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
-  const uhdm::RefObj *const receiver =
-      any_cast<uhdm::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver =
+      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr) << "HierPath pathElems[0] is not a RefObj";
   EXPECT_EQ(receiver->getName(), "a");
 }
 
 TEST_F(StringPutc, HierPathMethodIsPutc) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "HierPath pathElems[1] is not a FuncCall";
   EXPECT_EQ(call->getName(), "putc");
 }
 
 TEST_F(StringPutc, PutcFirstArgumentIsTwo) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 1u);
 
-  const uhdm::Constant *const arg0 =
-      any_cast<uhdm::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg0 =
+      any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr) << "putc first argument is not a Constant";
   EXPECT_EQ(arg0->getDecompile(), "2");
 }
 
 TEST_F(StringPutc, PutcSecondArgumentIsB) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::HierPath *const hp = init->getStmt<uhdm::HierPath>();
+  const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 2u);
 
-  const uhdm::Constant *const arg1 =
-      any_cast<uhdm::Constant>(call->getArguments()->at(1));
+  const hldb::Constant *const arg1 =
+      any_cast<hldb::Constant>(call->getArguments()->at(1));
   ASSERT_NE(arg1, nullptr) << "putc second argument is not a Constant";
   EXPECT_EQ(arg1->getConstType(), vpiStringConst);
   EXPECT_EQ(arg1->getDecompile(), "\"B\"");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

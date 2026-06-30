@@ -33,19 +33,19 @@
 //   - enum base type (default logic in SV)
 //   - enum const default values (a=0, b=1, c=2) — Surelog may not store implicit values
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/enum_const.h>
-#include <uhdm/enum_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/enum_const.h>
+#include <hldb/enum_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class EnumAnon : public Test {
  public:
@@ -67,35 +67,35 @@ class EnumAnon : public Test {
 };
 
 TEST_F(EnumAnon, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Module has 1 typespec: anonymous EnumTypespec (no TypedefTypespec wrapper)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, ModuleHasOneTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
 TEST_F(EnumAnon, TypespecIsAnonymousEnum) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *const enumTs =
-      any_cast<uhdm::EnumTypespec>(top->getTypespecs()->at(0));
+  const hldb::EnumTypespec *const enumTs =
+      any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr) << "anonymous enum has EnumTypespec directly, no TypedefTypespec";
 }
 
 TEST_F(EnumAnon, EnumHasThreeConsts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *const enumTs =
-      any_cast<uhdm::EnumTypespec>(top->getTypespecs()->at(0));
+  const hldb::EnumTypespec *const enumTs =
+      any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
@@ -108,8 +108,8 @@ TEST_F(EnumAnon, EnumHasThreeConsts) {
 // No processes (no initial/always block)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
@@ -118,39 +118,39 @@ TEST_F(EnumAnon, NoProcesses) {
 // Module-level Net "val" → EnumTypespec directly (not via TypedefTypespec)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, NetValExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val =
-      uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val =
+      hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getName(), "val");
 }
 
 TEST_F(EnumAnon, NetValTypespecIsEnumDirectly) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val =
-      uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val =
+      hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  const uhdm::RefTypespec *const rts = val->getTypespec();
+  const hldb::RefTypespec *const rts = val->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<uhdm::EnumTypespec>(), nullptr)
+  EXPECT_NE(rts->getActual<hldb::EnumTypespec>(), nullptr)
       << "anonymous enum: net's typespec resolves to EnumTypespec directly";
 }
 
 TEST_F(EnumAnon, NetValHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val =
-      uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val =
+      hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getValue<uhdm::Any>(), nullptr);
+  EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

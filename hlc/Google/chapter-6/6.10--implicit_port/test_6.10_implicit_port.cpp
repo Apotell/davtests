@@ -35,21 +35,21 @@
 //   - net type of 'a', 'b', 'c' (vpiLogic from wire declarations)
 //   - 'a' and 'b' have no initial values
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/cont_assign.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/port.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/cont_assign.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/port.h>
+#include <hldb/ref_obj.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class ImplicitPort : public Test {
  public:
@@ -71,41 +71,41 @@ class ImplicitPort : public Test {
 };
 
 TEST_F(ImplicitPort, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Nets — a, b (from ports) and c (internal wire) are all formally declared
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPort, ThreeNetsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u) << "expected nets a, b, and c";
 }
 
 TEST_F(ImplicitPort, ANetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("a", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr)
       << "net 'a' not found";
 }
 
 TEST_F(ImplicitPort, BNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("b", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr)
       << "net 'b' not found";
 }
 
 TEST_F(ImplicitPort, CNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("c", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
       << "net 'c' not found — it is a formally declared internal wire";
 }
 
@@ -113,8 +113,8 @@ TEST_F(ImplicitPort, CNetExists) {
 // Ports — only a and b; c is an internal wire, not a port
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPort, TwoPortsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
   EXPECT_EQ(top->getPorts()->size(), 2u)
@@ -122,58 +122,58 @@ TEST_F(ImplicitPort, TwoPortsExist) {
 }
 
 TEST_F(ImplicitPort, PortAIsInput) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Port *const pa =
-      uhdm::findByName<uhdm::Port>("a", top->getPorts());
+  const hldb::Port *const pa =
+      hldb::findByName<hldb::Port>("a", top->getPorts());
   ASSERT_NE(pa, nullptr) << "port 'a' not found";
   EXPECT_EQ(pa->getDirection(), vpiInput);
 }
 
 TEST_F(ImplicitPort, PortBIsInput) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Port *const pb =
-      uhdm::findByName<uhdm::Port>("b", top->getPorts());
+  const hldb::Port *const pb =
+      hldb::findByName<hldb::Port>("b", top->getPorts());
   ASSERT_NE(pb, nullptr) << "port 'b' not found";
   EXPECT_EQ(pb->getDirection(), vpiInput);
 }
 
 TEST_F(ImplicitPort, CIsNotAPort) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
-  EXPECT_EQ(uhdm::findByName<uhdm::Port>("c", top->getPorts()), nullptr)
+  EXPECT_EQ(hldb::findByName<hldb::Port>("c", top->getPorts()), nullptr)
       << "'c' should not appear in vpiPort — it is an internal wire only";
 }
 
 TEST_F(ImplicitPort, PortALowConnResolvesToNetA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Port *const pa =
-      uhdm::findByName<uhdm::Port>("a", top->getPorts());
+  const hldb::Port *const pa =
+      hldb::findByName<hldb::Port>("a", top->getPorts());
   ASSERT_NE(pa, nullptr);
-  const uhdm::RefObj *const lc = pa->getLowConn<uhdm::RefObj>();
+  const hldb::RefObj *const lc = pa->getLowConn<hldb::RefObj>();
   ASSERT_NE(lc, nullptr) << "port 'a' has no lowConn RefObj";
-  const uhdm::Net *const net = lc->getActual<uhdm::Net>();
+  const hldb::Net *const net = lc->getActual<hldb::Net>();
   ASSERT_NE(net, nullptr) << "port 'a' lowConn does not resolve to a Net";
   EXPECT_EQ(net->getName(), "a");
 }
 
 TEST_F(ImplicitPort, PortBLowConnResolvesToNetB) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Port *const pb =
-      uhdm::findByName<uhdm::Port>("b", top->getPorts());
+  const hldb::Port *const pb =
+      hldb::findByName<hldb::Port>("b", top->getPorts());
   ASSERT_NE(pb, nullptr);
-  const uhdm::RefObj *const lc = pb->getLowConn<uhdm::RefObj>();
+  const hldb::RefObj *const lc = pb->getLowConn<hldb::RefObj>();
   ASSERT_NE(lc, nullptr) << "port 'b' has no lowConn RefObj";
-  const uhdm::Net *const net = lc->getActual<uhdm::Net>();
+  const hldb::Net *const net = lc->getActual<hldb::Net>();
   ASSERT_NE(net, nullptr) << "port 'b' lowConn does not resolve to a Net";
   EXPECT_EQ(net->getName(), "b");
 }
@@ -182,21 +182,21 @@ TEST_F(ImplicitPort, PortBLowConnResolvesToNetB) {
 // Continuous assignment — assign c = a | b
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPort, ContAssignExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   EXPECT_EQ(top->getContAssigns()->size(), 1u);
 }
 
 TEST_F(ImplicitPort, ContAssignLhsIsCWithActual) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::RefObj *const lhs =
-      top->getContAssigns()->at(0)->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs =
+      top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "c");
   EXPECT_NE(lhs->getActual(), nullptr)
@@ -204,34 +204,34 @@ TEST_F(ImplicitPort, ContAssignLhsIsCWithActual) {
 }
 
 TEST_F(ImplicitPort, ContAssignRhsIsBitOr) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::Operation *const rhs =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs =
+      top->getContAssigns()->at(0)->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS is not an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiBitOrOp)
       << "expected vpiBitOrOp (29)";
 }
 
 TEST_F(ImplicitPort, BitOrOperandsAreAAndB) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::Operation *const rhs =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs =
+      top->getContAssigns()->at(0)->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const op0 =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[0]);
-  const uhdm::RefObj *const op1 =
-      any_cast<uhdm::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const op0 =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
+  const hldb::RefObj *const op1 =
+      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(op0, nullptr) << "first operand is not a RefObj";
   ASSERT_NE(op1, nullptr) << "second operand is not a RefObj";
   EXPECT_EQ(op0->getName(), "a");
@@ -239,23 +239,23 @@ TEST_F(ImplicitPort, BitOrOperandsAreAAndB) {
 }
 
 TEST_F(ImplicitPort, CNetHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const c = uhdm::findByName<uhdm::Net>("c", top->getNets());
+  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue<uhdm::Any>(), nullptr)
+  EXPECT_EQ(c->getValue<hldb::Any>(), nullptr)
       << "internal wire 'c' has no initializer — only gets a value from the assign";
 }
 
 TEST_F(ImplicitPort, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

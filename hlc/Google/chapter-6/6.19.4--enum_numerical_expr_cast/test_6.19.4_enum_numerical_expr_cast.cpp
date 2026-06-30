@@ -37,28 +37,28 @@
 // Not checked:
 //   - (all observable graph properties of this design are verified above)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/enum_const.h>
-#include <uhdm/enum_typespec.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/scope.h>
-#include <uhdm/typedef_typespec.h>
-#include <uhdm/variable.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/enum_const.h>
+#include <hldb/enum_typespec.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/scope.h>
+#include <hldb/typedef_typespec.h>
+#include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class EnumNumericalExprCast : public Test {
  public:
@@ -80,28 +80,28 @@ class EnumNumericalExprCast : public Test {
 };
 
 TEST_F(EnumNumericalExprCast, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumNumericalExprCast, TypedefEExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  EXPECT_NE(td->getTypedefAlias()->getActual<uhdm::EnumTypespec>(), nullptr);
+  EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumNumericalExprCast, EnumHasFourConsts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  const uhdm::EnumTypespec *const enumTs =
-      td->getTypedefAlias()->getActual<uhdm::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs =
+      td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
@@ -115,13 +115,13 @@ TEST_F(EnumNumericalExprCast, EnumHasFourConsts) {
 // Begin → 1 variable "val"
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprCast, BeginHasVariableVal) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getVariables(), nullptr);
   ASSERT_EQ(blk->getVariables()->size(), 1u);
@@ -132,70 +132,70 @@ TEST_F(EnumNumericalExprCast, BeginHasVariableVal) {
 // 2nd assignment: val = e'(val+1) — rhs is Operation(cast)
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprCast, SecondAssignmentRhsIsCastOp) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getStmts(), nullptr);
   ASSERT_EQ(blk->getStmts()->size(), 2u);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const uhdm::Operation *const castOp = assign->getRhs<uhdm::Operation>();
+  const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr) << "e'(val+1) rhs should be an Operation";
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
 }
 
 TEST_F(EnumNumericalExprCast, CastOpTypespecIsTypedefE) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const uhdm::Operation *const castOp = assign->getRhs<uhdm::Operation>();
+  const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const uhdm::RefTypespec *const rts = castOp->getTypespec();
+  const hldb::RefTypespec *const rts = castOp->getTypespec();
   ASSERT_NE(rts, nullptr) << "cast operation should carry the cast-target typespec";
   EXPECT_EQ(rts->getName(), "e");
-  EXPECT_NE(rts->getActual<uhdm::TypedefTypespec>(), nullptr);
+  EXPECT_NE(rts->getActual<hldb::TypedefTypespec>(), nullptr);
 }
 
 TEST_F(EnumNumericalExprCast, CastOperandIsAddOp) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const uhdm::Operation *const castOp = assign->getRhs<uhdm::Operation>();
+  const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
   ASSERT_EQ(castOp->getOperands()->size(), 1u);
-  const uhdm::Operation *const addOp =
-      any_cast<uhdm::Operation>(castOp->getOperands()->at(0));
+  const hldb::Operation *const addOp =
+      any_cast<hldb::Operation>(castOp->getOperands()->at(0));
   ASSERT_NE(addOp, nullptr) << "cast operand should be an add Operation";
   EXPECT_EQ(addOp->getOpType(), vpiAddOp);
   ASSERT_NE(addOp->getOperands(), nullptr);
   ASSERT_EQ(addOp->getOperands()->size(), 2u);
-  const uhdm::RefObj *const lhsOp = any_cast<uhdm::RefObj>(addOp->getOperands()->at(0));
+  const hldb::RefObj *const lhsOp = any_cast<hldb::RefObj>(addOp->getOperands()->at(0));
   ASSERT_NE(lhsOp, nullptr);
   EXPECT_EQ(lhsOp->getName(), "val");
-  const uhdm::Constant *const rhsOp = any_cast<uhdm::Constant>(addOp->getOperands()->at(1));
+  const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(addOp->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getDecompile(), "1");
 }
@@ -204,51 +204,51 @@ TEST_F(EnumNumericalExprCast, CastOperandIsAddOp) {
 // 1st assignment: val = a — rhs is RefObj → EnumConst "a"
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprCast, FirstAssignmentRhsIsEnumConstA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const uhdm::RefObj *const rhs = assign->getRhs<uhdm::RefObj>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "a");
-  EXPECT_NE(rhs->getActual<uhdm::EnumConst>(), nullptr);
+  EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
 TEST_F(EnumNumericalExprCast, CastAddConstant1IsUIntConst) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const uhdm::Operation *const castOp = assign->getRhs<uhdm::Operation>();
+  const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
-  const uhdm::Operation *const addOp =
-      any_cast<uhdm::Operation>(castOp->getOperands()->at(0));
+  const hldb::Operation *const addOp =
+      any_cast<hldb::Operation>(castOp->getOperands()->at(0));
   ASSERT_NE(addOp, nullptr);
   ASSERT_NE(addOp->getOperands(), nullptr);
   ASSERT_EQ(addOp->getOperands()->size(), 2u);
-  const uhdm::Constant *const rhsOp =
-      any_cast<uhdm::Constant>(addOp->getOperands()->at(1));
+  const hldb::Constant *const rhsOp =
+      any_cast<hldb::Constant>(addOp->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
       << "Surelog stores unsized integer literals as vpiUIntConst, not vpiIntConst";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

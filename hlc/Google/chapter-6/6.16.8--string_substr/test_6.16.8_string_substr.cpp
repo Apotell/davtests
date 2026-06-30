@@ -34,23 +34,23 @@
 //     stores the unevaluated HierPath expression only
 //   - const type of arguments "1" and "2" (vpiUIntConst — same as itoa lesson)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/func_call.h>
-#include <uhdm/hier_path.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/func_call.h>
+#include <hldb/hier_path.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class StringSubstr : public Test {
  public:
@@ -72,48 +72,48 @@ class StringSubstr : public Test {
 };
 
 TEST_F(StringSubstr, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net declarations — string 'a' and string 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringSubstr, TwoNetsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(StringSubstr, ANetTypespecIsString) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr);
+  EXPECT_NE(a->getTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
 TEST_F(StringSubstr, ANetInitialValueIsTest) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getConstType(), vpiStringConst);
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
 TEST_F(StringSubstr, BNetTypespecIsString) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  EXPECT_NE(b->getTypespec()->getActual<uhdm::StringTypespec>(), nullptr)
+  EXPECT_NE(b->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
       << "net 'b' (result of substr) should be StringTypespec";
 }
 
@@ -121,111 +121,111 @@ TEST_F(StringSubstr, BNetTypespecIsString) {
 // HierPath — b's initial value is the method call a.substr(1, 2)
 // ---------------------------------------------------------------------------
 TEST_F(StringSubstr, BNetHasValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
   EXPECT_NE(b->getValue(), nullptr)
       << "net 'b' should have a vpiValue set from string b = a.substr(1, 2)";
 }
 
 TEST_F(StringSubstr, BNetValueIsNotPreEvaluatedConstant) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  EXPECT_EQ(b->getValue<uhdm::Constant>(), nullptr)
+  EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
       << "Surelog does not pre-evaluate a.substr(1,2) to a constant; b holds only the HierPath expression";
 }
 
 TEST_F(StringSubstr, BNetValueIsHierPath) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::HierPath *const hp = b->getValue<uhdm::HierPath>();
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "net 'b' initial value is not a HierPath";
   EXPECT_EQ(hp->getName(), "a.substr(1, 2)");
 }
 
 TEST_F(StringSubstr, HierPathReceiverIsA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::HierPath *const hp = b->getValue<uhdm::HierPath>();
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
-  const uhdm::RefObj *const receiver =
-      any_cast<uhdm::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver =
+      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
-  EXPECT_NE(receiver->getActual<uhdm::Net>(), nullptr);
+  EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
 }
 
 TEST_F(StringSubstr, HierPathMethodIsSubstr) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::HierPath *const hp = b->getValue<uhdm::HierPath>();
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "substr");
 }
 
 TEST_F(StringSubstr, SubstrFirstArgumentIsOne) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::HierPath *const hp = b->getValue<uhdm::HierPath>();
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 1u);
 
-  const uhdm::Constant *const arg0 =
-      any_cast<uhdm::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg0 =
+      any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr) << "substr first argument is not a Constant";
   EXPECT_EQ(arg0->getDecompile(), "1");
 }
 
 TEST_F(StringSubstr, SubstrSecondArgumentIsTwo) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::HierPath *const hp = b->getValue<uhdm::HierPath>();
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const uhdm::FuncCall *const call =
-      any_cast<uhdm::FuncCall>(hp->getPathElems()->at(1));
+  const hldb::FuncCall *const call =
+      any_cast<hldb::FuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 2u);
 
-  const uhdm::Constant *const arg1 =
-      any_cast<uhdm::Constant>(call->getArguments()->at(1));
+  const hldb::Constant *const arg1 =
+      any_cast<hldb::Constant>(call->getArguments()->at(1));
   ASSERT_NE(arg1, nullptr) << "substr second argument is not a Constant";
   EXPECT_EQ(arg1->getDecompile(), "2");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

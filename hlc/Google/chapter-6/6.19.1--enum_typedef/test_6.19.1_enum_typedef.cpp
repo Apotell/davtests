@@ -32,22 +32,22 @@
 // Not checked:
 //   - enum const default values (a=0, b=1, c=2) — Surelog may not store implicit values
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/enum_const.h>
-#include <uhdm/enum_typespec.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/scope.h>
-#include <uhdm/typedef_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/enum_const.h>
+#include <hldb/enum_typespec.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/scope.h>
+#include <hldb/typedef_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class EnumTypedef : public Test {
  public:
@@ -69,12 +69,12 @@ class EnumTypedef : public Test {
 };
 
 TEST_F(EnumTypedef, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumTypedef, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
@@ -84,23 +84,23 @@ TEST_F(EnumTypedef, OneNetExists) {
 // Net 'val' — typespec RefTypespec named "e" resolves to LogicTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, ValNetTypespecNameIsE) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val = uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  const uhdm::RefTypespec *const rts = val->getTypespec();
+  const hldb::RefTypespec *const rts = val->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_EQ(rts->getName(), "e");
 }
 
 TEST_F(EnumTypedef, ValNetTypespecActualIsLogic) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val = uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  EXPECT_NE(val->getTypespec()->getActual<uhdm::LogicTypespec>(), nullptr)
+  EXPECT_NE(val->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "enum 'e' base type in UHDM resolves to LogicTypespec";
 }
 
@@ -108,25 +108,25 @@ TEST_F(EnumTypedef, ValNetTypespecActualIsLogic) {
 // Module typespec — TypedefTypespec named "e" whose alias → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, ModuleHasTypedefTypespecE) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr) << "module should own a TypedefTypespec named 'e'";
   EXPECT_EQ(td->getName(), "e");
 }
 
 TEST_F(EnumTypedef, TypedefEAliasIsEnumTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  const uhdm::RefTypespec *const alias = td->getTypedefAlias();
+  const hldb::RefTypespec *const alias = td->getTypedefAlias();
   ASSERT_NE(alias, nullptr);
-  EXPECT_NE(alias->getActual<uhdm::EnumTypespec>(), nullptr)
+  EXPECT_NE(alias->getActual<hldb::EnumTypespec>(), nullptr)
       << "typedef 'e' alias should point to the EnumTypespec";
 }
 
@@ -134,28 +134,28 @@ TEST_F(EnumTypedef, TypedefEAliasIsEnumTypespec) {
 // EnumTypespec — 3 constants: a, b, c
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, EnumHasThreeConsts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  const uhdm::EnumTypespec *const enumTs =
-      td->getTypedefAlias()->getActual<uhdm::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs =
+      td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 3u);
 }
 
 TEST_F(EnumTypedef, EnumConstsAreABC) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  const uhdm::EnumTypespec *const enumTs =
-      td->getTypedefAlias()->getActual<uhdm::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs =
+      td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   const auto *consts = enumTs->getEnumConsts();
   ASSERT_NE(consts, nullptr);
@@ -166,15 +166,15 @@ TEST_F(EnumTypedef, EnumConstsAreABC) {
 }
 
 TEST_F(EnumTypedef, ValNetHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val = uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getValue<uhdm::Any>(), nullptr);
+  EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

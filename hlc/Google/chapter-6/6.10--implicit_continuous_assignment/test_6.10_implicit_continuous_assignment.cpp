@@ -35,21 +35,21 @@
 //   - Surelog actually emitting EL0535 (can't inspect compiler messages from tests)
 //   - net type of 'a' and 'b' (vpiLogic from wire [3:0] declarations)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/cont_assign.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/cont_assign.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class ImplicitContinuousAssignment : public Test {
  public:
@@ -71,15 +71,15 @@ class ImplicitContinuousAssignment : public Test {
 };
 
 TEST_F(ImplicitContinuousAssignment, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net declarations — only 'a' and 'b' are formally declared; 'c' is implicit
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitContinuousAssignment, TwoExplicitNetsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
   EXPECT_EQ(top->getNets()->size(), 2u)
@@ -87,50 +87,50 @@ TEST_F(ImplicitContinuousAssignment, TwoExplicitNetsExist) {
 }
 
 TEST_F(ImplicitContinuousAssignment, ANetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("a", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr)
       << "net 'a' not found";
 }
 
 TEST_F(ImplicitContinuousAssignment, BNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_NE(uhdm::findByName<uhdm::Net>("b", top->getNets()), nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr)
       << "net 'b' not found";
 }
 
 TEST_F(ImplicitContinuousAssignment, CNetNotDeclared) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(uhdm::findByName<uhdm::Net>("c", top->getNets()), nullptr)
+  EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
       << "'c' should not appear in vpiNet — it was implicitly declared (EL0535)";
 }
 
 TEST_F(ImplicitContinuousAssignment, ANetInitialValueIsEight) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "net 'a' has no initial value";
   EXPECT_EQ(init->getDecompile(), "8");
 }
 
 TEST_F(ImplicitContinuousAssignment, BNetInitialValueIsFive) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::Constant *const init = b->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = b->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "net 'b' has no initial value";
   EXPECT_EQ(init->getDecompile(), "5");
 }
@@ -139,33 +139,33 @@ TEST_F(ImplicitContinuousAssignment, BNetInitialValueIsFive) {
 // Continuous assignment — assign c = |(a | b)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitContinuousAssignment, ContAssignExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
   EXPECT_EQ(top->getContAssigns()->size(), 1u);
 }
 
 TEST_F(ImplicitContinuousAssignment, ContAssignLhsIsC) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::ContAssign *const ca = top->getContAssigns()->at(0);
+  const hldb::ContAssign *const ca = top->getContAssigns()->at(0);
   ASSERT_NE(ca, nullptr);
-  const uhdm::RefObj *const lhs = ca->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "ContAssign LHS is not a RefObj";
   EXPECT_EQ(lhs->getName(), "c");
 }
 
 TEST_F(ImplicitContinuousAssignment, ContAssignLhsHasNoActual) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getActual(), nullptr)
       << "'c' is implicit — its LHS RefObj should have no vpiActual back-pointer";
@@ -175,113 +175,113 @@ TEST_F(ImplicitContinuousAssignment, ContAssignLhsHasNoActual) {
 // RHS expression — |(a | b): unary-or wrapping a bitwise-or
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitContinuousAssignment, ContAssignRhsIsUnaryOr) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::Operation *const rhs =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Operation>();
+  const hldb::Operation *const rhs =
+      top->getContAssigns()->at(0)->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS is not an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiUnaryOrOp)
       << "expected vpiUnaryOrOp (7) — reduction OR";
 }
 
 TEST_F(ImplicitContinuousAssignment, UnaryOrOperandIsBitOr) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::Operation *const outer =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Operation>();
+  const hldb::Operation *const outer =
+      top->getContAssigns()->at(0)->getRhs<hldb::Operation>();
   ASSERT_NE(outer, nullptr);
   ASSERT_NE(outer->getOperands(), nullptr);
   ASSERT_EQ(outer->getOperands()->size(), 1u);
 
-  const uhdm::Operation *const inner =
-      any_cast<uhdm::Operation>((*outer->getOperands())[0]);
+  const hldb::Operation *const inner =
+      any_cast<hldb::Operation>((*outer->getOperands())[0]);
   ASSERT_NE(inner, nullptr) << "unary-or operand is not an Operation";
   EXPECT_EQ(inner->getOpType(), vpiBitOrOp)
       << "expected vpiBitOrOp (29) — binary bitwise OR";
 }
 
 TEST_F(ImplicitContinuousAssignment, BitOrFirstOperandIsA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::Operation *const outer =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Operation>();
+  const hldb::Operation *const outer =
+      top->getContAssigns()->at(0)->getRhs<hldb::Operation>();
   ASSERT_NE(outer, nullptr);
   ASSERT_NE(outer->getOperands(), nullptr);
-  const uhdm::Operation *const inner =
-      any_cast<uhdm::Operation>((*outer->getOperands())[0]);
+  const hldb::Operation *const inner =
+      any_cast<hldb::Operation>((*outer->getOperands())[0]);
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getOperands(), nullptr);
   ASSERT_GE(inner->getOperands()->size(), 1u);
 
-  const uhdm::RefObj *const a =
-      any_cast<uhdm::RefObj>((*inner->getOperands())[0]);
+  const hldb::RefObj *const a =
+      any_cast<hldb::RefObj>((*inner->getOperands())[0]);
   ASSERT_NE(a, nullptr) << "first bitwise-or operand is not a RefObj";
   EXPECT_EQ(a->getName(), "a");
 }
 
 TEST_F(ImplicitContinuousAssignment, BitOrSecondOperandIsB) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const uhdm::Operation *const outer =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Operation>();
+  const hldb::Operation *const outer =
+      top->getContAssigns()->at(0)->getRhs<hldb::Operation>();
   ASSERT_NE(outer, nullptr);
   ASSERT_NE(outer->getOperands(), nullptr);
-  const uhdm::Operation *const inner =
-      any_cast<uhdm::Operation>((*outer->getOperands())[0]);
+  const hldb::Operation *const inner =
+      any_cast<hldb::Operation>((*outer->getOperands())[0]);
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getOperands(), nullptr);
   ASSERT_GE(inner->getOperands()->size(), 2u);
 
-  const uhdm::RefObj *const b =
-      any_cast<uhdm::RefObj>((*inner->getOperands())[1]);
+  const hldb::RefObj *const b =
+      any_cast<hldb::RefObj>((*inner->getOperands())[1]);
   ASSERT_NE(b, nullptr) << "second bitwise-or operand is not a RefObj";
   EXPECT_EQ(b->getName(), "b");
 }
 
 TEST_F(ImplicitContinuousAssignment, ANetInitialValueConstType) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getConstType(), vpiUIntConst)
       << "Surelog stores unsized integer literals as vpiUIntConst (9)";
 }
 
 TEST_F(ImplicitContinuousAssignment, BNetInitialValueConstType) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const b = uhdm::findByName<uhdm::Net>("b", top->getNets());
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  const uhdm::Constant *const init = b->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = b->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getConstType(), vpiUIntConst)
       << "Surelog stores unsized integer literals as vpiUIntConst (9)";
 }
 
 TEST_F(ImplicitContinuousAssignment, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

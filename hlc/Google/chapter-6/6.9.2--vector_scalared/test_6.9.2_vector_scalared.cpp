@@ -30,21 +30,21 @@
 //   - vpiScalared flag on the net/typespec (scalared keyword behavior)
 //   - const type of the initial value (vpiUIntConst=9)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/range.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/range.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class VectorScalared : public Test {
  public:
@@ -66,158 +66,158 @@ class VectorScalared : public Test {
 };
 
 TEST_F(VectorScalared, ModuleExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(VectorScalared, ModuleHasOneNet) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(VectorScalared, NetNameIsA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getName(), "a");
 }
 
 TEST_F(VectorScalared, NetTypeIsTri1) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getNetType(), vpiTri1);
 }
 
 TEST_F(VectorScalared, NetHasLogicTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  EXPECT_NE(rt->getActual<uhdm::LogicTypespec>(), nullptr);
+  EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
 TEST_F(VectorScalared, LogicTypespecIsVector) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const uhdm::LogicTypespec *const ls =
-      rt->getActual<uhdm::LogicTypespec>();
+  const hldb::LogicTypespec *const ls =
+      rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_TRUE(ls->getVector());
 }
 
 TEST_F(VectorScalared, LogicTypespecHasOneRange) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const uhdm::LogicTypespec *const ls =
-      rt->getActual<uhdm::LogicTypespec>();
+  const hldb::LogicTypespec *const ls =
+      rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   EXPECT_EQ(ls->getRanges()->size(), 1u);
 }
 
 TEST_F(VectorScalared, RangeLeftIs15) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const uhdm::LogicTypespec *const ls =
-      rt->getActual<uhdm::LogicTypespec>();
+  const hldb::LogicTypespec *const ls =
+      rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
-  const uhdm::Range *const range = ls->getRanges()->at(0);
+  const hldb::Range *const range = ls->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
-  const uhdm::Constant *const left =
-      range->getLeftExpr<uhdm::Constant>();
+  const hldb::Constant *const left =
+      range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "15");
 }
 
 TEST_F(VectorScalared, RangeRightIs0) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const uhdm::LogicTypespec *const ls =
-      rt->getActual<uhdm::LogicTypespec>();
+  const hldb::LogicTypespec *const ls =
+      rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
-  const uhdm::Range *const range = ls->getRanges()->at(0);
+  const hldb::Range *const range = ls->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
-  const uhdm::Constant *const right =
-      range->getRightExpr<uhdm::Constant>();
+  const hldb::Constant *const right =
+      range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
 TEST_F(VectorScalared, NetHasInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_NE(net->getValue(), nullptr);
 }
  
 TEST_F(VectorScalared, NetInitialValueIsZero) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::Constant *const val = net->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = net->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
 TEST_F(VectorScalared, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(VectorScalared, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc

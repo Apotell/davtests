@@ -44,27 +44,27 @@
 //   - copy-by-value semantics of whole-array assignment (runtime-only)
 //   - stmt[7] w[1], w[2] argument BitSelects (only w[0] checked)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/array_typespec.h>
-#include <uhdm/assignment.h>
-#include <uhdm/begin.h>
-#include <uhdm/bit_select.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/initial.h>
-#include <uhdm/int_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/string_typespec.h>
-#include <uhdm/sys_func_call.h>
+#include <hldb/Utils.h>
+#include <hldb/array_typespec.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/bit_select.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/initial.h>
+#include <hldb/int_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/string_typespec.h>
+#include <hldb/sys_func_call.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Assignment : public Test {
  public:
@@ -88,22 +88,22 @@ class Assignment : public Test {
 // --- module and nets -------------------------------------------------------
 
 TEST_F(Assignment, ModuleExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Assignment, ModuleHasTwoNets) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(Assignment, NetsAreWordsAndW) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "words");
@@ -111,109 +111,109 @@ TEST_F(Assignment, NetsAreWordsAndW) {
 }
 
 TEST_F(Assignment, WordsNetIsAssocStringArray) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::ArrayTypespec *const at =
-      net->getTypespec<uhdm::RefTypespec>()->getActual<uhdm::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at =
+      net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);  // associative = 3
-  EXPECT_NE(at->getIndexTypespec()->getActual<uhdm::IntTypespec>(), nullptr);
-  EXPECT_NE(at->getElemTypespec()->getActual<uhdm::StringTypespec>(), nullptr);
+  EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
+  EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
 TEST_F(Assignment, WNetIsAssocStringArray) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const net = top->getNets()->at(1);
+  const hldb::Net *const net = top->getNets()->at(1);
   ASSERT_NE(net, nullptr);
-  const uhdm::ArrayTypespec *const at =
-      net->getTypespec<uhdm::RefTypespec>()->getActual<uhdm::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at =
+      net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);
-  EXPECT_NE(at->getIndexTypespec()->getActual<uhdm::IntTypespec>(), nullptr);
-  EXPECT_NE(at->getElemTypespec()->getActual<uhdm::StringTypespec>(), nullptr);
+  EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
+  EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
 // --- initial process (8 statements) ---------------------------------------
 
 TEST_F(Assignment, InitialBodyIsBeginWith8Stmts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Initial *const init =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const uhdm::Begin *const blk = init->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getStmts(), nullptr);
   EXPECT_EQ(blk->getStmts()->size(), 8u);
 }
 
 TEST_F(Assignment, Words0AssignedHello) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const uhdm::BitSelect *const bs = assign->getLhs<uhdm::BitSelect>();
+  const hldb::BitSelect *const bs = assign->getLhs<hldb::BitSelect>();
   ASSERT_NE(bs, nullptr);
-  EXPECT_EQ(bs->getPrefix<uhdm::RefObj>()->getName(), "words");
-  EXPECT_EQ(bs->getIndex<uhdm::Constant>()->getDecompile(), "0");
-  EXPECT_EQ(assign->getRhs<uhdm::Constant>()->getDecompile(), "\"hello\"");
+  EXPECT_EQ(bs->getPrefix<hldb::RefObj>()->getName(), "words");
+  EXPECT_EQ(bs->getIndex<hldb::Constant>()->getDecompile(), "0");
+  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), "\"hello\"");
 }
 
 TEST_F(Assignment, Words1AssignedHappy) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<uhdm::BitSelect>()->getIndex<uhdm::Constant>()->getDecompile(), "1");
-  EXPECT_EQ(assign->getRhs<uhdm::Constant>()->getDecompile(), "\"happy\"");
+  EXPECT_EQ(assign->getLhs<hldb::BitSelect>()->getIndex<hldb::Constant>()->getDecompile(), "1");
+  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), "\"happy\"");
 }
 
 TEST_F(Assignment, Words2AssignedWorld) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(2));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(2));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<uhdm::BitSelect>()->getIndex<uhdm::Constant>()->getDecompile(), "2");
-  EXPECT_EQ(assign->getRhs<uhdm::Constant>()->getDecompile(), "\"world\"");
+  EXPECT_EQ(assign->getLhs<hldb::BitSelect>()->getIndex<hldb::Constant>()->getDecompile(), "2");
+  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), "\"world\"");
 }
 
 TEST_F(Assignment, FourthStmtIsDisplayWordsHHW) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::SysFuncCall *const sc =
-      any_cast<uhdm::SysFuncCall>(blk->getStmts()->at(3));
+  const hldb::SysFuncCall *const sc =
+      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(3));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const uhdm::Constant *const fmt =
-      any_cast<uhdm::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt =
+      any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(),
             "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
@@ -222,96 +222,96 @@ TEST_F(Assignment, FourthStmtIsDisplayWordsHHW) {
 TEST_F(Assignment, FifthStmtIsWholeArrayCopyWEqualsWords) {
   // w = words  — whole-array copy: lhs is RefObj "w", rhs is RefObj "words"
   // (no BitSelect on either side)
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(4));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(4));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const uhdm::RefObj *const lhs = assign->getLhs<uhdm::RefObj>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "w");
-  const uhdm::RefObj *const rhs = assign->getRhs<uhdm::RefObj>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "words");
 }
 
 TEST_F(Assignment, SixthStmtIsW1EqualsSad) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::Assignment *const assign =
-      any_cast<uhdm::Assignment>(blk->getStmts()->at(5));
+  const hldb::Assignment *const assign =
+      any_cast<hldb::Assignment>(blk->getStmts()->at(5));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const uhdm::BitSelect *const bs = assign->getLhs<uhdm::BitSelect>();
+  const hldb::BitSelect *const bs = assign->getLhs<hldb::BitSelect>();
   ASSERT_NE(bs, nullptr);
-  EXPECT_EQ(bs->getPrefix<uhdm::RefObj>()->getName(), "w");
-  EXPECT_EQ(bs->getIndex<uhdm::Constant>()->getDecompile(), "1");
-  EXPECT_EQ(assign->getRhs<uhdm::Constant>()->getDecompile(), "\"sad\"");
+  EXPECT_EQ(bs->getPrefix<hldb::RefObj>()->getName(), "w");
+  EXPECT_EQ(bs->getIndex<hldb::Constant>()->getDecompile(), "1");
+  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), "\"sad\"");
 }
 
 TEST_F(Assignment, SeventhStmtIsDisplayWordsUnchanged) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::SysFuncCall *const sc =
-      any_cast<uhdm::SysFuncCall>(blk->getStmts()->at(6));
+  const hldb::SysFuncCall *const sc =
+      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(6));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
   // fmt still asserts words holds original values (copy was by value)
-  const uhdm::Constant *const fmt =
-      any_cast<uhdm::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt =
+      any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(),
             "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
 }
 
 TEST_F(Assignment, EighthStmtIsDisplayWWithSad) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Begin *const blk =
-      any_cast<uhdm::Initial>(top->getProcesses()->at(0))->getStmt<uhdm::Begin>();
+  const hldb::Begin *const blk =
+      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const uhdm::SysFuncCall *const sc =
-      any_cast<uhdm::SysFuncCall>(blk->getStmts()->at(7));
+  const hldb::SysFuncCall *const sc =
+      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(7));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const uhdm::Constant *const fmt =
-      any_cast<uhdm::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt =
+      any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(),
             "\":assert: (('%s' == 'hello') and ('%s' == 'sad') and ('%s' == 'world'))\"");
   // second arg is w[0], third is w[1], fourth is w[2]
-  const uhdm::BitSelect *const w0 =
-      any_cast<uhdm::BitSelect>(sc->getArguments()->at(1));
+  const hldb::BitSelect *const w0 =
+      any_cast<hldb::BitSelect>(sc->getArguments()->at(1));
   ASSERT_NE(w0, nullptr);
-  EXPECT_EQ(w0->getPrefix<uhdm::RefObj>()->getName(), "w");
-  EXPECT_EQ(w0->getIndex<uhdm::Constant>()->getDecompile(), "0");
+  EXPECT_EQ(w0->getPrefix<hldb::RefObj>()->getName(), "w");
+  EXPECT_EQ(w0->getIndex<hldb::Constant>()->getDecompile(), "0");
 }
 
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Assignment, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc

@@ -32,19 +32,19 @@
 //   - Surelog doesn't flag the multiple continuous assignments error
 //   - RHS constant types (vpiUIntConst for unsized integers)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/cont_assign.h>
-#include <uhdm/design.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_obj.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/cont_assign.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_obj.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class VariableMultipleAssignments : public Test {
  public:
@@ -66,19 +66,19 @@ class VariableMultipleAssignments : public Test {
 };
 
 TEST_F(VariableMultipleAssignments, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net declaration — int v
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, NetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
 
-  const uhdm::Net *const v = uhdm::findByName<uhdm::Net>("v", top->getNets());
+  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr) << "net 'v' not found in module";
 }
 
@@ -86,8 +86,8 @@ TEST_F(VariableMultipleAssignments, NetExists) {
 // Two continuous assignments — assign v = 12; assign v = 13;
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
   EXPECT_EQ(top->getContAssigns()->size(), 2u)
@@ -95,41 +95,41 @@ TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
 }
 
 TEST_F(VariableMultipleAssignments, BothContAssignsTargetV) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);
 
-  for (const uhdm::ContAssign *const ca : *top->getContAssigns()) {
-    const uhdm::RefObj *const lhs = ca->getLhs<uhdm::RefObj>();
+  for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
+    const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
     ASSERT_NE(lhs, nullptr) << "a ContAssign LHS is not a RefObj";
     EXPECT_EQ(lhs->getName(), "v") << "a ContAssign LHS does not reference 'v'";
   }
 }
 
 TEST_F(VariableMultipleAssignments, FirstContAssignRhsIsConstant12) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_GE(top->getContAssigns()->size(), 1u);
 
-  const uhdm::Constant *const rhs =
-      top->getContAssigns()->at(0)->getRhs<uhdm::Constant>();
+  const hldb::Constant *const rhs =
+      top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "first ContAssign RHS is not a Constant";
   EXPECT_EQ(rhs->getDecompile(), "12") << "first ContAssign RHS value is not '12'";
 }
 
 TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_GE(top->getContAssigns()->size(), 2u);
 
-  const uhdm::Constant *const rhs =
-      top->getContAssigns()->at(1)->getRhs<uhdm::Constant>();
+  const hldb::Constant *const rhs =
+      top->getContAssigns()->at(1)->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "second ContAssign RHS is not a Constant";
   EXPECT_EQ(rhs->getDecompile(), "13") << "second ContAssign RHS value is not '13'";
 }
@@ -138,31 +138,31 @@ TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'v'";
 }
 
 TEST_F(VariableMultipleAssignments, NetVHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const v = uhdm::findByName<uhdm::Net>("v", top->getNets());
+  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getValue<uhdm::Any>(), nullptr)
+  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr)
       << "int v has no inline initializer";
 }
 
 TEST_F(VariableMultipleAssignments, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

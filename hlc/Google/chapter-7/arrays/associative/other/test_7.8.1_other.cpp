@@ -35,20 +35,20 @@
 //   - StructTypespec internals of Unpkt (members B: ByteTypespec, I: ArrayTypespec wildcard)
 //   - IndexTypespec is absent (null) in the error-recovery ArrayTypespec
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/array_typespec.h>
-#include <uhdm/design.h>
-#include <uhdm/int_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/typedef_typespec.h>
+#include <hldb/Utils.h>
+#include <hldb/array_typespec.h>
+#include <hldb/design.h>
+#include <hldb/int_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/typedef_typespec.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Other : public Test {
  public:
@@ -72,68 +72,68 @@ class Other : public Test {
 // --- module ---------------------------------------------------------------
 
 TEST_F(Other, ModuleExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- net arr (error-recovery: static array, not associative) --------------
 
 TEST_F(Other, ModuleHasOneNet) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Other, NetNameIsArr) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(Other, NetHasArrayTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const net = top->getNets()->at(0);
+  const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rt = net->getTypespec<uhdm::RefTypespec>();
+  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  EXPECT_NE(rt->getActual<uhdm::ArrayTypespec>(), nullptr);
+  EXPECT_NE(rt->getActual<hldb::ArrayTypespec>(), nullptr);
 }
 
 TEST_F(Other, ArrayTypespecIsStaticDueToErrorRecovery) {
   // int arr[Unpkt] — Surelog could not resolve Unpkt as an index type (EL0535),
   // so the ArrayTypespec falls back to static(1) instead of associative(3)
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<uhdm::RefTypespec>()
-          ->getActual<uhdm::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
+          ->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (error recovery)
 }
 
 TEST_F(Other, ArrayTypespecElemTypeIsInt) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<uhdm::RefTypespec>()
-          ->getActual<uhdm::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
+          ->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
-  EXPECT_NE(at->getElemTypespec()->getActual<uhdm::IntTypespec>(), nullptr);
+  EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
 TEST_F(Other, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
@@ -143,22 +143,22 @@ TEST_F(Other, NoProcesses) {
 TEST_F(Other, ModuleHasTypedefUnpkt) {
   // typedef struct { ... } Unpkt creates a TypedefTypespec named "Unpkt"
   // accessible via module typespecs (not through the net)
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
-  const uhdm::TypedefTypespec *const td =
-      uhdm::findByName<uhdm::TypedefTypespec>("Unpkt", top->getTypespecs());
+  const hldb::TypedefTypespec *const td =
+      hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   EXPECT_NE(td, nullptr);
 }
 
 // --- structural completeness -------------------------------------------------
 
 TEST_F(Other, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc

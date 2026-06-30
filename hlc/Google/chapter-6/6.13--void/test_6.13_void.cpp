@@ -25,21 +25,21 @@
 // Key properties: no nets; Function "fun" with vpiReturn → VoidTypespec;
 // Initial process with body FuncCall "fun".
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/func_call.h>
-#include <uhdm/function.h>
-#include <uhdm/initial.h>
-#include <uhdm/module.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/void_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/func_call.h>
+#include <hldb/function.h>
+#include <hldb/initial.h>
+#include <hldb/module.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/void_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class Void : public Test {
  public:
@@ -61,12 +61,12 @@ class Void : public Test {
 };
 
 TEST_F(Void, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Void, NoNets) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "module should have no nets";
@@ -76,49 +76,49 @@ TEST_F(Void, NoNets) {
 // Function "fun" — void return, $display body
 // ---------------------------------------------------------------------------
 TEST_F(Void, OneFunctionExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr) << "module has no task/function declarations";
   EXPECT_EQ(top->getTaskFuncs()->size(), 1u);
 }
 
 TEST_F(Void, FunctionNameIsFun) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
-  const uhdm::Function *const fun =
-      any_cast<uhdm::Function>(top->getTaskFuncs()->at(0));
+  const hldb::Function *const fun =
+      any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr) << "task/func is not a Function";
   EXPECT_EQ(fun->getName(), "fun");
 }
 
 TEST_F(Void, FunctionReturnIsVoidTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
-  const uhdm::Function *const fun =
-      any_cast<uhdm::Function>(top->getTaskFuncs()->at(0));
+  const hldb::Function *const fun =
+      any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr);
 
-  const uhdm::RefTypespec *const ret = fun->getReturn();
+  const hldb::RefTypespec *const ret = fun->getReturn();
   ASSERT_NE(ret, nullptr) << "function has no return typespec";
-  EXPECT_NE(ret->getActual<uhdm::VoidTypespec>(), nullptr)
+  EXPECT_NE(ret->getActual<hldb::VoidTypespec>(), nullptr)
       << "function return type should be VoidTypespec";
 }
 
 TEST_F(Void, FunctionIsPublic) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
-  const uhdm::Function *const fun =
-      any_cast<uhdm::Function>(top->getTaskFuncs()->at(0));
+  const hldb::Function *const fun =
+      any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr);
   EXPECT_EQ(fun->getVisibility(), 1);  // vpiPublic = 1
 }
@@ -127,29 +127,29 @@ TEST_F(Void, FunctionIsPublic) {
 // Initial process — initial fun()
 // ---------------------------------------------------------------------------
 TEST_F(Void, InitialProcessExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(Void, InitialProcessBodyIsFuncCallToFun) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
-  const uhdm::Initial *const init =
-      dynamic_cast<const uhdm::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init =
+      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr) << "process is not an Initial";
 
-  const uhdm::FuncCall *const call = init->getStmt<uhdm::FuncCall>();
+  const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "Initial body is not a FuncCall";
   EXPECT_EQ(call->getName(), "fun");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

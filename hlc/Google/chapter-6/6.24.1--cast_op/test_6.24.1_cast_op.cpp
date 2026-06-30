@@ -30,21 +30,21 @@
 // Not checked:
 //   - actual evaluated result (int'(2.1 * 3.7) = 7, truncation; runtime-only)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/int_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/int_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class CastOp : public Test {
  public:
@@ -66,15 +66,15 @@ class CastOp : public Test {
 };
 
 TEST_F(CastOp, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // No processes — module-level `int a` is stored as a Net, not in a begin block
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty())
       << "int a = int'(...) at module level is stored as Net vpiValue, not in a process";
@@ -84,12 +84,12 @@ TEST_F(CastOp, NoProcesses) {
 // Net "a" → IntTypespec (int keyword)
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, NetAIsIntType) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec()->getActual<uhdm::IntTypespec>(), nullptr)
+  EXPECT_NE(a->getTypespec()->getActual<hldb::IntTypespec>(), nullptr)
       << "int keyword maps to IntTypespec (not IntegerTypespec)";
 }
 
@@ -97,37 +97,37 @@ TEST_F(CastOp, NetAIsIntType) {
 // Net "a" vpiValue = Operation(vpiCastOp=67)
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, NetAValueIsCastOperation) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const castOp = a->getValue<uhdm::Operation>();
+  const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr) << "int'(...) stored as Operation in Net's vpiValue";
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
 }
 
 TEST_F(CastOp, CastTypespecIsInt) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const castOp = a->getValue<uhdm::Operation>();
+  const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const uhdm::RefTypespec *const rts = castOp->getTypespec();
+  const hldb::RefTypespec *const rts = castOp->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<uhdm::IntTypespec>(), nullptr)
+  EXPECT_NE(rts->getActual<hldb::IntTypespec>(), nullptr)
       << "int'(...) cast has IntTypespec as the cast target type";
 }
 
 TEST_F(CastOp, CastHasOneOperand) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const castOp = a->getValue<uhdm::Operation>();
+  const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
   EXPECT_EQ(castOp->getOperands()->size(), 1u);
@@ -137,37 +137,37 @@ TEST_F(CastOp, CastHasOneOperand) {
 // Cast operand = Operation(vpiMultOp=25) — 2.1 * 3.7
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, CastOperandIsMultiplyOperation) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const castOp = a->getValue<uhdm::Operation>();
+  const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const uhdm::Operation *const multOp =
-      any_cast<uhdm::Operation>(castOp->getOperands()->at(0));
+  const hldb::Operation *const multOp =
+      any_cast<hldb::Operation>(castOp->getOperands()->at(0));
   ASSERT_NE(multOp, nullptr);
   EXPECT_EQ(multOp->getOpType(), vpiMultOp);
 }
 
 TEST_F(CastOp, MultiplyOperandsAreRealConstants) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Operation *const castOp = a->getValue<uhdm::Operation>();
+  const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const uhdm::Operation *const multOp =
-      any_cast<uhdm::Operation>(castOp->getOperands()->at(0));
+  const hldb::Operation *const multOp =
+      any_cast<hldb::Operation>(castOp->getOperands()->at(0));
   ASSERT_NE(multOp, nullptr);
   ASSERT_NE(multOp->getOperands(), nullptr);
   ASSERT_EQ(multOp->getOperands()->size(), 2u);
-  const uhdm::Constant *const lhs = any_cast<uhdm::Constant>(multOp->getOperands()->at(0));
+  const hldb::Constant *const lhs = any_cast<hldb::Constant>(multOp->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getConstType(), vpiRealConst);
   EXPECT_EQ(lhs->getDecompile(), "2.1");
-  const uhdm::Constant *const rhs = any_cast<uhdm::Constant>(multOp->getOperands()->at(1));
+  const hldb::Constant *const rhs = any_cast<hldb::Constant>(multOp->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getConstType(), vpiRealConst);
   EXPECT_EQ(rhs->getDecompile(), "3.7");
@@ -177,22 +177,22 @@ TEST_F(CastOp, MultiplyOperandsAreRealConstants) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'a'";
 }
 
 TEST_F(CastOp, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "int a = int'(...) stores the cast as vpiValue, not a ContAssign";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

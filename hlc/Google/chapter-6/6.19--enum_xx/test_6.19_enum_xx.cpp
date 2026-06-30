@@ -31,23 +31,23 @@
 // Not checked:
 //   - Surelog doesn't flag x-value enums in integer-based enums as a semantic error
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/enum_const.h>
-#include <uhdm/enum_typespec.h>
-#include <uhdm/integer_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/enum_const.h>
+#include <hldb/enum_typespec.h>
+#include <hldb/integer_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class EnumXx : public Test {
  public:
@@ -69,36 +69,36 @@ class EnumXx : public Test {
 };
 
 TEST_F(EnumXx, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // EnumTypespec with explicit base type: integer
 // ---------------------------------------------------------------------------
 TEST_F(EnumXx, EnumBaseTypeIsInteger) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::RefTypespec *const base = enumTs->getBaseTypespec();
+  const hldb::RefTypespec *const base = enumTs->getBaseTypespec();
   ASSERT_NE(base, nullptr);
-  EXPECT_NE(base->getActual<uhdm::IntegerTypespec>(), nullptr);
+  EXPECT_NE(base->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // 3 consts: a, b, c
 // ---------------------------------------------------------------------------
 TEST_F(EnumXx, EnumHasThreeConsts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
@@ -109,60 +109,60 @@ TEST_F(EnumXx, EnumHasThreeConsts) {
 }
 
 TEST_F(EnumXx, ConstAValueIsZero) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::Constant *const val = enumTs->getEnumConsts()->at(0)->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = enumTs->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
 TEST_F(EnumXx, ConstBValueIsMultiConcatOperation) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::Operation *const op =
-      enumTs->getEnumConsts()->at(1)->getValue<uhdm::Operation>();
+  const hldb::Operation *const op =
+      enumTs->getEnumConsts()->at(1)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "b = {32{1'bx}} should be stored as an Operation";
   EXPECT_EQ(op->getOpType(), vpiMultiConcatOp)
       << "vpiMultiConcatOp=34: multi-concatenation {N{val}}";
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
-  const uhdm::Constant *const count = any_cast<uhdm::Constant>(op->getOperands()->at(0));
+  const hldb::Constant *const count = any_cast<hldb::Constant>(op->getOperands()->at(0));
   ASSERT_NE(count, nullptr);
   EXPECT_EQ(count->getDecompile(), "32");
-  const uhdm::Operation *const concat = any_cast<uhdm::Operation>(op->getOperands()->at(1));
+  const hldb::Operation *const concat = any_cast<hldb::Operation>(op->getOperands()->at(1));
   ASSERT_NE(concat, nullptr);
   EXPECT_EQ(concat->getOpType(), vpiConcatOp);
   ASSERT_NE(concat->getOperands(), nullptr);
   ASSERT_EQ(concat->getOperands()->size(), 1u);
-  const uhdm::Constant *const xbit = any_cast<uhdm::Constant>(concat->getOperands()->at(0));
+  const hldb::Constant *const xbit = any_cast<hldb::Constant>(concat->getOperands()->at(0));
   ASSERT_NE(xbit, nullptr);
   EXPECT_EQ(xbit->getConstType(), vpiBinaryConst);
   EXPECT_EQ(xbit->getDecompile(), "1'bx");
 }
 
 TEST_F(EnumXx, ConstCValueIsOne) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::Constant *const val = enumTs->getEnumConsts()->at(2)->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = enumTs->getEnumConsts()->at(2)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiUIntConst);
   EXPECT_EQ(val->getDecompile(), "1");
@@ -172,31 +172,31 @@ TEST_F(EnumXx, ConstCValueIsOne) {
 // Net "val" → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumXx, NetValExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val = uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  EXPECT_NE(val->getTypespec()->getActual<uhdm::EnumTypespec>(), nullptr);
+  EXPECT_NE(val->getTypespec()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumXx, NetValHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const val = uhdm::findByName<uhdm::Net>("val", top->getNets());
+  const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getValue<uhdm::Any>(), nullptr);
+  EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
 }
 
 TEST_F(EnumXx, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

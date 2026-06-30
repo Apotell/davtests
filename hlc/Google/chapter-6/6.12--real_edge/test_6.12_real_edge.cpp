@@ -34,25 +34,25 @@
 //   - Surelog doesn't flag the illegal posedge on real
 //   - $display argument value ("posedge")
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/always.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/event_control.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/operation.h>
-#include <uhdm/real_typespec.h>
-#include <uhdm/ref_obj.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/sys_func_call.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/always.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/event_control.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/real_typespec.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/sys_func_call.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class RealEdge : public Test {
  public:
@@ -74,39 +74,39 @@ class RealEdge : public Test {
 };
 
 TEST_F(RealEdge, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net — real a = 0.5
 // ---------------------------------------------------------------------------
 TEST_F(RealEdge, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(RealEdge, ANetTypespecIsReal) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::RefTypespec *const rts = a->getTypespec();
+  const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<uhdm::RealTypespec>(), nullptr)
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr)
       << "net 'a' typespec should resolve to RealTypespec";
 }
 
 TEST_F(RealEdge, ANetInitialValueIsHalf) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const a = uhdm::findByName<uhdm::Net>("a", top->getNets());
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  const uhdm::Constant *const init = a->getValue<uhdm::Constant>();
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getConstType(), vpiRealConst);
   EXPECT_EQ(init->getDecompile(), "0.5");
@@ -116,32 +116,32 @@ TEST_F(RealEdge, ANetInitialValueIsHalf) {
 // Always process — always @(posedge a)
 // ---------------------------------------------------------------------------
 TEST_F(RealEdge, AlwaysProcessExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(RealEdge, AlwaysTypeIsAlways) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
-  const uhdm::Always *const always =
-      dynamic_cast<const uhdm::Always *>(top->getProcesses()->at(0));
+  const hldb::Always *const always =
+      dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   EXPECT_EQ(always->getAlwaysType(), vpiAlways);
 }
 
 TEST_F(RealEdge, AlwaysStmtIsEventControl) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Always *const always =
-      dynamic_cast<const uhdm::Always *>(top->getProcesses()->at(0));
+  const hldb::Always *const always =
+      dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
-  EXPECT_NE(always->getStmt<uhdm::EventControl>(), nullptr)
+  EXPECT_NE(always->getStmt<hldb::EventControl>(), nullptr)
       << "always body should be an EventControl";
 }
 
@@ -149,61 +149,61 @@ TEST_F(RealEdge, AlwaysStmtIsEventControl) {
 // EventControl condition — posedge on real net 'a' (illegal but parsed)
 // ---------------------------------------------------------------------------
 TEST_F(RealEdge, EventControlConditionIsPosedge) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Always *const always =
-      dynamic_cast<const uhdm::Always *>(top->getProcesses()->at(0));
+  const hldb::Always *const always =
+      dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
-  const uhdm::EventControl *const ec = always->getStmt<uhdm::EventControl>();
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
 
-  const uhdm::Operation *const cond = ec->getCondition<uhdm::Operation>();
+  const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr) << "EventControl condition is not an Operation";
   EXPECT_EQ(cond->getOpType(), vpiPosedgeOp)
       << "expected vpiPosedgeOp (39)";
 }
 
 TEST_F(RealEdge, EventControlConditionOperandIsA) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Always *const always =
-      dynamic_cast<const uhdm::Always *>(top->getProcesses()->at(0));
+  const hldb::Always *const always =
+      dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
-  const uhdm::EventControl *const ec = always->getStmt<uhdm::EventControl>();
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
-  const uhdm::Operation *const cond = ec->getCondition<uhdm::Operation>();
+  const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
   ASSERT_NE(cond->getOperands(), nullptr);
   ASSERT_EQ(cond->getOperands()->size(), 1u);
 
-  const uhdm::RefObj *const operand =
-      any_cast<uhdm::RefObj>((*cond->getOperands())[0]);
+  const hldb::RefObj *const operand =
+      any_cast<hldb::RefObj>((*cond->getOperands())[0]);
   ASSERT_NE(operand, nullptr) << "posedge operand is not a RefObj";
   EXPECT_EQ(operand->getName(), "a");
 }
 
 TEST_F(RealEdge, EventControlConditionOperandIsRealNet) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Always *const always =
-      dynamic_cast<const uhdm::Always *>(top->getProcesses()->at(0));
+  const hldb::Always *const always =
+      dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
-  const uhdm::EventControl *const ec = always->getStmt<uhdm::EventControl>();
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
-  const uhdm::Operation *const cond = ec->getCondition<uhdm::Operation>();
+  const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
-  const uhdm::RefObj *const operand =
-      any_cast<uhdm::RefObj>((*cond->getOperands())[0]);
+  const hldb::RefObj *const operand =
+      any_cast<hldb::RefObj>((*cond->getOperands())[0]);
   ASSERT_NE(operand, nullptr);
 
-  const uhdm::Net *const net = operand->getActual<uhdm::Net>();
+  const hldb::Net *const net = operand->getActual<hldb::Net>();
   ASSERT_NE(net, nullptr);
-  const uhdm::RefTypespec *const rts = net->getTypespec();
+  const hldb::RefTypespec *const rts = net->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<uhdm::RealTypespec>(), nullptr)
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr)
       << "posedge operand should resolve to the real net 'a'";
 }
 
@@ -211,28 +211,28 @@ TEST_F(RealEdge, EventControlConditionOperandIsRealNet) {
 // EventControl body — $display("posedge")
 // ---------------------------------------------------------------------------
 TEST_F(RealEdge, EventControlStmtIsDisplayCall) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Always *const always =
-      dynamic_cast<const uhdm::Always *>(top->getProcesses()->at(0));
+  const hldb::Always *const always =
+      dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
-  const uhdm::EventControl *const ec = always->getStmt<uhdm::EventControl>();
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
 
-  const uhdm::SysFuncCall *const call = ec->getStmt<uhdm::SysFuncCall>();
+  const hldb::SysFuncCall *const call = ec->getStmt<hldb::SysFuncCall>();
   ASSERT_NE(call, nullptr) << "EventControl body is not a SysFuncCall";
   EXPECT_EQ(call->getName(), "$display");
 }
 
 TEST_F(RealEdge, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -34,22 +34,22 @@
 // Not checked:
 //   - Surelog doesn't flag the size mismatch (4-bit literal assigned to 3-bit base type)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/enum_const.h>
-#include <uhdm/enum_typespec.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/enum_const.h>
+#include <hldb/enum_typespec.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class EnumValueInv : public Test {
  public:
@@ -71,47 +71,47 @@ class EnumValueInv : public Test {
 };
 
 TEST_F(EnumValueInv, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // EnumTypespec with explicit base type: logic [2:0]
 // ---------------------------------------------------------------------------
 TEST_F(EnumValueInv, EnumTypespecExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
 }
 
 TEST_F(EnumValueInv, EnumBaseTypeIsLogic) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::RefTypespec *const base = enumTs->getBaseTypespec();
+  const hldb::RefTypespec *const base = enumTs->getBaseTypespec();
   ASSERT_NE(base, nullptr) << "enum logic[2:0] should have an explicit base typespec";
-  EXPECT_NE(base->getActual<uhdm::LogicTypespec>(), nullptr);
+  EXPECT_NE(base->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // 2 consts: Global (4'h2) and Local (4'h3) — hexadecimal constants
 // ---------------------------------------------------------------------------
 TEST_F(EnumValueInv, EnumHasTwoConsts) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
@@ -121,36 +121,36 @@ TEST_F(EnumValueInv, EnumHasTwoConsts) {
 }
 
 TEST_F(EnumValueInv, GlobalValueIsHex4h2) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::EnumConst *const global = enumTs->getEnumConsts()->at(0);
+  const hldb::EnumConst *const global = enumTs->getEnumConsts()->at(0);
   ASSERT_NE(global, nullptr);
   EXPECT_EQ(global->getName(), "Global");
-  const uhdm::Constant *const val = global->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = global->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiHexConst);
   EXPECT_EQ(val->getDecompile(), "4'h2");
 }
 
 TEST_F(EnumValueInv, LocalValueIsHex4h3) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::EnumTypespec *enumTs = nullptr;
+  const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
-    if ((enumTs = any_cast<uhdm::EnumTypespec>(ts))) break;
+    if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const uhdm::EnumConst *const local = enumTs->getEnumConsts()->at(1);
+  const hldb::EnumConst *const local = enumTs->getEnumConsts()->at(1);
   ASSERT_NE(local, nullptr);
   EXPECT_EQ(local->getName(), "Local");
-  const uhdm::Constant *const val = local->getValue<uhdm::Constant>();
+  const hldb::Constant *const val = local->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getConstType(), vpiHexConst);
   EXPECT_EQ(val->getDecompile(), "4'h3");
@@ -160,33 +160,33 @@ TEST_F(EnumValueInv, LocalValueIsHex4h3) {
 // Net "myenum" → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumValueInv, NetMyenumExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const myenum =
-      uhdm::findByName<uhdm::Net>("myenum", top->getNets());
+  const hldb::Net *const myenum =
+      hldb::findByName<hldb::Net>("myenum", top->getNets());
   ASSERT_NE(myenum, nullptr);
-  EXPECT_NE(myenum->getTypespec()->getActual<uhdm::EnumTypespec>(), nullptr);
+  EXPECT_NE(myenum->getTypespec()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumValueInv, NetMyenumHasNoInitialValue) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const uhdm::Net *const myenum =
-      uhdm::findByName<uhdm::Net>("myenum", top->getNets());
+  const hldb::Net *const myenum =
+      hldb::findByName<hldb::Net>("myenum", top->getNets());
   ASSERT_NE(myenum, nullptr);
-  EXPECT_EQ(myenum->getValue<uhdm::Any>(), nullptr);
+  EXPECT_EQ(myenum->getValue<hldb::Any>(), nullptr);
 }
 
 TEST_F(EnumValueInv, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

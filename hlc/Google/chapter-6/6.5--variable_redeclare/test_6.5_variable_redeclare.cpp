@@ -33,19 +33,19 @@
 //   - Surelog error/warning reporting for variable redeclaration (SV spec: should fail)
 //   - order-dependence (reg first vs wire first)
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/net.h>
-#include <uhdm/ref_typespec.h>
-#include <uhdm/vpi_user.h>
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class VariableRedeclare : public Test {
  public:
@@ -67,15 +67,15 @@ class VariableRedeclare : public Test {
 };
 
 TEST_F(VariableRedeclare, ModuleExists) {
-  ASSERT_NE(uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net — reg v and wire v merge into a single Net named 'v'
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, OneNetExists) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
   EXPECT_EQ(top->getNets()->size(), 1u)
@@ -83,12 +83,12 @@ TEST_F(VariableRedeclare, OneNetExists) {
 }
 
 TEST_F(VariableRedeclare, NetNameIsV) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
-  const uhdm::Net *const v = uhdm::findByName<uhdm::Net>("v", top->getNets());
+  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr) << "net 'v' not found in module";
 }
 
@@ -96,12 +96,12 @@ TEST_F(VariableRedeclare, NetNameIsV) {
 // wire wins — vpiNetType should be vpiWire (1)
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, NetTypeIsWire) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
-  const uhdm::Net *const v = uhdm::findByName<uhdm::Net>("v", top->getNets());
+  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
   EXPECT_EQ(v->getNetType(), vpiWire)
       << "expected vpiNetType wire (1) — wire declaration wins over reg";
@@ -111,29 +111,29 @@ TEST_F(VariableRedeclare, NetTypeIsWire) {
 // Typespec — reg maps to LogicTypespec referenced via RefTypespec
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, NetHasRefTypespec) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
-  const uhdm::Net *const v = uhdm::findByName<uhdm::Net>("v", top->getNets());
+  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
   EXPECT_NE(v->getTypespec(), nullptr) << "net 'v' has no typespec";
 }
 
 TEST_F(VariableRedeclare, NetTypespecIsLogic) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
-  const uhdm::Net *const v = uhdm::findByName<uhdm::Net>("v", top->getNets());
+  const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
 
-  const uhdm::RefTypespec *const rts = v->getTypespec();
+  const hldb::RefTypespec *const rts = v->getTypespec();
   ASSERT_NE(rts, nullptr) << "net 'v' has no RefTypespec";
 
-  const uhdm::LogicTypespec *const lts = rts->getActual<uhdm::LogicTypespec>();
+  const hldb::LogicTypespec *const lts = rts->getActual<hldb::LogicTypespec>();
   EXPECT_NE(lts, nullptr)
       << "RefTypespec actual is not a LogicTypespec (expected from reg declaration)";
 }
@@ -142,21 +142,21 @@ TEST_F(VariableRedeclare, NetTypespecIsLogic) {
 // No continuous assignments — the module only has declarations, no assign
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, NoContAssigns) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "unexpected continuous assignments in redeclaration-only module";
 }
 
 TEST_F(VariableRedeclare, NoProcesses) {
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

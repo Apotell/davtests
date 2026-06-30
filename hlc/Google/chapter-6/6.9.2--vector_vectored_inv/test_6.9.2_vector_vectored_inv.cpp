@@ -36,19 +36,19 @@
 //   - exact PA0207 error count (4)
 //   - design name field ("unnamed")
 
-#include <Surelog/Common/Session.h>
-#include <Surelog/SourceCompile/Compiler.h>
-#include <Surelog/Tests/Test.h>
+#include <hlc/Common/Session.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
 
-#include <uhdm/Utils.h>
-#include <uhdm/array_typespec.h>
-#include <uhdm/constant.h>
-#include <uhdm/design.h>
-#include <uhdm/logic_typespec.h>
-#include <uhdm/module.h>
-#include <uhdm/range.h>
+#include <hldb/Utils.h>
+#include <hldb/array_typespec.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/logic_typespec.h>
+#include <hldb/module.h>
+#include <hldb/range.h>
 
-namespace SURELOG {
+namespace hlc {
 
 class VectorVectoredInv : public Test {
  public:
@@ -73,8 +73,8 @@ class VectorVectoredInv : public Test {
 
 TEST_F(VectorVectoredInv, NoModuleNamedTop) {
   // Parse failure: no properly named work@top module in the UHDM graph
-  const uhdm::Module *const top =
-      uhdm::findByName<uhdm::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top =
+      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_EQ(top, nullptr);
 }
 
@@ -82,7 +82,7 @@ TEST_F(VectorVectoredInv, DesignHasTwoUnnamedModuleStubs) {
   // Surelog's error recovery emits 2 partial Module nodes, both unnamed
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 2u);
-  for (const uhdm::Module *const mod : *m_design->getAllModules()) {
+  for (const hldb::Module *const mod : *m_design->getAllModules()) {
     EXPECT_TRUE(mod->getName().empty())
         << "Expected unnamed stub but got: " << mod->getName();
   }
@@ -92,7 +92,7 @@ TEST_F(VectorVectoredInv, NoNetsInAnyModule) {
   // Neither module stub contains nets — `logic vectored [15:0] a` was not
   // lowered to a Net because the module body parse failed
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const mod : *m_design->getAllModules()) {
+  for (const hldb::Module *const mod : *m_design->getAllModules()) {
     EXPECT_EQ(mod->getNets(), nullptr)
         << "Unexpected nets in stub module";
   }
@@ -102,7 +102,7 @@ TEST_F(VectorVectoredInv, NoContAssignsInAnyModule) {
   // `assign a[1] = 1` never reached UHDM (4th PA0207 error aborts parse
   // before the assign keyword is processed)
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const mod : *m_design->getAllModules()) {
+  for (const hldb::Module *const mod : *m_design->getAllModules()) {
     EXPECT_EQ(mod->getContAssigns(), nullptr)
         << "Unexpected continuous assignments in stub module";
   }
@@ -110,7 +110,7 @@ TEST_F(VectorVectoredInv, NoContAssignsInAnyModule) {
 
 TEST_F(VectorVectoredInv, NoProcessesInAnyModule) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const uhdm::Module *const mod : *m_design->getAllModules()) {
+  for (const hldb::Module *const mod : *m_design->getAllModules()) {
     EXPECT_EQ(mod->getProcesses(), nullptr)
         << "Unexpected processes in stub module";
   }
@@ -123,8 +123,8 @@ TEST_F(VectorVectoredInv, DesignHasOneLogicTypespec) {
   // deposited as a bare LogicTypespec at design scope (no ranges, no name)
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   int count = 0;
-  for (const uhdm::Typespec *const ts : *m_design->getTypespecs()) {
-    if (any_cast<uhdm::LogicTypespec>(ts) != nullptr) ++count;
+  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
+    if (any_cast<hldb::LogicTypespec>(ts) != nullptr) ++count;
   }
   EXPECT_EQ(count, 1);
 }
@@ -141,17 +141,17 @@ TEST_F(VectorVectoredInv, DesignHasOneArrayTypespec) {
   // surrounding module declaration failed
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   int count = 0;
-  for (const uhdm::Typespec *const ts : *m_design->getTypespecs()) {
-    if (any_cast<uhdm::ArrayTypespec>(ts) != nullptr) ++count;
+  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
+    if (any_cast<hldb::ArrayTypespec>(ts) != nullptr) ++count;
   }
   EXPECT_EQ(count, 1);
 }
 
 TEST_F(VectorVectoredInv, ArrayTypespecIsStatic) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const uhdm::ArrayTypespec *at = nullptr;
-  for (const uhdm::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<uhdm::ArrayTypespec>(ts);
+  const hldb::ArrayTypespec *at = nullptr;
+  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
+    at = any_cast<hldb::ArrayTypespec>(ts);
     if (at != nullptr) break;
   }
   ASSERT_NE(at, nullptr);
@@ -161,9 +161,9 @@ TEST_F(VectorVectoredInv, ArrayTypespecIsStatic) {
 
 TEST_F(VectorVectoredInv, ArrayTypespecHasRange) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const uhdm::ArrayTypespec *at = nullptr;
-  for (const uhdm::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<uhdm::ArrayTypespec>(ts);
+  const hldb::ArrayTypespec *at = nullptr;
+  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
+    at = any_cast<hldb::ArrayTypespec>(ts);
     if (at != nullptr) break;
   }
   ASSERT_NE(at, nullptr);
@@ -172,34 +172,34 @@ TEST_F(VectorVectoredInv, ArrayTypespecHasRange) {
 
 TEST_F(VectorVectoredInv, ArrayTypespecRangeLeftIs15) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const uhdm::ArrayTypespec *at = nullptr;
-  for (const uhdm::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<uhdm::ArrayTypespec>(ts);
+  const hldb::ArrayTypespec *at = nullptr;
+  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
+    at = any_cast<hldb::ArrayTypespec>(ts);
     if (at != nullptr) break;
   }
   ASSERT_NE(at, nullptr);
-  const uhdm::Range *const range = at->getRange();
+  const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
-  const uhdm::Constant *const left =
-      range->getLeftExpr<uhdm::Constant>();
+  const hldb::Constant *const left =
+      range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "15");
 }
 
 TEST_F(VectorVectoredInv, ArrayTypespecRangeRightIs0) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const uhdm::ArrayTypespec *at = nullptr;
-  for (const uhdm::Typespec *const ts : *m_design->getTypespecs()) {
-    at = any_cast<uhdm::ArrayTypespec>(ts);
+  const hldb::ArrayTypespec *at = nullptr;
+  for (const hldb::Typespec *const ts : *m_design->getTypespecs()) {
+    at = any_cast<hldb::ArrayTypespec>(ts);
     if (at != nullptr) break;
   }
   ASSERT_NE(at, nullptr);
-  const uhdm::Range *const range = at->getRange();
+  const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
-  const uhdm::Constant *const right =
-      range->getRightExpr<uhdm::Constant>();
+  const hldb::Constant *const right =
+      range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
