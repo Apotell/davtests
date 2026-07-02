@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/ArianeElab -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/ArianeElab/ArianeElab
@@ -53753,14 +53753,14 @@ Design name:unnamed:
                   vpiFullName: work@fpnew_top.gen_nanbox_check.fpnew_pkg::fp_width()
                   vpiPathElem (2 items):
                     ClassTypespec name:fpnew_pkg:
-                    FuncCall name:fp_width start:1972:51 end:1972:89:
+                    MethodFuncCall name:fp_width start:1972:51 end:1972:89:
                       vpiParent: HierPath name:fpnew_pkg::fp_width()
                       vpiName Identifier name:fp_width start:1972:51 end:1972:59:
-                        vpiParent: FuncCall name:fp_width
+                        vpiParent: MethodFuncCall name:fp_width
                         vpiName: fp_width
                       vpiArgument (1 items):
                         Operation start:1972:60 end:1972:88:
-                          vpiParent: FuncCall name:fp_width
+                          vpiParent: MethodFuncCall name:fp_width
                           vpiOpType: cast (81)
                           vpiOperand (2 items):
                             HierPath name:fpnew_pkg::fp_format_e start:1972:60 end:1972:82:
@@ -54452,10 +54452,15 @@ Design name:unnamed:
                             vpiParent: HierPath name:fpnew_pkg::DISTRIBUTED
                             vpiName: DISTRIBUTED
                             vpiFullName: work@fpu_wrap.fpu_gen.DISTRIBUTED
-            vpiTypespec (11 items):
+            vpiTypespec (13 items):
               ClassTypespec name:fpnew_pkg start:1993:12 end:1993:21:
                 vpiParent: Begin name:fpu_gen
                 vpiName: fpnew_pkg
+              UnsupportedTypespec name:fpu_features_t start:1993:23 end:1993:37:
+                vpiParent: Begin name:fpu_gen
+                vpiName Identifier name:fpu_features_t:
+                  vpiParent: UnsupportedTypespec name:fpu_features_t
+                  vpiName: fpu_features_t
               ClassTypespec name:ariane_pkg start:1995:22 end:1995:32:
                 vpiParent: Begin name:fpu_gen
                 vpiName: ariane_pkg
@@ -54464,6 +54469,11 @@ Design name:unnamed:
               ClassTypespec name:fpnew_pkg start:2001:12 end:2001:21:
                 vpiParent: Begin name:fpu_gen
                 vpiName: fpnew_pkg
+              UnsupportedTypespec name:fpu_implementation_t start:2001:23 end:2001:43:
+                vpiParent: Begin name:fpu_gen
+                vpiName Identifier name:fpu_implementation_t:
+                  vpiParent: UnsupportedTypespec name:fpu_implementation_t
+                  vpiName: fpu_implementation_t
               ClassTypespec name:fpnew_pkg start:2007:31 end:2007:40:
                 vpiParent: Begin name:fpu_gen
                 vpiName: fpnew_pkg
@@ -54519,9 +54529,23 @@ Design name:unnamed:
                 vpiName Identifier name:work@fpnew_top start:2014:8 end:2014:17:
                   vpiParent: ModuleTypespec name:work@fpnew_top
                   vpiName: work@fpnew_top
-            vpiStmt (5 items):
+            vpiStmt (7 items):
+              HierPath name:fpnew_pkg::fpu_features_t start:1993:12 end:1993:23:
+                vpiParent: Begin name:fpu_gen
+                vpiName: fpnew_pkg::fpu_features_t
+                vpiFullName: work@fpu_wrap.fpu_gen.fpnew_pkg::fpu_features_t
+                vpiPathElem (2 items):
+                  ClassTypespec name:fpnew_pkg:
+                  UnsupportedTypespec name:fpu_features_t:
               Parameter name:FPU_FEATURES:
               ParamAssign:
+              HierPath name:fpnew_pkg::fpu_implementation_t start:2001:12 end:2001:23:
+                vpiParent: Begin name:fpu_gen
+                vpiName: fpnew_pkg::fpu_implementation_t
+                vpiFullName: work@fpu_wrap.fpu_gen.fpnew_pkg::fpu_implementation_t
+                vpiPathElem (2 items):
+                  ClassTypespec name:fpnew_pkg:
+                  UnsupportedTypespec name:fpu_implementation_t:
               Parameter name:FPU_IMPLEMENTATION:
               ParamAssign:
               RefInstance name:i_fpnew_bulk start:2018:8 end:2018:20:
@@ -55052,13 +55076,13 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 BitTypespec                         30      31       1         0
 Constant                          1341    1292     101       150
-Identifier                         598     593       0         5
+Identifier                         600     595       0         5
 Operation                          435     290       0       145
 RefObj                            1068     942       0       126
 RefTypespec                       2152    2086      85       151
 SysFuncCall                          5       0       0         5
 ----------------------------------------------------------------
-Others                            2875    2875       0         0
+Others                            2879    2879       0         0
 ----------------------------------------------------------------
-                                  8504    8109     187       582
+                                  8510    8115     187       582
 ===================== END REDUCTION RESULT =====================

@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/UtdSV -nobuiltin -timescale=1ns/1ns -d ast -d db dbl_buf.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UtdSV/dbl_buf.v
@@ -53,12 +53,12 @@ n<$Source01/dbl_buf.v> u<981> t<Top_level_rule> c<1> f<83> l<34:1> el<149:1>
     n<> u<43> t<Description> p<976> c<42> s<44> f<83> l<34:1> el<34:19>
       n<> u<42> t<Top_directives> p<43> c<41> f<83> l<34:1> el<34:19>
         n<> u<41> t<Timescale_directive> p<42> c<37> f<83> l<34:1> el<34:19>
-          n<> u<37> t<Time_literal> p<41> c<35> s<40> f<83> l<34:12> el<34:15>
+          n<1ps> u<37> t<Time_literal> p<41> c<35> s<40> f<83> l<34:12> el<34:15>
             n<1> u<35> t<INTEGRAL_NUMBER> p<37> s<36> f<83> l<34:12> el<34:13>
-            n<ps> u<36> t<Time_unit> p<37> f<83> l<34:13> el<34:15>
-          n<> u<40> t<Time_literal> p<41> c<38> f<83> l<34:16> el<34:19>
+            n<ps> u<36> t<SIMPLE_IDENTIFIER> p<37> f<83> l<34:13> el<34:15>
+          n<1ps> u<40> t<Time_literal> p<41> c<38> f<83> l<34:16> el<34:19>
             n<1> u<38> t<INTEGRAL_NUMBER> p<40> s<39> f<83> l<34:16> el<34:17>
-            n<ps> u<39> t<Time_unit> p<40> f<83> l<34:17> el<34:19>
+            n<ps> u<39> t<SIMPLE_IDENTIFIER> p<40> f<83> l<34:17> el<34:19>
     n<//> u<44> t<LINE_COMMENT> p<976> s<45> f<83> l<36:1> el<36:3>
     n<// JBUS clock> u<45> t<LINE_COMMENT> p<976> s<46> f<83> l<37:1> el<37:14>
     n<// =========> u<46> t<LINE_COMMENT> p<976> s<47> f<83> l<38:1> el<38:13>
@@ -998,16 +998,16 @@ n<$Source01/dbl_buf.v> u<981> t<Top_level_rule> c<1> f<83> l<34:1> el<149:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dbl_buf.v:39:1: Compile module "work@dbl_buf".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/dbl_buf.v:97:30: Illegal implicit net "id:340, name:en".
-[ERR:EL0535] $Source01/dbl_buf.v:99:9: Illegal implicit net "id:346, name:q".
-[ERR:EL0535] $Source01/dbl_buf.v:108:7: Illegal implicit net "id:369, name:en".
-[ERR:EL0535] $Source01/dbl_buf.v:110:7: Illegal implicit net "id:375, name:q".
-[ERR:EL0535] $Source01/dbl_buf.v:114:7: Illegal implicit net "id:388, name:en".
-[ERR:EL0535] $Source01/dbl_buf.v:116:7: Illegal implicit net "id:394, name:q".
-[ERR:EL0535] $Source01/dbl_buf.v:119:11: Illegal implicit net "id:406, name:en".
-[ERR:EL0535] $Source01/dbl_buf.v:121:11: Illegal implicit net "id:412, name:q".
-[ERR:EL0535] $Source01/dbl_buf.v:124:11: Illegal implicit net "id:424, name:en".
-[ERR:EL0535] $Source01/dbl_buf.v:126:11: Illegal implicit net "id:430, name:q".
+[ERR:EL0535] $Source01/dbl_buf.v:97:30: Illegal implicit net "id:334, name:en".
+[ERR:EL0535] $Source01/dbl_buf.v:99:9: Illegal implicit net "id:340, name:q".
+[ERR:EL0535] $Source01/dbl_buf.v:108:7: Illegal implicit net "id:363, name:en".
+[ERR:EL0535] $Source01/dbl_buf.v:110:7: Illegal implicit net "id:369, name:q".
+[ERR:EL0535] $Source01/dbl_buf.v:114:7: Illegal implicit net "id:382, name:en".
+[ERR:EL0535] $Source01/dbl_buf.v:116:7: Illegal implicit net "id:388, name:q".
+[ERR:EL0535] $Source01/dbl_buf.v:119:11: Illegal implicit net "id:400, name:en".
+[ERR:EL0535] $Source01/dbl_buf.v:121:11: Illegal implicit net "id:406, name:q".
+[ERR:EL0535] $Source01/dbl_buf.v:124:11: Illegal implicit net "id:418, name:en".
+[ERR:EL0535] $Source01/dbl_buf.v:126:11: Illegal implicit net "id:424, name:q".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2865,15 +2865,15 @@ Design name:unnamed:
                 vpiFullName: work@dbl_buf.buf1_obj_ff.buf1_obj
                 vpiActual: Net name:buf1_obj
   vpiTypespec (2 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@dbl_buf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dbl_buf start:39:8 end:39:15:
         vpiParent: ModuleTypespec name:work@dbl_buf
         vpiName: work@dbl_buf
       vpiModule: Module name:work@dbl_buf
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

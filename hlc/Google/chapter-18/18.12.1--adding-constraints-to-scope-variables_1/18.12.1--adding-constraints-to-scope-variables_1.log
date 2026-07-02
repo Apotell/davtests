@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.12.1--adding-constraints-to-scope-variables_1.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.12.1--adding-constraints-to-scope-variables_1
@@ -5506,20 +5506,20 @@ Design name:unnamed:
                   vpiName: success
                   vpiFullName: work@a::do_randomize::success
                   vpiActual: Variable name:success
-                vpiRhs HierPath name:std::randomize start:22:19 end:22:24:
+                vpiRhs HierPath name:std::randomize() start:22:19 end:22:24:
                   vpiParent: Assignment
-                  vpiName: std::randomize
-                  vpiFullName: work@a::do_randomize::std::randomize
+                  vpiName: std::randomize()
+                  vpiFullName: work@a::do_randomize::std::randomize()
                   vpiPathElem (2 items):
                     ClassTypespec name:std:
                     MethodFuncCall name:randomize start:22:24 end:22:57:
-                      vpiParent: HierPath name:std::randomize
+                      vpiParent: HierPath name:std::randomize()
                       vpiName Identifier name:randomize:
                         vpiParent: MethodFuncCall name:randomize
                         vpiName: randomize
                       vpiWith Constraint start:22:42 end:22:57:
                         vpiParent: MethodFuncCall name:randomize
-                        vpiFullName: work@a::do_randomize::std::randomize
+                        vpiFullName: work@a::do_randomize::std::randomize()
                         vpiConstraintItem (2 items):
                           Distribution start:22:43 end:22:49:
                             vpiParent: Constraint
@@ -5530,13 +5530,13 @@ Design name:unnamed:
                                 RefObj name:x start:22:43 end:22:44:
                                   vpiParent: Operation
                                   vpiName: x
-                                  vpiFullName: work@a::do_randomize::std::randomize::x
+                                  vpiFullName: work@a::do_randomize::std::randomize()::x
                                   vpiActual: Variable name:x
                                 Constant start:22:47 end:22:48:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@a::do_randomize::std::randomize
+                                    vpiFullName: work@a::do_randomize::std::randomize()
                                     vpiActual: IntTypespec
                                   vpiConstType: unsigned int (9)
                                   vpiSize: 64
@@ -5551,12 +5551,12 @@ Design name:unnamed:
                                 RefObj name:x start:22:50 end:22:51:
                                   vpiParent: Operation
                                   vpiName: x
-                                  vpiFullName: work@a::do_randomize::std::randomize::x
+                                  vpiFullName: work@a::do_randomize::std::randomize()::x
                                   vpiActual: Variable name:x
                                 RefObj name:y start:22:54 end:22:55:
                                   vpiParent: Operation
                                   vpiName: y
-                                  vpiFullName: work@a::do_randomize::std::randomize::y
+                                  vpiFullName: work@a::do_randomize::std::randomize()::y
                                   vpiActual: IODecl name:y
               ReturnStmt start:23:9 end:23:24:
                 vpiParent: Begin
@@ -5738,14 +5738,14 @@ Design name:unnamed:
                     vpiName: phase
                     vpiFullName: work@env::run_phase::phase
                     vpiActual: IODecl name:phase
-                  FuncCall name:raise_objection start:37:11 end:37:32:
+                  MethodFuncCall name:raise_objection start:37:11 end:37:32:
                     vpiParent: HierPath name:phase.raise_objection(this)
                     vpiName Identifier name:raise_objection start:37:11 end:37:26:
-                      vpiParent: FuncCall name:raise_objection
+                      vpiParent: MethodFuncCall name:raise_objection
                       vpiName: raise_objection
                     vpiArgument (1 items):
                       RefObj name:this start:37:27 end:37:31:
-                        vpiParent: FuncCall name:raise_objection
+                        vpiParent: MethodFuncCall name:raise_objection
                         vpiName: this
                         vpiFullName: work@env::run_phase::phase.raise_objection(this)::this
                         vpiActual: ClassDefn name:work@env
@@ -5771,15 +5771,15 @@ Design name:unnamed:
                           vpiName: obj
                           vpiFullName: work@env::run_phase::obj
                           vpiActual: Variable name:obj
-                        FuncCall name:do_randomize start:39:17 end:39:32:
+                        MethodFuncCall name:do_randomize start:39:17 end:39:32:
                           vpiParent: HierPath name:obj.do_randomize(y)
                           vpiName Identifier name:do_randomize start:39:17 end:39:29:
-                            vpiParent: FuncCall name:do_randomize
+                            vpiParent: MethodFuncCall name:do_randomize
                             vpiName: do_randomize
                           vpiTaskFunc: Function name:do_randomize
                           vpiArgument (1 items):
                             RefObj name:y start:39:30 end:39:31:
-                              vpiParent: FuncCall name:do_randomize
+                              vpiParent: MethodFuncCall name:do_randomize
                               vpiName: y
                               vpiFullName: work@env::run_phase::obj.do_randomize(y)::y
                               vpiActual: Variable name:y
@@ -6042,14 +6042,14 @@ Design name:unnamed:
                     vpiName: phase
                     vpiFullName: work@env::run_phase::phase
                     vpiActual: IODecl name:phase
-                  FuncCall name:drop_objection start:46:11 end:46:31:
+                  MethodFuncCall name:drop_objection start:46:11 end:46:31:
                     vpiParent: HierPath name:phase.drop_objection(this)
                     vpiName Identifier name:drop_objection start:46:11 end:46:25:
-                      vpiParent: FuncCall name:drop_objection
+                      vpiParent: MethodFuncCall name:drop_objection
                       vpiName: drop_objection
                     vpiArgument (1 items):
                       RefObj name:this start:46:26 end:46:30:
-                        vpiParent: FuncCall name:drop_objection
+                        vpiParent: MethodFuncCall name:drop_objection
                         vpiName: this
                         vpiFullName: work@env::run_phase::phase.drop_objection(this)::this
                         vpiActual: ClassDefn name:work@env

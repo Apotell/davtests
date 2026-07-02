@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/FuncBinding -fileunit -writepp -d db -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/FuncBinding/FuncBinding
@@ -649,6 +649,37 @@ Design name:unnamed:
               vpiStmt (1 items):
                 AssignStmt start:17:2 end:17:72:
                   vpiParent: Begin name:FUN
+                  vpiLhs RefObj name:next_state start:17:9 end:17:19:
+                    vpiParent: AssignStmt
+                    vpiName: next_state
+                    vpiFullName: work@fsm_using_function.FUN.next_state
+                    vpiActual: Variable name:next_state
+                  vpiRhs FuncCall name:fsm_function start:17:22 end:17:72:
+                    vpiParent: AssignStmt
+                    vpiName Identifier name:fsm_function start:17:22 end:17:34:
+                      vpiParent: FuncCall name:fsm_function
+                      vpiName: fsm_function
+                    vpiArgument (4 items):
+                      RefObj name:curr_state start:17:35 end:17:45:
+                        vpiParent: FuncCall name:fsm_function
+                        vpiName: curr_state
+                        vpiFullName: work@fsm_using_function.FUN.curr_state
+                        vpiActual: Variable name:curr_state
+                      RefObj name:req_0 start:17:47 end:17:52:
+                        vpiParent: FuncCall name:fsm_function
+                        vpiName: req_0
+                        vpiFullName: work@fsm_using_function.FUN.req_0
+                        vpiActual: Net name:req_0
+                      RefObj name:req_1 start:17:54 end:17:59:
+                        vpiParent: FuncCall name:fsm_function
+                        vpiName: req_1
+                        vpiFullName: work@fsm_using_function.FUN.req_1
+                        vpiActual: Net name:req_1
+                      RefObj name:next_state start:17:61 end:17:71:
+                        vpiParent: FuncCall name:fsm_function
+                        vpiName: next_state
+                        vpiFullName: work@fsm_using_function.FUN.next_state
+                        vpiActual: Variable name:next_state
           vpiAlwaysType: always (1)
         Always start:45:1 end:52:4:
           vpiParent: Module name:work@fsm_using_function
@@ -808,9 +839,9 @@ COMMAND: ${HLC_DIR}/regression/FuncBinding/FuncBinding/design.hldb ${HLC_DIR}/re
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-RefObj                              38      35       0         3
+RefObj                              43      40       0         3
 ----------------------------------------------------------------
-Others                             146     146       0         0
+Others                             148     148       0         0
 ----------------------------------------------------------------
-                                   184     181       0         3
+                                   191     188       0         3
 ===================== END REDUCTION RESULT =====================

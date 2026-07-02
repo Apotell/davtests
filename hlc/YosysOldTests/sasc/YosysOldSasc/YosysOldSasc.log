@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/YosysOldTests/sasc -writepp -fileunit cache/synth.v rtl/sasc_brg.v rtl/sasc_fifo4.v rtl/sasc_top.v rtl/timescale.v +incdir+.+rtl -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysOldTests/sasc/YosysOldSasc
@@ -41,20 +41,20 @@ COMMAND: -wd ../../../../tests/YosysOldTests/sasc -writepp -fileunit cache/synth
 [ERR:EL0535] $Source01/cache/synth.v:674:6: Illegal implicit net "id:4525, name:full".
 [ERR:EL0535] $Source01/cache/synth.v:675:6: Illegal implicit net "id:4528, name:re".
 [ERR:EL0535] $Source01/cache/synth.v:677:6: Illegal implicit net "id:4534, name:we".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:139:5: Illegal implicit net "id:5433, name:clr".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:140:5: Illegal implicit net "id:5436, name:din".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:141:5: Illegal implicit net "id:5439, name:we".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:142:5: Illegal implicit net "id:5442, name:dout".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:143:5: Illegal implicit net "id:5445, name:re".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:144:5: Illegal implicit net "id:5448, name:full".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:145:5: Illegal implicit net "id:5451, name:empty".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:150:5: Illegal implicit net "id:5466, name:clr".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:151:5: Illegal implicit net "id:5477, name:din".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:152:5: Illegal implicit net "id:5480, name:we".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:153:5: Illegal implicit net "id:5483, name:dout".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:154:5: Illegal implicit net "id:5486, name:re".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:155:5: Illegal implicit net "id:5489, name:full".
-[ERR:EL0535] $Source01/rtl/sasc_top.v:156:5: Illegal implicit net "id:5492, name:empty".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:139:5: Illegal implicit net "id:5418, name:clr".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:140:5: Illegal implicit net "id:5421, name:din".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:141:5: Illegal implicit net "id:5424, name:we".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:142:5: Illegal implicit net "id:5427, name:dout".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:143:5: Illegal implicit net "id:5430, name:re".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:144:5: Illegal implicit net "id:5433, name:full".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:145:5: Illegal implicit net "id:5436, name:empty".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:150:5: Illegal implicit net "id:5451, name:clr".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:151:5: Illegal implicit net "id:5462, name:din".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:152:5: Illegal implicit net "id:5465, name:we".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:153:5: Illegal implicit net "id:5468, name:dout".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:154:5: Illegal implicit net "id:5471, name:re".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:155:5: Illegal implicit net "id:5474, name:full".
+[ERR:EL0535] $Source01/rtl/sasc_top.v:156:5: Illegal implicit net "id:5477, name:empty".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -17098,12 +17098,17 @@ Design name:unnamed:
                     vpiName: ps
                     vpiFullName: work@sasc_brg.ps
                     vpiActual: Net name:ps
-                  vpiRhs DelayControl start:120:14 end:120:19:
+                  vpiRhs DelayControl start:120:14 end:120:16:
                     vpiParent: Assignment
-                    vpiStmt Operation start:120:20 end:120:26:
+                    vpiStmt Operation start:120:17 end:120:26:
                       vpiParent: DelayControl
-                      vpiOpType: plus (2)
-                      vpiOperand (1 items):
+                      vpiOpType: add (24)
+                      vpiOperand (2 items):
+                        RefObj name:ps start:120:17 end:120:19:
+                          vpiParent: Operation
+                          vpiName: ps
+                          vpiFullName: work@sasc_brg.ps
+                          vpiActual: Net name:ps
                         Constant start:120:22 end:120:26:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -17114,7 +17119,7 @@ Design name:unnamed:
                           vpiSize: 8
                           vpiDecompile: "8'h1"
                           vpiValue: "1"
-                    vpiDelay Constant start:120:15 end:120:19:
+                    vpiDelay Constant start:120:15 end:120:16:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
@@ -17275,12 +17280,17 @@ Design name:unnamed:
                       vpiName: br_cnt
                       vpiFullName: work@sasc_brg.br_cnt
                       vpiActual: Net name:br_cnt
-                    vpiRhs DelayControl start:132:23 end:132:32:
+                    vpiRhs DelayControl start:132:23 end:132:25:
                       vpiParent: Assignment
-                      vpiStmt Operation start:132:33 end:132:39:
+                      vpiStmt Operation start:132:26 end:132:39:
                         vpiParent: DelayControl
-                        vpiOpType: plus (2)
-                        vpiOperand (1 items):
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          RefObj name:br_cnt start:132:26 end:132:32:
+                            vpiParent: Operation
+                            vpiName: br_cnt
+                            vpiFullName: work@sasc_brg.br_cnt
+                            vpiActual: Net name:br_cnt
                           Constant start:132:35 end:132:39:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -17291,7 +17301,7 @@ Design name:unnamed:
                             vpiSize: 8
                             vpiDecompile: "8'h1"
                             vpiValue: "1"
-                      vpiDelay Constant start:132:24 end:132:32:
+                      vpiDelay Constant start:132:24 end:132:25:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -17556,12 +17566,17 @@ Design name:unnamed:
                     vpiName: cnt
                     vpiFullName: work@sasc_brg.cnt
                     vpiActual: Net name:cnt
-                  vpiRhs DelayControl start:151:35 end:151:41:
+                  vpiRhs DelayControl start:151:35 end:151:37:
                     vpiParent: Assignment
-                    vpiStmt Operation start:151:42 end:151:48:
+                    vpiStmt Operation start:151:38 end:151:48:
                       vpiParent: DelayControl
-                      vpiOpType: plus (2)
-                      vpiOperand (1 items):
+                      vpiOpType: add (24)
+                      vpiOperand (2 items):
+                        RefObj name:cnt start:151:38 end:151:41:
+                          vpiParent: Operation
+                          vpiName: cnt
+                          vpiFullName: work@sasc_brg.cnt
+                          vpiActual: Net name:cnt
                         Constant start:151:44 end:151:48:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -17572,7 +17587,7 @@ Design name:unnamed:
                           vpiSize: 2
                           vpiDecompile: "2'h1"
                           vpiValue: "1"
-                    vpiDelay Constant start:151:36 end:151:41:
+                    vpiDelay Constant start:151:36 end:151:37:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
@@ -20296,12 +20311,17 @@ Design name:unnamed:
                       vpiName: tx_bit_cnt
                       vpiFullName: work@sasc_top.tx_bit_cnt
                       vpiActual: Net name:tx_bit_cnt
-                    vpiRhs DelayControl start:193:38 end:193:51:
+                    vpiRhs DelayControl start:193:38 end:193:40:
                       vpiParent: Assignment
-                      vpiStmt Operation start:193:52 end:193:58:
+                      vpiStmt Operation start:193:41 end:193:58:
                         vpiParent: DelayControl
-                        vpiOpType: plus (2)
-                        vpiOperand (1 items):
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          RefObj name:tx_bit_cnt start:193:41 end:193:51:
+                            vpiParent: Operation
+                            vpiName: tx_bit_cnt
+                            vpiFullName: work@sasc_top.tx_bit_cnt
+                            vpiActual: Net name:tx_bit_cnt
                           Constant start:193:54 end:193:58:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -20312,7 +20332,7 @@ Design name:unnamed:
                             vpiSize: 4
                             vpiDecompile: "4'h1"
                             vpiValue: "1"
-                      vpiDelay Constant start:193:39 end:193:51:
+                      vpiDelay Constant start:193:39 end:193:40:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -20661,12 +20681,17 @@ Design name:unnamed:
                       vpiName: rx_bit_cnt
                       vpiFullName: work@sasc_top.rx_bit_cnt
                       vpiActual: Net name:rx_bit_cnt
-                    vpiRhs DelayControl start:221:38 end:221:51:
+                    vpiRhs DelayControl start:221:38 end:221:40:
                       vpiParent: Assignment
-                      vpiStmt Operation start:221:52 end:221:58:
+                      vpiStmt Operation start:221:41 end:221:58:
                         vpiParent: DelayControl
-                        vpiOpType: plus (2)
-                        vpiOperand (1 items):
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          RefObj name:rx_bit_cnt start:221:41 end:221:51:
+                            vpiParent: Operation
+                            vpiName: rx_bit_cnt
+                            vpiFullName: work@sasc_top.rx_bit_cnt
+                            vpiActual: Net name:rx_bit_cnt
                           Constant start:221:54 end:221:58:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -20677,7 +20702,7 @@ Design name:unnamed:
                             vpiSize: 4
                             vpiDecompile: "4'h1"
                             vpiValue: "1"
-                      vpiDelay Constant start:221:39 end:221:51:
+                      vpiDelay Constant start:221:39 end:221:40:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -21666,12 +21691,17 @@ Design name:unnamed:
                 vpiName: rx_sio_ce
                 vpiFullName: work@sasc_top.rx_sio_ce
                 vpiActual: Net name:rx_sio_ce
-              vpiRhs DelayControl start:297:15 end:297:30:
+              vpiRhs DelayControl start:297:15 end:297:17:
                 vpiParent: Assignment
-                vpiStmt Operation start:297:31 end:297:46:
+                vpiStmt Operation start:297:18 end:297:46:
                   vpiParent: DelayControl
-                  vpiOpType: unary and (5)
-                  vpiOperand (1 items):
+                  vpiOpType: bitwise and (28)
+                  vpiOperand (2 items):
+                    RefObj name:rx_sio_ce_r1 start:297:18 end:297:30:
+                      vpiParent: Operation
+                      vpiName: rx_sio_ce_r1
+                      vpiFullName: work@sasc_top.rx_sio_ce_r1
+                      vpiActual: Net name:rx_sio_ce_r1
                     Operation start:297:33 end:297:46:
                       vpiParent: Operation
                       vpiOpType: not (3)
@@ -21681,7 +21711,7 @@ Design name:unnamed:
                           vpiName: rx_sio_ce_r2
                           vpiFullName: work@sasc_top.rx_sio_ce_r2
                           vpiActual: Net name:rx_sio_ce_r2
-                vpiDelay Constant start:297:16 end:297:30:
+                vpiDelay Constant start:297:16 end:297:17:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
@@ -22143,11 +22173,8 @@ COMMAND: ${HLC_DIR}/regression/YosysOldTests/sasc/YosysOldSasc/design.hldb ${HLC
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                           629     629       5         5
-Operation                          443     438       0         5
-RefTypespec                        993     993       5         5
 ----------------------------------------------------------------
-Others                            3125    3125       0         0
+Others                            5196    5196       0         0
 ----------------------------------------------------------------
-                                  5190    5185      10        15
+                                  5196    5196       0         0
 ===================== END REDUCTION RESULT =====================

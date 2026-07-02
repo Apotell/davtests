@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-14 -timescale=1ns/1ns -d ast -d db -nobuiltin 14.3--clocking-block-signals-error.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-14/14.3--clocking-block-signals-error
@@ -71,10 +71,10 @@ n<$Source01/14.3--clocking-block-signals-error.sv> u<130> t<Top_level_rule> c<1>
                     n<> u<53> t<DefaultSkew_InputOutput> p<54> c<49> l<20:10> el<20:33>
                       n<> u<49> t<Clocking_skew> p<53> c<48> s<52> l<20:16> el<20:21>
                         n<> u<48> t<Delay_control> p<49> c<47> l<20:16> el<20:21>
-                          n<#10> u<47> t<POUND_DELAY> p<48> l<20:16> el<20:21>
+                          n<#10ns> u<47> t<POUND_DELAY> p<48> l<20:16> el<20:21>
                       n<> u<52> t<Clocking_skew> p<53> c<51> l<20:29> el<20:33>
                         n<> u<51> t<Delay_control> p<52> c<50> l<20:29> el<20:33>
-                          n<#5> u<50> t<POUND_DELAY> p<51> l<20:29> el<20:33>
+                          n<#5ns> u<50> t<POUND_DELAY> p<51> l<20:29> el<20:33>
                   n<> u<59> t<Clocking_item> p<74> c<55> s<64> l<21:2> el<21:10>
                     n<> u<55> t<ClockingDir_Input> p<59> s<58> l<21:2> el<21:7>
                     n<> u<58> t<Clocking_decl_assign_list> p<59> c<57> l<21:8> el<21:9>
@@ -89,7 +89,7 @@ n<$Source01/14.3--clocking-block-signals-error.sv> u<130> t<Top_level_rule> c<1>
                     n<> u<68> t<ClockingDir_Output> p<72> c<67> s<71> l<23:2> el<23:13>
                       n<> u<67> t<Clocking_skew> p<68> c<66> l<23:9> el<23:13>
                         n<> u<66> t<Delay_control> p<67> c<65> l<23:9> el<23:13>
-                          n<#3> u<65> t<POUND_DELAY> p<66> l<23:9> el<23:13>
+                          n<#3ns> u<65> t<POUND_DELAY> p<66> l<23:9> el<23:13>
                     n<> u<71> t<Clocking_decl_assign_list> p<72> c<70> l<23:14> el<23:15>
                       n<> u<70> t<Clocking_decl_assign> p<71> c<69> l<23:14> el<23:15>
                         n<c> u<69> t<SIMPLE_IDENTIFIER> p<70> l<23:14> el<23:15>
@@ -317,8 +317,8 @@ Design name:unnamed:
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiSize: 32
-              vpiDecompile: "10"
-              vpiValue: 10
+              vpiDecompile: "10ns"
+              vpiValue: 0
           vpiOutputSkew DelayControl start:20:29 end:20:33:
             vpiParent: ClockingBlock name:ck1
             vpiDelay Constant start:20:30 end:20:33:
@@ -329,8 +329,8 @@ Design name:unnamed:
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiSize: 32
-              vpiDecompile: "5"
-              vpiValue: 5
+              vpiDecompile: "5ns"
+              vpiValue: 0
           vpiClockingEvent EventControl start:19:14 end:19:28:
             vpiParent: ClockingBlock name:ck1
             vpiCondition Operation:
@@ -371,8 +371,8 @@ Design name:unnamed:
                     vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
-                  vpiDecompile: "3"
-                  vpiValue: 3
+                  vpiDecompile: "3ns"
+                  vpiValue: 0
   vpiTypespec (2 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed

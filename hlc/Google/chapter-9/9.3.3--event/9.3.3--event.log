@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-9 -timescale=1ns/1ns -d ast -d db -nobuiltin 9.3.3--event.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-9/9.3.3--event
@@ -264,14 +264,26 @@ Design name:unnamed:
                       vpiSize: 32
                       vpiDecompile: "20"
                       vpiValue: 20
-                  EventStmt start:22:4 end:22:9:
+                  Operation start:22:4 end:22:9:
                     vpiParent: Begin
+                    vpiOpType: imply (50)
+                    vpiOperand (1 items):
+                      RefObj name:ev start:22:6 end:22:8:
+                        vpiParent: Operation
+                        vpiName: ev
+                        vpiFullName: work@block_tb.ev
+                        vpiActual: Net name:ev
               Begin start:24:3 end:27:6:
                 vpiParent: ForkStmt
                 vpiFullName: work@block_tb
                 vpiStmt (1 items):
                   EventControl start:25:4 end:26:12:
                     vpiParent: Begin
+                    vpiCondition RefObj name:ev start:25:5 end:25:7:
+                      vpiParent: EventControl
+                      vpiName: ev
+                      vpiFullName: work@block_tb.ev
+                      vpiActual: Net name:ev
                     vpiStmt Assignment start:26:4 end:26:11:
                       vpiParent: EventControl
                       vpiBlocking: true
@@ -321,25 +333,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-9/9.3.3--event/mounts.json
 
 
-{'result': {'coverage': 98.23,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/9.3.3--event.sv': {'post_len': 2,
+            'files': {'$Output/lib/work/9.3.3--event.sv': {'post_len': 0,
                                                            'pre_len': 113}},
-            'post_len': 2,
+            'post_len': 0,
             'pre_len': 113,
             'test_name': 'Google/chapter-9/9.3.3--event'}}
 
 +----------------------------------+----------+-----------+
 | INPUT                            |   PRELEN |   POSTLEN |
 +==================================+==========+===========+
-| $Output/lib/work/9.3.3--event.sv |      113 |         2 |
+| $Output/lib/work/9.3.3--event.sv |      113 |         0 |
 +==================================+==========+===========+
-|                                  |      113 |         2 |
+|                                  |      113 |         0 |
 +----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.23
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -350,7 +362,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.3.3--event/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

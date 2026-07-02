@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db mcl1.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/mcl1
@@ -22,12 +22,12 @@ n<$Source01/mcl1.v> u<770> t<Top_level_rule> c<1> l<30:1> el<102:1>
     n<> u<14> t<Description> p<769> c<13> s<343> l<30:1> el<30:23>
       n<> u<13> t<Top_directives> p<14> c<12> l<30:1> el<30:23>
         n<> u<12> t<Timescale_directive> p<13> c<8> l<30:1> el<30:23>
-          n<> u<8> t<Time_literal> p<12> c<6> s<11> l<30:12> el<30:15>
+          n<1ns> u<8> t<Time_literal> p<12> c<6> s<11> l<30:12> el<30:15>
             n<1> u<6> t<INTEGRAL_NUMBER> p<8> s<7> l<30:12> el<30:13>
-            n<ns> u<7> t<Time_unit> p<8> l<30:13> el<30:15>
-          n<> u<11> t<Time_literal> p<12> c<9> l<30:18> el<30:23>
+            n<ns> u<7> t<SIMPLE_IDENTIFIER> p<8> l<30:13> el<30:15>
+          n<10ps> u<11> t<Time_literal> p<12> c<9> l<30:18> el<30:23>
             n<10> u<9> t<INTEGRAL_NUMBER> p<11> s<10> l<30:18> el<30:20>
-            n<ps> u<10> t<Time_unit> p<11> l<30:21> el<30:23>
+            n<ps> u<10> t<SIMPLE_IDENTIFIER> p<11> l<30:21> el<30:23>
     n<> u<343> t<Description> p<769> c<342> s<768> l<31:1> el<60:10>
       n<> u<342> t<Module_declaration> p<343> c<43> l<31:1> el<60:10>
         n<> u<43> t<Module_nonansi_header> p<342> c<15> s<60> l<31:1> el<31:29>
@@ -1944,15 +1944,15 @@ Design name:unnamed:
                 vpiFullName: work@test_simple.u1.c
                 vpiActual: Net name:c
   vpiTypespec (5 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@simple:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@simple start:31:8 end:31:14:
         vpiParent: ModuleTypespec name:work@simple
         vpiName: work@simple
       vpiModule: Module name:work@simple
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:work@test_simple:

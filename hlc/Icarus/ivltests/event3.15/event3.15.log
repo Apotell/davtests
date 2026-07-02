@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db event3.15.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/event3.15
@@ -662,6 +662,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
           vpiStmt EventControl start:28:8 end:31:6:
             vpiParent: Always
+            vpiCondition RefObj name:event_1 start:28:10 end:28:17:
+              vpiParent: EventControl
+              vpiName: event_1
+              vpiFullName: work@main.event_1
+              vpiActual: Net name:event_1
             vpiStmt Begin start:29:3 end:31:6:
               vpiParent: EventControl
               vpiFullName: work@main
@@ -698,6 +703,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
           vpiStmt EventControl start:33:8 end:36:6:
             vpiParent: Always
+            vpiCondition RefObj name:event_2 start:33:10 end:33:17:
+              vpiParent: EventControl
+              vpiName: event_2
+              vpiFullName: work@main.event_2
+              vpiActual: Net name:event_2
             vpiStmt Begin start:34:3 end:36:6:
               vpiParent: EventControl
               vpiFullName: work@main
@@ -848,8 +858,15 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
-              EventStmt start:48:5 end:48:16:
+              Operation start:48:5 end:48:16:
                 vpiParent: Begin
+                vpiOpType: imply (50)
+                vpiOperand (1 items):
+                  RefObj name:event_1 start:48:8 end:48:15:
+                    vpiParent: Operation
+                    vpiName: event_1
+                    vpiFullName: work@main.event_1
+                    vpiActual: Net name:event_1
               Assignment start:49:5 end:49:11:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -941,8 +958,15 @@ Design name:unnamed:
                         vpiValue: 1
               DelayControl start:57:5 end:57:19:
                 vpiParent: Begin
-                vpiStmt EventStmt start:57:8 end:57:19:
+                vpiStmt Operation start:57:8 end:57:19:
                   vpiParent: DelayControl
+                  vpiOpType: imply (50)
+                  vpiOperand (1 items):
+                    RefObj name:event_2 start:57:11 end:57:18:
+                      vpiParent: Operation
+                      vpiName: event_2
+                      vpiFullName: work@main.event_2
+                      vpiActual: Net name:event_2
                 vpiDelay Constant start:57:6 end:57:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1044,8 +1068,15 @@ Design name:unnamed:
                   vpiValue: 2
               DelayControl start:66:5 end:66:19:
                 vpiParent: Begin
-                vpiStmt EventStmt start:66:8 end:66:19:
+                vpiStmt Operation start:66:8 end:66:19:
                   vpiParent: DelayControl
+                  vpiOpType: imply (50)
+                  vpiOperand (1 items):
+                    RefObj name:event_1 start:66:11 end:66:18:
+                      vpiParent: Operation
+                      vpiName: event_1
+                      vpiFullName: work@main.event_1
+                      vpiActual: Net name:event_1
                 vpiDelay Constant start:66:6 end:66:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1225,25 +1256,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/event3.15/mounts.json
 
 
-{'result': {'coverage': 97.71,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/event3.15.v': {'post_len': 14,
+            'files': {'$Output/lib/work/event3.15.v': {'post_len': 0,
                                                        'pre_len': 612}},
-            'post_len': 14,
+            'post_len': 0,
             'pre_len': 612,
             'test_name': 'Icarus/ivltests/event3.15'}}
 
 +------------------------------+----------+-----------+
 | INPUT                        |   PRELEN |   POSTLEN |
 +==============================+==========+===========+
-| $Output/lib/work/event3.15.v |      612 |        14 |
+| $Output/lib/work/event3.15.v |      612 |         0 |
 +==============================+==========+===========+
-|                              |      612 |        14 |
+|                              |      612 |         0 |
 +------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.71
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1254,7 +1285,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/event3.15/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             159     159       0         0
+Others                             164     164       0         0
 ----------------------------------------------------------------
-                                   159     159       0         0
+                                   164     164       0         0
 ===================== END REDUCTION RESULT =====================

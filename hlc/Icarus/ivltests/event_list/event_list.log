@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db event_list.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/event_list
@@ -647,6 +647,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
           vpiStmt EventControl start:27:11 end:27:37:
             vpiParent: Always
+            vpiCondition RefObj name:event_1 start:27:13 end:27:20:
+              vpiParent: EventControl
+              vpiName: event_1
+              vpiFullName: work@main.event_1
+              vpiActual: Net name:event_1
             vpiStmt Assignment start:27:22 end:27:36:
               vpiParent: EventControl
               vpiBlocking: true
@@ -669,6 +674,11 @@ Design name:unnamed:
           vpiParent: Module name:work@main
           vpiStmt EventControl start:29:11 end:29:37:
             vpiParent: Always
+            vpiCondition RefObj name:event_2 start:29:13 end:29:20:
+              vpiParent: EventControl
+              vpiName: event_2
+              vpiFullName: work@main.event_2
+              vpiActual: Net name:event_2
             vpiStmt Assignment start:29:22 end:29:36:
               vpiParent: EventControl
               vpiBlocking: true
@@ -785,8 +795,15 @@ Design name:unnamed:
                   vpiValue: 0
               DelayControl start:38:7 end:38:22:
                 vpiParent: Begin
-                vpiStmt EventStmt start:38:11 end:38:22:
+                vpiStmt Operation start:38:11 end:38:22:
                   vpiParent: DelayControl
+                  vpiOpType: imply (50)
+                  vpiOperand (1 items):
+                    RefObj name:event_1 start:38:14 end:38:21:
+                      vpiParent: Operation
+                      vpiName: event_1
+                      vpiFullName: work@main.event_1
+                      vpiActual: Net name:event_1
                 vpiDelay Constant start:38:8 end:38:9:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1003,8 +1020,15 @@ Design name:unnamed:
                   vpiValue: 0
               DelayControl start:60:7 end:60:22:
                 vpiParent: Begin
-                vpiStmt EventStmt start:60:11 end:60:22:
+                vpiStmt Operation start:60:11 end:60:22:
                   vpiParent: DelayControl
+                  vpiOpType: imply (50)
+                  vpiOperand (1 items):
+                    RefObj name:event_2 start:60:14 end:60:21:
+                      vpiParent: Operation
+                      vpiName: event_2
+                      vpiFullName: work@main.event_2
+                      vpiActual: Net name:event_2
                 vpiDelay Constant start:60:8 end:60:9:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1241,7 +1265,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/event_list/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             158     158       0         0
+Others                             162     162       0         0
 ----------------------------------------------------------------
-                                   158     158       0         0
+                                   162     162       0         0
 ===================== END REDUCTION RESULT =====================

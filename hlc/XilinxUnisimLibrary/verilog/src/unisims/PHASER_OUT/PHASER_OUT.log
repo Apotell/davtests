@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../../../tests/XilinxUnisimLibrary/verilog/src -writepp -nobuiltin -timescale=1ns/1ns glbl.v -d ast -d db unisims/PHASER_OUT.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/PHASER_OUT
@@ -35,12 +35,12 @@ n<$Source01/glbl.v> u<868> t<Top_level_rule> c<1> l<19:1> el<100:1>
     n<> u<26> t<Description> p<867> c<25> s<866> l<19:1> el<19:24>
       n<> u<25> t<Top_directives> p<26> c<24> l<19:1> el<19:24>
         n<> u<24> t<Timescale_directive> p<25> c<20> l<19:1> el<19:24>
-          n<> u<20> t<Time_literal> p<24> c<18> s<23> l<19:13> el<19:17>
+          n<1ps> u<20> t<Time_literal> p<24> c<18> s<23> l<19:13> el<19:17>
             n<1> u<18> t<INTEGRAL_NUMBER> p<20> s<19> l<19:13> el<19:14>
-            n<ps> u<19> t<Time_unit> p<20> l<19:15> el<19:17>
-          n<> u<23> t<Time_literal> p<24> c<21> l<19:20> el<19:24>
+            n<ps> u<19> t<SIMPLE_IDENTIFIER> p<20> l<19:15> el<19:17>
+          n<1ps> u<23> t<Time_literal> p<24> c<21> l<19:20> el<19:24>
             n<1> u<21> t<INTEGRAL_NUMBER> p<23> s<22> l<19:20> el<19:21>
-            n<ps> u<22> t<Time_unit> p<23> l<19:22> el<19:24>
+            n<ps> u<22> t<SIMPLE_IDENTIFIER> p<23> l<19:22> el<19:24>
     n<> u<866> t<Description> p<867> c<865> l<21:1> el<98:10>
       n<> u<865> t<Module_declaration> p<866> c<31> l<21:1> el<98:10>
         n<> u<31> t<Module_nonansi_header> p<865> c<27> s<48> l<21:1> el<21:16>
@@ -941,12 +941,12 @@ n<$Source01/unisims/PHASER_OUT.v> u<4729> t<Top_level_rule> c<1> l<50:1> el<510:
     n<> u<58> t<Description> p<4728> c<57> s<61> l<50:1> el<50:23>
       n<> u<57> t<Top_directives> p<58> c<56> l<50:1> el<50:23>
         n<> u<56> t<Timescale_directive> p<57> c<52> l<50:1> el<50:23>
-          n<> u<52> t<Time_literal> p<56> c<50> s<55> l<50:12> el<50:16>
+          n<1ps> u<52> t<Time_literal> p<56> c<50> s<55> l<50:12> el<50:16>
             n<1> u<50> t<INTEGRAL_NUMBER> p<52> s<51> l<50:12> el<50:13>
-            n<ps> u<51> t<Time_unit> p<52> l<50:14> el<50:16>
-          n<> u<55> t<Time_literal> p<56> c<53> l<50:19> el<50:23>
+            n<ps> u<51> t<SIMPLE_IDENTIFIER> p<52> l<50:14> el<50:16>
+          n<1ps> u<55> t<Time_literal> p<56> c<53> l<50:19> el<50:23>
             n<1> u<53> t<INTEGRAL_NUMBER> p<55> s<54> l<50:19> el<50:20>
-            n<ps> u<54> t<Time_unit> p<55> l<50:21> el<50:23>
+            n<ps> u<54> t<SIMPLE_IDENTIFIER> p<55> l<50:21> el<50:23>
     n<> u<61> t<Description> p<4728> c<60> s<4723> l<52:1> el<52:12>
       n<> u<60> t<Top_directives> p<61> c<59> l<52:1> el<52:12>
         n<> u<59> t<Celldefine_directive> p<60> l<52:1> el<52:12>
@@ -5620,30 +5620,30 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/glbl.v:21:1: Compile module "work@glbl".
 [INF:CP0303] $Source01/unisims/PHASER_OUT.v:54:1: Compile module "work@PHASER_OUT".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:401:6: Illegal implicit net "id:1863, name:CLKOUT_DIV_POS".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:402:6: Illegal implicit net "id:1866, name:CLKOUT_DIV_ST".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:405:6: Illegal implicit net "id:1875, name:CTL_MODE".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:406:6: Illegal implicit net "id:1878, name:DATA_CTL_N".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:407:6: Illegal implicit net "id:1881, name:DATA_RD_CYCLES".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:409:6: Illegal implicit net "id:1887, name:EN_TEST_RING".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:414:6: Illegal implicit net "id:1902, name:PHASER_OUT_EN".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:415:6: Illegal implicit net "id:1905, name:STG1_BYPASS".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:417:6: Illegal implicit net "id:1911, name:TEST_OPT".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:421:6: Illegal implicit net "id:1920, name:CTSBUS".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:422:6: Illegal implicit net "id:1923, name:DQSBUS".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:423:6: Illegal implicit net "id:1926, name:DTSBUS".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:429:6: Illegal implicit net "id:1944, name:RDENABLE".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:430:6: Illegal implicit net "id:1947, name:SCANOUT".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:431:6: Illegal implicit net "id:1950, name:TESTOUT".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:432:6: Illegal implicit net "id:1953, name:BURSTPENDING".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:433:6: Illegal implicit net "id:1956, name:BURSTPENDINGPHY".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:441:6: Illegal implicit net "id:1980, name:ENCALIB".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:442:6: Illegal implicit net "id:1983, name:ENCALIBPHY".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:449:6: Illegal implicit net "id:2006, name:SCANCLK".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:450:6: Illegal implicit net "id:2009, name:SCANENB".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:451:6: Illegal implicit net "id:2012, name:SCANIN".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:452:6: Illegal implicit net "id:2015, name:SCANMODEB".
-[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:456:6: Illegal implicit net "id:2027, name:TESTIN".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:401:6: Illegal implicit net "id:1851, name:CLKOUT_DIV_POS".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:402:6: Illegal implicit net "id:1854, name:CLKOUT_DIV_ST".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:405:6: Illegal implicit net "id:1863, name:CTL_MODE".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:406:6: Illegal implicit net "id:1866, name:DATA_CTL_N".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:407:6: Illegal implicit net "id:1869, name:DATA_RD_CYCLES".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:409:6: Illegal implicit net "id:1875, name:EN_TEST_RING".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:414:6: Illegal implicit net "id:1890, name:PHASER_OUT_EN".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:415:6: Illegal implicit net "id:1893, name:STG1_BYPASS".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:417:6: Illegal implicit net "id:1899, name:TEST_OPT".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:421:6: Illegal implicit net "id:1908, name:CTSBUS".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:422:6: Illegal implicit net "id:1911, name:DQSBUS".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:423:6: Illegal implicit net "id:1914, name:DTSBUS".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:429:6: Illegal implicit net "id:1932, name:RDENABLE".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:430:6: Illegal implicit net "id:1935, name:SCANOUT".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:431:6: Illegal implicit net "id:1938, name:TESTOUT".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:432:6: Illegal implicit net "id:1941, name:BURSTPENDING".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:433:6: Illegal implicit net "id:1944, name:BURSTPENDINGPHY".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:441:6: Illegal implicit net "id:1968, name:ENCALIB".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:442:6: Illegal implicit net "id:1971, name:ENCALIBPHY".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:449:6: Illegal implicit net "id:1994, name:SCANCLK".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:450:6: Illegal implicit net "id:1997, name:SCANENB".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:451:6: Illegal implicit net "id:2000, name:SCANIN".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:452:6: Illegal implicit net "id:2003, name:SCANMODEB".
+[ERR:EL0535] $Source01/unisims/PHASER_OUT.v:456:6: Illegal implicit net "id:2015, name:TESTIN".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -12521,15 +12521,15 @@ Design name:unnamed:
                 vpiFullName: work@PHASER_OUT.PHASER_OUT_INST.delay_GSR
                 vpiActual: Net name:delay_GSR
   vpiTypespec (7 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@glbl:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@glbl start:21:8 end:21:12:
         vpiParent: ModuleTypespec name:work@glbl
         vpiName: work@glbl
       vpiModule: Module name:work@glbl
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     LogicTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:work@PHASER_OUT:

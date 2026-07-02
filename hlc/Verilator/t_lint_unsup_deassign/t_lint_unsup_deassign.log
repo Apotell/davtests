@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_lint_unsup_deassign.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_lint_unsup_deassign
@@ -168,6 +168,21 @@ Design name:unnamed:
                 vpiActual: Net name:rst
               vpiStmt AssignStmt start:15:8 end:15:20:
                 vpiParent: IfElse
+                vpiLhs RefObj name:q start:15:15 end:15:16:
+                  vpiParent: AssignStmt
+                  vpiName: q
+                  vpiFullName: work@t.q
+                  vpiActual: Net name:q
+                vpiRhs Constant start:15:19 end:15:20:
+                  vpiParent: AssignStmt
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@t
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
               vpiElseStmt Deassign start:17:8 end:17:18:
                 vpiParent: IfElse
                 vpiLhs RefObj name:q start:17:17 end:17:18:
@@ -234,7 +249,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_unsup_deassign/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    24      24       0         0
+                                    27      27       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db timeform2.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/timeform2
@@ -36,12 +36,12 @@ n<$Source01/timeform2.v> u<137> t<Top_level_rule> c<1> l<20:1> el<35:1>
     n<> u<28> t<Description> p<136> c<27> s<135> l<20:1> el<20:21>
       n<> u<27> t<Top_directives> p<28> c<26> l<20:1> el<20:21>
         n<> u<26> t<Timescale_directive> p<27> c<22> l<20:1> el<20:21>
-          n<> u<22> t<Time_literal> p<26> c<20> s<25> l<20:12> el<20:15>
+          n<1ns> u<22> t<Time_literal> p<26> c<20> s<25> l<20:12> el<20:15>
             n<1> u<20> t<INTEGRAL_NUMBER> p<22> s<21> l<20:12> el<20:13>
-            n<ns> u<21> t<Time_unit> p<22> l<20:13> el<20:15>
-          n<> u<25> t<Time_literal> p<26> c<23> l<20:18> el<20:21>
+            n<ns> u<21> t<SIMPLE_IDENTIFIER> p<22> l<20:13> el<20:15>
+          n<1ps> u<25> t<Time_literal> p<26> c<23> l<20:18> el<20:21>
             n<1> u<23> t<INTEGRAL_NUMBER> p<25> s<24> l<20:18> el<20:19>
-            n<ps> u<24> t<Time_unit> p<25> l<20:19> el<20:21>
+            n<ps> u<24> t<SIMPLE_IDENTIFIER> p<25> l<20:19> el<20:21>
     n<> u<135> t<Description> p<136> c<134> l<22:1> el<34:10>
       n<> u<134> t<Module_declaration> p<135> c<32> l<22:1> el<34:10>
         n<> u<32> t<Module_ansi_header> p<134> c<29> s<60> l<22:1> el<22:13>
@@ -303,9 +303,6 @@ Design name:unnamed:
                 vpiFullName: work@main.test
                 vpiActual: Task name:test
   vpiTypespec (3 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@main:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@main start:22:8 end:22:12:
@@ -314,6 +311,9 @@ Design name:unnamed:
       vpiModule: Module name:work@main
     StringTypespec:
       vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

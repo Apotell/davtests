@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_initial_edge.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_initial_edge
@@ -41,12 +41,12 @@ n<$Source01/t_initial_edge.v> u<585> t<Top_level_rule> c<1> l<25:1> el<102:1>
     n<> u<33> t<Description> p<583> c<32> s<367> l<25:1> el<25:19>
       n<> u<32> t<Top_directives> p<33> c<31> l<25:1> el<25:19>
         n<> u<31> t<Timescale_directive> p<32> c<27> l<25:1> el<25:19>
-          n<> u<27> t<Time_literal> p<31> c<25> s<30> l<25:12> el<25:15>
+          n<1ns> u<27> t<Time_literal> p<31> c<25> s<30> l<25:12> el<25:15>
             n<1> u<25> t<INTEGRAL_NUMBER> p<27> s<26> l<25:12> el<25:13>
-            n<ns> u<26> t<Time_unit> p<27> l<25:13> el<25:15>
-          n<> u<30> t<Time_literal> p<31> c<28> l<25:16> el<25:19>
+            n<ns> u<26> t<SIMPLE_IDENTIFIER> p<27> l<25:13> el<25:15>
+          n<1ns> u<30> t<Time_literal> p<31> c<28> l<25:16> el<25:19>
             n<1> u<28> t<INTEGRAL_NUMBER> p<30> s<29> l<25:16> el<25:17>
-            n<ns> u<29> t<Time_unit> p<30> l<25:17> el<25:19>
+            n<ns> u<29> t<SIMPLE_IDENTIFIER> p<30> l<25:17> el<25:19>
     n<> u<367> t<Description> p<583> c<366> s<474> l<27:1> el<69:10>
       n<> u<366> t<Module_declaration> p<367> c<46> l<27:1> el<69:10>
         n<> u<46> t<Module_nonansi_header> p<366> c<34> s<53> l<27:1> el<30:6>
@@ -924,7 +924,7 @@ Design name:unnamed:
                                     vpiFullName: work@t
                                     vpiActual: StringTypespec
                                   vpiConstType: string (6)
-                                  vpiSize: 176
+                                  vpiSize: 168
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
                                   vpiValue: "*-* All Finished *-*\\n"
                             SysFuncCall name:$finish start:55:6 end:55:13:
@@ -1319,15 +1319,15 @@ Design name:unnamed:
                           vpiValue: "1"
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@t start:27:8 end:27:9:
         vpiParent: ModuleTypespec name:work@t
         vpiName: work@t
       vpiModule: Module name:work@t
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:work@initial_edge_n:

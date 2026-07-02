@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.5.14.1--soft-constraint-priorities_2.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-priorities_2
@@ -134,6 +134,7 @@ n<$Source01/18.5.14.1--soft-constraint-priorities_2.sv> u<120> t<Top_level_rule>
         n<> u<116> t<Package_or_generate_item_declaration> p<117> l<30:36> el<30:37>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/18.5.14.1--soft-constraint-priorities_2.sv:30:26: Illegal implicit net "id:39, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -282,10 +283,44 @@ Design name:unnamed:
     ClassTypespec name:a2 start:30:12 end:30:14:
       vpiParent: Design name:unnamed
       vpiName: a2
+      vpiClassDefn: ClassDefn name:work@a2
+  vpiConstraint (1 items):
+    Constraint name:c3 start:30:19 end:30:36:
+      vpiParent: Design name:unnamed
+      vpiName: c3
+      vpiFullName: c3
+      vpiPrefix HierPath name:a2 start:30:12 end:30:16:
+        vpiParent: Constraint name:c3
+        vpiName: a2
+        vpiFullName: c3.a2
+        vpiPathElem (1 items):
+          ClassTypespec name:a2:
+      vpiConstraintItem (1 items):
+        Distribution start:30:21 end:30:34:
+          vpiParent: Constraint name:c3
+          vpiSoft: true
+          vpiExpr Operation start:30:26 end:30:33:
+            vpiParent: Distribution
+            vpiOpType: greater than (18)
+            vpiOperand (2 items):
+              RefObj name:b start:30:26 end:30:27:
+                vpiParent: Operation
+                vpiName: b
+                vpiFullName: c3.b
+              Constant start:30:30 end:30:33:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: c3
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "100"
+                vpiValue: 100
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -301,25 +336,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-priorities_2/mounts.json
 
 
-{'result': {'coverage': 92.09,
+{'result': {'coverage': 95.48,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.14.1--soft-constraint-priorities_2.sv': {'post_len': 14,
+            'files': {'$Output/lib/work/18.5.14.1--soft-constraint-priorities_2.sv': {'post_len': 8,
                                                                                       'pre_len': 177}},
-            'post_len': 14,
+            'post_len': 8,
             'pre_len': 177,
             'test_name': 'Google/chapter-18/18.5.14.1--soft-constraint-priorities_2'}}
 
 +-------------------------------------------------------------+----------+-----------+
 | INPUT                                                       |   PRELEN |   POSTLEN |
 +=============================================================+==========+===========+
-| $Output/lib/work/18.5.14.1--soft-constraint-priorities_2.sv |      177 |        14 |
+| $Output/lib/work/18.5.14.1--soft-constraint-priorities_2.sv |      177 |         8 |
 +=============================================================+==========+===========+
-|                                                             |      177 |        14 |
+|                                                             |      177 |         8 |
 +-------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.09
+[COVERAGE] : 95.48
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -330,7 +365,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-prio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

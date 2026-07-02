@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/CheckerDecl -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/CheckerDecl/CheckerDecl
@@ -3529,6 +3529,16 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C2_PortFormalTypes
           vpiName: dflt_in
           vpiDirection: input (1)
+          vpiHighConn Constant start:35:39 end:35:43:
+            vpiParent: CheckerPort name:dflt_in
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@C2_PortFormalTypes.dflt_in
+              vpiActual: BitTypespec
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'b0"
+            vpiValue: "0"
           vpiTypespec RefTypespec start:35:12 end:35:17:
             vpiParent: CheckerPort name:dflt_in
             vpiFullName: work@C2_PortFormalTypes.dflt_in
@@ -4256,6 +4266,27 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
         FinalStmt start:140:5 end:140:50:
           vpiParent: CheckerDecl name:work@C7_ProceduralItems
+          vpiStmt SysFuncCall name:$display start:140:11 end:140:49:
+            vpiParent: FinalStmt
+            vpiName Identifier name:$display start:140:11 end:140:19:
+              vpiParent: SysFuncCall name:$display
+              vpiName: "$display"
+            vpiArgument (2 items):
+              Constant start:140:20 end:140:43:
+                vpiParent: SysFuncCall name:$display
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@C7_ProceduralItems
+                  vpiActual: StringTypespec
+                vpiConstType: string (6)
+                vpiSize: 168
+                vpiDecompile: "\"C7: final count = %0d\""
+                vpiValue: "C7: final count = %0d"
+              RefObj name:cnt start:140:45 end:140:48:
+                vpiParent: SysFuncCall name:$display
+                vpiName: cnt
+                vpiFullName: work@C7_ProceduralItems.cnt
+                vpiActual: Variable name:cnt
       vpiPort (1 items):
         CheckerPort name:clk start:130:28 end:130:43:
           vpiParent: CheckerDecl name:work@C7_ProceduralItems
@@ -5306,7 +5337,7 @@ COMMAND: ${HLC_DIR}/regression/CheckerDecl/CheckerDecl/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             677     677       0         0
+Others                             684     684       0         0
 ----------------------------------------------------------------
-                                   677     677       0         0
+                                   684     684       0         0
 ===================== END REDUCTION RESULT =====================

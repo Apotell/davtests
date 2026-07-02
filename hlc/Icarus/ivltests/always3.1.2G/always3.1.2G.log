@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db always3.1.2G.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/always3.1.2G
@@ -299,8 +299,15 @@ Design name:unnamed:
             vpiStmt (1 items):
               DelayControl start:29:3 end:29:24:
                 vpiParent: Begin
-                vpiStmt EventStmt start:29:8 end:29:24:
+                vpiStmt Operation start:29:8 end:29:24:
                   vpiParent: DelayControl
+                  vpiOpType: imply (50)
+                  vpiOperand (1 items):
+                    RefObj name:event_ident start:29:11 end:29:22:
+                      vpiParent: Operation
+                      vpiName: event_ident
+                      vpiFullName: work@main.event_ident
+                      vpiActual: Net name:event_ident
                 vpiDelay Constant start:29:4 end:29:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -351,7 +358,7 @@ Design name:unnamed:
                         vpiFullName: work@main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 472
+                      vpiSize: 464
                       vpiDecompile: "\"FAILED - always reg_lvalue <= @ event_identifier constant\\n\""
                       vpiValue: FAILED - always reg_lvalue <= @ event_identifier constant\n
               DelayControl start:36:5 end:36:8:
@@ -400,7 +407,7 @@ Design name:unnamed:
                         vpiFullName: work@main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 472
+                      vpiSize: 464
                       vpiDecompile: "\"FAILED - always reg_lvalue <= @ event_identifier constant\\n\""
                       vpiValue: FAILED - always reg_lvalue <= @ event_identifier constant\n
                 vpiElseStmt Begin start:40:9 end:43:12:
@@ -420,7 +427,7 @@ Design name:unnamed:
                             vpiFullName: work@main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
-                          vpiSize: 64
+                          vpiSize: 56
                           vpiDecompile: "\"PASSED\\n\""
                           vpiValue: PASSED\n
                     SysFuncCall name:$finish start:42:11 end:42:18:
@@ -439,6 +446,11 @@ Design name:unnamed:
               vpiActual: Net name:value1
             vpiRhs EventControl start:46:18 end:46:31:
               vpiParent: Assignment
+              vpiCondition RefObj name:event_ident start:46:20 end:46:31:
+                vpiParent: EventControl
+                vpiName: event_ident
+                vpiFullName: work@main.event_ident
+                vpiActual: Net name:event_ident
               vpiStmt Constant start:46:32 end:46:36:
                 vpiParent: EventControl
                 vpiTypespec RefTypespec:
@@ -514,7 +526,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/always3.1.2G/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

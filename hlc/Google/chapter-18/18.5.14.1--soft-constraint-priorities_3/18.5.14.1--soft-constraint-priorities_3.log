@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.5.14.1--soft-constraint-priorities_3.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-priorities_3
@@ -3047,6 +3047,7 @@ n<$Source01/18.5.14.1--soft-constraint-priorities_3.sv> u<3002> t<Top_level_rule
 AST_DEBUG_END
 [INF:CP0303] $Source01/18.5.14.1--soft-constraint-priorities_3.sv:57:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/18.5.14.1--soft-constraint-priorities_3.sv:32:26: Illegal implicit net "id:517, name:b".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:577, name:UVM_LOW".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:578, name:UVM_INFO".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:76: Illegal implicit net "id:595, name:UVM_LOW".
@@ -5713,14 +5714,14 @@ Design name:unnamed:
                     vpiName: phase
                     vpiFullName: work@env::run_phase::phase
                     vpiActual: IODecl name:phase
-                  FuncCall name:raise_objection start:43:11 end:43:32:
+                  MethodFuncCall name:raise_objection start:43:11 end:43:32:
                     vpiParent: HierPath name:phase.raise_objection(this)
                     vpiName Identifier name:raise_objection start:43:11 end:43:26:
-                      vpiParent: FuncCall name:raise_objection
+                      vpiParent: MethodFuncCall name:raise_objection
                       vpiName: raise_objection
                     vpiArgument (1 items):
                       RefObj name:this start:43:27 end:43:31:
-                        vpiParent: FuncCall name:raise_objection
+                        vpiParent: MethodFuncCall name:raise_objection
                         vpiName: this
                         vpiFullName: work@env::run_phase::phase.raise_objection(this)::this
                         vpiActual: ClassDefn name:work@env
@@ -5738,10 +5739,10 @@ Design name:unnamed:
                         vpiName: obj
                         vpiFullName: work@env::run_phase::obj
                         vpiActual: Variable name:obj
-                      FuncCall name:randomize start:45:11 end:45:22:
+                      MethodFuncCall name:randomize start:45:11 end:45:22:
                         vpiParent: HierPath name:obj.randomize()
                         vpiName Identifier name:randomize start:45:11 end:45:20:
-                          vpiParent: FuncCall name:randomize
+                          vpiParent: MethodFuncCall name:randomize
                           vpiName: randomize
                   IfElse start:46:7 end:50:10:
                     vpiParent: Begin
@@ -6032,14 +6033,14 @@ Design name:unnamed:
                     vpiName: phase
                     vpiFullName: work@env::run_phase::phase
                     vpiActual: IODecl name:phase
-                  FuncCall name:drop_objection start:52:11 end:52:31:
+                  MethodFuncCall name:drop_objection start:52:11 end:52:31:
                     vpiParent: HierPath name:phase.drop_objection(this)
                     vpiName Identifier name:drop_objection start:52:11 end:52:25:
-                      vpiParent: FuncCall name:drop_objection
+                      vpiParent: MethodFuncCall name:drop_objection
                       vpiName: drop_objection
                     vpiArgument (1 items):
                       RefObj name:this start:52:26 end:52:30:
-                        vpiParent: FuncCall name:drop_objection
+                        vpiParent: MethodFuncCall name:drop_objection
                         vpiName: this
                         vpiFullName: work@env::run_phase::phase.drop_objection(this)::this
                         vpiActual: ClassDefn name:work@env
@@ -6127,6 +6128,7 @@ Design name:unnamed:
     ClassTypespec name:a2 start:32:12 end:32:14:
       vpiParent: Design name:unnamed
       vpiName: a2
+      vpiClassDefn: ClassDefn name:work@a2
     ClassTypespec name:work@env:
       vpiParent: Design name:unnamed
       vpiName: work@env
@@ -6139,10 +6141,43 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
+  vpiConstraint (1 items):
+    Constraint name:c3 start:32:19 end:32:36:
+      vpiParent: Design name:unnamed
+      vpiName: c3
+      vpiFullName: c3
+      vpiPrefix HierPath name:a2 start:32:12 end:32:16:
+        vpiParent: Constraint name:c3
+        vpiName: a2
+        vpiFullName: c3.a2
+        vpiPathElem (1 items):
+          ClassTypespec name:a2:
+      vpiConstraintItem (1 items):
+        Distribution start:32:21 end:32:34:
+          vpiParent: Constraint name:c3
+          vpiSoft: true
+          vpiExpr Operation start:32:26 end:32:33:
+            vpiParent: Distribution
+            vpiOpType: greater than (18)
+            vpiOperand (2 items):
+              RefObj name:b start:32:26 end:32:27:
+                vpiParent: Operation
+                vpiName: b
+                vpiFullName: c3.b
+              Constant start:32:30 end:32:33:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: c3
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "100"
+                vpiValue: 100
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 7
 [WARNING] : 13
 [   NOTE] : 0
 ********************************************************************************
@@ -6158,25 +6193,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-priorities_3/mounts.json
 
 
-{'result': {'coverage': 98.59,
+{'result': {'coverage': 99.2,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.14.1--soft-constraint-priorities_3.sv': {'post_len': 14,
+            'files': {'$Output/lib/work/18.5.14.1--soft-constraint-priorities_3.sv': {'post_len': 8,
                                                                                       'pre_len': 996}},
-            'post_len': 14,
+            'post_len': 8,
             'pre_len': 996,
             'test_name': 'Google/chapter-18/18.5.14.1--soft-constraint-priorities_3'}}
 
 +-------------------------------------------------------------+----------+-----------+
 | INPUT                                                       |   PRELEN |   POSTLEN |
 +=============================================================+==========+===========+
-| $Output/lib/work/18.5.14.1--soft-constraint-priorities_3.sv |      996 |        14 |
+| $Output/lib/work/18.5.14.1--soft-constraint-priorities_3.sv |      996 |         8 |
 +=============================================================+==========+===========+
-|                                                             |      996 |        14 |
+|                                                             |      996 |         8 |
 +-------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.59
+[COVERAGE] : 99.2
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -6187,7 +6222,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-prio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             640     640       0         0
+Others                             647     647       0         0
 ----------------------------------------------------------------
-                                   640     640       0         0
+                                   647     647       0         0
 ===================== END REDUCTION RESULT =====================

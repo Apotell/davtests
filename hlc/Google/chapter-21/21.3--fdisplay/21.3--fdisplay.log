@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-21 -timescale=1ns/1ns -d ast -d db -nobuiltin 21.3--fdisplay.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-21/21.3--fdisplay
@@ -242,6 +242,17 @@ Design name:unnamed:
                     vpiActual: Net name:str
         FinalStmt start:26:1 end:27:14:
           vpiParent: Module name:work@top
+          vpiStmt SysFuncCall name:$fclose start:27:2 end:27:13:
+            vpiParent: FinalStmt
+            vpiName Identifier name:$fclose start:27:2 end:27:9:
+              vpiParent: SysFuncCall name:$fclose
+              vpiName: "$fclose"
+            vpiArgument (1 items):
+              RefObj name:fd start:27:10 end:27:12:
+                vpiParent: SysFuncCall name:$fclose
+                vpiName: fd
+                vpiFullName: work@top.fd
+                vpiActual: Net name:fd
   vpiTypespec (3 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -273,25 +284,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-21/21.3--fdisplay/mounts.json
 
 
-{'result': {'coverage': 92.19,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/21.3--fdisplay.sv': {'post_len': 10,
+            'files': {'$Output/lib/work/21.3--fdisplay.sv': {'post_len': 0,
                                                              'pre_len': 128}},
-            'post_len': 10,
+            'post_len': 0,
             'pre_len': 128,
             'test_name': 'Google/chapter-21/21.3--fdisplay'}}
 
 +------------------------------------+----------+-----------+
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
-| $Output/lib/work/21.3--fdisplay.sv |      128 |        10 |
+| $Output/lib/work/21.3--fdisplay.sv |      128 |         0 |
 +====================================+==========+===========+
-|                                    |      128 |        10 |
+|                                    |      128 |         0 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.19
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -302,7 +313,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-21/21.3--fdisplay/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    30      30       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.5.1--explicit-external-constraint_2.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.5.1--explicit-external-constraint_2
@@ -2982,6 +2982,7 @@ n<$Source01/18.5.1--explicit-external-constraint_2.sv> u<2937> t<Top_level_rule>
 AST_DEBUG_END
 [INF:CP0303] $Source01/18.5.1--explicit-external-constraint_2.sv:49:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/18.5.1--explicit-external-constraint_2.sv:24:19: Illegal implicit net "id:490, name:b".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:550, name:UVM_LOW".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:551, name:UVM_INFO".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:72: Illegal implicit net "id:568, name:UVM_LOW".
@@ -5546,14 +5547,14 @@ Design name:unnamed:
                     vpiName: phase
                     vpiFullName: work@env::run_phase::phase
                     vpiActual: IODecl name:phase
-                  FuncCall name:raise_objection start:35:11 end:35:32:
+                  MethodFuncCall name:raise_objection start:35:11 end:35:32:
                     vpiParent: HierPath name:phase.raise_objection(this)
                     vpiName Identifier name:raise_objection start:35:11 end:35:26:
-                      vpiParent: FuncCall name:raise_objection
+                      vpiParent: MethodFuncCall name:raise_objection
                       vpiName: raise_objection
                     vpiArgument (1 items):
                       RefObj name:this start:35:27 end:35:31:
-                        vpiParent: FuncCall name:raise_objection
+                        vpiParent: MethodFuncCall name:raise_objection
                         vpiName: this
                         vpiFullName: work@env::run_phase::phase.raise_objection(this)::this
                         vpiActual: ClassDefn name:work@env
@@ -5571,10 +5572,10 @@ Design name:unnamed:
                         vpiName: obj
                         vpiFullName: work@env::run_phase::obj
                         vpiActual: Variable name:obj
-                      FuncCall name:randomize start:37:11 end:37:22:
+                      MethodFuncCall name:randomize start:37:11 end:37:22:
                         vpiParent: HierPath name:obj.randomize()
                         vpiName Identifier name:randomize start:37:11 end:37:20:
-                          vpiParent: FuncCall name:randomize
+                          vpiParent: MethodFuncCall name:randomize
                           vpiName: randomize
                   IfElse start:38:7 end:42:10:
                     vpiParent: Begin
@@ -5865,14 +5866,14 @@ Design name:unnamed:
                     vpiName: phase
                     vpiFullName: work@env::run_phase::phase
                     vpiActual: IODecl name:phase
-                  FuncCall name:drop_objection start:44:11 end:44:31:
+                  MethodFuncCall name:drop_objection start:44:11 end:44:31:
                     vpiParent: HierPath name:phase.drop_objection(this)
                     vpiName Identifier name:drop_objection start:44:11 end:44:25:
-                      vpiParent: FuncCall name:drop_objection
+                      vpiParent: MethodFuncCall name:drop_objection
                       vpiName: drop_objection
                     vpiArgument (1 items):
                       RefObj name:this start:44:26 end:44:30:
-                        vpiParent: FuncCall name:drop_objection
+                        vpiParent: MethodFuncCall name:drop_objection
                         vpiName: this
                         vpiFullName: work@env::run_phase::phase.drop_objection(this)::this
                         vpiActual: ClassDefn name:work@env
@@ -5956,6 +5957,7 @@ Design name:unnamed:
     ClassTypespec name:a start:24:12 end:24:13:
       vpiParent: Design name:unnamed
       vpiName: a
+      vpiClassDefn: ClassDefn name:work@a
     ClassTypespec name:work@env:
       vpiParent: Design name:unnamed
       vpiName: work@env
@@ -5968,10 +5970,42 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
+  vpiConstraint (1 items):
+    Constraint name:c start:24:17 end:24:28:
+      vpiParent: Design name:unnamed
+      vpiName: c
+      vpiFullName: c
+      vpiPrefix HierPath name:a start:24:12 end:24:15:
+        vpiParent: Constraint name:c
+        vpiName: a
+        vpiFullName: c.a
+        vpiPathElem (1 items):
+          ClassTypespec name:a:
+      vpiConstraintItem (1 items):
+        Distribution start:24:19 end:24:26:
+          vpiParent: Constraint name:c
+          vpiExpr Operation start:24:19 end:24:25:
+            vpiParent: Distribution
+            vpiOpType: equal (14)
+            vpiOperand (2 items):
+              RefObj name:b start:24:19 end:24:20:
+                vpiParent: Operation
+                vpiName: b
+                vpiFullName: c.b
+              Constant start:24:24 end:24:25:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: c
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "5"
+                vpiValue: 5
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 7
 [WARNING] : 13
 [   NOTE] : 0
 ********************************************************************************
@@ -5987,25 +6021,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.1--explicit-external-constraint_2/mounts.json
 
 
-{'result': {'coverage': 99.32,
+{'result': {'coverage': 99.77,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.1--explicit-external-constraint_2.sv': {'post_len': 6,
+            'files': {'$Output/lib/work/18.5.1--explicit-external-constraint_2.sv': {'post_len': 2,
                                                                                      'pre_len': 881}},
-            'post_len': 6,
+            'post_len': 2,
             'pre_len': 881,
             'test_name': 'Google/chapter-18/18.5.1--explicit-external-constraint_2'}}
 
 +------------------------------------------------------------+----------+-----------+
 | INPUT                                                      |   PRELEN |   POSTLEN |
 +============================================================+==========+===========+
-| $Output/lib/work/18.5.1--explicit-external-constraint_2.sv |      881 |         6 |
+| $Output/lib/work/18.5.1--explicit-external-constraint_2.sv |      881 |         2 |
 +============================================================+==========+===========+
-|                                                            |      881 |         6 |
+|                                                            |      881 |         2 |
 +------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.32
+[COVERAGE] : 99.77
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -6016,7 +6050,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.1--explicit-external-const
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             616     616       0         0
+Others                             623     623       0         0
 ----------------------------------------------------------------
-                                   616     616       0         0
+                                   623     623       0         0
 ===================== END REDUCTION RESULT =====================

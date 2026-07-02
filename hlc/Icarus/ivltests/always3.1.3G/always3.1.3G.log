@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db always3.1.3G.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/always3.1.3G
@@ -277,7 +277,7 @@ Design name:unnamed:
                         vpiFullName: work@main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 456
+                      vpiSize: 448
                       vpiDecompile: "\"FAILED - 3.1.3G always force net_lvalue = boolean_expr;\\n\""
                       vpiValue: FAILED - 3.1.3G always force net_lvalue = boolean_expr;\n
                 vpiElseStmt Begin start:32:2 end:35:12:
@@ -297,7 +297,7 @@ Design name:unnamed:
                             vpiFullName: work@main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
-                          vpiSize: 64
+                          vpiSize: 56
                           vpiDecompile: "\"PASSED\\n\""
                           vpiValue: PASSED\n
                     SysFuncCall name:$finish start:34:10 end:34:17:
@@ -309,6 +309,35 @@ Design name:unnamed:
           vpiParent: Module name:work@main
           vpiStmt Force start:38:8 end:38:35:
             vpiParent: Always
+            vpiLhs RefObj name:value1 start:38:14 end:38:20:
+              vpiParent: Force
+              vpiName: value1
+              vpiFullName: work@main.value1
+              vpiActual: Net name:value1
+            vpiRhs Operation start:38:23 end:38:35:
+              vpiParent: Force
+              vpiOpType: logical and (26)
+              vpiOperand (2 items):
+                Constant start:38:23 end:38:27:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@main
+                    vpiActual: BitTypespec
+                  vpiConstType: binary (3)
+                  vpiSize: 1
+                  vpiDecompile: "1'b1"
+                  vpiValue: "1"
+                Constant start:38:31 end:38:35:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@main
+                    vpiActual: BitTypespec
+                  vpiConstType: binary (3)
+                  vpiSize: 1
+                  vpiDecompile: "1'b1"
+                  vpiValue: "1"
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
     ModuleTypespec name:work@main:
@@ -371,8 +400,12 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/always3.1.3G/design.hldb ${HLC_DI
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+BitTypespec                          1       2       1         0
+Constant                             8       7       1         2
+Operation                            2       1       0         1
+RefTypespec                          9       8       1         2
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    48      46       3         5
 ===================== END REDUCTION RESULT =====================

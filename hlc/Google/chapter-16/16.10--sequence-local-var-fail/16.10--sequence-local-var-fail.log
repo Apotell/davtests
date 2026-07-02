@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-16 -timescale=1ns/1ns -d ast -d db -nobuiltin 16.10--sequence-local-var-fail.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-16/16.10--sequence-local-var-fail
@@ -730,9 +730,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/16.10--sequence-local-var-fail.sv:18:1: Compile module "work@clk_gen".
 [INF:CP0303] $Source01/16.10--sequence-local-var-fail.sv:47:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/16.10--sequence-local-var-fail.sv:65:32: Illegal implicit net "id:207, name:x".
-[ERR:EL0535] $Source01/16.10--sequence-local-var-fail.sv:65:52: Illegal implicit net "id:215, name:x".
-[ERR:EL0535] $Source01/16.10--sequence-local-var-fail.sv:68:22: Illegal implicit net "id:224, name:seq".
+[ERR:EL0535] $Source01/16.10--sequence-local-var-fail.sv:65:32: Illegal implicit net "id:209, name:x".
+[ERR:EL0535] $Source01/16.10--sequence-local-var-fail.sv:65:52: Illegal implicit net "id:217, name:x".
+[ERR:EL0535] $Source01/16.10--sequence-local-var-fail.sv:68:22: Illegal implicit net "id:226, name:seq".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1228,6 +1228,15 @@ Design name:unnamed:
             vpiParent: SequenceDecl name:seq
             vpiName: seq
           vpiFullName: work@top.seq
+          vpiVariable (1 items):
+            Variable name:x start:64:13 end:64:14:
+              vpiParent: SequenceDecl name:seq
+              vpiTypespec RefTypespec start:64:9 end:64:12:
+                vpiParent: Variable name:x
+                vpiFullName: work@top.seq.x
+                vpiActual: IntTypespec
+              vpiName: x
+              vpiFullName: work@top.seq.x
           vpiExpr ClockedSeq start:65:9 end:65:58:
             vpiParent: SequenceDecl name:seq
             vpiClockingEvent Operation:
@@ -1710,25 +1719,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-16/16.10--sequence-local-var-fail/mounts.json
 
 
-{'result': {'coverage': 99.89,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/16.10--sequence-local-var-fail.sv': {'post_len': 1,
+            'files': {'$Output/lib/work/16.10--sequence-local-var-fail.sv': {'post_len': 0,
                                                                              'pre_len': 919}},
-            'post_len': 1,
+            'post_len': 0,
             'pre_len': 919,
             'test_name': 'Google/chapter-16/16.10--sequence-local-var-fail'}}
 
 +----------------------------------------------------+----------+-----------+
 | INPUT                                              |   PRELEN |   POSTLEN |
 +====================================================+==========+===========+
-| $Output/lib/work/16.10--sequence-local-var-fail.sv |      919 |         1 |
+| $Output/lib/work/16.10--sequence-local-var-fail.sv |      919 |         0 |
 +====================================================+==========+===========+
-|                                                    |      919 |         1 |
+|                                                    |      919 |         0 |
 +----------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.89
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1739,7 +1748,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-16/16.10--sequence-local-var-fail/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             233     233       0         0
+Others                             235     235       0         0
 ----------------------------------------------------------------
-                                   233     233       0         0
+                                   235     235       0         0
 ===================== END REDUCTION RESULT =====================
