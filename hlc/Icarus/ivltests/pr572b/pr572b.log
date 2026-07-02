@@ -233,8 +233,15 @@ Design name:unnamed:
           vpiParent: Module name:work@top
           vpiStmt DelayControl start:22:12 end:22:34:
             vpiParent: Initial
-            vpiStmt EventStmt start:22:16 end:22:34:
+            vpiStmt Operation start:22:16 end:22:34:
               vpiParent: DelayControl
+              vpiOpType: imply (50)
+              vpiOperand (1 items):
+                RefObj name:toplevel_event start:22:19 end:22:33:
+                  vpiParent: Operation
+                  vpiName: toplevel_event
+                  vpiFullName: work@top.toplevel_event
+                  vpiActual: Net name:toplevel_event
             vpiDelay Constant start:22:13 end:22:15:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -284,8 +291,15 @@ Design name:unnamed:
           vpiParent: Module name:work@submodule
           vpiStmt DelayControl start:28:12 end:28:31:
             vpiParent: Initial
-            vpiStmt EventStmt start:28:16 end:28:31:
+            vpiStmt Operation start:28:16 end:28:31:
               vpiParent: DelayControl
+              vpiOpType: imply (50)
+              vpiOperand (1 items):
+                RefObj name:local_event start:28:19 end:28:30:
+                  vpiParent: Operation
+                  vpiName: local_event
+                  vpiFullName: work@submodule.local_event
+                  vpiActual: Net name:local_event
             vpiDelay Constant start:28:13 end:28:15:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -342,6 +356,11 @@ Design name:unnamed:
                         vpiName: "$time"
               EventControl start:36:2 end:37:53:
                 vpiParent: Begin
+                vpiCondition RefObj name:local_event start:36:3 end:36:14:
+                  vpiParent: EventControl
+                  vpiName: local_event
+                  vpiFullName: work@submodule.local_event
+                  vpiActual: Net name:local_event
                 vpiStmt SysFuncCall name:$display start:37:4 end:37:52:
                   vpiParent: EventControl
                   vpiName Identifier name:$display start:37:4 end:37:12:
@@ -401,25 +420,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr572b/mounts.json
 
 
-{'result': {'coverage': 96.45,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/pr572b.v': {'post_len': 11,
+            'files': {'$Output/lib/work/pr572b.v': {'post_len': 0,
                                                     'pre_len': 310}},
-            'post_len': 11,
+            'post_len': 0,
             'pre_len': 310,
             'test_name': 'Icarus/ivltests/pr572b'}}
 
 +---------------------------+----------+-----------+
 | INPUT                     |   PRELEN |   POSTLEN |
 +===========================+==========+===========+
-| $Output/lib/work/pr572b.v |      310 |        11 |
+| $Output/lib/work/pr572b.v |      310 |         0 |
 +===========================+==========+===========+
-|                           |      310 |        11 |
+|                           |      310 |         0 |
 +---------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.45
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -430,7 +449,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr572b/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

@@ -69,6 +69,7 @@ n<$Source01/18.5.1--explicit-external-constraint_0.sv> u<55> t<Top_level_rule> c
                             n<0> u<40> t<INTEGRAL_NUMBER> p<41> l<21:24> el<21:25>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/18.5.1--explicit-external-constraint_0.sv:21:19: Illegal implicit net "id:12, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -111,10 +112,43 @@ Design name:unnamed:
     ClassTypespec name:a start:21:12 end:21:13:
       vpiParent: Design name:unnamed
       vpiName: a
+      vpiClassDefn: ClassDefn name:work@a
+  vpiConstraint (1 items):
+    Constraint name:c start:21:17 end:21:28:
+      vpiParent: Design name:unnamed
+      vpiName: c
+      vpiFullName: c
+      vpiPrefix HierPath name:a start:21:12 end:21:15:
+        vpiParent: Constraint name:c
+        vpiName: a
+        vpiFullName: c.a
+        vpiPathElem (1 items):
+          ClassTypespec name:a:
+      vpiConstraintItem (1 items):
+        Distribution start:21:19 end:21:26:
+          vpiParent: Constraint name:c
+          vpiExpr Operation start:21:19 end:21:25:
+            vpiParent: Distribution
+            vpiOpType: equal (14)
+            vpiOperand (2 items):
+              RefObj name:b start:21:19 end:21:20:
+                vpiParent: Operation
+                vpiName: b
+                vpiFullName: c.b
+              Constant start:21:24 end:21:25:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: c
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -130,25 +164,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.1--explicit-external-constraint_0/mounts.json
 
 
-{'result': {'coverage': 91.89,
+{'result': {'coverage': 97.3,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.1--explicit-external-constraint_0.sv': {'post_len': 6,
+            'files': {'$Output/lib/work/18.5.1--explicit-external-constraint_0.sv': {'post_len': 2,
                                                                                      'pre_len': 74}},
-            'post_len': 6,
+            'post_len': 2,
             'pre_len': 74,
             'test_name': 'Google/chapter-18/18.5.1--explicit-external-constraint_0'}}
 
 +------------------------------------------------------------+----------+-----------+
 | INPUT                                                      |   PRELEN |   POSTLEN |
 +============================================================+==========+===========+
-| $Output/lib/work/18.5.1--explicit-external-constraint_0.sv |       74 |         6 |
+| $Output/lib/work/18.5.1--explicit-external-constraint_0.sv |       74 |         2 |
 +============================================================+==========+===========+
-|                                                            |       74 |         6 |
+|                                                            |       74 |         2 |
 +------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.89
+[COVERAGE] : 97.3
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -159,7 +193,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.1--explicit-external-const
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              10      10       0         0
+Others                              17      17       0         0
 ----------------------------------------------------------------
-                                    10      10       0         0
+                                    17      17       0         0
 ===================== END REDUCTION RESULT =====================
