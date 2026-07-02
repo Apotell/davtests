@@ -15,38 +15,38 @@
 */
 
 // Spec-based validation of special character escape sequences in string
-// literals per IEEE 1800-2017 §5.9.1.
+// literals per IEEE 1800-2017 sec. 5.9.1.
 //
-// §5.9.1 rules under test:
+// sec. 5.9.1 rules under test:
 //   Each escape sequence in a string literal represents exactly one character.
 //   Valid escape sequences and their ASCII values:
-//     \n  — newline         (0x0A)
-//     \t  — horizontal tab  (0x09)
-//     \\  — backslash       (0x5C)
-//     \"  — double quote    (0x22)
-//     \v  — vertical tab    (0x0B)
-//     \f  — form feed       (0x0C)
-//     \a  — bell            (0x07)
-//     \ooo — octal value    (e.g. \123 = 0x53 = 'S')
-//     \xhh — hex value      (e.g. \x12 = 0x12)
+//     \n  -- newline         (0x0A)
+//     \t  -- horizontal tab  (0x09)
+//     \\  -- backslash       (0x5C)
+//     \"  -- double quote    (0x22)
+//     \v  -- vertical tab    (0x0B)
+//     \f  -- form feed       (0x0C)
+//     \a  -- bell            (0x07)
+//     \ooo -- octal value    (e.g. \123 = 0x53 = 'S')
+//     \xhh -- hex value      (e.g. \x12 = 0x12)
 //
 // SV source (module top, initial begin):
-//   $display("newline \n");       // call 0 — \n  = 1 char → string: 9 chars
-//   $display("tab \t");           // call 1 — \t  = 1 char → string: 5 chars
-//   $display("backslash \\");     // call 2 — \\  = 1 char → string: 11 chars
-//   $display("quote \"");         // call 3 — \"  = 1 char → string: 7 chars
-//   $display("vertical tab \v");  // call 4 — \v  = 1 char → string: 14 chars
-//   $display("form feed \f");     // call 5 — \f  = 1 char → string: 11 chars
-//   $display("bell \a");          // call 6 — \a  = 1 char → string: 6 chars
-//   $display("octal \123");       // call 7 — \123 = 'S'  → string: 7 chars
-//   $display("hex \x12");         // call 8 — \x12 = 0x12 → string: 5 chars
+//   $display("newline \n");       // call 0 -- \n  = 1 char -> string: 9 chars
+//   $display("tab \t");           // call 1 -- \t  = 1 char -> string: 5 chars
+//   $display("backslash \\");     // call 2 -- \\  = 1 char -> string: 11 chars
+//   $display("quote \"");         // call 3 -- \"  = 1 char -> string: 7 chars
+//   $display("vertical tab \v");  // call 4 -- \v  = 1 char -> string: 14 chars
+//   $display("form feed \f");     // call 5 -- \f  = 1 char -> string: 11 chars
+//   $display("bell \a");          // call 6 -- \a  = 1 char -> string: 6 chars
+//   $display("octal \123");       // call 7 -- \123 = 'S'  -> string: 7 chars
+//   $display("hex \x12");         // call 8 -- \x12 = 0x12 -> string: 5 chars
 //
 // Spec-correct UHDM sizes (1 char = 8 bits):
-//   call 0: 9  × 8 = 72  bits    call 4: 14 × 8 = 112 bits
-//   call 1: 5  × 8 = 40  bits    call 5: 11 × 8 = 88  bits
-//   call 2: 11 × 8 = 88  bits    call 6: 6  × 8 = 48  bits
-//   call 3: 7  × 8 = 56  bits    call 7: 7  × 8 = 56  bits
-//                                 call 8: 5  × 8 = 40  bits
+//   call 0: 9  x 8 = 72  bits    call 4: 14 x 8 = 112 bits
+//   call 1: 5  x 8 = 40  bits    call 5: 11 x 8 = 88  bits
+//   call 2: 11 x 8 = 88  bits    call 6: 6  x 8 = 48  bits
+//   call 3: 7  x 8 = 56  bits    call 7: 7  x 8 = 56  bits
+//                                 call 8: 5  x 8 = 40  bits
 //
 // KNOWN SURELOG BUG (all 9 calls):
 //   Surelog stores escape sequences verbatim instead of expanding them to their
@@ -54,7 +54,7 @@
 //   (adding 8 bits). Multi-char escapes (\ooo, \xhh) consume 4 bytes instead
 //   of 1 (adding 24 bits). All size tests below will FAIL until fixed.
 //   Additionally, Surelog emits WRN:PP0118 for \123, confirming it does not
-//   recognize the octal escape format defined in §5.9.1.
+//   recognize the octal escape format defined in sec. 5.9.1.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -130,7 +130,7 @@ TEST_F(StringSpecialChars, NoNetsInModule) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-      << "module has no net declarations — only $display calls";
+      << "module has no net declarations -- only $display calls";
 }
 
 TEST_F(StringSpecialChars, InitialBlockHasBegin) {
@@ -162,7 +162,7 @@ TEST_F(StringSpecialChars, AllStatementsAreDisplayCalls) {
 }
 
 // ---------------------------------------------------------------------------
-// §5.9.1: string literals have constType = vpiStringConst (6) and a
+// sec. 5.9.1: string literals have constType = vpiStringConst (6) and a
 // StringTypespec. These structural checks pass regardless of escape handling.
 // ---------------------------------------------------------------------------
 TEST_F(StringSpecialChars, AllArgumentsAreStringConstType) {
@@ -190,98 +190,98 @@ TEST_F(StringSpecialChars, AllArgumentsHaveStringTypespec) {
 }
 
 // ---------------------------------------------------------------------------
-// §5.9.1 escape sequence sizes.
+// sec. 5.9.1 escape sequence sizes.
 // Each escape = exactly 1 character = 8 bits. The size of each string
-// constant in UHDM must equal (number of literal chars + 1) × 8.
+// constant in UHDM must equal (number of literal chars + 1) x 8.
 //
 // SURELOG BUG: Surelog stores escape sequences verbatim rather than expanding
 // them. Simple escapes (\n etc.) add 8 extra bits; \ooo and \xhh add 24 extra
-// bits. All tests below FAIL until Surelog implements §5.9.1 escape expansion.
+// bits. All tests below FAIL until Surelog implements sec. 5.9.1 escape expansion.
 // ---------------------------------------------------------------------------
 
-// "newline \n" — 8 literal chars + 1 newline char (0x0A) = 9 chars = 72 bits
+// "newline \n" -- 8 literal chars + 1 newline char (0x0A) = 9 chars = 72 bits
 TEST_F(StringSpecialChars, Call0_Newline_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 0));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 72)
-      << "§5.9.1: \\n = 1 char (0x0A) → \"newline \\n\" = 9 chars = 72 bits; "
+      << "sec. 5.9.1: \\n = 1 char (0x0A) -> \"newline \\n\" = 9 chars = 72 bits; "
          "Surelog bug: stores \\n as 2 chars, gives 80";
 }
 
-// "tab \t" — 4 literal chars + 1 tab char (0x09) = 5 chars = 40 bits
+// "tab \t" -- 4 literal chars + 1 tab char (0x09) = 5 chars = 40 bits
 TEST_F(StringSpecialChars, Call1_Tab_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 1));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 40)
-      << "§5.9.1: \\t = 1 char (0x09) → \"tab \\t\" = 5 chars = 40 bits; "
+      << "sec. 5.9.1: \\t = 1 char (0x09) -> \"tab \\t\" = 5 chars = 40 bits; "
          "Surelog bug: stores \\t as 2 chars, gives 48";
 }
 
-// "backslash \\" — 10 literal chars + 1 backslash (0x5C) = 11 chars = 88 bits
+// "backslash \\" -- 10 literal chars + 1 backslash (0x5C) = 11 chars = 88 bits
 TEST_F(StringSpecialChars, Call2_Backslash_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 2));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 88)
-      << "§5.9.1: \\\\ = 1 char (0x5C) → \"backslash \\\\\" = 11 chars = 88 bits; "
+      << "sec. 5.9.1: \\\\ = 1 char (0x5C) -> \"backslash \\\\\" = 11 chars = 88 bits; "
          "Surelog bug: stores \\\\ as 2 chars, gives 96";
 }
 
-// "quote \"" — 6 literal chars + 1 double quote (0x22) = 7 chars = 56 bits
+// "quote \"" -- 6 literal chars + 1 double quote (0x22) = 7 chars = 56 bits
 TEST_F(StringSpecialChars, Call3_Quote_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 3));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 56)
-      << "§5.9.1: \\\" = 1 char (0x22) → \"quote \\\"\" = 7 chars = 56 bits; "
+      << "sec. 5.9.1: \\\" = 1 char (0x22) -> \"quote \\\"\" = 7 chars = 56 bits; "
          "Surelog bug: stores \\\" as 2 chars, gives 64";
 }
 
-// "vertical tab \v" — 13 literal chars + 1 vertical tab (0x0B) = 14 chars = 112 bits
+// "vertical tab \v" -- 13 literal chars + 1 vertical tab (0x0B) = 14 chars = 112 bits
 TEST_F(StringSpecialChars, Call4_VerticalTab_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 4));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 112)
-      << "§5.9.1: \\v = 1 char (0x0B) → \"vertical tab \\v\" = 14 chars = 112 bits; "
+      << "sec. 5.9.1: \\v = 1 char (0x0B) -> \"vertical tab \\v\" = 14 chars = 112 bits; "
          "Surelog bug: stores \\v as 2 chars, gives 120";
 }
 
-// "form feed \f" — 10 literal chars + 1 form feed (0x0C) = 11 chars = 88 bits
+// "form feed \f" -- 10 literal chars + 1 form feed (0x0C) = 11 chars = 88 bits
 TEST_F(StringSpecialChars, Call5_FormFeed_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 5));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 88)
-      << "§5.9.1: \\f = 1 char (0x0C) → \"form feed \\f\" = 11 chars = 88 bits; "
+      << "sec. 5.9.1: \\f = 1 char (0x0C) -> \"form feed \\f\" = 11 chars = 88 bits; "
          "Surelog bug: stores \\f as 2 chars, gives 96";
 }
 
-// "bell \a" — 5 literal chars + 1 bell char (0x07) = 6 chars = 48 bits
+// "bell \a" -- 5 literal chars + 1 bell char (0x07) = 6 chars = 48 bits
 TEST_F(StringSpecialChars, Call6_Bell_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 6));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 48)
-      << "§5.9.1: \\a = 1 char (0x07) → \"bell \\a\" = 6 chars = 48 bits; "
+      << "sec. 5.9.1: \\a = 1 char (0x07) -> \"bell \\a\" = 6 chars = 48 bits; "
          "Surelog bug: stores \\a as 2 chars, gives 56";
 }
 
-// "octal \123" — 6 literal chars + 1 octal char (0x53 = 'S') = 7 chars = 56 bits
-// §5.9.1: \ooo is 1-3 octal digits representing the ASCII value.
+// "octal \123" -- 6 literal chars + 1 octal char (0x53 = 'S') = 7 chars = 56 bits
+// sec. 5.9.1: \ooo is 1-3 octal digits representing the ASCII value.
 // Surelog emits WRN:PP0118 for \123, does not recognize the octal format,
-// and stores the 4-char sequence \, 1, 2, 3 verbatim → 10 chars → 80 bits.
+// and stores the 4-char sequence \, 1, 2, 3 verbatim -> 10 chars -> 80 bits.
 TEST_F(StringSpecialChars, Call7_OctalEscape_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 7));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 56)
-      << "§5.9.1: \\123 = octal 'S' (0x53) → \"octal \\123\" = 7 chars = 56 bits; "
-         "Surelog bug: WRN:PP0118 — octal escape not recognized, stores 4 chars, gives 80";
+      << "sec. 5.9.1: \\123 = octal 'S' (0x53) -> \"octal \\123\" = 7 chars = 56 bits; "
+         "Surelog bug: WRN:PP0118 -- octal escape not recognized, stores 4 chars, gives 80";
 }
 
-// "hex \x12" — 4 literal chars + 1 hex char (0x12) = 5 chars = 40 bits
-// §5.9.1: \xhh is a hex value representing the ASCII value.
-// Surelog stores the 4-char sequence \, x, 1, 2 verbatim → 8 chars → 64 bits.
+// "hex \x12" -- 4 literal chars + 1 hex char (0x12) = 5 chars = 40 bits
+// sec. 5.9.1: \xhh is a hex value representing the ASCII value.
+// Surelog stores the 4-char sequence \, x, 1, 2 verbatim -> 8 chars -> 64 bits.
 TEST_F(StringSpecialChars, Call8_HexEscape_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 8));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getSize(), 40)
-      << "§5.9.1: \\x12 = hex 0x12 → \"hex \\x12\" = 5 chars = 40 bits; "
+      << "sec. 5.9.1: \\x12 = hex 0x12 -> \"hex \\x12\" = 5 chars = 40 bits; "
          "Surelog bug: hex escape not expanded, stores 4 chars, gives 64";
 }
 
