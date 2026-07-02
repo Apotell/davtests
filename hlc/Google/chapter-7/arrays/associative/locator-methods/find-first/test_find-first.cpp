@@ -284,7 +284,7 @@ TEST_F(ArrayLocatorFindFirstTest, AssignmentRhsIsHierPathSDotFindFirst) {
   ASSERT_NE(assign, nullptr);
   const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "s.find_first");
+  EXPECT_EQ(rhs->getName(), std::string_view("s.find_first()"));
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
