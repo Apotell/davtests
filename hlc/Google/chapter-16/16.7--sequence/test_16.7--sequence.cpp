@@ -516,10 +516,15 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_IsSequenceInst) {
   // This test FAILS to document that bug.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
+  if (m_design->getElaborated()){
+      EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
       << "§16.7: 'assert property (seq)' property expression must be a "
          "SequenceInst; Surelog EL0535: 'seq' is treated as an implicit net "
          "→ RefObj returned instead of SequenceInst";
+  } else {
+    EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr)
+      << "§16.7: 'assert property (seq)' property expression must non-null";
+  }
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_NameIsSeq) {

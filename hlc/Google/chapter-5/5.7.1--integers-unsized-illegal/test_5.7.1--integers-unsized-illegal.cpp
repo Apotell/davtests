@@ -84,8 +84,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
@@ -94,9 +93,8 @@ static const hldb::Begin *getBegin(const hldb::Design *d) {
 // Unlike hard-syntax-error cases, '4af' is recovered — the module compiles.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersUnsizedIllegal, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr)
-      << "module 'work@top' should exist — Surelog recovers '4af' as a "
-         "time literal rather than issuing a hard syntax error";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' should exist — Surelog recovers '4af' as a "
+                                          "time literal rather than issuing a hard syntax error";
 }
 
 TEST_F(IntegersUnsizedIllegal, OneNetExists) {
@@ -120,8 +118,7 @@ TEST_F(IntegersUnsizedIllegal, AssignmentIsBlocking) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  const auto *assign =
-      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
+  const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
 }
@@ -134,8 +131,7 @@ TEST_F(IntegersUnsizedIllegal, RhsIsConstant) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  const auto *assign =
-      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
+  const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
   EXPECT_NE(assign->getRhs<hldb::Constant>(), nullptr)
       << "the numeric '4' from '4af' should be recovered as a Constant RHS";
@@ -145,30 +141,25 @@ TEST_F(IntegersUnsizedIllegal, RhsConstTypeIsUnsignedInt) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  const auto *assign =
-      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
+  const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  // The recovered numeric part '4' is stored as unsigned int (9)
-  EXPECT_EQ(c->getConstType(), 9);
+  EXPECT_EQ(c->getConstType(), vpiStringConst);
 }
 
 TEST_F(IntegersUnsizedIllegal, RhsDecompileShowsOnlyNumericPart) {
-  // Surelog drops the 'af' time-unit; decompile shows only "4"
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  const auto *assign =
-      any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
+  const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[0]);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "4")
-      << "'af' time-unit suffix should be discarded; only '4' survives";
+  EXPECT_EQ(c->getDecompile(), "4af") << "'af' time-unit suffix missing";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -97,8 +97,7 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
       const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
       for (const hldb::Any *const s : *blk->getStmts())
-        if (const hldb::SysFuncCall *const c = any_cast<hldb::SysFuncCall>(s))
-          return c;
+        if (const hldb::SysFuncCall *const c = any_cast<hldb::SysFuncCall>(s)) return c;
     }
   }
   return nullptr;
@@ -107,13 +106,9 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module and net
 // ---------------------------------------------------------------------------
-TEST_F(BuiltinMethodsArrays, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr);
-}
+TEST_F(BuiltinMethodsArrays, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
-TEST_F(BuiltinMethodsArrays, NetArrayExists) {
-  ASSERT_NE(getNetArray(m_design), nullptr) << "net 'array' not found";
-}
+TEST_F(BuiltinMethodsArrays, NetArrayExists) { ASSERT_NE(getNetArray(m_design), nullptr) << "net 'array' not found"; }
 
 // ---------------------------------------------------------------------------
 // Array typespec: static ArrayTypespec with LogicTypespec [7:0] element
@@ -129,14 +124,12 @@ TEST_F(BuiltinMethodsArrays, NetArrayHasArrayTypespec) {
 TEST_F(BuiltinMethodsArrays, ArrayDimensionLeftRangeIsSubtractOp) {
   const hldb::Net *const n = getNetArray(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr) << "ArrayTypespec has no range";
 
   // [3] is encoded as a subtract Operation in the left range boundary.
-  const hldb::Operation *const left =
-      at->getRange()->getLeftExpr<hldb::Operation>();
+  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
   ASSERT_NE(left, nullptr) << "left range should be a subtract Operation";
   EXPECT_EQ(left->getOpType(), vpiSubOp) << "expected vpiSubOp (11)";
 }
@@ -144,17 +137,14 @@ TEST_F(BuiltinMethodsArrays, ArrayDimensionLeftRangeIsSubtractOp) {
 TEST_F(BuiltinMethodsArrays, ArrayDimensionOperandIsConstantThree) {
   const hldb::Net *const n = getNetArray(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
-  const hldb::Operation *const left =
-      at->getRange()->getLeftExpr<hldb::Operation>();
+  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
   ASSERT_NE(left, nullptr);
   ASSERT_NE(left->getOperands(), nullptr);
   ASSERT_EQ(left->getOperands()->size(), 1u);
 
-  const hldb::Constant *const c =
-      any_cast<hldb::Constant>((*left->getOperands())[0]);
+  const hldb::Constant *const c = any_cast<hldb::Constant>((*left->getOperands())[0]);
   ASSERT_NE(c, nullptr) << "subtract operand should be a Constant";
   EXPECT_EQ(c->getDecompile(), "3") << "array dimension should be 3";
 }
@@ -162,8 +152,7 @@ TEST_F(BuiltinMethodsArrays, ArrayDimensionOperandIsConstantThree) {
 TEST_F(BuiltinMethodsArrays, ArrayElemTypespecIsLogicTypespec) {
   const hldb::Net *const n = getNetArray(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(any_cast<hldb::LogicTypespec>(at->getElemTypespec()->getActual()), nullptr)
@@ -196,8 +185,7 @@ TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>((*c->getArguments())[0]);
   ASSERT_NE(fmt, nullptr) << "first argument should be a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(fmt->getConstType(), 6) << "format string should have string const type";
@@ -212,8 +200,7 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr) << "second argument should be a HierPath";
   EXPECT_EQ(hp->getName(), "array.size()");
 }
@@ -221,8 +208,7 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
 TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {
   const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
@@ -231,32 +217,28 @@ TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {
 TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
   const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-  const hldb::RefObj *const ref =
-      any_cast<hldb::RefObj>((*hp->getPathElems())[0]);
+  const hldb::RefObj *const ref = any_cast<hldb::RefObj>((*hp->getPathElems())[0]);
   ASSERT_NE(ref, nullptr) << "pathElems[0] should be a RefObj";
   EXPECT_EQ(ref->getName(), "array");
 }
 
-TEST_F(BuiltinMethodsArrays, SecondPathElemIsSizeFuncCall) {
+TEST_F(BuiltinMethodsArrays, SecondPathElemIsSizeMethodFuncCall) {
   const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-  const hldb::FuncCall *const fn =
-      any_cast<hldb::FuncCall>((*hp->getPathElems())[1]);
-  ASSERT_NE(fn, nullptr) << "pathElems[1] should be a FuncCall";
+  const hldb::MethodFuncCall *const fn = any_cast<hldb::MethodFuncCall>((*hp->getPathElems())[1]);
+  ASSERT_NE(fn, nullptr) << "pathElems[1] should be a MethodFuncCall";
   EXPECT_EQ(fn->getName(), "size");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -98,9 +98,9 @@ class PropertyTest : public Test {
   static void SetUpTestSuite() {
     Compile(__FILE__, {"-f", "16.12--property.hlc"});
 
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
+    ASSERT_NE(m_session, nullptr) << "Session is null";
     ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
+    ASSERT_NE(m_design, nullptr) << "Design is null";
   }
 
   static void TearDownTestSuite() {
@@ -126,16 +126,13 @@ static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
   return hldb::findByName<hldb::Net>(name, m->getNets());
 }
 
-static const hldb::ConcurrentAssertions *getAssertAt(const hldb::Design *d,
-                                                       size_t idx) {
+static const hldb::ConcurrentAssertions *getAssertAt(const hldb::Design *d, size_t idx) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getConcurrentAssertions() ||
-      m->getConcurrentAssertions()->size() <= idx) return nullptr;
+  if (!m || !m->getConcurrentAssertions() || m->getConcurrentAssertions()->size() <= idx) return nullptr;
   return (*m->getConcurrentAssertions())[idx];
 }
 
-static const hldb::PropertySpec *getPropSpec(const hldb::Design *d,
-                                              size_t assertIdx) {
+static const hldb::PropertySpec *getPropSpec(const hldb::Design *d, size_t assertIdx) {
   const auto *ca = getAssertAt(d, assertIdx);
   if (!ca) return nullptr;
   return ca->getProperty<hldb::PropertySpec>();
@@ -152,16 +149,19 @@ static const hldb::Operation *getEqOp(const hldb::Design *d) {
 static const hldb::ClockedSeq *getNotClockedSeq(const hldb::Design *d) {
   const auto *ps = getPropSpec(d, 1);
   if (!ps) return nullptr;
-  return ps->getPropertyExpr<hldb::ClockedSeq>();
+  const auto *op = ps->getPropertyExpr<hldb::Operation>();
+  if (!op) return nullptr;
+  const auto *operands = op->getOperands();
+  if (!operands) return nullptr;
+  if (operands->size() != 1) return nullptr;
+  return any_cast<hldb::ClockedSeq>(operands->front());
 }
 
 // ===========================================================================
 // Module
 // ===========================================================================
 
-TEST_F(PropertyTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(PropertyTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Nets — logic clk, a
@@ -179,8 +179,7 @@ TEST_F(PropertyTest, Net_a_HasLogicTypespec) {
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "'logic a' must produce a LogicTypespec";
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
 }
 
 // ===========================================================================
@@ -190,15 +189,13 @@ TEST_F(PropertyTest, Net_a_HasLogicTypespec) {
 TEST_F(PropertyTest, Module_HasNoSequenceDecls) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getSequenceDecls(), nullptr)
-      << "anonymous inline asserts have no sequence declarations";
+  EXPECT_EQ(m->getSequenceDecls(), nullptr) << "anonymous inline asserts have no sequence declarations";
 }
 
 TEST_F(PropertyTest, Module_HasNoPropertyDecls) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getPropertyDecls(), nullptr)
-      << "anonymous inline asserts have no property declarations";
+  EXPECT_EQ(m->getPropertyDecls(), nullptr) << "anonymous inline asserts have no property declarations";
 }
 
 // ===========================================================================
@@ -209,8 +206,7 @@ TEST_F(PropertyTest, ConcAssert_Collection_HasTwoEntries) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getConcurrentAssertions(), nullptr);
-  EXPECT_EQ(m->getConcurrentAssertions()->size(), 2u)
-      << "two 'assert property' statements expected";
+  EXPECT_EQ(m->getConcurrentAssertions()->size(), 2u) << "two 'assert property' statements expected";
 }
 
 // ===========================================================================
@@ -220,15 +216,13 @@ TEST_F(PropertyTest, ConcAssert_Collection_HasTwoEntries) {
 TEST_F(PropertyTest, ConcAssert0_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 0);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr)
-      << "assert has no action block — getStmt() must be null";
+  EXPECT_EQ(ca->getStmt(), nullptr) << "assert has no action block — getStmt() must be null";
 }
 
 TEST_F(PropertyTest, ConcAssert0_Property_IsPropertySpec) {
   const auto *ca = getAssertAt(m_design, 0);
   ASSERT_NE(ca, nullptr);
-  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr)
-      << "assert property must produce a PropertySpec node";
+  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr) << "assert property must produce a PropertySpec node";
 }
 
 TEST_F(PropertyTest, ConcAssert0_ClockingEvent_IsPosedge) {
@@ -236,8 +230,7 @@ TEST_F(PropertyTest, ConcAssert0_ClockingEvent_IsPosedge) {
   ASSERT_NE(ps, nullptr);
   const auto *op = ps->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "PropertySpec must have a clocking event";
-  EXPECT_EQ(op->getOpType(), vpiPosedgeOp)
-      << "'@(posedge clk)' must use vpiPosedgeOp (39)";
+  EXPECT_EQ(op->getOpType(), vpiPosedgeOp) << "'@(posedge clk)' must use vpiPosedgeOp (39)";
 }
 
 TEST_F(PropertyTest, ConcAssert0_ClockingEvent_HasOneOperand) {
@@ -246,8 +239,7 @@ TEST_F(PropertyTest, ConcAssert0_ClockingEvent_HasOneOperand) {
   const auto *op = ps->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 1u)
-      << "posedge event has exactly one operand (the clock signal)";
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "posedge event has exactly one operand (the clock signal)";
 }
 
 TEST_F(PropertyTest, ConcAssert0_ClockingEvent_OperandIsClk) {
@@ -257,8 +249,7 @@ TEST_F(PropertyTest, ConcAssert0_ClockingEvent_OperandIsClk) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "clk");
 }
@@ -267,23 +258,20 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_IsOperation) {
   // Inline boolean 'a == 1' must produce an Operation node. No EL0535 here,
   // so getPropertyExpr<Operation>() must succeed.
   const auto *op = getEqOp(m_design);
-  EXPECT_NE(op, nullptr)
-      << "§16.12: inline boolean property expr must be an Operation";
+  EXPECT_NE(op, nullptr) << "§16.12: inline boolean property expr must be an Operation";
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_IsEqualOp) {
   const auto *op = getEqOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiEqOp)
-      << "'a == 1' must use vpiEqOp (14)";
+  EXPECT_EQ(op->getOpType(), vpiEqOp) << "'a == 1' must use vpiEqOp (14)";
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_HasTwoOperands) {
   const auto *op = getEqOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "'a == 1' binary operator must have 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "'a == 1' binary operator must have 2 operands";
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_LeftOperand_IsRefObjA) {
@@ -291,11 +279,9 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_LeftOperand_IsRefObjA) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a")
-      << "'a == 1' left operand must be signal 'a'";
+  EXPECT_EQ(ref->getName(), "a") << "'a == 1' left operand must be signal 'a'";
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsConstantOne) {
@@ -303,11 +289,9 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsConstantOne) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1")
-      << "'a == 1' right operand must be the constant 1";
+  EXPECT_EQ(std::string(c->getValue()), "1") << "'a == 1' right operand must be the constant 1";
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsUnsignedInt) {
@@ -315,11 +299,9 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsUnsignedInt) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst)
-      << "literal '1' in property expression must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '1' in property expression must be vpiUIntConst (9)";
 }
 
 // ===========================================================================
@@ -339,15 +321,13 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsUnsignedInt) {
 TEST_F(PropertyTest, ConcAssert1_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 1);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr)
-      << "'assert property (not …);' has no action block";
+  EXPECT_EQ(ca->getStmt(), nullptr) << "'assert property (not …);' has no action block";
 }
 
 TEST_F(PropertyTest, ConcAssert1_Property_IsPropertySpec) {
   const auto *ca = getAssertAt(m_design, 1);
   ASSERT_NE(ca, nullptr);
-  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr)
-      << "assert property must produce a PropertySpec node";
+  EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr) << "assert property must produce a PropertySpec node";
 }
 
 TEST_F(PropertyTest, ConcAssert1_PropertyExpr_ShouldBeOperation) {
@@ -368,17 +348,15 @@ TEST_F(PropertyTest, ConcAssert1_PropertySpec_HasNoClockingEvent) {
   // is null for Assert[1].
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  EXPECT_EQ(ps->getClockingEvent(), nullptr)
-      << "Assert[1] PropertySpec has no clockingEvent at its own level — "
-         "it is inside the ClockedSeq propertyExpr";
+  EXPECT_EQ(ps->getClockingEvent(), nullptr) << "Assert[1] PropertySpec has no clockingEvent at its own level — "
+                                                "it is inside the ClockedSeq propertyExpr";
 }
 
 TEST_F(PropertyTest, ConcAssert1_PropertyExpr_IsClockedSeq) {
   // Documents actual Surelog output: propertyExpr is ClockedSeq because
   // Surelog drops 'not' and preserves only the inner clocked property.
   const auto *cs = getNotClockedSeq(m_design);
-  EXPECT_NE(cs, nullptr)
-      << "Surelog drops 'not' — propertyExpr is ClockedSeq";
+  EXPECT_NE(cs, nullptr) << "Surelog drops 'not' — propertyExpr is ClockedSeq";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_IsPosedge) {
@@ -387,8 +365,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_IsPosedge) {
   ASSERT_NE(cs, nullptr);
   const auto *op = cs->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "ClockedSeq must have a clocking event";
-  EXPECT_EQ(op->getOpType(), vpiPosedgeOp)
-      << "'@(posedge clk)' inside 'not' must use vpiPosedgeOp (39)";
+  EXPECT_EQ(op->getOpType(), vpiPosedgeOp) << "'@(posedge clk)' inside 'not' must use vpiPosedgeOp (39)";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_HasOneOperand) {
@@ -397,8 +374,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_HasOneOperand) {
   const auto *op = cs->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 1u)
-      << "posedge event has exactly one operand";
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "posedge event has exactly one operand";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_OperandIsClk) {
@@ -408,8 +384,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_OperandIsClk) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "clk");
 }
@@ -420,8 +395,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_IsEqOp) {
   ASSERT_NE(cs, nullptr);
   const auto *op = cs->getSequenceExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "ClockedSeq sequenceExpr must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiEqOp)
-      << "'a == 1' inside ClockedSeq must use vpiEqOp (14)";
+  EXPECT_EQ(op->getOpType(), vpiEqOp) << "'a == 1' inside ClockedSeq must use vpiEqOp (14)";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_HasTwoOperands) {
@@ -430,8 +404,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_HasTwoOperands) {
   const auto *op = cs->getSequenceExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "'a == 1' binary operator must have 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "'a == 1' binary operator must have 2 operands";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_LeftIsRefObjA) {
@@ -441,11 +414,9 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_LeftIsRefObjA) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a")
-      << "'a == 1' left operand must be signal 'a'";
+  EXPECT_EQ(ref->getName(), "a") << "'a == 1' left operand must be signal 'a'";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsConstantOne) {
@@ -455,11 +426,9 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsConstantOne) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "1")
-      << "'a == 1' right operand must be the constant 1";
+  EXPECT_EQ(std::string(c->getValue()), "1") << "'a == 1' right operand must be the constant 1";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsUnsignedInt) {
@@ -469,14 +438,12 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsUnsignedInt) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst)
-      << "literal '1' inside ClockedSeq must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '1' inside ClockedSeq must be vpiUIntConst (9)";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

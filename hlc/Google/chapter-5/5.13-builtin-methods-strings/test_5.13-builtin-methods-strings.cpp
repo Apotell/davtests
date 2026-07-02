@@ -90,8 +90,7 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
       const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
       for (const hldb::Any *const s : *blk->getStmts())
-        if (const hldb::SysFuncCall *const c = any_cast<hldb::SysFuncCall>(s))
-          return c;
+        if (const hldb::SysFuncCall *const c = any_cast<hldb::SysFuncCall>(s)) return c;
     }
   }
   return nullptr;
@@ -100,13 +99,9 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module and net
 // ---------------------------------------------------------------------------
-TEST_F(BuiltinMethodsStrings, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr);
-}
+TEST_F(BuiltinMethodsStrings, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
-TEST_F(BuiltinMethodsStrings, StringNetAExists) {
-  ASSERT_NE(getNetA(m_design), nullptr) << "net 'a' not found";
-}
+TEST_F(BuiltinMethodsStrings, StringNetAExists) { ASSERT_NE(getNetA(m_design), nullptr) << "net 'a' not found"; }
 
 // ---------------------------------------------------------------------------
 // string a = "test" — StringTypespec with initial Constant value
@@ -165,8 +160,7 @@ TEST_F(BuiltinMethodsStrings, FirstArgumentIsStringConstant) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>((*c->getArguments())[0]);
   ASSERT_NE(fmt, nullptr) << "first argument should be a Constant";
   EXPECT_EQ(fmt->getConstType(), 6) << "format string should have string const type";
 }
@@ -180,8 +174,7 @@ TEST_F(BuiltinMethodsStrings, SecondArgumentIsHierPath) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr) << "second argument should be a HierPath";
   EXPECT_EQ(hp->getName(), "a.len()");
 }
@@ -189,8 +182,7 @@ TEST_F(BuiltinMethodsStrings, SecondArgumentIsHierPath) {
 TEST_F(BuiltinMethodsStrings, HierPathHasTwoPathElems) {
   const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
@@ -199,13 +191,11 @@ TEST_F(BuiltinMethodsStrings, HierPathHasTwoPathElems) {
 TEST_F(BuiltinMethodsStrings, FirstPathElemIsStringRefA) {
   const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-  const hldb::RefObj *const ref =
-      any_cast<hldb::RefObj>((*hp->getPathElems())[0]);
+  const hldb::RefObj *const ref = any_cast<hldb::RefObj>((*hp->getPathElems())[0]);
   ASSERT_NE(ref, nullptr) << "pathElems[0] should be a RefObj";
   EXPECT_EQ(ref->getName(), "a");
 }
@@ -213,18 +203,16 @@ TEST_F(BuiltinMethodsStrings, FirstPathElemIsStringRefA) {
 TEST_F(BuiltinMethodsStrings, SecondPathElemIsLenFuncCall) {
   const hldb::SysFuncCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>((*c->getArguments())[1]);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-  const hldb::FuncCall *const fn =
-      any_cast<hldb::FuncCall>((*hp->getPathElems())[1]);
-  ASSERT_NE(fn, nullptr) << "pathElems[1] should be a FuncCall";
+  const hldb::MethodFuncCall *const fn = any_cast<hldb::MethodFuncCall>((*hp->getPathElems())[1]);
+  ASSERT_NE(fn, nullptr) << "pathElems[1] should be a MethodFuncCall";
   EXPECT_EQ(fn->getName(), "len");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
