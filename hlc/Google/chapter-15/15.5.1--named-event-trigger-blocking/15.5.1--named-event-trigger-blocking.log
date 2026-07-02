@@ -166,8 +166,15 @@ Design name:unnamed:
             vpiName: wait_e
           vpiFullName: work@foo::wait_e
           vpiVisibility: public (1)
-          vpiStmt EventStmt start:41:3 end:41:7:
+          vpiStmt Operation start:41:3 end:41:7:
             vpiParent: Task name:wait_e
+            vpiOpType: imply (50)
+            vpiOperand (1 items):
+              RefObj name:e start:41:5 end:41:6:
+                vpiParent: Operation
+                vpiName: e
+                vpiFullName: work@foo::wait_e::e
+                vpiActual: Variable name:e
   vpiAllModules (2 items):
     Module name:work@inner file:$Source01/15.5.1--named-event-trigger-blocking.sv start:18:1 end:21:10:
       vpiParent: Design name:unnamed
@@ -185,8 +192,25 @@ Design name:unnamed:
       vpiProcess (1 items):
         Initial start:19:2 end:20:12:
           vpiParent: Module name:work@inner
-          vpiStmt EventStmt start:20:3 end:20:12:
+          vpiStmt Operation start:20:3 end:20:12:
             vpiParent: Initial
+            vpiOpType: imply (50)
+            vpiOperand (1 items):
+              HierPath name:top.e start:20:6 end:20:11:
+                vpiParent: Operation
+                vpiName: top.e
+                vpiFullName: work@inner.top.e
+                vpiPathElem (2 items):
+                  RefObj name:top start:20:6 end:20:9:
+                    vpiParent: HierPath name:top.e
+                    vpiName: top
+                    vpiFullName: work@inner.top
+                    vpiActual: Module name:work@top
+                  RefObj name:e start:20:10 end:20:11:
+                    vpiParent: HierPath name:top.e
+                    vpiName: e
+                    vpiFullName: work@inner.e
+                    vpiActual: Net name:e
     Module name:work@top file:$Source01/15.5.1--named-event-trigger-blocking.sv start:23:1 end:34:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:23:8 end:23:11:
@@ -219,10 +243,24 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@top
             vpiStmt (2 items):
-              EventStmt start:29:2 end:29:7:
+              Operation start:29:2 end:29:7:
                 vpiParent: Begin
-              EventStmt start:31:2 end:31:8:
+                vpiOpType: imply (50)
+                vpiOperand (1 items):
+                  RefObj name:e start:29:5 end:29:6:
+                    vpiParent: Operation
+                    vpiName: e
+                    vpiFullName: work@top.e
+                    vpiActual: Net name:e
+              Operation start:31:2 end:31:8:
                 vpiParent: Begin
+                vpiOpType: nonblocking trigger event (98)
+                vpiOperand (1 items):
+                  RefObj name:e start:31:6 end:31:7:
+                    vpiParent: Operation
+                    vpiName: e
+                    vpiFullName: work@top.e
+                    vpiActual: Net name:e
   vpiTypespec (3 items):
     ModuleTypespec name:work@inner:
       vpiParent: Design name:unnamed
@@ -288,7 +326,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-15/15.5.1--named-event-trigger-blo
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    31      31       0         0
+                                    37      37       0         0
 ===================== END REDUCTION RESULT =====================
