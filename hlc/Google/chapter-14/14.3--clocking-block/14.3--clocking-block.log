@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Google/chapter-14 -timescale=1ns/1ns -d ast -d db -nobuiltin 14.3--clocking-block.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-14/14.3--clocking-block
@@ -53,10 +53,10 @@ n<$Source01/14.3--clocking-block.sv> u<47> t<Top_level_rule> c<1> l<15:1> el<22:
                     n<> u<35> t<DefaultSkew_InputOutput> p<36> c<31> l<18:10> el<18:33>
                       n<> u<31> t<Clocking_skew> p<35> c<30> s<34> l<18:16> el<18:21>
                         n<> u<30> t<Delay_control> p<31> c<29> l<18:16> el<18:21>
-                          n<#10> u<29> t<POUND_DELAY> p<30> l<18:16> el<18:21>
+                          n<#10ns> u<29> t<POUND_DELAY> p<30> l<18:16> el<18:21>
                       n<> u<34> t<Clocking_skew> p<35> c<33> l<18:29> el<18:33>
                         n<> u<33> t<Delay_control> p<34> c<32> l<18:29> el<18:33>
-                          n<#5> u<32> t<POUND_DELAY> p<33> l<18:29> el<18:33>
+                          n<#5ns> u<32> t<POUND_DELAY> p<33> l<18:29> el<18:33>
                   n<> u<37> t<ENDCLOCKING> p<38> l<19:1> el<19:12>
         n<> u<43> t<ENDMODULE> p<44> l<21:1> el<21:10>
 AST_DEBUG_END
@@ -128,8 +128,8 @@ Design name:unnamed:
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiSize: 32
-              vpiDecompile: "10"
-              vpiValue: 10
+              vpiDecompile: "10ns"
+              vpiValue: 0
           vpiOutputSkew DelayControl start:18:29 end:18:33:
             vpiParent: ClockingBlock name:ck1
             vpiDelay Constant start:18:30 end:18:33:
@@ -140,8 +140,8 @@ Design name:unnamed:
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiSize: 32
-              vpiDecompile: "5"
-              vpiValue: 5
+              vpiDecompile: "5ns"
+              vpiValue: 0
           vpiClockingEvent EventControl start:17:14 end:17:28:
             vpiParent: ClockingBlock name:ck1
             vpiCondition Operation:

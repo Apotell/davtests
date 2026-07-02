@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db ldelay4.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/ldelay4
@@ -54,12 +54,12 @@ n<$Source01/ldelay4.v> u<454> t<Top_level_rule> c<1> l<24:1> el<85:1>
         n<> u<57> t<Non_port_module_item> p<364> c<56> s<73> l<28:4> el<28:25>
           n<> u<56> t<Module_or_generate_item> p<57> c<55> l<28:4> el<28:25>
             n<> u<55> t<Udp_instantiation> p<56> c<36> l<28:4> el<28:25>
-              n<drec> u<36> t<SIMPLE_IDENTIFIER> p<55> s<40> l<28:4> el<28:8>
-              n<> u<40> t<Delay2> p<55> c<39> s<54> l<28:9> el<28:15>
-                n<#1> u<39> t<POUND_DELAY> p<40> c<38> l<28:9> el<28:15>
-                  n<> u<38> t<Name_of_instance> p<39> c<37> l<28:12> el<28:15>
-                    n<rec> u<37> t<SIMPLE_IDENTIFIER> p<38> l<28:12> el<28:15>
-              n<> u<54> t<Udp_instance> p<55> c<45> l<28:15> el<28:24>
+              n<drec> u<36> t<SIMPLE_IDENTIFIER> p<55> s<38> l<28:4> el<28:8>
+              n<> u<38> t<Delay2> p<55> c<37> s<54> l<28:9> el<28:11>
+                n<#1> u<37> t<POUND_DELAY> p<38> l<28:9> el<28:11>
+              n<> u<54> t<Udp_instance> p<55> c<40> l<28:12> el<28:24>
+                n<> u<40> t<Name_of_instance> p<54> c<39> s<45> l<28:12> el<28:15>
+                  n<rec> u<39> t<SIMPLE_IDENTIFIER> p<40> l<28:12> el<28:15>
                 n<> u<45> t<Net_lvalue> p<54> c<42> s<49> l<28:16> el<28:17>
                   n<> u<42> t<Ps_or_hierarchical_identifier> p<45> c<41> s<44> l<28:16> el<28:17>
                     n<q> u<41> t<SIMPLE_IDENTIFIER> p<42> l<28:16> el<28:17>
@@ -998,7 +998,41 @@ Design name:unnamed:
                       vpiSize: 48
                       vpiDecompile: "\"PASSED\""
                       vpiValue: PASSED
-      vpiPrimitive (1 items):
+      vpiPrimitive (2 items):
+        Udp name:rec file:$Source01/ldelay4.v start:28:12 end:28:15:
+          vpiParent: Module name:work@test
+          vpiName: rec
+          vpiFullName: work@test.rec
+          vpiDefName Identifier name:work@drec start:28:4 end:28:8:
+            vpiParent: Udp name:rec
+            vpiName: work@drec
+          vpiPrimTerm (3 items):
+            PrimTerm start:28:16 end:28:17:
+              vpiParent: Udp name:rec
+              vpiDirection: output (2)
+              vpiExpr RefObj name:q start:28:16 end:28:17:
+                vpiParent: PrimTerm
+                vpiName: q
+                vpiFullName: work@test.rec.q
+                vpiActual: Net name:q
+            PrimTerm start:28:19 end:28:20:
+              vpiParent: Udp name:rec
+              vpiDirection: input (1)
+              vpiTermIndex: 1
+              vpiExpr RefObj name:a start:28:19 end:28:20:
+                vpiParent: PrimTerm
+                vpiName: a
+                vpiFullName: work@test.rec.a
+                vpiActual: Net name:a
+            PrimTerm start:28:22 end:28:23:
+              vpiParent: Udp name:rec
+              vpiDirection: input (1)
+              vpiTermIndex: 2
+              vpiExpr RefObj name:b start:28:22 end:28:23:
+                vpiParent: PrimTerm
+                vpiName: b
+                vpiFullName: work@test.rec.b
+                vpiActual: Net name:b
         Udp name:det file:$Source01/ldelay4.v start:29:9 end:29:12:
           vpiParent: Module name:work@test
           vpiName: det
@@ -1061,25 +1095,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/ldelay4/mounts.json
 
 
-{'result': {'coverage': 97.79,
+{'result': {'coverage': 99.63,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/ldelay4.v': {'post_len': 12,
+            'files': {'$Output/lib/work/ldelay4.v': {'post_len': 2,
                                                      'pre_len': 543}},
-            'post_len': 12,
+            'post_len': 2,
             'pre_len': 543,
             'test_name': 'Icarus/ivltests/ldelay4'}}
 
 +----------------------------+----------+-----------+
 | INPUT                      |   PRELEN |   POSTLEN |
 +============================+==========+===========+
-| $Output/lib/work/ldelay4.v |      543 |        12 |
+| $Output/lib/work/ldelay4.v |      543 |         2 |
 +============================+==========+===========+
-|                            |      543 |        12 |
+|                            |      543 |         2 |
 +----------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.79
+[COVERAGE] : 99.63
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1090,7 +1124,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/ldelay4/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             145     145       0         0
+Others                             153     153       0         0
 ----------------------------------------------------------------
-                                   145     145       0         0
+                                   153     153       0         0
 ===================== END REDUCTION RESULT =====================
