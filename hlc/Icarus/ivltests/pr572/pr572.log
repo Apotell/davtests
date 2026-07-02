@@ -229,8 +229,15 @@ Design name:unnamed:
           vpiParent: Module name:work@top
           vpiStmt DelayControl start:22:12 end:22:34:
             vpiParent: Initial
-            vpiStmt EventStmt start:22:16 end:22:34:
+            vpiStmt Operation start:22:16 end:22:34:
               vpiParent: DelayControl
+              vpiOpType: imply (50)
+              vpiOperand (1 items):
+                RefObj name:toplevel_event start:22:19 end:22:33:
+                  vpiParent: Operation
+                  vpiName: toplevel_event
+                  vpiFullName: work@top.toplevel_event
+                  vpiActual: Net name:toplevel_event
             vpiDelay Constant start:22:13 end:22:15:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -280,8 +287,15 @@ Design name:unnamed:
           vpiParent: Module name:work@submodule
           vpiStmt DelayControl start:28:12 end:28:31:
             vpiParent: Initial
-            vpiStmt EventStmt start:28:16 end:28:31:
+            vpiStmt Operation start:28:16 end:28:31:
               vpiParent: DelayControl
+              vpiOpType: imply (50)
+              vpiOperand (1 items):
+                RefObj name:local_event start:28:19 end:28:30:
+                  vpiParent: Operation
+                  vpiName: local_event
+                  vpiFullName: work@submodule.local_event
+                  vpiActual: Net name:local_event
             vpiDelay Constant start:28:13 end:28:15:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -300,6 +314,21 @@ Design name:unnamed:
             vpiStmt (2 items):
               EventControl start:33:2 end:34:56:
                 vpiParent: Begin
+                vpiCondition HierPath name:top.toplevel_event start:33:3 end:33:21:
+                  vpiParent: EventControl
+                  vpiName: top.toplevel_event
+                  vpiFullName: work@submodule.top.toplevel_event
+                  vpiPathElem (2 items):
+                    RefObj name:top start:33:3 end:33:6:
+                      vpiParent: HierPath name:top.toplevel_event
+                      vpiName: top
+                      vpiFullName: work@submodule.top
+                      vpiActual: Module name:work@top
+                    RefObj name:toplevel_event start:33:7 end:33:21:
+                      vpiParent: HierPath name:top.toplevel_event
+                      vpiName: toplevel_event
+                      vpiFullName: work@submodule.toplevel_event
+                      vpiActual: Net name:toplevel_event
                 vpiStmt SysFuncCall name:$display start:34:4 end:34:55:
                   vpiParent: EventControl
                   vpiName Identifier name:$display start:34:4 end:34:12:
@@ -323,6 +352,11 @@ Design name:unnamed:
                         vpiName: "$time"
               EventControl start:36:2 end:37:53:
                 vpiParent: Begin
+                vpiCondition RefObj name:local_event start:36:3 end:36:14:
+                  vpiParent: EventControl
+                  vpiName: local_event
+                  vpiFullName: work@submodule.local_event
+                  vpiActual: Net name:local_event
                 vpiStmt SysFuncCall name:$display start:37:4 end:37:52:
                   vpiParent: EventControl
                   vpiName Identifier name:$display start:37:4 end:37:12:
@@ -382,25 +416,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/pr572/mounts.json
 
 
-{'result': {'coverage': 90.58,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/pr572.v': {'post_len': 29,
+            'files': {'$Output/lib/work/pr572.v': {'post_len': 0,
                                                    'pre_len': 308}},
-            'post_len': 29,
+            'post_len': 0,
             'pre_len': 308,
             'test_name': 'Icarus/ivltests/pr572'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/pr572.v |      308 |        29 |
+| $Output/lib/work/pr572.v |      308 |         0 |
 +==========================+==========+===========+
-|                          |      308 |        29 |
+|                          |      308 |         0 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 90.58
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -411,7 +445,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr572/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    51      51       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================
