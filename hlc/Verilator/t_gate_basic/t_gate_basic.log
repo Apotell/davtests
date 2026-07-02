@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_gate_basic.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_gate_basic
@@ -246,12 +246,12 @@ n<$Source01/t_gate_basic.v> u<1191> t<Top_level_rule> c<1> l<6:1> el<91:1>
           n<> u<260> t<Non_port_module_item> p<261> c<259> l<23:4> el<23:41>
             n<> u<259> t<Module_or_generate_item> p<260> c<258> l<23:4> el<23:41>
               n<> u<258> t<Gate_instantiation> p<259> c<227> l<23:4> el<23:41>
-                n<> u<227> t<AND> p<258> s<231> l<23:4> el<23:7>
-                n<> u<231> t<Delay2> p<258> c<230> s<257> l<23:10> el<23:22>
-                  n<#1> u<230> t<POUND_DELAY> p<231> c<229> l<23:10> el<23:22>
-                    n<> u<229> t<Name_of_instance> p<230> c<228> l<23:19> el<23:22>
-                      n<AN0> u<228> t<SIMPLE_IDENTIFIER> p<229> l<23:19> el<23:22>
-                n<> u<257> t<N_input_gate_instance> p<258> c<236> l<23:23> el<23:40>
+                n<> u<227> t<AND> p<258> s<229> l<23:4> el<23:7>
+                n<> u<229> t<Delay2> p<258> c<228> s<257> l<23:10> el<23:12>
+                  n<#1> u<228> t<POUND_DELAY> p<229> l<23:10> el<23:12>
+                n<> u<257> t<N_input_gate_instance> p<258> c<231> l<23:19> el<23:40>
+                  n<> u<231> t<Name_of_instance> p<257> c<230> s<236> l<23:19> el<23:22>
+                    n<AN0> u<230> t<SIMPLE_IDENTIFIER> p<231> l<23:19> el<23:22>
                   n<> u<236> t<Net_lvalue> p<257> c<233> s<246> l<23:24> el<23:27>
                     n<> u<233> t<Ps_or_hierarchical_identifier> p<236> c<232> s<235> l<23:24> el<23:27>
                       n<an0> u<232> t<SIMPLE_IDENTIFIER> p<233> l<23:24> el<23:27>
@@ -2424,19 +2424,20 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-        Gate:
+        Gate name:AN0 start:23:19 end:23:22:
           vpiParent: Module name:work@t
-          vpiFullName: work@t.work@and
+          vpiName: AN0
+          vpiFullName: work@t.AN0
           vpiDefName Identifier name:work@and start:23:4 end:23:7:
-            vpiParent: Gate
+            vpiParent: Gate name:AN0
             vpiName: work@and
           vpiPrimType: and (1)
           vpiDelay (1 items):
-            Constant start:23:11 end:23:22:
-              vpiParent: Gate
+            Constant start:23:11 end:23:12:
+              vpiParent: Gate name:AN0
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: work@t.work@and
+                vpiFullName: work@t.AN0
                 vpiActual: IntTypespec
               vpiConstType: int (7)
               vpiSize: 32
@@ -2444,53 +2445,53 @@ Design name:unnamed:
               vpiValue: 1
           vpiPrimTerm (3 items):
             PrimTerm start:23:24 end:23:27:
-              vpiParent: Gate
+              vpiParent: Gate name:AN0
               vpiDirection: output (2)
               vpiExpr RefObj name:an0 start:23:24 end:23:27:
                 vpiParent: PrimTerm
                 vpiName: an0
-                vpiFullName: work@t.work@and.an0
+                vpiFullName: work@t.AN0.an0
             PrimTerm start:23:29 end:23:33:
-              vpiParent: Gate
+              vpiParent: Gate name:AN0
               vpiDirection: input (1)
               vpiTermIndex: 1
               vpiExpr BitSelect name:a[0] start:23:29 end:23:33:
                 vpiParent: PrimTerm
                 vpiName: a[0]
-                vpiFullName: work@t.work@and.a[0]
+                vpiFullName: work@t.AN0.a[0]
                 vpiPrefix RefObj name:a start:23:29 end:23:30:
                   vpiParent: BitSelect name:a[0]
                   vpiName: a
-                  vpiFullName: work@t.work@and.a
+                  vpiFullName: work@t.AN0.a
                   vpiActual: Net name:a
                 vpiIndex Constant start:23:31 end:23:32:
                   vpiParent: BitSelect name:a[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t.work@and.a[0]
+                    vpiFullName: work@t.AN0.a[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
             PrimTerm start:23:35 end:23:39:
-              vpiParent: Gate
+              vpiParent: Gate name:AN0
               vpiDirection: input (1)
               vpiTermIndex: 2
               vpiExpr BitSelect name:b[0] start:23:35 end:23:39:
                 vpiParent: PrimTerm
                 vpiName: b[0]
-                vpiFullName: work@t.work@and.b[0]
+                vpiFullName: work@t.AN0.b[0]
                 vpiPrefix RefObj name:b start:23:35 end:23:36:
                   vpiParent: BitSelect name:b[0]
                   vpiName: b
-                  vpiFullName: work@t.work@and.b
+                  vpiFullName: work@t.AN0.b
                   vpiActual: Net name:b
                 vpiIndex Constant start:23:37 end:23:38:
                   vpiParent: BitSelect name:b[0]
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t.work@and.b[0]
+                    vpiFullName: work@t.AN0.b[0]
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
