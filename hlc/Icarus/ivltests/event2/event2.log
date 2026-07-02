@@ -133,8 +133,15 @@ Design name:unnamed:
             vpiParent: Task name:b
             vpiName: b
           vpiFullName: work@a.b
-          vpiStmt EventStmt start:29:7 end:29:13:
+          vpiStmt Operation start:29:7 end:29:13:
             vpiParent: Task name:b
+            vpiOpType: imply (50)
+            vpiOperand (1 items):
+              RefObj name:FOO start:29:9 end:29:12:
+                vpiParent: Operation
+                vpiName: FOO
+                vpiFullName: work@a.b.FOO
+                vpiActual: Net name:FOO
       vpiNet (1 items):
         Net name:FOO start:26:10 end:26:13:
           vpiParent: Module name:work@a
@@ -149,6 +156,11 @@ Design name:unnamed:
           vpiParent: Module name:work@a
           vpiStmt EventControl start:32:12 end:32:36:
             vpiParent: Initial
+            vpiCondition RefObj name:FOO start:32:13 end:32:16:
+              vpiParent: EventControl
+              vpiName: FOO
+              vpiFullName: work@a.FOO
+              vpiActual: Net name:FOO
             vpiStmt SysFuncCall name:$display start:32:17 end:32:35:
               vpiParent: EventControl
               vpiName Identifier name:$display start:32:17 end:32:25:
@@ -244,7 +256,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/event2/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

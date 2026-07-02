@@ -606,11 +606,29 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiStmt Assignment start:40:6 end:40:28:
                         vpiParent: DelayControl
-                        vpiLhs RefObj name:a start:40:8 end:40:9:
+                        vpiLhs Operation start:40:6 end:40:19:
                           vpiParent: Assignment
-                          vpiName: a
-                          vpiFullName: work@main.a
-                          vpiActual: Net name:a
+                          vpiOpType: concatenation (33)
+                          vpiOperand (2 items):
+                            RefObj name:a start:40:8 end:40:9:
+                              vpiParent: Operation
+                              vpiName: a
+                              vpiFullName: work@main.a
+                              vpiActual: Net name:a
+                            BitSelect name:vec[i] start:40:11 end:40:17:
+                              vpiParent: Operation
+                              vpiName: vec[i]
+                              vpiFullName: work@main.vec[i]
+                              vpiPrefix RefObj name:vec start:40:11 end:40:14:
+                                vpiParent: BitSelect name:vec[i]
+                                vpiName: vec
+                                vpiFullName: work@main.vec
+                                vpiActual: Net name:vec
+                              vpiIndex RefObj name:i start:40:15 end:40:16:
+                                vpiParent: BitSelect name:vec[i]
+                                vpiName: i
+                                vpiFullName: work@main.i
+                                vpiActual: Net name:i
                         vpiRhs Constant start:40:23 end:40:28:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -823,7 +841,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/lh_varindx5/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                             108     108       0         0
 ----------------------------------------------------------------
-                                   104     104       0         0
+                                   108     108       0         0
 ===================== END REDUCTION RESULT =====================
