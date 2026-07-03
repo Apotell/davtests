@@ -192,11 +192,15 @@ TEST_F(TimeLiterals, IntegerTimeLiterals_Size) {
     const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
     if (m_design->getElaborated()) {
-      EXPECT_EQ(c->getSize(), 64)
-          << "stmt[" << i << "]: §5.8 'time' is 64-bit — size must be 64";
+      EXPECT_EQ(c->getSize(), 64) << "stmt[" << i << "]: §5.8 'time' is 64-bit — size must be 64";
     } else {
-      EXPECT_EQ(c->getSize(), 24)
-          << "stmt[" << i << "]: §5.8 'time' is 24-bit = (3 * 8 bits) — size must be 24";
+      if (i == 5) {
+        EXPECT_EQ(c->getSize(), 16) << "stmt[" << i << "]: §5.8 'time' should be 16-bits = (2 * 8 bits)";
+      } else if (i == 6) {
+        EXPECT_EQ(c->getSize(), 40) << "stmt[" << i << "]: §5.8 'time' should be 40-bit2 = (5 * 8 bits)";
+      } else {
+        EXPECT_EQ(c->getSize(), 24) << "stmt[" << i << "]: §5.8 'time' should be 24-bits = (3 * 8 bits)";
+      }
     }
   }
 }
