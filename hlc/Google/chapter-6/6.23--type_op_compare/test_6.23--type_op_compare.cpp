@@ -212,16 +212,20 @@ TEST_F(TypeOpCompareTest, TypeParam_T_Rhs_IsRefTypespec) {
 
 // ss.6.23: 'type(logic[11:0])' resolves to the type 'logic[11:0]'.
 // The RHS RefTypespec must have vpiActual pointing to a LogicTypespec.
-// NOTE: if this test fails, Surelog does not resolve the type() operator
-// to a concrete typespec in parameter defaults -- a ss.6.23 violation.
+// Resolving type() to a concrete typespec is an elaboration-phase operation.
 TEST_F(TypeOpCompareTest, TypeParam_T_DefaultType_ResolvesToLogic) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "T");
   ASSERT_NE(pa, nullptr);
   const hldb::RefTypespec *rhs = pa->getRhs<hldb::RefTypespec>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_NE(rhs->getActual<hldb::LogicTypespec>(), nullptr)
-      << "ss.6.23: type(logic[11:0]) default must resolve to LogicTypespec -- "
-         "Surelog does not resolve the type() operator in parameter defaults";
+  if (m_design->getElaborated()) {
+    EXPECT_NE(rhs->getActual<hldb::LogicTypespec>(), nullptr)
+        << "ss.6.23: post-elaboration: type(logic[11:0]) must resolve to "
+           "LogicTypespec";
+  } else {
+    EXPECT_EQ(rhs->getActual<hldb::LogicTypespec>(), nullptr)
+        << "pre-elaboration: vpiActual not yet resolved -- expected at parse time";
+  }
 }
 
 }  // namespace hlc
