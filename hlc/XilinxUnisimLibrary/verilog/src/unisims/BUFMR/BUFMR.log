@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../../../tests/XilinxUnisimLibrary/verilog/src -writepp -nobuiltin -timescale=1ns/1ns glbl.v -d ast -d db unisims/BUFMR.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/BUFMR
@@ -35,12 +35,12 @@ n<$Source01/glbl.v> u<868> t<Top_level_rule> c<1> l<19:1> el<100:1>
     n<> u<26> t<Description> p<867> c<25> s<866> l<19:1> el<19:24>
       n<> u<25> t<Top_directives> p<26> c<24> l<19:1> el<19:24>
         n<> u<24> t<Timescale_directive> p<25> c<20> l<19:1> el<19:24>
-          n<> u<20> t<Time_literal> p<24> c<18> s<23> l<19:13> el<19:17>
+          n<1ps> u<20> t<Time_literal> p<24> c<18> s<23> l<19:13> el<19:17>
             n<1> u<18> t<INTEGRAL_NUMBER> p<20> s<19> l<19:13> el<19:14>
-            n<ps> u<19> t<Time_unit> p<20> l<19:15> el<19:17>
-          n<> u<23> t<Time_literal> p<24> c<21> l<19:20> el<19:24>
+            n<ps> u<19> t<SIMPLE_IDENTIFIER> p<20> l<19:15> el<19:17>
+          n<1ps> u<23> t<Time_literal> p<24> c<21> l<19:20> el<19:24>
             n<1> u<21> t<INTEGRAL_NUMBER> p<23> s<22> l<19:20> el<19:21>
-            n<ps> u<22> t<Time_unit> p<23> l<19:22> el<19:24>
+            n<ps> u<22> t<SIMPLE_IDENTIFIER> p<23> l<19:22> el<19:24>
     n<> u<866> t<Description> p<867> c<865> l<21:1> el<98:10>
       n<> u<865> t<Module_declaration> p<866> c<31> l<21:1> el<98:10>
         n<> u<31> t<Module_nonansi_header> p<865> c<27> s<48> l<21:1> el<21:16>
@@ -884,56 +884,56 @@ n<$Source01/glbl.v> u<868> t<Top_level_rule> c<1> l<19:1> el<100:1>
 AST_DEBUG_END
 [INF:PA0201] Parsing source file "$Source01/unisims/BUFMR.v".
 AST_DEBUG_BEGIN
-Count: 153
+Count: 154
 LIB: work
 FILE: f<14>:$Source01/unisims/BUFMR.v
-n<$Source01/unisims/BUFMR.v> u<152> t<Top_level_rule> c<1> l<31:1> el<71:1>
-  n<> u<1> t<Null_rule> p<152> s<2> l<31:1> el<31:1>
-  n<///////////////////////////////////////////////////////> u<2> t<LINE_COMMENT> p<152> s<3> l<1:1> el<1:56>
-  n<//     Copyright (c) 2009 Xilinx Inc.> u<3> t<LINE_COMMENT> p<152> s<4> l<2:1> el<2:38>
-  n<// > u<4> t<LINE_COMMENT> p<152> s<5> l<3:1> el<3:4>
-  n<//    Licensed under the Apache License, Version 2.0 (the "License");> u<5> t<LINE_COMMENT> p<152> s<6> l<4:1> el<4:70>
-  n<//    you may not use this file except in compliance with the License.> u<6> t<LINE_COMMENT> p<152> s<7> l<5:1> el<5:71>
-  n<//    You may obtain a copy of the License at> u<7> t<LINE_COMMENT> p<152> s<8> l<6:1> el<6:46>
-  n<// > u<8> t<LINE_COMMENT> p<152> s<9> l<7:1> el<7:4>
-  n<//        http://www.apache.org/licenses/LICENSE-2.0> u<9> t<LINE_COMMENT> p<152> s<10> l<8:1> el<8:53>
-  n<// > u<10> t<LINE_COMMENT> p<152> s<11> l<9:1> el<9:4>
-  n<//    Unless required by applicable law or agreed to in writing, software> u<11> t<LINE_COMMENT> p<152> s<12> l<10:1> el<10:74>
-  n<//    distributed under the License is distributed on an "AS IS" BASIS,> u<12> t<LINE_COMMENT> p<152> s<13> l<11:1> el<11:72>
-  n<//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.> u<13> t<LINE_COMMENT> p<152> s<14> l<12:1> el<12:79>
-  n<//    See the License for the specific language governing permissions and> u<14> t<LINE_COMMENT> p<152> s<15> l<13:1> el<13:74>
-  n<//    limitations under the License.> u<15> t<LINE_COMMENT> p<152> s<16> l<14:1> el<14:37>
-  n<///////////////////////////////////////////////////////> u<16> t<LINE_COMMENT> p<152> s<17> l<15:1> el<15:56>
-  n<//> u<17> t<LINE_COMMENT> p<152> s<18> l<16:1> el<16:3>
-  n<//   ____   ___> u<18> t<LINE_COMMENT> p<152> s<19> l<17:1> el<17:16>
-  n<//  /   /\/   / > u<19> t<LINE_COMMENT> p<152> s<20> l<18:1> el<18:17>
-  n<// /___/  \  /     Vendor      : Xilinx > u<20> t<LINE_COMMENT> p<152> s<21> l<19:1> el<19:41>
-  n<// \  \    \/      Version     :  12.1> u<21> t<LINE_COMMENT> p<152> s<22> l<20:1> el<20:39>
-  n<//  \  \           Description : > u<22> t<LINE_COMMENT> p<152> s<23> l<21:1> el<21:34>
-  n<//  /  /                      > u<23> t<LINE_COMMENT> p<152> s<24> l<22:1> el<22:31>
-  n<// /__/   /\       Filename    : BUFMR.v> u<24> t<LINE_COMMENT> p<152> s<25> l<23:1> el<23:41>
-  n<// \  \  /  \ > u<25> t<LINE_COMMENT> p<152> s<26> l<24:1> el<24:15>
-  n<//  \__\/\__ \                    > u<26> t<LINE_COMMENT> p<152> s<27> l<25:1> el<25:35>
-  n<//                                 > u<27> t<LINE_COMMENT> p<152> s<28> l<26:1> el<26:36>
-  n<//  Revision:		1.0> u<28> t<LINE_COMMENT> p<152> s<29> l<27:1> el<27:19>
-  n<//  05/24/12 - 661573 - Remove 100 ps delay> u<29> t<LINE_COMMENT> p<152> s<30> l<28:1> el<28:44>
-  n<///////////////////////////////////////////////////////> u<30> t<LINE_COMMENT> p<152> s<151> l<29:1> el<29:56>
-  n<> u<151> t<Source_text> p<152> c<39> l<31:1> el<70:15>
-    n<> u<39> t<Description> p<151> c<38> s<42> l<31:1> el<31:23>
+n<$Source01/unisims/BUFMR.v> u<153> t<Top_level_rule> c<1> l<31:1> el<71:1>
+  n<> u<1> t<Null_rule> p<153> s<2> l<31:1> el<31:1>
+  n<///////////////////////////////////////////////////////> u<2> t<LINE_COMMENT> p<153> s<3> l<1:1> el<1:56>
+  n<//     Copyright (c) 2009 Xilinx Inc.> u<3> t<LINE_COMMENT> p<153> s<4> l<2:1> el<2:38>
+  n<// > u<4> t<LINE_COMMENT> p<153> s<5> l<3:1> el<3:4>
+  n<//    Licensed under the Apache License, Version 2.0 (the "License");> u<5> t<LINE_COMMENT> p<153> s<6> l<4:1> el<4:70>
+  n<//    you may not use this file except in compliance with the License.> u<6> t<LINE_COMMENT> p<153> s<7> l<5:1> el<5:71>
+  n<//    You may obtain a copy of the License at> u<7> t<LINE_COMMENT> p<153> s<8> l<6:1> el<6:46>
+  n<// > u<8> t<LINE_COMMENT> p<153> s<9> l<7:1> el<7:4>
+  n<//        http://www.apache.org/licenses/LICENSE-2.0> u<9> t<LINE_COMMENT> p<153> s<10> l<8:1> el<8:53>
+  n<// > u<10> t<LINE_COMMENT> p<153> s<11> l<9:1> el<9:4>
+  n<//    Unless required by applicable law or agreed to in writing, software> u<11> t<LINE_COMMENT> p<153> s<12> l<10:1> el<10:74>
+  n<//    distributed under the License is distributed on an "AS IS" BASIS,> u<12> t<LINE_COMMENT> p<153> s<13> l<11:1> el<11:72>
+  n<//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.> u<13> t<LINE_COMMENT> p<153> s<14> l<12:1> el<12:79>
+  n<//    See the License for the specific language governing permissions and> u<14> t<LINE_COMMENT> p<153> s<15> l<13:1> el<13:74>
+  n<//    limitations under the License.> u<15> t<LINE_COMMENT> p<153> s<16> l<14:1> el<14:37>
+  n<///////////////////////////////////////////////////////> u<16> t<LINE_COMMENT> p<153> s<17> l<15:1> el<15:56>
+  n<//> u<17> t<LINE_COMMENT> p<153> s<18> l<16:1> el<16:3>
+  n<//   ____   ___> u<18> t<LINE_COMMENT> p<153> s<19> l<17:1> el<17:16>
+  n<//  /   /\/   / > u<19> t<LINE_COMMENT> p<153> s<20> l<18:1> el<18:17>
+  n<// /___/  \  /     Vendor      : Xilinx > u<20> t<LINE_COMMENT> p<153> s<21> l<19:1> el<19:41>
+  n<// \  \    \/      Version     :  12.1> u<21> t<LINE_COMMENT> p<153> s<22> l<20:1> el<20:39>
+  n<//  \  \           Description : > u<22> t<LINE_COMMENT> p<153> s<23> l<21:1> el<21:34>
+  n<//  /  /                      > u<23> t<LINE_COMMENT> p<153> s<24> l<22:1> el<22:31>
+  n<// /__/   /\       Filename    : BUFMR.v> u<24> t<LINE_COMMENT> p<153> s<25> l<23:1> el<23:41>
+  n<// \  \  /  \ > u<25> t<LINE_COMMENT> p<153> s<26> l<24:1> el<24:15>
+  n<//  \__\/\__ \                    > u<26> t<LINE_COMMENT> p<153> s<27> l<25:1> el<25:35>
+  n<//                                 > u<27> t<LINE_COMMENT> p<153> s<28> l<26:1> el<26:36>
+  n<//  Revision:		1.0> u<28> t<LINE_COMMENT> p<153> s<29> l<27:1> el<27:19>
+  n<//  05/24/12 - 661573 - Remove 100 ps delay> u<29> t<LINE_COMMENT> p<153> s<30> l<28:1> el<28:44>
+  n<///////////////////////////////////////////////////////> u<30> t<LINE_COMMENT> p<153> s<152> l<29:1> el<29:56>
+  n<> u<152> t<Source_text> p<153> c<39> l<31:1> el<70:15>
+    n<> u<39> t<Description> p<152> c<38> s<42> l<31:1> el<31:23>
       n<> u<38> t<Top_directives> p<39> c<37> l<31:1> el<31:23>
         n<> u<37> t<Timescale_directive> p<38> c<33> l<31:1> el<31:23>
-          n<> u<33> t<Time_literal> p<37> c<31> s<36> l<31:12> el<31:16>
+          n<1ps> u<33> t<Time_literal> p<37> c<31> s<36> l<31:12> el<31:16>
             n<1> u<31> t<INTEGRAL_NUMBER> p<33> s<32> l<31:12> el<31:13>
-            n<ps> u<32> t<Time_unit> p<33> l<31:14> el<31:16>
-          n<> u<36> t<Time_literal> p<37> c<34> l<31:19> el<31:23>
+            n<ps> u<32> t<SIMPLE_IDENTIFIER> p<33> l<31:14> el<31:16>
+          n<1ps> u<36> t<Time_literal> p<37> c<34> l<31:19> el<31:23>
             n<1> u<34> t<INTEGRAL_NUMBER> p<36> s<35> l<31:19> el<31:20>
-            n<ps> u<35> t<Time_unit> p<36> l<31:21> el<31:23>
-    n<> u<42> t<Description> p<151> c<41> s<147> l<33:1> el<33:12>
+            n<ps> u<35> t<SIMPLE_IDENTIFIER> p<36> l<31:21> el<31:23>
+    n<> u<42> t<Description> p<152> c<41> s<148> l<33:1> el<33:12>
       n<> u<41> t<Top_directives> p<42> c<40> l<33:1> el<33:12>
         n<> u<40> t<Celldefine_directive> p<41> l<33:1> el<33:12>
-    n<> u<147> t<Description> p<151> c<146> s<150> l<35:1> el<68:10>
-      n<> u<146> t<Module_declaration> p<147> c<59> l<35:1> el<68:10>
-        n<> u<59> t<Module_nonansi_header> p<146> c<43> s<66> l<35:1> el<39:3>
+    n<> u<148> t<Description> p<152> c<147> s<151> l<35:1> el<68:10>
+      n<> u<147> t<Module_declaration> p<148> c<59> l<35:1> el<68:10>
+        n<> u<59> t<Module_nonansi_header> p<147> c<43> s<66> l<35:1> el<39:3>
           n<module> u<43> t<Module_keyword> p<59> s<44> l<35:1> el<35:7>
           n<BUFMR> u<44> t<SIMPLE_IDENTIFIER> p<59> s<45> l<35:8> el<35:13>
           n<> u<45> t<Package_import_declaration_list> p<59> s<58> l<35:14> el<35:14>
@@ -950,21 +950,21 @@ n<$Source01/unisims/BUFMR.v> u<152> t<Top_level_rule> c<1> l<31:1> el<71:1>
                   n<I> u<52> t<SIMPLE_IDENTIFIER> p<55> s<54> l<38:3> el<38:4>
                   n<> u<54> t<Constant_select> p<55> c<53> l<39:1> el<39:1>
                     n<> u<53> t<Constant_bit_select> p<54> l<39:1> el<39:1>
-        n<> u<66> t<Module_item> p<146> c<65> s<73> l<48:3> el<48:12>
+        n<> u<66> t<Module_item> p<147> c<65> s<73> l<48:3> el<48:12>
           n<> u<65> t<Port_declaration> p<66> c<64> l<48:3> el<48:11>
             n<> u<64> t<Output_declaration> p<65> c<61> l<48:3> el<48:11>
               n<> u<61> t<Net_port_type> p<64> c<60> s<63> l<48:10> el<48:10>
                 n<> u<60> t<Data_type_or_implicit> p<61> l<48:10> el<48:10>
               n<> u<63> t<Port_identifier_list> p<64> c<62> l<48:10> el<48:11>
                 n<O> u<62> t<SIMPLE_IDENTIFIER> p<63> l<48:10> el<48:11>
-        n<> u<73> t<Module_item> p<146> c<72> s<90> l<50:3> el<50:11>
+        n<> u<73> t<Module_item> p<147> c<72> s<90> l<50:3> el<50:11>
           n<> u<72> t<Port_declaration> p<73> c<71> l<50:3> el<50:10>
             n<> u<71> t<Input_declaration> p<72> c<68> l<50:3> el<50:10>
               n<> u<68> t<Net_port_type> p<71> c<67> s<70> l<50:9> el<50:9>
                 n<> u<67> t<Data_type_or_implicit> p<68> l<50:9> el<50:9>
               n<> u<70> t<Port_identifier_list> p<71> c<69> l<50:9> el<50:10>
                 n<I> u<69> t<SIMPLE_IDENTIFIER> p<70> l<50:9> el<50:10>
-        n<> u<90> t<Module_item> p<146> c<89> s<144> l<53:3> el<53:17>
+        n<> u<90> t<Module_item> p<147> c<89> s<145> l<53:3> el<53:17>
           n<> u<89> t<Non_port_module_item> p<90> c<88> l<53:3> el<53:17>
             n<> u<88> t<Module_or_generate_item> p<89> c<87> l<53:3> el<53:17>
               n<> u<87> t<Gate_instantiation> p<88> c<74> l<53:3> el<53:17>
@@ -981,64 +981,65 @@ n<$Source01/unisims/BUFMR.v> u<152> t<Top_level_rule> c<1> l<31:1> el<71:1>
                     n<> u<84> t<Primary> p<85> c<83> l<53:14> el<53:15>
                       n<> u<83> t<Primary_literal> p<84> c<82> l<53:14> el<53:15>
                         n<I> u<82> t<SIMPLE_IDENTIFIER> p<83> l<53:14> el<53:15>
-        n<> u<144> t<Module_item> p<146> c<143> s<145> l<55:3> el<66:13>
-          n<> u<143> t<Non_port_module_item> p<144> c<142> l<55:3> el<66:13>
-            n<> u<142> t<Specify_block> p<143> c<130> l<55:3> el<66:13>
-              n<> u<130> t<Specify_item> p<142> c<129> s<140> l<57:3> el<57:30>
-                n<> u<129> t<Path_declaration> p<130> c<128> l<57:3> el<57:30>
-                  n<> u<128> t<Simple_path_declaration> p<129> c<95> l<57:3> el<57:29>
-                    n<> u<95> t<Parallel_path_description> p<128> c<92> s<127> l<57:3> el<57:12>
-                      n<> u<92> t<Specify_input_terminal_descriptor> p<95> c<91> s<94> l<57:5> el<57:6>
+        n<> u<145> t<Module_item> p<147> c<144> s<146> l<55:3> el<66:13>
+          n<> u<144> t<Non_port_module_item> p<145> c<143> l<55:3> el<66:13>
+            n<> u<143> t<Specify_block> p<144> c<131> l<55:3> el<66:13>
+              n<> u<131> t<Specify_item> p<143> c<130> s<141> l<57:3> el<57:30>
+                n<> u<130> t<Path_declaration> p<131> c<129> l<57:3> el<57:30>
+                  n<> u<129> t<Simple_path_declaration> p<130> c<93> l<57:3> el<57:29>
+                    n<> u<93> t<Path_input_list> p<129> c<92> s<96> l<57:5> el<57:6>
+                      n<> u<92> t<Specify_input_terminal_descriptor> p<93> c<91> l<57:5> el<57:6>
                         n<I> u<91> t<SIMPLE_IDENTIFIER> p<92> l<57:5> el<57:6>
-                      n<> u<94> t<Specify_output_terminal_descriptor> p<95> c<93> l<57:10> el<57:11>
-                        n<O> u<93> t<SIMPLE_IDENTIFIER> p<94> l<57:10> el<57:11>
-                    n<> u<127> t<Path_delay_value> p<128> c<126> l<57:15> el<57:29>
-                      n<> u<126> t<Path_delay_expression_list> p<127> c<110> l<57:16> el<57:28>
-                        n<> u<110> t<Trise_path_delay_expression> p<126> c<109> s<125> l<57:16> el<57:21>
-                          n<> u<109> t<Path_delay_expression> p<110> c<108> l<57:16> el<57:21>
-                            n<> u<108> t<Constant_mintypmax_expression> p<109> c<99> l<57:16> el<57:21>
-                              n<> u<99> t<Constant_expression> p<108> c<98> s<103> l<57:16> el<57:17>
-                                n<> u<98> t<Constant_primary> p<99> c<97> l<57:16> el<57:17>
-                                  n<> u<97> t<Primary_literal> p<98> c<96> l<57:16> el<57:17>
-                                    n<0> u<96> t<INTEGRAL_NUMBER> p<97> l<57:16> el<57:17>
-                              n<> u<103> t<Constant_expression> p<108> c<102> s<107> l<57:18> el<57:19>
-                                n<> u<102> t<Constant_primary> p<103> c<101> l<57:18> el<57:19>
-                                  n<> u<101> t<Primary_literal> p<102> c<100> l<57:18> el<57:19>
-                                    n<0> u<100> t<INTEGRAL_NUMBER> p<101> l<57:18> el<57:19>
-                              n<> u<107> t<Constant_expression> p<108> c<106> l<57:20> el<57:21>
-                                n<> u<106> t<Constant_primary> p<107> c<105> l<57:20> el<57:21>
-                                  n<> u<105> t<Primary_literal> p<106> c<104> l<57:20> el<57:21>
-                                    n<0> u<104> t<INTEGRAL_NUMBER> p<105> l<57:20> el<57:21>
-                        n<> u<125> t<Tfall_path_delay_expression> p<126> c<124> l<57:23> el<57:28>
-                          n<> u<124> t<Path_delay_expression> p<125> c<123> l<57:23> el<57:28>
-                            n<> u<123> t<Constant_mintypmax_expression> p<124> c<114> l<57:23> el<57:28>
-                              n<> u<114> t<Constant_expression> p<123> c<113> s<118> l<57:23> el<57:24>
-                                n<> u<113> t<Constant_primary> p<114> c<112> l<57:23> el<57:24>
-                                  n<> u<112> t<Primary_literal> p<113> c<111> l<57:23> el<57:24>
-                                    n<0> u<111> t<INTEGRAL_NUMBER> p<112> l<57:23> el<57:24>
-                              n<> u<118> t<Constant_expression> p<123> c<117> s<122> l<57:25> el<57:26>
-                                n<> u<117> t<Constant_primary> p<118> c<116> l<57:25> el<57:26>
-                                  n<> u<116> t<Primary_literal> p<117> c<115> l<57:25> el<57:26>
-                                    n<0> u<115> t<INTEGRAL_NUMBER> p<116> l<57:25> el<57:26>
-                              n<> u<122> t<Constant_expression> p<123> c<121> l<57:27> el<57:28>
-                                n<> u<121> t<Constant_primary> p<122> c<120> l<57:27> el<57:28>
-                                  n<> u<120> t<Primary_literal> p<121> c<119> l<57:27> el<57:28>
-                                    n<0> u<119> t<INTEGRAL_NUMBER> p<120> l<57:27> el<57:28>
-              n<> u<140> t<Specify_item> p<142> c<139> s<141> l<65:3> el<65:28>
-                n<> u<139> t<Specparam_declaration> p<140> c<138> l<65:3> el<65:28>
-                  n<> u<138> t<Specparam_assignment_list> p<139> c<137> l<65:13> el<65:27>
-                    n<> u<137> t<Specparam_assignment> p<138> c<131> l<65:13> el<65:27>
-                      n<PATHPULSE$> u<131> t<SIMPLE_IDENTIFIER> p<137> s<136> l<65:13> el<65:23>
-                      n<> u<136> t<Constant_mintypmax_expression> p<137> c<135> l<65:26> el<65:27>
-                        n<> u<135> t<Constant_expression> p<136> c<134> l<65:26> el<65:27>
-                          n<> u<134> t<Constant_primary> p<135> c<133> l<65:26> el<65:27>
-                            n<> u<133> t<Primary_literal> p<134> c<132> l<65:26> el<65:27>
-                              n<0> u<132> t<INTEGRAL_NUMBER> p<133> l<65:26> el<65:27>
-              n<> u<141> t<ENDSPECIFY> p<142> l<66:3> el<66:13>
-        n<> u<145> t<ENDMODULE> p<146> l<68:1> el<68:10>
-    n<> u<150> t<Description> p<151> c<149> l<70:1> el<70:15>
-      n<> u<149> t<Top_directives> p<150> c<148> l<70:1> el<70:15>
-        n<> u<148> t<Endcelldefine_directive> p<149> l<70:1> el<70:15>
+                    n<> u<96> t<Path_output_list> p<129> c<95> s<128> l<57:10> el<57:11>
+                      n<> u<95> t<Specify_output_terminal_descriptor> p<96> c<94> l<57:10> el<57:11>
+                        n<O> u<94> t<SIMPLE_IDENTIFIER> p<95> l<57:10> el<57:11>
+                    n<> u<128> t<Path_delay_value> p<129> c<127> l<57:15> el<57:29>
+                      n<> u<127> t<Path_delay_expression_list> p<128> c<111> l<57:16> el<57:28>
+                        n<> u<111> t<Trise_path_delay_expression> p<127> c<110> s<126> l<57:16> el<57:21>
+                          n<> u<110> t<Path_delay_expression> p<111> c<109> l<57:16> el<57:21>
+                            n<> u<109> t<Constant_mintypmax_expression> p<110> c<100> l<57:16> el<57:21>
+                              n<> u<100> t<Constant_expression> p<109> c<99> s<104> l<57:16> el<57:17>
+                                n<> u<99> t<Constant_primary> p<100> c<98> l<57:16> el<57:17>
+                                  n<> u<98> t<Primary_literal> p<99> c<97> l<57:16> el<57:17>
+                                    n<0> u<97> t<INTEGRAL_NUMBER> p<98> l<57:16> el<57:17>
+                              n<> u<104> t<Constant_expression> p<109> c<103> s<108> l<57:18> el<57:19>
+                                n<> u<103> t<Constant_primary> p<104> c<102> l<57:18> el<57:19>
+                                  n<> u<102> t<Primary_literal> p<103> c<101> l<57:18> el<57:19>
+                                    n<0> u<101> t<INTEGRAL_NUMBER> p<102> l<57:18> el<57:19>
+                              n<> u<108> t<Constant_expression> p<109> c<107> l<57:20> el<57:21>
+                                n<> u<107> t<Constant_primary> p<108> c<106> l<57:20> el<57:21>
+                                  n<> u<106> t<Primary_literal> p<107> c<105> l<57:20> el<57:21>
+                                    n<0> u<105> t<INTEGRAL_NUMBER> p<106> l<57:20> el<57:21>
+                        n<> u<126> t<Tfall_path_delay_expression> p<127> c<125> l<57:23> el<57:28>
+                          n<> u<125> t<Path_delay_expression> p<126> c<124> l<57:23> el<57:28>
+                            n<> u<124> t<Constant_mintypmax_expression> p<125> c<115> l<57:23> el<57:28>
+                              n<> u<115> t<Constant_expression> p<124> c<114> s<119> l<57:23> el<57:24>
+                                n<> u<114> t<Constant_primary> p<115> c<113> l<57:23> el<57:24>
+                                  n<> u<113> t<Primary_literal> p<114> c<112> l<57:23> el<57:24>
+                                    n<0> u<112> t<INTEGRAL_NUMBER> p<113> l<57:23> el<57:24>
+                              n<> u<119> t<Constant_expression> p<124> c<118> s<123> l<57:25> el<57:26>
+                                n<> u<118> t<Constant_primary> p<119> c<117> l<57:25> el<57:26>
+                                  n<> u<117> t<Primary_literal> p<118> c<116> l<57:25> el<57:26>
+                                    n<0> u<116> t<INTEGRAL_NUMBER> p<117> l<57:25> el<57:26>
+                              n<> u<123> t<Constant_expression> p<124> c<122> l<57:27> el<57:28>
+                                n<> u<122> t<Constant_primary> p<123> c<121> l<57:27> el<57:28>
+                                  n<> u<121> t<Primary_literal> p<122> c<120> l<57:27> el<57:28>
+                                    n<0> u<120> t<INTEGRAL_NUMBER> p<121> l<57:27> el<57:28>
+              n<> u<141> t<Specify_item> p<143> c<140> s<142> l<65:3> el<65:28>
+                n<> u<140> t<Specparam_declaration> p<141> c<139> l<65:3> el<65:28>
+                  n<> u<139> t<Specparam_assignment_list> p<140> c<138> l<65:13> el<65:27>
+                    n<> u<138> t<Specparam_assignment> p<139> c<132> l<65:13> el<65:27>
+                      n<PATHPULSE$> u<132> t<SIMPLE_IDENTIFIER> p<138> s<137> l<65:13> el<65:23>
+                      n<> u<137> t<Constant_mintypmax_expression> p<138> c<136> l<65:26> el<65:27>
+                        n<> u<136> t<Constant_expression> p<137> c<135> l<65:26> el<65:27>
+                          n<> u<135> t<Constant_primary> p<136> c<134> l<65:26> el<65:27>
+                            n<> u<134> t<Primary_literal> p<135> c<133> l<65:26> el<65:27>
+                              n<0> u<133> t<INTEGRAL_NUMBER> p<134> l<65:26> el<65:27>
+              n<> u<142> t<ENDSPECIFY> p<143> l<66:3> el<66:13>
+        n<> u<146> t<ENDMODULE> p<147> l<68:1> el<68:10>
+    n<> u<151> t<Description> p<152> c<150> l<70:1> el<70:15>
+      n<> u<150> t<Top_directives> p<151> c<149> l<70:1> el<70:15>
+        n<> u<149> t<Endcelldefine_directive> p<150> l<70:1> el<70:15>
 AST_DEBUG_END
 [INF:CP0303] $Source01/glbl.v:21:1: Compile module "work@glbl".
 [INF:CP0303] $Source01/unisims/BUFMR.v:35:1: Compile module "work@BUFMR".
@@ -2061,7 +2062,6 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-              vpiPathType: parallel path (2)
               vpiPolarity: unknown (3)
             SpecParam name:PATHPULSE$ start:65:13 end:65:27:
               vpiParent: SpecifyBlock
@@ -2079,15 +2079,15 @@ Design name:unnamed:
                   vpiDecompile: "0"
                   vpiValue: 0
   vpiTypespec (4 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@glbl:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@glbl start:21:8 end:21:12:
         vpiParent: ModuleTypespec name:work@glbl
         vpiName: work@glbl
       vpiModule: Module name:work@glbl
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     LogicTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:work@BUFMR:

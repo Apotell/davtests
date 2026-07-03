@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/FuncBinding2 -fileunit -writepp -d db -sv dut.sv -nobuiltin -nocache -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/FuncBinding2/FuncBinding2
@@ -12,6 +12,7 @@ COMMAND: -wd ../../../tests/FuncBinding2 -fileunit -writepp -d db -sv dut.sv -no
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@vend".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@vend".
 [ERR:EL0535] $Source01/dut.sv:18:13: Illegal implicit net "id:60, name:fsm_coin".
+[ERR:EL0535] $Source01/dut.sv:30:26: Illegal implicit net "id:82, name:PRES_STATE".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -310,6 +311,21 @@ Design name:unnamed:
               vpiStmt (1 items):
                 AssignStmt start:30:3 end:30:37:
                   vpiParent: Begin
+                  vpiLhs RefObj name:newspaper start:30:10 end:30:19:
+                    vpiParent: AssignStmt
+                    vpiName: newspaper
+                    vpiFullName: work@vend.newspaper
+                    vpiActual: Net name:newspaper
+                  vpiRhs FuncCall name:fsm start:30:22 end:30:37:
+                    vpiParent: AssignStmt
+                    vpiName Identifier name:fsm start:30:22 end:30:25:
+                      vpiParent: FuncCall name:fsm
+                      vpiName: fsm
+                    vpiArgument (1 items):
+                      RefObj name:PRES_STATE start:30:26 end:30:36:
+                        vpiParent: FuncCall name:fsm
+                        vpiName: PRES_STATE
+                        vpiFullName: work@vend.PRES_STATE
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:work@vend:
@@ -326,7 +342,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -370,9 +386,9 @@ COMMAND: ${HLC_DIR}/regression/FuncBinding2/FuncBinding2/design.hldb ${HLC_DIR}/
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-RefObj                              11      10       0         1
+RefObj                              13      12       0         1
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    75      74       0         1
+                                    79      78       0         1
 ===================== END REDUCTION RESULT =====================

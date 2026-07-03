@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../../tests/YosysTests/simple -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v alu/top.v alu/testbench.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/simple/alu/alu
@@ -3470,11 +3470,20 @@ Design name:unnamed:
                   Assignment start:52:4 end:52:21:
                     vpiParent: Begin
                     vpiBlocking: true
-                    vpiLhs RefObj name:y start:52:5 end:52:6:
+                    vpiLhs Operation start:52:4 end:52:10:
                       vpiParent: Assignment
-                      vpiName: y
-                      vpiFullName: work@testbench.rngnext.y
-                      vpiActual: Variable name:y
+                      vpiOpType: concatenation (33)
+                      vpiOperand (2 items):
+                        RefObj name:y start:52:5 end:52:6:
+                          vpiParent: Operation
+                          vpiName: y
+                          vpiFullName: work@testbench.rngnext.y
+                          vpiActual: Variable name:y
+                        RefObj name:x start:52:8 end:52:9:
+                          vpiParent: Operation
+                          vpiName: x
+                          vpiFullName: work@testbench.rngnext.x
+                          vpiActual: Variable name:x
                     vpiRhs RefObj name:rngstate start:52:13 end:52:21:
                       vpiParent: Assignment
                       vpiName: rngstate
@@ -4594,7 +4603,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/simple/alu/alu/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             649     649       0         0
+Others                             651     651       0         0
 ----------------------------------------------------------------
-                                   649     649       0         0
+                                   651     651       0         0
 ===================== END REDUCTION RESULT =====================

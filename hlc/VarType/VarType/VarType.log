@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/VarType -d db -d ast dut.sv -nobuiltin -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/VarType/VarType
@@ -101,6 +101,28 @@ Design name:unnamed:
         vpiParent: Module name:work@top
         vpiName: work@top
       vpiFullName: work@top
+      vpiTypespec (1 items):
+        UnsupportedTypespec start:4:5 end:4:14:
+          vpiParent: Module name:work@top
+          vpiPathElem (1 items):
+            Operation start:4:5 end:4:14:
+              vpiParent: UnsupportedTypespec
+              vpiOpType: type (95)
+              vpiOperand (1 items):
+                Operation start:4:10 end:4:13:
+                  vpiParent: Operation
+                  vpiOpType: add (24)
+                  vpiOperand (2 items):
+                    RefObj name:a start:4:10 end:4:11:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: work@top.a
+                      vpiActual: Net name:a
+                    RefObj name:b start:4:12 end:4:13:
+                      vpiParent: Operation
+                      vpiName: b
+                      vpiFullName: work@top.b
+                      vpiActual: Net name:b
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -147,9 +169,10 @@ Design name:unnamed:
             vpiValue: 0.74
         Net name:c start:4:15 end:4:16:
           vpiParent: Module name:work@top
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:4:5 end:4:14:
             vpiParent: Net name:c
             vpiFullName: work@top.c
+            vpiActual: UnsupportedTypespec
           vpiName: c
           vpiFullName: work@top.c
   vpiTypespec (2 items):
@@ -180,25 +203,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/VarType/VarType/mounts.json
 
 
-{'result': {'coverage': 95.45,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 3,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 66}},
-            'post_len': 3,
+            'post_len': 0,
             'pre_len': 66,
             'test_name': 'VarType/VarType'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |       66 |         3 |
+| $Output/lib/work/dut.sv |       66 |         0 |
 +=========================+==========+===========+
-|                         |       66 |         3 |
+|                         |       66 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.45
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -208,8 +231,12 @@ COMMAND: ${HLC_DIR}/regression/VarType/VarType/design.hldb ${HLC_DIR}/regression
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             2       3       1         0
+Operation                            2       1       0         1
+RefObj                               3       1       0         2
+RefTypespec                          5       6       1         0
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              11      11       0         0
 ----------------------------------------------------------------
-                                    18      18       0         0
+                                    23      22       2         3
 ===================== END REDUCTION RESULT =====================

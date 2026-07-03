@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db always3.1.1K.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/always3.1.1K
@@ -303,8 +303,15 @@ Design name:unnamed:
             vpiStmt (1 items):
               DelayControl start:29:3 end:29:24:
                 vpiParent: Begin
-                vpiStmt EventStmt start:29:8 end:29:24:
+                vpiStmt Operation start:29:8 end:29:24:
                   vpiParent: DelayControl
+                  vpiOpType: imply (50)
+                  vpiOperand (1 items):
+                    RefObj name:event_ident start:29:11 end:29:22:
+                      vpiParent: Operation
+                      vpiName: event_ident
+                      vpiFullName: work@main.event_ident
+                      vpiActual: Net name:event_ident
                 vpiDelay Constant start:29:4 end:29:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -355,7 +362,7 @@ Design name:unnamed:
                         vpiFullName: work@main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 464
+                      vpiSize: 456
                       vpiDecompile: "\"FAILED - always reg_lvalue = @ event_identifier constant\\n\""
                       vpiValue: FAILED - always reg_lvalue = @ event_identifier constant\n
               DelayControl start:36:5 end:36:8:
@@ -404,7 +411,7 @@ Design name:unnamed:
                         vpiFullName: work@main
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 464
+                      vpiSize: 456
                       vpiDecompile: "\"FAILED - always reg_lvalue = @ event_identifier constant\\n\""
                       vpiValue: FAILED - always reg_lvalue = @ event_identifier constant\n
                 vpiElseStmt Begin start:40:9 end:43:12:
@@ -424,7 +431,7 @@ Design name:unnamed:
                             vpiFullName: work@main
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
-                          vpiSize: 64
+                          vpiSize: 56
                           vpiDecompile: "\"PASSED\\n\""
                           vpiValue: PASSED\n
                     SysFuncCall name:$finish start:42:11 end:42:18:
@@ -517,7 +524,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/always3.1.1K/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

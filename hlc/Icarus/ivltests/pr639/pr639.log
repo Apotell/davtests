@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db pr639.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/pr639
@@ -43,12 +43,12 @@ n<$Source01/pr639.v> u<2013> t<Top_level_rule> c<1> l<27:1> el<122:1>
     n<> u<35> t<Description> p<2012> c<34> s<2011> l<27:1> el<27:24>
       n<> u<34> t<Top_directives> p<35> c<33> l<27:1> el<27:24>
         n<> u<33> t<Timescale_directive> p<34> c<29> l<27:1> el<27:24>
-          n<> u<29> t<Time_literal> p<33> c<27> s<32> l<27:12> el<27:16>
+          n<1ns> u<29> t<Time_literal> p<33> c<27> s<32> l<27:12> el<27:16>
             n<1> u<27> t<INTEGRAL_NUMBER> p<29> s<28> l<27:12> el<27:13>
-            n<ns> u<28> t<Time_unit> p<29> l<27:14> el<27:16>
-          n<> u<32> t<Time_literal> p<33> c<30> l<27:19> el<27:24>
+            n<ns> u<28> t<SIMPLE_IDENTIFIER> p<29> l<27:14> el<27:16>
+          n<10ps> u<32> t<Time_literal> p<33> c<30> l<27:19> el<27:24>
             n<10> u<30> t<INTEGRAL_NUMBER> p<32> s<31> l<27:19> el<27:21>
-            n<ps> u<31> t<Time_unit> p<32> l<27:22> el<27:24>
+            n<ps> u<31> t<SIMPLE_IDENTIFIER> p<32> l<27:22> el<27:24>
     n<> u<2011> t<Description> p<2012> c<2010> l<32:1> el<121:10>
       n<> u<2010> t<Module_declaration> p<2011> c<39> l<32:1> el<121:10>
         n<> u<39> t<Module_ansi_header> p<2010> c<36> s<55> l<32:1> el<32:12>
@@ -2638,7 +2638,7 @@ Design name:unnamed:
                         vpiFullName: work@top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 128
+                      vpiSize: 120
                       vpiDecompile: "\"\\t$time is in ns\""
                       vpiValue: "\\t$time is in ns"
               IfStmt start:57:3 end:57:53:
@@ -2675,7 +2675,7 @@ Design name:unnamed:
                         vpiFullName: work@top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 152
+                      vpiSize: 144
                       vpiDecompile: "\"\\t$time is in 10 ps\""
                       vpiValue: "\\t$time is in 10 ps"
               SysFuncCall name:$display start:58:4 end:58:70:
@@ -2691,7 +2691,7 @@ Design name:unnamed:
                       vpiFullName: work@top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
-                    vpiSize: 288
+                    vpiSize: 280
                     vpiDecompile: "\"\\ttime (1, 1h):  'd%0d, 't%0t, 'h%0h\""
                     vpiValue: "\\ttime (1, 1h):  'd%0d, 't%0t, 'h%0h"
                   SysTaskCall name:$time start:58:52 end:58:57:
@@ -2743,7 +2743,7 @@ Design name:unnamed:
                         vpiFullName: work@top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 152
+                      vpiSize: 144
                       vpiDecompile: "\"\\t$simtime is in ns\""
                       vpiValue: "\\t$simtime is in ns"
               IfStmt start:60:3 end:60:59:
@@ -2780,7 +2780,7 @@ Design name:unnamed:
                         vpiFullName: work@top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 176
+                      vpiSize: 168
                       vpiDecompile: "\"\\t$simtime is in 10 ps\""
                       vpiValue: "\\t$simtime is in 10 ps"
               SysFuncCall name:$display start:61:3 end:61:84:
@@ -2796,7 +2796,7 @@ Design name:unnamed:
                       vpiFullName: work@top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
-                    vpiSize: 336
+                    vpiSize: 328
                     vpiDecompile: "\"\\tsimtime (100, 64h):  'd%0d, 't%0t, 'h%0h\""
                     vpiValue: "\\tsimtime (100, 64h):  'd%0d, 't%0t, 'h%0h"
                   SysFuncCall name:$simtime start:61:57 end:61:65:
@@ -3819,7 +3819,7 @@ Design name:unnamed:
                       vpiFullName: work@top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
-                    vpiSize: 400
+                    vpiSize: 384
                     vpiDecompile: "\"\\t\\t**********************************************\""
                     vpiValue: "\\t\\t**********************************************"
               IfElse start:88:3 end:89:70:
@@ -3842,7 +3842,7 @@ Design name:unnamed:
                         vpiFullName: work@top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 360
+                      vpiSize: 344
                       vpiDecompile: "\"\\t\\t****** time precision test FAILED *******\""
                       vpiValue: "\\t\\t****** time precision test FAILED *******"
                 vpiElseStmt SysFuncCall name:$display start:89:12 end:89:69:
@@ -3858,7 +3858,7 @@ Design name:unnamed:
                         vpiFullName: work@top
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 360
+                      vpiSize: 344
                       vpiDecompile: "\"\\t\\t****** time precision test PASSED *******\""
                       vpiValue: "\\t\\t****** time precision test PASSED *******"
               SysFuncCall name:$display start:90:3 end:90:67:
@@ -3874,7 +3874,7 @@ Design name:unnamed:
                       vpiFullName: work@top
                       vpiActual: StringTypespec
                     vpiConstType: string (6)
-                    vpiSize: 416
+                    vpiSize: 392
                     vpiDecompile: "\"\\t\\t**********************************************\\n\""
                     vpiValue: "\\t\\t**********************************************\\n"
               SysFuncCall name:$finish start:92:3 end:92:10:
@@ -4679,15 +4679,15 @@ Design name:unnamed:
                       vpiValue: 2
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:32:8 end:32:11:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
     RealTypespec:

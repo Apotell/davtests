@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_for_local.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_for_local
@@ -14,7 +14,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 [SNT:PA0207] $Source01/t_for_local.v:38:12: Syntax error: mismatched input 'unsigned' expecting ')',
 	 for (byte unsigned i=5; i>4; i=i+1) begin
             ^-- $Source01/t_for_local.v:38:12:.
-[SNT:PA0207] $Source01/t_for_local.v:38:23: Syntax error: mismatched input '5' expecting {POUND_POUND_DELAY, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+[SNT:PA0207] $Source01/t_for_local.v:38:23: Syntax error: mismatched input '5' expecting {POUND_POUND_DELAY, POUND_ONESTEP, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
 	 for (byte unsigned i=5; i>4; i=i+1) begin
                        ^-- $Source01/t_for_local.v:38:23:.
 [SNT:PA0207] $Source01/t_for_local.v:38:27: Syntax error: no viable alternative at input 'i>',
@@ -999,7 +999,7 @@ Design name:unnamed:
                               vpiFullName: work@t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
-                            vpiSize: 184
+                            vpiSize: 176
                             vpiDecompile: "\"[%0t] t_loop: Running\\n\""
                             vpiValue: "[%0t] t_loop: Running\\n"
                           SysTaskCall name:$time start:20:36 end:20:41:
@@ -1405,7 +1405,7 @@ Design name:unnamed:
                 vpiFullName: work@t
                 vpiActual: StringTypespec
               vpiConstType: string (6)
-              vpiSize: 176
+              vpiSize: 168
               vpiDecompile: "\"*-* All Finished *-*\\n\""
               vpiValue: "*-* All Finished *-*\\n"
         SysTaskCall name:finish start:49:3 end:49:11:
@@ -1516,29 +1516,6 @@ Design name:unnamed:
           vpiStmt Begin start:44:34 end:46:6:
             vpiParent: GenFor
             vpiFullName: work@t
-            vpiStmt (1 items):
-              Assignment start:45:14 end:45:23:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiRhs Operation start:45:14 end:45:23:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:loops start:45:14 end:45:19:
-                      vpiParent: Operation
-                      vpiName: loops
-                      vpiFullName: work@t.loops
-                      vpiActual: Net name:loops
-                    Constant start:45:22 end:45:23:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@t
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
         GenIf start:47:3 end:47:31:
           vpiParent: Module name:work@t
           vpiCondition Operation start:47:7 end:47:23:
@@ -1600,25 +1577,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_for_local/mounts.json
 
 
-{'result': {'coverage': 94.38,
+{'result': {'coverage': 93.2,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_for_local.v': {'post_len': 38,
+            'files': {'$Output/lib/work/t_for_local.v': {'post_len': 46,
                                                          'pre_len': 676}},
-            'post_len': 38,
+            'post_len': 46,
             'pre_len': 676,
             'test_name': 'Verilator/t_for_local'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/t_for_local.v |      676 |        38 |
+| $Output/lib/work/t_for_local.v |      676 |        46 |
 +================================+==========+===========+
-|                                |      676 |        38 |
+|                                |      676 |        46 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.38
+[COVERAGE] : 93.2
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1629,7 +1606,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_for_local/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             194     194       0         0
 ----------------------------------------------------------------
-                                   199     199       0         0
+                                   194     194       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/ivltests +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db dcomp1.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/ivltests/dcomp1
@@ -19,12 +19,12 @@ n<$Source01/dcomp1.v> u<332> t<Top_level_rule> c<1> l<7:1> el<45:1>
     n<> u<11> t<Description> p<330> c<10> s<329> l<7:1> el<7:21>
       n<> u<10> t<Top_directives> p<11> c<9> l<7:1> el<7:21>
         n<> u<9> t<Timescale_directive> p<10> c<5> l<7:1> el<7:21>
-          n<> u<5> t<Time_literal> p<9> c<3> s<8> l<7:12> el<7:15>
+          n<1ps> u<5> t<Time_literal> p<9> c<3> s<8> l<7:12> el<7:15>
             n<1> u<3> t<INTEGRAL_NUMBER> p<5> s<4> l<7:12> el<7:13>
-            n<ps> u<4> t<Time_unit> p<5> l<7:13> el<7:15>
-          n<> u<8> t<Time_literal> p<9> c<6> l<7:18> el<7:21>
+            n<ps> u<4> t<SIMPLE_IDENTIFIER> p<5> l<7:13> el<7:15>
+          n<1ps> u<8> t<Time_literal> p<9> c<6> l<7:18> el<7:21>
             n<1> u<6> t<INTEGRAL_NUMBER> p<8> s<7> l<7:18> el<7:19>
-            n<ps> u<7> t<Time_unit> p<8> l<7:19> el<7:21>
+            n<ps> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:19> el<7:21>
     n<> u<329> t<Description> p<330> c<328> l<8:1> el<42:10>
       n<> u<328> t<Module_declaration> p<329> c<15> l<8:1> el<42:10>
         n<> u<15> t<Module_ansi_header> p<328> c<12> s<27> l<8:1> el<8:14>
@@ -708,9 +708,6 @@ Design name:unnamed:
                     vpiActual: Net name:internal_Clk
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:work@dcomp:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dcomp start:8:8 end:8:13:
@@ -719,6 +716,9 @@ Design name:unnamed:
       vpiModule: Module name:work@dcomp
     TimeTypespec:
       vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
 ===================

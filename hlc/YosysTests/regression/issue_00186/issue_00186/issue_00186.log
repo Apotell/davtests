@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -timescale=1ns/1ns -d ast -d db common.v issue_00186/top.v issue_00186/testbench.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/YosysTests/regression/issue_00186/issue_00186
@@ -1256,8 +1256,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/issue_00186/testbench.v:1:1: Compile module "work@testbench".
 [INF:CP0303] $Source01/issue_00186/testbench.v:41:1: Compile module "work@uut_mem_checker".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/issue_00186/testbench.v:37:45: Illegal implicit net "id:472, name:init".
-[ERR:EL0535] $Source01/issue_00186/testbench.v:37:62: Illegal implicit net "id:475, name:A".
+[ERR:EL0535] $Source01/issue_00186/testbench.v:37:45: Illegal implicit net "id:473, name:init".
+[ERR:EL0535] $Source01/issue_00186/testbench.v:37:62: Illegal implicit net "id:476, name:A".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2332,20 +2332,29 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:12:6 end:12:37:
                   vpiParent: Begin
-                  vpiLhs BitSelect name:ram[adr] start:12:7 end:12:15:
+                  vpiLhs Operation start:12:6 end:12:18:
                     vpiParent: Assignment
-                    vpiName: ram[adr]
-                    vpiFullName: work@top.ram[adr]
-                    vpiPrefix RefObj name:ram start:12:7 end:12:10:
-                      vpiParent: BitSelect name:ram[adr]
-                      vpiName: ram
-                      vpiFullName: work@top.ram
-                      vpiActual: Net name:ram
-                    vpiIndex RefObj name:adr start:12:11 end:12:14:
-                      vpiParent: BitSelect name:ram[adr]
-                      vpiName: adr
-                      vpiFullName: work@top.adr
-                      vpiActual: Net name:adr
+                    vpiOpType: concatenation (33)
+                    vpiOperand (2 items):
+                      BitSelect name:ram[adr] start:12:7 end:12:15:
+                        vpiParent: Operation
+                        vpiName: ram[adr]
+                        vpiFullName: work@top.ram[adr]
+                        vpiPrefix RefObj name:ram start:12:7 end:12:10:
+                          vpiParent: BitSelect name:ram[adr]
+                          vpiName: ram
+                          vpiFullName: work@top.ram
+                          vpiActual: Net name:ram
+                        vpiIndex RefObj name:adr start:12:11 end:12:14:
+                          vpiParent: BitSelect name:ram[adr]
+                          vpiName: adr
+                          vpiFullName: work@top.adr
+                          vpiActual: Net name:adr
+                      RefObj name:q start:12:16 end:12:17:
+                        vpiParent: Operation
+                        vpiName: q
+                        vpiFullName: work@top.q
+                        vpiActual: Variable name:q
                   vpiRhs Operation start:12:22 end:12:37:
                     vpiParent: Assignment
                     vpiOpType: concatenation (33)
@@ -3251,11 +3260,11 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            55      55       3         3
 LogicTypespec                       17      18       1         0
-Operation                           20      17       0         3
-RefObj                              80      77       0         3
+Operation                           21      18       0         3
+RefObj                              81      78       0         3
 RefTypespec                        102     102       3         3
 ----------------------------------------------------------------
 Others                             204     204       0         0
 ----------------------------------------------------------------
-                                   478     473       7        12
+                                   480     475       7        12
 ===================== END REDUCTION RESULT =====================

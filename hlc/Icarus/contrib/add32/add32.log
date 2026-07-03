@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../../tests/Icarus/contrib +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db add32.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Icarus/contrib/add32
@@ -721,6 +721,34 @@ Design name:unnamed:
                   vpiActual: Net name:clock
             vpiStmt AssignStmt start:14:5 end:14:29:
               vpiParent: EventControl
+              vpiLhs RefObj name:sum start:14:12 end:14:15:
+                vpiParent: AssignStmt
+                vpiName: sum
+                vpiFullName: work@add32.sum
+                vpiActual: Net name:sum
+              vpiRhs Operation start:14:18 end:14:29:
+                vpiParent: AssignStmt
+                vpiOpType: add (24)
+                vpiOperand (2 items):
+                  Operation start:14:18 end:14:23:
+                    vpiParent: Operation
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:a start:14:18 end:14:19:
+                        vpiParent: Operation
+                        vpiName: a
+                        vpiFullName: work@add32.a
+                        vpiActual: Net name:a
+                      RefObj name:b start:14:22 end:14:23:
+                        vpiParent: Operation
+                        vpiName: b
+                        vpiFullName: work@add32.b
+                        vpiActual: Net name:b
+                  RefObj name:cIn start:14:26 end:14:29:
+                    vpiParent: Operation
+                    vpiName: cIn
+                    vpiFullName: work@add32.cIn
+                    vpiActual: Net name:cIn
           vpiAlwaysType: always (1)
     Module name:work@main file:$Source01/add32.v start:21:1 end:49:10:
       vpiParent: Design name:unnamed
@@ -1171,7 +1199,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/contrib/add32/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             156     156       0         0
+Others                             162     162       0         0
 ----------------------------------------------------------------
-                                   156     156       0         0
+                                   162     162       0         0
 ===================== END REDUCTION RESULT =====================

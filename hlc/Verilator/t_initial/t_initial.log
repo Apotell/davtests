@@ -1,7 +1,7 @@
 ********************************************************************************
 *                   Begin HLC SystemVerilog Compiler/Linter                    *
 ********************************************************************************
-Copyright (c) 2017-2023 Alain Dargelas,
+Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
 COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_initial.v -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/Verilator/t_initial
@@ -381,6 +381,21 @@ Design name:unnamed:
           vpiParent: Module name:work@t
           vpiStmt AssignStmt start:16:12 end:16:40:
             vpiParent: Initial
+            vpiLhs RefObj name:user_loaded_value start:16:19 end:16:36:
+              vpiParent: AssignStmt
+              vpiName: user_loaded_value
+              vpiFullName: work@t.user_loaded_value
+              vpiActual: Net name:user_loaded_value
+            vpiRhs Constant start:16:39 end:16:40:
+              vpiParent: AssignStmt
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: work@t
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "1"
+              vpiValue: 1
         Initial start:18:4 end:18:23:
           vpiParent: Module name:work@t
           vpiStmt Assignment start:18:12 end:18:22:
@@ -484,7 +499,7 @@ Design name:unnamed:
                                 vpiFullName: work@t
                                 vpiActual: StringTypespec
                               vpiConstType: string (6)
-                              vpiSize: 72
+                              vpiSize: 64
                               vpiDecompile: "\"time<20\\n\""
                               vpiValue: time<20\n
                       SysFuncCall name:$write start:30:3 end:30:43:
@@ -585,7 +600,7 @@ Design name:unnamed:
                               vpiFullName: work@t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
-                            vpiSize: 176
+                            vpiSize: 168
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
                             vpiValue: "*-* All Finished *-*\\n"
                       SysFuncCall name:$finish start:41:3 end:41:10:
@@ -654,7 +669,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_initial/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              83      83       0         0
 ----------------------------------------------------------------
-                                    80      80       0         0
+                                    83      83       0         0
 ===================== END REDUCTION RESULT =====================
