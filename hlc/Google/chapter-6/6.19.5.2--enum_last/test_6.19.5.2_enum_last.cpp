@@ -59,21 +59,8 @@ namespace hlc {
 
 class EnumLast : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.19.5.2--enum_last.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.5.2--enum_last.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(EnumLast, ModuleExists) {
@@ -84,24 +71,19 @@ TEST_F(EnumLast, ModuleExists) {
 // Module typespec — TypedefTypespec "e" → EnumTypespec with 4 consts
 // ---------------------------------------------------------------------------
 TEST_F(EnumLast, TypedefEExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td =
-      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
   EXPECT_NE(td->getTypedefAlias()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
 TEST_F(EnumLast, EnumHasFourConsts) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td =
-      hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
-  const hldb::EnumTypespec *const enumTs =
-      td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 4u);
@@ -115,11 +97,9 @@ TEST_F(EnumLast, EnumHasFourConsts) {
 // Variable "val" — declared with inline initializer EnumConst "a"
 // ---------------------------------------------------------------------------
 TEST_F(EnumLast, ValVariableDeclaredWithInitA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
@@ -139,18 +119,15 @@ TEST_F(EnumLast, ValVariableDeclaredWithInitA) {
 // Assignment: val = val.last() — rhs is HierPath "val.last()"
 // ---------------------------------------------------------------------------
 TEST_F(EnumLast, AssignmentRhsIsHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
   ASSERT_NE(blk->getStmts(), nullptr);
   ASSERT_EQ(blk->getStmts()->size(), 1u);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "val");
@@ -160,16 +137,13 @@ TEST_F(EnumLast, AssignmentRhsIsHierPath) {
 }
 
 TEST_F(EnumLast, HierPathReceiverAndFuncCall) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -181,21 +155,17 @@ TEST_F(EnumLast, HierPathReceiverAndFuncCall) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "last");
-  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
-      << "last() takes no arguments";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "last() takes no arguments";
 }
 
 TEST_F(EnumLast, HierPathReceiverResolvesToVariable) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);

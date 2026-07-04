@@ -43,23 +43,8 @@ namespace hlc {
 
 class CompilerDirectivesPreprocessorMacro1 : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__,
-            {"-f", "5.6.4--compiler-directives-preprocessor-macro_1.hlc"});
-
-    // Compilation runs despite the errors; m_design is still populated.
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-preprocessor-macro_1.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -67,9 +52,7 @@ class CompilerDirectivesPreprocessorMacro1 : public Test {
 // line broke the parse before the module body could be resolved.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoModuleNamedTop) {
-  EXPECT_EQ(
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()),
-      nullptr)
+  EXPECT_EQ(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr)
       << "'work@top' should not exist — parse failure swallowed the module name";
 }
 
@@ -78,15 +61,13 @@ TEST_F(CompilerDirectivesPreprocessorMacro1, NoModuleNamedTop) {
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPreprocessorMacro1, TwoStubModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u)
-      << "broken parse should produce exactly 2 nameless stub modules";
+  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
 }
 
 TEST_F(CompilerDirectivesPreprocessorMacro1, StubModulesHaveNoName) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(m->getName().empty())
-        << "stub module should have an empty name, got: " << m->getName();
+    EXPECT_TRUE(m->getName().empty()) << "stub module should have an empty name, got: " << m->getName();
   }
 }
 
@@ -97,12 +78,11 @@ TEST_F(CompilerDirectivesPreprocessorMacro1, StubModulesHaveNoName) {
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoNetsInStubModules) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-        << "stub module should have no nets";
+    EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
   }
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

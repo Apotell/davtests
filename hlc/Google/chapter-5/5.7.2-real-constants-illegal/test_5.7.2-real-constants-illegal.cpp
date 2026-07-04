@@ -48,22 +48,8 @@ namespace hlc {
 
 class RealConstantsIllegal : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.2-real-constants-illegal.hlc"});
-
-    // Compilation runs despite the syntax errors; m_design is still populated.
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.2-real-constants-illegal.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -72,9 +58,7 @@ class RealConstantsIllegal : public Test {
 // that the spec forbids.
 // ---------------------------------------------------------------------------
 TEST_F(RealConstantsIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()),
-      nullptr)
+  EXPECT_EQ(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr)
       << "§5.7.2: forms without a digit on both sides of the decimal point "
          "must be rejected — 'work@top' must not exist";
 }
@@ -85,15 +69,13 @@ TEST_F(RealConstantsIllegal, NoModuleNamedTop) {
 // ---------------------------------------------------------------------------
 TEST_F(RealConstantsIllegal, TwoStubModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u)
-      << "broken parse should produce exactly 2 nameless stub modules";
+  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
 }
 
 TEST_F(RealConstantsIllegal, StubModulesHaveNoName) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(m->getName().empty())
-        << "stub module should have an empty name, got: " << m->getName();
+    EXPECT_TRUE(m->getName().empty()) << "stub module should have an empty name, got: " << m->getName();
   }
 }
 
@@ -119,12 +101,11 @@ TEST_F(RealConstantsIllegal, NoProcessesInStubModules) {
 TEST_F(RealConstantsIllegal, NoNetsInStubModules) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-        << "stub module should have no nets";
+    EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
   }
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

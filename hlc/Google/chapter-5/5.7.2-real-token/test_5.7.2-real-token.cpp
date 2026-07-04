@@ -50,21 +50,8 @@ namespace hlc {
 
 class RealToken : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.2-real-token.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.2-real-token.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -80,9 +67,7 @@ static const hldb::Net *getNetA(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(RealToken, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(RealToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(RealToken, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);
@@ -123,11 +108,10 @@ TEST_F(RealToken, NetA_TypespecIsNotLogic) {
 TEST_F(RealToken, NoProcesses) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
-      << "module has no initial or always blocks";
+  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty()) << "module has no initial or always blocks";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

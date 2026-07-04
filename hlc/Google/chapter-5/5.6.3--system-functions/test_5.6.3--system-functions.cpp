@@ -41,30 +41,15 @@ namespace hlc {
 
 class SystemFunctions : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.3--system-functions.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.3--system-functions.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@systemfn", d->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@systemfn", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
-    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p))
-      return i->getStmt<hldb::SysFuncCall>();
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysFuncCall>();
   }
   return nullptr;
 }
@@ -73,9 +58,7 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(SystemFunctions, ModuleExists) {
-  ASSERT_NE(
-      hldb::findByName<hldb::Module>("work@systemfn", m_design->getAllModules()),
-      nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@systemfn", m_design->getAllModules()), nullptr)
       << "module 'work@systemfn' not found";
 }
 
@@ -83,8 +66,7 @@ TEST_F(SystemFunctions, ModuleExists) {
 // initial $display("hello world")
 // ---------------------------------------------------------------------------
 TEST_F(SystemFunctions, InitialHasDisplayCall) {
-  ASSERT_NE(getDisplay(m_design), nullptr)
-      << "$display SysFuncCall not found as direct Initial stmt";
+  ASSERT_NE(getDisplay(m_design), nullptr) << "$display SysFuncCall not found as direct Initial stmt";
 }
 
 TEST_F(SystemFunctions, DisplayCallName) {
@@ -106,8 +88,7 @@ TEST_F(SystemFunctions, ArgumentIsStringConstant) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg =
-      any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::Constant *const arg = any_cast<hldb::Constant>((*c->getArguments())[0]);
   ASSERT_NE(arg, nullptr) << "argument should be a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(arg->getConstType(), 6) << "argument should have string const type";
@@ -119,14 +100,13 @@ TEST_F(SystemFunctions, ArgumentValueIsHelloWorld) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg =
-      any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::Constant *const arg = any_cast<hldb::Constant>((*c->getArguments())[0]);
   ASSERT_NE(arg, nullptr);
   // getValue() returns the raw string without surrounding quotes
   EXPECT_EQ(arg->getValue(), "hello world");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

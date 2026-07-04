@@ -44,22 +44,8 @@ namespace hlc {
 
 class CompilerDirectivesDefaultNettype : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__,
-            {"-f", "5.6.4--compiler-directives-default-nettype.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-default-nettype.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -87,8 +73,7 @@ TEST_F(CompilerDirectivesDefaultNettype, ModuleDefNetTypeIsNone) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   // vpiNone = 12; `default_nettype none was active when 'dn' was compiled.
-  EXPECT_EQ(m->getDefNetType(), 12)
-      << "module defNetType should be none (12) — last active directive";
+  EXPECT_EQ(m->getDefNetType(), 12) << "module defNetType should be none (12) — last active directive";
 }
 
 // ---------------------------------------------------------------------------
@@ -100,11 +85,10 @@ TEST_F(CompilerDirectivesDefaultNettype, SourceFileDefNetTypeIsWire) {
   const hldb::SourceFile *const sf = (*m_design->getSourceFiles())[0];
   ASSERT_NE(sf, nullptr);
   // vpiWire = 1; the first `default_nettype wire is captured on the SourceFile.
-  EXPECT_EQ(sf->getDefNetType(), 1)
-      << "source file defNetType should be wire (1) — first directive";
+  EXPECT_EQ(sf->getDefNetType(), 1) << "source file defNetType should be wire (1) — first directive";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

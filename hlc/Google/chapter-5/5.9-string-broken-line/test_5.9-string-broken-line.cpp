@@ -66,21 +66,8 @@ namespace hlc {
 
 class StringBrokenLine : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.9-string-broken-line.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.9-string-broken-line.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -90,8 +77,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
@@ -104,38 +90,31 @@ static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d) {
 
 static const hldb::Constant *getStringArg(const hldb::Design *d) {
   const hldb::SysFuncCall *call = getDisplayCall(d);
-  if (!call || !call->getArguments() || call->getArguments()->empty())
-    return nullptr;
+  if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(StringBrokenLine, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(StringBrokenLine, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(StringBrokenLine, ModuleHasNoNets) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-      << "module top has no net declarations";
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "module top has no net declarations";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block structure
 // ---------------------------------------------------------------------------
-TEST_F(StringBrokenLine, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr) << "initial begin not found";
-}
+TEST_F(StringBrokenLine, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr) << "initial begin not found"; }
 
 TEST_F(StringBrokenLine, BeginHasOneStatement) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 1u)
-      << "expected exactly 1 statement: the $display call";
+  EXPECT_EQ(begin->getStmts()->size(), 1u) << "expected exactly 1 statement: the $display call";
 }
 
 // ---------------------------------------------------------------------------
@@ -144,16 +123,14 @@ TEST_F(StringBrokenLine, BeginHasOneStatement) {
 TEST_F(StringBrokenLine, StatementIsDisplayCall) {
   const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr) << "stmt[0] is not a SysFuncCall";
-  EXPECT_EQ(call->getName(), "$display")
-      << "system call must be $display";
+  EXPECT_EQ(call->getName(), "$display") << "system call must be $display";
 }
 
 TEST_F(StringBrokenLine, DisplayCallHasOneArgument) {
   const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr) << "$display has no argument list";
-  EXPECT_EQ(call->getArguments()->size(), 1u)
-      << "$display has exactly 1 argument (the broken-line string)";
+  EXPECT_EQ(call->getArguments()->size(), 1u) << "$display has exactly 1 argument (the broken-line string)";
 }
 
 // ---------------------------------------------------------------------------
@@ -163,8 +140,7 @@ TEST_F(StringBrokenLine, DisplayCallHasOneArgument) {
 TEST_F(StringBrokenLine, Argument_IsStringConstType) {
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr) << "argument is not a Constant";
-  EXPECT_EQ(c->getConstType(), 6)
-      << "§5.9: string literal must be vpiStringConst (6)";
+  EXPECT_EQ(c->getConstType(), 6) << "§5.9: string literal must be vpiStringConst (6)";
 }
 
 TEST_F(StringBrokenLine, Argument_HasStringTypespec) {
@@ -192,10 +168,9 @@ TEST_F(StringBrokenLine, Argument_SizePerSpec) {
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
   // §5.9: "broken " (7) + 14 spaces + "line" (4) = 25 chars = 200 bits.
-  EXPECT_EQ(c->getSize(), 200)
-      << "§5.9: backslash-newline is a line continuation — \\ and \\n must be "
-         "stripped. Result: 25 chars = 200 bits. "
-         "Surelog bug: stores \\ and \\n verbatim, gives 27 chars = 216 bits";
+  EXPECT_EQ(c->getSize(), 200) << "§5.9: backslash-newline is a line continuation — \\ and \\n must be "
+                                  "stripped. Result: 25 chars = 200 bits. "
+                                  "Surelog bug: stores \\ and \\n verbatim, gives 27 chars = 216 bits";
 }
 
 TEST_F(StringBrokenLine, Argument_ValuePerSpec) {
@@ -204,13 +179,12 @@ TEST_F(StringBrokenLine, Argument_ValuePerSpec) {
   // §5.9: "broken " + 14 spaces of continuation indent + "line".
   // The backslash and the newline are removed by the line-continuation rule.
   const std::string spec_correct = "broken " + std::string(14, ' ') + "line";
-  EXPECT_EQ(c->getValue(), spec_correct)
-      << "§5.9: backslash-newline line continuation must be stripped from "
-         "the string value. Expected: \"broken               line\" (25 chars). "
-         "Surelog bug: getValue() includes the literal \\ and newline character";
+  EXPECT_EQ(c->getValue(), spec_correct) << "§5.9: backslash-newline line continuation must be stripped from "
+                                            "the string value. Expected: \"broken               line\" (25 chars). "
+                                            "Surelog bug: getValue() includes the literal \\ and newline character";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

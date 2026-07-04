@@ -27,7 +27,7 @@
 //   - work@top has no processes
 //
 // Not checked:
-//   - "step" const value — Surelog normalizes step[10] to a single "step" EnumConst
+//   - "step" const value — HLC normalizes step[10] to a single "step" EnumConst
 //     with no explicit value stored for the sequence base
 
 #include <hlc/Common/Session.h>
@@ -48,21 +48,8 @@ namespace hlc {
 
 class EnumSequence : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.19.2--enum_sequence.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19.2--enum_sequence.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(EnumSequence, ModuleExists) {
@@ -70,8 +57,7 @@ TEST_F(EnumSequence, ModuleExists) {
 }
 
 TEST_F(EnumSequence, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
@@ -81,8 +67,7 @@ TEST_F(EnumSequence, OneNetExists) {
 // Net 'e' — typespec RefTypespec → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequence, ENetTypespecIsEnum) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
@@ -94,26 +79,22 @@ TEST_F(EnumSequence, ENetTypespecIsEnum) {
 // EnumTypespec — 2 consts: "start" (value=10) and "step" (sequence base)
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequence, EnumHasTwoConsts) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs =
-      e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   ASSERT_NE(enumTs->getEnumConsts(), nullptr);
   EXPECT_EQ(enumTs->getEnumConsts()->size(), 2u);
 }
 
 TEST_F(EnumSequence, FirstConstIsStart) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs =
-      e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(0);
   ASSERT_NE(ec, nullptr);
@@ -121,13 +102,11 @@ TEST_F(EnumSequence, FirstConstIsStart) {
 }
 
 TEST_F(EnumSequence, StartConstValueIs10) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs =
-      e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(0);
   ASSERT_NE(ec, nullptr);
@@ -138,23 +117,19 @@ TEST_F(EnumSequence, StartConstValueIs10) {
 }
 
 TEST_F(EnumSequence, SecondConstIsStep) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
-  const hldb::EnumTypespec *const enumTs =
-      e->getTypespec()->getActual<hldb::EnumTypespec>();
+  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
   ASSERT_NE(enumTs, nullptr);
   const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(1);
   ASSERT_NE(ec, nullptr);
-  EXPECT_EQ(ec->getName(), "step")
-      << "step[10] sequence base EnumConst is named 'step'";
+  EXPECT_EQ(ec->getName(), "step") << "step[10] sequence base EnumConst is named 'step'";
 }
 
 TEST_F(EnumSequence, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

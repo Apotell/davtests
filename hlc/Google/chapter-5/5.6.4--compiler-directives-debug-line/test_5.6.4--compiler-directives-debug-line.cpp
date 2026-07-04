@@ -40,22 +40,8 @@ namespace hlc {
 
 class CompilerDirectivesDebugLine : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__,
-            {"-f", "5.6.4--compiler-directives-debug-line.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-debug-line.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -66,25 +52,22 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 // The `line directive is consumed without error; the module compiles cleanly.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebugLine, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr)
-      << "module 'work@directives' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@directives' not found";
 }
 
 TEST_F(CompilerDirectivesDebugLine, NoNets) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-      << "`line directive should produce no net declarations";
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "`line directive should produce no net declarations";
 }
 
 TEST_F(CompilerDirectivesDebugLine, NoProcesses) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
-      << "`line directive should produce no processes";
+  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty()) << "`line directive should produce no processes";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -29,7 +29,7 @@
 //   - work@top has no processes
 //
 // Not checked:
-//   - Surelog doesn't flag the multiple continuous assignments error
+//   - HLC doesn't flag the multiple continuous assignments error
 //   - RHS constant types (vpiUIntConst for unsized integers)
 
 #include <hlc/Common/Session.h>
@@ -48,21 +48,8 @@ namespace hlc {
 
 class VariableMultipleAssignments : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.5--variable_multiple_assignments.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.5--variable_multiple_assignments.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(VariableMultipleAssignments, ModuleExists) {
@@ -73,8 +60,7 @@ TEST_F(VariableMultipleAssignments, ModuleExists) {
 // Net declaration — int v
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, NetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
 
@@ -86,8 +72,7 @@ TEST_F(VariableMultipleAssignments, NetExists) {
 // Two continuous assignments — assign v = 12; assign v = 13;
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
   EXPECT_EQ(top->getContAssigns()->size(), 2u)
@@ -95,8 +80,7 @@ TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
 }
 
 TEST_F(VariableMultipleAssignments, BothContAssignsTargetV) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);
@@ -109,27 +93,23 @@ TEST_F(VariableMultipleAssignments, BothContAssignsTargetV) {
 }
 
 TEST_F(VariableMultipleAssignments, FirstContAssignRhsIsConstant12) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_GE(top->getContAssigns()->size(), 1u);
 
-  const hldb::Constant *const rhs =
-      top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "first ContAssign RHS is not a Constant";
   EXPECT_EQ(rhs->getDecompile(), "12") << "first ContAssign RHS value is not '12'";
 }
 
 TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_GE(top->getContAssigns()->size(), 2u);
 
-  const hldb::Constant *const rhs =
-      top->getContAssigns()->at(1)->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = top->getContAssigns()->at(1)->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "second ContAssign RHS is not a Constant";
   EXPECT_EQ(rhs->getDecompile(), "13") << "second ContAssign RHS value is not '13'";
 }
@@ -138,26 +118,22 @@ TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'v'";
 }
 
 TEST_F(VariableMultipleAssignments, NetVHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr)
-      << "int v has no inline initializer";
+  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr) << "int v has no inline initializer";
 }
 
 TEST_F(VariableMultipleAssignments, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

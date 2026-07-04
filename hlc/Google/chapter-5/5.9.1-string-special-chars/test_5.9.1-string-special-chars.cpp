@@ -75,21 +75,8 @@ namespace hlc {
 
 class StringSpecialChars : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.9.1-string-special-chars.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.9.1-string-special-chars.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -99,14 +86,12 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d,
-                                                std::size_t index) {
+static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -114,35 +99,28 @@ static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d,
 }
 
 static const hldb::Constant *getStringArg(const hldb::SysFuncCall *call) {
-  if (!call || !call->getArguments() || call->getArguments()->empty())
-    return nullptr;
+  if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(StringSpecialChars, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(StringSpecialChars, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(StringSpecialChars, NoNetsInModule) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-      << "module has no net declarations -- only $display calls";
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "module has no net declarations -- only $display calls";
 }
 
-TEST_F(StringSpecialChars, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr);
-}
+TEST_F(StringSpecialChars, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(StringSpecialChars, BeginHasNineStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 9u)
-      << "expected 9 $display calls (one per escape sequence)";
+  EXPECT_EQ(begin->getStmts()->size(), 9u) << "expected 9 $display calls (one per escape sequence)";
 }
 
 // ---------------------------------------------------------------------------
@@ -153,11 +131,9 @@ TEST_F(StringSpecialChars, AllStatementsAreDisplayCalls) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *call =
-        any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[i]);
+    const auto *call = any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[i]);
     ASSERT_NE(call, nullptr) << "stmt[" << i << "] is not a SysFuncCall";
-    EXPECT_EQ(call->getName(), "$display")
-        << "stmt[" << i << "] should be $display";
+    EXPECT_EQ(call->getName(), "$display") << "stmt[" << i << "] should be $display";
   }
 }
 
@@ -171,8 +147,7 @@ TEST_F(StringSpecialChars, AllArgumentsAreStringConstType) {
     ASSERT_NE(call, nullptr) << "call[" << i << "] is null";
     const auto *c = getStringArg(call);
     ASSERT_NE(c, nullptr) << "call[" << i << "] argument is null";
-    EXPECT_EQ(c->getConstType(), 6)
-        << "call[" << i << "]: string literal must be vpiStringConst (6)";
+    EXPECT_EQ(c->getConstType(), 6) << "call[" << i << "]: string literal must be vpiStringConst (6)";
   }
 }
 
@@ -182,8 +157,7 @@ TEST_F(StringSpecialChars, AllArgumentsHaveStringTypespec) {
     ASSERT_NE(call, nullptr) << "call[" << i << "] is null";
     const auto *c = getStringArg(call);
     ASSERT_NE(c, nullptr) << "call[" << i << "] argument is null";
-    ASSERT_NE(c->getTypespec(), nullptr)
-        << "call[" << i << "] argument has no typespec";
+    ASSERT_NE(c->getTypespec(), nullptr) << "call[" << i << "] argument has no typespec";
     EXPECT_NE(c->getTypespec()->getActual<hldb::StringTypespec>(), nullptr)
         << "call[" << i << "]: string literal must have StringTypespec";
   }
@@ -203,63 +177,56 @@ TEST_F(StringSpecialChars, AllArgumentsHaveStringTypespec) {
 TEST_F(StringSpecialChars, Call0_Newline_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 0));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 72)
-      << "sec. 5.9.1: \\n = 1 char (0x0A) -> \"newline \\n\" = 9 chars = 72 bits; "
-         "Surelog bug: stores \\n as 2 chars, gives 80";
+  EXPECT_EQ(c->getSize(), 72) << "sec. 5.9.1: \\n = 1 char (0x0A) -> \"newline \\n\" = 9 chars = 72 bits; "
+                                 "Surelog bug: stores \\n as 2 chars, gives 80";
 }
 
 // "tab \t" -- 4 literal chars + 1 tab char (0x09) = 5 chars = 40 bits
 TEST_F(StringSpecialChars, Call1_Tab_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 1));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 40)
-      << "sec. 5.9.1: \\t = 1 char (0x09) -> \"tab \\t\" = 5 chars = 40 bits; "
-         "Surelog bug: stores \\t as 2 chars, gives 48";
+  EXPECT_EQ(c->getSize(), 40) << "sec. 5.9.1: \\t = 1 char (0x09) -> \"tab \\t\" = 5 chars = 40 bits; "
+                                 "Surelog bug: stores \\t as 2 chars, gives 48";
 }
 
 // "backslash \\" -- 10 literal chars + 1 backslash (0x5C) = 11 chars = 88 bits
 TEST_F(StringSpecialChars, Call2_Backslash_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 2));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 88)
-      << "sec. 5.9.1: \\\\ = 1 char (0x5C) -> \"backslash \\\\\" = 11 chars = 88 bits; "
-         "Surelog bug: stores \\\\ as 2 chars, gives 96";
+  EXPECT_EQ(c->getSize(), 88) << "sec. 5.9.1: \\\\ = 1 char (0x5C) -> \"backslash \\\\\" = 11 chars = 88 bits; "
+                                 "Surelog bug: stores \\\\ as 2 chars, gives 96";
 }
 
 // "quote \"" -- 6 literal chars + 1 double quote (0x22) = 7 chars = 56 bits
 TEST_F(StringSpecialChars, Call3_Quote_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 3));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 56)
-      << "sec. 5.9.1: \\\" = 1 char (0x22) -> \"quote \\\"\" = 7 chars = 56 bits; "
-         "Surelog bug: stores \\\" as 2 chars, gives 64";
+  EXPECT_EQ(c->getSize(), 56) << "sec. 5.9.1: \\\" = 1 char (0x22) -> \"quote \\\"\" = 7 chars = 56 bits; "
+                                 "Surelog bug: stores \\\" as 2 chars, gives 64";
 }
 
 // "vertical tab \v" -- 13 literal chars + 1 vertical tab (0x0B) = 14 chars = 112 bits
 TEST_F(StringSpecialChars, Call4_VerticalTab_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 4));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 112)
-      << "sec. 5.9.1: \\v = 1 char (0x0B) -> \"vertical tab \\v\" = 14 chars = 112 bits; "
-         "Surelog bug: stores \\v as 2 chars, gives 120";
+  EXPECT_EQ(c->getSize(), 112) << "sec. 5.9.1: \\v = 1 char (0x0B) -> \"vertical tab \\v\" = 14 chars = 112 bits; "
+                                  "Surelog bug: stores \\v as 2 chars, gives 120";
 }
 
 // "form feed \f" -- 10 literal chars + 1 form feed (0x0C) = 11 chars = 88 bits
 TEST_F(StringSpecialChars, Call5_FormFeed_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 5));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 88)
-      << "sec. 5.9.1: \\f = 1 char (0x0C) -> \"form feed \\f\" = 11 chars = 88 bits; "
-         "Surelog bug: stores \\f as 2 chars, gives 96";
+  EXPECT_EQ(c->getSize(), 88) << "sec. 5.9.1: \\f = 1 char (0x0C) -> \"form feed \\f\" = 11 chars = 88 bits; "
+                                 "Surelog bug: stores \\f as 2 chars, gives 96";
 }
 
 // "bell \a" -- 5 literal chars + 1 bell char (0x07) = 6 chars = 48 bits
 TEST_F(StringSpecialChars, Call6_Bell_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 6));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 48)
-      << "sec. 5.9.1: \\a = 1 char (0x07) -> \"bell \\a\" = 6 chars = 48 bits; "
-         "Surelog bug: stores \\a as 2 chars, gives 56";
+  EXPECT_EQ(c->getSize(), 48) << "sec. 5.9.1: \\a = 1 char (0x07) -> \"bell \\a\" = 6 chars = 48 bits; "
+                                 "Surelog bug: stores \\a as 2 chars, gives 56";
 }
 
 // "octal \123" -- 6 literal chars + 1 octal char (0x53 = 'S') = 7 chars = 56 bits
@@ -269,9 +236,8 @@ TEST_F(StringSpecialChars, Call6_Bell_SizePerSpec) {
 TEST_F(StringSpecialChars, Call7_OctalEscape_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 7));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 56)
-      << "sec. 5.9.1: \\123 = octal 'S' (0x53) -> \"octal \\123\" = 7 chars = 56 bits; "
-         "Surelog bug: WRN:PP0118 -- octal escape not recognized, stores 4 chars, gives 80";
+  EXPECT_EQ(c->getSize(), 56) << "sec. 5.9.1: \\123 = octal 'S' (0x53) -> \"octal \\123\" = 7 chars = 56 bits; "
+                                 "Surelog bug: WRN:PP0118 -- octal escape not recognized, stores 4 chars, gives 80";
 }
 
 // "hex \x12" -- 4 literal chars + 1 hex char (0x12) = 5 chars = 40 bits
@@ -280,12 +246,11 @@ TEST_F(StringSpecialChars, Call7_OctalEscape_SizePerSpec) {
 TEST_F(StringSpecialChars, Call8_HexEscape_SizePerSpec) {
   const auto *c = getStringArg(getDisplayCall(m_design, 8));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 40)
-      << "sec. 5.9.1: \\x12 = hex 0x12 -> \"hex \\x12\" = 5 chars = 40 bits; "
-         "Surelog bug: hex escape not expanded, stores 4 chars, gives 64";
+  EXPECT_EQ(c->getSize(), 40) << "sec. 5.9.1: \\x12 = hex 0x12 -> \"hex \\x12\" = 5 chars = 40 bits; "
+                                 "Surelog bug: hex escape not expanded, stores 4 chars, gives 64";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

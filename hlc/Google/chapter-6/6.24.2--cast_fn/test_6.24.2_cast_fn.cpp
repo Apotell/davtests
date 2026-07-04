@@ -57,21 +57,8 @@ namespace hlc {
 
 class CastFn : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.24.2--cast_fn.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.24.2--cast_fn.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(CastFn, ModuleExists) {
@@ -82,26 +69,22 @@ TEST_F(CastFn, ModuleExists) {
 // Net "a" → IntTypespec, no inline initializer
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, NetAIsIntTypeWithNoValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
-  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr)
-      << "int a; has no inline initializer — vpiValue should be null";
+  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "int a; has no inline initializer — vpiValue should be null";
 }
 
 // ---------------------------------------------------------------------------
 // Initial → IfStmt
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, InitialHasIfStmt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   EXPECT_NE(init->getStmt<hldb::IfStmt>(), nullptr);
 }
@@ -110,26 +93,21 @@ TEST_F(CastFn, InitialHasIfStmt) {
 // IfStmt condition = Operation(vpiNotOp=3) with SysFuncCall "$cast"
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, IfConditionIsNotOperation) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
   const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
-  EXPECT_EQ(cond->getOpType(), vpiNotOp)
-      << "! $cast(...) wraps the SysFuncCall in a NOT operation";
+  EXPECT_EQ(cond->getOpType(), vpiNotOp) << "! $cast(...) wraps the SysFuncCall in a NOT operation";
 }
 
 TEST_F(CastFn, NotOperandIsCastSysFuncCall) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
@@ -137,8 +115,7 @@ TEST_F(CastFn, NotOperandIsCastSysFuncCall) {
   ASSERT_NE(cond, nullptr);
   ASSERT_NE(cond->getOperands(), nullptr);
   ASSERT_EQ(cond->getOperands()->size(), 1u);
-  const hldb::SysFuncCall *const castFn =
-      any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
+  const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
   EXPECT_EQ(castFn->getName(), "$cast");
 }
@@ -147,60 +124,49 @@ TEST_F(CastFn, NotOperandIsCastSysFuncCall) {
 // $cast arguments: arg[0]=RefObj "a", arg[1]=Operation(multiply, 2.1, 3.7)
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, CastFuncCallHasTwoArguments) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
   const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
-  const hldb::SysFuncCall *const castFn =
-      any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
+  const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
   ASSERT_NE(castFn->getArguments(), nullptr);
   EXPECT_EQ(castFn->getArguments()->size(), 2u);
 }
 
 TEST_F(CastFn, CastArgZeroIsRefToNetA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
   const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
-  const hldb::SysFuncCall *const castFn =
-      any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
+  const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
-  const hldb::RefObj *const arg0 =
-      any_cast<hldb::RefObj>(castFn->getArguments()->at(0));
+  const hldb::RefObj *const arg0 = any_cast<hldb::RefObj>(castFn->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr);
   EXPECT_EQ(arg0->getName(), "a");
   EXPECT_NE(arg0->getActual<hldb::Net>(), nullptr);
 }
 
 TEST_F(CastFn, CastArgOneIsMultiplyOperation) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
   const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
-  const hldb::SysFuncCall *const castFn =
-      any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
+  const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
-  const hldb::Operation *const multOp =
-      any_cast<hldb::Operation>(castFn->getArguments()->at(1));
+  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castFn->getArguments()->at(1));
   ASSERT_NE(multOp, nullptr);
   EXPECT_EQ(multOp->getOpType(), vpiMultOp);
   ASSERT_NE(multOp->getOperands(), nullptr);
@@ -219,11 +185,9 @@ TEST_F(CastFn, CastArgOneIsMultiplyOperation) {
 // IfStmt then-branch = SysFuncCall "$display" with string arg "cast failed"
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, IfBodyIsDisplayCall) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
@@ -232,8 +196,7 @@ TEST_F(CastFn, IfBodyIsDisplayCall) {
   EXPECT_EQ(display->getName(), "$display");
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 1u);
-  const hldb::Constant *const msg =
-      any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::Constant *const msg = any_cast<hldb::Constant>(display->getArguments()->at(0));
   ASSERT_NE(msg, nullptr);
   EXPECT_EQ(msg->getConstType(), vpiStringConst);
   EXPECT_EQ(msg->getDecompile(), "\"cast failed\"");
@@ -243,16 +206,14 @@ TEST_F(CastFn, IfBodyIsDisplayCall) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'a'";
 }
 
 TEST_F(CastFn, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

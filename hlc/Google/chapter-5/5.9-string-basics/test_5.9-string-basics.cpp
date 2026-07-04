@@ -60,21 +60,8 @@ namespace hlc {
 
 class StringBasics : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.9-string-basics.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.9-string-basics.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -84,8 +71,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
@@ -98,39 +84,32 @@ static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d) {
 
 static const hldb::Constant *getStringArg(const hldb::Design *d) {
   const hldb::SysFuncCall *call = getDisplayCall(d);
-  if (!call || !call->getArguments() || call->getArguments()->empty())
-    return nullptr;
+  if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(StringBasics, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(StringBasics, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(StringBasics, ModuleHasNoNets) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   // §5.9: the module only contains an initial block — no variable declarations.
-  EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-      << "module top has no net/variable declarations";
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "module top has no net/variable declarations";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block structure
 // ---------------------------------------------------------------------------
-TEST_F(StringBasics, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr) << "initial begin not found";
-}
+TEST_F(StringBasics, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr) << "initial begin not found"; }
 
 TEST_F(StringBasics, BeginHasOneStatement) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 1u)
-      << "expected exactly 1 statement: $display(\"one line\")";
+  EXPECT_EQ(begin->getStmts()->size(), 1u) << "expected exactly 1 statement: $display(\"one line\")";
 }
 
 // ---------------------------------------------------------------------------
@@ -139,16 +118,14 @@ TEST_F(StringBasics, BeginHasOneStatement) {
 TEST_F(StringBasics, StatementIsDisplayCall) {
   const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr) << "stmt[0] is not a SysFuncCall";
-  EXPECT_EQ(call->getName(), "$display")
-      << "system call must be $display";
+  EXPECT_EQ(call->getName(), "$display") << "system call must be $display";
 }
 
 TEST_F(StringBasics, DisplayCallHasOneArgument) {
   const hldb::SysFuncCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr) << "$display has no argument list";
-  EXPECT_EQ(call->getArguments()->size(), 1u)
-      << "$display(\"one line\") has exactly 1 argument";
+  EXPECT_EQ(call->getArguments()->size(), 1u) << "$display(\"one line\") has exactly 1 argument";
 }
 
 // ---------------------------------------------------------------------------
@@ -158,8 +135,7 @@ TEST_F(StringBasics, DisplayCallHasOneArgument) {
 TEST_F(StringBasics, Argument_IsStringConstType) {
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr) << "argument is not a Constant";
-  EXPECT_EQ(c->getConstType(), 6)
-      << "§5.9: string literal must be vpiStringConst (6)";
+  EXPECT_EQ(c->getConstType(), 6) << "§5.9: string literal must be vpiStringConst (6)";
 }
 
 // ---------------------------------------------------------------------------
@@ -170,8 +146,7 @@ TEST_F(StringBasics, Argument_IsStringConstType) {
 TEST_F(StringBasics, Argument_SizeIs64PerSpec) {
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 64)
-      << "§5.9: \"one line\" = 8 characters × 8 bits = 64 bits";
+  EXPECT_EQ(c->getSize(), 64) << "§5.9: \"one line\" = 8 characters × 8 bits = 64 bits";
 }
 
 // ---------------------------------------------------------------------------
@@ -181,8 +156,7 @@ TEST_F(StringBasics, Argument_SizeIs64PerSpec) {
 TEST_F(StringBasics, Argument_ValueIsOneLine) {
   const hldb::Constant *const c = getStringArg(m_design);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "one line")
-      << "§5.9: string literal value must be \"one line\"";
+  EXPECT_EQ(c->getValue(), "one line") << "§5.9: string literal value must be \"one line\"";
 }
 
 // ---------------------------------------------------------------------------
@@ -197,7 +171,7 @@ TEST_F(StringBasics, Argument_HasStringTypespec) {
       << "§5.9: string literal must have a StringTypespec in UHDM";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

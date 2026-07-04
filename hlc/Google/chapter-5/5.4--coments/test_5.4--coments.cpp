@@ -39,21 +39,8 @@ namespace hlc {
 
 class Coments : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.4--coments.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.4--coments.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(Coments, ModuleExists) {
@@ -63,30 +50,24 @@ TEST_F(Coments, ModuleExists) {
 }
 
 TEST_F(Coments, ModuleHasNoNets) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getNets() || m->getNets()->empty())
-      << "empty module should have no nets";
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "empty module should have no nets";
 }
 
 TEST_F(Coments, ModuleHasNoProcesses) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
-      << "empty module should have no processes";
+  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty()) << "empty module should have no processes";
 }
 
 TEST_F(Coments, ModuleHasNoAttributes) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getAttributes() || m->getAttributes()->empty())
-      << "empty module should have no attributes";
+  EXPECT_TRUE(!m->getAttributes() || m->getAttributes()->empty()) << "empty module should have no attributes";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

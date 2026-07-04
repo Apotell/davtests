@@ -56,21 +56,8 @@ namespace hlc {
 
 class IntegersUnderscores : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-underscores.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-underscores.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -80,14 +67,12 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -97,24 +82,19 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersUnderscores, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersUnderscores, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersUnderscores, ThreeNetsExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 3u)
-      << "expected 3 nets: a [31:0], b [15:0], c [31:0]";
+  EXPECT_EQ(m->getNets()->size(), 3u) << "expected 3 nets: a [31:0], b [15:0], c [31:0]";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block
 // ---------------------------------------------------------------------------
-TEST_F(IntegersUnderscores, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr);
-}
+TEST_F(IntegersUnderscores, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersUnderscores, BeginHasThreeStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
@@ -128,11 +108,9 @@ TEST_F(IntegersUnderscores, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -146,8 +124,7 @@ TEST_F(IntegersUnderscores, AssignmentA_ConstType) {
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // Unsized decimal → unsigned int (9)
-  EXPECT_EQ(c->getConstType(), 9)
-      << "27_195_000: constType should be unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), 9) << "27_195_000: constType should be unsigned int (9)";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_SizeIs64) {
@@ -156,8 +133,7 @@ TEST_F(IntegersUnderscores, AssignmentA_SizeIs64) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 64)
-      << "unsized decimal should have size 64 (Surelog default integer width)";
+  EXPECT_EQ(c->getSize(), 64) << "unsized decimal should have size 64 (Surelog default integer width)";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getValue) {
@@ -165,8 +141,7 @@ TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "27195000")
-      << "underscore separators should be stripped from getValue()";
+  EXPECT_EQ(c->getValue(), "27195000") << "underscore separators should be stripped from getValue()";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getDecompile) {
@@ -174,8 +149,7 @@ TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getDecompile) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "27195000")
-      << "underscore separators should be stripped from getDecompile()";
+  EXPECT_EQ(c->getDecompile(), "27195000") << "underscore separators should be stripped from getDecompile()";
 }
 
 // ---------------------------------------------------------------------------
@@ -203,8 +177,7 @@ TEST_F(IntegersUnderscores, AssignmentB_UnderscoresStripped_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "0011010100011111")
-      << "underscore separators should be stripped from getValue()";
+  EXPECT_EQ(c->getValue(), "0011010100011111") << "underscore separators should be stripped from getValue()";
 }
 
 TEST_F(IntegersUnderscores, AssignmentB_UnderscoresStripped_getDecompile) {
@@ -225,8 +198,7 @@ TEST_F(IntegersUnderscores, AssignmentC_ConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 5)
-      << "32'h...: constType should be hexadecimal (5)";
+  EXPECT_EQ(c->getConstType(), 5) << "32'h...: constType should be hexadecimal (5)";
 }
 
 TEST_F(IntegersUnderscores, AssignmentC_SizeIs32) {
@@ -242,21 +214,18 @@ TEST_F(IntegersUnderscores, AssignmentC_SpacesAndUnderscoresStripped_getValue) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "12abf001")
-      << "spaces and underscores should be stripped from getValue()";
+  EXPECT_EQ(c->getValue(), "12abf001") << "spaces and underscores should be stripped from getValue()";
 }
 
-TEST_F(IntegersUnderscores,
-       AssignmentC_SpacesAndUnderscoresStripped_getDecompile) {
+TEST_F(IntegersUnderscores, AssignmentC_SpacesAndUnderscoresStripped_getDecompile) {
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "32'h12abf001")
-      << "spaces and underscores should be stripped from getDecompile()";
+  EXPECT_EQ(c->getDecompile(), "32'h12abf001") << "spaces and underscores should be stripped from getDecompile()";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

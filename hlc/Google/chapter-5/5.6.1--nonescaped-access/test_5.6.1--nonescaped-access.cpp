@@ -45,21 +45,8 @@ namespace hlc {
 
 class NonescapedAccess : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.1--nonescaped-access.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.1--nonescaped-access.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -97,8 +84,7 @@ TEST_F(NonescapedAccess, NetCpu3ExistsWithoutBackslash) {
 TEST_F(NonescapedAccess, NetReferenceTestExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Net>("reference_test", m->getNets()), nullptr)
-      << "net 'reference_test' not found";
+  EXPECT_NE(hldb::findByName<hldb::Net>("reference_test", m->getNets()), nullptr) << "net 'reference_test' not found";
 }
 
 // ---------------------------------------------------------------------------
@@ -126,8 +112,7 @@ TEST_F(NonescapedAccess, ContAssignRhsIsCpu3) {
   ASSERT_NE(ca, nullptr);
   const hldb::RefObj *const rhs = ca->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS should be a RefObj";
-  EXPECT_EQ(rhs->getName(), "cpu3")
-      << "non-escaped 'cpu3' should resolve to the \\cpu3 net";
+  EXPECT_EQ(rhs->getName(), "cpu3") << "non-escaped 'cpu3' should resolve to the \\cpu3 net";
 }
 
 TEST_F(NonescapedAccess, ContAssignRhsResolvesToCpu3Net) {
@@ -141,7 +126,7 @@ TEST_F(NonescapedAccess, ContAssignRhsResolvesToCpu3Net) {
   EXPECT_EQ(net->getName(), "cpu3");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -56,21 +56,8 @@ namespace hlc {
 
 class IntegersSized : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-sized.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-sized.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -80,14 +67,12 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -97,24 +82,19 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersSized, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersSized, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersSized, FiveNetsExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 5u)
-      << "expected 5 nets: a [3:0], b [4:0], c [2:0], d [11:0], e [15:0]";
+  EXPECT_EQ(m->getNets()->size(), 5u) << "expected 5 nets: a [3:0], b [4:0], c [2:0], d [11:0], e [15:0]";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block
 // ---------------------------------------------------------------------------
-TEST_F(IntegersSized, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr);
-}
+TEST_F(IntegersSized, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersSized, BeginHasFiveStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
@@ -128,11 +108,9 @@ TEST_F(IntegersSized, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -279,7 +257,7 @@ TEST_F(IntegersSized, AssignmentE_getValue) {
   EXPECT_EQ(c->getValue(), "z");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -60,20 +60,8 @@ namespace hlc {
 
 class CovergroupDeclTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "CovergroupDecl.hlc"});
-    ASSERT_NE(m_session, nullptr);
-    ASSERT_NE(m_compiler, nullptr);
-    ASSERT_NE(m_design, nullptr);
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "CovergroupDecl.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 
  protected:
   static const hldb::CoverGroup *findCG(const hldb::CoverGroupCollection *col, std::string_view name) {

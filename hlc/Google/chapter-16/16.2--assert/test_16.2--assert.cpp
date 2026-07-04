@@ -102,21 +102,8 @@ namespace hlc {
 
 class ImmediateAssertTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "16.2--assert.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.2--assert.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -132,8 +119,7 @@ static const hldb::Net *getNetA(const hldb::Design *d) {
 static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   // sec. 16.2 Rule 4: assert is the direct statement of Initial -- no Begin.
   return initial->getStmt<hldb::ImmediateAssert>();
@@ -152,17 +138,14 @@ static const hldb::SysFuncCall *getFailCall(const hldb::Design *d) {
 }
 
 static const hldb::Constant *getFirstArg(const hldb::SysFuncCall *call) {
-  if (!call || !call->getArguments() || call->getArguments()->empty())
-    return nullptr;
+  if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
 
 // ---------------------------------------------------------------------------
 // Module and net
 // ---------------------------------------------------------------------------
-TEST_F(ImmediateAssertTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(ImmediateAssertTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(ImmediateAssertTest, NetA_HasLogicTypespec) {
   // SV source: 'logic a' -- sec. 6.3 declares a 4-state single-bit net.
@@ -170,8 +153,7 @@ TEST_F(ImmediateAssertTest, NetA_HasLogicTypespec) {
   const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "'logic a' must produce a LogicTypespec";
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
 }
 
 TEST_F(ImmediateAssertTest, NetA_InlineValue_Is1) {
@@ -180,8 +162,7 @@ TEST_F(ImmediateAssertTest, NetA_InlineValue_Is1) {
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline initializer value";
-  EXPECT_EQ(std::string(c->getValue()), "1")
-      << "'logic a = 1' -- inline initializer must be 1";
+  EXPECT_EQ(std::string(c->getValue()), "1") << "'logic a = 1' -- inline initializer must be 1";
 }
 
 // ---------------------------------------------------------------------------
@@ -189,10 +170,9 @@ TEST_F(ImmediateAssertTest, NetA_InlineValue_Is1) {
 // process. 'initial assert (expr)' does not need begin...end.
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, InitialHasDirectImmediateAssert) {
-  ASSERT_NE(getAssert(m_design), nullptr)
-      << "sec. 16.2 Rule 4: 'initial assert (...)' must produce an ImmediateAssert "
-         "as the direct statement of the Initial -- no Begin wrapper needed "
-         "for a single immediate assert statement";
+  ASSERT_NE(getAssert(m_design), nullptr) << "sec. 16.2 Rule 4: 'initial assert (...)' must produce an ImmediateAssert "
+                                             "as the direct statement of the Initial -- no Begin wrapper needed "
+                                             "for a single immediate assert statement";
 }
 
 // ---------------------------------------------------------------------------
@@ -203,9 +183,8 @@ TEST_F(ImmediateAssertTest, Assert_IsNotDeferred) {
   // '#0'. If Surelog sets isDeferred=true, it misclassified the assert.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_FALSE(ia->getIsDeferred())
-      << "sec. 16.2 Rule 1: simple 'assert (expr)' must have isDeferred=false; "
-         "deferred form requires '#0' keyword";
+  EXPECT_FALSE(ia->getIsDeferred()) << "sec. 16.2 Rule 1: simple 'assert (expr)' must have isDeferred=false; "
+                                       "deferred form requires '#0' keyword";
 }
 
 TEST_F(ImmediateAssertTest, Assert_IsNotFinal) {
@@ -213,8 +192,7 @@ TEST_F(ImmediateAssertTest, Assert_IsNotFinal) {
   // If Surelog sets isFinal=true, it misclassified the timing region.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_FALSE(ia->getIsFinal())
-      << "sec. 16.2 Rule 1: 'assert (expr)' without 'final' must have isFinal=false";
+  EXPECT_FALSE(ia->getIsFinal()) << "sec. 16.2 Rule 1: 'assert (expr)' without 'final' must have isFinal=false";
 }
 
 // ---------------------------------------------------------------------------
@@ -234,8 +212,7 @@ TEST_F(ImmediateAssertTest, Assert_ExpressionIsNotEqualOperator) {
   ASSERT_NE(ia, nullptr);
   const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiNeqOp)
-      << "sec. 11.4.5: '!=' must be represented as vpiNeqOp";
+  EXPECT_EQ(op->getOpType(), vpiNeqOp) << "sec. 11.4.5: '!=' must be represented as vpiNeqOp";
 }
 
 TEST_F(ImmediateAssertTest, Assert_ExpressionHasTwoOperands) {
@@ -245,8 +222,7 @@ TEST_F(ImmediateAssertTest, Assert_ExpressionHasTwoOperands) {
   const auto *op = ia->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "binary '!=' must have exactly 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "binary '!=' must have exactly 2 operands";
 }
 
 TEST_F(ImmediateAssertTest, Assert_LeftOperand_IsRefObj) {
@@ -268,8 +244,7 @@ TEST_F(ImmediateAssertTest, Assert_LeftOperand_RefersToSignalA) {
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a")
-      << "left operand of 'a != 0' must reference signal 'a'";
+  EXPECT_EQ(ref->getName(), "a") << "left operand of 'a != 0' must reference signal 'a'";
 }
 
 TEST_F(ImmediateAssertTest, Assert_RightOperand_IsConstant) {
@@ -290,8 +265,7 @@ TEST_F(ImmediateAssertTest, Assert_RightOperand_ValueIsZero) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "0")
-      << "right operand of 'a != 0' must be the constant 0";
+  EXPECT_EQ(std::string(c->getValue()), "0") << "right operand of 'a != 0' must be the constant 0";
 }
 
 // ---------------------------------------------------------------------------
@@ -305,9 +279,8 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
   // the pass action block. It must be non-null.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getStmt(), nullptr)
-      << "sec. 16.2 Rule 3: 'assert (...) $display(\"pass\")' must have a "
-         "non-null pass action block";
+  EXPECT_NE(ia->getStmt(), nullptr) << "sec. 16.2 Rule 3: 'assert (...) $display(\"pass\")' must have a "
+                                       "non-null pass action block";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_IsSysFuncCall) {
@@ -322,8 +295,7 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Name) {
   // The system task name must be "$display".
   const auto *call = getPassCall(m_design);
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "$display")
-      << "pass action block must be a call to '$display'";
+  EXPECT_EQ(call->getName(), "$display") << "pass action block must be a call to '$display'";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_HasOneArgument) {
@@ -331,22 +303,19 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_HasOneArgument) {
   const auto *call = getPassCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  EXPECT_EQ(call->getArguments()->size(), 1u)
-      << "$display(\"pass\") must have exactly one argument";
+  EXPECT_EQ(call->getArguments()->size(), 1u) << "$display(\"pass\") must have exactly one argument";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_IsConstant) {
   const auto *c = getFirstArg(getPassCall(m_design));
-  EXPECT_NE(c, nullptr)
-      << "argument to $display(\"pass\") must be a Constant";
+  EXPECT_NE(c, nullptr) << "argument to $display(\"pass\") must be a Constant";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_Value) {
   // SV source: $display("pass") -- the literal string is "pass".
   const auto *c = getFirstArg(getPassCall(m_design));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "pass")
-      << "$display(\"pass\"): argument value must be \"pass\"";
+  EXPECT_EQ(std::string(c->getValue()), "pass") << "$display(\"pass\"): argument value must be \"pass\"";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_Size) {
@@ -354,8 +323,7 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_Size) {
   // "pass" has 4 characters -> 4 x 8 = 32 bits.
   const auto *c = getFirstArg(getPassCall(m_design));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 32)
-      << "sec. 5.9: \"pass\" is 4 chars x 8 bits = 32 bits";
+  EXPECT_EQ(c->getSize(), 32) << "sec. 5.9: \"pass\" is 4 chars x 8 bits = 32 bits";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Arg_ConstType) {
@@ -376,9 +344,8 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Exists) {
   // It must be non-null because the SV source includes 'else $display("fail")'.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getElseStmt(), nullptr)
-      << "sec. 16.2 Rule 3: '... else $display(\"fail\")' must have a "
-         "non-null fail action block";
+  EXPECT_NE(ia->getElseStmt(), nullptr) << "sec. 16.2 Rule 3: '... else $display(\"fail\")' must have a "
+                                           "non-null fail action block";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_IsSysFuncCall) {
@@ -391,38 +358,33 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_IsSysFuncCall) {
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Name) {
   const auto *call = getFailCall(m_design);
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "$display")
-      << "fail action block must be a call to '$display'";
+  EXPECT_EQ(call->getName(), "$display") << "fail action block must be a call to '$display'";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_HasOneArgument) {
   const auto *call = getFailCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  EXPECT_EQ(call->getArguments()->size(), 1u)
-      << "$display(\"fail\") must have exactly one argument";
+  EXPECT_EQ(call->getArguments()->size(), 1u) << "$display(\"fail\") must have exactly one argument";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_IsConstant) {
   const auto *c = getFirstArg(getFailCall(m_design));
-  EXPECT_NE(c, nullptr)
-      << "argument to $display(\"fail\") must be a Constant";
+  EXPECT_NE(c, nullptr) << "argument to $display(\"fail\") must be a Constant";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_Value) {
   // SV source: $display("fail") -- the literal string is "fail".
   const auto *c = getFirstArg(getFailCall(m_design));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "fail")
-      << "$display(\"fail\"): argument value must be \"fail\"";
+  EXPECT_EQ(std::string(c->getValue()), "fail") << "$display(\"fail\"): argument value must be \"fail\"";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_Size) {
   // sec. 5.9: "fail" has 4 characters -> 4 x 8 = 32 bits.
   const auto *c = getFirstArg(getFailCall(m_design));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 32)
-      << "sec. 5.9: \"fail\" is 4 chars x 8 bits = 32 bits";
+  EXPECT_EQ(c->getSize(), 32) << "sec. 5.9: \"fail\" is 4 chars x 8 bits = 32 bits";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_ConstType) {
@@ -433,7 +395,7 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Arg_ConstType) {
       << "sec. 5.9: string literal \"fail\" must have constType vpiStringConst";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

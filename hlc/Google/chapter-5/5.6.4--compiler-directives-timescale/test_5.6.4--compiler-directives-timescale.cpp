@@ -41,21 +41,8 @@ namespace hlc {
 
 class CompilerDirectivesTimescale : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.4--compiler-directives-timescale.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-timescale.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -90,15 +77,13 @@ TEST_F(CompilerDirectivesTimescale, ModuleIsEmpty) {
 TEST_F(CompilerDirectivesTimescale, ModuleTimeUnitIsNanosecond) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getTimeUnit(), -9)
-      << "time unit should be -9 (1 ns = 10^-9 s)";
+  EXPECT_EQ(m->getTimeUnit(), -9) << "time unit should be -9 (1 ns = 10^-9 s)";
 }
 
 TEST_F(CompilerDirectivesTimescale, ModuleTimePrecisionIsPicosecond) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getTimePrecision(), -12)
-      << "time precision should be -12 (1 ps = 10^-12 s)";
+  EXPECT_EQ(m->getTimePrecision(), -12) << "time precision should be -12 (1 ps = 10^-12 s)";
 }
 
 // ---------------------------------------------------------------------------
@@ -107,18 +92,16 @@ TEST_F(CompilerDirectivesTimescale, ModuleTimePrecisionIsPicosecond) {
 TEST_F(CompilerDirectivesTimescale, SourceFileTimeUnitIsNanosecond) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimeUnit(), -9)
-      << "source file time unit should be -9 (1 ns = 10^-9 s)";
+  EXPECT_EQ(sf->getTimeUnit(), -9) << "source file time unit should be -9 (1 ns = 10^-9 s)";
 }
 
 TEST_F(CompilerDirectivesTimescale, SourceFileTimePrecisionIsPicosecond) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimePrecision(), -12)
-      << "source file time precision should be -12 (1 ps = 10^-12 s)";
+  EXPECT_EQ(sf->getTimePrecision(), -12) << "source file time precision should be -12 (1 ps = 10^-12 s)";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

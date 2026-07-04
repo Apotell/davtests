@@ -46,21 +46,8 @@ namespace hlc {
 
 class AttributesVariable : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.12-attributes-variable.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.12-attributes-variable.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -70,9 +57,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module and nets
 // ---------------------------------------------------------------------------
-TEST_F(AttributesVariable, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr);
-}
+TEST_F(AttributesVariable, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
 TEST_F(AttributesVariable, ThreeNetsExist) {
   const hldb::Module *const top = getTop(m_design);
@@ -129,8 +114,7 @@ TEST_F(AttributesVariable, FsmStateForAIsFlagAttribute) {
   const hldb::Attribute *const attr = (*top->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
-  EXPECT_EQ(attr->getValue(), nullptr)
-      << "(* fsm_state *) is a flag attribute and should have no value";
+  EXPECT_EQ(attr->getValue(), nullptr) << "(* fsm_state *) is a flag attribute and should have no value";
 }
 
 // ---------------------------------------------------------------------------
@@ -169,7 +153,7 @@ TEST_F(AttributesVariable, FsmStateForCValueIsZero) {
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

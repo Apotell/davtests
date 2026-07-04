@@ -52,34 +52,19 @@ namespace hlc {
 
 class AttributesOperator : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.12-attributes-operator.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.12-attributes-operator.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Assignment *getAssignment(const hldb::Design *design) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
       const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
       for (const hldb::Any *const s : *blk->getStmts())
-        if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s))
-          return a;
+        if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s)) return a;
     }
   }
   return nullptr;
@@ -100,8 +85,7 @@ TEST_F(AttributesOperator, ModuleExists) {
 }
 
 TEST_F(AttributesOperator, ThreeNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
@@ -149,8 +133,7 @@ TEST_F(AttributesOperator, LeftOperandIsB) {
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const left =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *const left = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(left, nullptr) << "operand[0] should be a RefObj";
   EXPECT_EQ(left->getName(), "b");
 }
@@ -160,8 +143,7 @@ TEST_F(AttributesOperator, RightOperandIsC) {
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const right =
-      any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr) << "operand[1] should be a RefObj";
   EXPECT_EQ(right->getName(), "c");
 }
@@ -175,11 +157,9 @@ TEST_F(AttributesOperator, RightOperandHasModeAttribute) {
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
   // Attribute is on the operand Expr, not on the Operation.
-  const hldb::RefObj *const right =
-      any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr);
-  ASSERT_NE(right->getAttributes(), nullptr)
-      << "right operand 'c' should have attributes";
+  ASSERT_NE(right->getAttributes(), nullptr) << "right operand 'c' should have attributes";
   ASSERT_EQ(right->getAttributes()->size(), 1u);
   EXPECT_EQ((*right->getAttributes())[0]->getName(), "mode");
 }
@@ -189,8 +169,7 @@ TEST_F(AttributesOperator, ModeAttributeIsStringValued) {
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const right =
-      any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr);
   ASSERT_NE(right->getAttributes(), nullptr);
   ASSERT_EQ(right->getAttributes()->size(), 1u);
@@ -208,14 +187,12 @@ TEST_F(AttributesOperator, ModeAttributeValueIsCla) {
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const right =
-      any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *const right = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(right, nullptr);
   ASSERT_NE(right->getAttributes(), nullptr);
   ASSERT_EQ(right->getAttributes()->size(), 1u);
 
-  const hldb::Constant *const val =
-      (*right->getAttributes())[0]->getValue<hldb::Constant>();
+  const hldb::Constant *const val = (*right->getAttributes())[0]->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   // getValue() returns the raw string without surrounding quotes
   EXPECT_EQ(val->getValue(), "cla");
@@ -226,14 +203,12 @@ TEST_F(AttributesOperator, LeftOperandHasNoAttributes) {
   ASSERT_NE(op, nullptr);
   ASSERT_EQ(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const left =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *const left = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(left, nullptr);
-  EXPECT_TRUE(!left->getAttributes() || left->getAttributes()->empty())
-      << "left operand 'b' should have no attributes";
+  EXPECT_TRUE(!left->getAttributes() || left->getAttributes()->empty()) << "left operand 'b' should have no attributes";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

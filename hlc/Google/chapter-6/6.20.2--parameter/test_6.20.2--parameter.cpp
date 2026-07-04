@@ -71,21 +71,8 @@ namespace hlc {
 
 class ParameterTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.2--parameter.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.2--parameter.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -104,8 +91,7 @@ static const hldb::Parameter *getParam(const hldb::Design *d) {
 
 static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty())
-    return nullptr;
+  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty()) return nullptr;
   return (*m->getParamAssigns())[0];
 }
 
@@ -113,9 +99,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
 // Module
 // ===========================================================================
 
-TEST_F(ParameterTest, ModuleExists) {
-  EXPECT_NE(getTop(m_design), nullptr);
-}
+TEST_F(ParameterTest, ModuleExists) { EXPECT_NE(getTop(m_design), nullptr); }
 
 // ===========================================================================
 // Parameter collection
@@ -128,9 +112,7 @@ TEST_F(ParameterTest, Parameter_Collection_HasOneEntry) {
   EXPECT_EQ(m->getParameters()->size(), 1u);
 }
 
-TEST_F(ParameterTest, Parameter_p_Exists) {
-  EXPECT_NE(getParam(m_design), nullptr);
-}
+TEST_F(ParameterTest, Parameter_p_Exists) { EXPECT_NE(getParam(m_design), nullptr); }
 
 // IEEE 1800-2017 §6.20.2: a parameter without an explicit type is inferred
 // as logic; Surelog represents this as LogicTypespec via RefTypespec.
@@ -161,8 +143,7 @@ TEST_F(ParameterTest, ParamAssign_Collection_HasOneEntry) {
 TEST_F(ParameterTest, ParamAssign_Lhs_IsRefObj) {
   const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr)
-      << "ParamAssign LHS must be a RefObj";
+  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr) << "ParamAssign LHS must be a RefObj";
 }
 
 TEST_F(ParameterTest, ParamAssign_Lhs_NameIsP) {
@@ -179,8 +160,7 @@ TEST_F(ParameterTest, ParamAssign_Lhs_ActualIsParameter) {
   ASSERT_NE(pa, nullptr);
   const hldb::RefObj *lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr)
-      << "LHS RefObj must resolve to a Parameter";
+  EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr) << "LHS RefObj must resolve to a Parameter";
 }
 
 // ===========================================================================
@@ -190,8 +170,7 @@ TEST_F(ParameterTest, ParamAssign_Lhs_ActualIsParameter) {
 TEST_F(ParameterTest, ParamAssign_Rhs_IsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "ParamAssign RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ParamAssign RHS must be a Constant";
 }
 
 // IEEE 1800-2017 §5.7.1: unsized decimal integer literals without a sign
@@ -201,8 +180,7 @@ TEST_F(ParameterTest, ParamAssign_Rhs_ConstType_IsUnsignedInt) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst)
-      << "Constant for '123' must have vpiConstType == vpiUIntConst (9)";
+  EXPECT_EQ(rhs->getConstType(), vpiUIntConst) << "Constant for '123' must have vpiConstType == vpiUIntConst (9)";
 }
 
 // The value string must reproduce the exact source literal.
@@ -222,10 +200,9 @@ TEST_F(ParameterTest, ParamAssign_Rhs_SizeIs64) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getSize(), 64)
-      << "unsized decimal literal in untyped parameter must have host-int size (64)";
+  EXPECT_EQ(rhs->getSize(), 64) << "unsized decimal literal in untyped parameter must have host-int size (64)";
 }
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

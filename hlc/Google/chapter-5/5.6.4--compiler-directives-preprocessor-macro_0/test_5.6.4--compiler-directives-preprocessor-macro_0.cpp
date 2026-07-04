@@ -42,23 +42,8 @@ namespace hlc {
 
 class CompilerDirectivesPreprocessorMacro0 : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__,
-            {"-f", "5.6.4--compiler-directives-preprocessor-macro_0.hlc"});
-
-    // Compilation runs despite the syntax error; m_design is still populated.
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-preprocessor-macro_0.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -66,8 +51,7 @@ class CompilerDirectivesPreprocessorMacro0 : public Test {
 // error.  The file has no module declaration, so no modules reach UHDM.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPreprocessorMacro0, DesignHasNoModules) {
-  EXPECT_TRUE(!m_design->getAllModules() ||
-              m_design->getAllModules()->empty())
+  EXPECT_TRUE(!m_design->getAllModules() || m_design->getAllModules()->empty())
       << "no modules should be present: the file has no module declaration "
          "and the `else branch produces a syntax error";
 }
@@ -80,7 +64,7 @@ TEST_F(CompilerDirectivesPreprocessorMacro0, DesignHasOneSourceFile) {
   EXPECT_EQ(m_design->getSourceFiles()->size(), 1u);
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

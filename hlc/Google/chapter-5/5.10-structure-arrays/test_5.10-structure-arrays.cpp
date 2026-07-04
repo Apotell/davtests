@@ -38,21 +38,8 @@ namespace hlc {
 
 class StructuredArrays : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.10-structure-arrays.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.10-structure-arrays.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StructuredArrays, ModuleExists) {
@@ -63,15 +50,17 @@ TEST_F(StructuredArrays, ModuleExists) {
 // Typedef ms_t
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArrays, TypedefMsTExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr) << "module has no typespecs";
 
   const hldb::TypedefTypespec *msT = nullptr;
   for (const hldb::Typespec *const ts : *top->getTypespecs()) {
     if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
-      if (tdt->getName() == "ms_t") { msT = tdt; break; }
+      if (tdt->getName() == "ms_t") {
+        msT = tdt;
+        break;
+      }
     }
   }
   ASSERT_NE(msT, nullptr) << "TypedefTypespec 'ms_t' not found in module";
@@ -81,42 +70,44 @@ TEST_F(StructuredArrays, TypedefMsTExists) {
 // Struct members (a, b) via ms_t alias
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArrays, StructHasTwoMembers) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
   const hldb::TypedefTypespec *msT = nullptr;
   for (const hldb::Typespec *const ts : *top->getTypespecs()) {
     if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
-      if (tdt->getName() == "ms_t") { msT = tdt; break; }
+      if (tdt->getName() == "ms_t") {
+        msT = tdt;
+        break;
+      }
     }
   }
   ASSERT_NE(msT, nullptr);
 
-  const hldb::StructTypespec *const st =
-      any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
   ASSERT_NE(st, nullptr) << "ms_t alias does not resolve to a StructTypespec";
   ASSERT_NE(st->getMembers(), nullptr) << "StructTypespec has no members";
   EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
 }
 
 TEST_F(StructuredArrays, StructMemberNamesAreAandB) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
   const hldb::TypedefTypespec *msT = nullptr;
   for (const hldb::Typespec *const ts : *top->getTypespecs()) {
     if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
-      if (tdt->getName() == "ms_t") { msT = tdt; break; }
+      if (tdt->getName() == "ms_t") {
+        msT = tdt;
+        break;
+      }
     }
   }
   ASSERT_NE(msT, nullptr);
 
-  const hldb::StructTypespec *const st =
-      any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(msT->getTypedefAlias()->getActual());
   ASSERT_NE(st, nullptr);
   ASSERT_NE(st->getMembers(), nullptr);
   ASSERT_EQ(st->getMembers()->size(), 2u);
@@ -129,70 +120,74 @@ TEST_F(StructuredArrays, StructMemberNamesAreAandB) {
 // Variable ms
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArrays, ArrayVarExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr) << "module has no variables";
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr) << "variable 'ms' not found in module";
 }
 
 TEST_F(StructuredArrays, ArrayVarTypespecIsArray) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
   ASSERT_NE(ms->getTypespec(), nullptr) << "variable 'ms' has no typespec";
 
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
   ASSERT_NE(at, nullptr) << "variable 'ms' typespec is not an ArrayTypespec";
 }
 
 TEST_F(StructuredArrays, ArrayElemTypespecReferencesMsT) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
 
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr) << "ArrayTypespec has no element typespec";
-  EXPECT_EQ(at->getElemTypespec()->getName(), "ms_t")
-      << "array element typespec does not reference 'ms_t'";
+  EXPECT_EQ(at->getElemTypespec()->getName(), "ms_t") << "array element typespec does not reference 'ms_t'";
 }
 
 TEST_F(StructuredArrays, ArrayHasRange) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
 
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(ms->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
   EXPECT_NE(at->getRange(), nullptr) << "ArrayTypespec has no range (expected [1:0])";
 }
@@ -201,28 +196,32 @@ TEST_F(StructuredArrays, ArrayHasRange) {
 // Initializer: '{'{0,0}, '{1,1}}
 // ---------------------------------------------------------------------------
 TEST_F(StructuredArrays, ArrayVarHasInitializer) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
   EXPECT_NE(ms->getValue(), nullptr) << "variable 'ms' has no initializer";
 }
 
 TEST_F(StructuredArrays, InitializerIsAssignPattern) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
 
@@ -233,33 +232,36 @@ TEST_F(StructuredArrays, InitializerIsAssignPattern) {
 }
 
 TEST_F(StructuredArrays, InitializerHasTwoElements) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
 
   const hldb::Operation *const init = ms->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
   ASSERT_NE(init->getOperands(), nullptr) << "initializer has no operands";
-  EXPECT_EQ(init->getOperands()->size(), 2u)
-      << "expected 2 elements in outer assign pattern ('{0,0} and '{1,1})";
+  EXPECT_EQ(init->getOperands()->size(), 2u) << "expected 2 elements in outer assign pattern ('{0,0} and '{1,1})";
 }
 
 TEST_F(StructuredArrays, EachElementIsAssignPattern) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
 
@@ -269,8 +271,7 @@ TEST_F(StructuredArrays, EachElementIsAssignPattern) {
   ASSERT_EQ(init->getOperands()->size(), 2u);
 
   for (size_t i = 0; i < 2u; ++i) {
-    const hldb::Operation *const elem =
-        any_cast<hldb::Operation>((*init->getOperands())[i]);
+    const hldb::Operation *const elem = any_cast<hldb::Operation>((*init->getOperands())[i]);
     ASSERT_NE(elem, nullptr) << "element [" << i << "] is not an Operation";
     EXPECT_EQ(elem->getOpType(), vpiAssignmentPatternOp)
         << "element [" << i << "] is not vpiAssignmentPatternOp (expected '{a, b})";
@@ -278,14 +279,16 @@ TEST_F(StructuredArrays, EachElementIsAssignPattern) {
 }
 
 TEST_F(StructuredArrays, EachElementHasTwoFields) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
   const hldb::Variable *ms = nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") { ms = v; break; }
+    if (v->getName() == "ms") {
+      ms = v;
+      break;
+    }
   }
   ASSERT_NE(ms, nullptr);
 
@@ -295,16 +298,14 @@ TEST_F(StructuredArrays, EachElementHasTwoFields) {
   ASSERT_EQ(init->getOperands()->size(), 2u);
 
   for (size_t i = 0; i < 2u; ++i) {
-    const hldb::Operation *const elem =
-        any_cast<hldb::Operation>((*init->getOperands())[i]);
+    const hldb::Operation *const elem = any_cast<hldb::Operation>((*init->getOperands())[i]);
     ASSERT_NE(elem, nullptr);
     ASSERT_NE(elem->getOperands(), nullptr) << "element [" << i << "] has no operands";
-    EXPECT_EQ(elem->getOperands()->size(), 2u)
-        << "element [" << i << "] should have 2 field values (for 'a' and 'b')";
+    EXPECT_EQ(elem->getOperands()->size(), 2u) << "element [" << i << "] should have 2 field values (for 'a' and 'b')";
   }
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

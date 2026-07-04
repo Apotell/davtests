@@ -82,21 +82,8 @@ namespace hlc {
 
 class StringWordAssignment : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.9-string-word-assignment.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.9-string-word-assignment.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -121,16 +108,13 @@ static const hldb::Operation *getNetARangeLeft(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(StringWordAssignment, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(StringWordAssignment, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(StringWordAssignment, TwoNetsExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 2u)
-      << "expected 2 nets: a (bit [8*3-1:0]) and b (byte [3:0])";
+  EXPECT_EQ(m->getNets()->size(), 2u) << "expected 2 nets: a (bit [8*3-1:0]) and b (byte [3:0])";
 }
 
 TEST_F(StringWordAssignment, NoInitialBlock) {
@@ -172,11 +156,9 @@ TEST_F(StringWordAssignment, NetA_HasBitTypespec) {
 // ---------------------------------------------------------------------------
 TEST_F(StringWordAssignment, NetA_RangeLeft_IsSubtractOperation) {
   const hldb::Operation *const sub_op = getNetARangeLeft(m_design);
-  ASSERT_NE(sub_op, nullptr)
-      << "§5.9: range left of 'bit [8*3-1:0]' must be a subtract Operation";
+  ASSERT_NE(sub_op, nullptr) << "§5.9: range left of 'bit [8*3-1:0]' must be a subtract Operation";
   // vpiSubOp = 11
-  EXPECT_EQ(sub_op->getOpType(), 11)
-      << "§5.9: outer operation must be subtract (opType=11) for '(8*3) - 1'";
+  EXPECT_EQ(sub_op->getOpType(), 11) << "§5.9: outer operation must be subtract (opType=11) for '(8*3) - 1'";
 }
 
 TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractFirstOperand_IsMultiply) {
@@ -184,13 +166,10 @@ TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractFirstOperand_IsMultiply) {
   ASSERT_NE(sub_op, nullptr);
   ASSERT_NE(sub_op->getOperands(), nullptr);
   ASSERT_GE(sub_op->getOperands()->size(), 1u);
-  const auto *mult_op =
-      any_cast<const hldb::Operation *>((*sub_op->getOperands())[0]);
-  ASSERT_NE(mult_op, nullptr)
-      << "first operand of subtract must be a multiply Operation";
+  const auto *mult_op = any_cast<const hldb::Operation *>((*sub_op->getOperands())[0]);
+  ASSERT_NE(mult_op, nullptr) << "first operand of subtract must be a multiply Operation";
   // vpiMultOp = 25
-  EXPECT_EQ(mult_op->getOpType(), 25)
-      << "§5.9: first operand of subtract must be multiply (opType=25) for '8*3'";
+  EXPECT_EQ(mult_op->getOpType(), 25) << "§5.9: first operand of subtract must be multiply (opType=25) for '8*3'";
 }
 
 TEST_F(StringWordAssignment, NetA_RangeLeft_MultiplyOperands_Are8And3) {
@@ -199,21 +178,16 @@ TEST_F(StringWordAssignment, NetA_RangeLeft_MultiplyOperands_Are8And3) {
   const hldb::Operation *const sub_op = getNetARangeLeft(m_design);
   ASSERT_NE(sub_op, nullptr);
   ASSERT_NE(sub_op->getOperands(), nullptr);
-  const auto *mult_op =
-      any_cast<const hldb::Operation *>((*sub_op->getOperands())[0]);
+  const auto *mult_op = any_cast<const hldb::Operation *>((*sub_op->getOperands())[0]);
   ASSERT_NE(mult_op, nullptr);
   ASSERT_NE(mult_op->getOperands(), nullptr);
   ASSERT_EQ(mult_op->getOperands()->size(), 2u);
-  const auto *c8 =
-      any_cast<const hldb::Constant *>((*mult_op->getOperands())[0]);
-  const auto *c3 =
-      any_cast<const hldb::Constant *>((*mult_op->getOperands())[1]);
+  const auto *c8 = any_cast<const hldb::Constant *>((*mult_op->getOperands())[0]);
+  const auto *c3 = any_cast<const hldb::Constant *>((*mult_op->getOperands())[1]);
   ASSERT_NE(c8, nullptr) << "multiply left operand must be Constant 8";
   ASSERT_NE(c3, nullptr) << "multiply right operand must be Constant 3";
-  EXPECT_EQ(std::string(c8->getValue()), "8")
-      << "§5.9: first multiply operand must be 8 (chars per word)";
-  EXPECT_EQ(std::string(c3->getValue()), "3")
-      << "§5.9: second multiply operand must be 3 (number of chars in \"hi0\")";
+  EXPECT_EQ(std::string(c8->getValue()), "8") << "§5.9: first multiply operand must be 8 (chars per word)";
+  EXPECT_EQ(std::string(c3->getValue()), "3") << "§5.9: second multiply operand must be 3 (number of chars in \"hi0\")";
 }
 
 TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractSecondOperand_Is1) {
@@ -222,11 +196,9 @@ TEST_F(StringWordAssignment, NetA_RangeLeft_SubtractSecondOperand_Is1) {
   ASSERT_NE(sub_op, nullptr);
   ASSERT_NE(sub_op->getOperands(), nullptr);
   ASSERT_EQ(sub_op->getOperands()->size(), 2u);
-  const auto *c1 =
-      any_cast<const hldb::Constant *>((*sub_op->getOperands())[1]);
+  const auto *c1 = any_cast<const hldb::Constant *>((*sub_op->getOperands())[1]);
   ASSERT_NE(c1, nullptr) << "subtract second operand must be Constant 1";
-  EXPECT_EQ(std::string(c1->getValue()), "1")
-      << "§5.9: '8*3-1' — second operand of subtract must be 1";
+  EXPECT_EQ(std::string(c1->getValue()), "1") << "§5.9: '8*3-1' — second operand of subtract must be 1";
 }
 
 TEST_F(StringWordAssignment, NetA_RangeRight_Is0) {
@@ -239,8 +211,7 @@ TEST_F(StringWordAssignment, NetA_RangeRight_Is0) {
   ASSERT_FALSE(ranges->empty());
   const auto *right = ranges->front()->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr) << "right bound of [8*3-1:0] must be a Constant";
-  EXPECT_EQ(right->getDecompile(), "0")
-      << "§5.9: right bound of [8*3-1:0] must be 0";
+  EXPECT_EQ(right->getDecompile(), "0") << "§5.9: right bound of [8*3-1:0] must be 0";
 }
 
 // ---------------------------------------------------------------------------
@@ -260,8 +231,7 @@ TEST_F(StringWordAssignment, NetA_RangeRight_Is0) {
 TEST_F(StringWordAssignment, NetA_Value_IsStringConst) {
   const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline value Constant";
-  EXPECT_EQ(c->getConstType(), 6)
-      << "§5.9: string literal must be vpiStringConst (6)";
+  EXPECT_EQ(c->getConstType(), 6) << "§5.9: string literal must be vpiStringConst (6)";
 }
 
 TEST_F(StringWordAssignment, NetA_Value_SizeIs24_ExactFit) {
@@ -269,18 +239,16 @@ TEST_F(StringWordAssignment, NetA_Value_SizeIs24_ExactFit) {
   // Target 'bit [8*3-1:0]' = 24 bits. Size must equal 24 — no bits lost.
   const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 24)
-      << "§5.9: \"hi0\" = 3 chars × 8 = 24 bits; 'bit [8*3-1:0]' = 24 bits "
-         "— exact fit, no truncation and no zero-padding";
+  EXPECT_EQ(c->getSize(), 24) << "§5.9: \"hi0\" = 3 chars × 8 = 24 bits; 'bit [8*3-1:0]' = 24 bits "
+                                 "— exact fit, no truncation and no zero-padding";
 }
 
 TEST_F(StringWordAssignment, NetA_Value_AllCharsPreserved) {
   // §5.9: no characters were truncated — value holds all 3 source chars.
   const auto *c = getNet(m_design, "a")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "hi0")
-      << "§5.9: all 3 characters of \"hi0\" must be preserved in the packed "
-         "assignment (exact fit — none truncated from the left)";
+  EXPECT_EQ(c->getValue(), "hi0") << "§5.9: all 3 characters of \"hi0\" must be preserved in the packed "
+                                     "assignment (exact fit — none truncated from the left)";
 }
 
 TEST_F(StringWordAssignment, NetA_Value_HasStringTypespec) {
@@ -307,18 +275,15 @@ TEST_F(StringWordAssignment, NetB_HasArrayTypespec) {
 }
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_IsUnpacked) {
-  const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
+  const auto *at = getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_FALSE(at->getPacked())
-      << "§5.9: 'byte b[3:0]' uses an unpacked dimension — getPacked() "
-         "must be false";
+  EXPECT_FALSE(at->getPacked()) << "§5.9: 'byte b[3:0]' uses an unpacked dimension — getPacked() "
+                                   "must be false";
 }
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_ElemIsByteTypespec) {
   // §5.9: each element is a 'byte' (implicit 8-bit signed 2-state type).
-  const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
+  const auto *at = getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr) << "ArrayTypespec has no element typespec";
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::ByteTypespec>(), nullptr)
@@ -326,27 +291,23 @@ TEST_F(StringWordAssignment, NetB_ArrayTypespec_ElemIsByteTypespec) {
 }
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeLeft_Is3) {
-  const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
+  const auto *at = getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr) << "ArrayTypespec for 'byte b[3:0]' has no range";
   const auto *left = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getDecompile(), "3")
-      << "'byte b[3:0]': left (high) bound must be 3";
+  EXPECT_EQ(left->getDecompile(), "3") << "'byte b[3:0]': left (high) bound must be 3";
 }
 
 TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeRight_Is0) {
-  const auto *at =
-      getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
+  const auto *at = getNet(m_design, "b")->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
   const auto *right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(right->getDecompile(), "0")
-      << "'byte b[3:0]': right (low) bound must be 0";
+  EXPECT_EQ(right->getDecompile(), "0") << "'byte b[3:0]': right (low) bound must be 0";
 }
 
 // ---------------------------------------------------------------------------
@@ -367,8 +328,7 @@ TEST_F(StringWordAssignment, NetB_ArrayTypespec_RangeRight_Is0) {
 TEST_F(StringWordAssignment, NetB_Value_IsStringConst) {
   const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'b' has no inline value Constant";
-  EXPECT_EQ(c->getConstType(), 6)
-      << "§5.9: string literal must be vpiStringConst (6)";
+  EXPECT_EQ(c->getConstType(), 6) << "§5.9: string literal must be vpiStringConst (6)";
 }
 
 TEST_F(StringWordAssignment, NetB_Value_SizeIs24_ShorterThanArray) {
@@ -378,9 +338,8 @@ TEST_F(StringWordAssignment, NetB_Value_SizeIs24_ShorterThanArray) {
   // left-zero-padding applies: b[3] = 0x00.
   const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 24)
-      << "§5.9: \"hi2\" = 3 chars × 8 = 24 bits; array 'byte b[3:0]' = 32 bits "
-         "— size=24 < 32 means b[3] is zero-padded per §5.9";
+  EXPECT_EQ(c->getSize(), 24) << "§5.9: \"hi2\" = 3 chars × 8 = 24 bits; array 'byte b[3:0]' = 32 bits "
+                                 "— size=24 < 32 means b[3] is zero-padded per §5.9";
 }
 
 TEST_F(StringWordAssignment, NetB_Value_AllCharsPreserved) {
@@ -388,9 +347,8 @@ TEST_F(StringWordAssignment, NetB_Value_AllCharsPreserved) {
   // Only zero-padding at b[3] occurs; b[2..0] hold all source characters.
   const auto *c = getNet(m_design, "b")->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getValue(), "hi2")
-      << "§5.9: all 3 source characters of \"hi2\" must be preserved "
-         "(string shorter than array → padding not truncation)";
+  EXPECT_EQ(c->getValue(), "hi2") << "§5.9: all 3 source characters of \"hi2\" must be preserved "
+                                     "(string shorter than array → padding not truncation)";
 }
 
 TEST_F(StringWordAssignment, NetB_Value_HasStringTypespec) {
@@ -401,7 +359,7 @@ TEST_F(StringWordAssignment, NetB_Value_HasStringTypespec) {
       << "§5.9: string literal initializer must have a StringTypespec";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -53,21 +53,8 @@ namespace hlc {
 
 class IntegersLeftPaddingBit : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-left-padding-bit.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-left-padding-bit.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -77,14 +64,12 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -94,32 +79,27 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersLeftPaddingBit, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersLeftPaddingBit, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersLeftPaddingBit, FourNetsExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 4u)
-      << "expected 4 nets: a, b, c, d (logic[15:0])";
+  EXPECT_EQ(m->getNets()->size(), 4u) << "expected 4 nets: a, b, c, d (logic[15:0])";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block — Begin wrapper with 4 blocking assignments
 // ---------------------------------------------------------------------------
 TEST_F(IntegersLeftPaddingBit, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr)
-      << "Initial block should contain a Begin statement";
+  ASSERT_NE(getBegin(m_design), nullptr) << "Initial block should contain a Begin statement";
 }
 
 TEST_F(IntegersLeftPaddingBit, BeginHasFourStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 4u)
-      << "Begin block should have 4 assignment statements";
+  EXPECT_EQ(begin->getStmts()->size(), 4u) << "Begin block should have 4 assignment statements";
 }
 
 TEST_F(IntegersLeftPaddingBit, AllAssignmentsAreBlocking) {
@@ -127,11 +107,9 @@ TEST_F(IntegersLeftPaddingBit, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -145,8 +123,7 @@ TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsIsBinaryConstant) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'0 constant should be present as RHS";
   // vpiUdpConst == 3, but in this context binary (3) means fill-0
-  EXPECT_EQ(rhs->getConstType(), 3)
-      << "'0 fill constant should have constType binary (3)";
+  EXPECT_EQ(rhs->getConstType(), 3) << "'0 fill constant should have constType binary (3)";
 }
 
 TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsSizeIsOne) {
@@ -154,8 +131,7 @@ TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsSizeIsOne) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getSize(), 1)
-      << "'0 fill constant is stored as a single-bit value";
+  EXPECT_EQ(rhs->getSize(), 1) << "'0 fill constant is stored as a single-bit value";
 }
 
 TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsDecompile) {
@@ -175,8 +151,7 @@ TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsIsBinaryConstant) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'1 constant should be present as RHS";
-  EXPECT_EQ(rhs->getConstType(), 3)
-      << "'1 fill constant should have constType binary (3)";
+  EXPECT_EQ(rhs->getConstType(), 3) << "'1 fill constant should have constType binary (3)";
 }
 
 TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsSizeIsOne) {
@@ -203,19 +178,17 @@ TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsIsNull) {
   // c = 'x  —  no RHS constant emitted by Surelog
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getRhs(), nullptr)
-      << "'x fill constant: Surelog emits no RHS node";
+  EXPECT_EQ(assign->getRhs(), nullptr) << "'x fill constant: Surelog emits no RHS node";
 }
 
 TEST_F(IntegersLeftPaddingBit, AssignmentD_RhsIsNull) {
   // d = 'z  —  no RHS constant emitted by Surelog
   const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getRhs(), nullptr)
-      << "'z fill constant: Surelog emits no RHS node";
+  EXPECT_EQ(assign->getRhs(), nullptr) << "'z fill constant: Surelog emits no RHS node";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

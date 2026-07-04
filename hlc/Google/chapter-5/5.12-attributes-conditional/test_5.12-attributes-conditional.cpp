@@ -48,35 +48,20 @@ namespace hlc {
 
 class AttributesConditional : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.12-attributes-conditional.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.12-attributes-conditional.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // Helper: the one Assignment inside initial begin.
 static const hldb::Assignment *getAssignment(const hldb::Design *design) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
       const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
       for (const hldb::Any *const s : *blk->getStmts()) {
-        if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s))
-          return a;
+        if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s)) return a;
       }
     }
   }
@@ -91,8 +76,7 @@ TEST_F(AttributesConditional, ModuleExists) {
 }
 
 TEST_F(AttributesConditional, FourBitNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 4u) << "expected 4 nets: a, b, c, d";
@@ -139,8 +123,7 @@ TEST_F(AttributesConditional, RhsIsConditionalOperation) {
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "RHS is not an Operation";
-  EXPECT_EQ(rhs->getOpType(), vpiConditionOp)
-      << "RHS opType should be vpiConditionOp (32)";
+  EXPECT_EQ(rhs->getOpType(), vpiConditionOp) << "RHS opType should be vpiConditionOp (32)";
 }
 
 TEST_F(AttributesConditional, ConditionalHasThreeOperands) {
@@ -149,8 +132,7 @@ TEST_F(AttributesConditional, ConditionalHasThreeOperands) {
   const hldb::Operation *const rhs = a->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
-  EXPECT_EQ(rhs->getOperands()->size(), 3u)
-      << "ternary operator needs exactly 3 operands: condition, true, false";
+  EXPECT_EQ(rhs->getOperands()->size(), 3u) << "ternary operator needs exactly 3 operands: condition, true, false";
 }
 
 TEST_F(AttributesConditional, OperandZeroIsConditionB) {
@@ -160,8 +142,7 @@ TEST_F(AttributesConditional, OperandZeroIsConditionB) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const hldb::RefObj *const cond =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
+  const hldb::RefObj *const cond = any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
   ASSERT_NE(cond, nullptr) << "operand[0] (condition) should be a RefObj";
   EXPECT_EQ(cond->getName(), "b");
 }
@@ -173,8 +154,7 @@ TEST_F(AttributesConditional, OperandOneIsTrueBranchC) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const hldb::RefObj *const trueBranch =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const trueBranch = any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(trueBranch, nullptr) << "operand[1] (true branch) should be a RefObj";
   EXPECT_EQ(trueBranch->getName(), "c");
 }
@@ -186,8 +166,7 @@ TEST_F(AttributesConditional, OperandTwoIsFalseBranchD) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const hldb::RefObj *const falseBranch =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[2]);
+  const hldb::RefObj *const falseBranch = any_cast<hldb::RefObj>((*rhs->getOperands())[2]);
   ASSERT_NE(falseBranch, nullptr) << "operand[2] (false branch) should be a RefObj";
   EXPECT_EQ(falseBranch->getName(), "d");
 }
@@ -203,11 +182,9 @@ TEST_F(AttributesConditional, TrueBranchHasNoGlitchAttribute) {
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
   // Attribute is on the branch Expr node, not on the Operation itself.
-  const hldb::RefObj *const trueBranch =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const trueBranch = any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(trueBranch, nullptr);
-  ASSERT_NE(trueBranch->getAttributes(), nullptr)
-      << "true branch 'c' should have attributes";
+  ASSERT_NE(trueBranch->getAttributes(), nullptr) << "true branch 'c' should have attributes";
   ASSERT_EQ(trueBranch->getAttributes()->size(), 1u);
   EXPECT_EQ((*trueBranch->getAttributes())[0]->getName(), "no_glitch");
 }
@@ -219,8 +196,7 @@ TEST_F(AttributesConditional, NoGlitchIsFlagAttribute) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const hldb::RefObj *const trueBranch =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
+  const hldb::RefObj *const trueBranch = any_cast<hldb::RefObj>((*rhs->getOperands())[1]);
   ASSERT_NE(trueBranch, nullptr);
   ASSERT_NE(trueBranch->getAttributes(), nullptr);
   ASSERT_EQ(trueBranch->getAttributes()->size(), 1u);
@@ -228,8 +204,7 @@ TEST_F(AttributesConditional, NoGlitchIsFlagAttribute) {
   // Flag attribute: no = expr, so getValue() is null
   const hldb::Attribute *const attr = (*trueBranch->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
-  EXPECT_EQ(attr->getValue(), nullptr)
-      << "'no_glitch' is a flag attribute and should have no value";
+  EXPECT_EQ(attr->getValue(), nullptr) << "'no_glitch' is a flag attribute and should have no value";
 }
 
 TEST_F(AttributesConditional, ConditionAndFalseBranchHaveNoAttributes) {
@@ -239,20 +214,17 @@ TEST_F(AttributesConditional, ConditionAndFalseBranchHaveNoAttributes) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 3u);
 
-  const hldb::RefObj *const cond  =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
-  const hldb::RefObj *const falseBranch =
-      any_cast<hldb::RefObj>((*rhs->getOperands())[2]);
-  ASSERT_NE(cond,        nullptr);
+  const hldb::RefObj *const cond = any_cast<hldb::RefObj>((*rhs->getOperands())[0]);
+  const hldb::RefObj *const falseBranch = any_cast<hldb::RefObj>((*rhs->getOperands())[2]);
+  ASSERT_NE(cond, nullptr);
   ASSERT_NE(falseBranch, nullptr);
 
-  EXPECT_TRUE(!cond->getAttributes() || cond->getAttributes()->empty())
-      << "condition 'b' should have no attributes";
+  EXPECT_TRUE(!cond->getAttributes() || cond->getAttributes()->empty()) << "condition 'b' should have no attributes";
   EXPECT_TRUE(!falseBranch->getAttributes() || falseBranch->getAttributes()->empty())
       << "false branch 'd' should have no attributes";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

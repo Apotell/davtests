@@ -40,21 +40,8 @@ namespace hlc {
 
 class Identifiers : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6--identifiers.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6--identifiers.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -71,9 +58,7 @@ static bool hasNet(const hldb::Module *m, std::string_view name) {
 // ---------------------------------------------------------------------------
 // Module
 // ---------------------------------------------------------------------------
-TEST_F(Identifiers, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@identifiers' not found";
-}
+TEST_F(Identifiers, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@identifiers' not found"; }
 
 TEST_F(Identifiers, EightNetsExist) {
   const hldb::Module *const m = getTop(m_design);
@@ -86,52 +71,42 @@ TEST_F(Identifiers, EightNetsExist) {
 // Standard identifiers with underscores
 // ---------------------------------------------------------------------------
 TEST_F(Identifiers, NetShiftregA) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "shiftreg_a"))
-      << "net 'shiftreg_a' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "shiftreg_a")) << "net 'shiftreg_a' not found";
 }
 
 TEST_F(Identifiers, NetBusaIndex) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "busa_index"))
-      << "net 'busa_index' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "busa_index")) << "net 'busa_index' not found";
 }
 
 TEST_F(Identifiers, NetErrorCondition) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "error_condition"))
-      << "net 'error_condition' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "error_condition")) << "net 'error_condition' not found";
 }
 
-TEST_F(Identifiers, NetMergeAb) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "merge_ab"))
-      << "net 'merge_ab' not found";
-}
+TEST_F(Identifiers, NetMergeAb) { EXPECT_TRUE(hasNet(getTop(m_design), "merge_ab")) << "net 'merge_ab' not found"; }
 
 // ---------------------------------------------------------------------------
 // Leading-underscore identifier
 // ---------------------------------------------------------------------------
 TEST_F(Identifiers, NetBus3WithLeadingUnderscore) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "_bus3"))
-      << "net '_bus3' (leading underscore) not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "_bus3")) << "net '_bus3' (leading underscore) not found";
 }
 
 // ---------------------------------------------------------------------------
 // Dollar-sign identifier
 // ---------------------------------------------------------------------------
 TEST_F(Identifiers, NetN657WithDollarSign) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "n$657"))
-      << "net 'n$657' (dollar sign) not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "n$657")) << "net 'n$657' (dollar sign) not found";
 }
 
 // ---------------------------------------------------------------------------
 // Case sensitivity: 'sensitive' and 'Sensitive' are distinct nets
 // ---------------------------------------------------------------------------
 TEST_F(Identifiers, NetSensitiveLowercase) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "sensitive"))
-      << "net 'sensitive' (lowercase) not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "sensitive")) << "net 'sensitive' (lowercase) not found";
 }
 
 TEST_F(Identifiers, NetSensitiveUppercase) {
-  EXPECT_TRUE(hasNet(getTop(m_design), "Sensitive"))
-      << "net 'Sensitive' (uppercase) not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "Sensitive")) << "net 'Sensitive' (uppercase) not found";
 }
 
 TEST_F(Identifiers, SensitiveAndSensitiveAreDistinct) {
@@ -150,7 +125,7 @@ TEST_F(Identifiers, SensitiveAndSensitiveAreDistinct) {
   EXPECT_NE(lower, upper) << "'sensitive' and 'Sensitive' must be distinct nets";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

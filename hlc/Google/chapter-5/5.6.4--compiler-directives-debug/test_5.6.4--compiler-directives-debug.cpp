@@ -47,38 +47,22 @@ namespace hlc {
 
 class CompilerDirectivesDebug : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.4--compiler-directives-debug.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-debug.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>(
-      "work@directives", d->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@directives", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
-    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p))
-      return i->getStmt<hldb::SysFuncCall>();
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysFuncCall>();
   }
   return nullptr;
 }
 
 static const hldb::Constant *getArg(const hldb::Design *d, std::size_t idx) {
   const hldb::SysFuncCall *const c = getDisplay(d);
-  if (!c || !c->getArguments() || c->getArguments()->size() <= idx)
-    return nullptr;
+  if (!c || !c->getArguments() || c->getArguments()->size() <= idx) return nullptr;
   return any_cast<hldb::Constant>((*c->getArguments())[idx]);
 }
 
@@ -86,9 +70,7 @@ static const hldb::Constant *getArg(const hldb::Design *d, std::size_t idx) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, ModuleExists) {
-  ASSERT_NE(
-      hldb::findByName<hldb::Module>("work@directives", m_design->getAllModules()),
-      nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@directives", m_design->getAllModules()), nullptr)
       << "module 'work@directives' not found";
 }
 
@@ -136,7 +118,8 @@ TEST_F(CompilerDirectivesDebug, FileDirectiveContainsSourceFilename) {
   const std::string_view val = arg->getValue();
   EXPECT_NE(val.find("5.6.4--compiler-directives-debug.sv"), std::string_view::npos)
       << "`__FILE__ should expand to a path containing the source filename; "
-         "got: " << val;
+         "got: "
+      << val;
 }
 
 // ---------------------------------------------------------------------------
@@ -156,7 +139,7 @@ TEST_F(CompilerDirectivesDebug, LineDirectiveValueIsSeventeen) {
   EXPECT_EQ(arg->getValue(), "17");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

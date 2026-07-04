@@ -47,21 +47,8 @@ namespace hlc {
 
 class CompilerDirectivesCelldefine : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.4--compiler-directives-celldefine.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-celldefine.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -69,21 +56,16 @@ class CompilerDirectivesCelldefine : public Test {
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesCelldefine, TwoModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u)
-      << "design should contain exactly two modules (cd and ncd)";
+  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "design should contain exactly two modules (cd and ncd)";
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleExists) {
-  EXPECT_NE(
-      hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules()),
-      nullptr)
+  EXPECT_NE(hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules()), nullptr)
       << "module 'work@cd' (inside `celldefine) not found";
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
-  EXPECT_NE(
-      hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules()),
-      nullptr)
+  EXPECT_NE(hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules()), nullptr)
       << "module 'work@ncd' (outside `celldefine) not found";
 }
 
@@ -91,34 +73,30 @@ TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
 // Both modules are empty — no nets, no processes
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoNets) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoNets) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoProcesses) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoProcesses) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

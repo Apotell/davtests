@@ -42,21 +42,8 @@ namespace hlc {
 
 class IntegersToken : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-token.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-token.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -66,9 +53,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersToken, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersToken, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);
@@ -78,16 +63,14 @@ TEST_F(IntegersToken, OneNetExists) {
 }
 
 TEST_F(IntegersToken, NetIsNamedA) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
   EXPECT_NE(net, nullptr) << "net 'a' not found";
 }
 
 TEST_F(IntegersToken, NoProcesses) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
-      << "module should have no initial/always processes";
+  EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty()) << "module should have no initial/always processes";
 }
 
 // ---------------------------------------------------------------------------
@@ -95,29 +78,25 @@ TEST_F(IntegersToken, NoProcesses) {
 // The typespec chain: Net::getTypespec() → RefTypespec → getActual<IntegerTypespec>()
 // ---------------------------------------------------------------------------
 TEST_F(IntegersToken, NetTypespecIsInteger) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const ref = net->getTypespec();
   ASSERT_NE(ref, nullptr) << "net 'a' has no typespec";
   const auto *const intTs = ref->getActual<hldb::IntegerTypespec>();
-  EXPECT_NE(intTs, nullptr)
-      << "'integer a' should have an IntegerTypespec, not LogicTypespec or other";
+  EXPECT_NE(intTs, nullptr) << "'integer a' should have an IntegerTypespec, not LogicTypespec or other";
 }
 
 TEST_F(IntegersToken, IntegerTypespecIsSigned) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", getTop(m_design)->getNets());
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const ref = net->getTypespec();
   ASSERT_NE(ref, nullptr);
   const auto *const intTs = ref->getActual<hldb::IntegerTypespec>();
   ASSERT_NE(intTs, nullptr);
-  EXPECT_TRUE(intTs->getSigned())
-      << "SV 'integer' is a signed 32-bit type; vpiSigned should be true";
+  EXPECT_TRUE(intTs->getSigned()) << "SV 'integer' is a signed 32-bit type; vpiSigned should be true";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

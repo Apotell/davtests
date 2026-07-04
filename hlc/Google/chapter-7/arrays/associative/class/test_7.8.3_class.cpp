@@ -32,11 +32,11 @@
 //   - work@top has no continuous assignments
 //
 // Not checked:
-//   - Surelog emits EL0535 ("Illegal implicit net C") — class C unresolved as index type
+//   - HLC emits EL0535 ("Illegal implicit net C") — class C unresolved as index type
 //   - index typespec is absent (null) in the error-recovery ArrayTypespec
 //   - COMPILER BEHAVIOR: Scope::getFullName() reads a stored field (setFullName must be called).
 //     The VPI dump shows `vpiFullName: work@top::C` — that is computed on-the-fly by VPI
-//     traversal, it does NOT read the stored field. Surelog never calls setFullName() on
+//     traversal, it does NOT read the stored field. HLC never calls setFullName() on
 //     ClassDefn nodes, so getFullName() returns empty string, not "work@top::C".
 
 #include <hlc/Common/Session.h>
@@ -57,45 +57,29 @@ namespace hlc {
 
 class Class : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "class.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "class.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module ---------------------------------------------------------------
 
 TEST_F(Class, ModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- class C definition ---------------------------------------------------
 
 TEST_F(Class, ModuleHasOneClassDefn) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   EXPECT_EQ(top->getClassDefns()->size(), 1u);
 }
 
 TEST_F(Class, ClassDefnNameIsC) {
-  // getName() returns the simple identifier stored by Surelog.
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  // getName() returns the simple identifier stored by HLC.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
@@ -104,8 +88,7 @@ TEST_F(Class, ClassDefnNameIsC) {
 }
 
 TEST_F(Class, ClassDefnStoredFullNameIsNonEmpty) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
@@ -115,8 +98,7 @@ TEST_F(Class, ClassDefnStoredFullNameIsNonEmpty) {
 }
 
 TEST_F(Class, ClassDefnHasOneVariable) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -125,8 +107,7 @@ TEST_F(Class, ClassDefnHasOneVariable) {
 }
 
 TEST_F(Class, ClassVariableNameIsX) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -135,8 +116,7 @@ TEST_F(Class, ClassVariableNameIsX) {
 }
 
 TEST_F(Class, ClassVariableXHasIntTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -150,24 +130,21 @@ TEST_F(Class, ClassVariableXHasIntTypespec) {
 // --- net arr (error-recovery: static array, not associative) -------------
 
 TEST_F(Class, ModuleHasOneNet) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Class, NetNameIsArr) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(Class, NetHasArrayTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -177,42 +154,40 @@ TEST_F(Class, NetHasArrayTypespec) {
 }
 
 TEST_F(Class, ArrayTypespecIsStaticDueToErrorRecovery) {
-  // int arr[C] — Surelog could not resolve C as an index type (EL0535),
+  // int arr[C] — HLC could not resolve C as an index type (EL0535),
   // so the ArrayTypespec falls back to static(1) instead of associative(3)
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::ArrayTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (error recovery)
 }
 
 TEST_F(Class, ArrayTypespecElemTypeIsInt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::ArrayTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
 TEST_F(Class, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(Class, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

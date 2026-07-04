@@ -58,21 +58,8 @@ namespace hlc {
 
 class IntegersLeftPadding : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-left-padding.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-left-padding.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -82,16 +69,14 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
 // Returns the i-th statement from the begin block cast to Assignment,
 // or nullptr if the index is out of range or the cast fails.
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -101,32 +86,27 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersLeftPadding, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersLeftPadding, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersLeftPadding, SevenNetsExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 7u)
-      << "expected 7 nets: a, b, c, d (logic[11:0]) and e, f, g (logic[84:0])";
+  EXPECT_EQ(m->getNets()->size(), 7u) << "expected 7 nets: a, b, c, d (logic[11:0]) and e, f, g (logic[84:0])";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block — Begin wrapper containing 7 blocking assignments
 // ---------------------------------------------------------------------------
 TEST_F(IntegersLeftPadding, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr)
-      << "Initial block should contain a Begin statement";
+  ASSERT_NE(getBegin(m_design), nullptr) << "Initial block should contain a Begin statement";
 }
 
 TEST_F(IntegersLeftPadding, BeginHasSevenStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 7u)
-      << "Begin block should have 7 assignment statements";
+  EXPECT_EQ(begin->getStmts()->size(), 7u) << "Begin block should have 7 assignment statements";
 }
 
 // ---------------------------------------------------------------------------
@@ -137,11 +117,9 @@ TEST_F(IntegersLeftPadding, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -153,14 +131,12 @@ TEST_F(IntegersLeftPadding, AllRhsConstantsAreHexadecimal) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     const auto *rhs = assign->getRhs<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "RHS of assignment[" << i << "] is not a Constant";
     // vpiHexConst == 5
-    EXPECT_EQ(rhs->getConstType(), 5)
-        << "assignment[" << i << "] RHS should be a hexadecimal constant (5)";
+    EXPECT_EQ(rhs->getConstType(), 5) << "assignment[" << i << "] RHS should be a hexadecimal constant (5)";
   }
 }
 
@@ -172,13 +148,11 @@ TEST_F(IntegersLeftPadding, AllRhsConstantsAreUnsized) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
     const auto *rhs = assign->getRhs<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "RHS of assignment[" << i << "] is not a Constant";
-    EXPECT_EQ(rhs->getSize(), -1)
-        << "assignment[" << i << "] RHS should be unsized (size == -1)";
+    EXPECT_EQ(rhs->getSize(), -1) << "assignment[" << i << "] RHS should be unsized (size == -1)";
   }
 }
 
@@ -285,7 +259,7 @@ TEST_F(IntegersLeftPadding, AssignmentG_getDecompile) {
   EXPECT_EQ(rhs->getDecompile(), "'hz");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

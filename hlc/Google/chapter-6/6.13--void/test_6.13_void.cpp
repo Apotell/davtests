@@ -43,21 +43,8 @@ namespace hlc {
 
 class Void : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.13--void.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.13--void.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(Void, ModuleExists) {
@@ -65,60 +52,50 @@ TEST_F(Void, ModuleExists) {
 }
 
 TEST_F(Void, NoNets) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
-      << "module should have no nets";
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
 }
 
 // ---------------------------------------------------------------------------
 // Function "fun" — void return, $display body
 // ---------------------------------------------------------------------------
 TEST_F(Void, OneFunctionExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr) << "module has no task/function declarations";
   EXPECT_EQ(top->getTaskFuncs()->size(), 1u);
 }
 
 TEST_F(Void, FunctionNameIsFun) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
-  const hldb::Function *const fun =
-      any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  const hldb::Function *const fun = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr) << "task/func is not a Function";
   EXPECT_EQ(fun->getName(), "fun");
 }
 
 TEST_F(Void, FunctionReturnIsVoidTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
-  const hldb::Function *const fun =
-      any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  const hldb::Function *const fun = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr);
 
   const hldb::RefTypespec *const ret = fun->getReturn();
   ASSERT_NE(ret, nullptr) << "function has no return typespec";
-  EXPECT_NE(ret->getActual<hldb::VoidTypespec>(), nullptr)
-      << "function return type should be VoidTypespec";
+  EXPECT_NE(ret->getActual<hldb::VoidTypespec>(), nullptr) << "function return type should be VoidTypespec";
 }
 
 TEST_F(Void, FunctionIsPublic) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
 
-  const hldb::Function *const fun =
-      any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  const hldb::Function *const fun = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr);
   EXPECT_EQ(fun->getVisibility(), 1);  // vpiPublic = 1
 }
@@ -127,21 +104,18 @@ TEST_F(Void, FunctionIsPublic) {
 // Initial process — initial fun()
 // ---------------------------------------------------------------------------
 TEST_F(Void, InitialProcessExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(Void, InitialProcessBodyIsFuncCallToFun) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr) << "process is not an Initial";
 
   const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();

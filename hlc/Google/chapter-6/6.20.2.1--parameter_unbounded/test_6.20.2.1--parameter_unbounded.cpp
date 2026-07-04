@@ -95,21 +95,8 @@ namespace hlc {
 
 class ParameterUnboundedTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.2.1--parameter_unbounded.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.2.1--parameter_unbounded.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -134,8 +121,7 @@ static const hldb::Parameter *getParam(const hldb::Design *d) {
 
 static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns() ||
-      m->getParamAssigns()->empty()) return nullptr;
+  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty()) return nullptr;
   return (*m->getParamAssigns())[0];
 }
 
@@ -167,9 +153,7 @@ static const hldb::PartSelect *getPartSelect(const hldb::Design *d) {
 // Module
 // ===========================================================================
 
-TEST_F(ParameterUnboundedTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(ParameterUnboundedTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameter — 'parameter p = $'
@@ -179,8 +163,7 @@ TEST_F(ParameterUnboundedTest, Param_Collection_HasOneEntry) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 1u)
-      << "one parameter declaration ('p') expected";
+  EXPECT_EQ(m->getParameters()->size(), 1u) << "one parameter declaration ('p') expected";
 }
 
 TEST_F(ParameterUnboundedTest, Param_p_Exists) {
@@ -203,15 +186,13 @@ TEST_F(ParameterUnboundedTest, ParamAssign_Collection_HasOneEntry) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParamAssigns(), nullptr);
-  EXPECT_EQ(m->getParamAssigns()->size(), 1u)
-      << "one ParamAssign expected (for 'p = $')";
+  EXPECT_EQ(m->getParamAssigns()->size(), 1u) << "one ParamAssign expected (for 'p = $')";
 }
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Lhs_IsRefObj) {
   const auto *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr)
-      << "ParamAssign lhs must be RefObj referencing 'p'";
+  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr) << "ParamAssign lhs must be RefObj referencing 'p'";
 }
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Lhs_NameIsP) {
@@ -227,15 +208,13 @@ TEST_F(ParameterUnboundedTest, ParamAssign_Lhs_ActualIsParameter) {
   ASSERT_NE(pa, nullptr);
   const auto *ref = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Parameter>(), nullptr)
-      << "ParamAssign lhs RefObj must resolve to Parameter node";
+  EXPECT_NE(ref->getActual<hldb::Parameter>(), nullptr) << "ParamAssign lhs RefObj must resolve to Parameter node";
 }
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsConstant) {
   const auto *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "ParamAssign rhs ('$') must be a Constant node";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ParamAssign rhs ('$') must be a Constant node";
 }
 
 TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsUnbounded) {
@@ -245,7 +224,7 @@ TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsUnbounded) {
   ASSERT_NE(pa, nullptr);
   const auto *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 11)  /* vpiUnbounded */
+  EXPECT_EQ(c->getConstType(), 11) /* vpiUnbounded */
       << "§6.20.2.1: '$' must have vpiConstType = vpiUnbounded (11)";
 }
 
@@ -255,8 +234,7 @@ TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_ValueIsDollar) {
   ASSERT_NE(pa, nullptr);
   const auto *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "$")
-      << "§6.20.2.1: unbounded '$' constant must have value \"$\"";
+  EXPECT_EQ(std::string(c->getValue()), "$") << "§6.20.2.1: unbounded '$' constant must have value \"$\"";
 }
 
 // ===========================================================================
@@ -267,27 +245,22 @@ TEST_F(ParameterUnboundedTest, Net_Collection_HasTwoEntries) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 2u)
-      << "two nets expected: 'clk' and 'a'";
+  EXPECT_EQ(m->getNets()->size(), 2u) << "two nets expected: 'clk' and 'a'";
 }
 
-TEST_F(ParameterUnboundedTest, Net_clk_Exists) {
-  EXPECT_NE(getNet(m_design, "clk"), nullptr) << "net 'clk' not found";
-}
+TEST_F(ParameterUnboundedTest, Net_clk_Exists) { EXPECT_NE(getNet(m_design, "clk"), nullptr) << "net 'clk' not found"; }
 
 TEST_F(ParameterUnboundedTest, Net_clk_IsWire) {
   const auto *net = getNet(m_design, "clk");
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(net->getNetType(), vpiWire)
-      << "'wire clk' must have vpiNetType = vpiWire (1)";
+  EXPECT_EQ(net->getNetType(), vpiWire) << "'wire clk' must have vpiNetType = vpiWire (1)";
 }
 
 TEST_F(ParameterUnboundedTest, Net_clk_HasLogicTypespec) {
   const auto *net = getNet(m_design, "clk");
   ASSERT_NE(net, nullptr);
   ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "'wire clk' must have a LogicTypespec";
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'wire clk' must have a LogicTypespec";
 }
 
 TEST_F(ParameterUnboundedTest, Net_clk_InitialValueIsZero) {
@@ -296,8 +269,7 @@ TEST_F(ParameterUnboundedTest, Net_clk_InitialValueIsZero) {
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'wire clk = 0' must have a Constant value";
-  EXPECT_EQ(std::string(c->getValue()), "0")
-      << "'wire clk = 0' initial value must be 0";
+  EXPECT_EQ(std::string(c->getValue()), "0") << "'wire clk = 0' initial value must be 0";
 }
 
 TEST_F(ParameterUnboundedTest, Net_clk_InitialValue_IsUnsignedInt) {
@@ -305,19 +277,15 @@ TEST_F(ParameterUnboundedTest, Net_clk_InitialValue_IsUnsignedInt) {
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst)
-      << "literal '0' in 'wire clk = 0' must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '0' in 'wire clk = 0' must be vpiUIntConst (9)";
 }
 
-TEST_F(ParameterUnboundedTest, Net_a_Exists) {
-  EXPECT_NE(getNet(m_design, "a"), nullptr) << "net 'a' not found";
-}
+TEST_F(ParameterUnboundedTest, Net_a_Exists) { EXPECT_NE(getNet(m_design, "a"), nullptr) << "net 'a' not found"; }
 
 TEST_F(ParameterUnboundedTest, Net_a_IsWire) {
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(net->getNetType(), vpiWire)
-      << "'wire [31:0] a' must have vpiNetType = vpiWire (1)";
+  EXPECT_EQ(net->getNetType(), vpiWire) << "'wire [31:0] a' must have vpiNetType = vpiWire (1)";
 }
 
 TEST_F(ParameterUnboundedTest, Net_a_HasLogicTypespec) {
@@ -336,38 +304,33 @@ TEST_F(ParameterUnboundedTest, Net_a_Typespec_HasPackedRange) {
   const auto *lts = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lts, nullptr);
   ASSERT_NE(lts->getRanges(), nullptr);
-  EXPECT_EQ(lts->getRanges()->size(), 1u)
-      << "'wire [31:0] a' typespec must have exactly one packed range";
+  EXPECT_EQ(lts->getRanges()->size(), 1u) << "'wire [31:0] a' typespec must have exactly one packed range";
 }
 
 TEST_F(ParameterUnboundedTest, Net_a_Typespec_Range_LeftIs31) {
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
-  const auto *lts =
-      net->getTypespec()->getActual<hldb::LogicTypespec>();
+  const auto *lts = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lts, nullptr);
   ASSERT_NE(lts->getRanges(), nullptr);
   const auto *range = (*lts->getRanges())[0];
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getValue()), "31")
-      << "'wire [31:0] a' left bound must be 31";
+  EXPECT_EQ(std::string(lo->getValue()), "31") << "'wire [31:0] a' left bound must be 31";
 }
 
 TEST_F(ParameterUnboundedTest, Net_a_Typespec_Range_RightIsZero) {
   const auto *net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr);
-  const auto *lts =
-      net->getTypespec()->getActual<hldb::LogicTypespec>();
+  const auto *lts = net->getTypespec()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(lts, nullptr);
   ASSERT_NE(lts->getRanges(), nullptr);
   const auto *range = (*lts->getRanges())[0];
   ASSERT_NE(range, nullptr);
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(std::string(hi->getValue()), "0")
-      << "'wire [31:0] a' right bound must be 0";
+  EXPECT_EQ(std::string(hi->getValue()), "0") << "'wire [31:0] a' right bound must be 0";
 }
 
 // ===========================================================================
@@ -378,8 +341,7 @@ TEST_F(ParameterUnboundedTest, Process_Collection_HasOneEntry) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getProcesses(), nullptr);
-  EXPECT_EQ(m->getProcesses()->size(), 1u)
-      << "one process (the always block) expected";
+  EXPECT_EQ(m->getProcesses()->size(), 1u) << "one process (the always block) expected";
 }
 
 TEST_F(ParameterUnboundedTest, Process_IsAlways) {
@@ -389,13 +351,11 @@ TEST_F(ParameterUnboundedTest, Process_IsAlways) {
 TEST_F(ParameterUnboundedTest, Always_Type_IsAlways) {
   const auto *al = getAlways(m_design);
   ASSERT_NE(al, nullptr);
-  EXPECT_EQ(al->getAlwaysType(), vpiAlways)
-      << "'always' keyword must produce vpiAlwaysType = vpiAlways (1)";
+  EXPECT_EQ(al->getAlwaysType(), vpiAlways) << "'always' keyword must produce vpiAlwaysType = vpiAlways (1)";
 }
 
 TEST_F(ParameterUnboundedTest, Always_Stmt_IsEventControl) {
-  EXPECT_NE(getEventControl(m_design), nullptr)
-      << "always stmt must be an EventControl for '@(posedge clk)'";
+  EXPECT_NE(getEventControl(m_design), nullptr) << "always stmt must be an EventControl for '@(posedge clk)'";
 }
 
 // ===========================================================================
@@ -407,8 +367,7 @@ TEST_F(ParameterUnboundedTest, EventControl_Condition_IsPosedge) {
   ASSERT_NE(ec, nullptr);
   const auto *op = ec->getCondition<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiPosedgeOp)
-      << "'@(posedge clk)' must use vpiPosedgeOp (39)";
+  EXPECT_EQ(op->getOpType(), vpiPosedgeOp) << "'@(posedge clk)' must use vpiPosedgeOp (39)";
 }
 
 TEST_F(ParameterUnboundedTest, EventControl_Condition_OperandIsClk) {
@@ -418,15 +377,13 @@ TEST_F(ParameterUnboundedTest, EventControl_Condition_OperandIsClk) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "clk");
 }
 
 TEST_F(ParameterUnboundedTest, EventControl_Stmt_IsAssignment) {
-  EXPECT_NE(getAssignment(m_design), nullptr)
-      << "EventControl stmt must be an Assignment";
+  EXPECT_NE(getAssignment(m_design), nullptr) << "EventControl stmt must be an Assignment";
 }
 
 // ===========================================================================
@@ -436,20 +393,17 @@ TEST_F(ParameterUnboundedTest, EventControl_Stmt_IsAssignment) {
 TEST_F(ParameterUnboundedTest, Assignment_IsBlocking) {
   const auto *asgn = getAssignment(m_design);
   ASSERT_NE(asgn, nullptr);
-  EXPECT_TRUE(asgn->getBlocking())
-      << "'a[0:p] = 23' is a blocking assignment (no '<=' operator)";
+  EXPECT_TRUE(asgn->getBlocking()) << "'a[0:p] = 23' is a blocking assignment (no '<=' operator)";
 }
 
 TEST_F(ParameterUnboundedTest, Assignment_Lhs_IsPartSelect) {
-  EXPECT_NE(getPartSelect(m_design), nullptr)
-      << "assignment lhs must be a PartSelect for 'a[0:p]'";
+  EXPECT_NE(getPartSelect(m_design), nullptr) << "assignment lhs must be a PartSelect for 'a[0:p]'";
 }
 
 TEST_F(ParameterUnboundedTest, Assignment_Lhs_NameIsASlice) {
   const auto *ps = getPartSelect(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_EQ(ps->getName(), "a[0:p]")
-      << "PartSelect name must be 'a[0:p]'";
+  EXPECT_EQ(ps->getName(), "a[0:p]") << "PartSelect name must be 'a[0:p]'";
 }
 
 // ===========================================================================
@@ -469,8 +423,7 @@ TEST_F(ParameterUnboundedTest, PartSelect_Prefix_ActualIsNet) {
   ASSERT_NE(ps, nullptr);
   const auto *ref = ps->getPrefix<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr)
-      << "PartSelect prefix RefObj must resolve to Net 'a'";
+  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr) << "PartSelect prefix RefObj must resolve to Net 'a'";
 }
 
 TEST_F(ParameterUnboundedTest, PartSelect_Range_LeftIsZero) {
@@ -481,8 +434,7 @@ TEST_F(ParameterUnboundedTest, PartSelect_Range_LeftIsZero) {
   ASSERT_NE(range, nullptr) << "PartSelect must have a Range for '[0:p]'";
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getValue()), "0")
-      << "'a[0:p]' left bound must be Constant 0";
+  EXPECT_EQ(std::string(lo->getValue()), "0") << "'a[0:p]' left bound must be Constant 0";
 }
 
 TEST_F(ParameterUnboundedTest, PartSelect_Range_RightIsRefObjP) {
@@ -492,8 +444,7 @@ TEST_F(ParameterUnboundedTest, PartSelect_Range_RightIsRefObjP) {
   const auto *range = ps->getRange();
   ASSERT_NE(range, nullptr);
   const auto *ref = range->getRightExpr<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr)
-      << "'a[0:p]' right bound must be RefObj('p'), not a Constant";
+  ASSERT_NE(ref, nullptr) << "'a[0:p]' right bound must be RefObj('p'), not a Constant";
   EXPECT_EQ(ref->getName(), "p");
 }
 
@@ -518,8 +469,7 @@ TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsConstant23) {
   ASSERT_NE(asgn, nullptr);
   const auto *c = asgn->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "assignment rhs must be a Constant";
-  EXPECT_EQ(std::string(c->getValue()), "23")
-      << "'a[0:p] = 23' rhs must be Constant 23";
+  EXPECT_EQ(std::string(c->getValue()), "23") << "'a[0:p] = 23' rhs must be Constant 23";
 }
 
 TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsUnsignedInt) {
@@ -527,11 +477,10 @@ TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsUnsignedInt) {
   ASSERT_NE(asgn, nullptr);
   const auto *c = asgn->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst)
-      << "literal '23' must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '23' must be vpiUIntConst (9)";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

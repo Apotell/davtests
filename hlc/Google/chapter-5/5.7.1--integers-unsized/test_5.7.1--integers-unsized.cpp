@@ -54,21 +54,8 @@ namespace hlc {
 
 class IntegersUnsized : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-unsized.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-unsized.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -78,14 +65,12 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -95,9 +80,7 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersUnsized, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersUnsized, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersUnsized, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);
@@ -109,9 +92,7 @@ TEST_F(IntegersUnsized, OneNetExists) {
 // ---------------------------------------------------------------------------
 // Initial block — Begin with 3 statements all assigning to net 'a'
 // ---------------------------------------------------------------------------
-TEST_F(IntegersUnsized, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr);
-}
+TEST_F(IntegersUnsized, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersUnsized, BeginHasThreeStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
@@ -125,11 +106,9 @@ TEST_F(IntegersUnsized, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -143,8 +122,7 @@ TEST_F(IntegersUnsized, DecimalConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 9)
-      << "659: bare decimal → constType unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), 9) << "659: bare decimal → constType unsigned int (9)";
 }
 
 TEST_F(IntegersUnsized, DecimalSizeIs64) {
@@ -153,8 +131,7 @@ TEST_F(IntegersUnsized, DecimalSizeIs64) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 64)
-      << "bare decimal constant gets size 64, not -1";
+  EXPECT_EQ(c->getSize(), 64) << "bare decimal constant gets size 64, not -1";
 }
 
 TEST_F(IntegersUnsized, DecimalGetValue) {
@@ -182,8 +159,7 @@ TEST_F(IntegersUnsized, HexConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 5)
-      << "'h 837FF: constType should be hexadecimal (5)";
+  EXPECT_EQ(c->getConstType(), 5) << "'h 837FF: constType should be hexadecimal (5)";
 }
 
 TEST_F(IntegersUnsized, HexSizeIsMinusOne) {
@@ -192,8 +168,7 @@ TEST_F(IntegersUnsized, HexSizeIsMinusOne) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), -1)
-      << "base-prefixed unsized hex constant should have size -1";
+  EXPECT_EQ(c->getSize(), -1) << "base-prefixed unsized hex constant should have size -1";
 }
 
 TEST_F(IntegersUnsized, HexGetValue) {
@@ -222,8 +197,7 @@ TEST_F(IntegersUnsized, OctalConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 4)
-      << "'o7460: constType should be octal (4)";
+  EXPECT_EQ(c->getConstType(), 4) << "'o7460: constType should be octal (4)";
 }
 
 TEST_F(IntegersUnsized, OctalSizeIsMinusOne) {
@@ -231,8 +205,7 @@ TEST_F(IntegersUnsized, OctalSizeIsMinusOne) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), -1)
-      << "unsized octal constant should have size -1";
+  EXPECT_EQ(c->getSize(), -1) << "unsized octal constant should have size -1";
 }
 
 TEST_F(IntegersUnsized, OctalGetValue) {
@@ -251,7 +224,7 @@ TEST_F(IntegersUnsized, OctalGetDecompile) {
   EXPECT_EQ(c->getDecompile(), "'o7460");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

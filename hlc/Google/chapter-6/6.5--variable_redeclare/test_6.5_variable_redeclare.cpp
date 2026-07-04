@@ -20,7 +20,7 @@
 //     wire v;
 //   endmodule
 //
-// Surelog merges reg+wire into a single Net; wire wins for vpiNetType,
+// HLC merges reg+wire into a single Net; wire wins for vpiNetType,
 // reg declaration maps to a LogicTypespec.
 //
 // Checked:
@@ -30,7 +30,7 @@
 //   - work@top has no continuous assignments
 //
 // Not checked:
-//   - Surelog error/warning reporting for variable redeclaration (SV spec: should fail)
+//   - HLC error/warning reporting for variable redeclaration (SV spec: should fail)
 //   - order-dependence (reg first vs wire first)
 
 #include <hlc/Common/Session.h>
@@ -49,21 +49,8 @@ namespace hlc {
 
 class VariableRedeclare : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.5--variable_redeclare.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.5--variable_redeclare.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(VariableRedeclare, ModuleExists) {
@@ -74,17 +61,14 @@ TEST_F(VariableRedeclare, ModuleExists) {
 // Net — reg v and wire v merge into a single Net named 'v'
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
-  EXPECT_EQ(top->getNets()->size(), 1u)
-      << "reg v and wire v should collapse to exactly one net";
+  EXPECT_EQ(top->getNets()->size(), 1u) << "reg v and wire v should collapse to exactly one net";
 }
 
 TEST_F(VariableRedeclare, NetNameIsV) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -96,23 +80,20 @@ TEST_F(VariableRedeclare, NetNameIsV) {
 // wire wins — vpiNetType should be vpiWire (1)
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, NetTypeIsWire) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
   const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getNetType(), vpiWire)
-      << "expected vpiNetType wire (1) — wire declaration wins over reg";
+  EXPECT_EQ(v->getNetType(), vpiWire) << "expected vpiNetType wire (1) — wire declaration wins over reg";
 }
 
 // ---------------------------------------------------------------------------
 // Typespec — reg maps to LogicTypespec referenced via RefTypespec
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, NetHasRefTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -122,8 +103,7 @@ TEST_F(VariableRedeclare, NetHasRefTypespec) {
 }
 
 TEST_F(VariableRedeclare, NetTypespecIsLogic) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -134,24 +114,21 @@ TEST_F(VariableRedeclare, NetTypespecIsLogic) {
   ASSERT_NE(rts, nullptr) << "net 'v' has no RefTypespec";
 
   const hldb::LogicTypespec *const lts = rts->getActual<hldb::LogicTypespec>();
-  EXPECT_NE(lts, nullptr)
-      << "RefTypespec actual is not a LogicTypespec (expected from reg declaration)";
+  EXPECT_NE(lts, nullptr) << "RefTypespec actual is not a LogicTypespec (expected from reg declaration)";
 }
 
 // ---------------------------------------------------------------------------
 // No continuous assignments — the module only has declarations, no assign
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclare, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "unexpected continuous assignments in redeclaration-only module";
 }
 
 TEST_F(VariableRedeclare, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

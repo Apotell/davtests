@@ -60,21 +60,8 @@ namespace hlc {
 
 class CompilerDirectivesDefine : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.4--compiler-directives-define.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-define.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
@@ -82,8 +69,7 @@ static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
   return (*d->getSourceFiles())[0];
 }
 
-static const hldb::PreprocMacroDefinition *getMacro(const hldb::Design *d,
-                                                     std::size_t idx) {
+static const hldb::PreprocMacroDefinition *getMacro(const hldb::Design *d, std::size_t idx) {
   const hldb::SourceFile *const sf = getSourceFile(d);
   if (!sf || !sf->getPreprocMacroDefinitions()) return nullptr;
   if (sf->getPreprocMacroDefinitions()->size() <= idx) return nullptr;
@@ -94,9 +80,7 @@ static const hldb::PreprocMacroDefinition *getMacro(const hldb::Design *d,
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefine, ModuleExists) {
-  ASSERT_NE(
-      hldb::findByName<hldb::Module>("work@d", m_design->getAllModules()),
-      nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@d", m_design->getAllModules()), nullptr)
       << "module 'work@d' not found";
 }
 
@@ -119,8 +103,7 @@ TEST_F(CompilerDirectivesDefine, FirstEventIsDefineXXX) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 0);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "XXX");
-  EXPECT_GT(m->getBodyStartColumn(), 0u)
-      << "`define has a body, so bodyStartColumn should be non-zero";
+  EXPECT_GT(m->getBodyStartColumn(), 0u) << "`define has a body, so bodyStartColumn should be non-zero";
 }
 
 // ---------------------------------------------------------------------------
@@ -130,8 +113,7 @@ TEST_F(CompilerDirectivesDefine, SecondEventIsUndefXXX) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 1);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "XXX");
-  EXPECT_EQ(m->getBodyStartColumn(), 0u)
-      << "`undef has no body, so bodyStartColumn should be zero";
+  EXPECT_EQ(m->getBodyStartColumn(), 0u) << "`undef has no body, so bodyStartColumn should be zero";
 }
 
 // ---------------------------------------------------------------------------
@@ -143,8 +125,7 @@ TEST_F(CompilerDirectivesDefine, ThirdEventIsDefineYYY) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 2);
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getName(), "YYY");
-  EXPECT_GT(m->getBodyStartColumn(), 0u)
-      << "`define has a body, so bodyStartColumn should be non-zero";
+  EXPECT_GT(m->getBodyStartColumn(), 0u) << "`define has a body, so bodyStartColumn should be non-zero";
 }
 
 // ---------------------------------------------------------------------------
@@ -153,12 +134,11 @@ TEST_F(CompilerDirectivesDefine, ThirdEventIsDefineYYY) {
 TEST_F(CompilerDirectivesDefine, FourthEventIsUndefineall) {
   const hldb::PreprocMacroDefinition *const m = getMacro(m_design, 3);
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(m->getName().empty())
-      << "`undefineall has no macro name, getName() should be empty";
+  EXPECT_TRUE(m->getName().empty()) << "`undefineall has no macro name, getName() should be empty";
   EXPECT_EQ(m->getBodyStartColumn(), 0u);
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -49,21 +49,8 @@ namespace hlc {
 
 class AttributesCase : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.12-attributes-case.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.12-attributes-case.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // Helpers ----------------------------------------------------------------
@@ -75,8 +62,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getInitialBegin(const hldb::Module *top) {
   if (!top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
-    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p))
-      return i->getStmt<hldb::Begin>();
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::Begin>();
   }
   return nullptr;
 }
@@ -94,8 +80,7 @@ static const hldb::CaseStmt *getNthCase(const hldb::Begin *blk, size_t n) {
 }
 
 // Returns the named Attribute from a CaseStmt, or nullptr if absent.
-static const hldb::Attribute *findAttr(const hldb::CaseStmt *cs,
-                                        std::string_view name) {
+static const hldb::Attribute *findAttr(const hldb::CaseStmt *cs, std::string_view name) {
   if (!cs->getAttributes()) return nullptr;
   for (const hldb::Attribute *const a : *cs->getAttributes()) {
     if (a->getName() == name) return a;
@@ -106,9 +91,7 @@ static const hldb::Attribute *findAttr(const hldb::CaseStmt *cs,
 // ---------------------------------------------------------------------------
 // Module and nets
 // ---------------------------------------------------------------------------
-TEST_F(AttributesCase, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr);
-}
+TEST_F(AttributesCase, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
 TEST_F(AttributesCase, NetsAAndBExist) {
   const hldb::Module *const top = getTop(m_design);
@@ -231,8 +214,7 @@ TEST_F(AttributesCase, FirstCaseDefaultItemHasNoExprs) {
   const hldb::CaseItem *const def = (*cs->getCaseItems())[2];
   ASSERT_NE(def, nullptr);
   // default item has no match expressions
-  EXPECT_TRUE(!def->getExprs() || def->getExprs()->empty())
-      << "default item should have no match expressions";
+  EXPECT_TRUE(!def->getExprs() || def->getExprs()->empty()) << "default item should have no match expressions";
 }
 
 // ---------------------------------------------------------------------------
@@ -260,8 +242,7 @@ TEST_F(AttributesCase, SecondCaseHasTwoAttributes) {
   const hldb::CaseStmt *const cs = getNthCase(getInitialBegin(top), 1);
   ASSERT_NE(cs, nullptr);
   ASSERT_NE(cs->getAttributes(), nullptr);
-  EXPECT_EQ(cs->getAttributes()->size(), 2u)
-      << "case 2 should have 2 attributes (full_case=1, parallel_case=1)";
+  EXPECT_EQ(cs->getAttributes()->size(), 2u) << "case 2 should have 2 attributes (full_case=1, parallel_case=1)";
 }
 
 TEST_F(AttributesCase, SecondCaseFullCaseValueIsOne) {
@@ -305,7 +286,7 @@ TEST_F(AttributesCase, ThirdCaseHasFullCaseFlagAttribute) {
   EXPECT_EQ(attr->getValue(), nullptr) << "flag attribute 'full_case' should have no value";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

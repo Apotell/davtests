@@ -91,21 +91,8 @@ namespace hlc {
 
 class DeferredAssertTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "16.2--assert0.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.2--assert0.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -147,17 +134,14 @@ static const hldb::Operation *getOperation(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module and net
 // ---------------------------------------------------------------------------
-TEST_F(DeferredAssertTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(DeferredAssertTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(DeferredAssertTest, NetA_HasLogicTypespec) {
   // SV source: 'logic a' — §6.3 declares a 4-state single-bit variable.
   const hldb::Net *const net = getNetA(m_design);
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "'logic a' must produce a LogicTypespec";
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
 }
 
 TEST_F(DeferredAssertTest, NetA_InlineValue_Is1) {
@@ -166,8 +150,7 @@ TEST_F(DeferredAssertTest, NetA_InlineValue_Is1) {
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "net 'a' has no inline initializer value";
-  EXPECT_EQ(std::string(c->getValue()), "1")
-      << "'logic a = 1' — inline initializer must be 1";
+  EXPECT_EQ(std::string(c->getValue()), "1") << "'logic a = 1' — inline initializer must be 1";
 }
 
 // ---------------------------------------------------------------------------
@@ -178,12 +161,10 @@ TEST_F(DeferredAssertTest, NetA_InlineValue_Is1) {
 TEST_F(DeferredAssertTest, ModuleLevelAssertInAssertionsCollection) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getAssertions(), nullptr)
-      << "§16.4 Rule 3: module-level 'assert #0 (...)' must populate "
-         "getAssertions() — module-scope deferred assertions are not "
-         "processes, they are stored in the assertions collection";
-  EXPECT_FALSE(m->getAssertions()->empty())
-      << "§16.4 Rule 3: getAssertions() must be non-empty";
+  ASSERT_NE(m->getAssertions(), nullptr) << "§16.4 Rule 3: module-level 'assert #0 (...)' must populate "
+                                            "getAssertions() — module-scope deferred assertions are not "
+                                            "processes, they are stored in the assertions collection";
+  EXPECT_FALSE(m->getAssertions()->empty()) << "§16.4 Rule 3: getAssertions() must be non-empty";
 }
 
 TEST_F(DeferredAssertTest, AssertionsCollection_FirstIsImmediateAssert) {
@@ -191,9 +172,7 @@ TEST_F(DeferredAssertTest, AssertionsCollection_FirstIsImmediateAssert) {
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getAssertions(), nullptr);
   ASSERT_FALSE(m->getAssertions()->empty());
-  EXPECT_NE(
-      any_cast<const hldb::ImmediateAssert *>((*m->getAssertions())[0]),
-      nullptr)
+  EXPECT_NE(any_cast<const hldb::ImmediateAssert *>((*m->getAssertions())[0]), nullptr)
       << "§16.4: first entry in getAssertions() must be an ImmediateAssert";
 }
 
@@ -206,9 +185,8 @@ TEST_F(DeferredAssertTest, Assert_IsDeferred) {
   // simple immediate assertion (§16.2), losing deferred timing semantics.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_TRUE(ia->getIsDeferred())
-      << "§16.4: 'assert #0 (expr)' must have isDeferred=true; "
-         "simple 'assert (expr)' (§16.2) has isDeferred=false";
+  EXPECT_TRUE(ia->getIsDeferred()) << "§16.4: 'assert #0 (expr)' must have isDeferred=true; "
+                                      "simple 'assert (expr)' (§16.2) has isDeferred=false";
 }
 
 TEST_F(DeferredAssertTest, Assert_IsNotFinal) {
@@ -216,9 +194,8 @@ TEST_F(DeferredAssertTest, Assert_IsNotFinal) {
   // region. Only 'assert final (expr)' sets isFinal=true.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_FALSE(ia->getIsFinal())
-      << "§16.4: 'assert #0 (expr)' must have isFinal=false; "
-         "only 'assert final (expr)' sets isFinal=true";
+  EXPECT_FALSE(ia->getIsFinal()) << "§16.4: 'assert #0 (expr)' must have isFinal=false; "
+                                    "only 'assert final (expr)' sets isFinal=true";
 }
 
 // ---------------------------------------------------------------------------
@@ -232,9 +209,8 @@ TEST_F(DeferredAssertTest, Assert_ExprIsDelayControl) {
   // not the assertion expression directly.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getExpr<hldb::DelayControl>(), nullptr)
-      << "§16.4: 'assert #0 (expr)' — the '#0' is modelled as a "
-         "DelayControl in UHDM; getExpr() must return a DelayControl";
+  EXPECT_NE(ia->getExpr<hldb::DelayControl>(), nullptr) << "§16.4: 'assert #0 (expr)' — the '#0' is modelled as a "
+                                                           "DelayControl in UHDM; getExpr() must return a DelayControl";
 }
 
 TEST_F(DeferredAssertTest, Assert_DelayValue_IsZero) {
@@ -243,10 +219,8 @@ TEST_F(DeferredAssertTest, Assert_DelayValue_IsZero) {
   const auto *dc = getDelayControl(m_design);
   ASSERT_NE(dc, nullptr);
   const auto *delay = dc->getDelay<hldb::Constant>();
-  ASSERT_NE(delay, nullptr)
-      << "§16.4: DelayControl must have a Constant delay node for '#0'";
-  EXPECT_EQ(std::string(delay->getValue()), "0")
-      << "§16.4: '#0' delay value must be 0";
+  ASSERT_NE(delay, nullptr) << "§16.4: DelayControl must have a Constant delay node for '#0'";
+  EXPECT_EQ(std::string(delay->getValue()), "0") << "§16.4: '#0' delay value must be 0";
 }
 
 // ---------------------------------------------------------------------------
@@ -258,17 +232,15 @@ TEST_F(DeferredAssertTest, Assert_ExprStmt_IsOperation) {
   // not ImmediateAssert::getExpr() directly.
   const auto *dc = getDelayControl(m_design);
   ASSERT_NE(dc, nullptr);
-  EXPECT_NE(dc->getStmt<hldb::Operation>(), nullptr)
-      << "assertion expression 'a != 0' must be an Operation inside "
-         "the DelayControl's statement";
+  EXPECT_NE(dc->getStmt<hldb::Operation>(), nullptr) << "assertion expression 'a != 0' must be an Operation inside "
+                                                        "the DelayControl's statement";
 }
 
 TEST_F(DeferredAssertTest, Assert_ExprStmt_IsNotEqualOperator) {
   // §11.4.5: '!=' is the logical inequality operator → vpiNeqOp.
   const auto *op = getOperation(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiNeqOp)
-      << "§11.4.5: '!=' must be represented as vpiNeqOp";
+  EXPECT_EQ(op->getOpType(), vpiNeqOp) << "§11.4.5: '!=' must be represented as vpiNeqOp";
 }
 
 TEST_F(DeferredAssertTest, Assert_ExprStmt_HasTwoOperands) {
@@ -276,8 +248,7 @@ TEST_F(DeferredAssertTest, Assert_ExprStmt_HasTwoOperands) {
   const auto *op = getOperation(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "binary '!=' must have exactly 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "binary '!=' must have exactly 2 operands";
 }
 
 TEST_F(DeferredAssertTest, Assert_LeftOperand_IsRefObj) {
@@ -296,8 +267,7 @@ TEST_F(DeferredAssertTest, Assert_LeftOperand_RefersToSignalA) {
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "a")
-      << "left operand of 'a != 0' must reference signal 'a'";
+  EXPECT_EQ(ref->getName(), "a") << "left operand of 'a != 0' must reference signal 'a'";
 }
 
 TEST_F(DeferredAssertTest, Assert_RightOperand_IsConstant) {
@@ -316,8 +286,7 @@ TEST_F(DeferredAssertTest, Assert_RightOperand_ValueIsZero) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getValue()), "0")
-      << "right operand of 'a != 0' must be the constant 0";
+  EXPECT_EQ(std::string(c->getValue()), "0") << "right operand of 'a != 0' must be the constant 0";
 }
 
 // ---------------------------------------------------------------------------
@@ -327,20 +296,18 @@ TEST_F(DeferredAssertTest, Assert_RightOperand_ValueIsZero) {
 TEST_F(DeferredAssertTest, Assert_NoPassActionBlock) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_EQ(ia->getStmt(), nullptr)
-      << "§16.4: 'assert #0 (a != 0)' has no explicit pass action block — "
-         "getStmt() must be null";
+  EXPECT_EQ(ia->getStmt(), nullptr) << "§16.4: 'assert #0 (a != 0)' has no explicit pass action block — "
+                                       "getStmt() must be null";
 }
 
 TEST_F(DeferredAssertTest, Assert_NoFailActionBlock) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_EQ(ia->getElseStmt(), nullptr)
-      << "§16.4: 'assert #0 (a != 0)' has no explicit fail action block — "
-         "getElseStmt() must be null";
+  EXPECT_EQ(ia->getElseStmt(), nullptr) << "§16.4: 'assert #0 (a != 0)' has no explicit fail action block — "
+                                           "getElseStmt() must be null";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

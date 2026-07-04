@@ -60,21 +60,8 @@ namespace hlc {
 
 class IntegersSigned : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.7.1--integers-signed.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.7.1--integers-signed.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -84,14 +71,12 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -101,24 +86,19 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersSigned, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(IntegersSigned, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(IntegersSigned, FourNetsExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 4u)
-      << "expected 4 nets: a [7:0], b [3:0], c [3:0], d [15:0]";
+  EXPECT_EQ(m->getNets()->size(), 4u) << "expected 4 nets: a [7:0], b [3:0], c [3:0], d [15:0]";
 }
 
 // ---------------------------------------------------------------------------
 // Initial block
 // ---------------------------------------------------------------------------
-TEST_F(IntegersSigned, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr);
-}
+TEST_F(IntegersSigned, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersSigned, BeginHasFourStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
@@ -132,11 +112,9 @@ TEST_F(IntegersSigned, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -148,8 +126,7 @@ TEST_F(IntegersSigned, AssignmentA_RhsIsOperation) {
   const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
   const auto *op = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(op, nullptr)
-      << "RHS of 'a = -8'd6' should be an Operation (unary minus)";
+  ASSERT_NE(op, nullptr) << "RHS of 'a = -8'd6' should be an Operation (unary minus)";
 }
 
 TEST_F(IntegersSigned, AssignmentA_OperationTypeIsMinus) {
@@ -158,8 +135,7 @@ TEST_F(IntegersSigned, AssignmentA_OperationTypeIsMinus) {
   const auto *op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   // vpiMinusOp == 1
-  EXPECT_EQ(op->getOpType(), 1)
-      << "unary minus operation should have opType 1 (minus)";
+  EXPECT_EQ(op->getOpType(), 1) << "unary minus operation should have opType 1 (minus)";
 }
 
 TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
@@ -172,8 +148,7 @@ TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
   // vpiDecConst == 1
-  EXPECT_EQ(c->getConstType(), 1)
-      << "operand of -8'd6 should be a decimal constant";
+  EXPECT_EQ(c->getConstType(), 1) << "operand of -8'd6 should be a decimal constant";
   EXPECT_EQ(c->getSize(), 8);
   EXPECT_EQ(c->getDecompile(), "8'd6");
 }
@@ -187,8 +162,7 @@ TEST_F(IntegersSigned, AssignmentB_RhsIsConstant) {
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
-  ASSERT_NE(c, nullptr)
-      << "RHS of 'b = 4'shf' should be a Constant (no unary minus)";
+  ASSERT_NE(c, nullptr) << "RHS of 'b = 4'shf' should be a Constant (no unary minus)";
 }
 
 TEST_F(IntegersSigned, AssignmentB_ConstTypeIsHex) {
@@ -197,8 +171,7 @@ TEST_F(IntegersSigned, AssignmentB_ConstTypeIsHex) {
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   // vpiHexConst == 5; 's' qualifier does not change constType
-  EXPECT_EQ(c->getConstType(), 5)
-      << "4'shf: signed qualifier does not change constType from hex (5)";
+  EXPECT_EQ(c->getConstType(), 5) << "4'shf: signed qualifier does not change constType from hex (5)";
 }
 
 TEST_F(IntegersSigned, AssignmentB_SizeAndDecompile) {
@@ -226,8 +199,7 @@ TEST_F(IntegersSigned, AssignmentC_RhsIsOperation) {
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
   const auto *op = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(op, nullptr)
-      << "RHS of 'c = -4'sd15' should be an Operation (unary minus)";
+  ASSERT_NE(op, nullptr) << "RHS of 'c = -4'sd15' should be an Operation (unary minus)";
   EXPECT_EQ(op->getOpType(), 1);
 }
 
@@ -240,8 +212,7 @@ TEST_F(IntegersSigned, AssignmentC_OperandIsSignedDecimalConstant) {
   ASSERT_EQ(op->getOperands()->size(), 1u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[0]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 1)
-      << "operand of -4'sd15 should be a decimal constant";
+  EXPECT_EQ(c->getConstType(), 1) << "operand of -4'sd15 should be a decimal constant";
   EXPECT_EQ(c->getSize(), 4);
   EXPECT_EQ(c->getDecompile(), "4'sd15");
 }
@@ -255,8 +226,7 @@ TEST_F(IntegersSigned, AssignmentD_RhsIsConstant) {
   const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
-  ASSERT_NE(c, nullptr)
-      << "RHS of 'd = 16'sd?' should be a Constant";
+  ASSERT_NE(c, nullptr) << "RHS of 'd = 16'sd?' should be a Constant";
 }
 
 TEST_F(IntegersSigned, AssignmentD_ConstTypeIsDecimal) {
@@ -264,8 +234,7 @@ TEST_F(IntegersSigned, AssignmentD_ConstTypeIsDecimal) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 1)
-      << "16'sd?: constType should be decimal (1)";
+  EXPECT_EQ(c->getConstType(), 1) << "16'sd?: constType should be decimal (1)";
 }
 
 TEST_F(IntegersSigned, AssignmentD_SizeAndDecompile) {
@@ -286,7 +255,7 @@ TEST_F(IntegersSigned, AssignmentD_getValue) {
   EXPECT_EQ(c->getValue(), "?");
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

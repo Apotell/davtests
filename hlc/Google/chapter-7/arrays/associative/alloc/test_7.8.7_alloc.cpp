@@ -62,74 +62,54 @@ namespace hlc {
 
 class Alloc : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "alloc.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "alloc.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module and net -------------------------------------------------------
 
 TEST_F(Alloc, ModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Alloc, ModuleHasOneNet) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Alloc, NetNameIsArr) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(Alloc, NetHasAssociativeArrayTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::ArrayTypespec *const at =
-      rt->getActual<hldb::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   // vpiArrayType associative = 3
   EXPECT_EQ(at->getArrayType(), 3);
 }
 
 TEST_F(Alloc, AssocArrayKeyTypeIsInt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::ArrayTypespec *const at =
-      rt->getActual<hldb::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   const hldb::RefTypespec *const idxRt = at->getIndexTypespec();
   ASSERT_NE(idxRt, nullptr);
@@ -137,16 +117,14 @@ TEST_F(Alloc, AssocArrayKeyTypeIsInt) {
 }
 
 TEST_F(Alloc, AssocArrayValueTypeIsInt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::ArrayTypespec *const at =
-      rt->getActual<hldb::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   const hldb::RefTypespec *const elemRt = at->getElemTypespec();
   ASSERT_NE(elemRt, nullptr);
@@ -156,23 +134,19 @@ TEST_F(Alloc, AssocArrayValueTypeIsInt) {
 // --- initial process ------------------------------------------------------
 
 TEST_F(Alloc, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   EXPECT_NE(init, nullptr);
 }
 
 TEST_F(Alloc, InitialBodyIsBeginWith3Stmts) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
@@ -183,67 +157,53 @@ TEST_F(Alloc, InitialBodyIsBeginWith3Stmts) {
 // --- $display(":assert: (%d == 0)", arr.size) -----------------------------
 
 TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 0)\"");
 }
 
 TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>(sc->getArguments()->at(1));
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(sc->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }
 
 TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>(sc->getArguments()->at(1));
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(sc->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const ro0 =
-      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const ro0 = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(ro0, nullptr);
   EXPECT_EQ(ro0->getName(), "arr");
-  const hldb::RefObj *const ro1 =
-      any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
+  const hldb::RefObj *const ro1 = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
   ASSERT_NE(ro1, nullptr);
   EXPECT_EQ(ro1->getName(), "size");
 }
@@ -251,31 +211,25 @@ TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
 // --- arr[10] = 10 ---------------------------------------------------------
 
 TEST_F(Alloc, SecondStmtIsBlockingAssignment) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
 }
 
 TEST_F(Alloc, AssignmentLhsIsArrAt10) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
   const hldb::BitSelect *const bs = assign->getLhs<hldb::BitSelect>();
   ASSERT_NE(bs, nullptr);
@@ -288,16 +242,13 @@ TEST_F(Alloc, AssignmentLhsIsArrAt10) {
 }
 
 TEST_F(Alloc, AssignmentRhsIs10) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
@@ -307,21 +258,17 @@ TEST_F(Alloc, AssignmentRhsIs10) {
 // --- $display(":assert: (%d == 1)", arr.size) -----------------------------
 
 TEST_F(Alloc, ThirdStmtIsDisplayWithAssertOne) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(2));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(2));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 1)\"");
 }
@@ -329,19 +276,20 @@ TEST_F(Alloc, ThirdStmtIsDisplayWithAssertOne) {
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Alloc, ArrNetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr)
-      << "int arr[int] is declared without an initializer";
+  EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr) << "int arr[int] is declared without an initializer";
 }
 
 TEST_F(Alloc, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

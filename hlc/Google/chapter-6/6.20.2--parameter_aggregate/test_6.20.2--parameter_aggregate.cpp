@@ -81,21 +81,8 @@ namespace hlc {
 
 class ParameterAggregateTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.2--parameter_aggregate.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.2--parameter_aggregate.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -126,8 +113,7 @@ static const hldb::LogicTypespec *getElemLogicTypespec(const hldb::Design *d) {
 
 static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty())
-    return nullptr;
+  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty()) return nullptr;
   return (*m->getParamAssigns())[0];
 }
 
@@ -141,9 +127,7 @@ static const hldb::Operation *getRhsOp(const hldb::Design *d) {
 // Module
 // ===========================================================================
 
-TEST_F(ParameterAggregateTest, ModuleExists) {
-  EXPECT_NE(getTop(m_design), nullptr);
-}
+TEST_F(ParameterAggregateTest, ModuleExists) { EXPECT_NE(getTop(m_design), nullptr); }
 
 // ===========================================================================
 // Parameter collection
@@ -156,9 +140,7 @@ TEST_F(ParameterAggregateTest, Parameter_Collection_HasOneEntry) {
   EXPECT_EQ(m->getParameters()->size(), 1u);
 }
 
-TEST_F(ParameterAggregateTest, Parameter_p_Exists) {
-  EXPECT_NE(getParam(m_design), nullptr);
-}
+TEST_F(ParameterAggregateTest, Parameter_p_Exists) { EXPECT_NE(getParam(m_design), nullptr); }
 
 // ===========================================================================
 // ArrayTypespec — 'logic [31:0] p [3:0]'
@@ -179,8 +161,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_TypespecIsArrayTypespec) {
 TEST_F(ParameterAggregateTest, Parameter_p_ArrayType_IsStatic) {
   const hldb::ArrayTypespec *at = getArrayTypespec(m_design);
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), vpiStaticArray)
-      << "'p [3:0]' must be a static array (vpiStaticArray = 1)";
+  EXPECT_EQ(at->getArrayType(), vpiStaticArray) << "'p [3:0]' must be a static array (vpiStaticArray = 1)";
 }
 
 // Unpacked dimension [3:0]: left bound = 3.
@@ -191,8 +172,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ArrayRange_LeftIs3) {
   ASSERT_NE(r, nullptr) << "ArrayTypespec must have an unpacked range";
   const hldb::Constant *left = r->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
-  EXPECT_EQ(std::string(left->getValue()), "3")
-      << "unpacked dimension left bound must be 3";
+  EXPECT_EQ(std::string(left->getValue()), "3") << "unpacked dimension left bound must be 3";
 }
 
 // Unpacked dimension [3:0]: right bound = 0.
@@ -203,8 +183,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ArrayRange_RightIs0) {
   ASSERT_NE(r, nullptr);
   const hldb::Constant *right = r->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(std::string(right->getValue()), "0")
-      << "unpacked dimension right bound must be 0";
+  EXPECT_EQ(std::string(right->getValue()), "0") << "unpacked dimension right bound must be 0";
 }
 
 // Element type is 'logic [31:0]' → LogicTypespec.
@@ -221,8 +200,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_IsLogicTypespec) {
 TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_IsVector) {
   const hldb::LogicTypespec *lts = getElemLogicTypespec(m_design);
   ASSERT_NE(lts, nullptr);
-  EXPECT_TRUE(lts->getVector())
-      << "'logic [31:0]' must be flagged as a vector type";
+  EXPECT_TRUE(lts->getVector()) << "'logic [31:0]' must be flagged as a vector type";
 }
 
 // 'logic [31:0]' has one packed dimension.
@@ -230,8 +208,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_HasOnePackedRange) {
   const hldb::LogicTypespec *lts = getElemLogicTypespec(m_design);
   ASSERT_NE(lts, nullptr);
   ASSERT_NE(lts->getRanges(), nullptr);
-  EXPECT_EQ(lts->getRanges()->size(), 1u)
-      << "'logic [31:0]' must have exactly one packed range";
+  EXPECT_EQ(lts->getRanges()->size(), 1u) << "'logic [31:0]' must have exactly one packed range";
 }
 
 // Packed dimension [31:0]: left bound = 31.
@@ -243,8 +220,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_Range_LeftIs31) {
   ASSERT_NE(r, nullptr);
   const hldb::Constant *left = r->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
-  EXPECT_EQ(std::string(left->getValue()), "31")
-      << "packed dimension left bound must be 31";
+  EXPECT_EQ(std::string(left->getValue()), "31") << "packed dimension left bound must be 31";
 }
 
 // Packed dimension [31:0]: right bound = 0.
@@ -256,8 +232,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_Range_RightIs0) {
   ASSERT_NE(r, nullptr);
   const hldb::Constant *right = r->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(std::string(right->getValue()), "0")
-      << "packed dimension right bound must be 0";
+  EXPECT_EQ(std::string(right->getValue()), "0") << "packed dimension right bound must be 0";
 }
 
 // ===========================================================================
@@ -306,15 +281,13 @@ TEST_F(ParameterAggregateTest, ParamAssign_Lhs_ActualIsParameter) {
 TEST_F(ParameterAggregateTest, ParamAssign_Rhs_IsOperation) {
   const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr)
-      << "RHS of assignment pattern must be an Operation node";
+  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr) << "RHS of assignment pattern must be an Operation node";
 }
 
 TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OpType_IsAssignmentPattern) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp)
-      << "'{...}' must have vpiOpType = vpiAssignmentPatternOp (75)";
+  EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp) << "'{...}' must have vpiOpType = vpiAssignmentPatternOp (75)";
 }
 
 // '{1, 2, 3, 4}' has 4 operands, one per array element.
@@ -322,8 +295,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OperandCount_IsFour) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 4u)
-      << "assignment pattern '{1,2,3,4}' must have 4 operands";
+  EXPECT_EQ(op->getOperands()->size(), 4u) << "assignment pattern '{1,2,3,4}' must have 4 operands";
 }
 
 // Each element literal is an unsized unsigned integer (§5.7.1).
@@ -334,8 +306,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreUnsignedIntConst) 
   for (const hldb::Any *elem : *op->getOperands()) {
     const auto *c = any_cast<const hldb::Constant *>(elem);
     ASSERT_NE(c, nullptr) << "each operand must be a Constant";
-    EXPECT_EQ(c->getConstType(), vpiUIntConst)
-        << "each element literal must be vpiUIntConst (9)";
+    EXPECT_EQ(c->getConstType(), vpiUIntConst) << "each element literal must be vpiUIntConst (9)";
   }
 }
 
@@ -347,8 +318,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_SizeIs64) {
   for (const hldb::Any *elem : *op->getOperands()) {
     const auto *c = any_cast<const hldb::Constant *>(elem);
     ASSERT_NE(c, nullptr);
-    EXPECT_EQ(c->getSize(), 64)
-        << "each unsized element literal must have host-int size (64)";
+    EXPECT_EQ(c->getSize(), 64) << "each unsized element literal must have host-int size (64)";
   }
 }
 
@@ -392,7 +362,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand3_ValueIs4) {
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "4");
 }
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

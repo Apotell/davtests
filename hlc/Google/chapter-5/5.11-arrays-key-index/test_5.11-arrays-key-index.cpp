@@ -41,27 +41,13 @@ namespace hlc {
 
 class ArraysKeyIndex : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.11-arrays-key-index.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.11-arrays-key-index.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // Helper: return Variable "b" from work@top.
 static const hldb::Variable *getVarB(const hldb::Design *design) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getVariables()) return nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "b") return v;
@@ -80,30 +66,34 @@ TEST_F(ArraysKeyIndex, ModuleExists) {
 // Typedef triple = int [1:3]
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, TypedefTripleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
   const hldb::TypedefTypespec *triple = nullptr;
   for (const hldb::Typespec *const ts : *top->getTypespecs()) {
     if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
-      if (tdt->getName() == "triple") { triple = tdt; break; }
+      if (tdt->getName() == "triple") {
+        triple = tdt;
+        break;
+      }
     }
   }
   ASSERT_NE(triple, nullptr) << "TypedefTypespec 'triple' not found";
 }
 
 TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
   const hldb::TypedefTypespec *triple = nullptr;
   for (const hldb::Typespec *const ts : *top->getTypespecs()) {
     if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
-      if (tdt->getName() == "triple") { triple = tdt; break; }
+      if (tdt->getName() == "triple") {
+        triple = tdt;
+        break;
+      }
     }
   }
   ASSERT_NE(triple, nullptr);
@@ -113,28 +103,29 @@ TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
 }
 
 TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
   const hldb::TypedefTypespec *triple = nullptr;
   for (const hldb::Typespec *const ts : *top->getTypespecs()) {
     if (const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(ts)) {
-      if (tdt->getName() == "triple") { triple = tdt; break; }
+      if (tdt->getName() == "triple") {
+        triple = tdt;
+        break;
+      }
     }
   }
   ASSERT_NE(triple, nullptr);
-  const hldb::ArrayTypespec *const at =
-      any_cast<hldb::ArrayTypespec>(triple->getTypedefAlias()->getActual());
+  const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(triple->getTypedefAlias()->getActual());
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr) << "triple ArrayTypespec has no range";
 
-  const hldb::Constant *const left  = at->getRange()->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const left = at->getRange()->getLeftExpr<hldb::Constant>();
   const hldb::Constant *const right = at->getRange()->getRightExpr<hldb::Constant>();
-  ASSERT_NE(left,  nullptr) << "range left bound is not a Constant";
+  ASSERT_NE(left, nullptr) << "range left bound is not a Constant";
   ASSERT_NE(right, nullptr) << "range right bound is not a Constant";
-  EXPECT_EQ(left->getDecompile(),  "1") << "range left should be 1";
+  EXPECT_EQ(left->getDecompile(), "1") << "range left should be 1";
   EXPECT_EQ(right->getDecompile(), "3") << "range right should be 3";
 }
 
@@ -150,8 +141,7 @@ TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getTypespec(), nullptr) << "variable 'b' has no typespec";
 
-  const hldb::TypedefTypespec *const tdt =
-      any_cast<hldb::TypedefTypespec>(b->getTypespec()->getActual());
+  const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(b->getTypespec()->getActual());
   ASSERT_NE(tdt, nullptr) << "variable 'b' typespec does not resolve to a TypedefTypespec";
   EXPECT_EQ(tdt->getName(), "triple");
 }
@@ -186,8 +176,7 @@ TEST_F(ArraysKeyIndex, FirstTagIsIntegerConstant) {
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const hldb::TaggedPattern *const tp0 =
-      any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
+  const hldb::TaggedPattern *const tp0 = any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
   ASSERT_NE(tp0, nullptr);
 
   // Array index key 1 → tag is a Constant, not a RefObj or RefTypespec
@@ -204,8 +193,7 @@ TEST_F(ArraysKeyIndex, FirstPatternValueIsOne) {
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const hldb::TaggedPattern *const tp0 =
-      any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
+  const hldb::TaggedPattern *const tp0 = any_cast<hldb::TaggedPattern>((*val->getOperands())[0]);
   ASSERT_NE(tp0, nullptr);
 
   const hldb::Constant *const pattern = tp0->getPattern<hldb::Constant>();
@@ -224,8 +212,7 @@ TEST_F(ArraysKeyIndex, SecondTagIsDefaultRefObj) {
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const hldb::TaggedPattern *const tp1 =
-      any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
+  const hldb::TaggedPattern *const tp1 = any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
   ASSERT_NE(tp1, nullptr);
 
   // default key → tag is a RefObj named "default"
@@ -242,8 +229,7 @@ TEST_F(ArraysKeyIndex, SecondPatternValueIsZero) {
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const hldb::TaggedPattern *const tp1 =
-      any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
+  const hldb::TaggedPattern *const tp1 = any_cast<hldb::TaggedPattern>((*val->getOperands())[1]);
   ASSERT_NE(tp1, nullptr);
 
   const hldb::Constant *const pattern = tp1->getPattern<hldb::Constant>();
@@ -251,7 +237,7 @@ TEST_F(ArraysKeyIndex, SecondPatternValueIsZero) {
   EXPECT_EQ(pattern->getDecompile(), "0") << "default pattern value should be 0";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

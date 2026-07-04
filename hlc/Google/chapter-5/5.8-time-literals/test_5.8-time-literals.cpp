@@ -71,21 +71,8 @@ namespace hlc {
 
 class TimeLiterals : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.8-time-literals.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.8-time-literals.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -101,14 +88,12 @@ static const hldb::Net *getNetA(const hldb::Design *d) {
 static const hldb::Begin *getBegin(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getProcesses() || m->getProcesses()->empty()) return nullptr;
-  const auto *initial =
-      any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
+  const auto *initial = any_cast<const hldb::Initial *>((*m->getProcesses())[0]);
   if (!initial) return nullptr;
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::Assignment *getAssignment(const hldb::Design *d,
-                                              std::size_t index) {
+static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
@@ -118,9 +103,7 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d,
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(TimeLiterals, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(TimeLiterals, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(TimeLiterals, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);
@@ -144,16 +127,13 @@ TEST_F(TimeLiterals, NetA_HasTimeTypespec) {
 // ---------------------------------------------------------------------------
 // Initial block
 // ---------------------------------------------------------------------------
-TEST_F(TimeLiterals, InitialBlockHasBegin) {
-  ASSERT_NE(getBegin(m_design), nullptr);
-}
+TEST_F(TimeLiterals, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(TimeLiterals, BeginHasSevenStatements) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 7u)
-      << "expected 7 time literal assignments: 1fs 1ps 1ns 1us 1ms 1s 2.1ms";
+  EXPECT_EQ(begin->getStmts()->size(), 7u) << "expected 7 time literal assignments: 1fs 1ps 1ns 1us 1ms 1s 2.1ms";
 }
 
 TEST_F(TimeLiterals, AllAssignmentsAreBlocking) {
@@ -161,11 +141,9 @@ TEST_F(TimeLiterals, AllAssignmentsAreBlocking) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *assign =
-        any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
+    const auto *assign = any_cast<const hldb::Assignment *>((*begin->getStmts())[i]);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is not an Assignment";
-    EXPECT_TRUE(assign->getBlocking())
-        << "assignment[" << i << "] should be blocking (=)";
+    EXPECT_TRUE(assign->getBlocking()) << "assignment[" << i << "] should be blocking (=)";
   }
 }
 
@@ -180,8 +158,7 @@ TEST_F(TimeLiterals, IntegerTimeLiterals_ConstTypeIsUnsignedInt) {
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
     const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
-    EXPECT_EQ(c->getConstType(), vpiStringConst)
-        << "stmt[" << i << "]: integer time literal must be unsigned int (9)";
+    EXPECT_EQ(c->getConstType(), vpiStringConst) << "stmt[" << i << "]: integer time literal must be unsigned int (9)";
   }
 }
 
@@ -278,8 +255,7 @@ TEST_F(TimeLiterals, RealTimeLiteral_ConstTypeIsReal) {
   const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   if (m_design->getElaborated()) {
-    EXPECT_EQ(c->getConstType(), vpiRealConst)
-        << "§5.8: real time literal (2.1ms) must be stored as real const (2)";
+    EXPECT_EQ(c->getConstType(), vpiRealConst) << "§5.8: real time literal (2.1ms) must be stored as real const (2)";
   } else {
     EXPECT_EQ(c->getConstType(), vpiStringConst)
         << "§5.8: real time literal (2.1ms) must be stored as string const (6)";
@@ -290,11 +266,9 @@ TEST_F(TimeLiterals, RealTimeLiteral_SizeIs64) {
   const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   if (m_design->getElaborated()) {
-    EXPECT_EQ(c->getSize(), 64)
-        << "§5.8: real time literal must be 64-bit (IEEE 754 double-precision)";
+    EXPECT_EQ(c->getSize(), 64) << "§5.8: real time literal must be 64-bit (IEEE 754 double-precision)";
   } else {
-    EXPECT_EQ(c->getSize(), 40)
-        << "§5.8: real time literal must be 80-bits (5 * 8 bits)";
+    EXPECT_EQ(c->getSize(), 40) << "§5.8: real time literal must be 80-bits (5 * 8 bits)";
   }
 }
 
@@ -309,7 +283,7 @@ TEST_F(TimeLiterals, Assignment6_2p1ms_ScaledPerSpec) {
          "stores 2.1";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

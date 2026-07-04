@@ -44,21 +44,8 @@ namespace hlc {
 
 class CompilerDirectivesPragma : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.4--compiler-directives-pragma.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-pragma.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -68,9 +55,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module
 // ---------------------------------------------------------------------------
-TEST_F(CompilerDirectivesPragma, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found";
-}
+TEST_F(CompilerDirectivesPragma, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found"; }
 
 // ---------------------------------------------------------------------------
 // Net inside the `pragma protect region compiles normally
@@ -79,27 +64,22 @@ TEST_F(CompilerDirectivesPragma, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 1u)
-      << "the wire declaration inside the pragma region should compile normally";
+  EXPECT_EQ(m->getNets()->size(), 1u) << "the wire declaration inside the pragma region should compile normally";
 }
 
 TEST_F(CompilerDirectivesPragma, ProtectedWireNetExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Net>("protected_wire", m->getNets()),
-            nullptr)
-      << "net 'protected_wire' not found";
+  EXPECT_NE(hldb::findByName<hldb::Net>("protected_wire", m->getNets()), nullptr) << "net 'protected_wire' not found";
 }
 
 TEST_F(CompilerDirectivesPragma, ProtectedWireIsWireType) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Net>("protected_wire", m->getNets());
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("protected_wire", m->getNets());
   ASSERT_NE(net, nullptr);
   // vpiWire = 1
-  EXPECT_EQ(net->getNetType(), 1)
-      << "protected_wire should have net type wire (1)";
+  EXPECT_EQ(net->getNetType(), 1) << "protected_wire should have net type wire (1)";
 }
 
 // ---------------------------------------------------------------------------
@@ -112,7 +92,7 @@ TEST_F(CompilerDirectivesPragma, NoProcesses) {
       << "`pragma directives should not produce process nodes";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

@@ -42,21 +42,8 @@ namespace hlc {
 
 class EscapedIdentifiers : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.1--escaped-identifiers.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.1--escaped-identifiers.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -89,41 +76,35 @@ TEST_F(EscapedIdentifiers, SixNetsExist) {
 // ---------------------------------------------------------------------------
 TEST_F(EscapedIdentifiers, NetBusaPlusIndex) {
   // \busa+index  →  "busa+index"
-  EXPECT_TRUE(hasNet(getTop(m_design), "busa+index"))
-      << "net 'busa+index' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "busa+index")) << "net 'busa+index' not found";
 }
 
 TEST_F(EscapedIdentifiers, NetMinusClock) {
   // \-clock  →  "-clock"
-  EXPECT_TRUE(hasNet(getTop(m_design), "-clock"))
-      << "net '-clock' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "-clock")) << "net '-clock' not found";
 }
 
 TEST_F(EscapedIdentifiers, NetErrorConditionWithStars) {
   // \***error-condition***  →  "***error-condition***"
-  EXPECT_TRUE(hasNet(getTop(m_design), "***error-condition***"))
-      << "net '***error-condition***' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "***error-condition***")) << "net '***error-condition***' not found";
 }
 
 TEST_F(EscapedIdentifiers, NetNet1SlashNet2) {
   // \net1/\net2  →  "net1/\net2"
-  EXPECT_TRUE(hasNet(getTop(m_design), "net1/\\net2"))
-      << "net 'net1/\\net2' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "net1/\\net2")) << "net 'net1/\\net2' not found";
 }
 
 TEST_F(EscapedIdentifiers, NetCurlyAB) {
   // \{a,b}  →  "{a,b}"
-  EXPECT_TRUE(hasNet(getTop(m_design), "{a,b}"))
-      << "net '{a,b}' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "{a,b}")) << "net '{a,b}' not found";
 }
 
 TEST_F(EscapedIdentifiers, NetAStarBPlusC) {
   // \a*(b+c)  →  "a*(b+c)"
-  EXPECT_TRUE(hasNet(getTop(m_design), "a*(b+c)"))
-      << "net 'a*(b+c)' not found";
+  EXPECT_TRUE(hasNet(getTop(m_design), "a*(b+c)")) << "net 'a*(b+c)' not found";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

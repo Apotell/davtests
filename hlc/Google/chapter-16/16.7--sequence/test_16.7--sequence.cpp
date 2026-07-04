@@ -131,21 +131,8 @@ namespace hlc {
 
 class NamedSequenceTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "16.7--sequence.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.7--sequence.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
@@ -202,9 +189,7 @@ static const hldb::PropertySpec *getPropSpec(const hldb::Design *d) {
 // Module and nets
 // ---------------------------------------------------------------------------
 
-TEST_F(NamedSequenceTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(NamedSequenceTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 TEST_F(NamedSequenceTest, NetClk_HasLogicTypespec) {
   // SV source: 'logic clk' — §6.3: 4-state 1-bit variable.
@@ -219,16 +204,14 @@ TEST_F(NamedSequenceTest, NetA_HasLogicTypespec) {
   const hldb::Net *const net = getNet(m_design, "a");
   ASSERT_NE(net, nullptr) << "net 'a' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "'logic a' must produce a LogicTypespec";
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
 }
 
 TEST_F(NamedSequenceTest, NetB_HasLogicTypespec) {
   const hldb::Net *const net = getNet(m_design, "b");
   ASSERT_NE(net, nullptr) << "net 'b' not found";
   ASSERT_NE(net->getTypespec(), nullptr) << "net 'b' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "'logic b' must produce a LogicTypespec";
+  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic b' must produce a LogicTypespec";
 }
 
 // ---------------------------------------------------------------------------
@@ -240,25 +223,22 @@ TEST_F(NamedSequenceTest, SeqDecl_Collection_NonNull) {
   // populate Module::getSequenceDecls().
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getSequenceDecls(), nullptr)
-      << "§16.7: 'sequence seq; … endsequence' must populate "
-         "getSequenceDecls()";
+  EXPECT_NE(m->getSequenceDecls(), nullptr) << "§16.7: 'sequence seq; … endsequence' must populate "
+                                               "getSequenceDecls()";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_Collection_HasOneEntry) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getSequenceDecls(), nullptr);
-  EXPECT_EQ(m->getSequenceDecls()->size(), 1u)
-      << "exactly one sequence declaration 'seq' must be present";
+  EXPECT_EQ(m->getSequenceDecls()->size(), 1u) << "exactly one sequence declaration 'seq' must be present";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_Name_IsSeq) {
   // §16.7: 'sequence seq; …' — the declared sequence name must be "seq".
   const auto *sd = getSeqDecl(m_design);
   ASSERT_NE(sd, nullptr);
-  EXPECT_EQ(sd->getName(), "seq")
-      << "§16.7: SequenceDecl::getName() must be \"seq\"";
+  EXPECT_EQ(sd->getName(), "seq") << "§16.7: SequenceDecl::getName() must be \"seq\"";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_NoFormalArguments) {
@@ -266,17 +246,15 @@ TEST_F(NamedSequenceTest, SeqDecl_NoFormalArguments) {
   // getSeqFormalDecls() must be null.
   const auto *sd = getSeqDecl(m_design);
   ASSERT_NE(sd, nullptr);
-  EXPECT_EQ(sd->getSeqFormalDecls(), nullptr)
-      << "§16.7: 'sequence seq;' with no port list must have null "
-         "getSeqFormalDecls()";
+  EXPECT_EQ(sd->getSeqFormalDecls(), nullptr) << "§16.7: 'sequence seq;' with no port list must have null "
+                                                 "getSeqFormalDecls()";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_HasBodyExpression) {
   // §16.7: the sequence body '@(posedge clk) a ##1 b' must be non-null.
   const auto *sd = getSeqDecl(m_design);
   ASSERT_NE(sd, nullptr);
-  EXPECT_NE(sd->getExpr(), nullptr)
-      << "§16.7: sequence body must be non-null";
+  EXPECT_NE(sd->getExpr(), nullptr) << "§16.7: sequence body must be non-null";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_BodyExpr_IsClockedSeq) {
@@ -296,8 +274,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_HasClockingEvent) {
   // §16.7: '@(posedge clk)' defines the clocking event for the sequence.
   const auto *cs = getClockedSeq(m_design);
   ASSERT_NE(cs, nullptr);
-  EXPECT_NE(cs->getClockingEvent(), nullptr)
-      << "§16.7: '@(posedge clk)' must produce a non-null clocking event";
+  EXPECT_NE(cs->getClockingEvent(), nullptr) << "§16.7: '@(posedge clk)' must produce a non-null clocking event";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_IsOperation) {
@@ -311,9 +288,8 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_IsPosedge) {
   // §16.7: 'posedge' edge sensitivity → vpiPosedgeOp (39).
   const auto *op = getClockingEventOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiPosedgeOp)
-      << "§16.7: '@(posedge clk)' clocking event must have "
-         "opType == vpiPosedgeOp";
+  EXPECT_EQ(op->getOpType(), vpiPosedgeOp) << "§16.7: '@(posedge clk)' clocking event must have "
+                                              "opType == vpiPosedgeOp";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_HasOneOperand) {
@@ -321,8 +297,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_HasOneOperand) {
   const auto *op = getClockingEventOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 1u)
-      << "posedge clocking event must have exactly 1 operand (the clock signal)";
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "posedge clocking event must have exactly 1 operand (the clock signal)";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_OperandIsClk) {
@@ -332,10 +307,8 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_ClockingEvent_OperandIsClk) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
-  ASSERT_NE(ref, nullptr)
-      << "clocking event operand must be a RefObj";
-  EXPECT_EQ(ref->getName(), "clk")
-      << "clocking event operand must reference signal 'clk'";
+  ASSERT_NE(ref, nullptr) << "clocking event operand must be a RefObj";
+  EXPECT_EQ(ref->getName(), "clk") << "clocking event operand must reference signal 'clk'";
 }
 
 // ---------------------------------------------------------------------------
@@ -351,8 +324,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_HasSeqExpr) {
   // §16.7: 'a ##1 b' — the sequence expression must be non-null.
   const auto *cs = getClockedSeq(m_design);
   ASSERT_NE(cs, nullptr);
-  EXPECT_NE(cs->getSequenceExpr(), nullptr)
-      << "§16.7: sequence expression 'a ##1 b' must be non-null";
+  EXPECT_NE(cs->getSequenceExpr(), nullptr) << "§16.7: sequence expression 'a ##1 b' must be non-null";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_IsCycleDelayOp) {
@@ -360,9 +332,8 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_IsCycleDelayOp) {
   // vpiCycleDelayOp(71). vpiUnaryCycleDelayOp(70) is for '##n expr' only.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp)
-      << "§16.7: 'a ##1 b' must use vpiCycleDelayOp(71); "
-         "binary '##' with a left operand uses vpiCycleDelayOp";
+  EXPECT_EQ(op->getOpType(), vpiCycleDelayOp) << "§16.7: 'a ##1 b' must use vpiCycleDelayOp(71); "
+                                                 "binary '##' with a left operand uses vpiCycleDelayOp";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_HasThreeOperands) {
@@ -371,8 +342,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_HasThreeOperands) {
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "'a ##1 b' must have 3 operands: left seq, delay amount, right seq";
+  EXPECT_EQ(op->getOperands()->size(), 3u) << "'a ##1 b' must have 3 operands: left seq, delay amount, right seq";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsConstant) {
@@ -393,8 +363,7 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsOne) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getDecompile()), "1")
-      << "'##1' cycle delay amount must be the constant 1";
+  EXPECT_EQ(std::string(c->getDecompile()), "1") << "'##1' cycle delay amount must be the constant 1";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
@@ -404,10 +373,8 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
   const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
-  ASSERT_NE(ref, nullptr)
-      << "'a ##1 b' left operand must be a RefObj";
-  EXPECT_EQ(ref->getName(), "a")
-      << "'a ##1 b' left operand must reference signal 'a'";
+  ASSERT_NE(ref, nullptr) << "'a ##1 b' left operand must be a RefObj";
+  EXPECT_EQ(ref->getName(), "a") << "'a ##1 b' left operand must reference signal 'a'";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_RightSignal_IsRefObjB) {
@@ -417,10 +384,8 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_RightSignal_IsRefObjB) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
   const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
-  ASSERT_NE(ref, nullptr)
-      << "'a ##1 b' right operand must be a RefObj";
-  EXPECT_EQ(ref->getName(), "b")
-      << "'a ##1 b' right operand must reference signal 'b'";
+  ASSERT_NE(ref, nullptr) << "'a ##1 b' right operand must be a RefObj";
+  EXPECT_EQ(ref->getName(), "b") << "'a ##1 b' right operand must reference signal 'b'";
 }
 
 // ---------------------------------------------------------------------------
@@ -431,17 +396,15 @@ TEST_F(NamedSequenceTest, ConcAssert_Collection_NonNull) {
   // §16.7: 'assert property (seq)' must populate getConcurrentAssertions().
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getConcurrentAssertions(), nullptr)
-      << "§16.7: 'assert property (seq)' must populate "
-         "getConcurrentAssertions()";
+  EXPECT_NE(m->getConcurrentAssertions(), nullptr) << "§16.7: 'assert property (seq)' must populate "
+                                                      "getConcurrentAssertions()";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_Collection_HasOneEntry) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getConcurrentAssertions(), nullptr);
-  EXPECT_EQ(m->getConcurrentAssertions()->size(), 1u)
-      << "exactly one concurrent assertion must be present";
+  EXPECT_EQ(m->getConcurrentAssertions()->size(), 1u) << "exactly one concurrent assertion must be present";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_HasNoLabel) {
@@ -449,25 +412,22 @@ TEST_F(NamedSequenceTest, ConcAssert_HasNoLabel) {
   // §16.7: unlabeled concurrent assertions have an empty label.
   const auto *ca = getAssert(m_design);
   ASSERT_NE(ca, nullptr);
-  EXPECT_TRUE(ca->getLabel().empty())
-      << "§16.7: unlabeled 'assert property' must have empty label";
+  EXPECT_TRUE(ca->getLabel().empty()) << "§16.7: unlabeled 'assert property' must have empty label";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_HasNoActionBlock) {
   // SV source: 'assert property (seq);' — no pass or fail statement.
   const auto *ca = getAssert(m_design);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr)
-      << "§16.7: 'assert property (seq);' has no action block — "
-         "getStmt() must be null";
+  EXPECT_EQ(ca->getStmt(), nullptr) << "§16.7: 'assert property (seq);' has no action block — "
+                                       "getStmt() must be null";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_HasProperty) {
   // §16.7: the concurrent assertion must have a property expression.
   const auto *ca = getAssert(m_design);
   ASSERT_NE(ca, nullptr);
-  EXPECT_NE(ca->getProperty(), nullptr)
-      << "§16.7: 'assert property (seq)' must have a non-null property";
+  EXPECT_NE(ca->getProperty(), nullptr) << "§16.7: 'assert property (seq)' must have a non-null property";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_Property_IsPropertySpec) {
@@ -484,18 +444,16 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_HasNoClockingEvent) {
   // PropertySpec's own clocking event must be null — the sequence provides it.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_EQ(ps->getClockingEvent(), nullptr)
-      << "§16.7: clock is declared inside the named sequence — "
-         "PropertySpec::getClockingEvent() must be null";
+  EXPECT_EQ(ps->getClockingEvent(), nullptr) << "§16.7: clock is declared inside the named sequence — "
+                                                "PropertySpec::getClockingEvent() must be null";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_PropSpec_HasNoDisableCondition) {
   // SV source: no 'disable iff (…)' clause on the assertion.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_EQ(ps->getDisableCondition(), nullptr)
-      << "§16.7: 'assert property (seq);' has no disable_iff — "
-         "getDisableCondition() must be null";
+  EXPECT_EQ(ps->getDisableCondition(), nullptr) << "§16.7: 'assert property (seq);' has no disable_iff — "
+                                                   "getDisableCondition() must be null";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_PropSpec_HasPropertyExpr) {
@@ -503,8 +461,7 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_HasPropertyExpr) {
   // non-null property expression referencing the sequence 'seq'.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr(), nullptr)
-      << "§16.7: PropertySpec::getPropertyExpr() must be non-null";
+  EXPECT_NE(ps->getPropertyExpr(), nullptr) << "§16.7: PropertySpec::getPropertyExpr() must be non-null";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_IsSequenceInst) {
@@ -516,14 +473,14 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_IsSequenceInst) {
   // This test FAILS to document that bug.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  if (m_design->getElaborated()){
-      EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
-      << "§16.7: 'assert property (seq)' property expression must be a "
-         "SequenceInst; Surelog EL0535: 'seq' is treated as an implicit net "
-         "→ RefObj returned instead of SequenceInst";
+  if (m_design->getElaborated()) {
+    EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
+        << "§16.7: 'assert property (seq)' property expression must be a "
+           "SequenceInst; Surelog EL0535: 'seq' is treated as an implicit net "
+           "→ RefObj returned instead of SequenceInst";
   } else {
     EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr)
-      << "§16.7: 'assert property (seq)' property expression must non-null";
+        << "§16.7: 'assert property (seq)' property expression must non-null";
   }
 }
 
@@ -534,11 +491,10 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_NameIsSeq) {
   ASSERT_NE(ps, nullptr);
   const auto *expr = ps->getPropertyExpr();
   ASSERT_NE(expr, nullptr);
-  EXPECT_EQ(expr->getName(), "seq")
-      << "§16.7: property expression must reference the named sequence 'seq'";
+  EXPECT_EQ(expr->getName(), "seq") << "§16.7: property expression must reference the named sequence 'seq'";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

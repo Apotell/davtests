@@ -43,27 +43,13 @@ namespace hlc {
 
 class Arrays : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.11-arrays.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.11-arrays.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // Helper: return Net "n" from work@top.
 static const hldb::Net *getNetN(const hldb::Design *design) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
   if (!top || !top->getNets()) return nullptr;
   for (const hldb::Net *const net : *top->getNets()) {
     if (net->getName() == "n") return net;
@@ -81,9 +67,7 @@ TEST_F(Arrays, ModuleExists) {
 // ---------------------------------------------------------------------------
 // Net n
 // ---------------------------------------------------------------------------
-TEST_F(Arrays, NetNExists) {
-  ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in work@top";
-}
+TEST_F(Arrays, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in work@top"; }
 
 // ---------------------------------------------------------------------------
 // Typespec chain: ArrayTypespec[1:2] → ArrayTypespec[1:3] → IntTypespec
@@ -99,8 +83,7 @@ TEST_F(Arrays, NetNTypespecIsArrayTypespec) {
 TEST_F(Arrays, OuterArrayHasRange) {
   const hldb::Net *const n = getNetN(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const outer =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
   ASSERT_NE(outer->getRange(), nullptr) << "outer ArrayTypespec has no range (expected [1:2])";
 }
@@ -108,25 +91,23 @@ TEST_F(Arrays, OuterArrayHasRange) {
 TEST_F(Arrays, OuterArrayRangeBoundsAreOneAndTwo) {
   const hldb::Net *const n = getNetN(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const outer =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
   const hldb::Range *const rng = outer->getRange();
   ASSERT_NE(rng, nullptr);
 
   const hldb::Constant *const left = rng->getLeftExpr<hldb::Constant>();
   const hldb::Constant *const right = rng->getRightExpr<hldb::Constant>();
-  ASSERT_NE(left, nullptr)  << "outer range left bound is not a Constant";
+  ASSERT_NE(left, nullptr) << "outer range left bound is not a Constant";
   ASSERT_NE(right, nullptr) << "outer range right bound is not a Constant";
-  EXPECT_EQ(left->getDecompile(),  "1") << "outer left bound should be 1";
+  EXPECT_EQ(left->getDecompile(), "1") << "outer left bound should be 1";
   EXPECT_EQ(right->getDecompile(), "2") << "outer right bound should be 2";
 }
 
 TEST_F(Arrays, OuterArrayElemTypespecIsArrayTypespec) {
   const hldb::Net *const n = getNetN(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const outer =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
   ASSERT_NE(outer->getElemTypespec(), nullptr) << "outer ArrayTypespec has no elemTypespec";
   EXPECT_NE(any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual()), nullptr)
@@ -136,11 +117,9 @@ TEST_F(Arrays, OuterArrayElemTypespecIsArrayTypespec) {
 TEST_F(Arrays, InnerArrayHasRange) {
   const hldb::Net *const n = getNetN(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const outer =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
-  const hldb::ArrayTypespec *const inner =
-      any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual());
+  const hldb::ArrayTypespec *const inner = any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual());
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getRange(), nullptr) << "inner ArrayTypespec has no range (expected [1:3])";
 }
@@ -148,31 +127,27 @@ TEST_F(Arrays, InnerArrayHasRange) {
 TEST_F(Arrays, InnerArrayRangeBoundsAreOneAndThree) {
   const hldb::Net *const n = getNetN(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const outer =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
-  const hldb::ArrayTypespec *const inner =
-      any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual());
+  const hldb::ArrayTypespec *const inner = any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual());
   ASSERT_NE(inner, nullptr);
   const hldb::Range *const rng = inner->getRange();
   ASSERT_NE(rng, nullptr);
 
   const hldb::Constant *const left = rng->getLeftExpr<hldb::Constant>();
   const hldb::Constant *const right = rng->getRightExpr<hldb::Constant>();
-  ASSERT_NE(left, nullptr)  << "inner range left bound is not a Constant";
+  ASSERT_NE(left, nullptr) << "inner range left bound is not a Constant";
   ASSERT_NE(right, nullptr) << "inner range right bound is not a Constant";
-  EXPECT_EQ(left->getDecompile(),  "1") << "inner left bound should be 1";
+  EXPECT_EQ(left->getDecompile(), "1") << "inner left bound should be 1";
   EXPECT_EQ(right->getDecompile(), "3") << "inner right bound should be 3";
 }
 
 TEST_F(Arrays, InnerArrayElemTypespecIsIntTypespec) {
   const hldb::Net *const n = getNetN(m_design);
   ASSERT_NE(n, nullptr);
-  const hldb::ArrayTypespec *const outer =
-      any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
+  const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
-  const hldb::ArrayTypespec *const inner =
-      any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual());
+  const hldb::ArrayTypespec *const inner = any_cast<hldb::ArrayTypespec>(outer->getElemTypespec()->getActual());
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getElemTypespec(), nullptr) << "inner ArrayTypespec has no elemTypespec";
   EXPECT_NE(any_cast<hldb::IntTypespec>(inner->getElemTypespec()->getActual()), nullptr)
@@ -202,8 +177,7 @@ TEST_F(Arrays, FirstRowIsAssignPatternWithThreeConstants) {
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
   // '{0,1,2}
-  const hldb::Operation *const row0 =
-      any_cast<hldb::Operation>((*val->getOperands())[0]);
+  const hldb::Operation *const row0 = any_cast<hldb::Operation>((*val->getOperands())[0]);
   ASSERT_NE(row0, nullptr) << "first row is not an Operation";
   EXPECT_EQ(row0->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(row0->getOperands(), nullptr);
@@ -224,8 +198,7 @@ TEST_F(Arrays, SecondRowIsAssignPatternWithTwoOperands) {
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
   // '{3{4}} → AssignPatternOp with count=3 and value=4 as separate operands
-  const hldb::Operation *const row1 =
-      any_cast<hldb::Operation>((*val->getOperands())[1]);
+  const hldb::Operation *const row1 = any_cast<hldb::Operation>((*val->getOperands())[1]);
   ASSERT_NE(row1, nullptr) << "second row is not an Operation";
   EXPECT_EQ(row1->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(row1->getOperands(), nullptr);
@@ -240,22 +213,19 @@ TEST_F(Arrays, SecondRowOperandsAreConstants) {
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  const hldb::Operation *const row1 =
-      any_cast<hldb::Operation>((*val->getOperands())[1]);
+  const hldb::Operation *const row1 = any_cast<hldb::Operation>((*val->getOperands())[1]);
   ASSERT_NE(row1, nullptr);
   ASSERT_EQ(row1->getOperands()->size(), 2u);
 
-  const hldb::Constant *const count =
-      any_cast<hldb::Constant>((*row1->getOperands())[0]);
-  const hldb::Constant *const value =
-      any_cast<hldb::Constant>((*row1->getOperands())[1]);
+  const hldb::Constant *const count = any_cast<hldb::Constant>((*row1->getOperands())[0]);
+  const hldb::Constant *const value = any_cast<hldb::Constant>((*row1->getOperands())[1]);
   ASSERT_NE(count, nullptr) << "first operand of '{3{4}} should be a Constant (3)";
   ASSERT_NE(value, nullptr) << "second operand of '{3{4}} should be a Constant (4)";
   EXPECT_EQ(count->getDecompile(), "3") << "replication count should be 3";
   EXPECT_EQ(value->getDecompile(), "4") << "replicated value should be 4";
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

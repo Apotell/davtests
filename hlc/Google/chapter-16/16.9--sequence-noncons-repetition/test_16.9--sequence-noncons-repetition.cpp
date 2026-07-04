@@ -96,21 +96,8 @@ namespace hlc {
 
 class NonconsecutiveRepetitionTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "16.9--sequence-noncons-repetition.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.9--sequence-noncons-repetition.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -497,8 +484,7 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_PropertyExpr_ShouldBeOpe
   // This test FAILS intentionally — documents the dropped 'not' bug.
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<hldb::Operation>(), nullptr)
-      << "§16.12: 'not seq' property expr must be an Operation";
+  EXPECT_NE(ps->getPropertyExpr<hldb::Operation>(), nullptr) << "§16.12: 'not seq' property expr must be an Operation";
 }
 
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_PropertyExpr_NameIsSeq) {

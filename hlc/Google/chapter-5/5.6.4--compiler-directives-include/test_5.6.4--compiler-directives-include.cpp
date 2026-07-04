@@ -44,21 +44,8 @@ namespace hlc {
 
 class CompilerDirectivesInclude : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "5.6.4--compiler-directives-include.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "5.6.4--compiler-directives-include.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
@@ -70,15 +57,12 @@ static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
 // Module — empty, unaffected by the included file
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesInclude, ModuleExists) {
-  ASSERT_NE(
-      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules()),
-      nullptr)
+  ASSERT_NE(hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules()), nullptr)
       << "module 'work@empty' not found";
 }
 
 TEST_F(CompilerDirectivesInclude, ModuleIsEmpty) {
-  const hldb::Module *const m =
-      hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
@@ -91,8 +75,7 @@ TEST_F(CompilerDirectivesInclude, OneIncludeRecorded) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
   ASSERT_NE(sf->getIncludes(), nullptr);
-  EXPECT_EQ(sf->getIncludes()->size(), 1u)
-      << "exactly one `include directive should be recorded";
+  EXPECT_EQ(sf->getIncludes()->size(), 1u) << "exactly one `include directive should be recorded";
 }
 
 TEST_F(CompilerDirectivesInclude, IncludedFileNameContainsNull) {
@@ -106,8 +89,7 @@ TEST_F(CompilerDirectivesInclude, IncludedFileNameContainsNull) {
   const hldb::SourceFile *const inc = (*sf->getIncludes())[0];
   ASSERT_NE(inc, nullptr);
   const std::string_view name = inc->getName();
-  EXPECT_NE(name.find("null"), std::string_view::npos)
-      << "included file name should contain 'null'; got: " << name;
+  EXPECT_NE(name.find("null"), std::string_view::npos) << "included file name should contain 'null'; got: " << name;
 }
 
 TEST_F(CompilerDirectivesInclude, IncludedFileHasNoNets) {
@@ -120,11 +102,10 @@ TEST_F(CompilerDirectivesInclude, IncludedFileHasNoNets) {
   const hldb::SourceFile *const inc = (*sf->getIncludes())[0];
   ASSERT_NE(inc, nullptr);
   // An empty include contributes no macro definitions.
-  EXPECT_TRUE(!inc->getPreprocMacroDefinitions() ||
-              inc->getPreprocMacroDefinitions()->empty());
+  EXPECT_TRUE(!inc->getPreprocMacroDefinitions() || inc->getPreprocMacroDefinitions()->empty());
 }
 
-}  // namespace SURELOG
+}  // namespace hlc
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
