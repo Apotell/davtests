@@ -87,21 +87,8 @@ namespace hlc {
 
 class ParameterTypeTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.3--parameter_type.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.3--parameter_type.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -114,8 +101,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 
 // Type parameters share the AnyCollection returned by getParameters().
 // findByName<TypeParameter> matches by getName() and casts via any_cast.
-static const hldb::TypeParameter *getTypeParam(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::TypeParameter *getTypeParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::TypeParameter>(name, m->getParameters());
@@ -123,16 +109,14 @@ static const hldb::TypeParameter *getTypeParam(const hldb::Design *d,
 
 // The default type for a type parameter is stored in ParamAssign::getRhs(),
 // matched by getLhs()->getName() == name (the LHS RefTypespec carries the name).
-static const hldb::ParamAssign *getTypeParamAssign(const hldb::Design *d,
-                                                    std::string_view name) {
+static const hldb::ParamAssign *getTypeParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
 }
 
 // Returns the named variable from the module's variable collection.
-static const hldb::Variable *getVar(const hldb::Design *d,
-                                     std::string_view name) {
+static const hldb::Variable *getVar(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getVariables()) return nullptr;
   return hldb::findByName<hldb::Variable>(name, m->getVariables());
@@ -142,9 +126,7 @@ static const hldb::Variable *getVar(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(ParameterTypeTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(ParameterTypeTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameter collection
@@ -153,8 +135,7 @@ TEST_F(ParameterTypeTest, ModuleExists) {
 TEST_F(ParameterTypeTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection";
 }
 
 // ss.6.20.3: '#(type T = real)' declares exactly one parameter entry.
@@ -162,8 +143,7 @@ TEST_F(ParameterTypeTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 1u)
-      << "module 'top' declares exactly one type parameter: T";
+  EXPECT_EQ(m->getParameters()->size(), 1u) << "module 'top' declares exactly one type parameter: T";
 }
 
 // ===========================================================================
@@ -181,8 +161,7 @@ TEST_F(ParameterTypeTest, T_ExistsAsTypeParameter) {
 TEST_F(ParameterTypeTest, T_IsNotLocalParam) {
   const hldb::TypeParameter *tp = getTypeParam(m_design, "T");
   ASSERT_NE(tp, nullptr);
-  EXPECT_FALSE(tp->getLocalParam())
-      << "ss.6.20.3: '#(type T = real)' must not be marked as a localparam";
+  EXPECT_FALSE(tp->getLocalParam()) << "ss.6.20.3: '#(type T = real)' must not be marked as a localparam";
 }
 
 // ss.6.20.3: a type parameter must carry a default type expression.
@@ -221,8 +200,7 @@ TEST_F(ParameterTypeTest, Num_VariableExists) {
 TEST_F(ParameterTypeTest, Num_TypespecExists) {
   const hldb::Variable *v = getVar(m_design, "num");
   ASSERT_NE(v, nullptr);
-  EXPECT_NE(v->getTypespec(), nullptr)
-      << "ss.6.20.3: variable 'num : T' must have a non-null typespec";
+  EXPECT_NE(v->getTypespec(), nullptr) << "ss.6.20.3: variable 'num : T' must have a non-null typespec";
 }
 
 // ss.6.20.3: the RefTypespec for 'num' must resolve to the TypeParameter node
@@ -245,8 +223,7 @@ TEST_F(ParameterTypeTest, Num_Typespec_RefersToT) {
   ASSERT_NE(rt, nullptr);
   const hldb::TypeParameter *tp = rt->getActual<hldb::TypeParameter>();
   ASSERT_NE(tp, nullptr);
-  EXPECT_EQ(tp->getName(), "T")
-      << "ss.6.20.3: 'T num' must refer to the type parameter named \"T\"";
+  EXPECT_EQ(tp->getName(), "T") << "ss.6.20.3: 'T num' must refer to the type parameter named \"T\"";
 }
 
 // ss.6.8: 'T num = 0.0' provides an initial value; the variable's initial
@@ -255,8 +232,7 @@ TEST_F(ParameterTypeTest, Num_Typespec_RefersToT) {
 TEST_F(ParameterTypeTest, Num_InitValueExists) {
   const hldb::Variable *v = getVar(m_design, "num");
   ASSERT_NE(v, nullptr);
-  EXPECT_NE(v->getValue(), nullptr)
-      << "ss.6.8: 'T num = 0.0' must have a non-null initial value expression";
+  EXPECT_NE(v->getValue(), nullptr) << "ss.6.8: 'T num = 0.0' must have a non-null initial value expression";
 }
 
 // ss.5.7.2: '0.0' is a real number literal; the initial value must be a
@@ -266,8 +242,12 @@ TEST_F(ParameterTypeTest, Num_InitValue_IsRealConst) {
   ASSERT_NE(v, nullptr);
   const hldb::Constant *c = v->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "initial value '0.0' must be a Constant node";
-  EXPECT_EQ(c->getConstType(), vpiRealConst)
-      << "ss.5.7.2: '0.0' must have constType vpiRealConst (2)";
+  EXPECT_EQ(c->getConstType(), vpiRealConst) << "ss.5.7.2: '0.0' must have constType vpiRealConst (2)";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

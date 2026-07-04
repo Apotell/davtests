@@ -58,21 +58,8 @@ namespace hlc {
 
 class SpecparamTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.5--specparam.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.5--specparam.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -83,8 +70,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::SpecParam *getSpecParam(const hldb::Design *d,
-                                            std::string_view name) {
+static const hldb::SpecParam *getSpecParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getSpecParams()) return nullptr;
   return hldb::findByName<hldb::SpecParam>(name, m->getSpecParams());
@@ -94,9 +80,7 @@ static const hldb::SpecParam *getSpecParam(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(SpecparamTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(SpecparamTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // SpecParam collection
@@ -107,8 +91,7 @@ TEST_F(SpecparamTest, ModuleExists) {
 TEST_F(SpecparamTest, SpecParamCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getSpecParams(), nullptr)
-      << "ss.6.20.5: 'specparam delay' must produce a non-null specparam collection";
+  EXPECT_NE(m->getSpecParams(), nullptr) << "ss.6.20.5: 'specparam delay' must produce a non-null specparam collection";
 }
 
 // ss.6.20.5: exactly one specparam is declared.
@@ -116,8 +99,7 @@ TEST_F(SpecparamTest, SpecParamCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getSpecParams(), nullptr);
-  EXPECT_EQ(m->getSpecParams()->size(), 1u)
-      << "module 'top' declares exactly one specparam: delay";
+  EXPECT_EQ(m->getSpecParams()->size(), 1u) << "module 'top' declares exactly one specparam: delay";
 }
 
 // ss.6.20.5: a specparam is NOT a module parameter; the parameter collection
@@ -125,8 +107,7 @@ TEST_F(SpecparamTest, SpecParamCount) {
 TEST_F(SpecparamTest, ParameterCollection_IsNull) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getParameters(), nullptr)
-      << "ss.6.20.5: 'specparam' must NOT appear in getParameters()";
+  EXPECT_EQ(m->getParameters(), nullptr) << "ss.6.20.5: 'specparam' must NOT appear in getParameters()";
 }
 
 // ===========================================================================
@@ -135,8 +116,7 @@ TEST_F(SpecparamTest, ParameterCollection_IsNull) {
 
 // ss.6.20.5: 'specparam delay' must produce a SpecParam node named "delay".
 TEST_F(SpecparamTest, Delay_Exists) {
-  EXPECT_NE(getSpecParam(m_design, "delay"), nullptr)
-      << "'delay' not found in specparam collection";
+  EXPECT_NE(getSpecParam(m_design, "delay"), nullptr) << "'delay' not found in specparam collection";
 }
 
 // ss.6.20.5 + ss.11.2.1: the value '50' is a constant_expression stored in
@@ -148,8 +128,7 @@ TEST_F(SpecparamTest, Delay_ExprCollectionExists) {
   ASSERT_NE(sp, nullptr);
   const hldb::ExprCollection *exprs = sp->getExprs();
   ASSERT_NE(exprs, nullptr) << "'specparam delay = 50' must have a non-null expr collection";
-  EXPECT_FALSE(exprs->empty())
-      << "ss.6.20.5: 'specparam delay = 50' must have at least one value expression";
+  EXPECT_FALSE(exprs->empty()) << "ss.6.20.5: 'specparam delay = 50' must have at least one value expression";
 }
 
 // ss.11.2.1: the value '50' is a constant_expression; it must be represented
@@ -160,8 +139,7 @@ TEST_F(SpecparamTest, Delay_Expr_IsConstant) {
   const hldb::ExprCollection *exprs = sp->getExprs();
   ASSERT_NE(exprs, nullptr);
   ASSERT_FALSE(exprs->empty());
-  EXPECT_NE(any_cast<hldb::Constant>((*exprs)[0]), nullptr)
-      << "ss.11.2.1: '50' must be represented as a Constant node";
+  EXPECT_NE(any_cast<hldb::Constant>((*exprs)[0]), nullptr) << "ss.11.2.1: '50' must be represented as a Constant node";
 }
 
 // ss.6.20.5: the declared value is 50; the Constant must decompile to "50".
@@ -173,8 +151,12 @@ TEST_F(SpecparamTest, Delay_Expr_Decompile_Is50) {
   ASSERT_FALSE(exprs->empty());
   const hldb::Constant *c = any_cast<hldb::Constant>((*exprs)[0]);
   ASSERT_NE(c, nullptr) << "'50' must be a Constant node";
-  EXPECT_EQ(std::string(c->getDecompile()), "50")
-      << "'specparam delay = 50': decompile must be \"50\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "50") << "'specparam delay = 50': decompile must be \"50\"";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

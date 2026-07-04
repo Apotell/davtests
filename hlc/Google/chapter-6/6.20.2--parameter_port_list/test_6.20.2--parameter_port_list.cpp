@@ -69,21 +69,8 @@ namespace hlc {
 
 class ParameterPortListTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.2--parameter_port_list.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.2--parameter_port_list.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -94,16 +81,14 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d,
-                                        std::string_view name) {
+static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // Returns the ParamAssign for the named parameter (matched via getLhs name).
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
@@ -113,9 +98,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(ParameterPortListTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(ParameterPortListTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameter collection
@@ -124,8 +107,7 @@ TEST_F(ParameterPortListTest, ModuleExists) {
 TEST_F(ParameterPortListTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection";
 }
 
 // ss.23.2.1.4: the parameter port list '#(p = 12)' declares exactly one
@@ -134,8 +116,7 @@ TEST_F(ParameterPortListTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 1u)
-      << "module 'top' declares exactly one parameter: p";
+  EXPECT_EQ(m->getParameters()->size(), 1u) << "module 'top' declares exactly one parameter: p";
 }
 
 // ===========================================================================
@@ -151,8 +132,7 @@ TEST_F(ParameterPortListTest, P_Exists) {
 TEST_F(ParameterPortListTest, P_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "ss.6.20.2: '#(p = 12)' declares a parameter, not a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "ss.6.20.2: '#(p = 12)' declares a parameter, not a localparam";
 }
 
 // ss.6.20.2: the default value '12' is a constant_expression (ss.11.2.1)
@@ -160,8 +140,7 @@ TEST_F(ParameterPortListTest, P_IsNotLocalParam) {
 TEST_F(ParameterPortListTest, P_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p = 12': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p = 12': RHS must be a Constant";
 }
 
 TEST_F(ParameterPortListTest, P_RhsDecompile) {
@@ -169,8 +148,12 @@ TEST_F(ParameterPortListTest, P_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p = 12': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "12")
-      << "'p = 12': decompile must be \"12\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "12") << "'p = 12': decompile must be \"12\"";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

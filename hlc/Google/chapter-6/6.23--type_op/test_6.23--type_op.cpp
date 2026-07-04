@@ -86,21 +86,8 @@ namespace hlc {
 
 class TypeOpTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.23--type_op.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.23--type_op.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -121,9 +108,7 @@ static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
 // Module
 // ===========================================================================
 
-TEST_F(TypeOpTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(TypeOpTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Net collection  (a, b, c are all stored as Net nodes)
@@ -132,8 +117,7 @@ TEST_F(TypeOpTest, ModuleExists) {
 TEST_F(TypeOpTest, NetCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getNets(), nullptr)
-      << "module must have a net collection (a, b, c)";
+  EXPECT_NE(m->getNets(), nullptr) << "module must have a net collection (a, b, c)";
 }
 
 // ss.6.23: three nets are declared in this module.
@@ -141,8 +125,7 @@ TEST_F(TypeOpTest, NetCount_IsThree) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 3u)
-      << "module 'top' declares exactly three nets: a, b, c";
+  EXPECT_EQ(m->getNets()->size(), 3u) << "module 'top' declares exactly three nets: a, b, c";
 }
 
 // ===========================================================================
@@ -150,10 +133,7 @@ TEST_F(TypeOpTest, NetCount_IsThree) {
 // ===========================================================================
 
 // ss.6.12: 'real a' must produce a Net node named "a".
-TEST_F(TypeOpTest, A_Exists) {
-  EXPECT_NE(getNet(m_design, "a"), nullptr)
-      << "Net 'a' not found in net collection";
-}
+TEST_F(TypeOpTest, A_Exists) { EXPECT_NE(getNet(m_design, "a"), nullptr) << "Net 'a' not found in net collection"; }
 
 // ss.6.12: 'real' must attach a RealTypespec to 'a'.
 TEST_F(TypeOpTest, A_Typespec_IsReal) {
@@ -174,8 +154,7 @@ TEST_F(TypeOpTest, A_Typespec_IsReal) {
 TEST_F(TypeOpTest, A_Value_IsConstant) {
   const hldb::Net *n = getNet(m_design, "a");
   ASSERT_NE(n, nullptr);
-  EXPECT_NE(n->getValue<hldb::Constant>(), nullptr)
-      << "ss.5.7.2: '4.76' must be a Constant node";
+  EXPECT_NE(n->getValue<hldb::Constant>(), nullptr) << "ss.5.7.2: '4.76' must be a Constant node";
 }
 
 // ss.5.7.2: a real literal carries constType vpiRealConst (2).
@@ -184,8 +163,7 @@ TEST_F(TypeOpTest, A_Value_ConstType_IsReal) {
   ASSERT_NE(n, nullptr);
   const hldb::Constant *c = n->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiRealConst)
-      << "ss.5.7.2: '4.76' must have constType vpiRealConst (2)";
+  EXPECT_EQ(c->getConstType(), vpiRealConst) << "ss.5.7.2: '4.76' must have constType vpiRealConst (2)";
 }
 
 // ss.5.7.2: the constant must decompile to "4.76".
@@ -194,8 +172,7 @@ TEST_F(TypeOpTest, A_Value_Decompile_Is4_76) {
   ASSERT_NE(n, nullptr);
   const hldb::Constant *c = n->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getDecompile()), "4.76")
-      << "'real a = 4.76': value must decompile to \"4.76\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "4.76") << "'real a = 4.76': value must decompile to \"4.76\"";
 }
 
 // ===========================================================================
@@ -203,10 +180,7 @@ TEST_F(TypeOpTest, A_Value_Decompile_Is4_76) {
 // ===========================================================================
 
 // ss.6.12: 'real b' must produce a Net node named "b".
-TEST_F(TypeOpTest, B_Exists) {
-  EXPECT_NE(getNet(m_design, "b"), nullptr)
-      << "Net 'b' not found in net collection";
-}
+TEST_F(TypeOpTest, B_Exists) { EXPECT_NE(getNet(m_design, "b"), nullptr) << "Net 'b' not found in net collection"; }
 
 // ss.6.12: 'real' must attach a RealTypespec to 'b'.
 TEST_F(TypeOpTest, B_Typespec_IsReal) {
@@ -227,8 +201,7 @@ TEST_F(TypeOpTest, B_Typespec_IsReal) {
 TEST_F(TypeOpTest, B_Value_IsConstant) {
   const hldb::Net *n = getNet(m_design, "b");
   ASSERT_NE(n, nullptr);
-  EXPECT_NE(n->getValue<hldb::Constant>(), nullptr)
-      << "ss.5.7.2: '0.74' must be a Constant node";
+  EXPECT_NE(n->getValue<hldb::Constant>(), nullptr) << "ss.5.7.2: '0.74' must be a Constant node";
 }
 
 // ss.5.7.2: a real literal carries constType vpiRealConst (2).
@@ -237,8 +210,7 @@ TEST_F(TypeOpTest, B_Value_ConstType_IsReal) {
   ASSERT_NE(n, nullptr);
   const hldb::Constant *c = n->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiRealConst)
-      << "ss.5.7.2: '0.74' must have constType vpiRealConst (2)";
+  EXPECT_EQ(c->getConstType(), vpiRealConst) << "ss.5.7.2: '0.74' must have constType vpiRealConst (2)";
 }
 
 // ss.5.7.2: the constant must decompile to "0.74".
@@ -247,8 +219,7 @@ TEST_F(TypeOpTest, B_Value_Decompile_Is0_74) {
   ASSERT_NE(n, nullptr);
   const hldb::Constant *c = n->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getDecompile()), "0.74")
-      << "'real b = 0.74': value must decompile to \"0.74\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "0.74") << "'real b = 0.74': value must decompile to \"0.74\"";
 }
 
 // ===========================================================================
@@ -256,10 +227,7 @@ TEST_F(TypeOpTest, B_Value_Decompile_Is0_74) {
 // ===========================================================================
 
 // ss.6.23: 'var type(a+b) c' must produce a Net node named "c".
-TEST_F(TypeOpTest, C_Exists) {
-  EXPECT_NE(getNet(m_design, "c"), nullptr)
-      << "Net 'c' not found in net collection";
-}
+TEST_F(TypeOpTest, C_Exists) { EXPECT_NE(getNet(m_design, "c"), nullptr) << "Net 'c' not found in net collection"; }
 
 // ss.6.8 + ss.6.23: 'var type(a+b) c' with the 'var' keyword is stored in the
 // net collection. Check by name that 'c' does not appear in getVariables().
@@ -277,9 +245,8 @@ TEST_F(TypeOpTest, C_NotInVariables) {
 TEST_F(TypeOpTest, C_TypeExpression_ParsedAsType) {
   const hldb::Net *n = getNet(m_design, "c");
   ASSERT_NE(n, nullptr);
-  EXPECT_NE(n->getTypespec(), nullptr)
-      << "ss.6.23: type() must be parsed in the typespec position -- "
-         "'c' must have a non-null typespec";
+  EXPECT_NE(n->getTypespec(), nullptr) << "ss.6.23: type() must be parsed in the typespec position -- "
+                                          "'c' must have a non-null typespec";
 }
 
 // ss.6.23: the expression inside type() is parsed to determine the type but is
@@ -309,8 +276,7 @@ TEST_F(TypeOpTest, C_Typespec_ResolvesToReal) {
   const hldb::Net *n = getNet(m_design, "c");
   ASSERT_NE(n, nullptr);
   const hldb::RefTypespec *rt = n->getTypespec();
-  ASSERT_NE(rt, nullptr)
-      << "ss.6.23: 'c' must have a typespec";
+  ASSERT_NE(rt, nullptr) << "ss.6.23: 'c' must have a typespec";
   if (m_design->getElaborated()) {
     EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
         << "ss.6.23: post-elaboration: type(a+b) where a,b are 'real' must "
@@ -332,13 +298,11 @@ TEST_F(TypeOpTest, C_HasNoInitializer) {
   const hldb::Net *n = getNet(m_design, "c");
   ASSERT_NE(n, nullptr);
   if (m_design->getElaborated()) {
-    EXPECT_EQ(n->getValue<hldb::Constant>(), nullptr)
-        << "ss.6.23: post-elaboration: 'var type(a+b) c' has no explicit "
-           "initializer -- elaboration must not synthesize a value";
+    EXPECT_EQ(n->getValue<hldb::Constant>(), nullptr) << "ss.6.23: post-elaboration: 'var type(a+b) c' has no explicit "
+                                                         "initializer -- elaboration must not synthesize a value";
   } else {
-    EXPECT_EQ(n->getValue<hldb::Constant>(), nullptr)
-        << "pre-elaboration: 'var type(a+b) c' has no initializer -- "
-           "getValue() is null";
+    EXPECT_EQ(n->getValue<hldb::Constant>(), nullptr) << "pre-elaboration: 'var type(a+b) c' has no initializer -- "
+                                                         "getValue() is null";
   }
 }
 
@@ -391,9 +355,13 @@ TEST_F(TypeOpTest, C_NoSelfReference_SingleEntry) {
   for (const hldb::Net *n : *m->getNets()) {
     if (n && n->getName() == "c") ++count;
   }
-  EXPECT_EQ(count, 1)
-      << "ss.6.23: 'c' must appear exactly once in the net collection -- "
-         "no self-referential duplication";
+  EXPECT_EQ(count, 1) << "ss.6.23: 'c' must appear exactly once in the net collection -- "
+                         "no self-referential duplication";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

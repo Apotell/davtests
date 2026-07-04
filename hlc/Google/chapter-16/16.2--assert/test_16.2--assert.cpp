@@ -80,21 +80,8 @@ namespace hlc {
 
 class AssertTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "16.2--assert.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.2--assert.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -133,9 +120,7 @@ static const hldb::Operation *getOp(const hldb::Design *d) {
 // Module
 // ===========================================================================
 
-TEST_F(AssertTest, ModuleExists) {
-  EXPECT_NE(getTop(m_design), nullptr);
-}
+TEST_F(AssertTest, ModuleExists) { EXPECT_NE(getTop(m_design), nullptr); }
 
 // ===========================================================================
 // Net collection
@@ -148,19 +133,16 @@ TEST_F(AssertTest, Net_Collection_HasOneEntry) {
   EXPECT_EQ(m->getNets()->size(), 1u);
 }
 
-TEST_F(AssertTest, Net_a_Exists) {
-  EXPECT_NE(getNetA(m_design), nullptr);
-}
+TEST_F(AssertTest, Net_a_Exists) { EXPECT_NE(getNetA(m_design), nullptr); }
 
-// IEEE 1800-2017 ss.6.6: 'logic' declares a net of logic type; Surelog
+// IEEE 1800-2017 ss.6.6: 'logic' declares a net of logic type; HLDB
 // represents this as LogicTypespec via RefTypespec.
 TEST_F(AssertTest, Net_a_HasLogicTypespec) {
   const hldb::Net *n = getNetA(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::RefTypespec *rt = n->getTypespec();
   ASSERT_NE(rt, nullptr) << "Net 'a' must have a RefTypespec";
-  EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr)
-      << "RefTypespec must resolve to LogicTypespec for 'logic a'";
+  EXPECT_NE(rt->getActual<hldb::LogicTypespec>(), nullptr) << "RefTypespec must resolve to LogicTypespec for 'logic a'";
 }
 
 // ===========================================================================
@@ -185,15 +167,13 @@ TEST_F(AssertTest, Process_IsInitial) {
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getProcesses(), nullptr);
   ASSERT_FALSE(m->getProcesses()->empty());
-  EXPECT_NE(any_cast<hldb::Initial>((*m->getProcesses())[0]), nullptr)
-      << "The one process must be an Initial block";
+  EXPECT_NE(any_cast<hldb::Initial>((*m->getProcesses())[0]), nullptr) << "The one process must be an Initial block";
 }
 
 TEST_F(AssertTest, Initial_HasStatement) {
   const hldb::Initial *init = getInitial(m_design);
   ASSERT_NE(init, nullptr);
-  EXPECT_NE(init->getStmt(), nullptr)
-      << "Initial block must have a non-null body statement";
+  EXPECT_NE(init->getStmt(), nullptr) << "Initial block must have a non-null body statement";
 }
 
 // ===========================================================================
@@ -205,22 +185,19 @@ TEST_F(AssertTest, Initial_HasStatement) {
 TEST_F(AssertTest, Initial_Stmt_IsImmediateAssert) {
   const hldb::Initial *init = getInitial(m_design);
   ASSERT_NE(init, nullptr);
-  EXPECT_NE(any_cast<hldb::ImmediateAssert>(init->getStmt()), nullptr)
-      << "Initial body must be an ImmediateAssert";
+  EXPECT_NE(any_cast<hldb::ImmediateAssert>(init->getStmt()), nullptr) << "Initial body must be an ImmediateAssert";
 }
 
 TEST_F(AssertTest, ImmediateAssert_HasExpr) {
   const hldb::ImmediateAssert *ia = getImmAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getExpr(), nullptr)
-      << "ImmediateAssert must have a non-null expression";
+  EXPECT_NE(ia->getExpr(), nullptr) << "ImmediateAssert must have a non-null expression";
 }
 
 TEST_F(AssertTest, ImmediateAssert_Expr_IsOperation) {
   const hldb::ImmediateAssert *ia = getImmAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(any_cast<hldb::Operation>(ia->getExpr()), nullptr)
-      << "Assert expression must be an Operation";
+  EXPECT_NE(any_cast<hldb::Operation>(ia->getExpr()), nullptr) << "Assert expression must be an Operation";
 }
 
 // ===========================================================================
@@ -232,16 +209,14 @@ TEST_F(AssertTest, ImmediateAssert_Expr_IsOperation) {
 TEST_F(AssertTest, Operation_OpType_IsNeq) {
   const hldb::Operation *op = getOp(m_design);
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiNeqOp)
-      << "'a != 0' must have opType vpiNeqOp (15)";
+  EXPECT_EQ(op->getOpType(), vpiNeqOp) << "'a != 0' must have opType vpiNeqOp (15)";
 }
 
 TEST_F(AssertTest, Operation_HasTwoOperands) {
   const hldb::Operation *op = getOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "Binary not-equal operation must have exactly 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "Binary not-equal operation must have exactly 2 operands";
 }
 
 // ===========================================================================
@@ -253,8 +228,7 @@ TEST_F(AssertTest, Operand0_IsRefObj) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  EXPECT_NE(any_cast<hldb::RefObj>((*op->getOperands())[0]), nullptr)
-      << "Left operand of 'a != 0' must be a RefObj";
+  EXPECT_NE(any_cast<hldb::RefObj>((*op->getOperands())[0]), nullptr) << "Left operand of 'a != 0' must be a RefObj";
 }
 
 TEST_F(AssertTest, Operand0_Name_IsA) {
@@ -275,8 +249,7 @@ TEST_F(AssertTest, Operand0_ActualIsNet) {
   ASSERT_GE(op->getOperands()->size(), 1u);
   const hldb::RefObj *ref = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr)
-      << "RefObj 'a' must resolve to the Net declaration";
+  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr) << "RefObj 'a' must resolve to the Net declaration";
 }
 
 // ===========================================================================
@@ -293,7 +266,7 @@ TEST_F(AssertTest, Operand1_IsConstant) {
 }
 
 // IEEE 1800-2017 ss.5.7.1: unsized decimal integer literals without a sign
-// qualifier are unsigned; Surelog encodes this as vpiUIntConst (9).
+// qualifier are unsigned; HLDB encodes this as vpiUIntConst (9).
 TEST_F(AssertTest, Operand1_ConstType_IsUnsignedInt) {
   const hldb::Operation *op = getOp(m_design);
   ASSERT_NE(op, nullptr);
@@ -301,8 +274,7 @@ TEST_F(AssertTest, Operand1_ConstType_IsUnsignedInt) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const hldb::Constant *c = any_cast<hldb::Constant>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst)
-      << "Constant '0' must have vpiConstType == vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "Constant '0' must have vpiConstType == vpiUIntConst (9)";
 }
 
 TEST_F(AssertTest, Operand1_Value_IsZero) {
@@ -316,7 +288,7 @@ TEST_F(AssertTest, Operand1_Value_IsZero) {
 }
 
 // IEEE 1800-2017 ss.5.7.1: an unsized decimal literal uses the host integer
-// width; Surelog represents this as 64 bits.
+// width; HLDB represents this as 64 bits.
 TEST_F(AssertTest, Operand1_Size_Is64) {
   const hldb::Operation *op = getOp(m_design);
   ASSERT_NE(op, nullptr);
@@ -324,8 +296,7 @@ TEST_F(AssertTest, Operand1_Size_Is64) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const hldb::Constant *c = any_cast<hldb::Constant>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 64)
-      << "unsized decimal literal '0' must have host-int size (64)";
+  EXPECT_EQ(c->getSize(), 64) << "unsized decimal literal '0' must have host-int size (64)";
 }
 
 }  // namespace hlc

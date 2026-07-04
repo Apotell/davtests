@@ -65,21 +65,8 @@ namespace hlc {
 
 class LocalparamIntTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.4--localparam_int.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.4--localparam_int.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -90,15 +77,13 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d,
-                                        std::string_view name) {
+static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
@@ -108,9 +93,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(LocalparamIntTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(LocalparamIntTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameter collection
@@ -119,8 +102,7 @@ TEST_F(LocalparamIntTest, ModuleExists) {
 TEST_F(LocalparamIntTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection";
 }
 
 // ss.6.20.4: 'localparam int p = 123' declares exactly one local parameter.
@@ -128,8 +110,7 @@ TEST_F(LocalparamIntTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 1u)
-      << "module 'top' declares exactly one localparam: p";
+  EXPECT_EQ(m->getParameters()->size(), 1u) << "module 'top' declares exactly one localparam: p";
 }
 
 // ===========================================================================
@@ -137,26 +118,21 @@ TEST_F(LocalparamIntTest, ParameterCount) {
 // ===========================================================================
 
 // ss.6.20.4: 'localparam' must produce a Parameter node named "p".
-TEST_F(LocalparamIntTest, P_Exists) {
-  EXPECT_NE(getParam(m_design, "p"), nullptr)
-      << "'p' not found in parameters";
-}
+TEST_F(LocalparamIntTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // ss.6.20.4: a localparam is NOT overridable at instantiation;
 // getLocalParam() must return true.
 TEST_F(LocalparamIntTest, P_IsLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p");
   ASSERT_NE(p, nullptr);
-  EXPECT_TRUE(p->getLocalParam())
-      << "ss.6.20.4: 'localparam int p' must be marked as a localparam";
+  EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam int p' must be marked as a localparam";
 }
 
 // ss.6.11.2: the explicit 'int' type must be recorded as a non-null typespec.
 TEST_F(LocalparamIntTest, P_TypespecExists) {
   const hldb::Parameter *p = getParam(m_design, "p");
   ASSERT_NE(p, nullptr);
-  EXPECT_NE(p->getTypespec(), nullptr)
-      << "ss.6.11.2: 'localparam int p' must have a non-null typespec";
+  EXPECT_NE(p->getTypespec(), nullptr) << "ss.6.11.2: 'localparam int p' must have a non-null typespec";
 }
 
 // ss.6.11.2: the explicit 'int' type must resolve to an IntTypespec.
@@ -177,8 +153,7 @@ TEST_F(LocalparamIntTest, P_Typespec_IsSigned) {
   ASSERT_NE(rt, nullptr);
   const hldb::IntTypespec *ts = rt->getActual<hldb::IntTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(ts->getSigned())
-      << "ss.6.11.2: 'int' is a signed type";
+  EXPECT_TRUE(ts->getSigned()) << "ss.6.11.2: 'int' is a signed type";
 }
 
 // ss.6.20.4: the value '123' is a constant_expression stored in the
@@ -186,8 +161,7 @@ TEST_F(LocalparamIntTest, P_Typespec_IsSigned) {
 TEST_F(LocalparamIntTest, P_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'localparam int p = 123': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'localparam int p = 123': RHS must be a Constant";
 }
 
 // ss.6.20.4: the declared value is 123; the Constant must decompile to "123".
@@ -196,8 +170,12 @@ TEST_F(LocalparamIntTest, P_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'localparam int p = 123': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "123")
-      << "'localparam int p = 123': decompile must be \"123\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "123") << "'localparam int p = 123': decompile must be \"123\"";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

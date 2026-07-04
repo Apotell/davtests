@@ -108,21 +108,8 @@ namespace hlc {
 
 class ParameterDepTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.2--parameter_dep.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.2--parameter_dep.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -133,16 +120,14 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d,
-                                        std::string_view name) {
+static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // Returns the ParamAssign for the named parameter (matched via getLhs name).
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
@@ -152,9 +137,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(ParameterDepTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(ParameterDepTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameters -- collection
@@ -163,38 +146,32 @@ TEST_F(ParameterDepTest, ModuleExists) {
 TEST_F(ParameterDepTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection";
 }
 
 TEST_F(ParameterDepTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 6u)
-      << "top declares exactly six parameters: p1 through p6";
+  EXPECT_EQ(m->getParameters()->size(), 6u) << "top declares exactly six parameters: p1 through p6";
 }
 
 // ===========================================================================
 // Parameter p1 = 123  (untyped)
 // ===========================================================================
 
-TEST_F(ParameterDepTest, P1_Exists) {
-  EXPECT_NE(getParam(m_design, "p1"), nullptr) << "'p1' not found";
-}
+TEST_F(ParameterDepTest, P1_Exists) { EXPECT_NE(getParam(m_design, "p1"), nullptr) << "'p1' not found"; }
 
 TEST_F(ParameterDepTest, P1_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p1");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "'parameter p1' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "'parameter p1' must not be marked as a localparam";
 }
 
 TEST_F(ParameterDepTest, P1_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p1");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p1' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p1 = 123': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p1 = 123': RHS must be a Constant";
 }
 
 TEST_F(ParameterDepTest, P1_RhsDecompile) {
@@ -202,23 +179,19 @@ TEST_F(ParameterDepTest, P1_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p1' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p1 = 123': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "123")
-      << "'p1 = 123': decompile must be \"123\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "123") << "'p1 = 123': decompile must be \"123\"";
 }
 
 // ===========================================================================
 // Parameter p2 = p1 * 3  (untyped, dependent)
 // ===========================================================================
 
-TEST_F(ParameterDepTest, P2_Exists) {
-  EXPECT_NE(getParam(m_design, "p2"), nullptr) << "'p2' not found";
-}
+TEST_F(ParameterDepTest, P2_Exists) { EXPECT_NE(getParam(m_design, "p2"), nullptr) << "'p2' not found"; }
 
 TEST_F(ParameterDepTest, P2_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p2");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "'parameter p2' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "'parameter p2' must not be marked as a localparam";
 }
 
 TEST_F(ParameterDepTest, P2_RhsIsOperation) {
@@ -233,8 +206,7 @@ TEST_F(ParameterDepTest, P2_OpType_IsMultiply) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p2' not found";
   const hldb::Operation *op = pa->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "'p2 = p1 * 3': RHS must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiMultOp)
-      << "'p1 * 3' must produce vpiMultOp (25)";
+  EXPECT_EQ(op->getOpType(), vpiMultOp) << "'p1 * 3' must produce vpiMultOp (25)";
 }
 
 TEST_F(ParameterDepTest, P2_OperandsCount) {
@@ -243,8 +215,7 @@ TEST_F(ParameterDepTest, P2_OperandsCount) {
   const hldb::Operation *op = pa->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "'p2 = p1 * 3': RHS must be an Operation";
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "'p1 * 3': binary multiply must have exactly two operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "'p1 * 3': binary multiply must have exactly two operands";
 }
 
 TEST_F(ParameterDepTest, P2_LeftOperand_IsRefObj) {
@@ -265,11 +236,9 @@ TEST_F(ParameterDepTest, P2_LeftOperand_RefersToP1) {
   ASSERT_NE(op, nullptr) << "'p2 = p1 * 3': RHS must be an Operation";
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const hldb::RefObj *ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
+  const hldb::RefObj *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr) << "'p1 * 3': left operand must be RefObj";
-  EXPECT_EQ(ref->getName(), "p1")
-      << "'p1 * 3': left operand RefObj must name \"p1\"";
+  EXPECT_EQ(ref->getName(), "p1") << "'p1 * 3': left operand RefObj must name \"p1\"";
 }
 
 TEST_F(ParameterDepTest, P2_RightOperand_IsConstant) {
@@ -290,11 +259,9 @@ TEST_F(ParameterDepTest, P2_RightOperand_Decompile) {
   ASSERT_NE(op, nullptr) << "'p2 = p1 * 3': RHS must be an Operation";
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Constant *c =
-      any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  const hldb::Constant *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr) << "'p1 * 3': right operand must be Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "3")
-      << "'p1 * 3': right constant must decompile to \"3\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "3") << "'p1 * 3': right constant must decompile to \"3\"";
 }
 
 // ===========================================================================
@@ -303,23 +270,19 @@ TEST_F(ParameterDepTest, P2_RightOperand_Decompile) {
 // IntTypespec identity verifies both type recognition and 32-bit size.
 // ===========================================================================
 
-TEST_F(ParameterDepTest, P3_Exists) {
-  EXPECT_NE(getParam(m_design, "p3"), nullptr) << "'p3' not found";
-}
+TEST_F(ParameterDepTest, P3_Exists) { EXPECT_NE(getParam(m_design, "p3"), nullptr) << "'p3' not found"; }
 
 TEST_F(ParameterDepTest, P3_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p3");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "'parameter int p3' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "'parameter int p3' must not be marked as a localparam";
 }
 
 // ss.6.20.2: a parameter with an explicit type must carry a typespec.
 TEST_F(ParameterDepTest, P3_TypespecExists) {
   const hldb::Parameter *p = getParam(m_design, "p3");
   ASSERT_NE(p, nullptr);
-  EXPECT_NE(p->getTypespec(), nullptr)
-      << "'parameter int p3': must have a non-null typespec";
+  EXPECT_NE(p->getTypespec(), nullptr) << "'parameter int p3': must have a non-null typespec";
 }
 
 // ss.6.11.2: 'int' maps to IntTypespec (32-bit 2-state).
@@ -328,8 +291,7 @@ TEST_F(ParameterDepTest, P3_Typespec_IsIntTypespec) {
   ASSERT_NE(p, nullptr);
   const hldb::RefTypespec *rt = p->getTypespec();
   ASSERT_NE(rt, nullptr) << "'parameter int p3': typespec must be non-null";
-  EXPECT_NE(rt->getActual<hldb::IntTypespec>(), nullptr)
-      << "ss.6.11.2: 'int' must resolve to IntTypespec (32-bit)";
+  EXPECT_NE(rt->getActual<hldb::IntTypespec>(), nullptr) << "ss.6.11.2: 'int' must resolve to IntTypespec (32-bit)";
 }
 
 // ss.6.11.2: 'int' is signed by default.
@@ -340,15 +302,13 @@ TEST_F(ParameterDepTest, P3_Typespec_IsSigned) {
   ASSERT_NE(rt, nullptr);
   const hldb::IntTypespec *ts = rt->getActual<hldb::IntTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(ts->getSigned())
-      << "ss.6.11.2: 'int' is a signed type";
+  EXPECT_TRUE(ts->getSigned()) << "ss.6.11.2: 'int' is a signed type";
 }
 
 TEST_F(ParameterDepTest, P3_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p3");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p3' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p3 = 0': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p3 = 0': RHS must be a Constant";
 }
 
 TEST_F(ParameterDepTest, P3_RhsDecompile) {
@@ -356,8 +316,7 @@ TEST_F(ParameterDepTest, P3_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p3' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p3 = 0': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "0")
-      << "'p3 = 0': decompile must be \"0\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "0") << "'p3 = 0': decompile must be \"0\"";
 }
 
 // ===========================================================================
@@ -366,22 +325,18 @@ TEST_F(ParameterDepTest, P3_RhsDecompile) {
 // ByteTypespec identity verifies both type recognition and 8-bit size.
 // ===========================================================================
 
-TEST_F(ParameterDepTest, P4_Exists) {
-  EXPECT_NE(getParam(m_design, "p4"), nullptr) << "'p4' not found";
-}
+TEST_F(ParameterDepTest, P4_Exists) { EXPECT_NE(getParam(m_design, "p4"), nullptr) << "'p4' not found"; }
 
 TEST_F(ParameterDepTest, P4_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p4");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "'parameter byte p4' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "'parameter byte p4' must not be marked as a localparam";
 }
 
 TEST_F(ParameterDepTest, P4_TypespecExists) {
   const hldb::Parameter *p = getParam(m_design, "p4");
   ASSERT_NE(p, nullptr);
-  EXPECT_NE(p->getTypespec(), nullptr)
-      << "'parameter byte p4': must have a non-null typespec";
+  EXPECT_NE(p->getTypespec(), nullptr) << "'parameter byte p4': must have a non-null typespec";
 }
 
 // ss.6.11.2: 'byte' maps to ByteTypespec (8-bit 2-state).
@@ -390,8 +345,7 @@ TEST_F(ParameterDepTest, P4_Typespec_IsByteTypespec) {
   ASSERT_NE(p, nullptr);
   const hldb::RefTypespec *rt = p->getTypespec();
   ASSERT_NE(rt, nullptr) << "'parameter byte p4': typespec must be non-null";
-  EXPECT_NE(rt->getActual<hldb::ByteTypespec>(), nullptr)
-      << "ss.6.11.2: 'byte' must resolve to ByteTypespec (8-bit)";
+  EXPECT_NE(rt->getActual<hldb::ByteTypespec>(), nullptr) << "ss.6.11.2: 'byte' must resolve to ByteTypespec (8-bit)";
 }
 
 // ss.6.11.2: 'byte' is signed by default.
@@ -402,15 +356,13 @@ TEST_F(ParameterDepTest, P4_Typespec_IsSigned) {
   ASSERT_NE(rt, nullptr);
   const hldb::ByteTypespec *ts = rt->getActual<hldb::ByteTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(ts->getSigned())
-      << "ss.6.11.2: 'byte' is a signed type";
+  EXPECT_TRUE(ts->getSigned()) << "ss.6.11.2: 'byte' is a signed type";
 }
 
 TEST_F(ParameterDepTest, P4_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p4");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p4' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p4 = 1': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p4 = 1': RHS must be a Constant";
 }
 
 TEST_F(ParameterDepTest, P4_RhsDecompile) {
@@ -418,8 +370,7 @@ TEST_F(ParameterDepTest, P4_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p4' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p4 = 1': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "1")
-      << "'p4 = 1': decompile must be \"1\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "1") << "'p4 = 1': decompile must be \"1\"";
 }
 
 // ===========================================================================
@@ -429,22 +380,18 @@ TEST_F(ParameterDepTest, P4_RhsDecompile) {
 // Unlike 'int' (2-state), 'integer' is a 4-state type supporting X and Z.
 // ===========================================================================
 
-TEST_F(ParameterDepTest, P5_Exists) {
-  EXPECT_NE(getParam(m_design, "p5"), nullptr) << "'p5' not found";
-}
+TEST_F(ParameterDepTest, P5_Exists) { EXPECT_NE(getParam(m_design, "p5"), nullptr) << "'p5' not found"; }
 
 TEST_F(ParameterDepTest, P5_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p5");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "'parameter integer p5' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "'parameter integer p5' must not be marked as a localparam";
 }
 
 TEST_F(ParameterDepTest, P5_TypespecExists) {
   const hldb::Parameter *p = getParam(m_design, "p5");
   ASSERT_NE(p, nullptr);
-  EXPECT_NE(p->getTypespec(), nullptr)
-      << "'parameter integer p5': must have a non-null typespec";
+  EXPECT_NE(p->getTypespec(), nullptr) << "'parameter integer p5': must have a non-null typespec";
 }
 
 // ss.6.11.1: 'integer' maps to IntegerTypespec (32-bit 4-state), NOT IntTypespec.
@@ -465,15 +412,13 @@ TEST_F(ParameterDepTest, P5_Typespec_IsSigned) {
   ASSERT_NE(rt, nullptr);
   const hldb::IntegerTypespec *ts = rt->getActual<hldb::IntegerTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(ts->getSigned())
-      << "ss.6.11.1: 'integer' is a signed type";
+  EXPECT_TRUE(ts->getSigned()) << "ss.6.11.1: 'integer' is a signed type";
 }
 
 TEST_F(ParameterDepTest, P5_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p5");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p5' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p5 = 3': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p5 = 3': RHS must be a Constant";
 }
 
 TEST_F(ParameterDepTest, P5_RhsDecompile) {
@@ -481,8 +426,7 @@ TEST_F(ParameterDepTest, P5_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p5' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p5 = 3': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "3")
-      << "'p5 = 3': decompile must be \"3\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "3") << "'p5 = 3': decompile must be \"3\"";
 }
 
 // ===========================================================================
@@ -491,22 +435,18 @@ TEST_F(ParameterDepTest, P5_RhsDecompile) {
 // LongIntTypespec identity verifies both type recognition and 64-bit size.
 // ===========================================================================
 
-TEST_F(ParameterDepTest, P6_Exists) {
-  EXPECT_NE(getParam(m_design, "p6"), nullptr) << "'p6' not found";
-}
+TEST_F(ParameterDepTest, P6_Exists) { EXPECT_NE(getParam(m_design, "p6"), nullptr) << "'p6' not found"; }
 
 TEST_F(ParameterDepTest, P6_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p6");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "'parameter longint p6' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "'parameter longint p6' must not be marked as a localparam";
 }
 
 TEST_F(ParameterDepTest, P6_TypespecExists) {
   const hldb::Parameter *p = getParam(m_design, "p6");
   ASSERT_NE(p, nullptr);
-  EXPECT_NE(p->getTypespec(), nullptr)
-      << "'parameter longint p6': must have a non-null typespec";
+  EXPECT_NE(p->getTypespec(), nullptr) << "'parameter longint p6': must have a non-null typespec";
 }
 
 // ss.6.11.2: 'longint' maps to LongIntTypespec (64-bit 2-state).
@@ -527,15 +467,13 @@ TEST_F(ParameterDepTest, P6_Typespec_IsSigned) {
   ASSERT_NE(rt, nullptr);
   const hldb::LongIntTypespec *ts = rt->getActual<hldb::LongIntTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(ts->getSigned())
-      << "ss.6.11.2: 'longint' is a signed type";
+  EXPECT_TRUE(ts->getSigned()) << "ss.6.11.2: 'longint' is a signed type";
 }
 
 TEST_F(ParameterDepTest, P6_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p6");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p6' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p6 = 8': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p6 = 8': RHS must be a Constant";
 }
 
 TEST_F(ParameterDepTest, P6_RhsDecompile) {
@@ -543,8 +481,12 @@ TEST_F(ParameterDepTest, P6_RhsDecompile) {
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p6' not found";
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p6 = 8': RHS must be a Constant";
-  EXPECT_EQ(std::string(c->getDecompile()), "8")
-      << "'p6 = 8': decompile must be \"8\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "8") << "'p6 = 8': decompile must be \"8\"";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

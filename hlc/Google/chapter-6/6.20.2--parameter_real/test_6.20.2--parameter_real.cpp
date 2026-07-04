@@ -73,21 +73,8 @@ namespace hlc {
 
 class ParameterRealTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.2--parameter_real.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.2--parameter_real.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -98,24 +85,21 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d,
-                                        std::string_view name) {
+static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // Returns the ParamAssign for the named parameter (matched via getLhs name).
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
 }
 
 // Returns the RHS Constant of the named parameter's ParamAssign, or nullptr.
-static const hldb::Constant *getRhsConst(const hldb::Design *d,
-                                          std::string_view name) {
+static const hldb::Constant *getRhsConst(const hldb::Design *d, std::string_view name) {
   const hldb::ParamAssign *pa = getParamAssign(d, name);
   if (!pa) return nullptr;
   return pa->getRhs<hldb::Constant>();
@@ -125,9 +109,7 @@ static const hldb::Constant *getRhsConst(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(ParameterRealTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(ParameterRealTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameter collection
@@ -136,32 +118,27 @@ TEST_F(ParameterRealTest, ModuleExists) {
 TEST_F(ParameterRealTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection";
 }
 
 TEST_F(ParameterRealTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 1u)
-      << "module 'top' declares exactly one parameter: p";
+  EXPECT_EQ(m->getParameters()->size(), 1u) << "module 'top' declares exactly one parameter: p";
 }
 
 // ===========================================================================
 // Parameter p = 4.76
 // ===========================================================================
 
-TEST_F(ParameterRealTest, P_Exists) {
-  EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters";
-}
+TEST_F(ParameterRealTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // ss.6.20.2: 'parameter' is not a localparam; it is overridable.
 TEST_F(ParameterRealTest, P_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "ss.6.20.2: 'parameter p' must not be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "ss.6.20.2: 'parameter p' must not be marked as a localparam";
 }
 
 // ss.11.2.1: the default value must be a constant_expression, represented
@@ -169,8 +146,7 @@ TEST_F(ParameterRealTest, P_IsNotLocalParam) {
 TEST_F(ParameterRealTest, P_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "'p = 4.76': RHS must be a Constant";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p = 4.76': RHS must be a Constant";
 }
 
 // ss.5.7.2: '4.76' is a real number literal; UHDM encodes this as
@@ -178,8 +154,12 @@ TEST_F(ParameterRealTest, P_RhsIsConstant) {
 TEST_F(ParameterRealTest, P_Rhs_ConstType_IsReal) {
   const hldb::Constant *c = getRhsConst(m_design, "p");
   ASSERT_NE(c, nullptr) << "RHS Constant for 'p' not found";
-  EXPECT_EQ(c->getConstType(), vpiRealConst)
-      << "ss.5.7.2: '4.76' must have constType vpiRealConst (2)";
+  EXPECT_EQ(c->getConstType(), vpiRealConst) << "ss.5.7.2: '4.76' must have constType vpiRealConst (2)";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

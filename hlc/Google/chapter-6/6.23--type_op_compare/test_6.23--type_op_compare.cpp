@@ -81,21 +81,8 @@ namespace hlc {
 
 class TypeOpCompareTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.23--type_op_compare.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.23--type_op_compare.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -106,8 +93,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParamAssigns()) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
@@ -123,16 +109,14 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
 // NOTE: if this test fails, Surelog rejects valid ss.6.23 syntax.
 TEST_F(TypeOpCompareTest, Compiler_NoSyntaxErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0)
-      << "ss.6.23: this SV file is valid -- 'case (type(T))', "
-         "'parameter type T = type(...)', and type comparison operators "
-         "are all permitted by the spec; zero syntax errors expected";
+  EXPECT_EQ(stats.nbSyntax, 0) << "ss.6.23: this SV file is valid -- 'case (type(T))', "
+                                  "'parameter type T = type(...)', and type comparison operators "
+                                  "are all permitted by the spec; zero syntax errors expected";
 }
 
 TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "ss.6.23: valid type() file must produce no compilation errors";
+  EXPECT_EQ(stats.nbError, 0) << "ss.6.23: valid type() file must produce no compilation errors";
 }
 
 // ===========================================================================
@@ -143,16 +127,14 @@ TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
 // 'work@top' in the design's module collection.
 TEST_F(TypeOpCompareTest, ModuleCount_IsOne) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 1u)
-      << "ss.6.23: exactly one module 'top' is declared -- "
-         "getAllModules() must contain exactly one entry";
+  EXPECT_EQ(m_design->getAllModules()->size(), 1u) << "ss.6.23: exactly one module 'top' is declared -- "
+                                                      "getAllModules() must contain exactly one entry";
 }
 
 // ss.6.23: the module must be named 'work@top'.
 TEST_F(TypeOpCompareTest, Module_Top_Exists) {
-  EXPECT_NE(getTop(m_design), nullptr)
-      << "ss.6.23: 'module top' must produce a module named 'work@top' -- "
-         "if this fails, the module was not fully parsed";
+  EXPECT_NE(getTop(m_design), nullptr) << "ss.6.23: 'module top' must produce a module named 'work@top' -- "
+                                          "if this fails, the module was not fully parsed";
 }
 
 // ===========================================================================
@@ -195,8 +177,7 @@ TEST_F(TypeOpCompareTest, TypeParam_T_Name) {
   ASSERT_NE(lhs, nullptr);
   const hldb::TypeParameter *tp = lhs->getActual<hldb::TypeParameter>();
   ASSERT_NE(tp, nullptr);
-  EXPECT_EQ(tp->getName(), "T")
-      << "ss.6.23: type parameter must be named 'T'";
+  EXPECT_EQ(tp->getName(), "T") << "ss.6.23: type parameter must be named 'T'";
 }
 
 // ss.6.23: the RHS of the assignment holds the default type expression.
@@ -229,3 +210,8 @@ TEST_F(TypeOpCompareTest, TypeParam_T_DefaultType_ResolvesToLogic) {
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

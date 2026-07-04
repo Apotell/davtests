@@ -87,21 +87,8 @@ namespace hlc {
 
 class SpecparamInvTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.5--specparam_inv.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.5--specparam_inv.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -112,22 +99,19 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::SpecParam *getSpecParam(const hldb::Design *d,
-                                            std::string_view name) {
+static const hldb::SpecParam *getSpecParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getSpecParams()) return nullptr;
   return hldb::findByName<hldb::SpecParam>(name, m->getSpecParams());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d,
-                                        std::string_view name) {
+static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
@@ -137,9 +121,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(SpecparamInvTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(SpecparamInvTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // specparam delay = 50  (valid on its own)
@@ -150,8 +132,7 @@ TEST_F(SpecparamInvTest, ModuleExists) {
 TEST_F(SpecparamInvTest, SpecParamCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getSpecParams(), nullptr)
-      << "ss.6.20.5: 'specparam delay' must produce a non-null specparam collection";
+  EXPECT_NE(m->getSpecParams(), nullptr) << "ss.6.20.5: 'specparam delay' must produce a non-null specparam collection";
 }
 
 // ss.6.20.5: exactly one specparam is declared.
@@ -159,14 +140,12 @@ TEST_F(SpecparamInvTest, SpecParamCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getSpecParams(), nullptr);
-  EXPECT_EQ(m->getSpecParams()->size(), 1u)
-      << "module 'top' declares exactly one specparam: delay";
+  EXPECT_EQ(m->getSpecParams()->size(), 1u) << "module 'top' declares exactly one specparam: delay";
 }
 
 // ss.6.20.5: the specparam 'delay' must appear in getSpecParams().
 TEST_F(SpecparamInvTest, Delay_Exists) {
-  EXPECT_NE(getSpecParam(m_design, "delay"), nullptr)
-      << "ss.6.20.5: 'specparam delay' must appear in getSpecParams()";
+  EXPECT_NE(getSpecParam(m_design, "delay"), nullptr) << "ss.6.20.5: 'specparam delay' must appear in getSpecParams()";
 }
 
 // ===========================================================================
@@ -178,8 +157,7 @@ TEST_F(SpecparamInvTest, Delay_Exists) {
 TEST_F(SpecparamInvTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection (parameter p is declared)";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection (parameter p is declared)";
 }
 
 // Exactly one parameter 'p' is declared.
@@ -187,27 +165,21 @@ TEST_F(SpecparamInvTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 1u)
-      << "module 'top' declares exactly one parameter: p";
+  EXPECT_EQ(m->getParameters()->size(), 1u) << "module 'top' declares exactly one parameter: p";
 }
 
-TEST_F(SpecparamInvTest, P_Exists) {
-  EXPECT_NE(getParam(m_design, "p"), nullptr)
-      << "'p' not found in parameters";
-}
+TEST_F(SpecparamInvTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // 'parameter' (without localparam) must not be marked as a localparam.
 TEST_F(SpecparamInvTest, P_IsNotLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "p");
   ASSERT_NE(p, nullptr);
-  EXPECT_FALSE(p->getLocalParam())
-      << "ss.6.20.2: 'parameter p' must NOT be marked as a localparam";
+  EXPECT_FALSE(p->getLocalParam()) << "ss.6.20.2: 'parameter p' must NOT be marked as a localparam";
 }
 
 // The ParamAssign for 'p' must exist.
 TEST_F(SpecparamInvTest, P_ParamAssignExists) {
-  EXPECT_NE(getParamAssign(m_design, "p"), nullptr)
-      << "ParamAssign for 'p' not found";
+  EXPECT_NE(getParamAssign(m_design, "p"), nullptr) << "ParamAssign for 'p' not found";
 }
 
 // The RHS of 'p' is the compound expression 'delay + 2'; it must be an
@@ -215,8 +187,7 @@ TEST_F(SpecparamInvTest, P_ParamAssignExists) {
 TEST_F(SpecparamInvTest, P_RhsIsOperation) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr)
-      << "'delay + 2' must be represented as an Operation node";
+  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr) << "'delay + 2' must be represented as an Operation node";
 }
 
 // The '+' operator must have opType vpiAddOp (24).
@@ -225,8 +196,7 @@ TEST_F(SpecparamInvTest, P_Rhs_IsAddOperation) {
   ASSERT_NE(pa, nullptr);
   const hldb::Operation *op = pa->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiAddOp)
-      << "'+' must have opType vpiAddOp (24)";
+  EXPECT_EQ(op->getOpType(), vpiAddOp) << "'+' must have opType vpiAddOp (24)";
 }
 
 // The add operation has exactly two operands: the 'delay' reference and '2'.
@@ -236,8 +206,7 @@ TEST_F(SpecparamInvTest, P_Rhs_HasTwoOperands) {
   const hldb::Operation *op = pa->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "'delay + 2' must have exactly two operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "'delay + 2' must have exactly two operands";
 }
 
 // ss.6.20.5: 'delay' used in the parameter expression is NOT resolved as the
@@ -264,8 +233,7 @@ TEST_F(SpecparamInvTest, P_Rhs_RightOperand_IsConstant) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::Constant>((*op->getOperands())[1]), nullptr)
-      << "'2' in 'delay + 2' must be a Constant node";
+  EXPECT_NE(any_cast<hldb::Constant>((*op->getOperands())[1]), nullptr) << "'2' in 'delay + 2' must be a Constant node";
 }
 
 // The right operand must decompile to "2".
@@ -278,8 +246,7 @@ TEST_F(SpecparamInvTest, P_Rhs_RightOperand_Is2) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const hldb::Constant *c = any_cast<hldb::Constant>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(std::string(c->getDecompile()), "2")
-      << "'2' in 'delay + 2' must decompile to \"2\"";
+  EXPECT_EQ(std::string(c->getDecompile()), "2") << "'2' in 'delay + 2' must decompile to \"2\"";
 }
 
 // ===========================================================================
@@ -292,9 +259,8 @@ TEST_F(SpecparamInvTest, Compiler_ReportedOneError) {
   // EL0535 is an elaboration-phase error (ELAB_ prefix), so it is recorded in
   // the session error container, not the compiler's compilation-phase stats.
   ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 1)
-      << "ss.6.20.5: 'parameter p = delay + 2' must produce exactly one "
-         "compiler error";
+  EXPECT_EQ(stats.nbError, 1) << "ss.6.20.5: 'parameter p = delay + 2' must produce exactly one "
+                                 "compiler error";
 }
 
 // ss.6.20.5: the error emitted must be ELAB_ILLEGAL_IMPLICIT_NET (EL0535),
@@ -311,9 +277,13 @@ TEST_F(SpecparamInvTest, Compiler_Error_IsIllegalImplicitNet) {
       break;
     }
   }
-  EXPECT_TRUE(found)
-      << "ss.6.20.5: expected error ELAB_ILLEGAL_IMPLICIT_NET (EL0535) -- "
-         "specparam 'delay' must not be resolvable in a parameter expression";
+  EXPECT_TRUE(found) << "ss.6.20.5: expected error ELAB_ILLEGAL_IMPLICIT_NET (EL0535) -- "
+                        "specparam 'delay' must not be resolvable in a parameter expression";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

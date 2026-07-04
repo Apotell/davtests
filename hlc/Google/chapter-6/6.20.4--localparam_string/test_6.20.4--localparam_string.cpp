@@ -83,21 +83,8 @@ namespace hlc {
 
 class LocalparamStringTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.20.4--localparam_string.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.20.4--localparam_string.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -108,15 +95,13 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d,
-                                        std::string_view name) {
+static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getParameters()) return nullptr;
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
-                                                std::string_view name) {
+static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m) return nullptr;
   return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
@@ -126,9 +111,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d,
 // Module
 // ===========================================================================
 
-TEST_F(LocalparamStringTest, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found";
-}
+TEST_F(LocalparamStringTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
 
 // ===========================================================================
 // Parameter collection
@@ -137,8 +120,7 @@ TEST_F(LocalparamStringTest, ModuleExists) {
 TEST_F(LocalparamStringTest, ParameterCollectionExists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(m->getParameters(), nullptr)
-      << "module 'top' must have a parameter collection";
+  EXPECT_NE(m->getParameters(), nullptr) << "module 'top' must have a parameter collection";
 }
 
 // ss.6.20.4: two localparams s1 and s2 are declared.
@@ -146,8 +128,7 @@ TEST_F(LocalparamStringTest, ParameterCount) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
-  EXPECT_EQ(m->getParameters()->size(), 2u)
-      << "module 'top' declares exactly two localparams: s1 and s2";
+  EXPECT_EQ(m->getParameters()->size(), 2u) << "module 'top' declares exactly two localparams: s1 and s2";
 }
 
 // ===========================================================================
@@ -155,24 +136,21 @@ TEST_F(LocalparamStringTest, ParameterCount) {
 // ===========================================================================
 
 TEST_F(LocalparamStringTest, S1_Exists) {
-  EXPECT_NE(getParam(m_design, "s1"), nullptr)
-      << "'s1' not found in parameters";
+  EXPECT_NE(getParam(m_design, "s1"), nullptr) << "'s1' not found in parameters";
 }
 
 // ss.6.20.4: s1 is a localparam and must NOT be overridable.
 TEST_F(LocalparamStringTest, S1_IsLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "s1");
   ASSERT_NE(p, nullptr);
-  EXPECT_TRUE(p->getLocalParam())
-      << "ss.6.20.4: 'localparam s1' must be marked as a localparam";
+  EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam s1' must be marked as a localparam";
 }
 
 // ss.5.9: "foo" is a string literal; the ParamAssign RHS must be a Constant.
 TEST_F(LocalparamStringTest, S1_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "s1");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 's1' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "ss.5.9: '\"foo\"' must be represented as a Constant node";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ss.5.9: '\"foo\"' must be represented as a Constant node";
 }
 
 // ss.5.9: a string literal has constType vpiStringConst (6).
@@ -181,8 +159,7 @@ TEST_F(LocalparamStringTest, S1_Rhs_ConstType_IsString) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'\"foo\"' RHS must be a Constant";
-  EXPECT_EQ(c->getConstType(), vpiStringConst)
-      << "ss.5.9: '\"foo\"' must have constType vpiStringConst (6)";
+  EXPECT_EQ(c->getConstType(), vpiStringConst) << "ss.5.9: '\"foo\"' must have constType vpiStringConst (6)";
 }
 
 // ===========================================================================
@@ -190,24 +167,21 @@ TEST_F(LocalparamStringTest, S1_Rhs_ConstType_IsString) {
 // ===========================================================================
 
 TEST_F(LocalparamStringTest, S2_Exists) {
-  EXPECT_NE(getParam(m_design, "s2"), nullptr)
-      << "'s2' not found in parameters";
+  EXPECT_NE(getParam(m_design, "s2"), nullptr) << "'s2' not found in parameters";
 }
 
 // ss.6.20.4: s2 is a localparam and must NOT be overridable.
 TEST_F(LocalparamStringTest, S2_IsLocalParam) {
   const hldb::Parameter *p = getParam(m_design, "s2");
   ASSERT_NE(p, nullptr);
-  EXPECT_TRUE(p->getLocalParam())
-      << "ss.6.20.4: 'localparam string s2' must be marked as a localparam";
+  EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam string s2' must be marked as a localparam";
 }
 
 // ss.6.16: the explicit 'string' type must be recorded as a non-null typespec.
 TEST_F(LocalparamStringTest, S2_TypespecExists) {
   const hldb::Parameter *p = getParam(m_design, "s2");
   ASSERT_NE(p, nullptr);
-  EXPECT_NE(p->getTypespec(), nullptr)
-      << "ss.6.16: 'localparam string s2' must have a non-null typespec";
+  EXPECT_NE(p->getTypespec(), nullptr) << "ss.6.16: 'localparam string s2' must have a non-null typespec";
 }
 
 // ss.6.16: the explicit 'string' keyword must resolve to a StringTypespec.
@@ -224,8 +198,7 @@ TEST_F(LocalparamStringTest, S2_Typespec_IsStringTypespec) {
 TEST_F(LocalparamStringTest, S2_RhsIsConstant) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "s2");
   ASSERT_NE(pa, nullptr) << "ParamAssign for 's2' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr)
-      << "ss.5.9: '\"bar\"' must be represented as a Constant node";
+  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ss.5.9: '\"bar\"' must be represented as a Constant node";
 }
 
 // ss.5.9: a string literal has constType vpiStringConst (6).
@@ -234,8 +207,12 @@ TEST_F(LocalparamStringTest, S2_Rhs_ConstType_IsString) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'\"bar\"' RHS must be a Constant";
-  EXPECT_EQ(c->getConstType(), vpiStringConst)
-      << "ss.5.9: '\"bar\"' must have constType vpiStringConst (6)";
+  EXPECT_EQ(c->getConstType(), vpiStringConst) << "ss.5.9: '\"bar\"' must have constType vpiStringConst (6)";
 }
 
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
