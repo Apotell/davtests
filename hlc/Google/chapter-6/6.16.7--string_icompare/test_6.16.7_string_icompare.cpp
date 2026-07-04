@@ -31,7 +31,7 @@
 //   - icompare() argument is RefObj "b" resolving to Net 'b'
 //
 // Not checked:
-//   - c does NOT get a pre-evaluated constant value — Surelog stores the
+//   - c does NOT get a pre-evaluated constant value — HLDB stores the
 //     unevaluated HierPath expression only
 //   - icompare returns 0 for equal (case-insensitive "Test"=="TEST") but this
 //     is a runtime result invisible to UHDM
@@ -57,21 +57,8 @@ namespace hlc {
 
 class StringIcompare : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.16.7--string_icompare.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.7--string_icompare.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StringIcompare, ModuleExists) {
@@ -82,16 +69,14 @@ TEST_F(StringIcompare, ModuleExists) {
 // Net declarations — string 'a', string 'b', int 'c'
 // ---------------------------------------------------------------------------
 TEST_F(StringIcompare, ThreeNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 }
 
 TEST_F(StringIcompare, ANetInitialValueIsTest) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -102,8 +87,7 @@ TEST_F(StringIcompare, ANetInitialValueIsTest) {
 }
 
 TEST_F(StringIcompare, BNetInitialValueIsTEST) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -113,8 +97,7 @@ TEST_F(StringIcompare, BNetInitialValueIsTEST) {
 }
 
 TEST_F(StringIcompare, CNetTypespecIsInt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
@@ -125,28 +108,24 @@ TEST_F(StringIcompare, CNetTypespecIsInt) {
 // HierPath — c's initial value is the method call a.icompare(b)
 // ---------------------------------------------------------------------------
 TEST_F(StringIcompare, CNetHasValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
-  EXPECT_NE(c->getValue(), nullptr)
-      << "net 'c' should have a vpiValue set from int c = a.icompare(b)";
+  EXPECT_NE(c->getValue(), nullptr) << "net 'c' should have a vpiValue set from int c = a.icompare(b)";
 }
 
 TEST_F(StringIcompare, CNetValueIsNotPreEvaluatedConstant) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue<hldb::Constant>(), nullptr)
-      << "Surelog does not pre-evaluate a.icompare(b) to a constant; c holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.icompare(b) to a constant; c holds only the HierPath expression";
 }
 
 TEST_F(StringIcompare, CNetValueIsHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
@@ -156,8 +135,7 @@ TEST_F(StringIcompare, CNetValueIsHierPath) {
 }
 
 TEST_F(StringIcompare, HierPathMethodIsIcompare) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
@@ -165,28 +143,24 @@ TEST_F(StringIcompare, HierPathMethodIsIcompare) {
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "icompare");
 }
 
 TEST_F(StringIcompare, IcompareArgumentIsRefObjB) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = c->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg =
-      any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "icompare() argument is not a RefObj";
   EXPECT_EQ(arg->getName(), "b");
   EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);

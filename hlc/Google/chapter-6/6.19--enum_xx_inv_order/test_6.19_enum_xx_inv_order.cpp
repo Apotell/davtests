@@ -30,7 +30,7 @@
 //   - work@top has no processes
 //
 // Not checked:
-//   - Surelog doesn't flag the invalid ordering (unassigned enumerator after x-valued one)
+//   - HLC doesn't flag the invalid ordering (unassigned enumerator after x-valued one)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -52,21 +52,8 @@ namespace hlc {
 
 class EnumXxInvOrder : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.19--enum_xx_inv_order.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.19--enum_xx_inv_order.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(EnumXxInvOrder, ModuleExists) {
@@ -77,8 +64,7 @@ TEST_F(EnumXxInvOrder, ModuleExists) {
 // EnumTypespec with explicit base type: integer (same as enum_xx)
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxInvOrder, EnumBaseTypeIsInteger) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -94,8 +80,7 @@ TEST_F(EnumXxInvOrder, EnumBaseTypeIsInteger) {
 // 3 consts: a, b, c
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxInvOrder, EnumHasThreeConsts) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -110,8 +95,7 @@ TEST_F(EnumXxInvOrder, EnumHasThreeConsts) {
 }
 
 TEST_F(EnumXxInvOrder, ConstAValueIsZero) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -125,23 +109,20 @@ TEST_F(EnumXxInvOrder, ConstAValueIsZero) {
 }
 
 TEST_F(EnumXxInvOrder, ConstBValueIsMultiConcatOperation) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
     if ((enumTs = any_cast<hldb::EnumTypespec>(ts))) break;
   }
   ASSERT_NE(enumTs, nullptr);
-  const hldb::Operation *const op =
-      enumTs->getEnumConsts()->at(1)->getValue<hldb::Operation>();
+  const hldb::Operation *const op = enumTs->getEnumConsts()->at(1)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiMultiConcatOp);
 }
 
 TEST_F(EnumXxInvOrder, ConstCHasNoValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -151,16 +132,14 @@ TEST_F(EnumXxInvOrder, ConstCHasNoValue) {
   const hldb::EnumConst *const c = enumTs->getEnumConsts()->at(2);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getName(), "c");
-  EXPECT_EQ(c->getValue<hldb::Any>(), nullptr)
-      << "c is unassigned after an x-value — it has no vpiValue in UHDM";
+  EXPECT_EQ(c->getValue<hldb::Any>(), nullptr) << "c is unassigned after an x-value — it has no vpiValue in UHDM";
 }
 
 // ---------------------------------------------------------------------------
 // Net "val" → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxInvOrder, NetValExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -168,8 +147,7 @@ TEST_F(EnumXxInvOrder, NetValExists) {
 }
 
 TEST_F(EnumXxInvOrder, NetValHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -177,8 +155,7 @@ TEST_F(EnumXxInvOrder, NetValHasNoInitialValue) {
 }
 
 TEST_F(EnumXxInvOrder, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

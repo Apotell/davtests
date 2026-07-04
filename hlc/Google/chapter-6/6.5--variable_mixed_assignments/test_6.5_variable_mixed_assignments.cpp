@@ -32,7 +32,7 @@
 //   - ~v operand is RefObj "v"
 //
 // Not checked:
-//   - Surelog doesn't flag the mixed continuous + procedural assignment error
+//   - HLC doesn't flag the mixed continuous + procedural assignment error
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -56,21 +56,8 @@ namespace hlc {
 
 class VariableMixedAssignments : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.5--variable_mixed_assignments.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.5--variable_mixed_assignments.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(VariableMixedAssignments, ModuleExists) {
@@ -81,34 +68,28 @@ TEST_F(VariableMixedAssignments, ModuleExists) {
 // Net declarations — wire clk = 0 and int v
 // ---------------------------------------------------------------------------
 TEST_F(VariableMixedAssignments, TwoNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
   EXPECT_EQ(top->getNets()->size(), 2u) << "expected nets 'clk' and 'v'";
 }
 
 TEST_F(VariableMixedAssignments, ClkNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("clk", top->getNets()), nullptr)
-      << "net 'clk' not found";
+  ASSERT_NE(hldb::findByName<hldb::Net>("clk", top->getNets()), nullptr) << "net 'clk' not found";
 }
 
 TEST_F(VariableMixedAssignments, VNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("v", top->getNets()), nullptr)
-      << "net 'v' not found";
+  ASSERT_NE(hldb::findByName<hldb::Net>("v", top->getNets()), nullptr) << "net 'v' not found";
 }
 
 TEST_F(VariableMixedAssignments, ClkNetIsWireType) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", top->getNets());
   ASSERT_NE(clk, nullptr);
@@ -116,8 +97,7 @@ TEST_F(VariableMixedAssignments, ClkNetIsWireType) {
 }
 
 TEST_F(VariableMixedAssignments, ClkNetInitialValueIsZero) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", top->getNets());
   ASSERT_NE(clk, nullptr);
@@ -131,16 +111,14 @@ TEST_F(VariableMixedAssignments, ClkNetInitialValueIsZero) {
 // Continuous assignment — assign v = 12
 // ---------------------------------------------------------------------------
 TEST_F(VariableMixedAssignments, ContAssignExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
   EXPECT_EQ(top->getContAssigns()->size(), 1u);
 }
 
 TEST_F(VariableMixedAssignments, ContAssignLhsIsV) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -152,13 +130,11 @@ TEST_F(VariableMixedAssignments, ContAssignLhsIsV) {
 }
 
 TEST_F(VariableMixedAssignments, ContAssignRhsIsConstant12) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const hldb::Constant *const rhs =
-      top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS is not a Constant";
   EXPECT_EQ(rhs->getDecompile(), "12");
 }
@@ -167,60 +143,49 @@ TEST_F(VariableMixedAssignments, ContAssignRhsIsConstant12) {
 // Always block — always @(posedge clk) v <= ~v
 // ---------------------------------------------------------------------------
 TEST_F(VariableMixedAssignments, AlwaysProcessExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr) << "module has no processes";
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(VariableMixedAssignments, AlwaysTypeIsAlways) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr) << "process is not an Always";
   EXPECT_EQ(always->getAlwaysType(), vpiAlways);
 }
 
 TEST_F(VariableMixedAssignments, AlwaysStmtIsEventControl) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
-  EXPECT_NE(always->getStmt<hldb::EventControl>(), nullptr)
-      << "always body is not an EventControl";
+  EXPECT_NE(always->getStmt<hldb::EventControl>(), nullptr) << "always body is not an EventControl";
 }
 
 TEST_F(VariableMixedAssignments, EventControlConditionIsPosedge) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
 
   const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr) << "EventControl condition is not an Operation";
-  EXPECT_EQ(cond->getOpType(), vpiPosedgeOp)
-      << "expected posedge operation (vpiPosedgeOp=39)";
+  EXPECT_EQ(cond->getOpType(), vpiPosedgeOp) << "expected posedge operation (vpiPosedgeOp=39)";
 }
 
 TEST_F(VariableMixedAssignments, EventControlConditionOperandIsClk) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
@@ -229,31 +194,25 @@ TEST_F(VariableMixedAssignments, EventControlConditionOperandIsClk) {
   ASSERT_NE(cond->getOperands(), nullptr);
   ASSERT_EQ(cond->getOperands()->size(), 1u);
 
-  const hldb::RefObj *const operand =
-      dynamic_cast<const hldb::RefObj*>((*cond->getOperands())[0]);
+  const hldb::RefObj *const operand = dynamic_cast<const hldb::RefObj *>((*cond->getOperands())[0]);
   ASSERT_NE(operand, nullptr) << "posedge operand is not a RefObj";
   EXPECT_EQ(operand->getName(), "clk");
 }
 
 TEST_F(VariableMixedAssignments, EventControlStmtIsAssignment) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
-  EXPECT_NE(ec->getStmt<hldb::Assignment>(), nullptr)
-      << "EventControl body is not an Assignment";
+  EXPECT_NE(ec->getStmt<hldb::Assignment>(), nullptr) << "EventControl body is not an Assignment";
 }
 
 TEST_F(VariableMixedAssignments, ProceduralAssignmentLhsIsV) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
@@ -266,11 +225,9 @@ TEST_F(VariableMixedAssignments, ProceduralAssignmentLhsIsV) {
 }
 
 TEST_F(VariableMixedAssignments, ProceduralAssignmentRhsIsBitwiseNeg) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
@@ -279,16 +236,13 @@ TEST_F(VariableMixedAssignments, ProceduralAssignmentRhsIsBitwiseNeg) {
 
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "procedural assignment RHS is not an Operation";
-  EXPECT_EQ(rhs->getOpType(), vpiBitNegOp)
-      << "expected bitwise negation (vpiBitNegOp=4)";
+  EXPECT_EQ(rhs->getOpType(), vpiBitNegOp) << "expected bitwise negation (vpiBitNegOp=4)";
 }
 
 TEST_F(VariableMixedAssignments, BitwiseNegOperandIsV) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
@@ -299,8 +253,7 @@ TEST_F(VariableMixedAssignments, BitwiseNegOperandIsV) {
   ASSERT_NE(neg->getOperands(), nullptr);
   ASSERT_EQ(neg->getOperands()->size(), 1u);
 
-  const hldb::RefObj *const operand =
-      dynamic_cast<const hldb::RefObj*>((*neg->getOperands())[0]);
+  const hldb::RefObj *const operand = dynamic_cast<const hldb::RefObj *>((*neg->getOperands())[0]);
   ASSERT_NE(operand, nullptr) << "~v operand is not a RefObj";
   EXPECT_EQ(operand->getName(), "v");
 }
@@ -309,59 +262,47 @@ TEST_F(VariableMixedAssignments, BitwiseNegOperandIsV) {
 // Additional structural checks
 // ---------------------------------------------------------------------------
 TEST_F(VariableMixedAssignments, ProceduralAssignmentIsNonBlocking) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
   const hldb::Assignment *const assign = ec->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr);
-  EXPECT_FALSE(assign->getBlocking())
-      << "v <= ~v is a non-blocking assignment (<=), getBlocking() must be false";
+  EXPECT_FALSE(assign->getBlocking()) << "v <= ~v is a non-blocking assignment (<=), getBlocking() must be false";
 }
 
 TEST_F(VariableMixedAssignments, PosedgeClkResolvesToNetClk) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Always *const always =
-      dynamic_cast<const hldb::Always*>(top->getProcesses()->at(0));
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
   const hldb::Operation *const cond = ec->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
   ASSERT_NE(cond->getOperands(), nullptr);
-  const hldb::RefObj *const clkRef =
-      dynamic_cast<const hldb::RefObj*>((*cond->getOperands())[0]);
+  const hldb::RefObj *const clkRef = dynamic_cast<const hldb::RefObj *>((*cond->getOperands())[0]);
   ASSERT_NE(clkRef, nullptr);
-  EXPECT_NE(clkRef->getActual<hldb::Net>(), nullptr)
-      << "posedge operand RefObj 'clk' should resolve to the clk Net";
+  EXPECT_NE(clkRef->getActual<hldb::Net>(), nullptr) << "posedge operand RefObj 'clk' should resolve to the clk Net";
 }
 
 TEST_F(VariableMixedAssignments, VNetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
-  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr)
-      << "int v has no inline initializer";
+  EXPECT_EQ(v->getValue<hldb::Any>(), nullptr) << "int v has no inline initializer";
 }
 
 TEST_F(VariableMixedAssignments, ContAssignLhsResolvesToNetV) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
-  const hldb::RefObj *const lhs =
-      top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
+  const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr)
-      << "ContAssign LHS RefObj 'v' should resolve to the net 'v'";
+  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr) << "ContAssign LHS RefObj 'v' should resolve to the net 'v'";
 }
 
 }  // namespace hlc

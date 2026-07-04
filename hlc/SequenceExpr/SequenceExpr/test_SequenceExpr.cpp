@@ -37,28 +37,15 @@
 
 #include <filesystem>
 
-namespace hlc { namespace {
+namespace hlc {
 
 // ============================================================================
 // Test fixture — compiles tests/SequenceExpr/dut.sv once for all test cases.
 // ============================================================================
 class SequenceExprTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "SequenceExpr.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "SequenceExpr.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 
  protected:
   const hldb::Module *getModule() const {
@@ -762,5 +749,9 @@ TEST_F(SequenceExprTest, Combo_LeadingInstRep_IsUnaryCycleDelay) {
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiUnaryCycleDelayOp);
 }
+}  // namespace hlc
 
-}}  // namespace hlc
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

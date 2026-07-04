@@ -35,21 +35,8 @@ namespace hlc {
 
 class StringType : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.16--string.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16--string.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StringType, ModuleExists) {
@@ -57,41 +44,34 @@ TEST_F(StringType, ModuleExists) {
 }
 
 TEST_F(StringType, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(StringType, ANetTypespecIsString) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr)
-      << "net 'a' should have StringTypespec";
+  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr) << "net 'a' should have StringTypespec";
 }
 
 TEST_F(StringType, ANetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr)
-      << "string a is declared without an initializer";
+  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "string a is declared without an initializer";
 }
 
 TEST_F(StringType, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty())
-      << "module has no initial/always blocks";
+  EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty()) << "module has no initial/always blocks";
 }
 
 }  // namespace hlc

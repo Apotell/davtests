@@ -93,21 +93,8 @@ namespace hlc {
 
 class ArrayLocatorFindLastTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "find-last.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "find-last.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module / nets -----------------------------------------------------------
@@ -469,5 +456,9 @@ TEST_F(ArrayLocatorFindLastTest, ExactlyTwoIllegalImplicitNetErrors) {
   EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_line, 23u);
   EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_column, 39u);
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

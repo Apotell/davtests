@@ -29,7 +29,7 @@
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "octtoa" with 1 argument (Constant "12")
 //   - argument to octtoa is stored as vpiUIntConst (unsized integer literals
-//     are unsigned in Surelog — same as established in the itoa test)
+//     are unsigned in HLC — same as established in the itoa test)
 //
 // Not checked:
 //   - octtoa() is void — no return value; there is no net to capture a result
@@ -56,21 +56,8 @@ namespace hlc {
 
 class StringOcttoa : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.16.13--string_octtoa.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.13--string_octtoa.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StringOcttoa, ModuleExists) {
@@ -81,16 +68,14 @@ TEST_F(StringOcttoa, ModuleExists) {
 // Net — only 'a' (string, uninitialized)
 // ---------------------------------------------------------------------------
 TEST_F(StringOcttoa, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(StringOcttoa, ANetTypespecIsString) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -98,8 +83,7 @@ TEST_F(StringOcttoa, ANetTypespecIsString) {
 }
 
 TEST_F(StringOcttoa, ANetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -110,19 +94,16 @@ TEST_F(StringOcttoa, ANetHasNoInitialValue) {
 // Initial process — initial a.octtoa(12)
 // ---------------------------------------------------------------------------
 TEST_F(StringOcttoa, InitialProcessExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringOcttoa, InitialStmtIsHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
@@ -133,77 +114,63 @@ TEST_F(StringOcttoa, InitialStmtIsHierPath) {
 // HierPath — receiver 'a' and FuncCall 'octtoa' with 1 argument
 // ---------------------------------------------------------------------------
 TEST_F(StringOcttoa, HierPathReceiverIsA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
-  const hldb::RefObj *const receiver =
-      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
 }
 
 TEST_F(StringOcttoa, HierPathMethodIsOcttoa) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "octtoa");
 }
 
 TEST_F(StringOcttoa, OcttoacArgumentIs12) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg =
-      any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "octtoa argument is not a Constant";
   EXPECT_EQ(arg->getDecompile(), "12");
 }
 
 TEST_F(StringOcttoa, OcttoacArgumentIs12AsUIntConst) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::Constant *const arg =
-      any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getConstType(), vpiUIntConst)
-      << "Surelog stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
 }
 
 }  // namespace hlc

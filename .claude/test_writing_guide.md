@@ -88,21 +88,19 @@ Key constants in `build/include/hldb/sv_vpi_user.h`:
 Follow this exact skeleton (copy from an existing test):
 
 ```cpp
+namespace hlc {
 class MyTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "mytestname.hlc"});
-    ASSERT_NE(m_session,  nullptr);
-    ASSERT_NE(m_compiler, nullptr);
-    ASSERT_NE(m_design,   nullptr);
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;  m_compiler = nullptr;
-    delete m_session;   m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "mytestname.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
+// ... All tests belonging to MyTest go here!
+} // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
 ```
 
 `m_session`, `m_compiler`, and `m_design` are static members inherited from `Test`.
@@ -143,6 +141,32 @@ for (const hldb::ConcurrentAssertions *const ca : *tb->getConcurrentAssertions()
 | `Assert` | `ConcurrentAssertions` → `Any` | `getProperty()` (→ `PropertySpec`) is on `ConcurrentAssertions` |
 | `Operation` | `Expr` → `SimpleExpr` → `Any` | `getOpType()`, `getOperands()` |
 | `RefObj` | `SimpleExpr` → `Any` | `getName()`, `getActual()` |
+
+## Coding conventions
+
+- **ASCII only.** All code and comments you add or modify must use plain ASCII
+  characters (0x00-0x7F) only. Do not introduce any non-ASCII / Unicode
+  characters - no smart quotes (use `'` and `"`), no em/en dashes (use `-` or
+  `--`), no arrows (write `->`), no ellipsis character (write `...`), no
+  non-breaking spaces, and no Unicode box-drawing or symbol characters in
+  comments. This applies to source, headers, tests, and inline comments.
+
+- **Container insertion.** Prefer `emplace` / `emplace_back` over
+  `insert` / `push_back` when adding elements to standard containers.
+
+- **Explicit types.** Prefer explicit type names over `auto`. Only use `auto`
+  when the type is genuinely verbose or already stated in the same expression
+  (e.g. the result of a cast or `make_shared`).
+
+- **Member naming.** Prefix all struct and class data members with `m_`
+  (e.g. `m_fileId`, `m_startLine`).
+
+- **clang-format.** All authored or modified C++ code must conform to the
+  project `.clang-format` in the repository root. Run `clang-format` on any
+  `.cpp` or `.h` file you add or change before committing.
+
+- **Test class naming.** Test class names must be suffixed with `Test`
+  (e.g. `class InterfaceIdentifiersTest : public Test`).
 
 ## License header
 

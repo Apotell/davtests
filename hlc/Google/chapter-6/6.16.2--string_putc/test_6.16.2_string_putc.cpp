@@ -45,21 +45,8 @@ namespace hlc {
 
 class StringPutc : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.16.2--string_putc.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.2--string_putc.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StringPutc, ModuleExists) {
@@ -70,16 +57,14 @@ TEST_F(StringPutc, ModuleExists) {
 // Net — only 'a' (string); putc is void so no result net 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "only net 'a'; putc is void";
 }
 
 TEST_F(StringPutc, ANetTypespecIsString) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -89,8 +74,7 @@ TEST_F(StringPutc, ANetTypespecIsString) {
 }
 
 TEST_F(StringPutc, ANetInitialValueIsTest) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -104,19 +88,16 @@ TEST_F(StringPutc, ANetInitialValueIsTest) {
 // Initial process — initial a.putc(2, "B")
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, InitialProcessExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringPutc, InitialStmtIsHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "Initial stmt is not a HierPath";
@@ -127,79 +108,65 @@ TEST_F(StringPutc, InitialStmtIsHierPath) {
 // HierPath — receiver 'a' and FuncCall 'putc' with 2 arguments
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, HierPathReceiverIsA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
-  const hldb::RefObj *const receiver =
-      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr) << "HierPath pathElems[0] is not a RefObj";
   EXPECT_EQ(receiver->getName(), "a");
 }
 
 TEST_F(StringPutc, HierPathMethodIsPutc) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "HierPath pathElems[1] is not a FuncCall";
   EXPECT_EQ(call->getName(), "putc");
 }
 
 TEST_F(StringPutc, PutcFirstArgumentIsTwo) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg0 =
-      any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg0 = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr) << "putc first argument is not a Constant";
   EXPECT_EQ(arg0->getDecompile(), "2");
 }
 
 TEST_F(StringPutc, PutcSecondArgumentIsB) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::HierPath *const hp = init->getStmt<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const arg1 =
-      any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
   ASSERT_NE(arg1, nullptr) << "putc second argument is not a Constant";
   EXPECT_EQ(arg1->getConstType(), vpiStringConst);
   EXPECT_EQ(arg1->getDecompile(), "\"B\"");

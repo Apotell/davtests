@@ -31,7 +31,7 @@
 //   - work@mod_o: 1 Net "out" (vpiWire), 1 Port "out" (output)
 //
 // Not checked:
-//   - Surelog EL0535 error count (2 errors emitted, for m1(bus) and m2(bus))
+//   - HLC EL0535 error count (2 errors emitted, for m1(bus) and m2(bus))
 //   - net vpiFullName is "work@top" (parent scope, no own name segment)
 //   - RefInstance names m1/m2 — only port HighConn verified
 
@@ -54,21 +54,8 @@ namespace hlc {
 
 class Interconnect : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.6.8--interconnect.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.6.8--interconnect.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(Interconnect, DesignHasThreeModules) {
@@ -77,32 +64,28 @@ TEST_F(Interconnect, DesignHasThreeModules) {
 }
 
 TEST_F(Interconnect, TopModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Interconnect, TopHasOneNet) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Interconnect, TopNetHasNoStoredName) {
-  // Surelog emits EL0535 for `interconnect bus` — the net is created via
+  // HLC emits EL0535 for `interconnect bus` — the net is created via
   // error-recovery but vpiName is never set, so getName() returns empty.
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_TRUE(top->getNets()->at(0)->getName().empty());
 }
 
 TEST_F(Interconnect, TopNetIsInterconnectType) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -112,8 +95,7 @@ TEST_F(Interconnect, TopNetIsInterconnectType) {
 }
 
 TEST_F(Interconnect, TopNetHasLogicTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -124,16 +106,14 @@ TEST_F(Interconnect, TopNetHasLogicTypespec) {
 }
 
 TEST_F(Interconnect, TopHasTwoRefInstances) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
   EXPECT_EQ(top->getRefInstances()->size(), 2u);
 }
 
 TEST_F(Interconnect, EachRefInstanceHasOnePort) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
   for (const hldb::RefInstance *const ri : *top->getRefInstances()) {
@@ -144,8 +124,7 @@ TEST_F(Interconnect, EachRefInstanceHasOnePort) {
 }
 
 TEST_F(Interconnect, RefInstancePortHighConnIsBus) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
   for (const hldb::RefInstance *const ri : *top->getRefInstances()) {
@@ -160,28 +139,24 @@ TEST_F(Interconnect, RefInstancePortHighConnIsBus) {
 }
 
 TEST_F(Interconnect, TopHasNoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(Interconnect, TopHasNoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Interconnect, ModIExists) {
-  const hldb::Module *const modi =
-      hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
+  const hldb::Module *const modi = hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
   EXPECT_NE(modi, nullptr);
 }
 
 TEST_F(Interconnect, ModIHasNetIn) {
-  const hldb::Module *const modi =
-      hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
+  const hldb::Module *const modi = hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
   ASSERT_NE(modi, nullptr);
   ASSERT_NE(modi->getNets(), nullptr);
   EXPECT_EQ(modi->getNets()->size(), 1u);
@@ -191,8 +166,7 @@ TEST_F(Interconnect, ModIHasNetIn) {
 }
 
 TEST_F(Interconnect, ModINetInIsWire) {
-  const hldb::Module *const modi =
-      hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
+  const hldb::Module *const modi = hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
   ASSERT_NE(modi, nullptr);
   ASSERT_NE(modi->getNets(), nullptr);
   const hldb::Net *const net = modi->getNets()->at(0);
@@ -201,8 +175,7 @@ TEST_F(Interconnect, ModINetInIsWire) {
 }
 
 TEST_F(Interconnect, ModIHasInputPort) {
-  const hldb::Module *const modi =
-      hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
+  const hldb::Module *const modi = hldb::findByName<hldb::Module>("work@mod_i", m_design->getAllModules());
   ASSERT_NE(modi, nullptr);
   ASSERT_NE(modi->getPorts(), nullptr);
   EXPECT_EQ(modi->getPorts()->size(), 1u);
@@ -213,14 +186,12 @@ TEST_F(Interconnect, ModIHasInputPort) {
 }
 
 TEST_F(Interconnect, ModOExists) {
-  const hldb::Module *const modo =
-      hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
+  const hldb::Module *const modo = hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
   EXPECT_NE(modo, nullptr);
 }
 
 TEST_F(Interconnect, ModOHasNetOut) {
-  const hldb::Module *const modo =
-      hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
+  const hldb::Module *const modo = hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
   ASSERT_NE(modo, nullptr);
   ASSERT_NE(modo->getNets(), nullptr);
   EXPECT_EQ(modo->getNets()->size(), 1u);
@@ -230,8 +201,7 @@ TEST_F(Interconnect, ModOHasNetOut) {
 }
 
 TEST_F(Interconnect, ModONetOutIsWire) {
-  const hldb::Module *const modo =
-      hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
+  const hldb::Module *const modo = hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
   ASSERT_NE(modo, nullptr);
   ASSERT_NE(modo->getNets(), nullptr);
   const hldb::Net *const net = modo->getNets()->at(0);
@@ -240,8 +210,7 @@ TEST_F(Interconnect, ModONetOutIsWire) {
 }
 
 TEST_F(Interconnect, ModOHasOutputPort) {
-  const hldb::Module *const modo =
-      hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
+  const hldb::Module *const modo = hldb::findByName<hldb::Module>("work@mod_o", m_design->getAllModules());
   ASSERT_NE(modo, nullptr);
   ASSERT_NE(modo->getPorts(), nullptr);
   EXPECT_EQ(modo->getPorts()->size(), 1u);
@@ -250,5 +219,9 @@ TEST_F(Interconnect, ModOHasOutputPort) {
   EXPECT_EQ(port->getName(), "out");
   EXPECT_EQ(port->getDirection(), vpiOutput);
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

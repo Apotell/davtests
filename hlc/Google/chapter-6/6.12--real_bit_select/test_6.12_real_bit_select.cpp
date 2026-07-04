@@ -32,7 +32,7 @@
 //   - work@top has no processes
 //
 // Not checked:
-//   - Surelog doesn't flag the illegal bit-select on real
+//   - HLC doesn't flag the illegal bit-select on real
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -54,21 +54,8 @@ namespace hlc {
 
 class RealBitSelect : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.12--real_bit_select.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.12--real_bit_select.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(RealBitSelect, ModuleExists) {
@@ -79,29 +66,25 @@ TEST_F(RealBitSelect, ModuleExists) {
 // Net declarations — real 'a' and wire 'b'
 // ---------------------------------------------------------------------------
 TEST_F(RealBitSelect, TwoNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u) << "expected nets 'a' (real) and 'b' (wire)";
 }
 
 TEST_F(RealBitSelect, ANetTypespecIsReal) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr) << "net 'a' not found";
 
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr)
-      << "net 'a' typespec should resolve to RealTypespec";
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "net 'a' typespec should resolve to RealTypespec";
 }
 
 TEST_F(RealBitSelect, ANetInitialValueIsHalf) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -112,8 +95,7 @@ TEST_F(RealBitSelect, ANetInitialValueIsHalf) {
 }
 
 TEST_F(RealBitSelect, BNetIsWire) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr) << "net 'b' not found";
@@ -124,33 +106,28 @@ TEST_F(RealBitSelect, BNetIsWire) {
 // Continuous assignment — assign b = a[2]
 // ---------------------------------------------------------------------------
 TEST_F(RealBitSelect, ContAssignExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   EXPECT_EQ(top->getContAssigns()->size(), 1u);
 }
 
 TEST_F(RealBitSelect, ContAssignLhsIsB) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const hldb::RefObj *const lhs =
-      top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
+  const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "ContAssign LHS is not a RefObj";
   EXPECT_EQ(lhs->getName(), "b");
 }
 
 TEST_F(RealBitSelect, ContAssignRhsIsBitSelect) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const hldb::BitSelect *const rhs =
-      top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
+  const hldb::BitSelect *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
   ASSERT_NE(rhs, nullptr) << "ContAssign RHS is not a BitSelect";
   EXPECT_EQ(rhs->getName(), "a[2]");
 }
@@ -159,13 +136,11 @@ TEST_F(RealBitSelect, ContAssignRhsIsBitSelect) {
 // BitSelect internals — prefix is real 'a', index is Constant 2
 // ---------------------------------------------------------------------------
 TEST_F(RealBitSelect, BitSelectPrefixIsRefObjA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const hldb::BitSelect *const rhs =
-      top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
+  const hldb::BitSelect *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
   ASSERT_NE(rhs, nullptr);
 
   const hldb::RefObj *const prefix = rhs->getPrefix<hldb::RefObj>();
@@ -174,13 +149,11 @@ TEST_F(RealBitSelect, BitSelectPrefixIsRefObjA) {
 }
 
 TEST_F(RealBitSelect, BitSelectPrefixResolvesToRealNet) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const hldb::BitSelect *const rhs =
-      top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
+  const hldb::BitSelect *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
   ASSERT_NE(rhs, nullptr);
   const hldb::RefObj *const prefix = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
@@ -189,18 +162,15 @@ TEST_F(RealBitSelect, BitSelectPrefixResolvesToRealNet) {
   ASSERT_NE(net, nullptr) << "BitSelect prefix does not resolve to a Net";
   const hldb::RefTypespec *const rts = net->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr)
-      << "bit-selected prefix 'a' should be a real-typed net";
+  EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "bit-selected prefix 'a' should be a real-typed net";
 }
 
 TEST_F(RealBitSelect, BitSelectIndexIsConstant2) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
-  const hldb::BitSelect *const rhs =
-      top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
+  const hldb::BitSelect *const rhs = top->getContAssigns()->at(0)->getRhs<hldb::BitSelect>();
   ASSERT_NE(rhs, nullptr);
 
   const hldb::Constant *const idx = rhs->getIndex<hldb::Constant>();
@@ -209,30 +179,25 @@ TEST_F(RealBitSelect, BitSelectIndexIsConstant2) {
 }
 
 TEST_F(RealBitSelect, ContAssignLhsResolvesToNetB) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
-  const hldb::RefObj *const lhs =
-      top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
+  const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr)
       << "ContAssign LHS RefObj 'b' should resolve to the formally declared net 'b'";
 }
 
 TEST_F(RealBitSelect, BNetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  EXPECT_EQ(b->getValue<hldb::Any>(), nullptr)
-      << "wire 'b' is declared without an initializer";
+  EXPECT_EQ(b->getValue<hldb::Any>(), nullptr) << "wire 'b' is declared without an initializer";
 }
 
 TEST_F(RealBitSelect, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

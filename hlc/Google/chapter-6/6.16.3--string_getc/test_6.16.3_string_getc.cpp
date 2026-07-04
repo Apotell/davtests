@@ -30,10 +30,10 @@
 //   - HierPath element[1] is FuncCall "getc" with 1 argument (Constant "2")
 //
 // Not checked:
-//   - b does NOT get a pre-evaluated constant value — Surelog stores the
+//   - b does NOT get a pre-evaluated constant value — HLDB stores the
 //     unevaluated HierPath expression only; compile-time evaluation not performed
 //   - const type of argument "2" (vpiUIntConst — unsized integer literals are
-//     stored as unsigned by Surelog, as established in the itoa test)
+//     stored as unsigned by HLC, as established in the itoa test)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -56,21 +56,8 @@ namespace hlc {
 
 class StringGetc : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.16.3--string_getc.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.3--string_getc.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StringGetc, ModuleExists) {
@@ -81,16 +68,14 @@ TEST_F(StringGetc, ModuleExists) {
 // Net declarations — string 'a' and byte 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringGetc, TwoNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(StringGetc, ANetTypespecIsString) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -100,8 +85,7 @@ TEST_F(StringGetc, ANetTypespecIsString) {
 }
 
 TEST_F(StringGetc, ANetInitialValueIsTest) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -112,43 +96,37 @@ TEST_F(StringGetc, ANetInitialValueIsTest) {
 }
 
 TEST_F(StringGetc, BNetTypespecIsByte) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
   const hldb::RefTypespec *const rts = b->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::ByteTypespec>(), nullptr)
-      << "net 'b' typespec should resolve to ByteTypespec";
+  EXPECT_NE(rts->getActual<hldb::ByteTypespec>(), nullptr) << "net 'b' typespec should resolve to ByteTypespec";
 }
 
 // ---------------------------------------------------------------------------
 // HierPath — b's initial value is the method call a.getc(2)
 // ---------------------------------------------------------------------------
 TEST_F(StringGetc, BNetHasValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  EXPECT_NE(b->getValue(), nullptr)
-      << "net 'b' should have a vpiValue set from byte b = a.getc(2)";
+  EXPECT_NE(b->getValue(), nullptr) << "net 'b' should have a vpiValue set from byte b = a.getc(2)";
 }
 
 TEST_F(StringGetc, BNetValueIsNotPreEvaluatedConstant) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "Surelog does not pre-evaluate a.getc(2) to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.getc(2) to a constant; b holds only the HierPath expression";
 }
 
 TEST_F(StringGetc, BNetValueIsHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -158,8 +136,7 @@ TEST_F(StringGetc, BNetValueIsHierPath) {
 }
 
 TEST_F(StringGetc, HierPathReceiverIsA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -168,16 +145,14 @@ TEST_F(StringGetc, HierPathReceiverIsA) {
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
-  const hldb::RefObj *const receiver =
-      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
 }
 
 TEST_F(StringGetc, HierPathMethodIsGetc) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -185,28 +160,24 @@ TEST_F(StringGetc, HierPathMethodIsGetc) {
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "getc");
 }
 
 TEST_F(StringGetc, GetcArgumentIsTwo) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg =
-      any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "getc argument is not a Constant";
   EXPECT_EQ(arg->getDecompile(), "2");
 }

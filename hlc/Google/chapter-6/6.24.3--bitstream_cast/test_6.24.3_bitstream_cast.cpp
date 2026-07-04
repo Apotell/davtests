@@ -55,21 +55,8 @@ namespace hlc {
 
 class BitstreamCast : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.24.3--bitstream_cast.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.24.3--bitstream_cast.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(BitstreamCast, ModuleExists) {
@@ -80,8 +67,7 @@ TEST_F(BitstreamCast, ModuleExists) {
 // No processes — both declarations are module-level Nets
 // ---------------------------------------------------------------------------
 TEST_F(BitstreamCast, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
@@ -90,25 +76,21 @@ TEST_F(BitstreamCast, NoProcesses) {
 // Net "s" → StructTypespec (packed, 3 members: a, b, c)
 // ---------------------------------------------------------------------------
 TEST_F(BitstreamCast, NetSIsPackedStruct) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs =
-      s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
   EXPECT_TRUE(structTs->getPacked());
 }
 
 TEST_F(BitstreamCast, StructHasThreeMembers) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs =
-      s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
   ASSERT_NE(structTs->getMembers(), nullptr);
   EXPECT_EQ(structTs->getMembers()->size(), 3u);
@@ -118,13 +100,11 @@ TEST_F(BitstreamCast, StructHasThreeMembers) {
 }
 
 TEST_F(BitstreamCast, StructMembersHaveLogicTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
-  const hldb::StructTypespec *const structTs =
-      s->getTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const structTs = s->getTypespec()->getActual<hldb::StructTypespec>();
   ASSERT_NE(structTs, nullptr);
   for (const auto *member : *structTs->getMembers()) {
     EXPECT_NE(member->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
@@ -136,8 +116,7 @@ TEST_F(BitstreamCast, StructMembersHaveLogicTypespec) {
 // Net "a" → IntegerTypespec (integer keyword — distinct from IntTypespec/int)
 // ---------------------------------------------------------------------------
 TEST_F(BitstreamCast, NetAIsIntegerType) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -149,8 +128,7 @@ TEST_F(BitstreamCast, NetAIsIntegerType) {
 // Net "a" vpiValue = Operation(vpiCastOp=67) — integer'(s)
 // ---------------------------------------------------------------------------
 TEST_F(BitstreamCast, NetAValueIsCastOperation) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -160,8 +138,7 @@ TEST_F(BitstreamCast, NetAValueIsCastOperation) {
 }
 
 TEST_F(BitstreamCast, CastTypespecIsIntegerTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -169,13 +146,11 @@ TEST_F(BitstreamCast, CastTypespecIsIntegerTypespec) {
   ASSERT_NE(castOp, nullptr);
   const hldb::RefTypespec *const rts = castOp->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::IntegerTypespec>(), nullptr)
-      << "integer'(...) cast target type is IntegerTypespec";
+  EXPECT_NE(rts->getActual<hldb::IntegerTypespec>(), nullptr) << "integer'(...) cast target type is IntegerTypespec";
 }
 
 TEST_F(BitstreamCast, CastOperandIsRefToNetS) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -183,8 +158,7 @@ TEST_F(BitstreamCast, CastOperandIsRefToNetS) {
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
   ASSERT_EQ(castOp->getOperands()->size(), 1u);
-  const hldb::RefObj *const s =
-      any_cast<hldb::RefObj>(castOp->getOperands()->at(0));
+  const hldb::RefObj *const s = any_cast<hldb::RefObj>(castOp->getOperands()->at(0));
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getName(), "s");
   EXPECT_NE(s->getActual<hldb::Net>(), nullptr);
@@ -194,26 +168,22 @@ TEST_F(BitstreamCast, CastOperandIsRefToNetS) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(BitstreamCast, TwoNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u) << "expected nets 's' (struct) and 'a' (integer)";
 }
 
 TEST_F(BitstreamCast, NetSHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
-  EXPECT_EQ(s->getValue<hldb::Any>(), nullptr)
-      << "struct 's' is declared without an initializer";
+  EXPECT_EQ(s->getValue<hldb::Any>(), nullptr) << "struct 's' is declared without an initializer";
 }
 
 TEST_F(BitstreamCast, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "integer a = integer'(s) stores the cast as vpiValue, not a ContAssign";
