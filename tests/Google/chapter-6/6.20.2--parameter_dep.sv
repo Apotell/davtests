@@ -15,4 +15,8 @@
 module top();
 	parameter p1 = 123;
 	parameter p2 = p1 * 3;
+	parameter int p3 = 0;
+	parameter byte p4 = 1;
+	parameter integer p5 = 3;
+	parameter longint p6 = 8;
 endmodule
