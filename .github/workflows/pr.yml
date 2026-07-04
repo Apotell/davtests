@@ -1,5 +1,5 @@
 name: 'PR Verification'
-run-name: "PR #${{ github.event.pull_request.number }} | ${{ github.head_ref }}"
+run-name: "PR #${{ github.event.pull_request.number }} | ${{ github.ref_name }}"
 
 concurrency:
   group: ${{ github.repository }}-${{ github.workflow }}-${{ github.ref }}
@@ -166,10 +166,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - { platform: ubuntu,  os: ubuntu-24.04,   shard: 0, num_shards: 2 }
-          - { platform: ubuntu,  os: ubuntu-24.04,   shard: 1, num_shards: 2 }
-          # - { platform: windows, os: windows-latest, shard: 0, num_shards: 2 }
-          # - { platform: windows, os: windows-latest, shard: 1, num_shards: 2 }
+          - { platform: ubuntu, os: ubuntu-24.04, shard: 0, num_shards: 2 }
+          - { platform: ubuntu, os: ubuntu-24.04, shard: 1, num_shards: 2 }
 
     steps:
     - name: Checkout repository
@@ -199,8 +197,8 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1.2
       with:
         variant: ${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}
-        key: ${{ matrix.platform }}-${{ github.head_ref }}
-        restore-keys: ${{ matrix.platform }}-master
+        key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
+        restore-keys: "${{ matrix.platform }}-master/${{ matrix.shard }}"
 
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
