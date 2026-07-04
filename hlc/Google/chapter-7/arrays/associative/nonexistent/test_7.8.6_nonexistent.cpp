@@ -38,7 +38,7 @@
 //   - work@top has no continuous assignments
 //
 // Not checked:
-//   - Surelog emits EL0535 for arr.size (implicit net) but still puts HierPath in UHDM
+//   - HLC emits EL0535 for arr.size (implicit net) but still puts HierPath in UHDM
 //   - runtime behavior (arr[9] is nonexistent, returns default int value 0)
 
 #include <hlc/Common/Session.h>
@@ -65,36 +65,21 @@ namespace hlc {
 
 class Nonexistent : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "nonexistent.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "nonexistent.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module ---------------------------------------------------------------
 
 TEST_F(Nonexistent, ModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- net declarations -----------------------------------------------------
 
 TEST_F(Nonexistent, ModuleHasTwoNets) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
@@ -102,8 +87,7 @@ TEST_F(Nonexistent, ModuleHasTwoNets) {
 
 TEST_F(Nonexistent, ArrNetHasAssociativeArrayTypespec) {
   // int arr[int] -> ArrayTypespec associative(3)
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = top->getNets()->at(0);
   ASSERT_NE(arr, nullptr);
@@ -116,12 +100,10 @@ TEST_F(Nonexistent, ArrNetHasAssociativeArrayTypespec) {
 }
 
 TEST_F(Nonexistent, AssocArrayKeyTypeIsInt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::ArrayTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -129,12 +111,10 @@ TEST_F(Nonexistent, AssocArrayKeyTypeIsInt) {
 
 TEST_F(Nonexistent, AssocArrayValueTypeIsInt) {
   // element type is IntTypespec (from `int arr[int]`)
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::ArrayTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -142,8 +122,7 @@ TEST_F(Nonexistent, AssocArrayValueTypeIsInt) {
 
 TEST_F(Nonexistent, RNetHasIntTypespec) {
   // int r; -> Net "r" -> RefTypespec -> IntTypespec
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const r = top->getNets()->at(1);
   ASSERT_NE(r, nullptr);
@@ -156,12 +135,10 @@ TEST_F(Nonexistent, RNetHasIntTypespec) {
 // --- initial block --------------------------------------------------------
 
 TEST_F(Nonexistent, InitialBodyIsBeginWith5Stmts) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const body = init->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -171,15 +148,11 @@ TEST_F(Nonexistent, InitialBodyIsBeginWith5Stmts) {
 
 TEST_F(Nonexistent, FirstStmtAssignsArr10To10) {
   // arr[10] = 10
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const body =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))
-          ->getStmt<hldb::Begin>();
+  const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(body->getStmts()->at(0));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   const hldb::BitSelect *const lhs = assign->getLhs<hldb::BitSelect>();
@@ -192,59 +165,45 @@ TEST_F(Nonexistent, FirstStmtAssignsArr10To10) {
 
 TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
   // $display(":assert: (%d == 1)", arr.size)
-  // Surelog emits EL0535 for "size" (treated as implicit net) but the
+  // HLC emits EL0535 for "size" (treated as implicit net) but the
   // method call still appears as HierPath "arr.size" in UHDM.
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const body =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))
-          ->getStmt<hldb::Begin>();
+  const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::SysFuncCall *const disp =
-      any_cast<hldb::SysFuncCall>(body->getStmts()->at(1));
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::HierPath *const hp =
-      any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }
 
 TEST_F(Nonexistent, ThirdStmtIsDisplayBeginMarker) {
   // $display(":re: BEGIN:ARRAY_NONEXISTENT")
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const body =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))
-          ->getStmt<hldb::Begin>();
+  const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::SysFuncCall *const disp =
-      any_cast<hldb::SysFuncCall>(body->getStmts()->at(2));
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":re: BEGIN:ARRAY_NONEXISTENT");
 }
 
 TEST_F(Nonexistent, FourthStmtAssignsRFromArr9) {
   // r = arr[9] — reading a nonexistent key; lhs is RefObj, rhs is BitSelect
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const body =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))
-          ->getStmt<hldb::Begin>();
+  const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(body->getStmts()->at(3));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(3));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
@@ -257,21 +216,16 @@ TEST_F(Nonexistent, FourthStmtAssignsRFromArr9) {
 
 TEST_F(Nonexistent, FifthStmtIsDisplayEndMarker) {
   // $display(":re: END")
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const body =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))
-          ->getStmt<hldb::Begin>();
+  const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::SysFuncCall *const disp =
-      any_cast<hldb::SysFuncCall>(body->getStmts()->at(4));
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":re: END");
 }
@@ -279,10 +233,13 @@ TEST_F(Nonexistent, FifthStmtIsDisplayEndMarker) {
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Nonexistent, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

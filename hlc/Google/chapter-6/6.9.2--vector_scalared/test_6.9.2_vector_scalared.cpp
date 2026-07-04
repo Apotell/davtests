@@ -48,40 +48,24 @@ namespace hlc {
 
 class VectorScalared : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.9.2--vector_scalared.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.9.2--vector_scalared.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(VectorScalared, ModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(VectorScalared, ModuleHasOneNet) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(VectorScalared, NetNameIsA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -90,8 +74,7 @@ TEST_F(VectorScalared, NetNameIsA) {
 }
 
 TEST_F(VectorScalared, NetTypeIsTri1) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -100,8 +83,7 @@ TEST_F(VectorScalared, NetTypeIsTri1) {
 }
 
 TEST_F(VectorScalared, NetHasLogicTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -112,91 +94,79 @@ TEST_F(VectorScalared, NetHasLogicTypespec) {
 }
 
 TEST_F(VectorScalared, LogicTypespecIsVector) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_TRUE(ls->getVector());
 }
 
 TEST_F(VectorScalared, LogicTypespecHasOneRange) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   EXPECT_EQ(ls->getRanges()->size(), 1u);
 }
 
 TEST_F(VectorScalared, RangeLeftIs15) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   const hldb::Range *const range = ls->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const left =
-      range->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "15");
 }
 
 TEST_F(VectorScalared, RangeRightIs0) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   const hldb::Range *const range = ls->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const right =
-      range->getRightExpr<hldb::Constant>();
+  const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
 TEST_F(VectorScalared, NetHasInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_NE(net->getValue(), nullptr);
 }
- 
+
 TEST_F(VectorScalared, NetInitialValueIsZero) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -207,17 +177,19 @@ TEST_F(VectorScalared, NetInitialValueIsZero) {
 }
 
 TEST_F(VectorScalared, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(VectorScalared, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

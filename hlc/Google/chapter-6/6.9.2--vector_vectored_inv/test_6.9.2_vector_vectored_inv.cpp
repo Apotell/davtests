@@ -21,7 +21,7 @@
 //   endmodule
 //   should_fail_because: bit selects not permitted on vectored vector nets
 //
-// Surelog emits 4 PA0207 syntax errors — `vectored` not recognised in
+// HLC emits 4 PA0207 syntax errors — `vectored` not recognised in
 // `logic` context, so the module body cannot be parsed.
 //
 // Checked:
@@ -52,39 +52,24 @@ namespace hlc {
 
 class VectorVectoredInv : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.9.2--vector_vectored_inv.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.9.2--vector_vectored_inv.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module-level checks ------------------------------------------------
 
 TEST_F(VectorVectoredInv, NoModuleNamedTop) {
   // Parse failure: no properly named work@top module in the UHDM graph
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_EQ(top, nullptr);
 }
 
 TEST_F(VectorVectoredInv, DesignHasTwoUnnamedModuleStubs) {
-  // Surelog's error recovery emits 2 partial Module nodes, both unnamed
+  // HLC's error recovery emits 2 partial Module nodes, both unnamed
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 2u);
   for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_TRUE(mod->getName().empty())
-        << "Expected unnamed stub but got: " << mod->getName();
+    EXPECT_TRUE(mod->getName().empty()) << "Expected unnamed stub but got: " << mod->getName();
   }
 }
 
@@ -93,8 +78,7 @@ TEST_F(VectorVectoredInv, NoNetsInAnyModule) {
   // lowered to a Net because the module body parse failed
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_EQ(mod->getNets(), nullptr)
-        << "Unexpected nets in stub module";
+    EXPECT_EQ(mod->getNets(), nullptr) << "Unexpected nets in stub module";
   }
 }
 
@@ -103,16 +87,14 @@ TEST_F(VectorVectoredInv, NoContAssignsInAnyModule) {
   // before the assign keyword is processed)
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_EQ(mod->getContAssigns(), nullptr)
-        << "Unexpected continuous assignments in stub module";
+    EXPECT_EQ(mod->getContAssigns(), nullptr) << "Unexpected continuous assignments in stub module";
   }
 }
 
 TEST_F(VectorVectoredInv, NoProcessesInAnyModule) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_EQ(mod->getProcesses(), nullptr)
-        << "Unexpected processes in stub module";
+    EXPECT_EQ(mod->getProcesses(), nullptr) << "Unexpected processes in stub module";
   }
 }
 
@@ -180,8 +162,7 @@ TEST_F(VectorVectoredInv, ArrayTypespecRangeLeftIs15) {
   ASSERT_NE(at, nullptr);
   const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const left =
-      range->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "15");
 }
@@ -196,10 +177,13 @@ TEST_F(VectorVectoredInv, ArrayTypespecRangeRightIs0) {
   ASSERT_NE(at, nullptr);
   const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const right =
-      range->getRightExpr<hldb::Constant>();
+  const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

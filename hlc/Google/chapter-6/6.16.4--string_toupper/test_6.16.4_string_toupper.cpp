@@ -30,7 +30,7 @@
 //   - HierPath element[1] is FuncCall "toupper" with no arguments
 //
 // Not checked:
-//   - b does NOT get a pre-evaluated constant value (e.g. "TEST") — Surelog
+//   - b does NOT get a pre-evaluated constant value (e.g. "TEST") — HLC
 //     stores the unevaluated HierPath expression only
 
 #include <hlc/Common/Session.h>
@@ -53,21 +53,8 @@ namespace hlc {
 
 class StringToupper : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.16.4--string_toupper.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.16.4--string_toupper.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(StringToupper, ModuleExists) {
@@ -78,16 +65,14 @@ TEST_F(StringToupper, ModuleExists) {
 // Net declarations — string 'a' and string 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringToupper, TwoNetsExist) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(StringToupper, ANetTypespecIsString) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -97,8 +82,7 @@ TEST_F(StringToupper, ANetTypespecIsString) {
 }
 
 TEST_F(StringToupper, ANetInitialValueIsTest) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -109,8 +93,7 @@ TEST_F(StringToupper, ANetInitialValueIsTest) {
 }
 
 TEST_F(StringToupper, BNetTypespecIsString) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -124,28 +107,24 @@ TEST_F(StringToupper, BNetTypespecIsString) {
 // HierPath — b's initial value is the method call a.toupper()
 // ---------------------------------------------------------------------------
 TEST_F(StringToupper, BNetHasValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
-  EXPECT_NE(b->getValue(), nullptr)
-      << "net 'b' should have a vpiValue set from string b = a.toupper()";
+  EXPECT_NE(b->getValue(), nullptr) << "net 'b' should have a vpiValue set from string b = a.toupper()";
 }
 
 TEST_F(StringToupper, BNetValueIsNotPreEvaluatedConstant) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "Surelog does not pre-evaluate a.toupper() to a constant; b holds only the HierPath expression";
+      << "HLC does not pre-evaluate a.toupper() to a constant; b holds only the HierPath expression";
 }
 
 TEST_F(StringToupper, BNetValueIsHierPath) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -155,8 +134,7 @@ TEST_F(StringToupper, BNetValueIsHierPath) {
 }
 
 TEST_F(StringToupper, HierPathReceiverIsA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -165,16 +143,14 @@ TEST_F(StringToupper, HierPathReceiverIsA) {
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 1u);
 
-  const hldb::RefObj *const receiver =
-      any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
 }
 
 TEST_F(StringToupper, HierPathMethodIsToupper) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -182,25 +158,21 @@ TEST_F(StringToupper, HierPathMethodIsToupper) {
   ASSERT_NE(hp, nullptr);
   ASSERT_GE(hp->getPathElems()->size(), 2u);
 
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "toupper");
 }
 
 TEST_F(StringToupper, ToupperHasNoArguments) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call =
-      any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
-  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
-      << "toupper() takes no arguments";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "toupper() takes no arguments";
 }
 
 }  // namespace hlc

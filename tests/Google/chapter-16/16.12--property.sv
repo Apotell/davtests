@@ -18,5 +18,5 @@ logic clk;
 logic a;
 
 assert property ( @(posedge clk) (a == 1));
-
+assert property ( not @(posedge clk) (a == 1));
 endmodule

@@ -68,42 +68,26 @@ namespace hlc {
 
 class Assignment : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "assignment.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "assignment.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module and nets -------------------------------------------------------
 
 TEST_F(Assignment, ModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Assignment, ModuleHasTwoNets) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(Assignment, NetsAreWordsAndW) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "words");
@@ -111,13 +95,11 @@ TEST_F(Assignment, NetsAreWordsAndW) {
 }
 
 TEST_F(Assignment, WordsNetIsAssocStringArray) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  const hldb::ArrayTypespec *const at =
-      net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);  // associative = 3
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -125,13 +107,11 @@ TEST_F(Assignment, WordsNetIsAssocStringArray) {
 }
 
 TEST_F(Assignment, WNetIsAssocStringArray) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(1);
   ASSERT_NE(net, nullptr);
-  const hldb::ArrayTypespec *const at =
-      net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -141,11 +121,9 @@ TEST_F(Assignment, WNetIsAssocStringArray) {
 // --- initial process (8 statements) ---------------------------------------
 
 TEST_F(Assignment, InitialBodyIsBeginWith8Stmts) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Initial *const init =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
@@ -154,14 +132,11 @@ TEST_F(Assignment, InitialBodyIsBeginWith8Stmts) {
 }
 
 TEST_F(Assignment, Words0AssignedHello) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(0));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   const hldb::BitSelect *const bs = assign->getLhs<hldb::BitSelect>();
@@ -172,64 +147,50 @@ TEST_F(Assignment, Words0AssignedHello) {
 }
 
 TEST_F(Assignment, Words1AssignedHappy) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(1));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::BitSelect>()->getIndex<hldb::Constant>()->getDecompile(), "1");
   EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), "\"happy\"");
 }
 
 TEST_F(Assignment, Words2AssignedWorld) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(2));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(2));
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::BitSelect>()->getIndex<hldb::Constant>()->getDecompile(), "2");
   EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), "\"world\"");
 }
 
 TEST_F(Assignment, FourthStmtIsDisplayWordsHHW) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(3));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(3));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getDecompile(),
-            "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
+  EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
 }
 
 TEST_F(Assignment, FifthStmtIsWholeArrayCopyWEqualsWords) {
   // w = words  — whole-array copy: lhs is RefObj "w", rhs is RefObj "words"
   // (no BitSelect on either side)
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(4));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(4));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
@@ -241,14 +202,11 @@ TEST_F(Assignment, FifthStmtIsWholeArrayCopyWEqualsWords) {
 }
 
 TEST_F(Assignment, SixthStmtIsW1EqualsSad) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::Assignment *const assign =
-      any_cast<hldb::Assignment>(blk->getStmts()->at(5));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(5));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   const hldb::BitSelect *const bs = assign->getLhs<hldb::BitSelect>();
@@ -259,47 +217,36 @@ TEST_F(Assignment, SixthStmtIsW1EqualsSad) {
 }
 
 TEST_F(Assignment, SeventhStmtIsDisplayWordsUnchanged) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(6));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(6));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
   // fmt still asserts words holds original values (copy was by value)
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getDecompile(),
-            "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
+  EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
 }
 
 TEST_F(Assignment, EighthStmtIsDisplayWWithSad) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Begin *const blk =
-      any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc =
-      any_cast<hldb::SysFuncCall>(blk->getStmts()->at(7));
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(7));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt =
-      any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getDecompile(),
-            "\":assert: (('%s' == 'hello') and ('%s' == 'sad') and ('%s' == 'world'))\"");
+  EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'sad') and ('%s' == 'world'))\"");
   // second arg is w[0], third is w[1], fourth is w[2]
-  const hldb::BitSelect *const w0 =
-      any_cast<hldb::BitSelect>(sc->getArguments()->at(1));
+  const hldb::BitSelect *const w0 = any_cast<hldb::BitSelect>(sc->getArguments()->at(1));
   ASSERT_NE(w0, nullptr);
   EXPECT_EQ(w0->getPrefix<hldb::RefObj>()->getName(), "w");
   EXPECT_EQ(w0->getIndex<hldb::Constant>()->getDecompile(), "0");
@@ -308,10 +255,13 @@ TEST_F(Assignment, EighthStmtIsDisplayWWithSad) {
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Assignment, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

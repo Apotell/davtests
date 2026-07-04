@@ -49,21 +49,8 @@ namespace hlc {
 
 class Typedef : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.18--typedef.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.18--typedef.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(Typedef, ModuleExists) {
@@ -71,8 +58,7 @@ TEST_F(Typedef, ModuleExists) {
 }
 
 TEST_F(Typedef, OneNetExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
@@ -82,8 +68,7 @@ TEST_F(Typedef, OneNetExists) {
 // Net 'a' — typespec is a RefTypespec named "logic_t" → LogicTypespec
 // ---------------------------------------------------------------------------
 TEST_F(Typedef, ANetTypespecNameIsLogicT) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -93,8 +78,7 @@ TEST_F(Typedef, ANetTypespecNameIsLogicT) {
 }
 
 TEST_F(Typedef, ANetTypespecActualIsLogic) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -106,21 +90,17 @@ TEST_F(Typedef, ANetTypespecActualIsLogic) {
 // Module typespec collection — contains TypedefTypespec named "logic_t"
 // ---------------------------------------------------------------------------
 TEST_F(Typedef, ModuleHasTypedefTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td =
-      hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
   ASSERT_NE(td, nullptr) << "module should own a TypedefTypespec named 'logic_t'";
   EXPECT_EQ(td->getName(), "logic_t");
 }
 
 TEST_F(Typedef, TypedefAliasResolvesToLogic) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::TypedefTypespec *const td =
-      hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("logic_t", top->getTypespecs());
   ASSERT_NE(td, nullptr);
   const hldb::RefTypespec *const alias = td->getTypedefAlias();
   ASSERT_NE(alias, nullptr);
@@ -129,8 +109,7 @@ TEST_F(Typedef, TypedefAliasResolvesToLogic) {
 }
 
 TEST_F(Typedef, ANetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -138,8 +117,7 @@ TEST_F(Typedef, ANetHasNoInitialValue) {
 }
 
 TEST_F(Typedef, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

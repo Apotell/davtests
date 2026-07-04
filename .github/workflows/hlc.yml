@@ -148,12 +148,18 @@ jobs:
 # C++ Tests ###########################################################################################################
 
   cpp_tests:
-    name: "C++ Tests | ubuntu | release"
+    name: "C++ Tests | ubuntu | release | shard ${{ matrix.shard }}/${{ matrix.num_shards }}"
     needs: preflight
-    runs-on: ubuntu-24.04
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        include:
+          - { platform: ubuntu, os: ubuntu-24.04, shard: 0, num_shards: 2 }
+          - { platform: ubuntu, os: ubuntu-24.04, shard: 1, num_shards: 2 }
 
     env:
-      build-artifact-name: hlc_ubuntu_release_${{ github.event.inputs.run_number }}
+      build-artifact-name: hlc_${{ matrix.platform }}_release_${{ github.event.inputs.run_number }}
 
     steps:
     - name: Checkout repository
@@ -169,6 +175,15 @@ jobs:
     - name: Setup Clang
       uses: egor-tensin/setup-clang@v2
 
+    - name: Setup compiler cache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        variant: 'ccache'
+        key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
+        restore-keys: |
+          "${{ matrix.platform }}-master/${{ matrix.shard }}"
+          ${{ matrix.platform }}-master
+
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
       with:
@@ -183,12 +198,28 @@ jobs:
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
         mv ${{ env.build-artifact-name }} build
 
-    - name: Configure
+    - name: Generate shard list
+      shell: bash
       run: |
-        cmake                                       \
-          -G Ninja                                  \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo         \
-          -DBUILD_DIR=${{ github.workspace }}/build \
+        python3 scripts/shard_tests.py          \
+          --test-dirpath hlc                    \
+          --output scripts/shard.lst            \
+          --shard ${{ matrix.shard }}           \
+          --num_shards ${{ matrix.num_shards }}
+
+    - name: Configure
+      env:
+        CC: clang
+        CXX: clang++
+        SCCACHE_GHA_ENABLED: "true"
+      run: |
+        cmake                                                         \
+          -G Ninja                                                    \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo                           \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache                          \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                        \
+          -DBUILD_DIR=${{ github.workspace }}/build                   \
+          -DTEST_LIST_FILE=${{ github.workspace }}/scripts/shard.lst  \
           -S . -B out/build
 
     - name: Build

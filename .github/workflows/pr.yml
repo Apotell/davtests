@@ -1,5 +1,5 @@
 name: 'PR Verification'
-run-name: "PR #${{ github.event.pull_request.number }} | ${{ github.head_ref }}"
+run-name: "PR #${{ github.event.pull_request.number }} | ${{ github.ref_name }}"
 
 concurrency:
   group: ${{ github.repository }}-${{ github.workflow }}-${{ github.ref }}
@@ -17,8 +17,8 @@ jobs:
     name: "Preflight | ubuntu"
     runs-on: ubuntu-latest
     outputs:
-      run_regression:   ${{ steps.changes.outputs.run_regression }}
-      build_run_id:     ${{ steps.find-artifact.outputs.build_run_id }}
+      run_regression: ${{ steps.changes.outputs.run_regression }}
+      build_run_id: ${{ steps.find-artifact.outputs.build_run_id }}
       build_run_number: ${{ steps.find-artifact.outputs.build_run_number }}
 
     steps:
@@ -66,9 +66,9 @@ jobs:
     runs-on: ubuntu-24.04
 
     env:
-      build-artifact-name:       hlc_ubuntu_release_${{ needs.preflight.outputs.build_run_number }}
-      pyhldb-artifact-pattern:   "pyhldb-*-linux_x86_64.whl"
-      regression-artifact-name:  Regression_ubuntu_release_PR_${{ github.event.pull_request.number }}
+      build-artifact-name: hlc_ubuntu_release_${{ needs.preflight.outputs.build_run_number }}
+      pyhldb-artifact-pattern: "pyhldb-*-linux_x86_64.whl"
+      regression-artifact-name: Regression_ubuntu_release_PR_${{ github.event.pull_request.number }}
 
     steps:
     - name: Checkout repository
@@ -78,12 +78,12 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh api /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files \
-          --jq '.[].filename' \
-          | grep '^hlc/' \
-          | sed 's|^hlc/||' \
-          | xargs -I{} dirname {} \
-          | sort -u \
+        gh api /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files  \
+          --jq '.[].filename'                                                                       \
+          | grep '^hlc/'                                                                            \
+          | sed 's|^hlc/||'                                                                         \
+          | xargs -I{} dirname {}                                                                   \
+          | sort -u                                                                                 \
           > scripts/filter.lst
 
     - name: Setup Python
@@ -102,18 +102,18 @@ jobs:
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
       with:
-        name:          ${{ env.build-artifact-name }}
-        run-id:        ${{ needs.preflight.outputs.build_run_id }}
-        repository:    Apotell/artifacts
-        github-token:  ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ needs.preflight.outputs.build_run_id }}
+        repository: Apotell/artifacts
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
     - name: Download artifact (pyhldb)
       uses: actions/download-artifact@v7
       with:
-        pattern:       ${{ env.pyhldb-artifact-pattern }}
-        run-id:        ${{ needs.preflight.outputs.build_run_id }}
-        repository:    Apotell/artifacts
-        github-token:  ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+        pattern: ${{ env.pyhldb-artifact-pattern }}
+        run-id: ${{ needs.preflight.outputs.build_run_id }}
+        repository: Apotell/artifacts
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
     - name: Extract build artifact
       shell: bash
@@ -128,12 +128,12 @@ jobs:
       run: |
         python -m pip install $(ls ${{ env.pyhldb-artifact-pattern }} | head -n 1)
 
-        python3 scripts/regression.py                          \
-          --build-dirpath ${{ github.workspace }}/build/bin    \
-          --hlc-filepath hlc                           \
-          --reducer-filepath hldb-reduce                       \
-          --output-dirpath ${{ github.workspace }}/regression  \
-          --jobs $(nproc)                                      \
+        python3 scripts/regression.py                           \
+          --build-dirpath ${{ github.workspace }}/build/bin     \
+          --hlc-filepath hlc                                    \
+          --reducer-filepath hldb-reduce                        \
+          --output-dirpath ${{ github.workspace }}/regression   \
+          --jobs $(nproc)                                       \
           --filters @scripts/filter.lst
 
     - name: Prepare regression artifacts
@@ -159,17 +159,15 @@ jobs:
 # C++ Tests ###########################################################################################################
 
   cpp_tests:
-    name: "C++ Tests | ${{ matrix.platform }} | release"
+    name: "C++ Tests | ${{ matrix.platform }} | shard ${{ matrix.shard }}/${{ matrix.num_shards }} | release"
     needs: preflight
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         include:
-          - platform: ubuntu
-            os: ubuntu-24.04
-          - platform: windows
-            os: windows-latest
+          - { platform: ubuntu, os: ubuntu-24.04, shard: 0, num_shards: 2 }
+          - { platform: ubuntu, os: ubuntu-24.04, shard: 1, num_shards: 2 }
 
     steps:
     - name: Checkout repository
@@ -199,8 +197,8 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1.2
       with:
         variant: ${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}
-        key: ${{ matrix.platform }}-${{ github.head_ref }}
-        restore-keys: ${{ matrix.platform }}-master
+        key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
+        restore-keys: "${{ matrix.platform }}-master/${{ matrix.shard }}"
 
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
@@ -216,19 +214,29 @@ jobs:
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
         mv ${{ env.build-artifact-name }} build
 
+    - name: Generate shard list
+      shell: bash
+      run: |
+        python3 scripts/shard_tests.py          \
+          --test-dirpath hlc                    \
+          --output scripts/shard.lst            \
+          --shard ${{ matrix.shard }}           \
+          --num_shards ${{ matrix.num_shards }}
+
     - name: Configure
       shell: bash
       env:
+        CC: clang
+        CXX: clang++
         SCCACHE_GHA_ENABLED: "true"
       run: |
-        export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-
         cmake                                                                                   \
           -G Ninja                                                                              \
           -DCMAKE_BUILD_TYPE=RelWithDebInfo                                                     \
-          -DCMAKE_C_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}   \
-          -DCMAKE_CXX_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }} \
-          -DBUILD_DIR=${{ github.workspace }}/build                                            \
+          -DCMAKE_C_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}    \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}  \
+          -DBUILD_DIR=${{ github.workspace }}/build                                             \
+          -DTEST_LIST_FILE=${{ github.workspace }}/scripts/shard.lst                            \
           -S . -B out/build
 
     - name: Build

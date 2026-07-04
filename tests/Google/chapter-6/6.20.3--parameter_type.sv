@@ -13,4 +13,6 @@
 :tags: 6.20.3
 */
 module top #(type T = real);
+
+T num = 0.0;
 endmodule

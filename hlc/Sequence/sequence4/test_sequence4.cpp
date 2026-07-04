@@ -93,20 +93,8 @@ namespace hlc {
 class Sequence4Test : public Test {
  public:
   static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "sequence4.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "sequence4.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------

@@ -23,6 +23,10 @@ sequence seq;
     @(posedge clk) b ##1 a [*2:10] ##1 b;
 endsequence
 
-assert property (seq);
+sequence seq_2;
+    @(negedge clk) b ##1 ((a ##[1:2] b) [*2]) ##1 b;
+endsequence
 
+assert property (seq);
+assert property (seq_2);
 endmodule

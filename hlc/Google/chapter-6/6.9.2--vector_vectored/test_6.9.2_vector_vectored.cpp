@@ -23,7 +23,7 @@
 //   vpiVector (LogicTypespec::getVector())  — type is multi-bit [15:0];  IS set (true)
 //   vpiVectored (Net::getExplicitVectored()) — the `vectored` keyword modifier; NOT set
 //
-// COMPILER BEHAVIOR: Surelog parses `vectored` without errors but does NOT call
+// COMPILER BEHAVIOR: HLC parses `vectored` without errors but does NOT call
 // setExplicitVectored(true) on the Net. The UHDM dump has no vpiVectored property.
 //
 // Checked:
@@ -68,40 +68,24 @@ namespace hlc {
 
 class VectorVectored : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "6.9.2--vector_vectored.hlc"});
-
-    ASSERT_NE(m_session, nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design, nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "6.9.2--vector_vectored.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 TEST_F(VectorVectored, ModuleExists) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(VectorVectored, ModuleHasOneNet) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(VectorVectored, NetNameIsA) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -110,8 +94,7 @@ TEST_F(VectorVectored, NetNameIsA) {
 }
 
 TEST_F(VectorVectored, NetTypeIsTri1) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -120,8 +103,7 @@ TEST_F(VectorVectored, NetTypeIsTri1) {
 }
 
 TEST_F(VectorVectored, NetHasLogicTypespec) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -132,81 +114,70 @@ TEST_F(VectorVectored, NetHasLogicTypespec) {
 }
 
 TEST_F(VectorVectored, LogicTypespecIsVector) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_TRUE(ls->getVector());
 }
 
 TEST_F(VectorVectored, LogicTypespecHasOneRange) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   EXPECT_EQ(ls->getRanges()->size(), 1u);
 }
 
 TEST_F(VectorVectored, RangeLeftIs15) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   const hldb::Range *const range = ls->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const left =
-      range->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "15");
 }
 
 TEST_F(VectorVectored, RangeRightIs0) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
-  const hldb::LogicTypespec *const ls =
-      rt->getActual<hldb::LogicTypespec>();
+  const hldb::LogicTypespec *const ls = rt->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   ASSERT_NE(ls->getRanges(), nullptr);
   const hldb::Range *const range = ls->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const right =
-      range->getRightExpr<hldb::Constant>();
+  const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
 TEST_F(VectorVectored, NetHasNoInitialValue) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -219,9 +190,7 @@ TEST_F(VectorVectored, NetHasNoInitialValue) {
 
 TEST_F(VectorVectored, NetFullNameIsWorkAtTopDotA) {
   // log line: vpiFullName: work@top.a
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getFullName(), "work@top.a");
 }
@@ -230,59 +199,45 @@ TEST_F(VectorVectored, NetFullNameIsWorkAtTopDotA) {
 
 TEST_F(VectorVectored, NetIsNotImplicitDecl) {
   // `tri1 vectored [15:0] a` is an explicit declaration — not implicit
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getImplicitDecl());
 }
 
 TEST_F(VectorVectored, NetHasNoDeclAssign) {
   // no `= value` in `tri1 vectored [15:0] a` — differs from vector_scalared.sv
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getNetDeclAssign());
 }
 
 TEST_F(VectorVectored, NetIsNotScalar) {
   // `[15:0]` makes this a vector, not a scalar 1-bit net
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getScalar());
 }
 
 TEST_F(VectorVectored, NetIsNotArrayMember) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getArrayMember());
 }
 
 TEST_F(VectorVectored, NetHasNoConstantSelect) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getConstantSelect());
 }
 
 TEST_F(VectorVectored, NetIsNotExpanded) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getExpanded());
 }
 
 TEST_F(VectorVectored, NetIsNotStructUnionMember) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getStructUnionMember());
 }
@@ -291,49 +246,39 @@ TEST_F(VectorVectored, NetIsNotStructUnionMember) {
 
 TEST_F(VectorVectored, NetResolvedNetTypeIsZero) {
   // COMPILER BEHAVIOR: getResolvedNetType() is a separate field from
-  // getNetType(). Surelog sets getNetType()=vpiTri1 but never calls
+  // getNetType(). HLC sets getNetType()=vpiTri1 but never calls
   // setResolvedNetType() — returns 0.
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getResolvedNetType(), 0);
 }
 
 TEST_F(VectorVectored, NetStrength0IsZero) {
   // COMPILER BEHAVIOR: `tri1` has an implicit pull-up (constant-1 weak driver)
-  // but Surelog does NOT set vpiStrength0 on the Net node. Returns 0.
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  // but HLC does NOT set vpiStrength0 on the Net node. Returns 0.
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getStrength0(), 0);
 }
 
 TEST_F(VectorVectored, NetStrength1IsZero) {
   // COMPILER BEHAVIOR: tri1 pull-up strength to 1 is not stored in UHDM.
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getStrength1(), 0);
 }
 
 TEST_F(VectorVectored, NetChargeStrengthIsZero) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getChargeStrength(), 0);
 }
 
 TEST_F(VectorVectored, NetVectorFlagFalse) {
   // COMPILER BEHAVIOR: Net::getVector() is a separate field from
-  // LogicTypespec::getVector(). Surelog only sets vpiVector on the
+  // LogicTypespec::getVector(). HLC only sets vpiVector on the
   // LogicTypespec (confirmed by log), NOT directly on the Net node.
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_FALSE(net->getVector());
 }
@@ -341,17 +286,13 @@ TEST_F(VectorVectored, NetVectorFlagFalse) {
 // --- net collections (all nullptr — no connectivity in this module) ----------
 
 TEST_F(VectorVectored, NetHasNoPortInsts) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getPortInsts(), nullptr);
 }
 
 TEST_F(VectorVectored, NetHasNoPrimTerms) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getPrimTerms(), nullptr);
 }
@@ -359,50 +300,38 @@ TEST_F(VectorVectored, NetHasNoPrimTerms) {
 TEST_F(VectorVectored, NetHasNoContAssignsOnNet) {
   // Net::getContAssigns() is per-net (drives of this net), distinct from
   // Module::getContAssigns() (all assigns in the module scope)
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getContAssigns(), nullptr);
 }
 
 TEST_F(VectorVectored, NetHasNoPathTerms) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getPathTerms(), nullptr);
 }
 
 TEST_F(VectorVectored, NetHasNoTchkTerms) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getTchkTerms(), nullptr);
 }
 
 TEST_F(VectorVectored, NetHasNoBits) {
   // getBits() returns per-bit expansion nets — absent for non-expanded net
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getBits(), nullptr);
 }
 
 TEST_F(VectorVectored, NetHasNoIndexes) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getIndexes(), nullptr);
 }
 
 TEST_F(VectorVectored, NetHasNoSimNet) {
-  const hldb::Net *const net =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())
-          ->getNets()->at(0);
+  const hldb::Net *const net = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getSimNet(), nullptr);
 }
@@ -411,48 +340,40 @@ TEST_F(VectorVectored, NetHasNoSimNet) {
 
 TEST_F(VectorVectored, LogicTypespecIsNotSigned) {
   // `logic` is unsigned by default; getSigned() must be false
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::LogicTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_FALSE(ls->getSigned());
 }
 
 TEST_F(VectorVectored, LogicTypespecIsNotScalar) {
   // [15:0] makes the typespec a vector, not scalar
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::LogicTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_FALSE(ls->getScalar());
 }
 
 TEST_F(VectorVectored, LogicTypespecHasNoElemTypespec) {
   // ElemTypespec is used for array element types; absent for a plain vector
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::LogicTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_EQ(ls->getElemTypespec(), nullptr);
 }
 
 TEST_F(VectorVectored, LogicTypespecHasNoIndexTypespec) {
   // IndexTypespec is for associative arrays; absent here
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::LogicTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
   EXPECT_EQ(ls->getIndexTypespec(), nullptr);
 }
@@ -461,29 +382,23 @@ TEST_F(VectorVectored, LogicTypespecHasNoIndexTypespec) {
 
 TEST_F(VectorVectored, RangeLeftConstTypeIsUInt) {
   // log line: vpiConstType: unsigned int (9)
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::LogicTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
-  const hldb::Constant *const left =
-      ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const left = ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getConstType(), vpiUIntConst);
 }
 
 TEST_F(VectorVectored, RangeRightConstTypeIsUInt) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()
-          ->getActual<hldb::LogicTypespec>();
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
-  const hldb::Constant *const right =
-      ls->getRanges()->at(0)->getRightExpr<hldb::Constant>();
+  const hldb::Constant *const right = ls->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getConstType(), vpiUIntConst);
 }
@@ -499,8 +414,7 @@ TEST_F(VectorVectored, DesignHasTwoTypespecs) {
 TEST_F(VectorVectored, DesignHasModuleTypespec) {
   // The design-level typespecs include a ModuleTypespec for work@top
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt =
-      any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
@@ -508,8 +422,7 @@ TEST_F(VectorVectored, DesignHasModuleTypespec) {
 TEST_F(VectorVectored, DesignHasIntTypespec) {
   // log: IntTypespec at design level (used for range constant types)
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it =
-      any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
   EXPECT_NE(it, nullptr);
 }
 
@@ -517,8 +430,7 @@ TEST_F(VectorVectored, DesignHasIntTypespec) {
 
 TEST_F(VectorVectored, ModuleHasNoPorts) {
   // `module top()` has an empty port list
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty());
 }
@@ -526,13 +438,12 @@ TEST_F(VectorVectored, ModuleHasNoPorts) {
 // --- compiler behavior: vectored/scalared modifiers -------------------------
 
 TEST_F(VectorVectored, VectoredModifierNotStoredByCompiler) {
-  // COMPILER BEHAVIOR: Surelog parses `vectored` without error but does NOT
+  // COMPILER BEHAVIOR: HLC parses `vectored` without error but does NOT
   // call setExplicitVectored(true) — the modifier is silently dropped in UHDM.
   // The UHDM log has no vpiVectored line for this net.
   // Note: vpiVector=true (LogicTypespec::getVector()) is a separate concept —
   // it marks the type as multi-bit [15:0] and IS set correctly.
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -542,9 +453,8 @@ TEST_F(VectorVectored, VectoredModifierNotStoredByCompiler) {
 
 TEST_F(VectorVectored, ScalaredModifierNotPresent) {
   // `scalared` keyword is absent from this declaration — confirms
-  // getExplicitScalared() is false (not set by Surelog).
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  // getExplicitScalared() is false (not set by HLC).
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -555,17 +465,19 @@ TEST_F(VectorVectored, ScalaredModifierNotPresent) {
 // --- structural completeness ------------------------------------------------
 
 TEST_F(VectorVectored, NoProcesses) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(VectorVectored, NoContAssigns) {
-  const hldb::Module *const top =
-      hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
-
 }  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
