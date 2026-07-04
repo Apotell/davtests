@@ -95,21 +95,8 @@ namespace hlc {
 
 class Sequence12Test : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "sequence12.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "sequence12.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -120,8 +107,7 @@ static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
 }
 
-static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m,
-                                             std::string_view name) {
+static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
   if (!m || !m->getSequenceDecls()) return nullptr;
   for (const hldb::SequenceDecl *s : *m->getSequenceDecls()) {
     if (s && s->getName() == name) return s;
@@ -154,27 +140,22 @@ static const hldb::ClockedSeq *getClockedSeq(const hldb::Module *m) {
 // misidentifies the sequence name as an undeclared net instead of resolving
 // it to the SequenceDecl node.
 TEST_F(Sequence12Test, Compiler_NoErrors) {
-  ErrorContainer::Stats stats =
-      m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "ss.16.14: assert property(seq12) must not produce errors -- "
-         "EL0535 'Illegal implicit net' means Surelog does not resolve "
-         "sequence names to SequenceDecl nodes";
+  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(seq12) must not produce errors -- "
+                                 "EL0535 'Illegal implicit net' means Surelog does not resolve "
+                                 "sequence names to SequenceDecl nodes";
 }
 
 TEST_F(Sequence12Test, Compiler_NoSyntaxErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0)
-      << "sequence12.sv is syntactically valid -- no syntax errors expected";
+  EXPECT_EQ(stats.nbSyntax, 0) << "sequence12.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================
 // Module
 // ===========================================================================
 
-TEST_F(Sequence12Test, ModuleExists) {
-  ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found";
-}
+TEST_F(Sequence12Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration (ss.16.5 / ss.16.6)
@@ -184,18 +165,15 @@ TEST_F(Sequence12Test, ModuleExists) {
 TEST_F(Sequence12Test, SequenceDeclCount_IsOne) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getSequenceDecls(), nullptr)
-      << "module has no sequence declarations";
-  EXPECT_EQ(m->getSequenceDecls()->size(), 1u)
-      << "ss.16.5: exactly one sequence is declared: seq12";
+  ASSERT_NE(m->getSequenceDecls(), nullptr) << "module has no sequence declarations";
+  EXPECT_EQ(m->getSequenceDecls()->size(), 1u) << "ss.16.5: exactly one sequence is declared: seq12";
 }
 
 // ss.16.5: 'seq12' must appear in the sequence declaration collection.
 TEST_F(Sequence12Test, Seq12_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(getSeqDecl(m, "seq12"), nullptr)
-      << "ss.16.5: sequence 'seq12' must be declared";
+  EXPECT_NE(getSeqDecl(m, "seq12"), nullptr) << "ss.16.5: sequence 'seq12' must be declared";
 }
 
 // ===========================================================================
@@ -208,8 +186,7 @@ TEST_F(Sequence12Test, Seq12_HasExpression) {
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s12 = getSeqDecl(m, "seq12");
   ASSERT_NE(s12, nullptr) << "seq12 not found";
-  EXPECT_NE(s12->getExpr(), nullptr)
-      << "ss.16.6: seq12 must have a body expression";
+  EXPECT_NE(s12->getExpr(), nullptr) << "ss.16.6: seq12 must have a body expression";
 }
 
 // ss.16.6: '@(posedge clk) a' inside a sequence declaration is represented as
@@ -235,9 +212,8 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_HasClockingEvent) {
   ASSERT_NE(m, nullptr);
   const hldb::ClockedSeq *cs = getClockedSeq(m);
   ASSERT_NE(cs, nullptr) << "seq12 body must be a ClockedSeq";
-  EXPECT_NE(cs->getClockingEvent(), nullptr)
-      << "ss.16.6: '@(posedge clk) a' must embed a clocking event in the "
-         "ClockedSeq node";
+  EXPECT_NE(cs->getClockingEvent(), nullptr) << "ss.16.6: '@(posedge clk) a' must embed a clocking event in the "
+                                                "ClockedSeq node";
 }
 
 // ss.16.6: the clocking event must be an Operation (the posedge edge applied
@@ -261,8 +237,7 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_ClockingEvent_HasOneOperand) {
   const hldb::Operation *op = cs->getClockingEvent<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 1u)
-      << "ss.16.6: posedge clocking event must have exactly one operand (clk)";
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "ss.16.6: posedge clocking event must have exactly one operand (clk)";
 }
 
 // ss.16.6: the operand of the posedge clocking event is a RefObj named "clk".
@@ -276,11 +251,9 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_ClockingEvent_OperandIsRefToClk) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *clkRef =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *clkRef = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(clkRef, nullptr) << "clocking event operand must be a RefObj";
-  EXPECT_EQ(clkRef->getName(), "clk")
-      << "ss.16.6: clocking event operand must reference signal 'clk'";
+  EXPECT_EQ(clkRef->getName(), "clk") << "ss.16.6: clocking event operand must reference signal 'clk'";
 }
 
 // ss.16.6: RefObj for 'clk' in the clocking event must resolve to Net name:
@@ -295,8 +268,7 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_ClockingEvent_ClkResolvesToNet) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *clkRef =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *clkRef = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(clkRef, nullptr);
   EXPECT_NE(clkRef->getActual<hldb::Net>(), nullptr)
       << "ss.16.6: RefObj for 'clk' in the clocking event must resolve to "
@@ -313,8 +285,7 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_HasSequenceExpr) {
   ASSERT_NE(m, nullptr);
   const hldb::ClockedSeq *cs = getClockedSeq(m);
   ASSERT_NE(cs, nullptr);
-  EXPECT_NE(cs->getSequenceExpr(), nullptr)
-      << "ss.16.6: ClockedSeq must have a sequence body expression";
+  EXPECT_NE(cs->getSequenceExpr(), nullptr) << "ss.16.6: ClockedSeq must have a sequence body expression";
 }
 
 // ss.16.6: the sequence body expression is 'a' -- a RefObj named "a".
@@ -324,11 +295,9 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_SequenceExpr_IsRefToA) {
   const hldb::ClockedSeq *cs = getClockedSeq(m);
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *aRef = cs->getSequenceExpr<hldb::RefObj>();
-  ASSERT_NE(aRef, nullptr)
-      << "ss.16.6: ClockedSeq sequence body must be a RefObj";
-  EXPECT_EQ(aRef->getName(), "a")
-      << "ss.16.6: sequence body of '@(posedge clk) a' must reference "
-         "signal 'a'";
+  ASSERT_NE(aRef, nullptr) << "ss.16.6: ClockedSeq sequence body must be a RefObj";
+  EXPECT_EQ(aRef->getName(), "a") << "ss.16.6: sequence body of '@(posedge clk) a' must reference "
+                                     "signal 'a'";
 }
 
 // ss.16.6: RefObj for 'a' in the sequence body must resolve to Net name:'a'
@@ -340,9 +309,8 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_SequenceExpr_ResolvesToNet) {
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *aRef = cs->getSequenceExpr<hldb::RefObj>();
   ASSERT_NE(aRef, nullptr);
-  EXPECT_NE(aRef->getActual<hldb::Net>(), nullptr)
-      << "ss.16.6: RefObj for 'a' in the ClockedSeq body must resolve to "
-         "Net name:'a' at compile time";
+  EXPECT_NE(aRef->getActual<hldb::Net>(), nullptr) << "ss.16.6: RefObj for 'a' in the ClockedSeq body must resolve to "
+                                                      "Net name:'a' at compile time";
 }
 
 // ===========================================================================
@@ -353,10 +321,8 @@ TEST_F(Sequence12Test, Seq12_ClockedSeq_SequenceExpr_ResolvesToNet) {
 TEST_F(Sequence12Test, ConcurrentAssertion_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getConcurrentAssertions(), nullptr)
-      << "module has no concurrent assertions";
-  EXPECT_NE(getFirstAssert(m), nullptr)
-      << "ss.16.14: an Assert node must be present";
+  ASSERT_NE(m->getConcurrentAssertions(), nullptr) << "module has no concurrent assertions";
+  EXPECT_NE(getFirstAssert(m), nullptr) << "ss.16.14: an Assert node must be present";
 }
 
 // ss.16.14: the assert must carry an inline PropertySpec.
@@ -365,8 +331,7 @@ TEST_F(Sequence12Test, Assert_HasPropertySpec) {
   ASSERT_NE(m, nullptr);
   const hldb::Assert *a = getFirstAssert(m);
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr)
-      << "ss.16.14: Assert must have an inline PropertySpec";
+  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr) << "ss.16.14: Assert must have an inline PropertySpec";
 }
 
 // ss.16.6 + ss.16.14: 'assert property(seq12)' has no explicit clocking event
@@ -379,10 +344,9 @@ TEST_F(Sequence12Test, Assert_PropertySpec_HasNoClockingEvent) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_EQ(spec->getClockingEvent(), nullptr)
-      << "ss.16.6: when the sequence carries its own embedded clock, "
-         "the PropertySpec of 'assert property(seq12)' must have no "
-         "external clocking event";
+  EXPECT_EQ(spec->getClockingEvent(), nullptr) << "ss.16.6: when the sequence carries its own embedded clock, "
+                                                  "the PropertySpec of 'assert property(seq12)' must have no "
+                                                  "external clocking event";
 }
 
 // ss.16.14: the property expression is the reference to 'seq12'.  It must be
@@ -396,8 +360,7 @@ TEST_F(Sequence12Test, Assert_PropertyExpr_ReferencesSeq12) {
   ASSERT_NE(spec, nullptr);
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
-  EXPECT_EQ(propExpr->getName(), "seq12")
-      << "ss.16.14: property expression must reference 'seq12'";
+  EXPECT_EQ(propExpr->getName(), "seq12") << "ss.16.14: property expression must reference 'seq12'";
 }
 
 // ss.16.14: the RefObj for 'seq12' in the concurrent assertion must resolve

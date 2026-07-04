@@ -94,21 +94,8 @@ namespace hlc {
 
 class Sequence8Test : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "sequence8.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "sequence8.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -119,8 +106,7 @@ static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
 }
 
-static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m,
-                                             std::string_view name) {
+static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
   if (!m || !m->getSequenceDecls()) return nullptr;
   for (const hldb::SequenceDecl *s : *m->getSequenceDecls()) {
     if (s && s->getName() == name) return s;
@@ -146,27 +132,22 @@ static const hldb::Assert *getFirstAssert(const hldb::Module *m) {
 // misidentifies the sequence name as an undeclared net instead of resolving
 // it to the SequenceDecl node.
 TEST_F(Sequence8Test, Compiler_NoErrors) {
-  ErrorContainer::Stats stats =
-      m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "ss.16.14: assert property(@(posedge clk) seq8) must not produce "
-         "errors -- EL0535 'Illegal implicit net' means Surelog does not "
-         "resolve sequence names to SequenceDecl nodes";
+  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(@(posedge clk) seq8) must not produce "
+                                 "errors -- EL0535 'Illegal implicit net' means Surelog does not "
+                                 "resolve sequence names to SequenceDecl nodes";
 }
 
 TEST_F(Sequence8Test, Compiler_NoSyntaxErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0)
-      << "sequence8.sv is syntactically valid -- no syntax errors expected";
+  EXPECT_EQ(stats.nbSyntax, 0) << "sequence8.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================
 // Module
 // ===========================================================================
 
-TEST_F(Sequence8Test, ModuleExists) {
-  ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found";
-}
+TEST_F(Sequence8Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration (ss.16.8 / ss.16.9.7)
@@ -176,18 +157,15 @@ TEST_F(Sequence8Test, ModuleExists) {
 TEST_F(Sequence8Test, SequenceDeclCount_IsOne) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getSequenceDecls(), nullptr)
-      << "module has no sequence declarations";
-  EXPECT_EQ(m->getSequenceDecls()->size(), 1u)
-      << "ss.16.8: exactly one sequence is declared: seq8";
+  ASSERT_NE(m->getSequenceDecls(), nullptr) << "module has no sequence declarations";
+  EXPECT_EQ(m->getSequenceDecls()->size(), 1u) << "ss.16.8: exactly one sequence is declared: seq8";
 }
 
 // ss.16.8: 'seq8' must appear in the sequence declaration collection.
 TEST_F(Sequence8Test, Seq8_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(getSeqDecl(m, "seq8"), nullptr)
-      << "ss.16.8: sequence 'seq8' must be declared";
+  EXPECT_NE(getSeqDecl(m, "seq8"), nullptr) << "ss.16.8: sequence 'seq8' must be declared";
 }
 
 // ===========================================================================
@@ -200,8 +178,7 @@ TEST_F(Sequence8Test, Seq8_HasExpression) {
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s8 = getSeqDecl(m, "seq8");
   ASSERT_NE(s8, nullptr) << "seq8 not found";
-  EXPECT_NE(s8->getExpr(), nullptr)
-      << "ss.16.9.7: seq8 must have a body expression";
+  EXPECT_NE(s8->getExpr(), nullptr) << "ss.16.9.7: seq8 must have a body expression";
 }
 
 // ss.16.9.7: 'a or b' is the sequence disjunction operator.  The correct
@@ -217,10 +194,9 @@ TEST_F(Sequence8Test, Seq8_Expr_IsOrOperation) {
   ASSERT_NE(s8, nullptr);
   const hldb::Operation *op = s8->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "seq8 body must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiCompOrOp)
-      << "ss.16.9.7: 'a or b' must have opType vpiCompOrOp (92) -- "
-         "Surelog incorrectly uses vpiLogOrOp (27, binary logical ||) "
-         "instead of the sequence-specific vpiCompOrOp (92)";
+  EXPECT_EQ(op->getOpType(), vpiCompOrOp) << "ss.16.9.7: 'a or b' must have opType vpiCompOrOp (92) -- "
+                                             "Surelog incorrectly uses vpiLogOrOp (27, binary logical ||) "
+                                             "instead of the sequence-specific vpiCompOrOp (92)";
 }
 
 // ss.16.9.7: 'a or b' has two operand sequences.
@@ -232,8 +208,7 @@ TEST_F(Sequence8Test, Seq8_Expr_HasTwoOperands) {
   const hldb::Operation *op = s8->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "ss.16.9.7: 'a or b' must produce exactly 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "ss.16.9.7: 'a or b' must produce exactly 2 operands";
 }
 
 // ss.16.9.7: operand[0] is the first sequence 'a'.  It must be a RefObj
@@ -248,11 +223,9 @@ TEST_F(Sequence8Test, Seq8_Operand0_IsRefToA) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr) << "operand[0] must be a RefObj";
-  EXPECT_EQ(op0->getName(), "a")
-      << "ss.16.9.7: first operand of 'a or b' must reference signal 'a'";
+  EXPECT_EQ(op0->getName(), "a") << "ss.16.9.7: first operand of 'a or b' must reference signal 'a'";
 }
 
 // ss.16.9.7: the RefObj for 'a' must resolve (vpiActual) to Net name:'a'.
@@ -267,12 +240,10 @@ TEST_F(Sequence8Test, Seq8_Operand0_ResolvesToNet) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
-  EXPECT_NE(op0->getActual<hldb::Net>(), nullptr)
-      << "ss.16.9.7: RefObj for 'a' must resolve to Net name:'a' at "
-         "compile time";
+  EXPECT_NE(op0->getActual<hldb::Net>(), nullptr) << "ss.16.9.7: RefObj for 'a' must resolve to Net name:'a' at "
+                                                     "compile time";
 }
 
 // ss.16.9.7: operand[1] is the second sequence 'b'.  It must be a RefObj
@@ -287,11 +258,9 @@ TEST_F(Sequence8Test, Seq8_Operand1_IsRefToB) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *op1 =
-      any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(op1, nullptr) << "operand[1] must be a RefObj";
-  EXPECT_EQ(op1->getName(), "b")
-      << "ss.16.9.7: second operand of 'a or b' must reference signal 'b'";
+  EXPECT_EQ(op1->getName(), "b") << "ss.16.9.7: second operand of 'a or b' must reference signal 'b'";
 }
 
 // ss.16.9.7: the RefObj for 'b' must resolve (vpiActual) to Net name:'b'.
@@ -306,12 +275,10 @@ TEST_F(Sequence8Test, Seq8_Operand1_ResolvesToNet) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
 
-  const hldb::RefObj *op1 =
-      any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*op->getOperands())[1]);
   ASSERT_NE(op1, nullptr);
-  EXPECT_NE(op1->getActual<hldb::Net>(), nullptr)
-      << "ss.16.9.7: RefObj for 'b' must resolve to Net name:'b' at "
-         "compile time";
+  EXPECT_NE(op1->getActual<hldb::Net>(), nullptr) << "ss.16.9.7: RefObj for 'b' must resolve to Net name:'b' at "
+                                                     "compile time";
 }
 
 // ===========================================================================
@@ -322,10 +289,8 @@ TEST_F(Sequence8Test, Seq8_Operand1_ResolvesToNet) {
 TEST_F(Sequence8Test, ConcurrentAssertion_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getConcurrentAssertions(), nullptr)
-      << "module has no concurrent assertions";
-  EXPECT_NE(getFirstAssert(m), nullptr)
-      << "ss.16.14: an Assert node must be present";
+  ASSERT_NE(m->getConcurrentAssertions(), nullptr) << "module has no concurrent assertions";
+  EXPECT_NE(getFirstAssert(m), nullptr) << "ss.16.14: an Assert node must be present";
 }
 
 // ss.16.14: the assert must carry an inline PropertySpec.
@@ -334,8 +299,7 @@ TEST_F(Sequence8Test, Assert_HasPropertySpec) {
   ASSERT_NE(m, nullptr);
   const hldb::Assert *a = getFirstAssert(m);
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr)
-      << "ss.16.14: Assert must have an inline PropertySpec";
+  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr) << "ss.16.14: Assert must have an inline PropertySpec";
 }
 
 // ss.16.14: '@(posedge clk)' must be represented as the clocking event on
@@ -347,9 +311,8 @@ TEST_F(Sequence8Test, Assert_PropertySpec_HasClockingEvent) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_NE(spec->getClockingEvent(), nullptr)
-      << "ss.16.14: @(posedge clk) must produce a clocking event on the "
-         "PropertySpec";
+  EXPECT_NE(spec->getClockingEvent(), nullptr) << "ss.16.14: @(posedge clk) must produce a clocking event on the "
+                                                  "PropertySpec";
 }
 
 // ss.16.14: the property expression is the reference to 'seq8'.  It must be
@@ -363,8 +326,7 @@ TEST_F(Sequence8Test, Assert_PropertyExpr_ReferencesSeq8) {
   ASSERT_NE(spec, nullptr);
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
-  EXPECT_EQ(propExpr->getName(), "seq8")
-      << "ss.16.14: property expression must reference 'seq8'";
+  EXPECT_EQ(propExpr->getName(), "seq8") << "ss.16.14: property expression must reference 'seq8'";
 }
 
 // ss.16.14: the RefObj for 'seq8' in the concurrent assertion must resolve

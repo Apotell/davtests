@@ -114,21 +114,8 @@ namespace hlc {
 
 class Sequence11Test : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "sequence11.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "sequence11.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -139,8 +126,7 @@ static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
 }
 
-static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m,
-                                             std::string_view name) {
+static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
   if (!m || !m->getSequenceDecls()) return nullptr;
   for (const hldb::SequenceDecl *s : *m->getSequenceDecls()) {
     if (s && s->getName() == name) return s;
@@ -187,27 +173,22 @@ static const hldb::Operation *getRightCycleDelayOp(const hldb::Module *m) {
 // misidentifies the sequence name as an undeclared net instead of resolving
 // it to the SequenceDecl node.
 TEST_F(Sequence11Test, Compiler_NoErrors) {
-  ErrorContainer::Stats stats =
-      m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "ss.16.14: assert property(@(posedge clk) seq11) must not produce "
-         "errors -- EL0535 'Illegal implicit net' means Surelog does not "
-         "resolve sequence names to SequenceDecl nodes";
+  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(@(posedge clk) seq11) must not produce "
+                                 "errors -- EL0535 'Illegal implicit net' means Surelog does not "
+                                 "resolve sequence names to SequenceDecl nodes";
 }
 
 TEST_F(Sequence11Test, Compiler_NoSyntaxErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0)
-      << "sequence11.sv is syntactically valid -- no syntax errors expected";
+  EXPECT_EQ(stats.nbSyntax, 0) << "sequence11.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================
 // Module
 // ===========================================================================
 
-TEST_F(Sequence11Test, ModuleExists) {
-  ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found";
-}
+TEST_F(Sequence11Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration (ss.16.8 / ss.16.9.10)
@@ -217,18 +198,15 @@ TEST_F(Sequence11Test, ModuleExists) {
 TEST_F(Sequence11Test, SequenceDeclCount_IsOne) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getSequenceDecls(), nullptr)
-      << "module has no sequence declarations";
-  EXPECT_EQ(m->getSequenceDecls()->size(), 1u)
-      << "ss.16.8: exactly one sequence is declared: seq11";
+  ASSERT_NE(m->getSequenceDecls(), nullptr) << "module has no sequence declarations";
+  EXPECT_EQ(m->getSequenceDecls()->size(), 1u) << "ss.16.8: exactly one sequence is declared: seq11";
 }
 
 // ss.16.8: 'seq11' must appear in the sequence declaration collection.
 TEST_F(Sequence11Test, Seq11_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(getSeqDecl(m, "seq11"), nullptr)
-      << "ss.16.8: sequence 'seq11' must be declared";
+  EXPECT_NE(getSeqDecl(m, "seq11"), nullptr) << "ss.16.8: sequence 'seq11' must be declared";
 }
 
 // ===========================================================================
@@ -241,8 +219,7 @@ TEST_F(Sequence11Test, Seq11_HasExpression) {
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s11 = getSeqDecl(m, "seq11");
   ASSERT_NE(s11, nullptr) << "seq11 not found";
-  EXPECT_NE(s11->getExpr(), nullptr)
-      << "ss.16.9.10: seq11 must have a body expression";
+  EXPECT_NE(s11->getExpr(), nullptr) << "ss.16.9.10: seq11 must have a body expression";
 }
 
 // ss.16.9.10: '(a ##1 b) within (##3 c)' must be represented as an Operation
@@ -252,9 +229,8 @@ TEST_F(Sequence11Test, Seq11_Expr_IsWithinOperation) {
   ASSERT_NE(m, nullptr);
   const hldb::Operation *op = getWithinOp(m);
   ASSERT_NE(op, nullptr) << "seq11 body must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiWithinOp)
-      << "ss.16.9.10: '(a ##1 b) within (##3 c)' must have opType "
-         "vpiWithinOp (75)";
+  EXPECT_EQ(op->getOpType(), vpiWithinOp) << "ss.16.9.10: '(a ##1 b) within (##3 c)' must have opType "
+                                             "vpiWithinOp (75)";
 }
 
 // ss.16.9.10: within takes a left sequence and a right sequence -- exactly
@@ -265,8 +241,7 @@ TEST_F(Sequence11Test, Seq11_Within_HasTwoOperands) {
   const hldb::Operation *op = getWithinOp(m);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "ss.16.9.10: within must produce exactly 2 operands";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "ss.16.9.10: within must produce exactly 2 operands";
 }
 
 // ===========================================================================
@@ -279,10 +254,8 @@ TEST_F(Sequence11Test, Seq11_Within_Operand0_IsBinaryCycleDelay) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *cd = getLeftCycleDelayOp(m);
-  ASSERT_NE(cd, nullptr)
-      << "operand[0] of within must be a cycle-delay Operation";
-  EXPECT_EQ(cd->getOpType(), vpiCycleDelayOp)
-      << "ss.16.9.2: 'a ##1 b' must have opType vpiCycleDelayOp (71)";
+  ASSERT_NE(cd, nullptr) << "operand[0] of within must be a cycle-delay Operation";
+  EXPECT_EQ(cd->getOpType(), vpiCycleDelayOp) << "ss.16.9.2: 'a ##1 b' must have opType vpiCycleDelayOp (71)";
 }
 
 // ss.16.9.2: 'a ##1 b' with a fixed delay N has three operands: start-expr,
@@ -293,9 +266,8 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_HasThreeOperands) {
   const hldb::Operation *cd = getLeftCycleDelayOp(m);
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getOperands(), nullptr);
-  EXPECT_EQ(cd->getOperands()->size(), 3u)
-      << "ss.16.9.2: 'a ##1 b' must produce 3 operands: "
-         "start-expr, delay-constant, end-expr";
+  EXPECT_EQ(cd->getOperands()->size(), 3u) << "ss.16.9.2: 'a ##1 b' must produce 3 operands: "
+                                              "start-expr, delay-constant, end-expr";
 }
 
 // ss.16.9.2: operand[0] of 'a ##1 b' is the start expression 'a'.
@@ -308,11 +280,9 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand0_IsRefToA) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 =
-      any_cast<hldb::RefObj>((*cd->getOperands())[0]);
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*cd->getOperands())[0]);
   ASSERT_NE(op0, nullptr) << "operand[0] of 'a ##1 b' must be a RefObj";
-  EXPECT_EQ(op0->getName(), "a")
-      << "ss.16.9.2: start of 'a ##1 b' must reference signal 'a'";
+  EXPECT_EQ(op0->getName(), "a") << "ss.16.9.2: start of 'a ##1 b' must reference signal 'a'";
 }
 
 // ss.16.9.2: RefObj for 'a' must resolve to Net name:'a' at compile time.
@@ -324,12 +294,10 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand0_ResolvesToNet) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 =
-      any_cast<hldb::RefObj>((*cd->getOperands())[0]);
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*cd->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
-  EXPECT_NE(op0->getActual<hldb::Net>(), nullptr)
-      << "ss.16.9.2: RefObj for 'a' in 'a ##1 b' must resolve to "
-         "Net name:'a' at compile time";
+  EXPECT_NE(op0->getActual<hldb::Net>(), nullptr) << "ss.16.9.2: RefObj for 'a' in 'a ##1 b' must resolve to "
+                                                     "Net name:'a' at compile time";
 }
 
 // ss.16.9.2: operand[1] of 'a ##1 b' is the fixed delay amount.  For a fixed
@@ -342,11 +310,9 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Delay_IsConstant) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 2u);
 
-  const hldb::Constant *c =
-      any_cast<hldb::Constant>((*cd->getOperands())[1]);
-  EXPECT_NE(c, nullptr)
-      << "ss.16.9.2: fixed delay operand of 'a ##1 b' must be a Constant, "
-         "not a Range (which is used for ##[m:n])";
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[1]);
+  EXPECT_NE(c, nullptr) << "ss.16.9.2: fixed delay operand of 'a ##1 b' must be a Constant, "
+                           "not a Range (which is used for ##[m:n])";
 }
 
 // ss.16.9.2: the fixed delay constant for '##1' must have value "1".
@@ -358,11 +324,9 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Delay_ValueIsOne) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 2u);
 
-  const hldb::Constant *c =
-      any_cast<hldb::Constant>((*cd->getOperands())[1]);
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "1")
-      << "ss.16.9.2: delay constant for '##1' must have value \"1\"";
+  EXPECT_EQ(c->getDecompile(), "1") << "ss.16.9.2: delay constant for '##1' must have value \"1\"";
 }
 
 // ss.16.9.2: operand[2] of 'a ##1 b' is the end expression 'b'.
@@ -375,11 +339,9 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand2_IsRefToB) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 3u);
 
-  const hldb::RefObj *op2 =
-      any_cast<hldb::RefObj>((*cd->getOperands())[2]);
+  const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*cd->getOperands())[2]);
   ASSERT_NE(op2, nullptr) << "operand[2] of 'a ##1 b' must be a RefObj";
-  EXPECT_EQ(op2->getName(), "b")
-      << "ss.16.9.2: end of 'a ##1 b' must reference signal 'b'";
+  EXPECT_EQ(op2->getName(), "b") << "ss.16.9.2: end of 'a ##1 b' must reference signal 'b'";
 }
 
 // ss.16.9.2: RefObj for 'b' must resolve to Net name:'b' at compile time.
@@ -391,12 +353,10 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand2_ResolvesToNet) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 3u);
 
-  const hldb::RefObj *op2 =
-      any_cast<hldb::RefObj>((*cd->getOperands())[2]);
+  const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*cd->getOperands())[2]);
   ASSERT_NE(op2, nullptr);
-  EXPECT_NE(op2->getActual<hldb::Net>(), nullptr)
-      << "ss.16.9.2: RefObj for 'b' in 'a ##1 b' must resolve to "
-         "Net name:'b' at compile time";
+  EXPECT_NE(op2->getActual<hldb::Net>(), nullptr) << "ss.16.9.2: RefObj for 'b' in 'a ##1 b' must resolve to "
+                                                     "Net name:'b' at compile time";
 }
 
 // ===========================================================================
@@ -409,10 +369,8 @@ TEST_F(Sequence11Test, Seq11_Within_Operand1_IsUnaryCycleDelay) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *cd = getRightCycleDelayOp(m);
-  ASSERT_NE(cd, nullptr)
-      << "operand[1] of within must be a cycle-delay Operation";
-  EXPECT_EQ(cd->getOpType(), vpiUnaryCycleDelayOp)
-      << "ss.16.9.2: '##3 c' must have opType vpiUnaryCycleDelayOp (70)";
+  ASSERT_NE(cd, nullptr) << "operand[1] of within must be a cycle-delay Operation";
+  EXPECT_EQ(cd->getOpType(), vpiUnaryCycleDelayOp) << "ss.16.9.2: '##3 c' must have opType vpiUnaryCycleDelayOp (70)";
 }
 
 // ss.16.9.2: '##3 c' has two operands: the delay constant and the endpoint.
@@ -422,9 +380,8 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_HasTwoOperands) {
   const hldb::Operation *cd = getRightCycleDelayOp(m);
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getOperands(), nullptr);
-  EXPECT_EQ(cd->getOperands()->size(), 2u)
-      << "ss.16.9.2: '##3 c' must produce 2 operands: delay constant and "
-         "endpoint expression";
+  EXPECT_EQ(cd->getOperands()->size(), 2u) << "ss.16.9.2: '##3 c' must produce 2 operands: delay constant and "
+                                              "endpoint expression";
 }
 
 // ss.16.9.2: operand[0] of '##3 c' is the delay amount -- a Constant.
@@ -436,10 +393,8 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Delay_IsConstant) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 1u);
 
-  const hldb::Constant *c =
-      any_cast<hldb::Constant>((*cd->getOperands())[0]);
-  EXPECT_NE(c, nullptr)
-      << "ss.16.9.2: operand[0] of '##3 c' must be a Constant";
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[0]);
+  EXPECT_NE(c, nullptr) << "ss.16.9.2: operand[0] of '##3 c' must be a Constant";
 }
 
 // ss.16.9.2: the delay constant for '##3' must have value "3".
@@ -451,11 +406,9 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Delay_ValueIsThree) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 1u);
 
-  const hldb::Constant *c =
-      any_cast<hldb::Constant>((*cd->getOperands())[0]);
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[0]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getDecompile(), "3")
-      << "ss.16.9.2: delay constant for '##3' must have value \"3\"";
+  EXPECT_EQ(c->getDecompile(), "3") << "ss.16.9.2: delay constant for '##3' must have value \"3\"";
 }
 
 // ss.16.9.2: operand[1] of '##3 c' is the endpoint expression 'c'.
@@ -468,11 +421,9 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand1_IsRefToC) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 2u);
 
-  const hldb::RefObj *op1 =
-      any_cast<hldb::RefObj>((*cd->getOperands())[1]);
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*cd->getOperands())[1]);
   ASSERT_NE(op1, nullptr) << "operand[1] of '##3 c' must be a RefObj";
-  EXPECT_EQ(op1->getName(), "c")
-      << "ss.16.9.2: endpoint of '##3 c' must reference signal 'c'";
+  EXPECT_EQ(op1->getName(), "c") << "ss.16.9.2: endpoint of '##3 c' must reference signal 'c'";
 }
 
 // ss.16.9.2: RefObj for 'c' must resolve to Net name:'c' at compile time.
@@ -484,12 +435,10 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand1_ResolvesToNet) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 2u);
 
-  const hldb::RefObj *op1 =
-      any_cast<hldb::RefObj>((*cd->getOperands())[1]);
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*cd->getOperands())[1]);
   ASSERT_NE(op1, nullptr);
-  EXPECT_NE(op1->getActual<hldb::Net>(), nullptr)
-      << "ss.16.9.2: RefObj for 'c' in '##3 c' must resolve to "
-         "Net name:'c' at compile time";
+  EXPECT_NE(op1->getActual<hldb::Net>(), nullptr) << "ss.16.9.2: RefObj for 'c' in '##3 c' must resolve to "
+                                                     "Net name:'c' at compile time";
 }
 
 // ===========================================================================
@@ -500,10 +449,8 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand1_ResolvesToNet) {
 TEST_F(Sequence11Test, ConcurrentAssertion_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getConcurrentAssertions(), nullptr)
-      << "module has no concurrent assertions";
-  EXPECT_NE(getFirstAssert(m), nullptr)
-      << "ss.16.14: an Assert node must be present";
+  ASSERT_NE(m->getConcurrentAssertions(), nullptr) << "module has no concurrent assertions";
+  EXPECT_NE(getFirstAssert(m), nullptr) << "ss.16.14: an Assert node must be present";
 }
 
 // ss.16.14: the assert must carry an inline PropertySpec.
@@ -512,8 +459,7 @@ TEST_F(Sequence11Test, Assert_HasPropertySpec) {
   ASSERT_NE(m, nullptr);
   const hldb::Assert *a = getFirstAssert(m);
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr)
-      << "ss.16.14: Assert must have an inline PropertySpec";
+  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr) << "ss.16.14: Assert must have an inline PropertySpec";
 }
 
 // ss.16.14: '@(posedge clk)' must be represented as the clocking event on
@@ -525,9 +471,8 @@ TEST_F(Sequence11Test, Assert_PropertySpec_HasClockingEvent) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_NE(spec->getClockingEvent(), nullptr)
-      << "ss.16.14: @(posedge clk) must produce a clocking event on the "
-         "PropertySpec";
+  EXPECT_NE(spec->getClockingEvent(), nullptr) << "ss.16.14: @(posedge clk) must produce a clocking event on the "
+                                                  "PropertySpec";
 }
 
 // ss.16.14: the property expression is the reference to 'seq11'.  It must be
@@ -541,8 +486,7 @@ TEST_F(Sequence11Test, Assert_PropertyExpr_ReferencesSeq11) {
   ASSERT_NE(spec, nullptr);
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
-  EXPECT_EQ(propExpr->getName(), "seq11")
-      << "ss.16.14: property expression must reference 'seq11'";
+  EXPECT_EQ(propExpr->getName(), "seq11") << "ss.16.14: property expression must reference 'seq11'";
 }
 
 // ss.16.14: the RefObj for 'seq11' in the concurrent assertion must resolve

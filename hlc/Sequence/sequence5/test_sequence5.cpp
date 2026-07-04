@@ -113,21 +113,8 @@ namespace hlc {
 
 class Sequence5Test : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "sequence5.hlc"});
-
-    ASSERT_NE(m_session,  nullptr) << "Session is null";
-    ASSERT_NE(m_compiler, nullptr) << "Compiler is null";
-    ASSERT_NE(m_design,   nullptr) << "Design is null";
-  }
-
-  static void TearDownTestSuite() {
-    m_design   = nullptr;
-    delete m_compiler;
-    m_compiler = nullptr;
-    delete m_session;
-    m_session  = nullptr;
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "sequence5.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
 };
 
 // ---------------------------------------------------------------------------
@@ -138,8 +125,7 @@ static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
 }
 
-static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m,
-                                             std::string_view name) {
+static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
   if (!m || !m->getSequenceDecls()) return nullptr;
   for (const hldb::SequenceDecl *s : *m->getSequenceDecls()) {
     if (s && s->getName() == name) return s;
@@ -179,8 +165,7 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
   ASSERT_NE(s5, nullptr);
 
-  bool hasLocalVars = (s5->getVariables() != nullptr &&
-                       !s5->getVariables()->empty());
+  bool hasLocalVars = (s5->getVariables() != nullptr && !s5->getVariables()->empty());
 
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   if (!op || !op->getOperands()) return;
@@ -190,17 +175,17 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
 
     if (const hldb::Assignment *asgn = any_cast<hldb::Assignment>(operand)) {
       if (!hasLocalVars) {
-        ADD_FAILURE()
-            << "ss.16.10: operand[" << i << "]: Assignment found in the "
-               "match item list but seq5 has no local sequence variables -- "
-               "Surelog accepted 'x=0' silently; only 'var'-declared local "
-               "variables may be assigned in a sequence match item";
+        ADD_FAILURE() << "ss.16.10: operand[" << i
+                      << "]: Assignment found in the "
+                         "match item list but seq5 has no local sequence variables -- "
+                         "Surelog accepted 'x=0' silently; only 'var'-declared local "
+                         "variables may be assigned in a sequence match item";
       } else {
         const hldb::RefObj *lhs = asgn->getLhs<hldb::RefObj>();
         if (lhs) {
           EXPECT_EQ(lhs->getActual<hldb::Net>(), nullptr)
-              << "ss.16.10: operand[" << i << "]: assignment to '"
-              << lhs->getName() << "' targets a module-level variable -- "
+              << "ss.16.10: operand[" << i << "]: assignment to '" << lhs->getName()
+              << "' targets a module-level variable -- "
                  "only local sequence variables may be assigned";
         }
       }
@@ -210,17 +195,14 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
 
 TEST_F(Sequence5Test, Compiler_NoSyntaxErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0)
-      << "sequence5.sv is syntactically valid -- no syntax errors expected";
+  EXPECT_EQ(stats.nbSyntax, 0) << "sequence5.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================
 // Module
 // ===========================================================================
 
-TEST_F(Sequence5Test, ModuleExists) {
-  ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found";
-}
+TEST_F(Sequence5Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration (ss.16.8 / ss.16.9.4)
@@ -230,18 +212,15 @@ TEST_F(Sequence5Test, ModuleExists) {
 TEST_F(Sequence5Test, SequenceDeclCount_IsOne) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getSequenceDecls(), nullptr)
-      << "module has no sequence declarations";
-  EXPECT_EQ(m->getSequenceDecls()->size(), 1u)
-      << "ss.16.8: exactly one sequence is declared: seq5";
+  ASSERT_NE(m->getSequenceDecls(), nullptr) << "module has no sequence declarations";
+  EXPECT_EQ(m->getSequenceDecls()->size(), 1u) << "ss.16.8: exactly one sequence is declared: seq5";
 }
 
 // ss.16.8: 'seq5' must appear in the sequence declaration collection.
 TEST_F(Sequence5Test, Seq5_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(getSeqDecl(m, "seq5"), nullptr)
-      << "ss.16.8: sequence 'seq5' must be declared";
+  EXPECT_NE(getSeqDecl(m, "seq5"), nullptr) << "ss.16.8: sequence 'seq5' must be declared";
 }
 
 // ===========================================================================
@@ -254,8 +233,7 @@ TEST_F(Sequence5Test, Seq5_HasExpression) {
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
   ASSERT_NE(s5, nullptr) << "seq5 not found";
-  EXPECT_NE(s5->getExpr(), nullptr)
-      << "ss.16.9.4: seq5 must have a body expression";
+  EXPECT_NE(s5->getExpr(), nullptr) << "ss.16.9.4: seq5 must have a body expression";
 }
 
 // ss.16.9.4: '(1, x=0, f())' is a parenthesized sequence_expr with match
@@ -267,8 +245,7 @@ TEST_F(Sequence5Test, Seq5_Expr_IsMatchItemList) {
   ASSERT_NE(s5, nullptr);
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "seq5 body must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiListOp)
-      << "ss.16.9.4: match item form must have opType list (vpiListOp = 37)";
+  EXPECT_EQ(op->getOpType(), vpiListOp) << "ss.16.9.4: match item form must have opType list (vpiListOp = 37)";
 }
 
 // ss.16.9.4: '(1, x=0, f())' has one sequence expression and two match items,
@@ -282,9 +259,8 @@ TEST_F(Sequence5Test, Seq5_Expr_HasThreeOperands) {
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "ss.16.9.4: (1, x=0, f()) must produce 3 operands: "
-         "sequence_expr + 2 match items";
+  EXPECT_EQ(op->getOperands()->size(), 3u) << "ss.16.9.4: (1, x=0, f()) must produce 3 operands: "
+                                              "sequence_expr + 2 match items";
 }
 
 // ss.16.9.4: operand[0] is the sequence expression '1'.  It must be a
@@ -299,13 +275,10 @@ TEST_F(Sequence5Test, Seq5_MatchExpr_IsConstantOne) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::Constant *c0 =
-      any_cast<hldb::Constant>((*op->getOperands())[0]);
+  const hldb::Constant *c0 = any_cast<hldb::Constant>((*op->getOperands())[0]);
   ASSERT_NE(c0, nullptr) << "operand[0] must be a Constant";
-  EXPECT_EQ(std::string(c0->getDecompile()), "1")
-      << "ss.16.9.4: sequence expression '1' must be Constant with value 1";
+  EXPECT_EQ(std::string(c0->getDecompile()), "1") << "ss.16.9.4: sequence expression '1' must be Constant with value 1";
 }
-
 
 // ss.16.9.4: operand[2] is the subroutine call match item 'f()'.  It must be
 // a FuncCall node (ss.16.9.4: subroutine_call).
@@ -334,11 +307,9 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_NameIsF) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  const hldb::FuncCall *fc =
-      any_cast<hldb::FuncCall>((*op->getOperands())[2]);
+  const hldb::FuncCall *fc = any_cast<hldb::FuncCall>((*op->getOperands())[2]);
   ASSERT_NE(fc, nullptr);
-  EXPECT_EQ(fc->getName(), "f")
-      << "ss.16.9.4: subroutine call match item must name function 'f'";
+  EXPECT_EQ(fc->getName(), "f") << "ss.16.9.4: subroutine call match item must name function 'f'";
 }
 
 // ss.16.9.4: the FuncCall for 'f()' must resolve (getTaskFunc) to the
@@ -356,8 +327,7 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_ResolvesToFunction) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  const hldb::FuncCall *fc =
-      any_cast<hldb::FuncCall>((*op->getOperands())[2]);
+  const hldb::FuncCall *fc = any_cast<hldb::FuncCall>((*op->getOperands())[2]);
   ASSERT_NE(fc, nullptr);
   EXPECT_NE(fc->getTaskFunc<hldb::Function>(), nullptr)
       << "ss.16.9.4: FuncCall for 'f()' in the match item must resolve to "
@@ -373,10 +343,8 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_ResolvesToFunction) {
 TEST_F(Sequence5Test, ConcurrentAssertion_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getConcurrentAssertions(), nullptr)
-      << "module has no concurrent assertions";
-  EXPECT_NE(getFirstAssert(m), nullptr)
-      << "ss.16.14: an Assert node must be present";
+  ASSERT_NE(m->getConcurrentAssertions(), nullptr) << "module has no concurrent assertions";
+  EXPECT_NE(getFirstAssert(m), nullptr) << "ss.16.14: an Assert node must be present";
 }
 
 // ss.16.14: the assert must carry an inline PropertySpec.
@@ -385,8 +353,7 @@ TEST_F(Sequence5Test, Assert_HasPropertySpec) {
   ASSERT_NE(m, nullptr);
   const hldb::Assert *a = getFirstAssert(m);
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr)
-      << "ss.16.14: Assert must have an inline PropertySpec";
+  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr) << "ss.16.14: Assert must have an inline PropertySpec";
 }
 
 // ss.16.14: '@(posedge clk)' must be represented as the clocking event on
@@ -398,9 +365,8 @@ TEST_F(Sequence5Test, Assert_PropertySpec_HasClockingEvent) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_NE(spec->getClockingEvent(), nullptr)
-      << "ss.16.14: @(posedge clk) must produce a clocking event on the "
-         "PropertySpec";
+  EXPECT_NE(spec->getClockingEvent(), nullptr) << "ss.16.14: @(posedge clk) must produce a clocking event on the "
+                                                  "PropertySpec";
 }
 
 // ss.16.14: the property expression is the reference to 'seq5'.  It must be
@@ -414,8 +380,7 @@ TEST_F(Sequence5Test, Assert_PropertyExpr_ReferencesSeq5) {
   ASSERT_NE(spec, nullptr);
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
-  EXPECT_EQ(propExpr->getName(), "seq5")
-      << "ss.16.14: property expression must reference 'seq5'";
+  EXPECT_EQ(propExpr->getName(), "seq5") << "ss.16.14: property expression must reference 'seq5'";
 }
 
 // ss.16.14: the RefObj for 'seq5' in the concurrent assertion must resolve

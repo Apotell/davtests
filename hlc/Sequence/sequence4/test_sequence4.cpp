@@ -92,7 +92,6 @@ namespace hlc {
 
 class Sequence4Test : public Test {
  public:
-  static void SetUpTestSuite() {
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "sequence4.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
@@ -105,8 +104,7 @@ static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
 }
 
-static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m,
-                                             std::string_view name) {
+static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
   if (!m || !m->getSequenceDecls()) return nullptr;
   for (const hldb::SequenceDecl *s : *m->getSequenceDecls()) {
     if (s && s->getName() == name) return s;
@@ -132,27 +130,22 @@ static const hldb::Assert *getFirstAssert(const hldb::Module *m) {
 // for sequence instance names, which means it misidentifies sequence names as
 // undeclared nets instead of resolving them to SequenceDecl nodes.
 TEST_F(Sequence4Test, Compiler_NoErrors) {
-  ErrorContainer::Stats stats =
-      m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "ss.16.8: sequence instance references must not produce errors -- "
-         "EL0535 'Illegal implicit net' indicates Surelog does not resolve "
-         "sequence names to SequenceDecl nodes";
+  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "ss.16.8: sequence instance references must not produce errors -- "
+                                 "EL0535 'Illegal implicit net' indicates Surelog does not resolve "
+                                 "sequence names to SequenceDecl nodes";
 }
 
 TEST_F(Sequence4Test, Compiler_NoSyntaxErrors) {
   ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0)
-      << "sequence4.sv is syntactically valid -- no syntax errors expected";
+  EXPECT_EQ(stats.nbSyntax, 0) << "sequence4.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================
 // Module
 // ===========================================================================
 
-TEST_F(Sequence4Test, ModuleExists) {
-  ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found";
-}
+TEST_F(Sequence4Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration collection (ss.16.8)
@@ -162,26 +155,22 @@ TEST_F(Sequence4Test, ModuleExists) {
 TEST_F(Sequence4Test, SequenceDeclCount_IsTwo) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getSequenceDecls(), nullptr)
-      << "module has no sequence declarations";
-  EXPECT_EQ(m->getSequenceDecls()->size(), 2u)
-      << "ss.16.8: two sequences are declared: base_seq and seq4";
+  ASSERT_NE(m->getSequenceDecls(), nullptr) << "module has no sequence declarations";
+  EXPECT_EQ(m->getSequenceDecls()->size(), 2u) << "ss.16.8: two sequences are declared: base_seq and seq4";
 }
 
 // ss.16.8: 'base_seq' must appear in the sequence declaration collection.
 TEST_F(Sequence4Test, BaseSeq_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(getSeqDecl(m, "base_seq"), nullptr)
-      << "ss.16.8: sequence 'base_seq' must be declared";
+  EXPECT_NE(getSeqDecl(m, "base_seq"), nullptr) << "ss.16.8: sequence 'base_seq' must be declared";
 }
 
 // ss.16.8: 'seq4' must appear in the sequence declaration collection.
 TEST_F(Sequence4Test, Seq4_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  EXPECT_NE(getSeqDecl(m, "seq4"), nullptr)
-      << "ss.16.8: sequence 'seq4' must be declared";
+  EXPECT_NE(getSeqDecl(m, "seq4"), nullptr) << "ss.16.8: sequence 'seq4' must be declared";
 }
 
 // ===========================================================================
@@ -195,8 +184,7 @@ TEST_F(Sequence4Test, BaseSeq_HasExpression) {
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *bs = getSeqDecl(m, "base_seq");
   ASSERT_NE(bs, nullptr) << "base_seq not found";
-  EXPECT_NE(bs->getExpr(), nullptr)
-      << "ss.16.8: base_seq must have a body expression";
+  EXPECT_NE(bs->getExpr(), nullptr) << "ss.16.8: base_seq must have a body expression";
 }
 
 // ss.16.8: the body of base_seq is a reference to signal 'a', which must
@@ -208,8 +196,7 @@ TEST_F(Sequence4Test, BaseSeq_ExprIsRefToA) {
   ASSERT_NE(bs, nullptr);
   const hldb::RefObj *ref = bs->getExpr<hldb::RefObj>();
   ASSERT_NE(ref, nullptr) << "base_seq body must be a RefObj";
-  EXPECT_EQ(ref->getName(), "a")
-      << "ss.16.8: base_seq body must reference signal 'a'";
+  EXPECT_EQ(ref->getName(), "a") << "ss.16.8: base_seq body must reference signal 'a'";
 }
 
 // ss.16.8: the RefObj for 'a' in base_seq must resolve to the Net node.
@@ -221,8 +208,7 @@ TEST_F(Sequence4Test, BaseSeq_Expr_A_ResolvesToNet) {
   ASSERT_NE(bs, nullptr);
   const hldb::RefObj *ref = bs->getExpr<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr)
-      << "ss.16.8: RefObj for 'a' in base_seq must resolve to Net name:'a'";
+  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr) << "ss.16.8: RefObj for 'a' in base_seq must resolve to Net name:'a'";
 }
 
 // ===========================================================================
@@ -235,8 +221,7 @@ TEST_F(Sequence4Test, Seq4_HasExpression) {
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s4 = getSeqDecl(m, "seq4");
   ASSERT_NE(s4, nullptr) << "seq4 not found";
-  EXPECT_NE(s4->getExpr(), nullptr)
-      << "ss.16.9.2: seq4 must have a body expression (base_seq[*3])";
+  EXPECT_NE(s4->getExpr(), nullptr) << "ss.16.9.2: seq4 must have a body expression (base_seq[*3])";
 }
 
 // ss.16.9.2: 'base_seq[*3]' is a consecutive repetition -- the expression
@@ -248,8 +233,7 @@ TEST_F(Sequence4Test, Seq4_ExprIsConsecutiveRepeat) {
   ASSERT_NE(s4, nullptr);
   const hldb::Operation *op = s4->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "seq4 body must be an Operation";
-  EXPECT_EQ(op->getOpType(), vpiConsecutiveRepeatOp)
-      << "ss.16.9.2: seq4 body must have opType consecutive_repeat";
+  EXPECT_EQ(op->getOpType(), vpiConsecutiveRepeatOp) << "ss.16.9.2: seq4 body must have opType consecutive_repeat";
 }
 
 // ss.16.9.2: 'base_seq[*3]' produces two operands: the sequence being
@@ -262,9 +246,8 @@ TEST_F(Sequence4Test, Seq4_ExprHasTwoOperands) {
   const hldb::Operation *op = s4->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "ss.16.9.2: base_seq[*3] must produce 2 operands: "
-         "the sequence instance ref and the count";
+  EXPECT_EQ(op->getOperands()->size(), 2u) << "ss.16.9.2: base_seq[*3] must produce 2 operands: "
+                                              "the sequence instance ref and the count";
 }
 
 // ss.16.9.2: operand[0] is the sequence being repeated. It must be a RefObj
@@ -279,11 +262,9 @@ TEST_F(Sequence4Test, Seq4_RepeatOperand_IsRefNamedBaseSeq) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr) << "operand[0] must be a RefObj";
-  EXPECT_EQ(op0->getName(), "base_seq")
-      << "ss.16.9.2: operand[0] must reference 'base_seq'";
+  EXPECT_EQ(op0->getName(), "base_seq") << "ss.16.9.2: operand[0] must reference 'base_seq'";
 }
 
 // ss.16.9.2: the RefObj for 'base_seq' in seq4 must resolve to the
@@ -303,8 +284,7 @@ TEST_F(Sequence4Test, Seq4_RepeatOperand_ResolvedToSequenceDecl) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 =
-      any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
   EXPECT_NE(op0->getActual<hldb::SequenceDecl>(), nullptr)
       << "ss.16.9.2: 'base_seq' in seq4 must resolve to SequenceDecl -- "
@@ -323,11 +303,9 @@ TEST_F(Sequence4Test, Seq4_RepeatCount_IsThree) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
 
-  const hldb::Constant *op1 =
-      any_cast<hldb::Constant>((*op->getOperands())[1]);
+  const hldb::Constant *op1 = any_cast<hldb::Constant>((*op->getOperands())[1]);
   ASSERT_NE(op1, nullptr) << "operand[1] must be a Constant";
-  EXPECT_EQ(std::string(op1->getDecompile()), "3")
-      << "ss.16.9.2: repetition count must be 3";
+  EXPECT_EQ(std::string(op1->getDecompile()), "3") << "ss.16.9.2: repetition count must be 3";
 }
 
 // ===========================================================================
@@ -338,10 +316,8 @@ TEST_F(Sequence4Test, Seq4_RepeatCount_IsThree) {
 TEST_F(Sequence4Test, ConcurrentAssertion_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getConcurrentAssertions(), nullptr)
-      << "module has no concurrent assertions";
-  EXPECT_NE(getFirstAssert(m), nullptr)
-      << "ss.16.14: an Assert node must be present";
+  ASSERT_NE(m->getConcurrentAssertions(), nullptr) << "module has no concurrent assertions";
+  EXPECT_NE(getFirstAssert(m), nullptr) << "ss.16.14: an Assert node must be present";
 }
 
 // ss.16.14: the assert must carry an inline PropertySpec.
@@ -350,8 +326,7 @@ TEST_F(Sequence4Test, Assert_HasPropertySpec) {
   ASSERT_NE(m, nullptr);
   const hldb::Assert *a = getFirstAssert(m);
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr)
-      << "ss.16.14: Assert must have an inline PropertySpec";
+  EXPECT_NE(a->getProperty<hldb::PropertySpec>(), nullptr) << "ss.16.14: Assert must have an inline PropertySpec";
 }
 
 // ss.16.14: '@(posedge clk)' must be represented as the clocking event on
@@ -363,9 +338,8 @@ TEST_F(Sequence4Test, Assert_PropertySpec_HasClockingEvent) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_NE(spec->getClockingEvent(), nullptr)
-      << "ss.16.14: @(posedge clk) must produce a clocking event on the "
-         "PropertySpec";
+  EXPECT_NE(spec->getClockingEvent(), nullptr) << "ss.16.14: @(posedge clk) must produce a clocking event on the "
+                                                  "PropertySpec";
 }
 
 // ss.16.14: the property expression is the reference to 'seq4'. It must be
@@ -379,8 +353,7 @@ TEST_F(Sequence4Test, Assert_PropertyExpr_ReferencesSeq4) {
   ASSERT_NE(spec, nullptr);
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
-  EXPECT_EQ(propExpr->getName(), "seq4")
-      << "ss.16.14: property expression must reference 'seq4'";
+  EXPECT_EQ(propExpr->getName(), "seq4") << "ss.16.14: property expression must reference 'seq4'";
 }
 
 // ss.16.14: the RefObj for 'seq4' in the concurrent assertion must resolve
