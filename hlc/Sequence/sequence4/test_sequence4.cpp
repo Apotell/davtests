@@ -18,7 +18,7 @@
 // (seq4: base_seq[*3]) is captured correctly in the HLDB graph.
 // This differs from sequence3 (a[*2]) in that the repeated operand is a
 // RefObj to a named sequence, not a bare signal expression.
-// Grammar: sequence_expr → sequence_expr boolean_abbrev (consecutive_repetition)
+// Grammar: sequence_expr ? sequence_expr boolean_abbrev (consecutive_repetition)
 // maps to Operation with vpiConsecutiveRepeatOp (60) whose first operand is
 // a RefObj referencing 'base_seq'.
 
@@ -157,7 +157,7 @@ TEST_F(Sequence4, Seq4ExprHasTwoOperands) {
   const hldb::Operation *const expr = seq4->getExpr<hldb::Operation>();
   ASSERT_NE(expr, nullptr) << "seq4 expression is not an Operation";
   ASSERT_NE(expr->getOperands(), nullptr) << "seq4 Operation has no operands";
-  // base_seq[*3] → ConsecutiveRepeatOp(base_seq, 3)
+  // base_seq[*3] ? ConsecutiveRepeatOp(base_seq, 3)
   EXPECT_EQ(expr->getOperands()->size(), 2u) << "expected 2 operands (sequence ref 'base_seq' and repetition count 3)";
 }
 

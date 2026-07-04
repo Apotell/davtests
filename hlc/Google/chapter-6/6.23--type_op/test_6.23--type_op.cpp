@@ -141,13 +141,8 @@ TEST_F(TypeOpTest, A_Typespec_IsReal) {
   ASSERT_NE(n, nullptr);
   const hldb::RefTypespec *rt = n->getTypespec();
   ASSERT_NE(rt, nullptr) << "'real a' must have a typespec";
-  if (m_design->getElaborated()) {
-    EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "ss.6.12: post-elaboration: 'real a' must resolve to RealTypespec";
-  } else {
-    EXPECT_EQ(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "pre-elaboration: vpiActual not yet resolved -- expected at parse time";
-  }
+  EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
+      << "ss.6.12: post-elaboration: 'real a' must resolve to RealTypespec";
 }
 
 // ss.5.7.2: '4.76' is a real literal -- it must be a Constant node.
@@ -188,13 +183,8 @@ TEST_F(TypeOpTest, B_Typespec_IsReal) {
   ASSERT_NE(n, nullptr);
   const hldb::RefTypespec *rt = n->getTypespec();
   ASSERT_NE(rt, nullptr) << "'real b' must have a typespec";
-  if (m_design->getElaborated()) {
-    EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "ss.6.12: post-elaboration: 'real b' must resolve to RealTypespec";
-  } else {
-    EXPECT_EQ(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "pre-elaboration: vpiActual not yet resolved -- expected at parse time";
-  }
+  EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
+      << "ss.6.12: post-elaboration: 'real b' must resolve to RealTypespec";
 }
 
 // ss.5.7.2: '0.74' is a real literal -- it must be a Constant node.
@@ -319,14 +309,9 @@ TEST_F(TypeOpTest, A_FullyResolved_BeforeC) {
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *rt = a->getTypespec();
   ASSERT_NE(rt, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "ss.6.23: post-elaboration: operand 'a' of type(a+b) must be "
-           "fully resolved to RealTypespec";
-  } else {
-    EXPECT_EQ(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "pre-elaboration: vpiActual not yet resolved -- expected at parse time";
-  }
+  EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
+      << "ss.6.23: post-elaboration: operand 'a' of type(a+b) must be "
+          "fully resolved to RealTypespec";
 }
 
 TEST_F(TypeOpTest, B_FullyResolved_BeforeC) {
@@ -334,14 +319,9 @@ TEST_F(TypeOpTest, B_FullyResolved_BeforeC) {
   ASSERT_NE(b, nullptr);
   const hldb::RefTypespec *rt = b->getTypespec();
   ASSERT_NE(rt, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "ss.6.23: post-elaboration: operand 'b' of type(a+b) must be "
-           "fully resolved to RealTypespec";
-  } else {
-    EXPECT_EQ(rt->getActual<hldb::RealTypespec>(), nullptr)
-        << "pre-elaboration: vpiActual not yet resolved -- expected at parse time";
-  }
+  EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
+      << "ss.6.23: post-elaboration: operand 'b' of type(a+b) must be "
+          "fully resolved to RealTypespec";
 }
 
 // ss.6.23: 'c' does not reference itself inside type(). The typespec of 'c'

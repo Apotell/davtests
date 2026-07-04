@@ -24,5 +24,6 @@ sequence seq;
 endsequence
 
 assert property (seq);
+assert property (not seq);
 
 endmodule

@@ -16,6 +16,6 @@ module top();
 
 logic a = 1;
 
-initial assert (a != 0);
+initial assert (a != 0) $display("pass"); else $display("fail");
 
 endmodule
