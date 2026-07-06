@@ -519,13 +519,13 @@ TEST_F(SequenceExprTest, Alt6_Plus_OpType) {
 }
 
 // ============================================================================
-// Alt 7 — sequence_expr AND sequence_expr  (vpiLogAndOp)
+// Alt 7 — sequence_expr AND sequence_expr  (vpiCompAndOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt7_Simple_OpType) {
-  // a and b
+  // a and b — ss.16.9.5: sequence 'and' must use vpiCompAndOp (91)
   const auto *op = seqOp("alt7_simple");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiLogAndOp);
+  EXPECT_EQ(op->getOpType(), vpiCompAndOp);
 }
 
 TEST_F(SequenceExprTest, Alt7_Simple_TwoOperands) {
@@ -536,10 +536,10 @@ TEST_F(SequenceExprTest, Alt7_Simple_TwoOperands) {
 }
 
 TEST_F(SequenceExprTest, Alt7_Chained_OpType) {
-  // a and b and c  — left-associative, outer is also vpiLogAndOp
+  // a and b and c — outer must also be vpiCompAndOp (91)
   const auto *op = seqOp("alt7_chained");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiLogAndOp);
+  EXPECT_EQ(op->getOpType(), vpiCompAndOp);
 }
 
 // ============================================================================
@@ -578,13 +578,13 @@ TEST_F(SequenceExprTest, Alt8_WithRep_LeftIsConsecRepeat) {
 }
 
 // ============================================================================
-// Alt 9 — sequence_expr OR sequence_expr  (vpiLogOrOp)
+// Alt 9 — sequence_expr OR sequence_expr  (vpiCompOrOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt9_Simple_OpType) {
-  // a or b
+  // a or b — ss.16.9.7: sequence 'or' must use vpiCompOrOp (92)
   const auto *op = seqOp("alt9_simple");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiLogOrOp);
+  EXPECT_EQ(op->getOpType(), vpiCompOrOp);
 }
 
 TEST_F(SequenceExprTest, Alt9_Simple_TwoOperands) {
@@ -706,14 +706,14 @@ TEST_F(SequenceExprTest, Alt13_Sequenced_InnerIsCycleDelay) {
 // Combined / nested permutations
 // ============================================================================
 TEST_F(SequenceExprTest, Combo_AndOr_OuterIsOr) {
-  // (a and b) or (c and d)
+  // (a and b) or (c and d) — outer must be vpiCompOrOp (92)
   const auto *op = seqOp("combo_and_or");
   ASSERT_NE(op, nullptr);
-  EXPECT_EQ(op->getOpType(), vpiLogOrOp);
+  EXPECT_EQ(op->getOpType(), vpiCompOrOp);
 }
 
 TEST_F(SequenceExprTest, Combo_AndOr_InnerOperandsAreAnd) {
-  // (a and b) or (c and d)  — each branch is vpiLogAndOp
+  // (a and b) or (c and d) — each branch must be vpiCompAndOp (91)
   const auto *op = seqOp("combo_and_or");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -722,8 +722,8 @@ TEST_F(SequenceExprTest, Combo_AndOr_InnerOperandsAreAnd) {
   const auto *rhs = any_cast<hldb::Operation>((*op->getOperands())[1]);
   ASSERT_NE(lhs, nullptr);
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(lhs->getOpType(), vpiLogAndOp);
-  EXPECT_EQ(rhs->getOpType(), vpiLogAndOp);
+  EXPECT_EQ(lhs->getOpType(), vpiCompAndOp);
+  EXPECT_EQ(rhs->getOpType(), vpiCompAndOp);
 }
 
 TEST_F(SequenceExprTest, Combo_ThroughoutWithin_OuterIsThroughout) {
