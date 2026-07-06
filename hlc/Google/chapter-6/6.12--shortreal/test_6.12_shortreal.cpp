@@ -27,9 +27,10 @@
 //     (shortreal stores constant using same vpiRealConst as real)
 //   - work@top has no continuous assignments
 //   - work@top has no processes
-//
-// Not checked:
-//   - actual 32-bit vs 64-bit precision difference (simulation-only)
+//   - the 32-bit vs 64-bit precision difference between shortreal and real is
+//     not observable statically: the initial value Constant reports vpiSize=64
+//     regardless of the shortreal typespec (storage width is a simulation-time
+//     property, not present in the UHDM graph)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -128,6 +129,22 @@ TEST_F(Shortreal, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Precision -- shortreal is a distinct 32-bit type vs real's 64-bit, but the
+// UHDM graph has no field for storage width; this can only be observed by
+// simulating an assignment that overflows shortreal precision.
+// ---------------------------------------------------------------------------
+TEST_F(Shortreal, StorageWidthNotObservableStatically) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  const hldb::Constant *const init = a->getValue<hldb::Constant>();
+  ASSERT_NE(init, nullptr);
+  EXPECT_EQ(init->getSize(), 64)
+      << "shortreal's 32-bit storage width is not reflected in the Constant's vpiSize (always 64, same as real)";
 }
 
 }  // namespace hlc

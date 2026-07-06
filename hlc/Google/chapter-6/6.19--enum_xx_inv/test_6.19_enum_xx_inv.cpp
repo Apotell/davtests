@@ -28,11 +28,10 @@
 //   - net "val" exists with typespec → EnumTypespec
 //   - net "val" has no initial value
 //   - work@top has no processes
-//
-// Not checked:
 //   - HLC doesn't flag x values in 2-state enum as a semantic error
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -160,6 +159,14 @@ TEST_F(EnumXxInv, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- x values on a 2-state (bit) enum base are not flagged
+// ---------------------------------------------------------------------------
+TEST_F(EnumXxInv, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject x values on a 2-state bit-based enum at compile time";
 }
 
 }  // namespace hlc

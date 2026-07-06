@@ -27,9 +27,7 @@
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
 //   - work@top has no continuous assignments
 //   - work@top has no processes
-//
-// Not checked:
-//   - RefTypespec getName() for realtime (whether "realtime" or empty string)
+//   - RefTypespec getName() for realtime
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -88,6 +86,16 @@ TEST_F(Realtime, ANetTypespecActualIsNull) {
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_EQ(rts->getActual(), nullptr) << "realtime net typespec vpiActual is unset (unlike 'real')";
+}
+
+TEST_F(Realtime, ANetTypespecNameIsRealtime) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  const hldb::RefTypespec *const rts = a->getTypespec();
+  ASSERT_NE(rts, nullptr);
+  EXPECT_EQ(rts->getName(), "realtime") << "RefTypespec name for an unresolved realtime typespec";
 }
 
 // ---------------------------------------------------------------------------

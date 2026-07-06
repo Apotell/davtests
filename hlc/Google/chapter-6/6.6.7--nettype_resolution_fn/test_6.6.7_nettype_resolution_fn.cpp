@@ -29,10 +29,9 @@
 //   - module has 1 Function "real_sum": automatic, return=RealTypespec, 1 IODecl "driver" (input, ArrayTypespec)
 //   - function body: Begin with 2 stmts: blocking Assignment (real_sum=0.0, vpiRealConst), ForeachStmt
 //   - work@top has no nets, no continuous assignments
-//
-// Not checked:
-//   - foreach body internals (real_sum += driver[i] compound assignment)
-//   - IODecl ArrayTypespec element type (real)
+//   - foreach body: real_sum += driver[i] is stored as a blocking Assignment
+//     with rhs Operation(add) of RefObj "real_sum" and BitSelect "driver[i]"
+//   - IODecl "driver" ArrayTypespec element typespec resolves to RealTypespec
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -42,12 +41,14 @@
 #include <hldb/array_typespec.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
+#include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/foreach_stmt.h>
 #include <hldb/function.h>
 #include <hldb/io_decl.h>
 #include <hldb/module.h>
+#include <hldb/operation.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -271,6 +272,67 @@ TEST_F(NettypeResolutionFn, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// foreach body: real_sum += driver[i] -> blocking Assignment, rhs = add(real_sum, driver[i])
+// ---------------------------------------------------------------------------
+TEST_F(NettypeResolutionFn, ForeachBodyIsCompoundAddAssignment) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  ASSERT_NE(fn, nullptr);
+  const hldb::Begin *const blk = fn->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::ForeachStmt *const loop = any_cast<hldb::ForeachStmt>(blk->getStmts()->at(1));
+  ASSERT_NE(loop, nullptr);
+  const hldb::Assignment *const assign = loop->getStmt<hldb::Assignment>();
+  ASSERT_NE(assign, nullptr) << "foreach body should be a single Assignment";
+  EXPECT_TRUE(assign->getBlocking());
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "real_sum");
+}
+
+TEST_F(NettypeResolutionFn, ForeachAssignmentRhsIsAddOfRealSumAndDriverIndex) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  ASSERT_NE(fn, nullptr);
+  const hldb::Begin *const blk = fn->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::ForeachStmt *const loop = any_cast<hldb::ForeachStmt>(blk->getStmts()->at(1));
+  ASSERT_NE(loop, nullptr);
+  const hldb::Assignment *const assign = loop->getStmt<hldb::Assignment>();
+  ASSERT_NE(assign, nullptr);
+  const hldb::Operation *const addOp = assign->getRhs<hldb::Operation>();
+  ASSERT_NE(addOp, nullptr) << "real_sum += driver[i] rhs should be an add Operation";
+  EXPECT_EQ(addOp->getOpType(), vpiAddOp);
+  ASSERT_NE(addOp->getOperands(), nullptr);
+  ASSERT_EQ(addOp->getOperands()->size(), 2u);
+  const hldb::RefObj *const lhsOp = any_cast<hldb::RefObj>(addOp->getOperands()->at(0));
+  ASSERT_NE(lhsOp, nullptr);
+  EXPECT_EQ(lhsOp->getName(), "real_sum");
+  const hldb::BitSelect *const rhsOp = any_cast<hldb::BitSelect>(addOp->getOperands()->at(1));
+  ASSERT_NE(rhsOp, nullptr);
+  EXPECT_EQ(rhsOp->getName(), "driver[i]");
+}
+
+// ---------------------------------------------------------------------------
+// IODecl "driver" ArrayTypespec element type is RealTypespec
+// ---------------------------------------------------------------------------
+TEST_F(NettypeResolutionFn, IODeclArrayElementTypeIsReal) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Function *const fn = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  ASSERT_NE(fn, nullptr);
+  const hldb::IODecl *const driver = fn->getIODecls()->at(0);
+  ASSERT_NE(driver, nullptr);
+  const hldb::ArrayTypespec *const arrTs = driver->getTypespec()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(arrTs, nullptr);
+  const hldb::RefTypespec *const elemRts = arrTs->getElemTypespec();
+  ASSERT_NE(elemRts, nullptr) << "dynamic array of real should carry an element typespec";
+  EXPECT_NE(elemRts->getActual<hldb::RealTypespec>(), nullptr) << "real driver[] element type should be RealTypespec";
 }
 
 }  // namespace hlc

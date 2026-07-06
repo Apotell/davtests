@@ -32,9 +32,7 @@
 //   - 2 statements: val=a (rhs RefObj → EnumConst) and i=val*4 (rhs vpiMultOp)
 //   - multiply operands are RefObj "val" and Constant "4"
 //   - multiply constant 4 is stored as vpiUIntConst
-//
-// Not checked:
-//   - result type of the multiply expression
+//   - multiply Operation carries no static result typespec
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -211,6 +209,20 @@ TEST_F(EnumNumericalExpr, MultiplyConstant4IsUIntConst) {
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+}
+
+TEST_F(EnumNumericalExpr, MultiplyOpHasNoStaticResultTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
+  ASSERT_NE(assign, nullptr);
+  const hldb::Operation *const op = assign->getRhs<hldb::Operation>();
+  ASSERT_NE(op, nullptr);
+  EXPECT_EQ(op->getTypespec(), nullptr) << "plain multiply Operation (no cast) carries no result typespec";
 }
 
 }  // namespace hlc

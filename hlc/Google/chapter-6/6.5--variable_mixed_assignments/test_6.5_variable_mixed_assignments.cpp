@@ -30,11 +30,10 @@
 //   - posedge operand RefObj "clk" resolves to the clk Net
 //   - Assignment is non-blocking (v <= ~v)
 //   - ~v operand is RefObj "v"
-//
-// Not checked:
 //   - HLC doesn't flag the mixed continuous + procedural assignment error
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -303,6 +302,14 @@ TEST_F(VariableMixedAssignments, ContAssignLhsResolvesToNetV) {
   const hldb::RefObj *const lhs = top->getContAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr) << "ContAssign LHS RefObj 'v' should resolve to the net 'v'";
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the mixed continuous + procedural assignment is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(VariableMixedAssignments, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject mixing a continuous and procedural assignment to 'v'";
 }
 
 }  // namespace hlc

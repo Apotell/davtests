@@ -30,10 +30,6 @@
 //   - HierPath element[1] is FuncCall "realtoa" with 1 argument (Constant "4.76")
 //   - argument to realtoa is stored as vpiRealConst (real literal, unlike the
 //     integer *toa variants which use vpiUIntConst)
-//
-// Not checked:
-//   - realtoa() is void — no return value; there is no net to capture a result
-//   - a's value after a.realtoa(4.76) is set at simulation runtime only
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

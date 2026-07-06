@@ -33,9 +33,6 @@
 //   - cast operand is Operation(vpiAddOp) with operands RefObj "val" and Constant "1"
 //   - 1st assignment (val=a) rhs is RefObj "a" → EnumConst
 //   - add inner constant 1 is stored as vpiUIntConst
-//
-// Not checked:
-//   - (all observable graph properties of this design are verified above)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

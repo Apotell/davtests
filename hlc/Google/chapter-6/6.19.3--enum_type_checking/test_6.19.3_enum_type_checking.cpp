@@ -32,9 +32,8 @@
 //   - Begin has 1 blocking assignment val=a; lhs is RefObj "val"
 //   - assignment rhs is RefObj "a" → EnumConst
 //   - Variable "val" has no compile-time initial value
-//
-// Not checked:
-//   - enum const values (a=0, b=1, c=2, d=3) — HLC may not store implicit values
+//   - enum consts a, b, c, d have no stored implicit default value (HLC does
+//     not materialize the implicit values 0, 1, 2, 3)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -43,6 +42,7 @@
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
@@ -170,6 +170,25 @@ TEST_F(EnumTypeChecking, ValVariableHasNoInitialValue) {
   const hldb::Variable *const val = blk->getVariables()->at(0);
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
+}
+
+// ---------------------------------------------------------------------------
+// Enum consts a, b, c, d have no stored implicit default value (0, 1, 2, 3)
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypeChecking, EnumConstsHaveNoImplicitDefaultValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
+  ASSERT_NE(td, nullptr);
+  const hldb::EnumTypespec *const enumTs = td->getTypedefAlias()->getActual<hldb::EnumTypespec>();
+  ASSERT_NE(enumTs, nullptr);
+  const auto *consts = enumTs->getEnumConsts();
+  ASSERT_NE(consts, nullptr);
+  ASSERT_EQ(consts->size(), 4u);
+  EXPECT_EQ(consts->at(0)->getValue<hldb::Constant>(), nullptr) << "'a' implicit default value 0 is not stored";
+  EXPECT_EQ(consts->at(1)->getValue<hldb::Constant>(), nullptr) << "'b' implicit default value 1 is not stored";
+  EXPECT_EQ(consts->at(2)->getValue<hldb::Constant>(), nullptr) << "'c' implicit default value 2 is not stored";
+  EXPECT_EQ(consts->at(3)->getValue<hldb::Constant>(), nullptr) << "'d' implicit default value 3 is not stored";
 }
 
 }  // namespace hlc

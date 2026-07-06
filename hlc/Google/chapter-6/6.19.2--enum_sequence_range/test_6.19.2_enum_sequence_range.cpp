@@ -27,10 +27,8 @@
 //   - "start" value is stored as vpiUIntConst = "10"
 //   - second const name is "stop" (not "step" — distinguishes from enum_sequence)
 //   - work@top has no processes
-//
-// Not checked:
-//   - "stop" const value — HLC normalizes stop[11:13] to a single "stop"
-//     EnumConst with no explicit value stored for the range base
+//   - "stop" const has no explicit value stored (HLC normalizes stop[11:13] to
+//     a single "stop" EnumConst with no explicit value for the range base)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -134,6 +132,19 @@ TEST_F(EnumSequenceRange, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+TEST_F(EnumSequenceRange, StopConstHasNoExplicitValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
+  ASSERT_NE(e, nullptr);
+  const hldb::EnumTypespec *const enumTs = e->getTypespec()->getActual<hldb::EnumTypespec>();
+  ASSERT_NE(enumTs, nullptr);
+  const hldb::EnumConst *const ec = enumTs->getEnumConsts()->at(1);
+  ASSERT_NE(ec, nullptr);
+  EXPECT_EQ(ec->getValue<hldb::Constant>(), nullptr)
+      << "stop[11:13] range base has no explicit value stored on the EnumConst";
 }
 
 }  // namespace hlc

@@ -31,12 +31,11 @@
 //   - design has 5 Typespec nodes: 2 ModuleTypespec, 1 LogicTypespec,
 //     1 IntTypespec, 1 ArrayTypespec (static, Range [15:0])
 //   - ArrayTypespec range: left=15, right=0
-//
-// Not checked:
-//   - exact PA0207 error count (4)
-//   - design name field ("unnamed")
+//   - exactly 4 PA0207 syntax errors reported
+//   - design name field is "unnamed"
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -180,6 +179,17 @@ TEST_F(VectorVectoredInv, ArrayTypespecRangeRightIs0) {
   const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
+}
+
+// --- compiler diagnostics ----------------------------------------------
+
+TEST_F(VectorVectoredInv, ExactlyFourSyntaxErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbSyntax, 4) << "expected 4 PA0207 syntax errors from the malformed 'logic vectored' declaration";
+}
+
+TEST_F(VectorVectoredInv, DesignNameIsUnnamed) {
+  EXPECT_EQ(m_design->getName(), "unnamed");
 }
 }  // namespace hlc
 

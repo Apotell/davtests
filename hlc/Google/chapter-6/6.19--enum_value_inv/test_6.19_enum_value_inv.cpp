@@ -30,11 +30,10 @@
 //   - net "myenum" exists with typespec → EnumTypespec
 //   - net "myenum" has no initial value
 //   - work@top has no processes
-//
-// Not checked:
 //   - HLC doesn't flag the size mismatch (4-bit literal assigned to 3-bit base type)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -161,6 +160,15 @@ TEST_F(EnumValueInv, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the 4-bit-literal/3-bit-base size mismatch is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(EnumValueInv, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0)
+      << "HLC does not reject a 4-bit literal assigned to a logic[2:0] enum base at compile time";
 }
 
 }  // namespace hlc

@@ -28,10 +28,10 @@
 //   - net 'b' initial value is a HierPath named "a.tolower()"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "tolower" with no arguments
-//
-// Not checked:
-//   - b does NOT get a pre-evaluated constant value (e.g. "test") — HLC
+//   - 'b' does NOT get a pre-evaluated constant value (e.g. "test") -- HLC
 //     stores the unevaluated HierPath expression only
+//   - the actual string result of a.tolower() ("test") -- kept as a real
+//     assertion for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -172,6 +172,19 @@ TEST_F(StringTolower, TolowerHasNoArguments) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "tolower() takes no arguments";
+}
+
+// ---------------------------------------------------------------------------
+// a.tolower() runtime result
+// ---------------------------------------------------------------------------
+TEST_F(StringTolower, TolowerResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::Constant *const value = b->getValue<hldb::Constant>();
+  ASSERT_NE(value, nullptr) << "net 'b' should hold a pre-evaluated Constant";
+  EXPECT_EQ(value->getDecompile(), "\"test\"") << "a.tolower() should evaluate to \"test\"";
 }
 
 }  // namespace hlc

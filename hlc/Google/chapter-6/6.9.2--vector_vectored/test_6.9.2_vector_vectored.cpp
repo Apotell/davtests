@@ -44,9 +44,6 @@
 //   - design has 2 typespecs: ModuleTypespec "work@top" and IntTypespec
 //   - module top() has no ports
 //   - work@top has no processes, no module-scope continuous assignments
-//
-// Not checked:
-//   - SV-spec enforcement: bit-selects on vectored nets should be illegal at simulation
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

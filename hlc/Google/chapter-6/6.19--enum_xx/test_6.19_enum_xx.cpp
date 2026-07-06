@@ -27,11 +27,10 @@
 //   - net "val" exists with typespec → EnumTypespec
 //   - net "val" has no initial value
 //   - work@top has no processes
-//
-// Not checked:
 //   - HLC doesn't flag x-value enums in integer-based enums as a semantic error
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -171,6 +170,14 @@ TEST_F(EnumXx, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- x-valued enumerators on a 4-state integer base are not flagged
+// ---------------------------------------------------------------------------
+TEST_F(EnumXx, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject x-value enumerators on an integer-based enum at compile time";
 }
 
 }  // namespace hlc

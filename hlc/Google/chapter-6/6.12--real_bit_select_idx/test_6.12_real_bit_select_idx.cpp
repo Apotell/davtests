@@ -33,10 +33,13 @@
 //   - BitSelect index RefObj "a" resolves to the real Net 'a'
 //   - work@top has no processes
 //
-// Not checked:
-//   - HLC doesn't flag the illegal real-typed bit-select index
+// Also checked:
+//   - HLC does not report a compiler error for the illegal real-typed
+//     bit-select index (it is only rejected at simulation time, per
+//     :should_fail_because:)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -238,6 +241,15 @@ TEST_F(RealBitSelectIdx, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the illegal real-typed bit-select index is not
+// flagged
+// ---------------------------------------------------------------------------
+TEST_F(RealBitSelectIdx, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'b[a]' real-typed bit-select index at compile time";
 }
 
 }  // namespace hlc

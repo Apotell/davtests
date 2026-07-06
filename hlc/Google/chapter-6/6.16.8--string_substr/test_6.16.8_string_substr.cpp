@@ -28,11 +28,11 @@
 //   - net 'b' initial value is a HierPath named "a.substr(1, 2)"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "substr" with 2 Constant arguments "1" and "2"
-//
-// Not checked:
-//   - b does NOT get a pre-evaluated constant value (e.g. "es") — HLC
+//   - 'b' does NOT get a pre-evaluated constant value (e.g. "es") -- HLC
 //     stores the unevaluated HierPath expression only
-//   - const type of arguments "1" and "2" (vpiUIntConst — same as itoa lesson)
+//   - const type of arguments "1" and "2" is vpiUIntConst (same as itoa lesson)
+//   - the actual string result of a.substr(1, 2) ("es") -- kept as a real
+//     assertion for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -192,6 +192,39 @@ TEST_F(StringSubstr, SubstrSecondArgumentIsTwo) {
   const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
   ASSERT_NE(arg1, nullptr) << "substr second argument is not a Constant";
   EXPECT_EQ(arg1->getDecompile(), "2");
+}
+
+TEST_F(StringSubstr, SubstrArgumentsAreUIntConst) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  ASSERT_NE(hp, nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr);
+  ASSERT_NE(call->getArguments(), nullptr);
+  ASSERT_GE(call->getArguments()->size(), 2u);
+  const hldb::Constant *const arg0 = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getConstType(), vpiUIntConst)
+      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getConstType(), vpiUIntConst);
+}
+
+// ---------------------------------------------------------------------------
+// a.substr(1, 2) runtime result
+// ---------------------------------------------------------------------------
+TEST_F(StringSubstr, SubstrResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::Constant *const value = b->getValue<hldb::Constant>();
+  ASSERT_NE(value, nullptr) << "net 'b' should hold a pre-evaluated Constant";
+  EXPECT_EQ(value->getDecompile(), "\"es\"") << "a.substr(1, 2) should evaluate to \"es\"";
 }
 
 }  // namespace hlc

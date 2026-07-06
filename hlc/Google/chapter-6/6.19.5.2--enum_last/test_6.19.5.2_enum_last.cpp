@@ -31,9 +31,8 @@
 //   - assignment rhs is HierPath "val.last()"
 //   - HierPath pathElems[0] is RefObj "val", pathElems[1] is FuncCall "last" (no args)
 //   - HierPath receiver RefObj "val" resolves to the local Variable
-//
-// Not checked:
-//   - return value type of last() — enum type, available only at simulation runtime
+//   - last() FuncCall carries no static return typespec (enum type is only
+//     resolved at simulation runtime)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -173,6 +172,23 @@ TEST_F(EnumLast, HierPathReceiverResolvesToVariable) {
   ASSERT_NE(receiver, nullptr);
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr)
       << "receiver RefObj 'val' in val.last() should resolve to the local Variable";
+}
+
+TEST_F(EnumLast, LastCallHasNoStaticReturnTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
+  ASSERT_NE(assign, nullptr);
+  const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
+  ASSERT_NE(hp, nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr);
+  EXPECT_EQ(call->getTypespec(), nullptr)
+      << "last() return type is only known at simulation runtime; HLC does not attach a static typespec";
 }
 
 }  // namespace hlc

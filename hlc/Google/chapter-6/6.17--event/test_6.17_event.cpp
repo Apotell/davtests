@@ -25,9 +25,6 @@
 //   - net 'a' has no initial value
 //   - work@top has no processes
 //   - work@top has no continuous assignments
-//
-// Not checked:
-//   - EventTypespec has no additional properties to verify in this HLC version
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

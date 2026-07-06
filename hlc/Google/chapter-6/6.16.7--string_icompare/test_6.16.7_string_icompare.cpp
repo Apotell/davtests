@@ -29,12 +29,11 @@
 //   - net 'c' initial value is a HierPath named "a.icompare(b)"
 //   - HierPath element[1] is FuncCall "icompare" (case-insensitive, not "compare")
 //   - icompare() argument is RefObj "b" resolving to Net 'b'
-//
-// Not checked:
-//   - c does NOT get a pre-evaluated constant value — HLDB stores the
+//   - 'c' does NOT get a pre-evaluated constant value -- HLDB stores the
 //     unevaluated HierPath expression only
 //   - icompare returns 0 for equal (case-insensitive "Test"=="TEST") but this
-//     is a runtime result invisible to UHDM
+//     is a runtime result invisible to UHDM -- kept as a real assertion for
+//     when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -164,6 +163,19 @@ TEST_F(StringIcompare, IcompareArgumentIsRefObjB) {
   ASSERT_NE(arg, nullptr) << "icompare() argument is not a RefObj";
   EXPECT_EQ(arg->getName(), "b");
   EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
+}
+
+// ---------------------------------------------------------------------------
+// a.icompare(b) runtime result
+// ---------------------------------------------------------------------------
+TEST_F(StringIcompare, IcompareResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  ASSERT_NE(c, nullptr);
+  const hldb::Constant *const value = c->getValue<hldb::Constant>();
+  ASSERT_NE(value, nullptr) << "net 'c' should hold a pre-evaluated Constant";
+  EXPECT_EQ(value->getDecompile(), "0") << "\"Test\".icompare(\"TEST\") should evaluate to 0 (case-insensitive equal)";
 }
 
 }  // namespace hlc

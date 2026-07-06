@@ -30,12 +30,11 @@
 //   - LHS RefObj "c" on the ContAssign has no vpiActual (no Net to resolve to)
 //   - 1 ContAssign with RHS = vpiUnaryOrOp(vpiBitOrOp(RefObj"a", RefObj"b"))
 //   - work@top has no processes
-//
-// Not checked:
-//   - HLC actually emitting EL0535 (can't inspect compiler messages from tests)
-//   - net type of 'a' and 'b' (vpiLogic from wire [3:0] declarations)
+//   - net type of 'a' and 'b' is vpiWire (wire [3:0] declarations)
+//   - HLC emits exactly 1 compile error (EL0535 "Illegal implicit net")
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -229,10 +228,34 @@ TEST_F(ImplicitContinuousAssignment, BNetInitialValueConstType) {
   EXPECT_EQ(init->getConstType(), vpiUIntConst) << "HLDB stores unsized integer literals as vpiUIntConst (9)";
 }
 
+TEST_F(ImplicitContinuousAssignment, ANetTypeIsWire) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getNetType(), vpiWire) << "expected vpiNetType wire (1) for 'wire [3:0] a'";
+}
+
+TEST_F(ImplicitContinuousAssignment, BNetTypeIsWire) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  EXPECT_EQ(b->getNetType(), vpiWire) << "expected vpiNetType wire (1) for 'wire [3:0] b'";
+}
+
 TEST_F(ImplicitContinuousAssignment, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- HLC emits EL0535 for the implicit net 'c'
+// ---------------------------------------------------------------------------
+TEST_F(ImplicitContinuousAssignment, Compiler_ReportsOneError) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 1) << "expected exactly 1 EL0535 'Illegal implicit net' error";
 }
 
 }  // namespace hlc

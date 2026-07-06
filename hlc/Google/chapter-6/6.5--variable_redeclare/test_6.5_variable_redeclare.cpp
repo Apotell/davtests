@@ -28,12 +28,10 @@
 //   - module has exactly 1 net: 'v' (vpiNetType=vpiWire, RefTypespec→LogicTypespec)
 //   - work@top has no processes
 //   - work@top has no continuous assignments
-//
-// Not checked:
-//   - HLC error/warning reporting for variable redeclaration (SV spec: should fail)
-//   - order-dependence (reg first vs wire first)
+//   - HLC doesn't flag the variable redeclaration error (SV spec: should fail)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -131,6 +129,14 @@ TEST_F(VariableRedeclare, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the reg/wire redeclaration of 'v' is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(VariableRedeclare, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject redeclaring 'v' as both reg and wire";
 }
 
 }  // namespace hlc
