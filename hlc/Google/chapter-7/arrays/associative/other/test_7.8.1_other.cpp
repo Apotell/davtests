@@ -31,8 +31,9 @@
 //   - work@top has no processes
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - StructTypespec internals of Unpkt (members B: ByteTypespec, I: ArrayTypespec wildcard)
+// Also checked:
+//   - StructTypespec internals of Unpkt: member "B" resolves to ByteTypespec,
+//     member "I" resolves to a wildcard-indexed ArrayTypespec
 //   - IndexTypespec is absent (null) in the error-recovery ArrayTypespec
 
 #include <hlc/Common/Session.h>
@@ -41,12 +42,15 @@
 
 #include <hldb/Utils.h>
 #include <hldb/array_typespec.h>
+#include <hldb/byte_typespec.h>
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/struct_typespec.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/typespec_member.h>
 
 namespace hlc {
 
@@ -110,6 +114,17 @@ TEST_F(Other, ArrayTypespecElemTypeIsInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
+TEST_F(Other, ArrayTypespecIndexTypespecIsNull) {
+  // int arr[Unpkt] -- Unpkt could not be resolved as an index type, so the
+  // error-recovery ArrayTypespec has no index typespec at all.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  EXPECT_EQ(at->getIndexTypespec(), nullptr);
+}
+
 TEST_F(Other, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -126,6 +141,53 @@ TEST_F(Other, ModuleHasTypedefUnpkt) {
   ASSERT_NE(top->getTypespecs(), nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   EXPECT_NE(td, nullptr);
+}
+
+TEST_F(Other, UnpktStructHasTwoMembers) {
+  // typedef struct { byte B; int I[*]; } Unpkt -- the underlying StructTypespec
+  // should have exactly 2 members: B and I.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(td, nullptr);
+  ASSERT_NE(td->getTypedefAlias(), nullptr);
+  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  ASSERT_NE(st, nullptr);
+  ASSERT_NE(st->getMembers(), nullptr);
+  EXPECT_EQ(st->getMembers()->size(), 2u);
+}
+
+TEST_F(Other, UnpktMemberBIsByteTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(td, nullptr);
+  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  ASSERT_NE(st, nullptr);
+  ASSERT_NE(st->getMembers(), nullptr);
+  const hldb::TypespecMember *const b = st->getMembers()->at(0);
+  ASSERT_NE(b, nullptr);
+  EXPECT_EQ(b->getName(), "B");
+  ASSERT_NE(b->getTypespec(), nullptr);
+  EXPECT_NE(b->getTypespec()->getActual<hldb::ByteTypespec>(), nullptr);
+}
+
+TEST_F(Other, UnpktMemberIIsWildcardArrayTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
+  ASSERT_NE(td, nullptr);
+  const hldb::StructTypespec *const st = td->getTypedefAlias()->getActual<hldb::StructTypespec>();
+  ASSERT_NE(st, nullptr);
+  ASSERT_NE(st->getMembers(), nullptr);
+  ASSERT_EQ(st->getMembers()->size(), 2u);
+  const hldb::TypespecMember *const i = st->getMembers()->at(1);
+  ASSERT_NE(i, nullptr);
+  EXPECT_EQ(i->getName(), "I");
+  ASSERT_NE(i->getTypespec(), nullptr);
+  const hldb::ArrayTypespec *const at = i->getTypespec()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  EXPECT_EQ(at->getArrayType(), 3);  // associative = 3 (I[*] is wildcard-indexed)
 }
 
 // --- structural completeness -------------------------------------------------

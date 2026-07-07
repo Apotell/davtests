@@ -40,11 +40,14 @@
 //   - stmt[7]: $display(4 args) — format shows w with "sad"; w[0] BitSelect verified
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - copy-by-value semantics of whole-array assignment (runtime-only)
-//   - stmt[7] w[1], w[2] argument BitSelects (only w[0] checked)
+// Also checked:
+//   - HLC reports no compile errors for the whole-array copy w=words
+//     (structural proxy for "this construct is legal"; full copy-by-value
+//     runtime semantics require simulation, out of scope for this frontend)
+//   - stmt[7] w[1], w[2] argument BitSelects (previously only w[0] checked)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -252,12 +255,38 @@ TEST_F(Assignment, EighthStmtIsDisplayWWithSad) {
   EXPECT_EQ(w0->getIndex<hldb::Constant>()->getDecompile(), "0");
 }
 
+TEST_F(Assignment, EighthStmtDisplayHasW1AndW2BitSelects) {
+  // third and fourth $display arguments are w[1] and w[2]
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Begin *const blk = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(7));
+  ASSERT_NE(sc, nullptr);
+  ASSERT_NE(sc->getArguments(), nullptr);
+  ASSERT_EQ(sc->getArguments()->size(), 4u);
+  const hldb::BitSelect *const w1 = any_cast<hldb::BitSelect>(sc->getArguments()->at(2));
+  ASSERT_NE(w1, nullptr);
+  EXPECT_EQ(w1->getPrefix<hldb::RefObj>()->getName(), "w");
+  EXPECT_EQ(w1->getIndex<hldb::Constant>()->getDecompile(), "1");
+  const hldb::BitSelect *const w2 = any_cast<hldb::BitSelect>(sc->getArguments()->at(3));
+  ASSERT_NE(w2, nullptr);
+  EXPECT_EQ(w2->getPrefix<hldb::RefObj>()->getName(), "w");
+  EXPECT_EQ(w2->getIndex<hldb::Constant>()->getDecompile(), "2");
+}
+
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Assignment, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+TEST_F(Assignment, CompilerHasNoErrors) {
+  // w = words (whole-array copy) is legal SystemVerilog; HLC must accept it without diagnostics.
+  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "whole-array associative copy must not produce compile errors";
 }
 }  // namespace hlc
 

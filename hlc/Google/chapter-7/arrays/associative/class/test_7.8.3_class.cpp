@@ -31,15 +31,15 @@
 //   - work@top has no processes
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - HLC emits EL0535 ("Illegal implicit net C") — class C unresolved as index type
+// Also checked:
+//   - HLC emits EL0535 (ELAB_ILLEGAL_IMPLICIT_NET) -- class C is unresolved as
+//     an associative-array index type
 //   - index typespec is absent (null) in the error-recovery ArrayTypespec
-//   - COMPILER BEHAVIOR: Scope::getFullName() reads a stored field (setFullName must be called).
-//     The VPI dump shows `vpiFullName: work@top::C` — that is computed on-the-fly by VPI
-//     traversal, it does NOT read the stored field. HLC never calls setFullName() on
-//     ClassDefn nodes, so getFullName() returns empty string, not "work@top::C".
+//   - ClassDefn::getFullName() is non-empty and stored ("work@top::work@C"),
+//     confirmed by ClassDefnStoredFullNameIsNonEmpty below
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -174,6 +174,17 @@ TEST_F(Class, ArrayTypespecElemTypeIsInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
+TEST_F(Class, ArrayTypespecIndexTypespecIsNull) {
+  // int arr[C] -- C could not be resolved as an index type, so the
+  // error-recovery ArrayTypespec has no index typespec at all.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  EXPECT_EQ(at->getIndexTypespec(), nullptr);
+}
+
 TEST_F(Class, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -184,6 +195,21 @@ TEST_F(Class, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+// --- compiler diagnostics ---------------------------------------------------
+
+TEST_F(Class, ClassCTriggersImplicitNetError) {
+  // int arr[C] -- class C is unresolved as an index type and reported as EL0535
+  bool found = false;
+  for (const hlc::Error &err : m_session->getErrorContainer()->getErrors()) {
+    if (err.getType() == hlc::ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
+      found = true;
+      break;
+    }
+  }
+  EXPECT_TRUE(found) << "class C as an associative-array index should be reported as EL0535 "
+                         "(ELAB_ILLEGAL_IMPLICIT_NET)";
 }
 }  // namespace hlc
 

@@ -37,11 +37,15 @@
 //   - stmt[4]: $display(1 arg) — Constant ":re: END"
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - HLC emits EL0535 for arr.size (implicit net) but still puts HierPath in UHDM
-//   - runtime behavior (arr[9] is nonexistent, returns default int value 0)
+// Also checked:
+//   - HLC emits EL0535 (ELAB_ILLEGAL_IMPLICIT_NET) for arr.size, while still
+//     placing the HierPath "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
+//   - reading a nonexistent key (arr[9]) itself raises no additional compile
+//     error beyond the arr.size EL0535 -- exactly 1 error total (the actual
+//     "returns default value 0" semantics is runtime-only, out of scope here)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -236,6 +240,29 @@ TEST_F(Nonexistent, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+// --- compiler diagnostics ---------------------------------------------------
+
+TEST_F(Nonexistent, ArrSizeTriggersImplicitNetError) {
+  // arr.size is treated as an implicit net reference and reported as EL0535
+  bool found = false;
+  for (const hlc::Error &err : m_session->getErrorContainer()->getErrors()) {
+    if (err.getType() == hlc::ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
+      found = true;
+      break;
+    }
+  }
+  EXPECT_TRUE(found) << "arr.size should be reported as EL0535 (ELAB_ILLEGAL_IMPLICIT_NET)";
+}
+
+TEST_F(Nonexistent, NonexistentKeyReadAddsNoExtraCompileError) {
+  // arr[9] reads a nonexistent associative key; this is a runtime concern
+  // (default value 0), not a compile-time error, so the only compile error
+  // must be the single EL0535 from arr.size.
+  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_EQ(stats.nbError, 1) << "only arr.size (EL0535) should produce a compile error; "
+                                 "reading arr[9] must not add another";
 }
 }  // namespace hlc
 
