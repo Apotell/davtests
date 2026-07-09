@@ -34,9 +34,8 @@
 //     IntTypespec; initial value is a 6-operand concatenation
 //     (10, 10, 3, 20, 20, 10)
 //   - net "qi": ArrayTypespec vpiArrayType=static(1) -- the compiler models
-//     a queue ("int qi[$]") the same way as a static array with an unbounded
-//     left-range ("$"), there is no distinct queue array type; ElemTypespec
-//     -> IntTypespec
+//     a queue ("int qi[$]") as a queue array with an unbounded
+//     left-range ("$"); ElemTypespec -> IntTypespec
 //   - Initial process: 1 Begin with 4 stmts (Assignment + SysFuncCall +
 //     HierPath("qi.sort") + SysFuncCall)
 //   - Assignment: qi = s.unique is a HierPath "s.unique()" whose 2nd path
@@ -173,9 +172,9 @@ TEST_F(ArrayLocatorUniqueTest, NetSInitialValueIsSixElemConcat) {
   EXPECT_EQ(c5->getValue(), "10");
 }
 
-// --- net "qi": queue of int, modeled as a "static" array with unbounded range -
+// --- net "qi": queue of int, modeled as a "queue" array with unbounded range -
 
-TEST_F(ArrayLocatorUniqueTest, NetQiTypespecIsStaticArray) {
+TEST_F(ArrayLocatorUniqueTest, NetQiTypespecIsQueueArray) {
   // Compiler quirk: "int qi[$]" (a queue) is reported as vpiArrayType
   // static(1), not a distinct queue array type.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
@@ -184,7 +183,7 @@ TEST_F(ArrayLocatorUniqueTest, NetQiTypespecIsStaticArray) {
   ASSERT_NE(qi, nullptr);
   const hldb::ArrayTypespec *const at = qi->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (queue quirk, see comment above)
+  EXPECT_EQ(at->getArrayType(), vpiQueueArray);
 }
 
 TEST_F(ArrayLocatorUniqueTest, NetQiRangeLeftIsUnboundedDollar) {
@@ -195,15 +194,10 @@ TEST_F(ArrayLocatorUniqueTest, NetQiRangeLeftIsUnboundedDollar) {
   const hldb::ArrayTypespec *const at = qi->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
-  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getOpType(), vpiSubOp);
-  ASSERT_NE(left->getOperands(), nullptr);
-  ASSERT_EQ(left->getOperands()->size(), 1u);
-  const hldb::Constant *const dollar = any_cast<hldb::Constant>(left->getOperands()->at(0));
+  const hldb::Constant *const dollar = at->getRange()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(dollar, nullptr);
   EXPECT_EQ(dollar->getDecompile(), "$");
-  EXPECT_EQ(dollar->getConstType(), 11);  // "unbounded" (not in vpi_user.h; hlc-specific)
+  EXPECT_EQ(dollar->getConstType(), vpiUnboundedConst);  // "unbounded" (not in vpi_user.h; hlc-specific)
 }
 
 TEST_F(ArrayLocatorUniqueTest, NetQiElemTypespecIsInt) {

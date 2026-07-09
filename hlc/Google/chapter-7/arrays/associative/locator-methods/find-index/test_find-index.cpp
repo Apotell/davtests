@@ -155,18 +155,16 @@ TEST_F(ArrayLocatorFindIndexTest, NetSInitialValueIsThreeElemConcat) {
   EXPECT_EQ(c2->getValue(), "world");
 }
 
-// --- net "qi": queue of int, modeled as a "static" array with unbounded range -
+// --- net "qi": queue of int, modeled as a "queue" array with unbounded range -
 
-TEST_F(ArrayLocatorFindIndexTest, NetQiTypespecIsStaticArray) {
-  // Compiler quirk: "int qi[$]" (a queue) is reported as vpiArrayType
-  // static(1), not a distinct queue array type.
+TEST_F(ArrayLocatorFindIndexTest, NetQiTypespecIsQueueArray) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const qi = hldb::findByName<hldb::Net>("qi", top->getNets());
   ASSERT_NE(qi, nullptr);
   const hldb::ArrayTypespec *const at = qi->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (queue quirk, see comment above)
+  EXPECT_EQ(at->getArrayType(), vpiQueueArray);
 }
 
 TEST_F(ArrayLocatorFindIndexTest, NetQiRangeLeftIsUnboundedDollar) {
@@ -177,15 +175,10 @@ TEST_F(ArrayLocatorFindIndexTest, NetQiRangeLeftIsUnboundedDollar) {
   const hldb::ArrayTypespec *const at = qi->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
-  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getOpType(), vpiSubOp);
-  ASSERT_NE(left->getOperands(), nullptr);
-  ASSERT_EQ(left->getOperands()->size(), 1u);
-  const hldb::Constant *const dollar = any_cast<hldb::Constant>(left->getOperands()->at(0));
+  const hldb::Constant *const dollar = at->getRange()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(dollar, nullptr);
   EXPECT_EQ(dollar->getDecompile(), "$");
-  EXPECT_EQ(dollar->getConstType(), 11);  // "unbounded" (not in vpi_user.h; hlc-specific)
+  EXPECT_EQ(dollar->getConstType(), vpiUnboundedConst);  // "unbounded" (not in vpi_user.h; hlc-specific)
 }
 
 TEST_F(ArrayLocatorFindIndexTest, NetQiElemTypespecIsInt) {

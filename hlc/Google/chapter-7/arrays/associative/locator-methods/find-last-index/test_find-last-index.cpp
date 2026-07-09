@@ -32,9 +32,8 @@
 //     StringTypespec; initial value is a 4-operand concatenation
 //     ("hello","sad","hello","world")
 //   - net "qi": ArrayTypespec vpiArrayType=static(1) -- the compiler models
-//     a queue ("int qi[$]") the same way as a static array with an unbounded
-//     left-range ("$"), there is no distinct queue array type; ElemTypespec
-//     -> IntTypespec
+//     a queue ("int qi[$]") as a queue array with an unbounded
+//     left-range ("$"); ElemTypespec -> IntTypespec
 //   - Initial process: 1 Begin with 3 stmts (Assignment + 2 SysFuncCall)
 //   - Assignment: qi = s.find_last_index with (item == "hello") is a
 //     HierPath "s.find_last_index()" whose 2nd path elem is a MethodFuncCall
@@ -158,9 +157,9 @@ TEST_F(ArrayLocatorFindLastIndexTest, NetSInitialValueIsFourElemConcat) {
   EXPECT_EQ(c3->getValue(), "world");
 }
 
-// --- net "qi": queue of int, modeled as a "static" array with unbounded range -
+// --- net "qi": queue of int, modeled as a "queue" array with unbounded range -
 
-TEST_F(ArrayLocatorFindLastIndexTest, NetQiTypespecIsStaticArray) {
+TEST_F(ArrayLocatorFindLastIndexTest, NetQiTypespecIsQueueArray) {
   // Compiler quirk: "int qi[$]" (a queue) is reported as vpiArrayType
   // static(1), not a distinct queue array type.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
@@ -169,7 +168,7 @@ TEST_F(ArrayLocatorFindLastIndexTest, NetQiTypespecIsStaticArray) {
   ASSERT_NE(qi, nullptr);
   const hldb::ArrayTypespec *const at = qi->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (queue quirk, see comment above)
+  EXPECT_EQ(at->getArrayType(), vpiQueueArray);
 }
 
 TEST_F(ArrayLocatorFindLastIndexTest, NetQiRangeLeftIsUnboundedDollar) {
@@ -180,15 +179,10 @@ TEST_F(ArrayLocatorFindLastIndexTest, NetQiRangeLeftIsUnboundedDollar) {
   const hldb::ArrayTypespec *const at = qi->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
-  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getOpType(), vpiSubOp);
-  ASSERT_NE(left->getOperands(), nullptr);
-  ASSERT_EQ(left->getOperands()->size(), 1u);
-  const hldb::Constant *const dollar = any_cast<hldb::Constant>(left->getOperands()->at(0));
+  const hldb::Constant *const dollar = at->getRange()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(dollar, nullptr);
   EXPECT_EQ(dollar->getDecompile(), "$");
-  EXPECT_EQ(dollar->getConstType(), 11);  // "unbounded" (not in vpi_user.h; hlc-specific)
+  EXPECT_EQ(dollar->getConstType(), vpiUnboundedConst);  // "unbounded" (not in vpi_user.h; hlc-specific)
 }
 
 TEST_F(ArrayLocatorFindLastIndexTest, NetQiElemTypespecIsInt) {
