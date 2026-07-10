@@ -3717,7 +3717,7 @@ n<$Source01/16.7--sequence-or-uvm.sv> u<3855> t<Top_level_rule> c<1> l<18:1> el<
                                           n<gnt0> u<3652> t<SIMPLE_IDENTIFIER> p<3655> s<3654> l<119:45> el<119:49>
                                           n<> u<3654> t<Select> p<3655> c<3653> l<119:49> el<119:49>
                                             n<> u<3653> t<Bit_select> p<3654> l<119:49> el<119:49>
-                            n<> u<3686> t<OR> p<3687> s<3685> l<119:51> el<119:53>
+                            n<> u<3686> t<BinaryOp_CompositeOr> p<3687> s<3685> l<119:51> el<119:53>
                             n<> u<3685> t<Sequence_expr> p<3687> c<3684> l<119:54> el<119:76>
                               n<> u<3684> t<Sequence_expr> p<3685> c<3671> l<119:55> el<119:75>
                                 n<> u<3671> t<Sequence_expr> p<3684> c<3670> s<3673> l<119:55> el<119:62>
@@ -3940,7 +3940,6 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/16.7--sequence-or-uvm.sv:119:45: Illegal implicit net "id:958, name:gnt0".
 [ERR:EL0535] $Source01/16.7--sequence-or-uvm.sv:119:59: Illegal implicit net "id:962, name:req".
 [ERR:EL0535] $Source01/16.7--sequence-or-uvm.sv:119:71: Illegal implicit net "id:968, name:gnt1".
-[ERR:EL0535] $Source01/16.7--sequence-or-uvm.sv:122:22: Illegal implicit net "id:973, name:seq".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:29: Illegal implicit net "id:976, name:UVM_NONE".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:38: Illegal implicit net "id:977, name:UVM_ERROR".
 [ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:48: Illegal implicit net "id:978, name:label".
@@ -6543,6 +6542,7 @@ Design name:unnamed:
                 vpiName Identifier name:new:
                   vpiParent: FuncCall name:new
                   vpiName: new
+                vpiTaskFunc: Function name:new
                 vpiArgument (2 items):
                   RefObj name:name start:78:19 end:78:23:
                     vpiParent: FuncCall name:new
@@ -7777,7 +7777,7 @@ Design name:unnamed:
                       vpiFullName: work@top.seq.clk
             vpiSequenceExpr Operation start:119:28 end:119:76:
               vpiParent: ClockedSeq
-              vpiOpType: logical or (27)
+              vpiOpType: comp-or (92)
               vpiOperand (2 items):
                 Operation start:119:29 end:119:49:
                   vpiParent: Operation
@@ -7872,6 +7872,7 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: seq
               vpiFullName: work@top.seq
+              vpiActual: SequenceDecl name:seq
           vpiElseStmt Begin start:153:4 end:156:7:
             vpiParent: Assert
             vpiFullName: work@top
@@ -8359,7 +8360,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 46
+[  ERROR] : 45
 [WARNING] : 13
 [   NOTE] : 0
 ********************************************************************************
