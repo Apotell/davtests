@@ -522,7 +522,6 @@ TEST_F(SequenceExprTest, Alt6_Plus_OpType) {
 // Alt 7 — sequence_expr AND sequence_expr  (vpiCompAndOp)
 // ============================================================================
 TEST_F(SequenceExprTest, Alt7_Simple_OpType) {
-  GTEST_SKIP() << "not implemented: sequence 'and' optype needs to be revisited";
   // a and b — ss.16.9.5: sequence 'and' must use vpiCompAndOp (91)
   const auto *op = seqOp("alt7_simple");
   ASSERT_NE(op, nullptr);
@@ -537,7 +536,7 @@ TEST_F(SequenceExprTest, Alt7_Simple_TwoOperands) {
 }
 
 TEST_F(SequenceExprTest, Alt7_Chained_OpType) {
-  // a and b and c — ss.16.9.5: outer must also be vpiCompAndOp (91)
+  // a and b and c — outer must also be vpiCompAndOp (91)
   const auto *op = seqOp("alt7_chained");
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiCompAndOp);
