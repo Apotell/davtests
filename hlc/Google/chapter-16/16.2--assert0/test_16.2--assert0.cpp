@@ -116,19 +116,11 @@ static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
   return any_cast<const hldb::ImmediateAssert *>((*assertions)[0]);
 }
 
-static const hldb::DelayControl *getDelayControl(const hldb::Design *d) {
+static const hldb::Operation *getOperation(const hldb::Design *d) {
   const auto *ia = getAssert(d);
   if (!ia) return nullptr;
-  // §16.4 Rule 2: the '#0' is represented as a DelayControl wrapping the
-  // assertion expression.
-  return ia->getExpr<hldb::DelayControl>();
-}
-
-static const hldb::Operation *getOperation(const hldb::Design *d) {
-  const auto *dc = getDelayControl(d);
-  if (!dc) return nullptr;
   // The assertion expression 'a != 0' is the statement inside DelayControl.
-  return dc->getStmt<hldb::Operation>();
+  return ia->getExpr<hldb::Operation>();
 }
 
 // ---------------------------------------------------------------------------
@@ -209,18 +201,7 @@ TEST_F(DeferredAssertTest, Assert_ExprIsDelayControl) {
   // not the assertion expression directly.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getExpr<hldb::DelayControl>(), nullptr) << "§16.4: 'assert #0 (expr)' — the '#0' is modelled as a "
-                                                           "DelayControl in UHDM; getExpr() must return a DelayControl";
-}
-
-TEST_F(DeferredAssertTest, Assert_DelayValue_IsZero) {
-  // §16.4: the '#0' specifies a zero-delay deferral.
-  // The DelayControl's delay constant must have value "0".
-  const auto *dc = getDelayControl(m_design);
-  ASSERT_NE(dc, nullptr);
-  const auto *delay = dc->getDelay<hldb::Constant>();
-  ASSERT_NE(delay, nullptr) << "§16.4: DelayControl must have a Constant delay node for '#0'";
-  EXPECT_EQ(std::string(delay->getValue()), "0") << "§16.4: '#0' delay value must be 0";
+  EXPECT_TRUE(ia->getIsDeferred()) << "§16.4: 'assert #0 (expr)' — the '#0' is modelled as deferred flag.";
 }
 
 // ---------------------------------------------------------------------------
@@ -230,10 +211,9 @@ TEST_F(DeferredAssertTest, Assert_DelayValue_IsZero) {
 TEST_F(DeferredAssertTest, Assert_ExprStmt_IsOperation) {
   // The expression 'a != 0' is accessed via DelayControl::getStmt(),
   // not ImmediateAssert::getExpr() directly.
-  const auto *dc = getDelayControl(m_design);
-  ASSERT_NE(dc, nullptr);
-  EXPECT_NE(dc->getStmt<hldb::Operation>(), nullptr) << "assertion expression 'a != 0' must be an Operation inside "
-                                                        "the DelayControl's statement";
+  const hldb::ImmediateAssert *const ia = getAssert(m_design);
+  ASSERT_NE(ia, nullptr);
+  EXPECT_NE(ia->getExpr<hldb::Operation>(), nullptr) << "assertion expression 'a != 0' must be an Operation";
 }
 
 TEST_F(DeferredAssertTest, Assert_ExprStmt_IsNotEqualOperator) {

@@ -84,8 +84,7 @@ TEST_F(EnumTypedef, ValNetTypespecActualIsLogic) {
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
-  EXPECT_NE(val->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "enum 'e' base type in UHDM resolves to LogicTypespec";
+  EXPECT_NE(val->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr) << "enum 'e' resolves to TypedefTypespec";
 }
 
 // ---------------------------------------------------------------------------
