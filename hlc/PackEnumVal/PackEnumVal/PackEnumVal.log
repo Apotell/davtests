@@ -204,14 +204,9 @@ Design name:unnamed:
             vpiParent: Function name:test_true
             vpiName: test_true
           vpiFullName: work@test_package::test_true
-          vpiTypespec (2 items):
+          vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:test_true
-            UnsupportedTypespec name:lc_tx_t start:9:38 end:9:45:
-              vpiParent: Function name:test_true
-              vpiName Identifier name:lc_tx_t:
-                vpiParent: UnsupportedTypespec name:lc_tx_t
-                vpiName: lc_tx_t
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -219,10 +214,11 @@ Design name:unnamed:
               vpiParent: Function name:test_true
               vpiName: val
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:38 end:9:45:
+              vpiTypespec RefTypespec name:lc_tx_t start:9:38 end:9:45:
                 vpiParent: IODecl name:val
-                vpiFullName: work@test_package::test_true::val
-                vpiActual: UnsupportedTypespec name:lc_tx_t
+                vpiName: lc_tx_t
+                vpiFullName: work@test_package::test_true::val::lc_tx_t
+                vpiActual: TypedefTypespec name:lc_tx_t
           vpiStmt ReturnStmt start:10:5 end:10:22:
             vpiParent: Function name:test_true
             vpiCondition Operation start:10:12 end:10:21:
@@ -263,12 +259,9 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: work@top.o
           vpiNetType: none (12)
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:work@top
-        ClassTypespec name:test_package start:17:14 end:17:26:
-          vpiParent: Module name:work@top
-          vpiName: test_package
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -324,7 +317,12 @@ Design name:unnamed:
             vpiName: test_package::test_true(i)
             vpiFullName: work@top.test_package::test_true(i)
             vpiPathElem (2 items):
-              ClassTypespec name:test_package:
+              UnsupportedScope name:test_package start:17:14 end:17:28:
+                vpiParent: HierPath name:test_package::test_true(i)
+                vpiName Identifier name:test_package start:17:14 end:17:26:
+                  vpiParent: UnsupportedScope name:test_package
+                  vpiName: test_package
+                vpiFullName: work@top.test_package::test_true(i).test_package
               MethodFuncCall name:test_true start:17:28 end:17:40:
                 vpiParent: HierPath name:test_package::test_true(i)
                 vpiName Identifier name:test_true start:17:28 end:17:37:
@@ -394,7 +392,7 @@ COMMAND: ${HLC_DIR}/regression/PackEnumVal/PackEnumVal/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================

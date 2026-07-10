@@ -47,10 +47,6 @@ n<$Source01/class_test_22.sv> u<33> t<Top_level_rule> c<1> l<6:1> el<6:58>
             n<> u<27> t<ENDCLASS> p<28> l<6:50> el<6:58>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_test_22.sv:6:38: Illegal implicit net "id:9, name:x".
-[ERR:EL0535] $Source01/class_test_22.sv:6:35: Illegal implicit net "id:11, name:v1".
-[ERR:EL0535] $Source01/class_test_22.sv:6:45: Illegal implicit net "id:12, name:y".
-[ERR:EL0535] $Source01/class_test_22.sv:6:42: Illegal implicit net "id:14, name:v2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -68,40 +64,27 @@ Design name:unnamed:
         vpiName: work@Foo
       vpiFullName: work@Foo
       vpiTypespec (1 items):
-        ClassTypespec name:Package start:6:19 end:6:48:
+        "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y) start:6:19 end:6:48":
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Package
-          vpiParamAssign (2 items):
-            ParamAssign start:6:34 end:6:40:
-              vpiParent: ClassTypespec name:Package
-              vpiConnByName: true
-              vpiLhs RefObj name:v1 start:6:35 end:6:37:
-                vpiParent: ParamAssign
-                vpiName: v1
-                vpiFullName: work@Foo::Package::v1
-              vpiRhs RefObj name:x start:6:38 end:6:39:
-                vpiParent: ParamAssign
-                vpiName: x
-                vpiFullName: work@Foo::Package::x
-            ParamAssign start:6:41 end:6:47:
-              vpiParent: ClassTypespec name:Package
-              vpiConnByName: true
-              vpiLhs RefObj name:v2 start:6:42 end:6:44:
-                vpiParent: ParamAssign
-                vpiName: v2
-                vpiFullName: work@Foo::Package::v2
-              vpiRhs RefObj name:y start:6:45 end:6:46:
-                vpiParent: ParamAssign
-                vpiName: y
-                vpiFullName: work@Foo::Package::y
+          vpiPathElem (2 items):
+            RefTypespec start:6:19 end:6:26:
+              vpiParent: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+              vpiFullName: "work@Foo:::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+            RefTypespec start:6:28 end:6:31:
+              vpiParent: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+              vpiFullName: "work@Foo:::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+          "vpiName Identifier name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)":
+            vpiParent: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+            vpiName: ":: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:6:11 end:6:18:
         vpiParent: ClassDefn name:work@Foo
-        vpiClassTypespec RefTypespec name:Package start:6:19 end:6:48:
-          vpiParent: Extends
-          vpiName: Package
-          vpiFullName: work@Foo::Package
-          vpiActual: ClassTypespec name:Package
+        vpiClassTypespec (1 items):
+          "RefTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y) start:6:19 end:6:48":
+            vpiParent: Extends
+            vpiName: ":: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+            vpiFullName: "work@Foo:::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
+            vpiActual: "ClassTypespec name::: #(type v1=x, type v2=y) #(type v1=x, type v2=y)"
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work
@@ -110,12 +93,14 @@ Design name:unnamed:
   vpiTypespec (1 items):
     ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: work@Foo
+      vpiName Identifier name:work@Foo:
+        vpiParent: ClassTypespec name:work@Foo
+        vpiName: work@Foo
       vpiClassDefn: ClassDefn name:work@Foo
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -160,7 +145,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_22/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              15      15       0         0
+Others                              13      13       0         0
 ----------------------------------------------------------------
-                                    15      15       0         0
+                                    13      13       0         0
 ===================== END REDUCTION RESULT =====================

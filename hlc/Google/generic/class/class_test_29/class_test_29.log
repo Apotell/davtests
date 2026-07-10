@@ -93,6 +93,13 @@ Design name:unnamed:
         vpiParent: Package name:work@Pkg
         vpiName: work@Pkg
       vpiFullName: work@Pkg
+      vpiTypespec (1 items):
+        ClassTypespec name:work@Bar:
+          vpiParent: Package name:work@Pkg
+          vpiName Identifier name:work@Bar:
+            vpiParent: ClassTypespec name:work@Bar
+            vpiName: work@Bar
+          vpiClassDefn: ClassDefn name:work@Bar
       vpiDefName: work@Pkg
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -100,7 +107,20 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@Pkg::work
       vpiCell: Pkg
-  vpiAllClasses (2 items):
+      vpiClassDefn (1 items):
+        ClassDefn name:work@Bar file:$Source01/class_test_29.sv start:17:3 end:17:32:
+          vpiParent: Package name:work@Pkg
+          vpiName Identifier name:work@Bar start:17:19 end:17:22:
+            vpiParent: ClassDefn name:work@Bar
+            vpiName: work@Bar
+          vpiFullName: work@Pkg::work@Bar
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@Bar
+            vpiName: work
+            vpiFullName: work@Pkg::work@Bar::work
+          vpiCell: Bar
+  vpiAllClasses (3 items):
     ClassDefn name:work@Base file:$Source01/class_test_29.sv start:20:1 end:20:21:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Base start:20:7 end:20:11:
@@ -113,49 +133,63 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@Base::work
       vpiCell: Base
+    ClassDefn name:work@Baz file:$Source01/class_test_29.sv start:21:1 end:21:30:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@Baz start:21:17 end:21:20:
+        vpiParent: ClassDefn name:work@Baz
+        vpiName: work@Baz
+      vpiFullName: work@Baz
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@Baz
+        vpiName: work
+        vpiFullName: work@Baz::work
+      vpiCell: Baz
     ClassDefn name:work@Foo file:$Source01/class_test_29.sv start:23:1 end:23:58:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Foo start:23:7 end:23:10:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work@Foo
       vpiFullName: work@Foo
-      vpiTypespec (4 items):
+      vpiTypespec (2 items):
         ClassTypespec name:Base start:23:19 end:23:23:
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Base
+          vpiName Identifier name:Base:
+            vpiParent: ClassTypespec name:Base
+            vpiName: Base
           vpiClassDefn: ClassDefn name:work@Base
-        PackageTypespec name:Pkg start:23:35 end:23:38:
+        UnsupportedTypespec start:23:35 end:23:43:
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Pkg
-        UnsupportedTypespec name:Bar start:23:40 end:23:43:
-          vpiParent: ClassDefn name:work@Foo
-          vpiName Identifier name:Bar:
-            vpiParent: UnsupportedTypespec name:Bar
-            vpiName: Bar
-        UnsupportedTypespec name:Baz start:23:45 end:23:48:
-          vpiParent: ClassDefn name:work@Foo
-          vpiName Identifier name:Baz:
-            vpiParent: UnsupportedTypespec name:Baz
-            vpiName: Baz
+          vpiPathElem (2 items):
+            RefTypespec name:Pkg start:23:35 end:23:38:
+              vpiParent: UnsupportedTypespec
+              vpiName: Pkg
+              vpiFullName: work@Foo::Pkg
+            RefTypespec name:Bar start:23:40 end:23:43:
+              vpiParent: UnsupportedTypespec
+              vpiName: Bar
+              vpiFullName: work@Foo::Bar
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:23:11 end:23:18:
         vpiParent: ClassDefn name:work@Foo
-        vpiClassTypespec RefTypespec name:Base start:23:19 end:23:23:
-          vpiParent: Extends
-          vpiName: Base
-          vpiFullName: work@Foo::Base
-          vpiActual: ClassTypespec name:Base
+        vpiClassTypespec (1 items):
+          RefTypespec name:Base start:23:19 end:23:23:
+            vpiParent: Extends
+            vpiName: Base
+            vpiFullName: work@Foo::Base
+            vpiActual: ClassTypespec name:Base
       vpiImplements Implements start:23:24 end:23:34:
         vpiParent: ClassDefn name:work@Foo
         vpiInterfaceTypespec (2 items):
           RefTypespec start:23:35 end:23:43:
             vpiParent: Implements
             vpiFullName: work@Foo
-            vpiActual: UnsupportedTypespec name:Bar
-          RefTypespec start:23:45 end:23:48:
+            vpiActual: UnsupportedTypespec
+          RefTypespec name:Baz start:23:45 end:23:48:
             vpiParent: Implements
-            vpiFullName: work@Foo
-            vpiActual: UnsupportedTypespec name:Baz
+            vpiName: Baz
+            vpiFullName: work@Foo::Baz
+            vpiActual: ClassTypespec name:work@Baz
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work
@@ -175,14 +209,24 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@test.work
       vpiCell: test
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ClassTypespec name:work@Base:
       vpiParent: Design name:unnamed
-      vpiName: work@Base
+      vpiName Identifier name:work@Base:
+        vpiParent: ClassTypespec name:work@Base
+        vpiName: work@Base
       vpiClassDefn: ClassDefn name:work@Base
+    ClassTypespec name:work@Baz:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@Baz:
+        vpiParent: ClassTypespec name:work@Baz
+        vpiName: work@Baz
+      vpiClassDefn: ClassDefn name:work@Baz
     ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: work@Foo
+      vpiName Identifier name:work@Foo:
+        vpiParent: ClassTypespec name:work@Foo
+        vpiName: work@Foo
       vpiClassDefn: ClassDefn name:work@Foo
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
@@ -209,25 +253,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/generic/class/class_test_29/mounts.json
 
 
-{'result': {'coverage': 96.63,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/class_test_29.sv': {'post_len': 6,
+            'files': {'$Output/lib/work/class_test_29.sv': {'post_len': 0,
                                                             'pre_len': 178}},
-            'post_len': 6,
+            'post_len': 0,
             'pre_len': 178,
             'test_name': 'Google/generic/class/class_test_29'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/class_test_29.sv |      178 |         6 |
+| $Output/lib/work/class_test_29.sv |      178 |         0 |
 +===================================+==========+===========+
-|                                   |      178 |         6 |
+|                                   |      178 |         0 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.63
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -238,7 +282,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_29/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    29      29       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

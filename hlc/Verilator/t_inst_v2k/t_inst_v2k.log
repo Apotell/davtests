@@ -656,8 +656,8 @@ n<$Source01/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
         n<> u<660> t<Module_item> p<662> c<659> s<661> l<67:4> el<67:41>
           n<> u<659> t<Port_declaration> p<660> c<658> l<67:4> el<67:40>
             n<> u<658> t<Output_declaration> p<659> c<651> l<67:4> el<67:40>
-              n<> u<651> t<Variable_port_type> p<658> c<650> s<657> l<67:11> el<67:20>
-                n<> u<650> t<Var_data_type> p<651> c<649> l<67:11> el<67:20>
+              n<> u<651> t<Net_port_type> p<658> c<650> s<657> l<67:11> el<67:20>
+                n<> u<650> t<Data_type_or_implicit> p<651> c<649> l<67:11> el<67:20>
                   n<> u<649> t<Data_type> p<650> c<638> l<67:11> el<67:20>
                     n<> u<638> t<REG> p<649> s<648> l<67:11> el<67:14>
                     n<> u<648> t<Packed_dimension> p<649> c<647> l<67:15> el<67:20>
@@ -670,10 +670,10 @@ n<$Source01/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
                           n<> u<645> t<Constant_primary> p<646> c<644> l<67:18> el<67:19>
                             n<> u<644> t<Primary_literal> p<645> c<643> l<67:18> el<67:19>
                               n<0> u<643> t<INTEGRAL_NUMBER> p<644> l<67:18> el<67:19>
-              n<> u<657> t<Variable_port_identifier_list> p<658> c<652> l<67:21> el<67:40>
+              n<> u<657> t<Output_port_identifier_list> p<658> c<652> l<67:21> el<67:40>
                 n<tied_also> u<652> t<SIMPLE_IDENTIFIER> p<657> s<656> l<67:21> el<67:30>
-                n<> u<656> t<Constant_expression> p<657> c<655> l<67:33> el<67:40>
-                  n<> u<655> t<Constant_primary> p<656> c<654> l<67:33> el<67:40>
+                n<> u<656> t<Expression> p<657> c<655> l<67:33> el<67:40>
+                  n<> u<655> t<Primary> p<656> c<654> l<67:33> el<67:40>
                     n<> u<654> t<Primary_literal> p<655> c<653> l<67:33> el<67:40>
                       n<4'b1010> u<653> t<INTEGRAL_NUMBER> p<654> l<67:33> el<67:40>
         n<> u<661> t<ENDMODULE> p<662> l<69:1> el<69:10>
@@ -996,7 +996,7 @@ Design name:unnamed:
           vpiParent: Module name:work@t
           vpiStmt EventControl start:43:11 end:61:7:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:43:14 end:43:25:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1530,7 +1530,7 @@ Design name:unnamed:
         vpiFullName: work@hello.work
       vpiCell: hello
       vpiNet (1 items):
-        Net name:tied_also start:65:14 end:65:23:
+        Net name:tied_also start:67:21 end:67:30:
           vpiParent: Module name:work@hello
           vpiTypespec RefTypespec start:67:11 end:67:20:
             vpiParent: Net name:tied_also
@@ -1539,20 +1539,11 @@ Design name:unnamed:
           vpiName: tied_also
           vpiFullName: work@hello.tied_also
           vpiNetType: reg (48)
-          vpiValue Constant start:67:33 end:67:40:
-            vpiParent: Net name:tied_also
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@hello.tied_also
-              vpiActual: LogicTypespec
-            vpiConstType: binary (3)
-            vpiSize: 4
-            vpiDecompile: "4'b1010"
-            vpiValue: "1010"
       vpiPort (1 items):
         Port name:tied_also start:65:14 end:65:23:
           vpiParent: Module name:work@hello
           vpiName: tied_also
+          vpiDirection: output (2)
           vpiLowConn RefObj name:tied_also start:65:14 end:65:23:
             vpiParent: Port name:tied_also
             vpiName: tied_also
@@ -1581,6 +1572,20 @@ Design name:unnamed:
                 vpiSize: 48
                 vpiDecompile: "\"Hello\\n\""
                 vpiValue: Hello\n
+      vpiContAssign (1 items):
+        ContAssign start:67:21 end:67:40:
+          vpiParent: Module name:work@hello
+          vpiLhs: Net name:tied_also
+          vpiRhs Constant start:67:33 end:67:40:
+            vpiParent: ContAssign
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@hello
+              vpiActual: LogicTypespec
+            vpiConstType: binary (3)
+            vpiSize: 4
+            vpiDecompile: "4'b1010"
+            vpiValue: "1010"
   vpiTypespec (5 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -1620,25 +1625,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_inst_v2k/mounts.json
 
 
-{'result': {'coverage': 98.9,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_inst_v2k.v': {'post_len': 9,
+            'files': {'$Output/lib/work/t_inst_v2k.v': {'post_len': 0,
                                                         'pre_len': 815}},
-            'post_len': 9,
+            'post_len': 0,
             'pre_len': 815,
             'test_name': 'Verilator/t_inst_v2k'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/t_inst_v2k.v |      815 |         9 |
+| $Output/lib/work/t_inst_v2k.v |      815 |         0 |
 +===============================+==========+===========+
-|                               |      815 |         9 |
+|                               |      815 |         0 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.9
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1649,7 +1654,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_v2k/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             227     227       0         0
+Others                             228     228       0         0
 ----------------------------------------------------------------
-                                   227     227       0         0
+                                   228     228       0         0
 ===================== END REDUCTION RESULT =====================

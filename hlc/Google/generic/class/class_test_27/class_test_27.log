@@ -99,8 +99,12 @@ Design name:unnamed:
         vpiName: work@Package
       vpiFullName: work@Package
       vpiTypespec (1 items):
-        LogicTypespec:
+        ClassTypespec name:work@Bar:
           vpiParent: Package name:work@Package
+          vpiName Identifier name:work@Bar:
+            vpiParent: ClassTypespec name:work@Bar
+            vpiName: work@Bar
+          vpiClassDefn: ClassDefn name:work@Bar
       vpiDefName: work@Package
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -108,6 +112,54 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@Package::work
       vpiCell: Package
+      vpiClassDefn (1 items):
+        ClassDefn name:work@Bar file:$Source01/class_test_27.sv start:17:3 end:17:50:
+          vpiParent: Package name:work@Package
+          vpiName Identifier name:work@Bar start:17:19 end:17:22:
+            vpiParent: ClassDefn name:work@Bar
+            vpiName: work@Bar
+          vpiFullName: work@Package::work@Bar
+          vpiParameter (2 items):
+            Parameter name:A start:17:35 end:17:36:
+              vpiParent: ClassDefn name:work@Bar
+              vpiTypespec RefTypespec start:17:35 end:17:35:
+                vpiParent: Parameter name:A
+                vpiFullName: work@Package::work@Bar::A
+                vpiActual: LogicTypespec
+              vpiName: A
+              vpiFullName: work@Package::work@Bar::A
+            Parameter name:B start:17:38 end:17:39:
+              vpiParent: ClassDefn name:work@Bar
+              vpiTypespec RefTypespec start:17:35 end:17:35:
+                vpiParent: Parameter name:B
+                vpiFullName: work@Package::work@Bar::B
+                vpiActual: LogicTypespec
+              vpiName: B
+              vpiFullName: work@Package::work@Bar::B
+          vpiParamAssign (2 items):
+            ParamAssign start:17:35 end:17:36:
+              vpiParent: ClassDefn name:work@Bar
+              vpiLhs RefObj name:A start:17:35 end:17:36:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: work@Package::work@Bar::A
+                vpiActual: Parameter name:A
+            ParamAssign start:17:38 end:17:39:
+              vpiParent: ClassDefn name:work@Bar
+              vpiLhs RefObj name:B start:17:38 end:17:39:
+                vpiParent: ParamAssign
+                vpiName: B
+                vpiFullName: work@Package::work@Bar::B
+                vpiActual: Parameter name:B
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: ClassDefn name:work@Bar
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work:
+            vpiParent: ClassDefn name:work@Bar
+            vpiName: work
+            vpiFullName: work@Package::work@Bar::work
+          vpiCell: Bar
   vpiAllClasses (1 items):
     ClassDefn name:work@Foo file:$Source01/class_test_27.sv start:20:1 end:20:51:
       vpiParent: Design name:unnamed
@@ -115,35 +167,38 @@ Design name:unnamed:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work@Foo
       vpiFullName: work@Foo
-      vpiTypespec (2 items):
-        PackageTypespec name:Package start:20:22 end:20:29:
+      vpiTypespec (1 items):
+        UnsupportedTypespec start:20:22 end:20:34:
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Package
-        UnsupportedTypespec name:Bar start:20:31 end:20:34:
-          vpiParent: ClassDefn name:work@Foo
-          vpiName Identifier name:Bar:
-            vpiParent: UnsupportedTypespec name:Bar
-            vpiName: Bar
+          vpiPathElem (2 items):
+            RefTypespec name:Package start:20:22 end:20:29:
+              vpiParent: UnsupportedTypespec
+              vpiName: Package
+              vpiFullName: work@Foo::Package
+            RefTypespec name:Bar start:20:31 end:20:34:
+              vpiParent: UnsupportedTypespec
+              vpiName: Bar
+              vpiFullName: work@Foo::Bar
           vpiParamAssign (2 items):
             ParamAssign start:20:36 end:20:37:
-              vpiParent: UnsupportedTypespec name:Bar
+              vpiParent: UnsupportedTypespec
               vpiRhs Constant start:20:36 end:20:37:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Foo::Bar
+                  vpiFullName: work@Foo
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
             ParamAssign start:20:39 end:20:40:
-              vpiParent: UnsupportedTypespec name:Bar
+              vpiParent: UnsupportedTypespec
               vpiRhs Constant start:20:39 end:20:40:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Foo::Bar
+                  vpiFullName: work@Foo
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -156,7 +211,7 @@ Design name:unnamed:
           RefTypespec start:20:22 end:20:41:
             vpiParent: Implements
             vpiFullName: work@Foo
-            vpiActual: UnsupportedTypespec name:Bar
+            vpiActual: UnsupportedTypespec
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work
@@ -179,7 +234,9 @@ Design name:unnamed:
   vpiTypespec (3 items):
     ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: work@Foo
+      vpiName Identifier name:work@Foo:
+        vpiParent: ClassTypespec name:work@Foo
+        vpiName: work@Foo
       vpiClassDefn: ClassDefn name:work@Foo
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -209,25 +266,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/generic/class/class_test_27/mounts.json
 
 
-{'result': {'coverage': 95.14,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/class_test_27.sv': {'post_len': 7,
+            'files': {'$Output/lib/work/class_test_27.sv': {'post_len': 0,
                                                             'pre_len': 144}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 144,
             'test_name': 'Google/generic/class/class_test_27'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/class_test_27.sv |      144 |         7 |
+| $Output/lib/work/class_test_27.sv |      144 |         0 |
 +===================================+==========+===========+
-|                                   |      144 |         7 |
+|                                   |      144 |         0 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.14
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -238,7 +295,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_27/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              27      27       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    27      27       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

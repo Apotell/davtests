@@ -760,7 +760,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/basic/package.sv:22:1: Compile package "work@F".
 [INF:CP0303] $Source01/basic/package.sv:26:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/basic/package.sv:15:26: Illegal implicit net "id:85, name:pack_t".
+[ERR:EL0535] $Source01/basic/package.sv:15:26: Illegal implicit net "id:87, name:pack_t".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1009,15 +1009,25 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:pack
             vpiFullName: work@D::pack
-            vpiTypespec (3 items):
-              ClassTypespec name:C start:13:14 end:13:15:
+            vpiTypespec (2 items):
+              UnsupportedTypespec name:C::pack_t start:13:14 end:13:23:
                 vpiParent: Begin
-                vpiName: C
+                vpiPathElem (2 items):
+                  UnsupportedScope name:C start:13:14 end:13:17:
+                    vpiParent: UnsupportedTypespec name:C::pack_t
+                    vpiName Identifier name:C start:13:14 end:13:15:
+                      vpiParent: UnsupportedScope name:C
+                      vpiName: C
+                    vpiFullName: work@D::pack::C::pack_t::C
+                  RefTypespec name:pack_t start:13:17 end:13:23:
+                    vpiParent: UnsupportedTypespec name:C::pack_t
+                    vpiName: pack_t
+                    vpiFullName: work@D::pack::C::pack_t::pack_t
+                vpiName Identifier name:C::pack_t start:13:14 end:13:23:
+                  vpiParent: UnsupportedTypespec name:C::pack_t
+                  vpiName: C::pack_t
               LogicTypespec:
                 vpiParent: Begin
-              ClassTypespec name:C start:15:23 end:15:24:
-                vpiParent: Begin
-                vpiName: C
             vpiStmt (1 items):
               Assignment start:15:9 end:15:37:
                 vpiParent: Begin
@@ -1042,7 +1052,12 @@ Design name:unnamed:
                           vpiName: C::pack_t
                           vpiFullName: work@D::pack::C::pack_t
                           vpiPathElem (2 items):
-                            ClassTypespec name:C:
+                            UnsupportedScope name:C start:15:23 end:15:26:
+                              vpiParent: HierPath name:C::pack_t
+                              vpiName Identifier name:C start:15:23 end:15:24:
+                                vpiParent: UnsupportedScope name:C
+                                vpiName: C
+                              vpiFullName: work@D::pack::C::pack_t::C
                             RefObj name:pack_t start:15:26 end:15:32:
                               vpiParent: HierPath name:C::pack_t
                               vpiName: pack_t
@@ -1059,6 +1074,7 @@ Design name:unnamed:
           vpiReturn RefTypespec start:13:14 end:13:23:
             vpiParent: Function name:pack
             vpiFullName: work@D::pack
+            vpiActual: UnsupportedTypespec name:C::pack_t
     Package name:work@E file:$Source01/basic/package.sv start:18:1 end:21:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@E start:18:9 end:18:10:
@@ -1251,31 +1267,6 @@ Design name:unnamed:
           vpiStmt Begin start:29:13 end:40:8:
             vpiParent: Initial
             vpiFullName: work@top
-            vpiTypespec (8 items):
-              ClassTypespec name:A start:30:18 end:30:19:
-                vpiParent: Begin
-                vpiName: A
-              ClassTypespec name:A start:31:18 end:31:19:
-                vpiParent: Begin
-                vpiName: A
-              ClassTypespec name:B start:32:18 end:32:19:
-                vpiParent: Begin
-                vpiName: B
-              ClassTypespec name:B start:33:18 end:33:19:
-                vpiParent: Begin
-                vpiName: B
-              ClassTypespec name:D start:36:24 end:36:25:
-                vpiParent: Begin
-                vpiName: D
-              ClassTypespec name:D start:37:24 end:37:25:
-                vpiParent: Begin
-                vpiName: D
-              ClassTypespec name:E start:38:24 end:38:25:
-                vpiParent: Begin
-                vpiName: E
-              ClassTypespec name:E start:39:24 end:39:25:
-                vpiParent: Begin
-                vpiName: E
             vpiStmt (10 items):
               SysFuncCall name:$display start:30:9 end:30:25:
                 vpiParent: Begin
@@ -1288,7 +1279,12 @@ Design name:unnamed:
                     vpiName: A::FOO
                     vpiFullName: work@top.A::FOO
                     vpiPathElem (2 items):
-                      ClassTypespec name:A:
+                      UnsupportedScope name:A start:30:18 end:30:21:
+                        vpiParent: HierPath name:A::FOO
+                        vpiName Identifier name:A start:30:18 end:30:19:
+                          vpiParent: UnsupportedScope name:A
+                          vpiName: A
+                        vpiFullName: work@top.A::FOO.A
                       RefObj name:FOO start:30:21 end:30:24:
                         vpiParent: HierPath name:A::FOO
                         vpiName: FOO
@@ -1305,7 +1301,12 @@ Design name:unnamed:
                     vpiName: A::BAR
                     vpiFullName: work@top.A::BAR
                     vpiPathElem (2 items):
-                      ClassTypespec name:A:
+                      UnsupportedScope name:A start:31:18 end:31:21:
+                        vpiParent: HierPath name:A::BAR
+                        vpiName Identifier name:A start:31:18 end:31:19:
+                          vpiParent: UnsupportedScope name:A
+                          vpiName: A
+                        vpiFullName: work@top.A::BAR.A
                       RefObj name:BAR start:31:21 end:31:24:
                         vpiParent: HierPath name:A::BAR
                         vpiName: BAR
@@ -1322,7 +1323,12 @@ Design name:unnamed:
                     vpiName: B::FOO
                     vpiFullName: work@top.B::FOO
                     vpiPathElem (2 items):
-                      ClassTypespec name:B:
+                      UnsupportedScope name:B start:32:18 end:32:21:
+                        vpiParent: HierPath name:B::FOO
+                        vpiName Identifier name:B start:32:18 end:32:19:
+                          vpiParent: UnsupportedScope name:B
+                          vpiName: B
+                        vpiFullName: work@top.B::FOO.B
                       RefObj name:FOO start:32:21 end:32:24:
                         vpiParent: HierPath name:B::FOO
                         vpiName: FOO
@@ -1339,7 +1345,12 @@ Design name:unnamed:
                     vpiName: B::BAR
                     vpiFullName: work@top.B::BAR
                     vpiPathElem (2 items):
-                      ClassTypespec name:B:
+                      UnsupportedScope name:B start:33:18 end:33:21:
+                        vpiParent: HierPath name:B::BAR
+                        vpiName Identifier name:B start:33:18 end:33:19:
+                          vpiParent: UnsupportedScope name:B
+                          vpiName: B
+                        vpiFullName: work@top.B::BAR.B
                       RefObj name:BAR start:33:21 end:33:24:
                         vpiParent: HierPath name:B::BAR
                         vpiName: BAR
@@ -1388,7 +1399,12 @@ Design name:unnamed:
                     vpiName: D::pack(0)
                     vpiFullName: work@top.D::pack(0)
                     vpiPathElem (2 items):
-                      ClassTypespec name:D:
+                      UnsupportedScope name:D start:36:24 end:36:27:
+                        vpiParent: HierPath name:D::pack(0)
+                        vpiName Identifier name:D start:36:24 end:36:25:
+                          vpiParent: UnsupportedScope name:D
+                          vpiName: D
+                        vpiFullName: work@top.D::pack(0).D
                       MethodFuncCall name:pack start:36:27 end:36:34:
                         vpiParent: HierPath name:D::pack(0)
                         vpiName Identifier name:pack start:36:27 end:36:31:
@@ -1426,7 +1442,12 @@ Design name:unnamed:
                     vpiName: D::pack(1)
                     vpiFullName: work@top.D::pack(1)
                     vpiPathElem (2 items):
-                      ClassTypespec name:D:
+                      UnsupportedScope name:D start:37:24 end:37:27:
+                        vpiParent: HierPath name:D::pack(1)
+                        vpiName Identifier name:D start:37:24 end:37:25:
+                          vpiParent: UnsupportedScope name:D
+                          vpiName: D
+                        vpiFullName: work@top.D::pack(1).D
                       MethodFuncCall name:pack start:37:27 end:37:34:
                         vpiParent: HierPath name:D::pack(1)
                         vpiName Identifier name:pack start:37:27 end:37:31:
@@ -1464,7 +1485,12 @@ Design name:unnamed:
                     vpiName: E::pack(0)
                     vpiFullName: work@top.E::pack(0)
                     vpiPathElem (2 items):
-                      ClassTypespec name:E:
+                      UnsupportedScope name:E start:38:24 end:38:27:
+                        vpiParent: HierPath name:E::pack(0)
+                        vpiName Identifier name:E start:38:24 end:38:25:
+                          vpiParent: UnsupportedScope name:E
+                          vpiName: E
+                        vpiFullName: work@top.E::pack(0).E
                       MethodFuncCall name:pack start:38:27 end:38:34:
                         vpiParent: HierPath name:E::pack(0)
                         vpiName Identifier name:pack start:38:27 end:38:31:
@@ -1502,7 +1528,12 @@ Design name:unnamed:
                     vpiName: E::pack(1)
                     vpiFullName: work@top.E::pack(1)
                     vpiPathElem (2 items):
-                      ClassTypespec name:E:
+                      UnsupportedScope name:E start:39:24 end:39:27:
+                        vpiParent: HierPath name:E::pack(1)
+                        vpiName Identifier name:E start:39:24 end:39:25:
+                          vpiParent: UnsupportedScope name:E
+                          vpiName: E
+                        vpiFullName: work@top.E::pack(1).E
                       MethodFuncCall name:pack start:39:27 end:39:34:
                         vpiParent: HierPath name:E::pack(1)
                         vpiName Identifier name:pack start:39:27 end:39:31:
@@ -1524,42 +1555,7 @@ Design name:unnamed:
           vpiStmt Begin start:42:13 end:52:8:
             vpiParent: Initial
             vpiFullName: work@top
-            vpiParameter (1 items):
-              Parameter name:MAGIC start:46:24 end:46:29:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:46:24 end:46:24:
-                  vpiParent: Parameter name:MAGIC
-                  vpiFullName: work@top.MAGIC
-                  vpiActual: LogicTypespec
-                vpiName: MAGIC
-                vpiFullName: work@top.MAGIC
-                vpiLocalParam: true
-            vpiParamAssign (1 items):
-              ParamAssign start:46:24 end:46:34:
-                vpiParent: Begin
-                vpiLhs RefObj name:MAGIC start:46:24 end:46:29:
-                  vpiParent: ParamAssign
-                  vpiName: MAGIC
-                  vpiFullName: work@top.MAGIC
-                  vpiActual: Parameter name:MAGIC
-                vpiRhs Constant start:46:32 end:46:34:
-                  vpiParent: ParamAssign
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: work@top
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "42"
-                  vpiValue: 42
-            vpiTypespec (2 items):
-              ClassTypespec name:F start:44:39 end:44:40:
-                vpiParent: Begin
-                vpiName: F
-              ClassTypespec name:F start:51:39 end:51:40:
-                vpiParent: Begin
-                vpiName: F
-            vpiStmt (7 items):
+            vpiStmt (5 items):
               SysFuncCall name:$display start:43:9 end:43:45:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:43:9 end:43:17:
@@ -1602,7 +1598,12 @@ Design name:unnamed:
                     vpiName: F::MAGIC
                     vpiFullName: work@top.F::MAGIC
                     vpiPathElem (2 items):
-                      ClassTypespec name:F:
+                      UnsupportedScope name:F start:44:39 end:44:42:
+                        vpiParent: HierPath name:F::MAGIC
+                        vpiName Identifier name:F start:44:39 end:44:40:
+                          vpiParent: UnsupportedScope name:F
+                          vpiName: F
+                        vpiFullName: work@top.F::MAGIC.F
                       RefObj name:MAGIC start:44:42 end:44:47:
                         vpiParent: HierPath name:F::MAGIC
                         vpiName: MAGIC
@@ -1611,12 +1612,37 @@ Design name:unnamed:
               Begin start:45:9 end:49:12:
                 vpiParent: Begin
                 vpiFullName: work@top
-                vpiTypespec (2 items):
+                vpiParameter (1 items):
+                  Parameter name:MAGIC start:46:24 end:46:29:
+                    vpiParent: Begin
+                    vpiTypespec RefTypespec start:46:24 end:46:24:
+                      vpiParent: Parameter name:MAGIC
+                      vpiFullName: work@top.MAGIC
+                      vpiActual: LogicTypespec
+                    vpiName: MAGIC
+                    vpiFullName: work@top.MAGIC
+                    vpiLocalParam: true
+                vpiParamAssign (1 items):
+                  ParamAssign start:46:24 end:46:34:
+                    vpiParent: Begin
+                    vpiLhs RefObj name:MAGIC start:46:24 end:46:29:
+                      vpiParent: ParamAssign
+                      vpiName: MAGIC
+                      vpiFullName: work@top.MAGIC
+                      vpiActual: Parameter name:MAGIC
+                    vpiRhs Constant start:46:32 end:46:34:
+                      vpiParent: ParamAssign
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: work@top
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "42"
+                      vpiValue: 42
+                vpiTypespec (1 items):
                   LogicTypespec:
                     vpiParent: Begin
-                  ClassTypespec name:F start:48:43 end:48:44:
-                    vpiParent: Begin
-                    vpiName: F
                 vpiStmt (2 items):
                   SysFuncCall name:$display start:47:13 end:47:46:
                     vpiParent: Begin
@@ -1660,14 +1686,17 @@ Design name:unnamed:
                         vpiName: F::MAGIC
                         vpiFullName: work@top.F::MAGIC
                         vpiPathElem (2 items):
-                          ClassTypespec name:F:
+                          UnsupportedScope name:F start:48:43 end:48:46:
+                            vpiParent: HierPath name:F::MAGIC
+                            vpiName Identifier name:F start:48:43 end:48:44:
+                              vpiParent: UnsupportedScope name:F
+                              vpiName: F
+                            vpiFullName: work@top.F::MAGIC.F
                           RefObj name:MAGIC start:48:46 end:48:51:
                             vpiParent: HierPath name:F::MAGIC
                             vpiName: MAGIC
                             vpiFullName: work@top.MAGIC
                             vpiActual: Parameter name:MAGIC
-              Parameter name:MAGIC:
-              ParamAssign:
               SysFuncCall name:$display start:50:9 end:50:45:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:50:9 end:50:17:
@@ -1710,7 +1739,12 @@ Design name:unnamed:
                     vpiName: F::MAGIC
                     vpiFullName: work@top.F::MAGIC
                     vpiPathElem (2 items):
-                      ClassTypespec name:F:
+                      UnsupportedScope name:F start:51:39 end:51:42:
+                        vpiParent: HierPath name:F::MAGIC
+                        vpiName Identifier name:F start:51:39 end:51:40:
+                          vpiParent: UnsupportedScope name:F
+                          vpiName: F
+                        vpiFullName: work@top.F::MAGIC.F
                       RefObj name:MAGIC start:51:42 end:51:47:
                         vpiParent: HierPath name:F::MAGIC
                         vpiName: MAGIC
@@ -1721,46 +1755,7 @@ Design name:unnamed:
           vpiStmt Begin start:54:13 end:64:8:
             vpiParent: Initial
             vpiFullName: work@top
-            vpiParameter (1 items):
-              Parameter name:PIZZAZZ start:58:24 end:58:31:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:58:24 end:58:24:
-                  vpiParent: Parameter name:PIZZAZZ
-                  vpiFullName: work@top.PIZZAZZ
-                  vpiActual: LogicTypespec
-                vpiName: PIZZAZZ
-                vpiFullName: work@top.PIZZAZZ
-                vpiLocalParam: true
-            vpiParamAssign (1 items):
-              ParamAssign start:58:24 end:58:36:
-                vpiParent: Begin
-                vpiLhs RefObj name:PIZZAZZ start:58:24 end:58:31:
-                  vpiParent: ParamAssign
-                  vpiName: PIZZAZZ
-                  vpiFullName: work@top.PIZZAZZ
-                  vpiActual: Parameter name:PIZZAZZ
-                vpiRhs Operation start:58:34 end:58:36:
-                  vpiParent: ParamAssign
-                  vpiOpType: minus (1)
-                  vpiOperand (1 items):
-                    Constant start:58:35 end:58:36:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: work@top
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "7"
-                      vpiValue: 7
-            vpiTypespec (2 items):
-              ClassTypespec name:F start:56:41 end:56:42:
-                vpiParent: Begin
-                vpiName: F
-              ClassTypespec name:F start:63:41 end:63:42:
-                vpiParent: Begin
-                vpiName: F
-            vpiStmt (7 items):
+            vpiStmt (5 items):
               SysFuncCall name:$display start:55:9 end:55:46:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:55:9 end:55:17:
@@ -1803,7 +1798,12 @@ Design name:unnamed:
                     vpiName: F::PIZZAZZ
                     vpiFullName: work@top.F::PIZZAZZ
                     vpiPathElem (2 items):
-                      ClassTypespec name:F:
+                      UnsupportedScope name:F start:56:41 end:56:44:
+                        vpiParent: HierPath name:F::PIZZAZZ
+                        vpiName Identifier name:F start:56:41 end:56:42:
+                          vpiParent: UnsupportedScope name:F
+                          vpiName: F
+                        vpiFullName: work@top.F::PIZZAZZ.F
                       RefObj name:PIZZAZZ start:56:44 end:56:51:
                         vpiParent: HierPath name:F::PIZZAZZ
                         vpiName: PIZZAZZ
@@ -1812,12 +1812,41 @@ Design name:unnamed:
               Begin start:57:9 end:61:12:
                 vpiParent: Begin
                 vpiFullName: work@top
-                vpiTypespec (2 items):
+                vpiParameter (1 items):
+                  Parameter name:PIZZAZZ start:58:24 end:58:31:
+                    vpiParent: Begin
+                    vpiTypespec RefTypespec start:58:24 end:58:24:
+                      vpiParent: Parameter name:PIZZAZZ
+                      vpiFullName: work@top.PIZZAZZ
+                      vpiActual: LogicTypespec
+                    vpiName: PIZZAZZ
+                    vpiFullName: work@top.PIZZAZZ
+                    vpiLocalParam: true
+                vpiParamAssign (1 items):
+                  ParamAssign start:58:24 end:58:36:
+                    vpiParent: Begin
+                    vpiLhs RefObj name:PIZZAZZ start:58:24 end:58:31:
+                      vpiParent: ParamAssign
+                      vpiName: PIZZAZZ
+                      vpiFullName: work@top.PIZZAZZ
+                      vpiActual: Parameter name:PIZZAZZ
+                    vpiRhs Operation start:58:34 end:58:36:
+                      vpiParent: ParamAssign
+                      vpiOpType: minus (1)
+                      vpiOperand (1 items):
+                        Constant start:58:35 end:58:36:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@top
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "7"
+                          vpiValue: 7
+                vpiTypespec (1 items):
                   LogicTypespec:
                     vpiParent: Begin
-                  ClassTypespec name:F start:60:45 end:60:46:
-                    vpiParent: Begin
-                    vpiName: F
                 vpiStmt (2 items):
                   SysFuncCall name:$display start:59:13 end:59:59:
                     vpiParent: Begin
@@ -1861,14 +1890,17 @@ Design name:unnamed:
                         vpiName: F::PIZZAZZ
                         vpiFullName: work@top.F::PIZZAZZ
                         vpiPathElem (2 items):
-                          ClassTypespec name:F:
+                          UnsupportedScope name:F start:60:45 end:60:48:
+                            vpiParent: HierPath name:F::PIZZAZZ
+                            vpiName Identifier name:F start:60:45 end:60:46:
+                              vpiParent: UnsupportedScope name:F
+                              vpiName: F
+                            vpiFullName: work@top.F::PIZZAZZ.F
                           RefObj name:PIZZAZZ start:60:48 end:60:55:
                             vpiParent: HierPath name:F::PIZZAZZ
                             vpiName: PIZZAZZ
                             vpiFullName: work@top.PIZZAZZ
                             vpiActual: Parameter name:PIZZAZZ
-              Parameter name:PIZZAZZ:
-              ParamAssign:
               SysFuncCall name:$display start:62:9 end:62:46:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:62:9 end:62:17:
@@ -1911,7 +1943,12 @@ Design name:unnamed:
                     vpiName: F::PIZZAZZ
                     vpiFullName: work@top.F::PIZZAZZ
                     vpiPathElem (2 items):
-                      ClassTypespec name:F:
+                      UnsupportedScope name:F start:63:41 end:63:44:
+                        vpiParent: HierPath name:F::PIZZAZZ
+                        vpiName Identifier name:F start:63:41 end:63:42:
+                          vpiParent: UnsupportedScope name:F
+                          vpiName: F
+                        vpiFullName: work@top.F::PIZZAZZ.F
                       RefObj name:PIZZAZZ start:63:44 end:63:51:
                         vpiParent: HierPath name:F::PIZZAZZ
                         vpiName: PIZZAZZ
@@ -1978,9 +2015,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            33      33       6         6
 Operation                            8       2       0         6
-RefTypespec                         46      46       6         6
+RefTypespec                         47      47       6         6
 ----------------------------------------------------------------
-Others                             195     195       0         0
+Others                             213     213       0         0
 ----------------------------------------------------------------
-                                   282     276      12        18
+                                   301     295      12        18
 ===================== END REDUCTION RESULT =====================

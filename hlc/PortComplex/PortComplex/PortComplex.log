@@ -245,7 +245,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@dut".
 [INF:CP0301] $Source01/dut.sv:15:1: Compile package "work@dm".
 [INF:CP0303] $Source01/dut.sv:26:1: Compile module "work@dut2".
-[WRN:CP0323] $Source01/dut.sv:26:1: Multiply defined typedef "dm".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pr_pkg".
 [WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@dm".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@dut".
@@ -518,16 +517,29 @@ Design name:unnamed:
             vpiParent: Variable name:alert_tx_o
             vpiName: alert_tx_t
             vpiFullName: work@dut.alert_tx_o.alert_tx_t
-            vpiPrefix: HierPath name:pr_pkg::alert_tx_t [2:0]
-            vpiActual: ArrayTypespec
+            vpiActual: UnsupportedTypespec name:pr_pkg::alert_tx_t [2:0]
           vpiName: alert_tx_o
           vpiFullName: work@dut.alert_tx_o
           vpiNetType: none (12)
       vpiTypespec (3 items):
-        ClassTypespec name:pr_pkg start:10:8 end:10:14:
+        UnsupportedTypespec name:pr_pkg::alert_tx_t [2:0] start:10:8 end:10:32:
           vpiParent: Module name:work@dut
-          vpiName: pr_pkg
-        UnsupportedTypespec name:alert_tx_t start:10:16 end:10:26:
+          vpiPathElem (2 items):
+            UnsupportedScope name:pr_pkg start:10:8 end:10:16:
+              vpiParent: UnsupportedTypespec name:pr_pkg::alert_tx_t [2:0]
+              vpiName Identifier name:pr_pkg start:10:8 end:10:14:
+                vpiParent: UnsupportedScope name:pr_pkg
+                vpiName: pr_pkg
+              vpiFullName: work@dut.pr_pkg::alert_tx_t [2:0].pr_pkg
+            RefTypespec name:alert_tx_t start:10:16 end:10:32:
+              vpiParent: UnsupportedTypespec name:pr_pkg::alert_tx_t [2:0]
+              vpiName: alert_tx_t
+              vpiFullName: work@dut.pr_pkg::alert_tx_t [2:0].alert_tx_t
+              vpiActual: ArrayTypespec
+          vpiName Identifier name:pr_pkg::alert_tx_t [2:0] start:10:8 end:10:32:
+            vpiParent: UnsupportedTypespec name:pr_pkg::alert_tx_t [2:0]
+            vpiName: pr_pkg::alert_tx_t [2:0]
+        UnsupportedTypespec name:alert_tx_t start:10:16 end:10:32:
           vpiParent: Module name:work@dut
           vpiName Identifier name:alert_tx_t:
             vpiParent: UnsupportedTypespec name:alert_tx_t
@@ -558,10 +570,9 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:alert_tx_t:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: alert_tx_t
-            vpiFullName: work@dut.alert_tx_t
+            vpiFullName: work@dut
             vpiActual: UnsupportedTypespec name:alert_tx_t
       vpiDefName: work@dut
       vpiDefNetType: none (12)
@@ -583,14 +594,7 @@ Design name:unnamed:
             vpiParent: Port name:alert_tx_o
             vpiName: alert_tx_t
             vpiFullName: work@dut.alert_tx_o.alert_tx_t
-            vpiPrefix HierPath name:pr_pkg::alert_tx_t [2:0] start:10:8 end:10:16:
-              vpiParent: RefTypespec name:alert_tx_t
-              vpiName: pr_pkg::alert_tx_t [2:0]
-              vpiFullName: work@dut.alert_tx_o.alert_tx_t.pr_pkg::alert_tx_t [2:0]
-              vpiPathElem (2 items):
-                ClassTypespec name:pr_pkg:
-                ArrayTypespec:
-            vpiActual: ArrayTypespec
+            vpiActual: UnsupportedTypespec name:pr_pkg::alert_tx_t [2:0]
     Module name:work@dut2 file:$Source01/dut.sv start:26:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut2 start:26:8 end:26:12:
@@ -624,11 +628,25 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (5 items):
-        ClassTypespec name:dm start:30:9 end:30:11:
+      vpiTypespec (4 items):
+        UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0] start:30:9 end:30:37:
           vpiParent: Module name:work@dut2
-          vpiName: dm
-        UnsupportedTypespec name:hartinfo_t start:30:13 end:30:23:
+          vpiPathElem (2 items):
+            UnsupportedScope name:dm start:30:9 end:30:13:
+              vpiParent: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
+              vpiName Identifier name:dm start:30:9 end:30:11:
+                vpiParent: UnsupportedScope name:dm
+                vpiName: dm
+              vpiFullName: work@dut2.dm::hartinfo_t [NrHarts-1:0].dm
+            RefTypespec name:hartinfo_t start:30:13 end:30:37:
+              vpiParent: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
+              vpiName: hartinfo_t
+              vpiFullName: work@dut2.dm::hartinfo_t [NrHarts-1:0].hartinfo_t
+              vpiActual: ArrayTypespec
+          vpiName Identifier name:dm::hartinfo_t [NrHarts-1:0] start:30:9 end:30:37:
+            vpiParent: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
+            vpiName: dm::hartinfo_t [NrHarts-1:0]
+        UnsupportedTypespec name:hartinfo_t start:30:13 end:30:37:
           vpiParent: Module name:work@dut2
           vpiName Identifier name:hartinfo_t:
             vpiParent: UnsupportedTypespec name:hartinfo_t
@@ -668,19 +686,26 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:hartinfo_t:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: hartinfo_t
-            vpiFullName: work@dut2.hartinfo_t
+            vpiFullName: work@dut2
             vpiActual: UnsupportedTypespec name:hartinfo_t
-        ClassTypespec name:dm start:31:9 end:31:11:
+        UnsupportedTypespec name:dm::hartinfo_t start:31:9 end:31:23:
           vpiParent: Module name:work@dut2
-          vpiName: dm
-        UnsupportedTypespec name:hartinfo_t start:31:13 end:31:23:
-          vpiParent: Module name:work@dut2
-          vpiName Identifier name:hartinfo_t:
-            vpiParent: UnsupportedTypespec name:hartinfo_t
-            vpiName: hartinfo_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:dm start:31:9 end:31:13:
+              vpiParent: UnsupportedTypespec name:dm::hartinfo_t
+              vpiName Identifier name:dm start:31:9 end:31:11:
+                vpiParent: UnsupportedScope name:dm
+                vpiName: dm
+              vpiFullName: work@dut2.dm::hartinfo_t.dm
+            RefTypespec name:hartinfo_t start:31:13 end:31:23:
+              vpiParent: UnsupportedTypespec name:dm::hartinfo_t
+              vpiName: hartinfo_t
+              vpiFullName: work@dut2.dm::hartinfo_t.hartinfo_t
+          vpiName Identifier name:dm::hartinfo_t start:31:9 end:31:23:
+            vpiParent: UnsupportedTypespec name:dm::hartinfo_t
+            vpiName: dm::hartinfo_t
       vpiDefName: work@dut2
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -695,8 +720,7 @@ Design name:unnamed:
             vpiParent: Net name:hartinfo_i
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hartinfo_i.hartinfo_t
-            vpiPrefix: HierPath name:dm::hartinfo_t [NrHarts-1:0]
-            vpiActual: ArrayTypespec
+            vpiActual: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
           vpiName: hartinfo_i
           vpiFullName: work@dut2.hartinfo_i
           vpiNetType: wire (1)
@@ -706,8 +730,7 @@ Design name:unnamed:
             vpiParent: Net name:hart_info_i_without_range
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t
-            vpiPrefix: HierPath name:dm::hartinfo_t
-            vpiActual: UnsupportedTypespec name:hartinfo_t
+            vpiActual: UnsupportedTypespec name:dm::hartinfo_t
           vpiName: hart_info_i_without_range
           vpiFullName: work@dut2.hart_info_i_without_range
           vpiNetType: wire (1)
@@ -724,14 +747,7 @@ Design name:unnamed:
             vpiParent: Port name:hartinfo_i
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hartinfo_i.hartinfo_t
-            vpiPrefix HierPath name:dm::hartinfo_t [NrHarts-1:0] start:30:9 end:30:13:
-              vpiParent: RefTypespec name:hartinfo_t
-              vpiName: dm::hartinfo_t [NrHarts-1:0]
-              vpiFullName: work@dut2.hartinfo_i.hartinfo_t.dm::hartinfo_t [NrHarts-1:0]
-              vpiPathElem (2 items):
-                ClassTypespec name:dm:
-                ArrayTypespec:
-            vpiActual: ArrayTypespec
+            vpiActual: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
         Port name:hart_info_i_without_range start:31:44 end:31:69:
           vpiParent: Module name:work@dut2
           vpiName: hart_info_i_without_range
@@ -744,14 +760,7 @@ Design name:unnamed:
             vpiParent: Port name:hart_info_i_without_range
             vpiName: hartinfo_t
             vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t
-            vpiPrefix HierPath name:dm::hartinfo_t start:31:9 end:31:13:
-              vpiParent: RefTypespec name:hartinfo_t
-              vpiName: dm::hartinfo_t
-              vpiFullName: work@dut2.hart_info_i_without_range.hartinfo_t.dm::hartinfo_t
-              vpiPathElem (2 items):
-                ClassTypespec name:dm:
-                UnsupportedTypespec name:hartinfo_t:
-            vpiActual: UnsupportedTypespec name:hartinfo_t
+            vpiActual: UnsupportedTypespec name:dm::hartinfo_t
   vpiTypespec (4 items):
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -774,7 +783,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -820,9 +829,9 @@ Name                            Before   After   Added   Removed
 Constant                            15      15       1         1
 Operation                            1       0       0         1
 RefObj                               9       8       0         1
-RefTypespec                         34      34       1         1
+RefTypespec                         37      37       1         1
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                   125     123       2         4
+                                   132     130       2         4
 ===================== END REDUCTION RESULT =====================

@@ -63,7 +63,6 @@ n<$Source01/iface_class_test_11.sv> u<49> t<Top_level_rule> c<1> l<6:1> el<11:9>
             n<> u<43> t<ENDCLASS> p<44> l<11:1> el<11:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/iface_class_test_11.sv:8:21: Illegal implicit net "id:11, name:N".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -73,39 +72,108 @@ Design name:unnamed:
       vpiName: iface_class_test_11.sv
       vpiPreprocFile: "$Output/lib/work/iface_class_test_11.sv"
       vpiDefNetType: none (12)
-  vpiTypespec (5 items):
-    LogicTypespec:
+  vpiAllClasses (1 items):
+    ClassDefn name:work@base_ic file:$Source01/iface_class_test_11.sv start:6:1 end:11:9:
       vpiParent: Design name:unnamed
+      vpiName Identifier name:work@base_ic start:6:17 end:6:24:
+        vpiParent: ClassDefn name:work@base_ic
+        vpiName: work@base_ic
+      vpiFullName: work@base_ic
+      vpiParameter (1 items):
+        Parameter name:N start:7:11 end:7:12:
+          vpiParent: ClassDefn name:work@base_ic
+          vpiTypespec RefTypespec start:7:11 end:7:11:
+            vpiParent: Parameter name:N
+            vpiFullName: work@base_ic::N
+            vpiActual: LogicTypespec
+          vpiName: N
+          vpiFullName: work@base_ic::N
+      vpiParamAssign (1 items):
+        ParamAssign start:7:11 end:7:16:
+          vpiParent: ClassDefn name:work@base_ic
+          vpiLhs RefObj name:N start:7:11 end:7:12:
+            vpiParent: ParamAssign
+            vpiName: N
+            vpiFullName: work@base_ic::N
+            vpiActual: Parameter name:N
+          vpiRhs Constant start:7:15 end:7:16:
+            vpiParent: ParamAssign
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@base_ic
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "2"
+            vpiValue: 2
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: ClassDefn name:work@base_ic
+        UnsupportedTypespec name:some_class #(type =N) start:8:9 end:8:23:
+          vpiParent: ClassDefn name:work@base_ic
+          vpiName Identifier name:some_class #(type =N) start:8:9 end:8:23:
+            vpiParent: UnsupportedTypespec name:some_class #(type =N)
+            vpiName: some_class #(type =N)
+          vpiParamAssign (1 items):
+            ParamAssign start:8:21 end:8:22:
+              vpiParent: UnsupportedTypespec name:some_class #(type =N)
+              vpiRhs RefObj name:N start:8:21 end:8:22:
+                vpiParent: ParamAssign
+                vpiName: N
+                vpiFullName: work@base_ic::some_class #(type =N)::N
+                vpiActual: Parameter name:N
+        TypedefTypespec name:car_type start:8:1 end:8:33:
+          vpiParent: ClassDefn name:work@base_ic
+          vpiName Identifier name:car_type start:8:24 end:8:32:
+            vpiParent: TypedefTypespec name:car_type
+            vpiName: car_type
+          vpiTypedefAlias RefTypespec start:8:9 end:8:23:
+            vpiParent: TypedefTypespec name:car_type
+            vpiFullName: work@base_ic::car_type
+            vpiActual: UnsupportedTypespec name:some_class #(type =N)
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@base_ic
+        vpiName: work
+        vpiFullName: work@base_ic::work
+      vpiCell: base_ic
+      vpiTaskFuncDecl (2 items):
+        TaskDecl name:work@pure_task1 start:9:14 end:9:29:
+          vpiParent: ClassDefn name:work@base_ic
+          vpiName Identifier name:work@pure_task1 start:9:19 end:9:29:
+            vpiParent: TaskDecl name:work@pure_task1
+            vpiName: work@pure_task1
+          vpiFullName: work@base_ic::work@pure_task1
+          vpiVirtual: true
+          vpiPure: true
+        FunctionDecl name:pure_task1 start:10:14 end:10:38:
+          vpiParent: ClassDefn name:work@base_ic
+          vpiName Identifier name:pure_task1 start:10:28 end:10:38:
+            vpiParent: FunctionDecl name:pure_task1
+            vpiName: pure_task1
+          vpiFullName: work@base_ic::pure_task1
+          vpiVirtual: true
+          vpiPure: true
+          vpiReturn RefTypespec start:10:23 end:10:27:
+            vpiParent: FunctionDecl name:pure_task1
+            vpiFullName: work@base_ic::pure_task1
+            vpiActual: VoidTypespec
+  vpiTypespec (3 items):
+    ClassTypespec name:work@base_ic:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@base_ic:
+        vpiParent: ClassTypespec name:work@base_ic
+        vpiName: work@base_ic
+      vpiClassDefn: ClassDefn name:work@base_ic
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    UnsupportedTypespec name:some_class start:8:9 end:8:23:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:some_class:
-        vpiParent: UnsupportedTypespec name:some_class
-        vpiName: some_class
-      vpiParamAssign (1 items):
-        ParamAssign start:8:21 end:8:22:
-          vpiParent: UnsupportedTypespec name:some_class
-          vpiRhs RefObj name:N start:8:21 end:8:22:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: some_class.N
-    TypedefTypespec name:car_type start:8:1 end:8:33:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:car_type start:8:24 end:8:32:
-        vpiParent: TypedefTypespec name:car_type
-        vpiName: car_type
-      vpiTypedefAlias RefTypespec start:8:9 end:8:23:
-        vpiParent: TypedefTypespec name:car_type
-        vpiFullName: car_type
-        vpiActual: UnsupportedTypespec name:some_class
     VoidTypespec start:10:23 end:10:27:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -121,25 +189,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/generic/iface/iface_class_test_11/mounts.json
 
 
-{'result': {'coverage': 79.59,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/iface_class_test_11.sv': {'post_len': 30,
+            'files': {'$Output/lib/work/iface_class_test_11.sv': {'post_len': 0,
                                                                   'pre_len': 147}},
-            'post_len': 30,
+            'post_len': 0,
             'pre_len': 147,
             'test_name': 'Google/generic/iface/iface_class_test_11'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/iface_class_test_11.sv |      147 |        30 |
+| $Output/lib/work/iface_class_test_11.sv |      147 |         0 |
 +=========================================+==========+===========+
-|                                         |      147 |        30 |
+|                                         |      147 |         0 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 79.59
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -150,7 +218,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/iface/iface_class_test_11/design.h
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              12      12       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    12      12       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

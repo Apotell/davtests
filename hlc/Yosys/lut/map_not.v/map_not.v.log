@@ -34,7 +34,7 @@ n<$Source01/lut/map_not.v> u<43> t<Top_level_rule> c<1> l<1:1> el<6:1>
             n<> u<18> t<Output_declaration> p<19> c<15> l<3:5> el<3:13>
               n<> u<15> t<Net_port_type> p<18> c<14> s<17> l<3:12> el<3:12>
                 n<> u<14> t<Data_type_or_implicit> p<15> l<3:12> el<3:12>
-              n<> u<17> t<Port_identifier_list> p<18> c<16> l<3:12> el<3:13>
+              n<> u<17> t<Output_port_identifier_list> p<18> c<16> l<3:12> el<3:13>
                 n<y> u<16> t<SIMPLE_IDENTIFIER> p<17> l<3:12> el<3:13>
         n<> u<38> t<Module_item> p<40> c<37> s<39> l<4:5> el<4:19>
           n<> u<37> t<Non_port_module_item> p<38> c<36> l<4:5> el<4:19>
@@ -58,8 +58,7 @@ n<$Source01/lut/map_not.v> u<43> t<Top_level_rule> c<1> l<1:1> el<6:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/lut/map_not.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/lut/map_not.v:4:12: Illegal implicit net "id:10, name:y".
-[ERR:EL0535] $Source01/lut/map_not.v:4:17: Illegal implicit net "id:11, name:a".
+[ERR:EL0535] $Source01/lut/map_not.v:4:17: Illegal implicit net "id:13, name:a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -86,6 +85,15 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@top.work
       vpiCell: top
+      vpiNet (1 items):
+        Net name:y start:3:12 end:3:13:
+          vpiParent: Module name:work@top
+          vpiTypespec RefTypespec start:3:12 end:3:12:
+            vpiParent: Net name:y
+            vpiFullName: work@top.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: work@top.y
       vpiContAssign (1 items):
         ContAssign start:4:12 end:4:18:
           vpiParent: Module name:work@top
@@ -93,6 +101,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y
             vpiFullName: work@top.y
+            vpiActual: Net name:y
           vpiRhs Operation start:4:16 end:4:18:
             vpiParent: ContAssign
             vpiOpType: bitwise negation (4)
@@ -111,7 +120,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -127,25 +136,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/lut/map_not.v/mounts.json
 
 
-{'result': {'coverage': 96.23,
+{'result': {'coverage': 98.11,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/lut/map_not.v': {'post_len': 2,
+            'files': {'$Output/lib/work/lut/map_not.v': {'post_len': 1,
                                                          'pre_len': 53}},
-            'post_len': 2,
+            'post_len': 1,
             'pre_len': 53,
             'test_name': 'Yosys/lut/map_not.v'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/lut/map_not.v |       53 |         2 |
+| $Output/lib/work/lut/map_not.v |       53 |         1 |
 +================================+==========+===========+
-|                                |       53 |         2 |
+|                                |       53 |         1 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.23
+[COVERAGE] : 98.11
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -156,7 +165,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/lut/map_not.v/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              12      12       0         0
+Others                              14      14       0         0
 ----------------------------------------------------------------
-                                    12      12       0         0
+                                    14      14       0         0
 ===================== END REDUCTION RESULT =====================

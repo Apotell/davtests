@@ -357,12 +357,12 @@ n<$Source01/dut.sv> u<203> t<Top_level_rule> c<1> l<1:1> el<38:1>
                             n<> u<66> t<Queue_dimension> p<67> c<65> l<21:31> el<21:34>
                               n<> u<65> t<DOLLAR> p<66> l<21:32> el<21:33>
               n<> u<80> t<Class_item> p<83> c<79> s<82> l<22:4> el<22:25>
-                n<> u<79> t<Class_method> p<80> c<74> l<22:4> el<22:25>
-                  n<> u<74> t<Extern_qualifier> p<79> s<78> l<22:4> el<22:10>
-                  n<> u<78> t<Method_prototype> p<79> c<77> l<22:12> el<22:24>
-                    n<> u<77> t<Task_prototype> p<78> c<75> l<22:12> el<22:24>
-                      n<write> u<75> t<SIMPLE_IDENTIFIER> p<77> s<76> l<22:17> el<22:22>
-                      n<> u<76> t<Tf_port_item_list> p<77> l<22:22> el<22:24>
+                n<> u<79> t<Class_method> p<80> c<78> l<22:4> el<22:25>
+                  n<> u<78> t<EXTERN> p<79> s<77> l<22:4> el<22:10>
+                  n<> u<77> t<Method_prototype> p<79> c<76> l<22:12> el<22:24>
+                    n<> u<76> t<Task_prototype> p<77> c<74> l<22:12> el<22:24>
+                      n<write> u<74> t<SIMPLE_IDENTIFIER> p<76> s<75> l<22:17> el<22:22>
+                      n<> u<75> t<Tf_port_item_list> p<76> l<22:22> el<22:24>
               n<> u<82> t<ENDCLASS> p<83> l<23:1> el<23:9>
         n<> u<197> t<Package_item> p<199> c<196> s<198> l<25:1> el<34:8>
           n<> u<196> t<Package_or_generate_item_declaration> p<197> c<195> l<25:1> el<34:8>
@@ -481,7 +481,7 @@ n<$Source01/dut.sv> u<203> t<Top_level_rule> c<1> l<1:1> el<38:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@uvm".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@uvm".
-[ERR:EL0535] $Source01/dut.sv:31:13: Illegal implicit net "id:214, name:fname".
+[ERR:EL0535] $Source01/dut.sv:31:13: Illegal implicit net "id:224, name:fname".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -501,23 +501,33 @@ Design name:unnamed:
       vpiTypespec (5 items):
         ClassTypespec name:work@uvm_vreg_cb_iter:
           vpiParent: Package name:work@uvm
-          vpiName: work@uvm_vreg_cb_iter
+          vpiName Identifier name:work@uvm_vreg_cb_iter:
+            vpiParent: ClassTypespec name:work@uvm_vreg_cb_iter
+            vpiName: work@uvm_vreg_cb_iter
           vpiClassDefn: ClassDefn name:work@uvm_vreg_cb_iter
         ClassTypespec name:work@uvm_vreg_field_cb_iter:
           vpiParent: Package name:work@uvm
-          vpiName: work@uvm_vreg_field_cb_iter
+          vpiName Identifier name:work@uvm_vreg_field_cb_iter:
+            vpiParent: ClassTypespec name:work@uvm_vreg_field_cb_iter
+            vpiName: work@uvm_vreg_field_cb_iter
           vpiClassDefn: ClassDefn name:work@uvm_vreg_field_cb_iter
         ClassTypespec name:work@uvm_vreg_field_cbs:
           vpiParent: Package name:work@uvm
-          vpiName: work@uvm_vreg_field_cbs
+          vpiName Identifier name:work@uvm_vreg_field_cbs:
+            vpiParent: ClassTypespec name:work@uvm_vreg_field_cbs
+            vpiName: work@uvm_vreg_field_cbs
           vpiClassDefn: ClassDefn name:work@uvm_vreg_field_cbs
         ClassTypespec name:work@uvm_vreg_field:
           vpiParent: Package name:work@uvm
-          vpiName: work@uvm_vreg_field
+          vpiName Identifier name:work@uvm_vreg_field:
+            vpiParent: ClassTypespec name:work@uvm_vreg_field
+            vpiName: work@uvm_vreg_field
           vpiClassDefn: ClassDefn name:work@uvm_vreg_field
         ClassTypespec name:work@uvm_vreg:
           vpiParent: Package name:work@uvm
-          vpiName: work@uvm_vreg
+          vpiName Identifier name:work@uvm_vreg:
+            vpiParent: ClassTypespec name:work@uvm_vreg
+            vpiName: work@uvm_vreg
           vpiClassDefn: ClassDefn name:work@uvm_vreg
       vpiDefName: work@uvm
       vpiDefNetType: none (12)
@@ -740,7 +750,7 @@ Design name:unnamed:
                           vpiTypespec (1 items):
                             UnsupportedTypespec name:uvm_vreg_field_cbs start:29:12 end:29:30:
                               vpiParent: ForStmt
-                              vpiName Identifier name:uvm_vreg_field_cbs:
+                              vpiName Identifier name:uvm_vreg_field_cbs start:29:12 end:29:30:
                                 vpiParent: UnsupportedTypespec name:uvm_vreg_field_cbs
                                 vpiName: uvm_vreg_field_cbs
                           vpiForInitStmt (1 items):
@@ -817,6 +827,7 @@ Design name:unnamed:
                 vpiParent: TaskDecl name:work@write
                 vpiName: work@write
               vpiFullName: work@uvm::work@uvm_vreg::work@write
+              vpiVisibility: public (1)
     Package name:builtin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin:
@@ -2379,7 +2390,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2610,7 +2623,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2627,7 +2640,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2672,7 +2685,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -2793,18 +2808,24 @@ Design name:unnamed:
   vpiTypespec (7 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -2860,7 +2881,7 @@ COMMAND: ${HLC_DIR}/regression/ForLoopBind/ForLoopBind/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             662     662       0         0
+Others                             672     672       0         0
 ----------------------------------------------------------------
-                                   662     662       0         0
+                                   672     672       0         0
 ===================== END REDUCTION RESULT =====================

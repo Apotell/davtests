@@ -263,13 +263,13 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:12:44: Illegal implicit net "id:55, name:x".
-[ERR:EL0535] $Source01/dut.sv:13:27: Illegal implicit net "id:65, name:x".
-[ERR:EL0535] $Source01/dut.sv:13:11: Illegal implicit net "id:70, name:Width".
-[ERR:EL0535] $Source01/dut.sv:14:11: Illegal implicit net "id:80, name:Width".
-[ERR:EL0535] $Source01/dut.sv:15:11: Illegal implicit net "id:89, name:Width".
-[ERR:EL0535] $Source01/dut.sv:16:30: Illegal implicit net "id:97, name:x".
-[ERR:EL0535] $Source01/dut.sv:16:11: Illegal implicit net "id:102, name:Width".
+[ERR:EL0535] $Source01/dut.sv:12:44: Illegal implicit net "id:56, name:x".
+[ERR:EL0535] $Source01/dut.sv:13:27: Illegal implicit net "id:66, name:x".
+[ERR:EL0535] $Source01/dut.sv:13:11: Illegal implicit net "id:71, name:Width".
+[ERR:EL0535] $Source01/dut.sv:14:11: Illegal implicit net "id:81, name:Width".
+[ERR:EL0535] $Source01/dut.sv:15:11: Illegal implicit net "id:90, name:Width".
+[ERR:EL0535] $Source01/dut.sv:16:30: Illegal implicit net "id:98, name:x".
+[ERR:EL0535] $Source01/dut.sv:16:11: Illegal implicit net "id:103, name:Width".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -446,15 +446,23 @@ Design name:unnamed:
                         vpiParent: HierPath name:in.x
                         vpiName: x
                         vpiFullName: work@top.x
-      vpiTypespec (6 items):
-        ClassTypespec name:pkg start:11:19 end:11:22:
+      vpiTypespec (5 items):
+        UnsupportedTypespec name:pkg::struct_t start:11:19 end:11:32:
           vpiParent: Module name:work@top
-          vpiName: pkg
-        UnsupportedTypespec name:struct_t start:11:24 end:11:32:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:struct_t:
-            vpiParent: UnsupportedTypespec name:struct_t
-            vpiName: struct_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:pkg start:11:19 end:11:24:
+              vpiParent: UnsupportedTypespec name:pkg::struct_t
+              vpiName Identifier name:pkg start:11:19 end:11:22:
+                vpiParent: UnsupportedScope name:pkg
+                vpiName: pkg
+              vpiFullName: work@top.pkg::struct_t.pkg
+            RefTypespec name:struct_t start:11:24 end:11:32:
+              vpiParent: UnsupportedTypespec name:pkg::struct_t
+              vpiName: struct_t
+              vpiFullName: work@top.pkg::struct_t.struct_t
+          vpiName Identifier name:pkg::struct_t start:11:19 end:11:32:
+            vpiParent: UnsupportedTypespec name:pkg::struct_t
+            vpiName: pkg::struct_t
         ModuleTypespec name:work@dut start:13:4 end:13:7:
           vpiParent: Module name:work@top
           vpiName Identifier name:work@dut start:13:4 end:13:7:
@@ -489,8 +497,7 @@ Design name:unnamed:
             vpiParent: Net name:in
             vpiName: struct_t
             vpiFullName: work@top.in.struct_t
-            vpiPrefix: HierPath name:pkg::struct_t
-            vpiActual: UnsupportedTypespec name:struct_t
+            vpiActual: UnsupportedTypespec name:pkg::struct_t
           vpiName: in
           vpiFullName: work@top.in
           vpiNetType: wire (1)
@@ -507,14 +514,7 @@ Design name:unnamed:
             vpiParent: Port name:in
             vpiName: struct_t
             vpiFullName: work@top.in.struct_t
-            vpiPrefix HierPath name:pkg::struct_t start:11:19 end:11:24:
-              vpiParent: RefTypespec name:struct_t
-              vpiName: pkg::struct_t
-              vpiFullName: work@top.in.struct_t.pkg::struct_t
-              vpiPathElem (2 items):
-                ClassTypespec name:pkg:
-                UnsupportedTypespec name:struct_t:
-            vpiActual: UnsupportedTypespec name:struct_t
+            vpiActual: UnsupportedTypespec name:pkg::struct_t
       vpiRefInstance (4 items):
         RefInstance name:dut1 start:13:33 end:13:37:
           vpiParent: Module name:work@top
@@ -723,7 +723,7 @@ COMMAND: ${HLC_DIR}/regression/BitsHierPath/BitsHierPath/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   102     102       0         0
+                                   103     103       0         0
 ===================== END REDUCTION RESULT =====================

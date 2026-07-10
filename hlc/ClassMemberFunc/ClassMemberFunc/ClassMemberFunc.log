@@ -95,8 +95,8 @@ n<$Source01/dut.sv> u<80> t<Top_level_rule> c<1> l<1:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
-[ERR:EL0535] $Source01/dut.sv:8:22: Illegal implicit net "id:14, name:uvm_resource_base".
-[ERR:EL0535] $Source01/dut.sv:15:35: Illegal implicit net "id:36, name:i".
+[ERR:EL0535] $Source01/dut.sv:8:22: Illegal implicit net "id:16, name:uvm_resource_base".
+[ERR:EL0535] $Source01/dut.sv:15:35: Illegal implicit net "id:39, name:i".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -116,11 +116,15 @@ Design name:unnamed:
       vpiTypespec (2 items):
         ClassTypespec name:work@uvm_queue:
           vpiParent: Package name:work@pkg
-          vpiName: work@uvm_queue
+          vpiName Identifier name:work@uvm_queue:
+            vpiParent: ClassTypespec name:work@uvm_queue
+            vpiName: work@uvm_queue
           vpiClassDefn: ClassDefn name:work@uvm_queue
         ClassTypespec name:work@uvm_resource_types:
           vpiParent: Package name:work@pkg
-          vpiName: work@uvm_resource_types
+          vpiName Identifier name:work@uvm_resource_types:
+            vpiParent: ClassTypespec name:work@uvm_resource_types
+            vpiName: work@uvm_resource_types
           vpiClassDefn: ClassDefn name:work@uvm_resource_types
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
@@ -149,18 +153,18 @@ Design name:unnamed:
             vpiName: work@uvm_resource_types
           vpiFullName: work@pkg::work@uvm_resource_types
           vpiTypespec (2 items):
-            UnsupportedTypespec name:uvm_queue start:8:11 end:8:40:
+            UnsupportedTypespec name:uvm_queue #(type =uvm_resource_base) start:8:11 end:8:40:
               vpiParent: ClassDefn name:work@uvm_resource_types
-              vpiName Identifier name:uvm_queue:
-                vpiParent: UnsupportedTypespec name:uvm_queue
-                vpiName: uvm_queue
+              vpiName Identifier name:uvm_queue #(type =uvm_resource_base) start:8:11 end:8:40:
+                vpiParent: UnsupportedTypespec name:uvm_queue #(type =uvm_resource_base)
+                vpiName: uvm_queue #(type =uvm_resource_base)
               vpiParamAssign (1 items):
                 ParamAssign start:8:22 end:8:39:
-                  vpiParent: UnsupportedTypespec name:uvm_queue
+                  vpiParent: UnsupportedTypespec name:uvm_queue #(type =uvm_resource_base)
                   vpiRhs RefObj name:uvm_resource_base start:8:22 end:8:39:
                     vpiParent: ParamAssign
                     vpiName: uvm_resource_base
-                    vpiFullName: work@pkg::work@uvm_resource_types::uvm_queue::uvm_resource_base
+                    vpiFullName: work@pkg::work@uvm_resource_types::uvm_queue #(type =uvm_resource_base)::uvm_resource_base
             TypedefTypespec name:rsrc_q_t start:8:3 end:8:50:
               vpiParent: ClassDefn name:work@uvm_resource_types
               vpiName Identifier name:rsrc_q_t start:8:41 end:8:49:
@@ -169,7 +173,7 @@ Design name:unnamed:
               vpiTypedefAlias RefTypespec start:8:11 end:8:40:
                 vpiParent: TypedefTypespec name:rsrc_q_t
                 vpiFullName: work@pkg::work@uvm_resource_types::rsrc_q_t
-                vpiActual: UnsupportedTypespec name:uvm_queue
+                vpiActual: UnsupportedTypespec name:uvm_queue #(type =uvm_resource_base)
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:work@uvm_resource_types
@@ -184,12 +188,12 @@ Design name:unnamed:
             vpiName: start_phase_sequence
           vpiFullName: work@pkg::start_phase_sequence
           vpiVisibility: public (1)
-          vpiPrefix HierPath name:uvm_sequencer_base start:12:15 end:12:35:
+          vpiPrefix UnsupportedScope name:uvm_sequencer_base start:12:15 end:12:35:
             vpiParent: Function name:start_phase_sequence
-            vpiName: uvm_sequencer_base
+            vpiName Identifier name:uvm_sequencer_base start:12:15 end:12:33:
+              vpiParent: UnsupportedScope name:uvm_sequencer_base
+              vpiName: uvm_sequencer_base
             vpiFullName: work@pkg::start_phase_sequence::uvm_sequencer_base
-            vpiPathElem (1 items):
-              ClassTypespec name:uvm_sequencer_base:
           vpiStmt Begin:
             vpiParent: Function name:start_phase_sequence
             vpiFullName: work@pkg::start_phase_sequence
@@ -232,16 +236,10 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:get
                           vpiName: i
                           vpiFullName: work@pkg::start_phase_sequence::rsrc::rq.get(i)::i
-            vpiTypespec (3 items):
-              ClassTypespec name:uvm_sequencer_base start:12:15 end:12:33:
-                vpiParent: Begin
-                vpiName: uvm_sequencer_base
-              ClassTypespec name:uvm_resource_types start:13:1 end:13:19:
-                vpiParent: Begin
-                vpiName: uvm_resource_types
+            vpiTypespec (1 items):
               UnsupportedTypespec name:uvm_resource_base start:15:3 end:15:20:
                 vpiParent: Begin
-                vpiName Identifier name:uvm_resource_base:
+                vpiName Identifier name:uvm_resource_base start:15:3 end:15:20:
                   vpiParent: UnsupportedTypespec name:uvm_resource_base
                   vpiName: uvm_resource_base
           vpiReturn RefTypespec start:12:10 end:12:14:
@@ -299,7 +297,7 @@ COMMAND: ${HLC_DIR}/regression/ClassMemberFunc/ClassMemberFunc/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================

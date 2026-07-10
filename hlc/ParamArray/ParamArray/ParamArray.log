@@ -533,9 +533,9 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@otp_ctrl_part_pkg".
 [WRN:PA0205] $Source01/dut.sv:29:1: No timescale set for "work@otp_ctrl_lci".
 [WRN:PA0205] $Source01/dut.sv:43:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:14:7: Illegal implicit net "id:173, name:size".
-[ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:179, name:size".
-[ERR:EL0535] $Source01/dut.sv:47:6: Illegal implicit net "id:245, name:Info".
+[ERR:EL0535] $Source01/dut.sv:14:7: Illegal implicit net "id:178, name:size".
+[ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:184, name:size".
+[ERR:EL0535] $Source01/dut.sv:47:6: Illegal implicit net "id:252, name:Info".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2317,7 +2317,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2548,7 +2550,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2565,7 +2567,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2610,7 +2612,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -2764,11 +2768,10 @@ Design name:unnamed:
             vpiActual: Parameter name:Info
           vpiRhs Operation start:33:32 end:33:47:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec name:part_info_t start:33:32 end:33:43:
+            vpiTypespec RefTypespec start:33:32 end:33:43:
               vpiParent: Operation
-              vpiName: part_info_t
-              vpiFullName: work@otp_ctrl_lci.part_info_t
-              vpiActual: TypedefTypespec name:part_info_t
+              vpiFullName: work@otp_ctrl_lci
+              vpiActual: UnsupportedTypespec name:part_info_t
             vpiOpType: cast (81)
             vpiOperand (1 items):
               Constant start:33:45 end:33:46:
@@ -2817,12 +2820,17 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         ImportTypespec name:otp_ctrl_pkg start:30:10 end:30:25:
           vpiParent: Module name:work@otp_ctrl_lci
           vpiName Identifier name:otp_ctrl_pkg start:30:10 end:30:22:
             vpiParent: ImportTypespec name:otp_ctrl_pkg
             vpiName: otp_ctrl_pkg
+        UnsupportedTypespec name:part_info_t start:33:32 end:33:43:
+          vpiParent: Module name:work@otp_ctrl_lci
+          vpiName Identifier name:part_info_t:
+            vpiParent: UnsupportedTypespec name:part_info_t
+            vpiName: part_info_t
         LogicTypespec:
           vpiParent: Module name:work@otp_ctrl_lci
           vpiRange (1 items):
@@ -2932,18 +2940,24 @@ Design name:unnamed:
   vpiTypespec (9 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:work@otp_ctrl_lci:
       vpiParent: Design name:unnamed
@@ -3011,7 +3025,7 @@ COMMAND: ${HLC_DIR}/regression/ParamArray/ParamArray/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             689     689       0         0
+Others                             696     696       0         0
 ----------------------------------------------------------------
-                                   689     689       0         0
+                                   696     696       0         0
 ===================== END REDUCTION RESULT =====================

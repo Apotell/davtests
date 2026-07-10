@@ -9,24 +9,25 @@ COMMAND: -wd ../../../../tests/Google/chapter-22 -timescale=1ns/1ns -d ast -d db
 [INF:PP0122] Preprocessing source file "$Source01/22.11--pragma-number.sv".
 [INF:PA0201] Parsing source file "$Source01/22.11--pragma-number.sv".
 AST_DEBUG_BEGIN
-Count: 18
+Count: 19
 LIB: work
 FILE: f<14>:$Source01/22.11--pragma-number.sv
-n<$Source01/22.11--pragma-number.sv> u<17> t<Top_level_rule> c<1> l<16:1> el<17:1>
-  n<> u<1> t<Null_rule> p<17> s<2> l<16:1> el<16:1>
-  n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<17> s<3> l<1:1> el<1:51>
-  n<//> u<3> t<LINE_COMMENT> p<17> s<4> l<2:1> el<2:3>
-  n<// Use of this source code is governed by a ISC-style> u<4> t<LINE_COMMENT> p<17> s<5> l<3:1> el<3:54>
-  n<// license that can be found in the LICENSE file or at> u<5> t<LINE_COMMENT> p<17> s<6> l<4:1> el<4:55>
-  n<// https://opensource.org/licenses/ISC> u<6> t<LINE_COMMENT> p<17> s<7> l<5:1> el<5:39>
-  n<//> u<7> t<LINE_COMMENT> p<17> s<8> l<6:1> el<6:3>
-  n<// SPDX-License-Identifier: ISC> u<8> t<LINE_COMMENT> p<17> s<9> l<7:1> el<7:32>
-  n</*\n:name: 22.11--pragma-number\n:description: Test\n:tags: 22.11\n:type: preprocessing\n*/> u<9> t<BLOCK_COMMENT> p<17> s<16> l<16:1> el<16:26>
-  n<> u<16> t<Source_text> p<17> c<15> l<16:1> el<16:26>
-    n<> u<15> t<Description> p<16> c<14> l<16:1> el<16:26>
-      n<> u<14> t<Top_directives> p<15> c<13> l<16:1> el<16:26>
-        n<> u<13> t<Pragma_directive> p<14> c<12> l<16:1> el<16:26>
-          n<> u<12> t<Pragma_expression> p<13> c<11> l<16:23> el<16:26>
+n<$Source01/22.11--pragma-number.sv> u<18> t<Top_level_rule> c<1> l<16:1> el<17:1>
+  n<> u<1> t<Null_rule> p<18> s<2> l<16:1> el<16:1>
+  n<// Copyright (C) 2019-2021  The SymbiFlow Authors.> u<2> t<LINE_COMMENT> p<18> s<3> l<1:1> el<1:51>
+  n<//> u<3> t<LINE_COMMENT> p<18> s<4> l<2:1> el<2:3>
+  n<// Use of this source code is governed by a ISC-style> u<4> t<LINE_COMMENT> p<18> s<5> l<3:1> el<3:54>
+  n<// license that can be found in the LICENSE file or at> u<5> t<LINE_COMMENT> p<18> s<6> l<4:1> el<4:55>
+  n<// https://opensource.org/licenses/ISC> u<6> t<LINE_COMMENT> p<18> s<7> l<5:1> el<5:39>
+  n<//> u<7> t<LINE_COMMENT> p<18> s<8> l<6:1> el<6:3>
+  n<// SPDX-License-Identifier: ISC> u<8> t<LINE_COMMENT> p<18> s<9> l<7:1> el<7:32>
+  n</*\n:name: 22.11--pragma-number\n:description: Test\n:tags: 22.11\n:type: preprocessing\n*/> u<9> t<BLOCK_COMMENT> p<18> s<17> l<16:1> el<16:26>
+  n<> u<17> t<Source_text> p<18> c<16> l<16:1> el<16:26>
+    n<> u<16> t<Description> p<17> c<15> l<16:1> el<16:26>
+      n<> u<15> t<Top_directives> p<16> c<14> l<16:1> el<16:26>
+        n<> u<14> t<Pragma_directive> p<15> c<13> l<16:1> el<16:26>
+          n<pragma_number> u<13> t<SIMPLE_IDENTIFIER> p<14> s<12> l<16:9> el<16:22>
+          n<> u<12> t<Pragma_expression> p<14> c<11> l<16:23> el<16:26>
             n<> u<11> t<Pragma_value> p<12> c<10> l<16:23> el<16:26>
               n<123> u<10> t<INTEGRAL_NUMBER> p<11> l<16:23> el<16:26>
 AST_DEBUG_END
@@ -44,6 +45,23 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+  vpiDirective (1 items):
+    PragmaDirective name:pragma_number start:16:1 end:16:26:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:pragma_number start:16:9 end:16:22:
+        vpiParent: PragmaDirective name:pragma_number
+        vpiName: pragma_number
+      vpiExpr (1 items):
+        Constant start:16:23 end:16:26:
+          vpiParent: PragmaDirective name:pragma_number
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiFullName: pragma_number
+            vpiActual: IntTypespec
+          vpiConstType: unsigned int (9)
+          vpiSize: 64
+          vpiDecompile: "123"
+          vpiValue: 123
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -63,25 +81,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-22/22.11--pragma-number/mounts.json
 
 
-{'result': {'coverage': 0.0,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/22.11--pragma-number.sv': {'post_len': 25,
+            'files': {'$Output/lib/work/22.11--pragma-number.sv': {'post_len': 0,
                                                                    'pre_len': 25}},
-            'post_len': 25,
+            'post_len': 0,
             'pre_len': 25,
             'test_name': 'Google/chapter-22/22.11--pragma-number'}}
 
 +------------------------------------------+----------+-----------+
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
-| $Output/lib/work/22.11--pragma-number.sv |       25 |        25 |
+| $Output/lib/work/22.11--pragma-number.sv |       25 |         0 |
 +==========================================+==========+===========+
-|                                          |       25 |        25 |
+|                                          |       25 |         0 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 0.0
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -92,7 +110,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-22/22.11--pragma-number/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               3       3       0         0
+Others                               7       7       0         0
 ----------------------------------------------------------------
-                                     3       3       0         0
+                                     7       7       0         0
 ===================== END REDUCTION RESULT =====================

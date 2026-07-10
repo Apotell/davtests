@@ -764,23 +764,22 @@ n<$Source01/dut.sv> u<486> t<Top_level_rule> c<1> l<1:1> el<43:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@prim_cipher_pkg".
 [INF:CP0303] $Source01/dut.sv:26:1: Compile module "work@top".
-[WRN:CP0323] $Source01/dut.sv:26:1: Multiply defined typedef "prim_cipher_pkg".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@prim_cipher_pkg".
 [WRN:PA0205] $Source01/dut.sv:26:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:28:8: Illegal implicit net "id:328, name:data_state_sbox".
-[ERR:EL0535] $Source01/dut.sv:28:55: Illegal implicit net "id:331, name:data_state_xor".
-[ERR:EL0535] $Source01/dut.sv:29:41: Illegal implicit net "id:334, name:PRESENT_SBOX4".
-[ERR:EL0535] $Source01/dut.sv:32:12: Illegal implicit net "id:340, name:data_o".
-[ERR:EL0535] $Source01/dut.sv:32:35: Illegal implicit net "id:344, name:NumRoundsHalf".
-[ERR:EL0535] $Source01/dut.sv:32:22: Illegal implicit net "id:351, name:data_state".
-[ERR:EL0535] $Source01/dut.sv:35:23: Illegal implicit net "id:358, name:DataWidth".
-[ERR:EL0535] $Source01/dut.sv:33:39: Illegal implicit net "id:368, name:PRINCE_ROUND_CONST".
-[ERR:EL0535] $Source01/dut.sv:36:11: Illegal implicit net "id:371, name:data_o".
-[ERR:EL0535] $Source01/dut.sv:36:21: Illegal implicit net "id:372, name:k1".
-[ERR:EL0535] $Source01/dut.sv:36:11: Illegal implicit net "id:375, name:data_o".
-[ERR:EL0535] $Source01/dut.sv:37:12: Illegal implicit net "id:376, name:data_o".
-[ERR:EL0535] $Source01/dut.sv:37:22: Illegal implicit net "id:377, name:k0_prime".
-[ERR:EL0535] $Source01/dut.sv:37:12: Illegal implicit net "id:380, name:data_o".
+[ERR:EL0535] $Source01/dut.sv:28:8: Illegal implicit net "id:333, name:data_state_sbox".
+[ERR:EL0535] $Source01/dut.sv:28:55: Illegal implicit net "id:336, name:data_state_xor".
+[ERR:EL0535] $Source01/dut.sv:29:41: Illegal implicit net "id:340, name:PRESENT_SBOX4".
+[ERR:EL0535] $Source01/dut.sv:32:12: Illegal implicit net "id:347, name:data_o".
+[ERR:EL0535] $Source01/dut.sv:32:35: Illegal implicit net "id:351, name:NumRoundsHalf".
+[ERR:EL0535] $Source01/dut.sv:32:22: Illegal implicit net "id:358, name:data_state".
+[ERR:EL0535] $Source01/dut.sv:35:23: Illegal implicit net "id:365, name:DataWidth".
+[ERR:EL0535] $Source01/dut.sv:33:39: Illegal implicit net "id:376, name:PRINCE_ROUND_CONST".
+[ERR:EL0535] $Source01/dut.sv:36:11: Illegal implicit net "id:379, name:data_o".
+[ERR:EL0535] $Source01/dut.sv:36:21: Illegal implicit net "id:380, name:k1".
+[ERR:EL0535] $Source01/dut.sv:36:11: Illegal implicit net "id:383, name:data_o".
+[ERR:EL0535] $Source01/dut.sv:37:12: Illegal implicit net "id:384, name:data_o".
+[ERR:EL0535] $Source01/dut.sv:37:22: Illegal implicit net "id:385, name:k0_prime".
+[ERR:EL0535] $Source01/dut.sv:37:12: Illegal implicit net "id:388, name:data_o".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -3029,7 +3028,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -3260,7 +3261,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -3277,7 +3278,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -3322,7 +3323,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -3447,13 +3450,6 @@ Design name:unnamed:
         vpiParent: Module name:work@top
         vpiName: work@top
       vpiFullName: work@top
-      vpiTypespec (2 items):
-        ClassTypespec name:prim_cipher_pkg start:28:26 end:28:41:
-          vpiParent: Module name:work@top
-          vpiName: prim_cipher_pkg
-        ClassTypespec name:prim_cipher_pkg start:29:24 end:29:39:
-          vpiParent: Module name:work@top
-          vpiName: prim_cipher_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -3470,10 +3466,6 @@ Design name:unnamed:
               vpiParent: Begin name:p_post_round_xor
               vpiName: p_post_round_xor
             vpiFullName: work@top.p_post_round_xor
-            vpiTypespec (1 items):
-              ClassTypespec name:prim_cipher_pkg start:33:22 end:33:37:
-                vpiParent: Begin name:p_post_round_xor
-                vpiName: prim_cipher_pkg
             vpiStmt (3 items):
               Assignment start:32:12 end:35:37:
                 vpiParent: Begin name:p_post_round_xor
@@ -3531,7 +3523,12 @@ Design name:unnamed:
                       vpiName: prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
                       vpiFullName: work@top.p_post_round_xor.prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
                       vpiPathElem (2 items):
-                        ClassTypespec name:prim_cipher_pkg:
+                        UnsupportedScope name:prim_cipher_pkg start:33:22 end:33:39:
+                          vpiParent: HierPath name:prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
+                          vpiName Identifier name:prim_cipher_pkg start:33:22 end:33:37:
+                            vpiParent: UnsupportedScope name:prim_cipher_pkg
+                            vpiName: prim_cipher_pkg
+                          vpiFullName: work@top.p_post_round_xor.prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0].prim_cipher_pkg
                         PartSelect name:PRINCE_ROUND_CONST[11][DataWidth-1:0] start:33:22 end:35:37:
                           vpiParent: HierPath name:prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
                           vpiName: PRINCE_ROUND_CONST[11][DataWidth-1:0]
@@ -3635,7 +3632,12 @@ Design name:unnamed:
             vpiName: prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
             vpiFullName: work@top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
             vpiPathElem (2 items):
-              ClassTypespec name:prim_cipher_pkg:
+              UnsupportedScope name:prim_cipher_pkg start:28:26 end:28:43:
+                vpiParent: HierPath name:prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
+                vpiName Identifier name:prim_cipher_pkg start:28:26 end:28:41:
+                  vpiParent: UnsupportedScope name:prim_cipher_pkg
+                  vpiName: prim_cipher_pkg
+                vpiFullName: work@top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).prim_cipher_pkg
               MethodFuncCall name:sbox4_64bit start:28:43 end:29:55:
                 vpiParent: HierPath name:prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
                 vpiName Identifier name:sbox4_64bit start:28:43 end:28:54:
@@ -3651,7 +3653,12 @@ Design name:unnamed:
                     vpiName: prim_cipher_pkg::PRESENT_SBOX4
                     vpiFullName: work@top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).prim_cipher_pkg::PRESENT_SBOX4
                     vpiPathElem (2 items):
-                      ClassTypespec name:prim_cipher_pkg:
+                      UnsupportedScope name:prim_cipher_pkg start:29:24 end:29:41:
+                        vpiParent: HierPath name:prim_cipher_pkg::PRESENT_SBOX4
+                        vpiName Identifier name:prim_cipher_pkg start:29:24 end:29:39:
+                          vpiParent: UnsupportedScope name:prim_cipher_pkg
+                          vpiName: prim_cipher_pkg
+                        vpiFullName: work@top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).prim_cipher_pkg::PRESENT_SBOX4.prim_cipher_pkg
                       RefObj name:PRESENT_SBOX4 start:29:41 end:29:54:
                         vpiParent: HierPath name:prim_cipher_pkg::PRESENT_SBOX4
                         vpiName: PRESENT_SBOX4
@@ -3659,18 +3666,24 @@ Design name:unnamed:
   vpiTypespec (10 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3692,7 +3705,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 14
-[WARNING] : 3
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3739,7 +3752,7 @@ Constant                            53      36       3        20
 Operation                           13      10       0         3
 RefTypespec                        232     213       1        20
 ----------------------------------------------------------------
-Others                             491     491       0         0
+Others                             499     499       0         0
 ----------------------------------------------------------------
-                                   789     750       4        43
+                                   797     758       4        43
 ===================== END REDUCTION RESULT =====================

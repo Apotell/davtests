@@ -175,10 +175,6 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiName: success
                 vpiFullName: work@a::do_randomize::success
-            vpiTypespec (1 items):
-              ClassTypespec name:std start:19:19 end:19:22:
-                vpiParent: Begin
-                vpiName: std
             vpiStmt (2 items):
               Assignment start:19:9 end:19:57:
                 vpiParent: Begin
@@ -188,12 +184,17 @@ Design name:unnamed:
                   vpiName: success
                   vpiFullName: work@a::do_randomize::success
                   vpiActual: Variable name:success
-                vpiRhs HierPath name:std::randomize() start:19:19 end:19:24:
+                vpiRhs HierPath name:std::randomize() start:19:19 end:19:57:
                   vpiParent: Assignment
                   vpiName: std::randomize()
                   vpiFullName: work@a::do_randomize::std::randomize()
                   vpiPathElem (2 items):
-                    ClassTypespec name:std:
+                    UnsupportedScope name:std start:19:19 end:19:24:
+                      vpiParent: HierPath name:std::randomize()
+                      vpiName Identifier name:std start:19:19 end:19:22:
+                        vpiParent: UnsupportedScope name:std
+                        vpiName: std
+                      vpiFullName: work@a::do_randomize::std::randomize()::std
                     MethodFuncCall name:randomize start:19:24 end:19:57:
                       vpiParent: HierPath name:std::randomize()
                       vpiName Identifier name:randomize:
@@ -254,7 +255,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@a:
       vpiParent: Design name:unnamed
-      vpiName: work@a
+      vpiName Identifier name:work@a:
+        vpiParent: ClassTypespec name:work@a
+        vpiName: work@a
       vpiClassDefn: ClassDefn name:work@a
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -307,7 +310,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.12.1--adding-constraints-to-
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              35      35       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    35      35       0         0
+                                    37      37       0         0
 ===================== END REDUCTION RESULT =====================

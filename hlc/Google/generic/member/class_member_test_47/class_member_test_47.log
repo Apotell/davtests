@@ -113,13 +113,11 @@ n<$Source01/class_member_test_47.sv> u<100> t<Top_level_rule> c<1> l<6:1> el<13:
                     n<foo_if> u<88> t<SIMPLE_IDENTIFIER> p<89> l<12:40> el<12:46>
             n<> u<94> t<ENDCLASS> p<95> l<13:1> el<13:9>
 AST_DEBUG_END
-[WRN:CP0323] $Source01/class_member_test_47.sv:6:1: Multiply defined typedef "blah_if".
 [WRN:CP0323] $Source01/class_member_test_47.sv:6:1: Multiply defined typedef "harness_if".
-[WRN:CP0323] $Source01/class_member_test_47.sv:6:1: Multiply defined typedef "blah_if".
 [WRN:CP0323] $Source01/class_member_test_47.sv:6:1: Multiply defined typedef "foo_if".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_47.sv:11:26: Illegal implicit net "id:38, name:N".
-[ERR:EL0535] $Source01/class_member_test_47.sv:12:26: Illegal implicit net "id:45, name:N".
+[ERR:EL0535] $Source01/class_member_test_47.sv:11:26: Illegal implicit net "id:41, name:N".
+[ERR:EL0535] $Source01/class_member_test_47.sv:12:26: Illegal implicit net "id:48, name:N".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -136,10 +134,10 @@ Design name:unnamed:
         vpiParent: ClassDefn name:work@fun_with_typedef_members
         vpiName: work@fun_with_typedef_members
       vpiFullName: work@fun_with_typedef_members
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
         UnsupportedTypespec name:bool start:7:25 end:7:29:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
-          vpiName Identifier name:bool:
+          vpiName Identifier name:bool start:7:25 end:7:29:
             vpiParent: UnsupportedTypespec name:bool
             vpiName: bool
         StructTypespec start:7:9 end:7:34:
@@ -196,10 +194,10 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:colors
             vpiFullName: work@fun_with_typedef_members::colors
             vpiActual: EnumTypespec
-        InterfaceTypespec name:blah_if start:9:9 end:9:24:
+        UnsupportedTypespec name:blah_if start:9:17 end:9:24:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
           vpiName Identifier name:blah_if start:9:17 end:9:24:
-            vpiParent: InterfaceTypespec name:blah_if
+            vpiParent: UnsupportedTypespec name:blah_if
             vpiName: blah_if
         TypedefTypespec name:harness_if start:9:1 end:9:36:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
@@ -209,11 +207,11 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:9:9 end:9:24:
             vpiParent: TypedefTypespec name:harness_if
             vpiFullName: work@fun_with_typedef_members::harness_if
-            vpiActual: InterfaceTypespec name:blah_if
-        InterfaceTypespec name:blah_if start:10:9 end:10:34:
+            vpiActual: UnsupportedTypespec name:blah_if
+        UnsupportedTypespec name:blah_if start:10:27 end:10:34:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
           vpiName Identifier name:blah_if start:10:27 end:10:34:
-            vpiParent: InterfaceTypespec name:blah_if
+            vpiParent: UnsupportedTypespec name:blah_if
             vpiName: blah_if
         TypedefTypespec name:harness_if start:10:1 end:10:46:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
@@ -223,15 +221,15 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:10:9 end:10:34:
             vpiParent: TypedefTypespec name:harness_if
             vpiFullName: work@fun_with_typedef_members::harness_if
-            vpiActual: InterfaceTypespec name:blah_if
-        InterfaceTypespec name:blah_if start:11:9 end:11:28:
+            vpiActual: UnsupportedTypespec name:blah_if
+        UnsupportedTypespec name:blah_if start:11:17 end:11:24:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
           vpiName Identifier name:blah_if start:11:17 end:11:24:
-            vpiParent: InterfaceTypespec name:blah_if
+            vpiParent: UnsupportedTypespec name:blah_if
             vpiName: blah_if
           vpiParamAssign (1 items):
             ParamAssign start:11:26 end:11:27:
-              vpiParent: InterfaceTypespec name:blah_if
+              vpiParent: UnsupportedTypespec name:blah_if
               vpiRhs RefObj name:N start:11:26 end:11:27:
                 vpiParent: ParamAssign
                 vpiName: N
@@ -244,7 +242,19 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:11:9 end:11:28:
             vpiParent: TypedefTypespec name:foo_if
             vpiFullName: work@fun_with_typedef_members::foo_if
-            vpiActual: InterfaceTypespec name:blah_if
+            vpiActual: UnsupportedTypespec name:blah_if
+        UnsupportedTypespec name:blah_if start:12:17 end:12:24:
+          vpiParent: ClassDefn name:work@fun_with_typedef_members
+          vpiName Identifier name:blah_if start:12:17 end:12:24:
+            vpiParent: UnsupportedTypespec name:blah_if
+            vpiName: blah_if
+          vpiParamAssign (1 items):
+            ParamAssign start:12:26 end:12:27:
+              vpiParent: UnsupportedTypespec name:blah_if
+              vpiRhs RefObj name:N start:12:26 end:12:27:
+                vpiParent: ParamAssign
+                vpiName: N
+                vpiFullName: work@fun_with_typedef_members::blah_if::N
         TypedefTypespec name:foo_if start:12:1 end:12:47:
           vpiParent: ClassDefn name:work@fun_with_typedef_members
           vpiName Identifier name:foo_if start:12:40 end:12:46:
@@ -253,6 +263,7 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:12:9 end:12:39:
             vpiParent: TypedefTypespec name:foo_if
             vpiFullName: work@fun_with_typedef_members::foo_if
+            vpiActual: UnsupportedTypespec name:blah_if
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@fun_with_typedef_members
@@ -262,7 +273,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@fun_with_typedef_members:
       vpiParent: Design name:unnamed
-      vpiName: work@fun_with_typedef_members
+      vpiName Identifier name:work@fun_with_typedef_members:
+        vpiParent: ClassTypespec name:work@fun_with_typedef_members
+        vpiName: work@fun_with_typedef_members
       vpiClassDefn: ClassDefn name:work@fun_with_typedef_members
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -271,7 +284,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 4
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -315,7 +328,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_47/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

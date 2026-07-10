@@ -112,13 +112,13 @@ n<$Source01/class_member_test_52.sv> u<98> t<Top_level_rule> c<1> l<6:1> el<13:9
             n<> u<92> t<ENDCLASS> p<93> l<13:1> el<13:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_52.sv:8:17: Illegal implicit net "id:17, name:foo".
-[ERR:EL0535] $Source01/class_member_test_52.sv:9:5: Illegal implicit net "id:19, name:y".
-[ERR:EL0535] $Source01/class_member_test_52.sv:9:10: Illegal implicit net "id:20, name:y".
-[ERR:EL0535] $Source01/class_member_test_52.sv:9:18: Illegal implicit net "id:25, name:foo".
-[ERR:EL0535] $Source01/class_member_test_52.sv:10:5: Illegal implicit net "id:28, name:z".
-[ERR:EL0535] $Source01/class_member_test_52.sv:10:10: Illegal implicit net "id:29, name:z".
-[ERR:EL0535] $Source01/class_member_test_52.sv:10:19: Illegal implicit net "id:34, name:bar".
+[ERR:EL0535] $Source01/class_member_test_52.sv:8:17: Illegal implicit net "id:19, name:foo".
+[ERR:EL0535] $Source01/class_member_test_52.sv:9:5: Illegal implicit net "id:21, name:y".
+[ERR:EL0535] $Source01/class_member_test_52.sv:9:10: Illegal implicit net "id:22, name:y".
+[ERR:EL0535] $Source01/class_member_test_52.sv:9:18: Illegal implicit net "id:27, name:foo".
+[ERR:EL0535] $Source01/class_member_test_52.sv:10:5: Illegal implicit net "id:30, name:z".
+[ERR:EL0535] $Source01/class_member_test_52.sv:10:10: Illegal implicit net "id:31, name:z".
+[ERR:EL0535] $Source01/class_member_test_52.sv:10:19: Illegal implicit net "id:36, name:bar".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -149,9 +149,22 @@ Design name:unnamed:
             vpiName: apply_all
           vpiFullName: work@myclass::apply_all
           vpiTypespec (1 items):
-            ClassTypespec name:apkg start:7:10 end:7:14:
+            UnsupportedTypespec name:apkg::num_t start:7:10 end:7:21:
               vpiParent: Function name:apply_all
-              vpiName: apkg
+              vpiPathElem (2 items):
+                UnsupportedScope name:apkg start:7:10 end:7:16:
+                  vpiParent: UnsupportedTypespec name:apkg::num_t
+                  vpiName Identifier name:apkg start:7:10 end:7:14:
+                    vpiParent: UnsupportedScope name:apkg
+                    vpiName: apkg
+                  vpiFullName: work@myclass::apply_all::apkg::num_t::apkg
+                RefTypespec name:num_t start:7:16 end:7:21:
+                  vpiParent: UnsupportedTypespec name:apkg::num_t
+                  vpiName: num_t
+                  vpiFullName: work@myclass::apply_all::apkg::num_t::num_t
+              vpiName Identifier name:apkg::num_t start:7:10 end:7:21:
+                vpiParent: UnsupportedTypespec name:apkg::num_t
+                vpiName: apkg::num_t
           vpiVisibility: public (1)
           vpiStmt ForeachStmt start:8:3 end:11:6:
             vpiParent: Function name:apply_all
@@ -259,10 +272,13 @@ Design name:unnamed:
           vpiReturn RefTypespec start:7:10 end:7:21:
             vpiParent: Function name:apply_all
             vpiFullName: work@myclass::apply_all
+            vpiActual: UnsupportedTypespec name:apkg::num_t
   vpiTypespec (1 items):
     ClassTypespec name:work@myclass:
       vpiParent: Design name:unnamed
-      vpiName: work@myclass
+      vpiName Identifier name:work@myclass:
+        vpiParent: ClassTypespec name:work@myclass
+        vpiName: work@myclass
       vpiClassDefn: ClassDefn name:work@myclass
 ===================
 [  FATAL] : 0
@@ -312,7 +328,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_52/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    39      39       0         0
 ===================== END REDUCTION RESULT =====================

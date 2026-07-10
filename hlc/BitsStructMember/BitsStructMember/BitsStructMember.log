@@ -12,11 +12,11 @@ COMMAND: -wd ../../../tests/BitsStructMember -d db -sv dut.sv -nobuiltin -nocach
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@keymgr_pkg".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:17:16: Illegal implicit net "id:67, name:MsgWidth".
-[ERR:EL0535] $Source01/dut.sv:20:18: Illegal implicit net "id:82, name:mux_sel".
-[ERR:EL0535] $Source01/dut.sv:21:7: Illegal implicit net "id:83, name:SelKeyMgr".
-[ERR:EL0535] $Source01/dut.sv:22:50: Illegal implicit net "id:96, name:strb".
-[ERR:EL0535] $Source01/dut.sv:23:50: Illegal implicit net "id:120, name:strb".
+[ERR:EL0535] $Source01/dut.sv:17:16: Illegal implicit net "id:68, name:MsgWidth".
+[ERR:EL0535] $Source01/dut.sv:20:18: Illegal implicit net "id:83, name:mux_sel".
+[ERR:EL0535] $Source01/dut.sv:21:7: Illegal implicit net "id:84, name:SelKeyMgr".
+[ERR:EL0535] $Source01/dut.sv:22:50: Illegal implicit net "id:97, name:strb".
+[ERR:EL0535] $Source01/dut.sv:23:50: Illegal implicit net "id:121, name:strb".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -212,15 +212,23 @@ Design name:unnamed:
           vpiName: kmac_mask_o
           vpiFullName: work@top.kmac_mask_o
           vpiNetType: none (12)
-      vpiTypespec (3 items):
-        ClassTypespec name:keymgr_pkg start:16:20 end:16:30:
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t start:16:20 end:16:47:
           vpiParent: Module name:work@top
-          vpiName: keymgr_pkg
-        UnsupportedTypespec name:kmac_data_req_t start:16:32 end:16:47:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:kmac_data_req_t:
-            vpiParent: UnsupportedTypespec name:kmac_data_req_t
-            vpiName: kmac_data_req_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:keymgr_pkg start:16:20 end:16:32:
+              vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
+              vpiName Identifier name:keymgr_pkg start:16:20 end:16:30:
+                vpiParent: UnsupportedScope name:keymgr_pkg
+                vpiName: keymgr_pkg
+              vpiFullName: work@top.keymgr_pkg::kmac_data_req_t.keymgr_pkg
+            RefTypespec name:kmac_data_req_t start:16:32 end:16:47:
+              vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
+              vpiName: kmac_data_req_t
+              vpiFullName: work@top.keymgr_pkg::kmac_data_req_t.kmac_data_req_t
+          vpiName Identifier name:keymgr_pkg::kmac_data_req_t start:16:20 end:16:47:
+            vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
+            vpiName: keymgr_pkg::kmac_data_req_t
         LogicTypespec:
           vpiParent: Module name:work@top
           vpiRange (1 items):
@@ -269,8 +277,7 @@ Design name:unnamed:
             vpiParent: Net name:keymgr_data_i
             vpiName: kmac_data_req_t
             vpiFullName: work@top.keymgr_data_i.kmac_data_req_t
-            vpiPrefix: HierPath name:keymgr_pkg::kmac_data_req_t
-            vpiActual: UnsupportedTypespec name:kmac_data_req_t
+            vpiActual: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
           vpiName: keymgr_data_i
           vpiFullName: work@top.keymgr_data_i
           vpiNetType: wire (1)
@@ -287,14 +294,7 @@ Design name:unnamed:
             vpiParent: Port name:keymgr_data_i
             vpiName: kmac_data_req_t
             vpiFullName: work@top.keymgr_data_i.kmac_data_req_t
-            vpiPrefix HierPath name:keymgr_pkg::kmac_data_req_t start:16:20 end:16:32:
-              vpiParent: RefTypespec name:kmac_data_req_t
-              vpiName: keymgr_pkg::kmac_data_req_t
-              vpiFullName: work@top.keymgr_data_i.kmac_data_req_t.keymgr_pkg::kmac_data_req_t
-              vpiPathElem (2 items):
-                ClassTypespec name:keymgr_pkg:
-                UnsupportedTypespec name:kmac_data_req_t:
-            vpiActual: UnsupportedTypespec name:kmac_data_req_t
+            vpiActual: UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t
         Port name:kmac_mask_o start:17:30 end:17:41:
           vpiParent: Module name:work@top
           vpiName: kmac_mask_o
@@ -547,9 +547,9 @@ Name                            Before   After   Added   Removed
 Constant                            12      11       2         3
 Operation                            9       6       0         3
 RefObj                              19      17       0         2
-RefTypespec                         23      22       2         3
+RefTypespec                         24      23       2         3
 ----------------------------------------------------------------
 Others                              49      49       0         0
 ----------------------------------------------------------------
-                                   112     105       4        11
+                                   113     106       4        11
 ===================== END REDUCTION RESULT =====================

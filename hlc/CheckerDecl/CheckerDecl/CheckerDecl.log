@@ -2501,6 +2501,7 @@ AST_DEBUG_END
 [INF:CP0307] $Source01/dut.sv:287:9: Compile checker "C17_DisableIffDist".
 [INF:CP0303] $Source01/dut.sv:309:1: Compile module "work@top".
 [INF:CP0307] $Source01/dut.sv:389:9: Compile checker "my_checker_global2".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 6 orphan node(s).
 [WRN:PA0205] $Source01/dut.sv:309:1: No timescale set for "work@top".
 [ERR:EL0535] $Source01/dut.sv:74:23: Illegal implicit net "id:154, name:x".
 [ERR:EL0535] $Source01/dut.sv:74:28: Illegal implicit net "id:155, name:y".
@@ -3647,7 +3648,7 @@ Design name:unnamed:
           vpiFullName: work@C4_AssertionItemDecl.p_ab
           vpiPropertySpec PropertySpec start:70:9 end:70:35:
             vpiParent: PropertyDecl name:p_ab
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:70:11 end:70:22:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -3735,7 +3736,7 @@ Design name:unnamed:
             vpiName: assume_a
           vpiProperty PropertySpec start:80:34 end:80:50:
             vpiParent: Assume
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:80:36 end:80:47:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -3884,7 +3885,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C5_RestrictCoverSeq
           vpiProperty PropertySpec start:98:24 end:98:46:
             vpiParent: Restrict
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:98:26 end:98:37:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -3972,7 +3973,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C6_FunctionDecl
           vpiProperty PropertySpec start:122:22 end:122:53:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:122:24 end:122:35:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -4229,7 +4230,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C7_ProceduralItems
           vpiStmt EventControl start:137:12 end:137:42:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:137:14 end:137:25:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -4336,7 +4337,7 @@ Design name:unnamed:
           vpiFullName: work@C8_ClockingDefault.cb
           vpiClockingEvent EventControl start:156:17 end:156:31:
             vpiParent: ClockingBlock name:cb
-            vpiCondition Operation:
+            vpiCondition Operation start:156:19 end:156:30:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -4415,7 +4416,7 @@ Design name:unnamed:
           vpiFullName: work@C9_CovergroupDecl.cg_mode
           vpiCoverageEvent EventControl start:175:24 end:175:38:
             vpiParent: CoverGroup name:cg_mode
-            vpiCondition Operation:
+            vpiCondition Operation start:175:26 end:175:37:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -4547,7 +4548,7 @@ Design name:unnamed:
           vpiVector: true
         UnsupportedTypespec name:cg_mode start:182:5 end:182:12:
           vpiParent: CheckerDecl name:work@C9_CovergroupDecl
-          vpiName Identifier name:cg_mode:
+          vpiName Identifier name:cg_mode start:182:5 end:182:12:
             vpiParent: UnsupportedTypespec name:cg_mode
             vpiName: cg_mode
       vpiDefNetType: none (12)
@@ -4699,7 +4700,7 @@ Design name:unnamed:
               vpiParent: CheckerDecl name:work@Inner
               vpiProperty PropertySpec start:225:26 end:225:48:
                 vpiParent: Assert
-                vpiClockingEvent Operation:
+                vpiClockingEvent Operation start:225:28 end:225:41:
                   vpiParent: PropertySpec
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -4829,24 +4830,11 @@ Design name:unnamed:
         ImmediateAssert start:240:20 end:240:69:
           vpiParent: CheckerDecl name:work@C13_DeferredImmediate
           vpiIsDeferred: true
-          vpiExpr DelayControl start:240:27 end:240:29:
+          vpiExpr RefObj name:a start:240:34 end:240:35:
             vpiParent: ImmediateAssert
-            vpiDelay: 0
-            vpiStmt RefObj name:a start:240:34 end:240:35:
-              vpiParent: DelayControl
-              vpiName: a
-              vpiFullName: work@C13_DeferredImmediate.a
-              vpiActual: CheckerPort name:a
-            vpiDelay Constant start:240:28 end:240:29:
-              vpiParent: DelayControl
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@C13_DeferredImmediate
-                vpiActual: IntTypespec
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
+            vpiName: a
+            vpiFullName: work@C13_DeferredImmediate.a
+            vpiActual: CheckerPort name:a
           vpiElseStmt SysFuncCall name:$error start:240:42 end:240:68:
             vpiParent: ImmediateAssert
             vpiName Identifier name:$error start:240:42 end:240:48:
@@ -4865,7 +4853,6 @@ Design name:unnamed:
                 vpiValue: "C13: a low at #0"
         ImmediateAssert start:243:20 end:243:72:
           vpiParent: CheckerDecl name:work@C13_DeferredImmediate
-          vpiIsDeferred: true
           vpiExpr RefObj name:a start:243:34 end:243:35:
             vpiParent: ImmediateAssert
             vpiName: a
@@ -4917,7 +4904,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C14_EmptySemicolons
           vpiProperty PropertySpec start:255:22 end:255:38:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:255:24 end:255:35:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -4996,7 +4983,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C15_AttributedItem
           vpiProperty PropertySpec start:267:22 end:267:44:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:267:24 end:267:35:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -5082,7 +5069,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:work@C17_DisableIffDist
           vpiProperty PropertySpec start:299:22 end:299:44:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:299:24 end:299:35:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -5293,7 +5280,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 1
 ********************************************************************************
@@ -5338,7 +5325,7 @@ COMMAND: ${HLC_DIR}/regression/CheckerDecl/CheckerDecl/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             684     684       0         0
+Others                             681     681       0         0
 ----------------------------------------------------------------
-                                   684     684       0         0
+                                   681     681       0         0
 ===================== END REDUCTION RESULT =====================

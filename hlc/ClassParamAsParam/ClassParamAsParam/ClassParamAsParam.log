@@ -11,8 +11,8 @@ COMMAND: -wd ../../../tests/ClassParamAsParam -fileunit -writepp -d db -sv dut.s
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0303] $Source01/dut.sv:17:1: Compile module "work@top".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:9:21: Illegal implicit net "id:36, name:T".
-[ERR:EL0535] $Source01/dut.sv:14:51: Illegal implicit net "id:55, name:T".
+[ERR:EL0535] $Source01/dut.sv:9:21: Illegal implicit net "id:39, name:T".
+[ERR:EL0535] $Source01/dut.sv:14:51: Illegal implicit net "id:58, name:T".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -120,18 +120,18 @@ Design name:unnamed:
             vpiFullName: work@resource_db
             vpiActual: IntTypespec
       vpiTypespec (3 items):
-        UnsupportedTypespec name:resource start:9:10 end:9:23:
+        UnsupportedTypespec name:resource #(type =T) start:9:10 end:9:23:
           vpiParent: ClassDefn name:work@resource_db
-          vpiName Identifier name:resource:
-            vpiParent: UnsupportedTypespec name:resource
-            vpiName: resource
+          vpiName Identifier name:resource #(type =T) start:9:10 end:9:23:
+            vpiParent: UnsupportedTypespec name:resource #(type =T)
+            vpiName: resource #(type =T)
           vpiParamAssign (1 items):
             ParamAssign start:9:21 end:9:22:
-              vpiParent: UnsupportedTypespec name:resource
+              vpiParent: UnsupportedTypespec name:resource #(type =T)
               vpiRhs RefObj name:T start:9:21 end:9:22:
                 vpiParent: ParamAssign
                 vpiName: T
-                vpiFullName: work@resource_db::resource::T
+                vpiFullName: work@resource_db::resource #(type =T)::T
         TypedefTypespec name:rsrc_t start:9:2 end:9:31:
           vpiParent: ClassDefn name:work@resource_db
           vpiName Identifier name:rsrc_t start:9:24 end:9:30:
@@ -140,7 +140,7 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:9:10 end:9:23:
             vpiParent: TypedefTypespec name:rsrc_t
             vpiFullName: work@resource_db::rsrc_t
-            vpiActual: UnsupportedTypespec name:resource
+            vpiActual: UnsupportedTypespec name:resource #(type =T)
         TypeParameter name:T:
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
@@ -172,26 +172,28 @@ Design name:unnamed:
             vpiFullName: work@config_db
             vpiActual: IntTypespec
       vpiTypespec (2 items):
-        ClassTypespec name:resource_db start:14:38 end:14:53:
+        ClassTypespec name:resource_db #(type =T) start:14:38 end:14:53:
           vpiParent: ClassDefn name:work@config_db
-          vpiName: resource_db
+          vpiName Identifier name:resource_db #(type =T):
+            vpiParent: ClassTypespec name:resource_db #(type =T)
+            vpiName: resource_db #(type =T)
           vpiParamAssign (1 items):
             ParamAssign start:14:51 end:14:52:
-              vpiParent: ClassTypespec name:resource_db
+              vpiParent: ClassTypespec name:resource_db #(type =T)
               vpiRhs RefObj name:T start:14:51 end:14:52:
                 vpiParent: ParamAssign
                 vpiName: T
-                vpiFullName: work@config_db::resource_db::T
-          vpiClassDefn: ClassDefn name:work@resource_db
+                vpiFullName: work@config_db::resource_db #(type =T)::T
         TypeParameter name:T:
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:14:30 end:14:37:
         vpiParent: ClassDefn name:work@config_db
-        vpiClassTypespec RefTypespec name:resource_db start:14:38 end:14:53:
-          vpiParent: Extends
-          vpiName: resource_db
-          vpiFullName: work@config_db::resource_db
-          vpiActual: ClassTypespec name:resource_db
+        vpiClassTypespec (1 items):
+          RefTypespec name:resource_db #(type =T) start:14:38 end:14:53:
+            vpiParent: Extends
+            vpiName: resource_db #(type =T)
+            vpiFullName: work@config_db::resource_db #(type =T)
+            vpiActual: ClassTypespec name:resource_db #(type =T)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@config_db
         vpiName: work
@@ -205,17 +207,17 @@ Design name:unnamed:
         vpiName: work@top
       vpiFullName: work@top
       vpiTypespec (1 items):
-        UnsupportedTypespec name:object start:18:14 end:18:30:
+        UnsupportedTypespec name:object #(type =longint) start:18:14 end:18:30:
           vpiParent: Module name:work@top
-          vpiName Identifier name:object:
-            vpiParent: UnsupportedTypespec name:object
-            vpiName: object
+          vpiName Identifier name:object #(type =longint) start:18:14 end:18:30:
+            vpiParent: UnsupportedTypespec name:object #(type =longint)
+            vpiName: object #(type =longint)
           vpiParamAssign (1 items):
             ParamAssign start:18:22 end:18:29:
-              vpiParent: UnsupportedTypespec name:object
+              vpiParent: UnsupportedTypespec name:object #(type =longint)
               vpiRhs RefTypespec start:18:22 end:18:29:
                 vpiParent: ParamAssign
-                vpiFullName: work@top.object
+                vpiFullName: work@top.object #(type =longint)
                 vpiActual: LongIntTypespec
       vpiDefName: work@top
       vpiDefNetType: none (12)
@@ -242,22 +244,30 @@ Design name:unnamed:
   vpiTypespec (7 items):
     ClassTypespec name:work@object:
       vpiParent: Design name:unnamed
-      vpiName: work@object
+      vpiName Identifier name:work@object:
+        vpiParent: ClassTypespec name:work@object
+        vpiName: work@object
       vpiClassDefn: ClassDefn name:work@object
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:work@resource:
       vpiParent: Design name:unnamed
-      vpiName: work@resource
+      vpiName Identifier name:work@resource:
+        vpiParent: ClassTypespec name:work@resource
+        vpiName: work@resource
       vpiClassDefn: ClassDefn name:work@resource
     ClassTypespec name:work@resource_db:
       vpiParent: Design name:unnamed
-      vpiName: work@resource_db
+      vpiName Identifier name:work@resource_db:
+        vpiParent: ClassTypespec name:work@resource_db
+        vpiName: work@resource_db
       vpiClassDefn: ClassDefn name:work@resource_db
     ClassTypespec name:work@config_db:
       vpiParent: Design name:unnamed
-      vpiName: work@config_db
+      vpiName Identifier name:work@config_db:
+        vpiParent: ClassTypespec name:work@config_db
+        vpiName: work@config_db
       vpiClassDefn: ClassDefn name:work@config_db
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -316,7 +326,7 @@ COMMAND: ${HLC_DIR}/regression/ClassParamAsParam/ClassParamAsParam/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

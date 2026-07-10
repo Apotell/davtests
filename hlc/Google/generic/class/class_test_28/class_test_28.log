@@ -70,7 +70,7 @@ Design name:unnamed:
       vpiName: class_test_28.sv
       vpiPreprocFile: "$Output/lib/work/class_test_28.sv"
       vpiDefNetType: none (12)
-  vpiAllClasses (2 items):
+  vpiAllClasses (3 items):
     ClassDefn name:work@Base file:$Source01/class_test_28.sv start:16:1 end:16:21:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Base start:16:7 end:16:11:
@@ -83,37 +83,48 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@Base::work
       vpiCell: Base
+    ClassDefn name:work@Bar file:$Source01/class_test_28.sv start:17:1 end:17:30:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@Bar start:17:17 end:17:20:
+        vpiParent: ClassDefn name:work@Bar
+        vpiName: work@Bar
+      vpiFullName: work@Bar
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work:
+        vpiParent: ClassDefn name:work@Bar
+        vpiName: work
+        vpiFullName: work@Bar::work
+      vpiCell: Bar
     ClassDefn name:work@Foo file:$Source01/class_test_28.sv start:19:1 end:19:48:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@Foo start:19:7 end:19:10:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work@Foo
       vpiFullName: work@Foo
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         ClassTypespec name:Base start:19:19 end:19:23:
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Base
+          vpiName Identifier name:Base:
+            vpiParent: ClassTypespec name:Base
+            vpiName: Base
           vpiClassDefn: ClassDefn name:work@Base
-        UnsupportedTypespec name:Bar start:19:35 end:19:38:
-          vpiParent: ClassDefn name:work@Foo
-          vpiName Identifier name:Bar:
-            vpiParent: UnsupportedTypespec name:Bar
-            vpiName: Bar
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:19:11 end:19:18:
         vpiParent: ClassDefn name:work@Foo
-        vpiClassTypespec RefTypespec name:Base start:19:19 end:19:23:
-          vpiParent: Extends
-          vpiName: Base
-          vpiFullName: work@Foo::Base
-          vpiActual: ClassTypespec name:Base
+        vpiClassTypespec (1 items):
+          RefTypespec name:Base start:19:19 end:19:23:
+            vpiParent: Extends
+            vpiName: Base
+            vpiFullName: work@Foo::Base
+            vpiActual: ClassTypespec name:Base
       vpiImplements Implements start:19:24 end:19:34:
         vpiParent: ClassDefn name:work@Foo
         vpiInterfaceTypespec (1 items):
-          RefTypespec start:19:35 end:19:38:
+          RefTypespec name:Bar start:19:35 end:19:38:
             vpiParent: Implements
-            vpiFullName: work@Foo
-            vpiActual: UnsupportedTypespec name:Bar
+            vpiName: Bar
+            vpiFullName: work@Foo::Bar
+            vpiActual: ClassTypespec name:work@Bar
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work
@@ -133,14 +144,24 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@test.work
       vpiCell: test
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ClassTypespec name:work@Base:
       vpiParent: Design name:unnamed
-      vpiName: work@Base
+      vpiName Identifier name:work@Base:
+        vpiParent: ClassTypespec name:work@Base
+        vpiName: work@Base
       vpiClassDefn: ClassDefn name:work@Base
+    ClassTypespec name:work@Bar:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@Bar:
+        vpiParent: ClassTypespec name:work@Bar
+        vpiName: work@Bar
+      vpiClassDefn: ClassDefn name:work@Bar
     ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: work@Foo
+      vpiName Identifier name:work@Foo:
+        vpiParent: ClassTypespec name:work@Foo
+        vpiName: work@Foo
       vpiClassDefn: ClassDefn name:work@Foo
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
@@ -167,25 +188,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/generic/class/class_test_28/mounts.json
 
 
-{'result': {'coverage': 97.44,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/class_test_28.sv': {'post_len': 3,
+            'files': {'$Output/lib/work/class_test_28.sv': {'post_len': 0,
                                                             'pre_len': 117}},
-            'post_len': 3,
+            'post_len': 0,
             'pre_len': 117,
             'test_name': 'Google/generic/class/class_test_28'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/class_test_28.sv |      117 |         3 |
+| $Output/lib/work/class_test_28.sv |      117 |         0 |
 +===================================+==========+===========+
-|                                   |      117 |         3 |
+|                                   |      117 |         0 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.44
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -196,7 +217,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_28/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

@@ -89,10 +89,12 @@ n<$Source01/class_member_test_50.sv> u<75> t<Top_level_rule> c<1> l<6:1> el<10:9
             n<> u<69> t<ENDCLASS> p<70> l<10:1> el<10:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_50.sv:8:28: Illegal implicit net "id:10, name:J".
-[ERR:EL0535] $Source01/class_member_test_50.sv:8:30: Illegal implicit net "id:12, name:K".
-[ERR:EL0535] $Source01/class_member_test_50.sv:9:26: Illegal implicit net "id:20, name:N".
-[ERR:EL0535] $Source01/class_member_test_50.sv:9:24: Illegal implicit net "id:22, name:N".
+[ERR:EL0535] $Source01/class_member_test_50.sv:7:9: Illegal implicit net "id:9, name:hinterface".
+[ERR:EL0535] $Source01/class_member_test_50.sv:7:20: Illegal implicit net "id:10, name:some_mod_port".
+[ERR:EL0535] $Source01/class_member_test_50.sv:8:28: Illegal implicit net "id:16, name:J".
+[ERR:EL0535] $Source01/class_member_test_50.sv:8:30: Illegal implicit net "id:18, name:K".
+[ERR:EL0535] $Source01/class_member_test_50.sv:9:26: Illegal implicit net "id:26, name:N".
+[ERR:EL0535] $Source01/class_member_test_50.sv:9:24: Illegal implicit net "id:28, name:N".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -115,7 +117,7 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:7:1 end:7:33:
             vpiParent: Variable name:winterface
             vpiFullName: work@myclass::winterface
-            vpiActual: InterfaceTypespec
+            vpiActual: UnsupportedTypespec name:hinterface::some_mod_port
           vpiName: winterface
           vpiFullName: work@myclass::winterface
         Variable name:bar_if start:8:33 end:8:39:
@@ -123,7 +125,7 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:8:1 end:8:32:
             vpiParent: Variable name:bar_if
             vpiFullName: work@myclass::bar_if
-            vpiActual: InterfaceTypespec name:foo_if
+            vpiActual: UnsupportedTypespec name:foo_if
           vpiName: bar_if
           vpiFullName: work@myclass::bar_if
         Variable name:baz_if start:8:41 end:8:47:
@@ -131,7 +133,7 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:8:1 end:8:32:
             vpiParent: Variable name:baz_if
             vpiFullName: work@myclass::baz_if
-            vpiActual: InterfaceTypespec name:foo_if
+            vpiActual: UnsupportedTypespec name:foo_if
           vpiName: baz_if
           vpiFullName: work@myclass::baz_if
         Variable name:blinterface start:9:44 end:9:55:
@@ -140,35 +142,59 @@ Design name:unnamed:
             vpiParent: Variable name:blinterface
             vpiName: some_mod_port
             vpiFullName: work@myclass::blinterface::some_mod_port
-            vpiActual: UnsupportedTypespec name:some_mod_port
+            vpiActual: UnsupportedTypespec name:disinterface
           vpiName: blinterface
           vpiFullName: work@myclass::blinterface
       vpiTypespec (3 items):
-        InterfaceTypespec start:7:1 end:7:33:
+        UnsupportedTypespec name:hinterface::some_mod_port start:7:9 end:7:33:
           vpiParent: ClassDefn name:work@myclass
-        InterfaceTypespec name:foo_if start:8:1 end:8:32:
+          vpiPathElem (2 items):
+            RefObj name:hinterface start:7:9 end:7:19:
+              vpiParent: UnsupportedTypespec name:hinterface::some_mod_port
+              vpiName: hinterface
+              vpiFullName: work@myclass::hinterface::some_mod_port::hinterface
+            RefObj name:some_mod_port start:7:20 end:7:33:
+              vpiParent: UnsupportedTypespec name:hinterface::some_mod_port
+              vpiName: some_mod_port
+              vpiFullName: work@myclass::hinterface::some_mod_port::some_mod_port
+          vpiName Identifier name:hinterface::some_mod_port:
+            vpiParent: UnsupportedTypespec name:hinterface::some_mod_port
+            vpiName: hinterface::some_mod_port
+        UnsupportedTypespec name:foo_if start:8:19 end:8:25:
           vpiParent: ClassDefn name:work@myclass
           vpiName Identifier name:foo_if start:8:19 end:8:25:
-            vpiParent: InterfaceTypespec name:foo_if
+            vpiParent: UnsupportedTypespec name:foo_if
             vpiName: foo_if
           vpiParamAssign (2 items):
             ParamAssign start:8:28 end:8:29:
-              vpiParent: InterfaceTypespec name:foo_if
+              vpiParent: UnsupportedTypespec name:foo_if
               vpiRhs RefObj name:J start:8:28 end:8:29:
                 vpiParent: ParamAssign
                 vpiName: J
                 vpiFullName: work@myclass::foo_if::J
             ParamAssign start:8:30 end:8:31:
-              vpiParent: InterfaceTypespec name:foo_if
+              vpiParent: UnsupportedTypespec name:foo_if
               vpiRhs RefObj name:K start:8:30 end:8:31:
                 vpiParent: ParamAssign
                 vpiName: K
                 vpiFullName: work@myclass::foo_if::K
-        UnsupportedTypespec name:some_mod_port start:9:30 end:9:43:
+        UnsupportedTypespec name:disinterface start:9:9 end:9:21:
           vpiParent: ClassDefn name:work@myclass
-          vpiName Identifier name:some_mod_port:
-            vpiParent: UnsupportedTypespec name:some_mod_port
-            vpiName: some_mod_port
+          vpiName Identifier name:disinterface start:9:9 end:9:21:
+            vpiParent: UnsupportedTypespec name:disinterface
+            vpiName: disinterface
+          vpiParamAssign (1 items):
+            ParamAssign start:9:23 end:9:28:
+              vpiParent: UnsupportedTypespec name:disinterface
+              vpiConnByName: true
+              vpiLhs RefObj name:N start:9:24 end:9:25:
+                vpiParent: ParamAssign
+                vpiName: N
+                vpiFullName: work@myclass::disinterface::N
+              vpiRhs RefObj name:N start:9:26 end:9:27:
+                vpiParent: ParamAssign
+                vpiName: N
+                vpiFullName: work@myclass::disinterface::N
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@myclass
@@ -178,12 +204,14 @@ Design name:unnamed:
   vpiTypespec (1 items):
     ClassTypespec name:work@myclass:
       vpiParent: Design name:unnamed
-      vpiName: work@myclass
+      vpiName Identifier name:work@myclass:
+        vpiParent: ClassTypespec name:work@myclass
+        vpiName: work@myclass
       vpiClassDefn: ClassDefn name:work@myclass
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 6
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -228,7 +256,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_50/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

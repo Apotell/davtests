@@ -88,7 +88,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:5:1: Compile module "work@top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:5:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:6:20: Illegal implicit net "id:39, name:A".
+[ERR:EL0535] $Source01/dut.sv:6:20: Illegal implicit net "id:40, name:A".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -173,12 +173,9 @@ Design name:unnamed:
         vpiParent: Module name:work@top
         vpiName: work@top
       vpiFullName: work@top
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:work@top
-        ClassTypespec name:pkg start:6:15 end:6:18:
-          vpiParent: Module name:work@top
-          vpiName: pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -222,7 +219,12 @@ Design name:unnamed:
             vpiName: pkg::A[0]
             vpiFullName: work@top.pkg::A[0]
             vpiPathElem (2 items):
-              ClassTypespec name:pkg:
+              UnsupportedScope name:pkg start:6:15 end:6:20:
+                vpiParent: HierPath name:pkg::A[0]
+                vpiName Identifier name:pkg start:6:15 end:6:18:
+                  vpiParent: UnsupportedScope name:pkg
+                  vpiName: pkg
+                vpiFullName: work@top.pkg::A[0].pkg
               BitSelect name:A[0] start:6:20 end:6:24:
                 vpiParent: HierPath name:pkg::A[0]
                 vpiName: A[0]
@@ -301,7 +303,7 @@ COMMAND: ${HLC_DIR}/regression/PackageParamConst/PackageParamConst/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    39      39       0         0
 ===================== END REDUCTION RESULT =====================

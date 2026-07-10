@@ -23,6 +23,10 @@ COMMAND: -wd ../../../tests/ModPortRange -fileunit -writepp -d db -sv dut.sv -no
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@MyInterface".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@mem_if".
 [WRN:PA0205] $Source01/dut.sv:32:1: No timescale set for "work@ConnectTB".
+[ERR:EL0535] $Source01/dut.sv:10:17: Illegal implicit net "id:37, name:MyModPort".
+[ERR:EL0535] $Source01/dut.sv:25:42: Illegal implicit net "id:95, name:system".
+[ERR:EL0535] $Source01/dut.sv:40:17: Illegal implicit net "id:139, name:MyModPort".
+[ERR:EL0535] $Source01/dut.sv:41:17: Illegal implicit net "id:148, name:MyModPort".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -208,7 +212,22 @@ Design name:unnamed:
         vpiParent: Module name:work@range_itf_port
         vpiName: work@range_itf_port
       vpiFullName: work@range_itf_port
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
+        UnsupportedTypespec name:MyInterface::MyModPort start:10:5 end:10:26:
+          vpiParent: Module name:work@range_itf_port
+          vpiPathElem (2 items):
+            RefObj name:MyInterface start:10:5 end:10:16:
+              vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+              vpiName: MyInterface
+              vpiFullName: work@range_itf_port.MyInterface::MyModPort.MyInterface
+              vpiActual: Interface name:work@MyInterface
+            RefObj name:MyModPort start:10:17 end:10:26:
+              vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+              vpiName: MyModPort
+              vpiFullName: work@range_itf_port.MyInterface::MyModPort.MyModPort
+          vpiName Identifier name:MyInterface::MyModPort:
+            vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+            vpiName: MyInterface::MyModPort
         ArrayTypespec:
           vpiParent: Module name:work@range_itf_port
           vpiArrayType: static (1)
@@ -234,9 +253,11 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:MyInterface::MyModPort start:10:5 end:10:26:
             vpiParent: ArrayTypespec
-            vpiFullName: work@range_itf_port
+            vpiName: MyInterface::MyModPort
+            vpiFullName: work@range_itf_port.MyInterface::MyModPort
+            vpiActual: UnsupportedTypespec name:MyInterface::MyModPort
         LogicTypespec:
           vpiParent: Module name:work@range_itf_port
         ArrayTypespec:
@@ -278,11 +299,10 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:my_port1 start:10:27 end:10:35:
           vpiParent: Module name:work@range_itf_port
-          vpiTypespec RefTypespec name:MyInterface.MyModPort start:10:5 end:10:26:
+          vpiTypespec RefTypespec start:10:5 end:10:26:
             vpiParent: Net name:my_port1
-            vpiName: MyInterface.MyModPort
-            vpiFullName: work@range_itf_port.my_port1.MyInterface.MyModPort
-            vpiPrefix: HierPath name:MyInterface.MyModPort
+            vpiFullName: work@range_itf_port.my_port1
+            vpiActual: ArrayTypespec
           vpiName: my_port1
           vpiFullName: work@range_itf_port.my_port1
           vpiNetType: wire (1)
@@ -304,25 +324,10 @@ Design name:unnamed:
             vpiParent: Port name:my_port1
             vpiFullName: work@range_itf_port.my_port1
             vpiActual: Net name:my_port1
-          vpiTypespec RefTypespec name:MyInterface.MyModPort start:10:5 end:10:26:
+          vpiTypespec RefTypespec start:10:5 end:10:26:
             vpiParent: Port name:my_port1
-            vpiName: MyInterface.MyModPort
-            vpiFullName: work@range_itf_port.my_port1.MyInterface.MyModPort
-            vpiPrefix HierPath name:MyInterface.MyModPort start:10:5 end:10:26:
-              vpiParent: RefTypespec name:MyInterface.MyModPort
-              vpiName: MyInterface.MyModPort
-              vpiFullName: work@range_itf_port.my_port1.MyInterface.MyModPort.MyInterface.MyModPort
-              vpiPathElem (2 items):
-                RefObj name:MyInterface start:10:5 end:10:16:
-                  vpiParent: HierPath name:MyInterface.MyModPort
-                  vpiName: MyInterface
-                  vpiFullName: work@range_itf_port.my_port1.MyInterface.MyModPort.MyInterface
-                  vpiActual: Interface name:work@MyInterface
-                RefObj name:MyModPort start:10:17 end:10:26:
-                  vpiParent: HierPath name:MyInterface.MyModPort
-                  vpiName: MyModPort
-                  vpiFullName: work@range_itf_port.my_port1.MyInterface.MyModPort.MyModPort
-                  vpiActual: Modport name:MyModPort
+            vpiFullName: work@range_itf_port.my_port1
+            vpiActual: ArrayTypespec
         Port name:my_port2 start:11:17 end:11:25:
           vpiParent: Module name:work@range_itf_port
           vpiName: my_port2
@@ -341,6 +346,22 @@ Design name:unnamed:
         vpiParent: Module name:work@memory_ctrl1
         vpiName: work@memory_ctrl1
       vpiFullName: work@memory_ctrl1
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:mem_if::system start:25:35 end:25:48:
+          vpiParent: Module name:work@memory_ctrl1
+          vpiPathElem (2 items):
+            RefObj name:mem_if start:25:35 end:25:41:
+              vpiParent: UnsupportedTypespec name:mem_if::system
+              vpiName: mem_if
+              vpiFullName: work@memory_ctrl1.mem_if::system.mem_if
+              vpiActual: Interface name:work@mem_if
+            RefObj name:system start:25:42 end:25:48:
+              vpiParent: UnsupportedTypespec name:mem_if::system
+              vpiName: system
+              vpiFullName: work@memory_ctrl1.mem_if::system.system
+          vpiName Identifier name:mem_if::system:
+            vpiParent: UnsupportedTypespec name:mem_if::system
+            vpiName: mem_if::system
       vpiDefName: work@memory_ctrl1
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -361,11 +382,10 @@ Design name:unnamed:
           vpiNetType: wire (1)
         Net name:sif2 start:25:49 end:25:53:
           vpiParent: Module name:work@memory_ctrl1
-          vpiTypespec RefTypespec name:mem_if.system start:25:35 end:25:48:
+          vpiTypespec RefTypespec start:25:35 end:25:48:
             vpiParent: Net name:sif2
-            vpiName: mem_if.system
-            vpiFullName: work@memory_ctrl1.sif2.mem_if.system
-            vpiPrefix: HierPath name:mem_if.system
+            vpiFullName: work@memory_ctrl1.sif2
+            vpiActual: UnsupportedTypespec name:mem_if::system
           vpiName: sif2
           vpiFullName: work@memory_ctrl1.sif2
           vpiNetType: wire (1)
@@ -391,25 +411,10 @@ Design name:unnamed:
             vpiParent: Port name:sif2
             vpiFullName: work@memory_ctrl1.sif2
             vpiActual: Net name:sif2
-          vpiTypespec RefTypespec name:mem_if.system start:25:35 end:25:48:
+          vpiTypespec RefTypespec start:25:35 end:25:48:
             vpiParent: Port name:sif2
-            vpiName: mem_if.system
-            vpiFullName: work@memory_ctrl1.sif2.mem_if.system
-            vpiPrefix HierPath name:mem_if.system start:25:35 end:25:48:
-              vpiParent: RefTypespec name:mem_if.system
-              vpiName: mem_if.system
-              vpiFullName: work@memory_ctrl1.sif2.mem_if.system.mem_if.system
-              vpiPathElem (2 items):
-                RefObj name:mem_if start:25:35 end:25:41:
-                  vpiParent: HierPath name:mem_if.system
-                  vpiName: mem_if
-                  vpiFullName: work@memory_ctrl1.sif2.mem_if.system.mem_if
-                  vpiActual: Interface name:work@mem_if
-                RefObj name:system start:25:42 end:25:48:
-                  vpiParent: HierPath name:mem_if.system
-                  vpiName: system
-                  vpiFullName: work@memory_ctrl1.sif2.mem_if.system.system
-                  vpiActual: Modport name:system
+            vpiFullName: work@memory_ctrl1.sif2
+            vpiActual: UnsupportedTypespec name:mem_if::system
     Module name:work@middle file:$Source01/dut.sv start:35:1 end:36:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@middle start:35:8 end:35:14:
@@ -485,7 +490,37 @@ Design name:unnamed:
         vpiParent: Module name:work@range_itf_port2
         vpiName: work@range_itf_port2
       vpiFullName: work@range_itf_port2
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
+        UnsupportedTypespec name:MyInterface::MyModPort start:40:5 end:40:26:
+          vpiParent: Module name:work@range_itf_port2
+          vpiPathElem (2 items):
+            RefObj name:MyInterface start:40:5 end:40:16:
+              vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+              vpiName: MyInterface
+              vpiFullName: work@range_itf_port2.MyInterface::MyModPort.MyInterface
+              vpiActual: Interface name:work@MyInterface
+            RefObj name:MyModPort start:40:17 end:40:26:
+              vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+              vpiName: MyModPort
+              vpiFullName: work@range_itf_port2.MyInterface::MyModPort.MyModPort
+          vpiName Identifier name:MyInterface::MyModPort:
+            vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+            vpiName: MyInterface::MyModPort
+        UnsupportedTypespec name:MyInterface::MyModPort start:41:5 end:41:26:
+          vpiParent: Module name:work@range_itf_port2
+          vpiPathElem (2 items):
+            RefObj name:MyInterface start:41:5 end:41:16:
+              vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+              vpiName: MyInterface
+              vpiFullName: work@range_itf_port2.MyInterface::MyModPort.MyInterface
+              vpiActual: Interface name:work@MyInterface
+            RefObj name:MyModPort start:41:17 end:41:26:
+              vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+              vpiName: MyModPort
+              vpiFullName: work@range_itf_port2.MyInterface::MyModPort.MyModPort
+          vpiName Identifier name:MyInterface::MyModPort:
+            vpiParent: UnsupportedTypespec name:MyInterface::MyModPort
+            vpiName: MyInterface::MyModPort
         ArrayTypespec:
           vpiParent: Module name:work@range_itf_port2
           vpiArrayType: static (1)
@@ -511,9 +546,11 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec name:MyInterface::MyModPort start:41:5 end:41:26:
             vpiParent: ArrayTypespec
-            vpiFullName: work@range_itf_port2
+            vpiName: MyInterface::MyModPort
+            vpiFullName: work@range_itf_port2.MyInterface::MyModPort
+            vpiActual: UnsupportedTypespec name:MyInterface::MyModPort
         ArrayTypespec:
           vpiParent: Module name:work@range_itf_port2
           vpiArrayType: static (1)
@@ -554,21 +591,19 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:my_port1 start:40:27 end:40:35:
           vpiParent: Module name:work@range_itf_port2
-          vpiTypespec RefTypespec name:MyInterface.MyModPort start:40:5 end:40:26:
+          vpiTypespec RefTypespec start:40:5 end:40:26:
             vpiParent: Net name:my_port1
-            vpiName: MyInterface.MyModPort
-            vpiFullName: work@range_itf_port2.my_port1.MyInterface.MyModPort
-            vpiPrefix: HierPath name:MyInterface.MyModPort
+            vpiFullName: work@range_itf_port2.my_port1
+            vpiActual: UnsupportedTypespec name:MyInterface::MyModPort
           vpiName: my_port1
           vpiFullName: work@range_itf_port2.my_port1
           vpiNetType: wire (1)
         Net name:my_port2 start:41:27 end:41:35:
           vpiParent: Module name:work@range_itf_port2
-          vpiTypespec RefTypespec name:MyInterface.MyModPort start:41:5 end:41:26:
+          vpiTypespec RefTypespec start:41:5 end:41:26:
             vpiParent: Net name:my_port2
-            vpiName: MyInterface.MyModPort
-            vpiFullName: work@range_itf_port2.my_port2.MyInterface.MyModPort
-            vpiPrefix: HierPath name:MyInterface.MyModPort
+            vpiFullName: work@range_itf_port2.my_port2
+            vpiActual: ArrayTypespec
           vpiName: my_port2
           vpiFullName: work@range_itf_port2.my_port2
           vpiNetType: wire (1)
@@ -601,25 +636,10 @@ Design name:unnamed:
             vpiParent: Port name:my_port1
             vpiFullName: work@range_itf_port2.my_port1
             vpiActual: Net name:my_port1
-          vpiTypespec RefTypespec name:MyInterface.MyModPort start:40:5 end:40:26:
+          vpiTypespec RefTypespec start:40:5 end:40:26:
             vpiParent: Port name:my_port1
-            vpiName: MyInterface.MyModPort
-            vpiFullName: work@range_itf_port2.my_port1.MyInterface.MyModPort
-            vpiPrefix HierPath name:MyInterface.MyModPort start:40:5 end:40:26:
-              vpiParent: RefTypespec name:MyInterface.MyModPort
-              vpiName: MyInterface.MyModPort
-              vpiFullName: work@range_itf_port2.my_port1.MyInterface.MyModPort.MyInterface.MyModPort
-              vpiPathElem (2 items):
-                RefObj name:MyInterface start:40:5 end:40:16:
-                  vpiParent: HierPath name:MyInterface.MyModPort
-                  vpiName: MyInterface
-                  vpiFullName: work@range_itf_port2.my_port1.MyInterface.MyModPort.MyInterface
-                  vpiActual: Interface name:work@MyInterface
-                RefObj name:MyModPort start:40:17 end:40:26:
-                  vpiParent: HierPath name:MyInterface.MyModPort
-                  vpiName: MyModPort
-                  vpiFullName: work@range_itf_port2.my_port1.MyInterface.MyModPort.MyModPort
-                  vpiActual: Modport name:MyModPort
+            vpiFullName: work@range_itf_port2.my_port1
+            vpiActual: UnsupportedTypespec name:MyInterface::MyModPort
         Port name:my_port2 start:41:27 end:41:35:
           vpiParent: Module name:work@range_itf_port2
           vpiName: my_port2
@@ -628,25 +648,10 @@ Design name:unnamed:
             vpiParent: Port name:my_port2
             vpiFullName: work@range_itf_port2.my_port2
             vpiActual: Net name:my_port2
-          vpiTypespec RefTypespec name:MyInterface.MyModPort start:41:5 end:41:26:
+          vpiTypespec RefTypespec start:41:5 end:41:26:
             vpiParent: Port name:my_port2
-            vpiName: MyInterface.MyModPort
-            vpiFullName: work@range_itf_port2.my_port2.MyInterface.MyModPort
-            vpiPrefix HierPath name:MyInterface.MyModPort start:41:5 end:41:26:
-              vpiParent: RefTypespec name:MyInterface.MyModPort
-              vpiName: MyInterface.MyModPort
-              vpiFullName: work@range_itf_port2.my_port2.MyInterface.MyModPort.MyInterface.MyModPort
-              vpiPathElem (2 items):
-                RefObj name:MyInterface start:41:5 end:41:16:
-                  vpiParent: HierPath name:MyInterface.MyModPort
-                  vpiName: MyInterface
-                  vpiFullName: work@range_itf_port2.my_port2.MyInterface.MyModPort.MyInterface
-                  vpiActual: Interface name:work@MyInterface
-                RefObj name:MyModPort start:41:17 end:41:26:
-                  vpiParent: HierPath name:MyInterface.MyModPort
-                  vpiName: MyModPort
-                  vpiFullName: work@range_itf_port2.my_port2.MyInterface.MyModPort.MyModPort
-                  vpiActual: Modport name:MyModPort
+            vpiFullName: work@range_itf_port2.my_port2
+            vpiActual: ArrayTypespec
         Port name:my_port3 start:42:18 end:42:26:
           vpiParent: Module name:work@range_itf_port2
           vpiName: my_port3
@@ -722,7 +727,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 4
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
@@ -767,7 +772,7 @@ COMMAND: ${HLC_DIR}/regression/ModPortRange/ModPortRange/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             163     163       0         0
+Others                             167     167       0         0
 ----------------------------------------------------------------
-                                   163     163       0         0
+                                   167     167       0         0
 ===================== END REDUCTION RESULT =====================

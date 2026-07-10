@@ -163,7 +163,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/class_test_49.sv:16:1: Compile package "work@glb".
 [INF:CP0303] $Source01/class_test_49.sv:30:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_test_49.sv:27:25: Illegal implicit net "id:65, name:arr".
+[ERR:EL0535] $Source01/class_test_49.sv:27:25: Illegal implicit net "id:67, name:arr".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -354,7 +354,12 @@ Design name:unnamed:
                     vpiName: glb::arr[N]
                     vpiFullName: work@params_as_class_item::glb::arr[N]
                     vpiPathElem (2 items):
-                      ClassTypespec name:glb:
+                      UnsupportedScope name:glb start:27:20 end:27:25:
+                        vpiParent: HierPath name:glb::arr[N]
+                        vpiName Identifier name:glb start:27:20 end:27:23:
+                          vpiParent: UnsupportedScope name:glb
+                          vpiName: glb
+                        vpiFullName: work@params_as_class_item::glb::arr[N]::glb
                       BitSelect name:arr[N] start:27:25 end:27:31:
                         vpiParent: HierPath name:glb::arr[N]
                         vpiName: arr[N]
@@ -378,14 +383,11 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: ClassDefn name:work@params_as_class_item
         BitTypespec:
           vpiParent: ClassDefn name:work@params_as_class_item
-        ClassTypespec name:glb start:27:20 end:27:23:
-          vpiParent: ClassDefn name:work@params_as_class_item
-          vpiName: glb
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@params_as_class_item
@@ -412,7 +414,9 @@ Design name:unnamed:
       vpiSigned: true
     ClassTypespec name:work@params_as_class_item:
       vpiParent: Design name:unnamed
-      vpiName: work@params_as_class_item
+      vpiName Identifier name:work@params_as_class_item:
+        vpiParent: ClassTypespec name:work@params_as_class_item
+        vpiName: work@params_as_class_item
       vpiClassDefn: ClassDefn name:work@params_as_class_item
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
@@ -496,7 +500,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_49/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              69      69       0         0
 ----------------------------------------------------------------
-                                    67      67       0         0
+                                    69      69       0         0
 ===================== END REDUCTION RESULT =====================
