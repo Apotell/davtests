@@ -572,9 +572,6 @@ n<$Source01/counter.sv> u<557> t<Top_level_rule> c<1> l<1:1> el<31:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/counter.sv:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/counter.sv:25:10: Illegal implicit net "id:174, name:n".
-[ERR:EL0535] $Source01/counter.sv:25:35: Illegal implicit net "id:178, name:n".
-[ERR:EL0535] $Source01/counter.sv:25:40: Illegal implicit net "id:181, name:n".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -626,6 +623,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: n
                       vpiFullName: work@top.down_n.n
+                      vpiActual: PropFormalDecl name:n
                 Operation start:25:17 end:25:41:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -654,10 +652,12 @@ Design name:unnamed:
                               vpiParent: SysFuncCall name:$past
                               vpiName: n
                               vpiFullName: work@top.down_n.n
+                              vpiActual: PropFormalDecl name:n
                         RefObj name:n start:25:40 end:25:41:
                           vpiParent: Operation
                           vpiName: n
                           vpiFullName: work@top.down_n.n
+                          vpiActual: PropFormalDecl name:n
       vpiConcurrentAssertions (8 items):
         Assert start:14:2 end:14:52:
           vpiParent: Module name:work@top
@@ -1112,7 +1112,7 @@ Design name:unnamed:
         vpiFullName: work@top
         vpiClockingEvent EventControl start:11:19 end:11:33:
           vpiParent: ClockingBlock
-          vpiCondition Operation:
+          vpiCondition Operation start:11:21 end:11:32:
             vpiParent: EventControl
             vpiOpType: posedge (39)
             vpiOperand (1 items):
@@ -1187,7 +1187,7 @@ Design name:unnamed:
           vpiParent: Module name:work@top
           vpiStmt EventControl start:2:9 end:9:5:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:2:11 end:2:22:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1306,7 +1306,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

@@ -15,10 +15,6 @@ COMMAND: -wd ../../../tests/OneDivider -fileunit -writepp -d db -sv dut.v -sv tb
 [INF:CP0303] $Source01/tb.v:1:1: Compile module "work@tb".
 [WRN:PA0205] $Source01/dut.v:1:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/tb.v:1:1: No timescale set for "work@tb".
-[ERR:EL0535] $Source01/tb.v:25:24: Illegal implicit net "id:136, name:a".
-[ERR:EL0535] $Source01/tb.v:25:32: Illegal implicit net "id:139, name:a".
-[ERR:EL0535] $Source01/tb.v:25:35: Illegal implicit net "id:141, name:n".
-[ERR:EL0535] $Source01/tb.v:25:50: Illegal implicit net "id:150, name:a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -53,12 +49,12 @@ Design name:unnamed:
       vpiTypespec (3 items):
         UnsupportedTypespec name:logic start:1:18 end:1:23:
           vpiParent: Module name:work@dut
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:1:18 end:1:23:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         UnsupportedTypespec name:logic start:2:18 end:2:23:
           vpiParent: Module name:work@dut
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:2:18 end:2:23:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         LogicTypespec:
@@ -139,7 +135,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiOpType: event or (35)
               vpiOperand (2 items):
-                Operation:
+                Operation start:5:11 end:5:22:
                   vpiParent: Operation
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -148,7 +144,7 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: work@dut.clk
                       vpiActual: Net name:clk
-                Operation:
+                Operation start:5:26 end:5:38:
                   vpiParent: Operation
                   vpiOpType: negedge (40)
                   vpiOperand (1 items):
@@ -234,7 +230,7 @@ Design name:unnamed:
               vpiFormalType: data (1)
           vpiPropertySpec PropertySpec start:25:3 end:25:52:
             vpiParent: PropertyDecl name:divide
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:25:5 end:25:16:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -257,6 +253,7 @@ Design name:unnamed:
                       vpiParent: SysFuncCall name:$rose
                       vpiName: a
                       vpiFullName: work@tb.divide.a
+                      vpiActual: PropFormalDecl name:a
                 Operation start:25:31 end:25:52:
                   vpiParent: Operation
                   vpiOpType: binary cycle delay (71)
@@ -273,6 +270,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: a
                               vpiFullName: work@tb.divide.a
+                              vpiActual: PropFormalDecl name:a
                         Operation start:25:35 end:25:38:
                           vpiParent: Operation
                           vpiOpType: subtract (11)
@@ -281,6 +279,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: n
                               vpiFullName: work@tb.divide.n
+                              vpiActual: PropFormalDecl name:n
                             Constant start:25:37 end:25:38:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -311,6 +310,7 @@ Design name:unnamed:
                           vpiParent: SysFuncCall name:$rose
                           vpiName: a
                           vpiFullName: work@tb.divide.a
+                          vpiActual: PropFormalDecl name:a
       vpiConcurrentAssertions (1 items):
         Assert start:28:12 end:28:112:
           vpiParent: Module name:work@tb
@@ -335,7 +335,7 @@ Design name:unnamed:
                 vpiValue: OK!
           vpiProperty PropertySpec start:28:28 end:28:58:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:28:31 end:28:42:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -415,7 +415,7 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
         UnsupportedTypespec name:bit start:24:19 end:24:22:
           vpiParent: Module name:work@tb
-          vpiName Identifier name:bit:
+          vpiName Identifier name:bit start:24:19 end:24:22:
             vpiParent: UnsupportedTypespec name:bit
             vpiName: bit
       vpiDefName: work@tb
@@ -675,7 +675,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

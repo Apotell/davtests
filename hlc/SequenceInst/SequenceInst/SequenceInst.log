@@ -527,15 +527,6 @@ AST_DEBUG_END
 [WRN:CP0348] $Source01/dut.sv:18:24: Feature not yet implemented.
 [WRN:CP0348] $Source01/dut.sv:28:23: Feature not yet implemented.
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@m".
-[ERR:EL0535] $Source01/dut.sv:9:6: Illegal implicit net "id:77, name:clk".
-[ERR:EL0535] $Source01/dut.sv:9:29: Illegal implicit net "id:79, name:start_event".
-[ERR:EL0535] $Source01/dut.sv:9:45: Illegal implicit net "id:83, name:end_event".
-[ERR:EL0535] $Source01/dut.sv:9:65: Illegal implicit net "id:89, name:form".
-[ERR:EL0535] $Source01/dut.sv:13:6: Illegal implicit net "id:117, name:clkw".
-[ERR:EL0535] $Source01/dut.sv:13:11: Illegal implicit net "id:118, name:w".
-[ERR:EL0535] $Source01/dut.sv:13:23: Illegal implicit net "id:123, name:x".
-[ERR:EL0535] $Source01/dut.sv:13:35: Illegal implicit net "id:126, name:y".
-[ERR:EL0535] $Source01/dut.sv:13:41: Illegal implicit net "id:130, name:z".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -612,15 +603,20 @@ Design name:unnamed:
               vpiFormalType: data (1)
           vpiPropertySpec PropertySpec start:9:5 end:9:69:
             vpiParent: PropertyDecl name:p_triggers
-            vpiDisableCondition RefObj name:rst start:9:23 end:9:26:
+            vpiDisableCondition Operation start:9:23 end:9:26:
               vpiParent: PropertySpec
-              vpiName: rst
-              vpiFullName: work@m.p_triggers.rst
-              vpiActual: Net name:rst
+              vpiOpType: iff (82)
+              vpiOperand (1 items):
+                RefObj name:rst start:9:23 end:9:26:
+                  vpiParent: Operation
+                  vpiName: rst
+                  vpiFullName: work@m.p_triggers.rst
+                  vpiActual: PropFormalDecl name:rst
             vpiClockingEvent RefObj name:clk start:9:6 end:9:9:
               vpiParent: PropertySpec
               vpiName: clk
               vpiFullName: work@m.p_triggers.clk
+              vpiActual: PropFormalDecl name:clk
             vpiPropertyExpr Operation start:9:28 end:9:69:
               vpiParent: PropertySpec
               vpiOpType: non overlap imply (51)
@@ -633,6 +629,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: start_event
                       vpiFullName: work@m.p_triggers.start_event
+                      vpiActual: PropFormalDecl name:start_event
                     Constant start:9:43 end:9:44:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -651,6 +648,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: end_event
                           vpiFullName: work@m.p_triggers.end_event
+                          vpiActual: PropFormalDecl name:end_event
                         Constant start:9:57 end:9:58:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -665,6 +663,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: form
                   vpiFullName: work@m.p_triggers.form
+                  vpiActual: PropFormalDecl name:form
         PropertyDecl name:p_multiclock start:12:3 end:14:14:
           vpiParent: Module name:work@m
           vpiName Identifier name:p_multiclock start:12:12 end:12:24:
@@ -739,6 +738,7 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: clkw
               vpiFullName: work@m.p_multiclock.clkw
+              vpiActual: PropFormalDecl name:clkw
             vpiPropertyExpr Operation start:13:11 end:13:42:
               vpiParent: PropertySpec
               vpiOpType: non overlap imply (51)
@@ -751,6 +751,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: w
                       vpiFullName: work@m.p_multiclock.w
+                      vpiActual: PropFormalDecl name:w
                     Constant start:13:15 end:13:16:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -767,6 +768,7 @@ Design name:unnamed:
                         vpiParent: ClockedSeq
                         vpiName: x
                         vpiFullName: work@m.p_multiclock.x
+                        vpiActual: PropFormalDecl name:x
                 ClockedSeq start:13:29 end:13:42:
                   vpiParent: Operation
                   vpiSequenceExpr Operation start:13:35 end:13:42:
@@ -777,6 +779,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: y
                         vpiFullName: work@m.p_multiclock.y
+                        vpiActual: PropFormalDecl name:y
                       Constant start:13:39 end:13:40:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -791,6 +794,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: z
                         vpiFullName: work@m.p_multiclock.z
+                        vpiActual: PropFormalDecl name:z
       vpiConcurrentAssertions (3 items):
         Assert start:16:7 end:16:45:
           vpiParent: Module name:work@m
@@ -861,7 +865,7 @@ Design name:unnamed:
                               vpiName: c
                               vpiFullName: work@m.c
                               vpiActual: Net name:c
-                        Operation:
+                        Operation start:18:44 end:18:56:
                           vpiParent: Operation
                           vpiOpType: posedge (39)
                           vpiOperand (1 items):
@@ -890,7 +894,7 @@ Design name:unnamed:
             vpiPropertyExpr SequenceInst start:28:23 end:28:76:
               vpiParent: PropertySpec
               vpiArgument (2 items):
-                Operation:
+                Operation start:28:36 end:28:48:
                   vpiParent: SequenceInst
                   vpiOpType: negedge (40)
                   vpiOperand (1 items):
@@ -915,7 +919,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiOpType: list (37)
                               vpiOperand (2 items):
-                                Operation:
+                                Operation start:28:52 end:28:64:
                                   vpiParent: Operation
                                   vpiOpType: posedge (39)
                                   vpiOperand (1 items):
@@ -1033,7 +1037,7 @@ Design name:unnamed:
         vpiFullName: work@m
         vpiClockingEvent EventControl start:4:20 end:4:35:
           vpiParent: ClockingBlock
-          vpiCondition Operation:
+          vpiCondition Operation start:4:22 end:4:34:
             vpiParent: EventControl
             vpiOpType: negedge (40)
             vpiOperand (1 items):
@@ -1136,7 +1140,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiOpType: event or (35)
               vpiOperand (2 items):
-                Operation:
+                Operation start:20:12 end:20:24:
                   vpiParent: Operation
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -1145,7 +1149,7 @@ Design name:unnamed:
                       vpiName: clk2
                       vpiFullName: work@m.clk2
                       vpiActual: Net name:clk2
-                Operation:
+                Operation start:20:28 end:20:39:
                   vpiParent: Operation
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -1227,7 +1231,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 9
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -1272,7 +1276,7 @@ COMMAND: ${HLC_DIR}/regression/SequenceInst/SequenceInst/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             174     174       0         0
+Others                             175     175       0         0
 ----------------------------------------------------------------
-                                   174     174       0         0
+                                   175     175       0         0
 ===================== END REDUCTION RESULT =====================

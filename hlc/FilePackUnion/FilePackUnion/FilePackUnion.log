@@ -257,12 +257,11 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:12:1: Compile package "work@fooes_pkg".
 [INF:CP0301] $Source01/dut.sv:28:1: Compile package "work@goog".
 [INF:CP0303] $Source01/dut.sv:35:1: Compile module "work@top".
-[WRN:CP0323] $Source01/dut.sv:35:1: Multiply defined typedef "goog".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "work@foo_flags_pkg".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@fooes_pkg".
 [WRN:PA0205] $Source01/dut.sv:28:1: No timescale set for "work@goog".
 [WRN:PA0205] $Source01/dut.sv:35:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:37:10: Illegal implicit net "id:138, name:c".
+[ERR:EL0535] $Source01/dut.sv:37:10: Illegal implicit net "id:144, name:c".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -411,11 +410,8 @@ Design name:unnamed:
         vpiParent: Package name:work@goog
         vpiName: work@goog
       vpiFullName: work@goog
-      vpiTypespec (8 items):
-        ClassTypespec name:foo_flags_pkg start:30:3 end:30:16:
-          vpiParent: Package name:work@goog
-          vpiName: foo_flags_pkg
-        UnsupportedTypespec name:common_flags_t start:30:18 end:30:32:
+      vpiTypespec (7 items):
+        UnsupportedTypespec name:common_flags_t start:30:18 end:30:39:
           vpiParent: Package name:work@goog
           vpiName Identifier name:common_flags_t:
             vpiParent: UnsupportedTypespec name:common_flags_t
@@ -476,10 +472,9 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:common_flags_t:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: common_flags_t
-            vpiFullName: work@goog::common_flags_t
+            vpiFullName: work@goog
             vpiActual: UnsupportedTypespec name:common_flags_t
         ArrayTypespec:
           vpiParent: Package name:work@goog
@@ -553,7 +548,7 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:atype_t
                 vpiName: foo_flags_pkg::common_flags_t
                 vpiFullName: work@goog::atype_t::foo_flags_pkg::common_flags_t
-                vpiActual: ArrayTypespec
+                vpiActual: TypedefTypespec name:common_flags_t
             TypespecMember name:btype_t start:31:33 end:31:40:
               vpiParent: UnionTypespec
               vpiName: btype_t
@@ -595,28 +590,43 @@ Design name:unnamed:
             vpiParent: Variable name:b
             vpiName: top_flag_t
             vpiFullName: work@top.b.top_flag_t
-            vpiPrefix: HierPath name:goog::top_flag_t
-            vpiActual: UnsupportedTypespec name:top_flag_t
+            vpiActual: UnsupportedTypespec name:goog::top_flag_t
           vpiName: b
           vpiFullName: work@top.b
           vpiNetType: none (12)
-      vpiTypespec (4 items):
-        ClassTypespec name:goog start:35:18 end:35:22:
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:goog::top_flag_t start:35:18 end:35:34:
           vpiParent: Module name:work@top
-          vpiName: goog
-        UnsupportedTypespec name:top_flag_t start:35:24 end:35:34:
+          vpiPathElem (2 items):
+            UnsupportedScope name:goog start:35:18 end:35:24:
+              vpiParent: UnsupportedTypespec name:goog::top_flag_t
+              vpiName Identifier name:goog start:35:18 end:35:22:
+                vpiParent: UnsupportedScope name:goog
+                vpiName: goog
+              vpiFullName: work@top.goog::top_flag_t.goog
+            RefTypespec name:top_flag_t start:35:24 end:35:34:
+              vpiParent: UnsupportedTypespec name:goog::top_flag_t
+              vpiName: top_flag_t
+              vpiFullName: work@top.goog::top_flag_t.top_flag_t
+          vpiName Identifier name:goog::top_flag_t start:35:18 end:35:34:
+            vpiParent: UnsupportedTypespec name:goog::top_flag_t
+            vpiName: goog::top_flag_t
+        UnsupportedTypespec name:goog::top_flag_t start:35:46 end:35:62:
           vpiParent: Module name:work@top
-          vpiName Identifier name:top_flag_t:
-            vpiParent: UnsupportedTypespec name:top_flag_t
-            vpiName: top_flag_t
-        ClassTypespec name:goog start:35:46 end:35:50:
-          vpiParent: Module name:work@top
-          vpiName: goog
-        UnsupportedTypespec name:top_flag_t start:35:52 end:35:62:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:top_flag_t:
-            vpiParent: UnsupportedTypespec name:top_flag_t
-            vpiName: top_flag_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:goog start:35:46 end:35:52:
+              vpiParent: UnsupportedTypespec name:goog::top_flag_t
+              vpiName Identifier name:goog start:35:46 end:35:50:
+                vpiParent: UnsupportedScope name:goog
+                vpiName: goog
+              vpiFullName: work@top.goog::top_flag_t.goog
+            RefTypespec name:top_flag_t start:35:52 end:35:62:
+              vpiParent: UnsupportedTypespec name:goog::top_flag_t
+              vpiName: top_flag_t
+              vpiFullName: work@top.goog::top_flag_t.top_flag_t
+          vpiName Identifier name:goog::top_flag_t start:35:46 end:35:62:
+            vpiParent: UnsupportedTypespec name:goog::top_flag_t
+            vpiName: goog::top_flag_t
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -631,8 +641,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiName: top_flag_t
             vpiFullName: work@top.a.top_flag_t
-            vpiPrefix: HierPath name:goog::top_flag_t
-            vpiActual: UnsupportedTypespec name:top_flag_t
+            vpiActual: UnsupportedTypespec name:goog::top_flag_t
           vpiName: a
           vpiFullName: work@top.a
           vpiNetType: wire (1)
@@ -649,14 +658,7 @@ Design name:unnamed:
             vpiParent: Port name:a
             vpiName: top_flag_t
             vpiFullName: work@top.a.top_flag_t
-            vpiPrefix HierPath name:goog::top_flag_t start:35:18 end:35:24:
-              vpiParent: RefTypespec name:top_flag_t
-              vpiName: goog::top_flag_t
-              vpiFullName: work@top.a.top_flag_t.goog::top_flag_t
-              vpiPathElem (2 items):
-                ClassTypespec name:goog:
-                UnsupportedTypespec name:top_flag_t:
-            vpiActual: UnsupportedTypespec name:top_flag_t
+            vpiActual: UnsupportedTypespec name:goog::top_flag_t
         Port name:b start:35:63 end:35:64:
           vpiParent: Module name:work@top
           vpiName: b
@@ -669,14 +671,7 @@ Design name:unnamed:
             vpiParent: Port name:b
             vpiName: top_flag_t
             vpiFullName: work@top.b.top_flag_t
-            vpiPrefix HierPath name:goog::top_flag_t start:35:46 end:35:52:
-              vpiParent: RefTypespec name:top_flag_t
-              vpiName: goog::top_flag_t
-              vpiFullName: work@top.b.top_flag_t.goog::top_flag_t
-              vpiPathElem (2 items):
-                ClassTypespec name:goog:
-                UnsupportedTypespec name:top_flag_t:
-            vpiActual: UnsupportedTypespec name:top_flag_t
+            vpiActual: UnsupportedTypespec name:goog::top_flag_t
       vpiContAssign (2 items):
         ContAssign start:36:10 end:36:15:
           vpiParent: Module name:work@top
@@ -720,15 +715,12 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "5"
                 vpiValue: 5
-  vpiTypespec (6 items):
+  vpiTypespec (5 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     LogicTypespec:
       vpiParent: Design name:unnamed
-    ClassTypespec name:fooes_pkg start:25:3 end:25:12:
-      vpiParent: Design name:unnamed
-      vpiName: fooes_pkg
     StructTypespec start:23:9 end:26:2:
       vpiParent: Design name:unnamed
       vpiPacked: true
@@ -767,7 +759,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 5
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -812,9 +804,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      11       1         2
 Operation                            1       0       0         1
-RefTypespec                         32      31       1         2
+RefTypespec                         34      33       1         2
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
                                    127     124       2         5
 ===================== END REDUCTION RESULT =====================

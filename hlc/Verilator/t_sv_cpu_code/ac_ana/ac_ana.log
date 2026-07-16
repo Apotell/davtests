@@ -168,10 +168,10 @@ AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/ac_ana.sv:17:3: Illegal implicit net "id:9, name:pads_if".
 [ERR:EL0535] $Source01/ac_ana.sv:17:11: Illegal implicit net "id:10, name:mp_ana".
-[ERR:EL0535] $Source01/ac_ana.sv:37:26: Illegal implicit net "id:47, name:ana".
-[ERR:EL0535] $Source01/ac_ana.sv:37:42: Illegal implicit net "id:54, name:ana".
-[ERR:EL0535] $Source01/ac_ana.sv:39:17: Illegal implicit net "id:65, name:ana_override".
-[ERR:EL0535] $Source01/ac_ana.sv:40:17: Illegal implicit net "id:76, name:ana_override".
+[ERR:EL0535] $Source01/ac_ana.sv:37:26: Illegal implicit net "id:48, name:ana".
+[ERR:EL0535] $Source01/ac_ana.sv:37:42: Illegal implicit net "id:55, name:ana".
+[ERR:EL0535] $Source01/ac_ana.sv:39:17: Illegal implicit net "id:66, name:ana_override".
+[ERR:EL0535] $Source01/ac_ana.sv:40:17: Illegal implicit net "id:77, name:ana_override".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -198,7 +198,21 @@ Design name:unnamed:
           vpiName: acout
           vpiFullName: work@ac_ana.acout
           vpiNetType: none (12)
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:pads_if::mp_ana start:17:3 end:17:17:
+          vpiParent: Module name:work@ac_ana
+          vpiPathElem (2 items):
+            RefObj name:pads_if start:17:3 end:17:10:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_ana
+              vpiName: pads_if
+              vpiFullName: work@ac_ana.pads_if::mp_ana.pads_if
+            RefObj name:mp_ana start:17:11 end:17:17:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_ana
+              vpiName: mp_ana
+              vpiFullName: work@ac_ana.pads_if::mp_ana.mp_ana
+          vpiName Identifier name:pads_if::mp_ana:
+            vpiParent: UnsupportedTypespec name:pads_if::mp_ana
+            vpiName: pads_if::mp_ana
         LogicTypespec:
           vpiParent: Module name:work@ac_ana
         BitTypespec:
@@ -213,11 +227,10 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:padsif start:17:19 end:17:25:
           vpiParent: Module name:work@ac_ana
-          vpiTypespec RefTypespec name:pads_if.mp_ana start:17:3 end:17:17:
+          vpiTypespec RefTypespec start:17:3 end:17:17:
             vpiParent: Net name:padsif
-            vpiName: pads_if.mp_ana
-            vpiFullName: work@ac_ana.padsif.pads_if.mp_ana
-            vpiPrefix: HierPath name:pads_if.mp_ana
+            vpiFullName: work@ac_ana.padsif
+            vpiActual: UnsupportedTypespec name:pads_if::mp_ana
           vpiName: padsif
           vpiFullName: work@ac_ana.padsif
           vpiNetType: wire (1)
@@ -257,23 +270,10 @@ Design name:unnamed:
             vpiParent: Port name:padsif
             vpiFullName: work@ac_ana.padsif
             vpiActual: Net name:padsif
-          vpiTypespec RefTypespec name:pads_if.mp_ana start:17:3 end:17:17:
+          vpiTypespec RefTypespec start:17:3 end:17:17:
             vpiParent: Port name:padsif
-            vpiName: pads_if.mp_ana
-            vpiFullName: work@ac_ana.padsif.pads_if.mp_ana
-            vpiPrefix HierPath name:pads_if.mp_ana start:17:3 end:17:17:
-              vpiParent: RefTypespec name:pads_if.mp_ana
-              vpiName: pads_if.mp_ana
-              vpiFullName: work@ac_ana.padsif.pads_if.mp_ana.pads_if.mp_ana
-              vpiPathElem (2 items):
-                RefObj name:pads_if start:17:3 end:17:10:
-                  vpiParent: HierPath name:pads_if.mp_ana
-                  vpiName: pads_if
-                  vpiFullName: work@ac_ana.padsif.pads_if.mp_ana.pads_if
-                RefObj name:mp_ana start:17:11 end:17:17:
-                  vpiParent: HierPath name:pads_if.mp_ana
-                  vpiName: mp_ana
-                  vpiFullName: work@ac_ana.padsif.pads_if.mp_ana.mp_ana
+            vpiFullName: work@ac_ana.padsif
+            vpiActual: UnsupportedTypespec name:pads_if::mp_ana
         Port name:acout start:21:22 end:21:27:
           vpiParent: Module name:work@ac_ana
           vpiName: acout
@@ -537,7 +537,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_ana/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

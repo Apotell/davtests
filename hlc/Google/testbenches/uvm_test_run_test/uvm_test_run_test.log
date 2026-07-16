@@ -2937,9 +2937,9 @@ n<$Source01/uvm_test_run_test.sv> u<2892> t<Top_level_rule> c<1> l<17:1> el<47:1
 AST_DEBUG_END
 [INF:CP0303] $Source01/uvm_test_run_test.sv:42:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:590, name:UVM_LOW".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:591, name:UVM_INFO".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:66: Illegal implicit net "id:603, name:UVM_LOW".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:594, name:UVM_LOW".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:595, name:UVM_INFO".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:66: Illegal implicit net "id:607, name:UVM_LOW".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -5343,27 +5343,29 @@ Design name:unnamed:
       vpiTypespec (4 items):
         ClassTypespec name:uvm_test start:20:27 end:20:35:
           vpiParent: ClassDefn name:work@simple_test
-          vpiName: uvm_test
-        UnsupportedTypespec name:uvm_component_registry start:606:12 end:606:63:
+          vpiName Identifier name:uvm_test:
+            vpiParent: ClassTypespec name:uvm_test
+            vpiName: uvm_test
+        "UnsupportedTypespec name:uvm_component_registry #(type =simple_test, type =\"simple_test\") start:606:12 end:606:63":
           vpiParent: ClassDefn name:work@simple_test
-          vpiName Identifier name:uvm_component_registry:
-            vpiParent: UnsupportedTypespec name:uvm_component_registry
-            vpiName: uvm_component_registry
+          "vpiName Identifier name:uvm_component_registry #(type =simple_test, type =\"simple_test\") start:606:12 end:606:63":
+            vpiParent: "UnsupportedTypespec name:uvm_component_registry #(type =simple_test, type =\"simple_test\")"
+            vpiName: uvm_component_registry #(type =simple_test, type ="simple_test")
           vpiParamAssign (2 items):
             ParamAssign start:606:37 end:606:48:
-              vpiParent: UnsupportedTypespec name:uvm_component_registry
+              vpiParent: "UnsupportedTypespec name:uvm_component_registry #(type =simple_test, type =\"simple_test\")"
               vpiRhs RefObj name:simple_test start:606:37 end:606:48:
                 vpiParent: ParamAssign
                 vpiName: simple_test
-                vpiFullName: work@simple_test::uvm_component_registry::simple_test
+                vpiFullName: work@simple_test::uvm_component_registry #(type =simple_test, type ="simple_test")::simple_test
                 vpiActual: ClassDefn name:work@simple_test
             ParamAssign start:606:49 end:606:62:
-              vpiParent: UnsupportedTypespec name:uvm_component_registry
+              vpiParent: "UnsupportedTypespec name:uvm_component_registry #(type =simple_test, type =\"simple_test\")"
               vpiRhs Constant start:606:49 end:606:62:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@simple_test::uvm_component_registry
+                  vpiFullName: work@simple_test::uvm_component_registry #(type =simple_test, type ="simple_test")
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 88
@@ -5377,19 +5379,22 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:606:12 end:606:63:
             vpiParent: TypedefTypespec name:type_id
             vpiFullName: work@simple_test::type_id
-            vpiActual: UnsupportedTypespec name:uvm_component_registry
+            vpiActual: "UnsupportedTypespec name:uvm_component_registry #(type =simple_test, type =\"simple_test\")"
         ClassTypespec name:work@simple_test:
           vpiParent: ClassDefn name:work@simple_test
-          vpiName: work@simple_test
+          vpiName Identifier name:work@simple_test:
+            vpiParent: ClassTypespec name:work@simple_test
+            vpiName: work@simple_test
           vpiClassDefn: ClassDefn name:work@simple_test
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:20:19 end:20:26:
         vpiParent: ClassDefn name:work@simple_test
-        vpiClassTypespec RefTypespec name:uvm_test start:20:27 end:20:35:
-          vpiParent: Extends
-          vpiName: uvm_test
-          vpiFullName: work@simple_test::uvm_test
-          vpiActual: ClassTypespec name:uvm_test
+        vpiClassTypespec (1 items):
+          RefTypespec name:uvm_test start:20:27 end:20:35:
+            vpiParent: Extends
+            vpiName: uvm_test
+            vpiFullName: work@simple_test::uvm_test
+            vpiActual: ClassTypespec name:uvm_test
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@simple_test
         vpiName: work
@@ -5402,15 +5407,12 @@ Design name:unnamed:
             vpiParent: Function name:get_type
             vpiName: get_type
           vpiFullName: work@simple_test::get_type
-          vpiTypespec (2 items):
+          vpiTypespec (1 items):
             UnsupportedTypespec name:type_id start:607:20 end:607:27:
               vpiParent: Function name:get_type
-              vpiName Identifier name:type_id:
+              vpiName Identifier name:type_id start:607:20 end:607:27:
                 vpiParent: UnsupportedTypespec name:type_id
                 vpiName: type_id
-            ClassTypespec name:type_id start:608:13 end:608:20:
-              vpiParent: Function name:get_type
-              vpiName: type_id
           vpiVisibility: public (1)
           vpiStmt ReturnStmt start:608:6 end:608:28:
             vpiParent: Function name:get_type
@@ -5419,7 +5421,12 @@ Design name:unnamed:
               vpiName: type_id::get()
               vpiFullName: work@simple_test::get_type::type_id::get()
               vpiPathElem (2 items):
-                ClassTypespec name:type_id:
+                UnsupportedScope name:type_id start:608:13 end:608:22:
+                  vpiParent: HierPath name:type_id::get()
+                  vpiName Identifier name:type_id start:608:13 end:608:20:
+                    vpiParent: UnsupportedScope name:type_id
+                    vpiName: type_id
+                  vpiFullName: work@simple_test::get_type::type_id::get()::type_id
                 MethodFuncCall name:get start:608:22 end:608:27:
                   vpiParent: HierPath name:type_id::get()
                   vpiName Identifier name:get start:608:22 end:608:25:
@@ -5435,15 +5442,12 @@ Design name:unnamed:
             vpiParent: Function name:get_object_type
             vpiName: get_object_type
           vpiFullName: work@simple_test::get_object_type
-          vpiTypespec (2 items):
+          vpiTypespec (1 items):
             UnsupportedTypespec name:uvm_object_wrapper start:610:21 end:610:39:
               vpiParent: Function name:get_object_type
-              vpiName Identifier name:uvm_object_wrapper:
+              vpiName Identifier name:uvm_object_wrapper start:610:21 end:610:39:
                 vpiParent: UnsupportedTypespec name:uvm_object_wrapper
                 vpiName: uvm_object_wrapper
-            ClassTypespec name:type_id start:611:13 end:611:20:
-              vpiParent: Function name:get_object_type
-              vpiName: type_id
           vpiVisibility: public (1)
           vpiVirtual: true
           vpiStmt ReturnStmt start:611:6 end:611:28:
@@ -5453,7 +5457,12 @@ Design name:unnamed:
               vpiName: type_id::get()
               vpiFullName: work@simple_test::get_object_type::type_id::get()
               vpiPathElem (2 items):
-                ClassTypespec name:type_id:
+                UnsupportedScope name:type_id start:611:13 end:611:22:
+                  vpiParent: HierPath name:type_id::get()
+                  vpiName Identifier name:type_id start:611:13 end:611:20:
+                    vpiParent: UnsupportedScope name:type_id
+                    vpiName: type_id
+                  vpiFullName: work@simple_test::get_object_type::type_id::get()::type_id
                 MethodFuncCall name:get start:611:22 end:611:27:
                   vpiParent: HierPath name:type_id::get()
                   vpiName Identifier name:get start:611:22 end:611:25:
@@ -5525,7 +5534,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:uvm_component start:23:31 end:23:44:
               vpiParent: Function name:new
-              vpiName Identifier name:uvm_component:
+              vpiName Identifier name:uvm_component start:23:31 end:23:44:
                 vpiParent: UnsupportedTypespec name:uvm_component
                 vpiName: uvm_component
           vpiVisibility: public (1)
@@ -5534,9 +5543,10 @@ Design name:unnamed:
               vpiParent: Function name:new
               vpiName: name
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:23:18 end:23:24:
+              vpiTypespec RefTypespec name:string start:23:18 end:23:24:
                 vpiParent: IODecl name:name
-                vpiFullName: work@simple_test::new::name
+                vpiName: string
+                vpiFullName: work@simple_test::new::name::string
                 vpiActual: StringTypespec
             IODecl name:parent start:23:45 end:23:51:
               vpiParent: Function name:new
@@ -5546,9 +5556,10 @@ Design name:unnamed:
                 vpiParent: IODecl name:parent
                 vpiName: null
                 vpiFullName: work@simple_test::new::parent::null
-              vpiTypespec RefTypespec start:23:31 end:23:44:
+              vpiTypespec RefTypespec name:uvm_component start:23:31 end:23:44:
                 vpiParent: IODecl name:parent
-                vpiFullName: work@simple_test::new::parent
+                vpiName: uvm_component
+                vpiFullName: work@simple_test::new::parent::uvm_component
                 vpiActual: UnsupportedTypespec name:uvm_component
           vpiStmt HierPath name:super.new(name, parent) start:24:7 end:24:16:
             vpiParent: Function name:new
@@ -5564,6 +5575,7 @@ Design name:unnamed:
                 vpiName Identifier name:new:
                   vpiParent: FuncCall name:new
                   vpiName: new
+                vpiTaskFunc: Function name:new
                 vpiArgument (2 items):
                   RefObj name:name start:24:17 end:24:21:
                     vpiParent: FuncCall name:new
@@ -5589,7 +5601,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:uvm_phase start:27:41 end:27:50:
               vpiParent: Function name:connect_phase
-              vpiName Identifier name:uvm_phase:
+              vpiName Identifier name:uvm_phase start:27:41 end:27:50:
                 vpiParent: UnsupportedTypespec name:uvm_phase
                 vpiName: uvm_phase
           vpiVisibility: public (1)
@@ -5599,9 +5611,10 @@ Design name:unnamed:
               vpiParent: Function name:connect_phase
               vpiName: phase
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:27:41 end:27:50:
+              vpiTypespec RefTypespec name:uvm_phase start:27:41 end:27:50:
                 vpiParent: IODecl name:phase
-                vpiFullName: work@simple_test::connect_phase::phase
+                vpiName: uvm_phase
+                vpiFullName: work@simple_test::connect_phase::phase::uvm_phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt HierPath name:super.connect_phase(phase) start:28:9 end:28:34:
             vpiParent: Function name:connect_phase
@@ -5636,7 +5649,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:uvm_phase start:31:39 end:31:48:
               vpiParent: Function name:build_phase
-              vpiName Identifier name:uvm_phase:
+              vpiName Identifier name:uvm_phase start:31:39 end:31:48:
                 vpiParent: UnsupportedTypespec name:uvm_phase
                 vpiName: uvm_phase
           vpiVisibility: public (1)
@@ -5646,9 +5659,10 @@ Design name:unnamed:
               vpiParent: Function name:build_phase
               vpiName: phase
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:31:39 end:31:48:
+              vpiTypespec RefTypespec name:uvm_phase start:31:39 end:31:48:
                 vpiParent: IODecl name:phase
-                vpiFullName: work@simple_test::build_phase::phase
+                vpiName: uvm_phase
+                vpiFullName: work@simple_test::build_phase::phase::uvm_phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt HierPath name:super.build_phase(phase) start:32:9 end:32:32:
             vpiParent: Function name:build_phase
@@ -5686,9 +5700,10 @@ Design name:unnamed:
               vpiParent: Task name:run_phase
               vpiName: phase
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:35:20 end:35:29:
+              vpiTypespec RefTypespec name:uvm_phase start:35:20 end:35:29:
                 vpiParent: IODecl name:phase
-                vpiFullName: work@simple_test::run_phase::phase
+                vpiName: uvm_phase
+                vpiFullName: work@simple_test::run_phase::phase::uvm_phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt Begin:
             vpiParent: Task name:run_phase
@@ -5696,7 +5711,7 @@ Design name:unnamed:
             vpiTypespec (1 items):
               UnsupportedTypespec name:uvm_phase start:35:20 end:35:29:
                 vpiParent: Begin
-                vpiName Identifier name:uvm_phase:
+                vpiName Identifier name:uvm_phase start:35:20 end:35:29:
                   vpiParent: UnsupportedTypespec name:uvm_phase
                   vpiName: uvm_phase
             vpiStmt (3 items):
@@ -5886,7 +5901,9 @@ Design name:unnamed:
         vpiName: uvm_pkg
     ClassTypespec name:work@simple_test:
       vpiParent: Design name:unnamed
-      vpiName: work@simple_test
+      vpiName Identifier name:work@simple_test:
+        vpiParent: ClassTypespec name:work@simple_test
+        vpiName: work@simple_test
       vpiClassDefn: ClassDefn name:work@simple_test
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -5949,7 +5966,7 @@ COMMAND: ${HLC_DIR}/regression/Google/testbenches/uvm_test_run_test/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             620     620       0         0
+Others                             625     625       0         0
 ----------------------------------------------------------------
-                                   620     620       0         0
+                                   625     625       0         0
 ===================== END REDUCTION RESULT =====================

@@ -92,15 +92,23 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: work@t.b
           vpiNetType: none (12)
-      vpiTypespec (3 items):
-        ClassTypespec name:mispkg start:6:17 end:6:23:
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:mispkg::foo_t start:6:17 end:6:30:
           vpiParent: Module name:work@t
-          vpiName: mispkg
-        UnsupportedTypespec name:foo_t start:6:25 end:6:30:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:foo_t:
-            vpiParent: UnsupportedTypespec name:foo_t
-            vpiName: foo_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:mispkg start:6:17 end:6:25:
+              vpiParent: UnsupportedTypespec name:mispkg::foo_t
+              vpiName Identifier name:mispkg start:6:17 end:6:23:
+                vpiParent: UnsupportedScope name:mispkg
+                vpiName: mispkg
+              vpiFullName: work@t.mispkg::foo_t.mispkg
+            RefTypespec name:foo_t start:6:25 end:6:30:
+              vpiParent: UnsupportedTypespec name:mispkg::foo_t
+              vpiName: foo_t
+              vpiFullName: work@t.mispkg::foo_t.foo_t
+          vpiName Identifier name:mispkg::foo_t start:6:17 end:6:30:
+            vpiParent: UnsupportedTypespec name:mispkg::foo_t
+            vpiName: mispkg::foo_t
         LogicTypespec:
           vpiParent: Module name:work@t
       vpiDefName: work@t
@@ -117,8 +125,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiName: foo_t
             vpiFullName: work@t.a.foo_t
-            vpiPrefix: HierPath name:mispkg::foo_t
-            vpiActual: UnsupportedTypespec name:foo_t
+            vpiActual: UnsupportedTypespec name:mispkg::foo_t
           vpiName: a
           vpiFullName: work@t.a
           vpiNetType: wire (1)
@@ -143,14 +150,7 @@ Design name:unnamed:
             vpiParent: Port name:a
             vpiName: foo_t
             vpiFullName: work@t.a.foo_t
-            vpiPrefix HierPath name:mispkg::foo_t start:6:17 end:6:25:
-              vpiParent: RefTypespec name:foo_t
-              vpiName: mispkg::foo_t
-              vpiFullName: work@t.a.foo_t.mispkg::foo_t
-              vpiPathElem (2 items):
-                ClassTypespec name:mispkg:
-                UnsupportedTypespec name:foo_t:
-            vpiActual: UnsupportedTypespec name:foo_t
+            vpiActual: UnsupportedTypespec name:mispkg::foo_t
   vpiTypespec (1 items):
     ModuleTypespec name:work@t:
       vpiParent: Design name:unnamed
@@ -206,7 +206,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_pkg_colon_bad/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                    22      22       0         0
 ===================== END REDUCTION RESULT =====================

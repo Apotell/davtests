@@ -75,7 +75,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:work@Bar:
           vpiParent: Package name:work@Package
-          vpiName: work@Bar
+          vpiName Identifier name:work@Bar:
+            vpiParent: ClassTypespec name:work@Bar
+            vpiName: work@Bar
           vpiClassDefn: ClassDefn name:work@Bar
       vpiDefName: work@Package
       vpiDefNetType: none (12)
@@ -105,17 +107,27 @@ Design name:unnamed:
         vpiName: work@Foo
       vpiFullName: work@Foo
       vpiTypespec (1 items):
-        ClassTypespec name:Package start:19:19 end:19:31:
+        "ClassTypespec name::: start:19:19 end:19:31":
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Package
+          vpiPathElem (2 items):
+            RefTypespec start:19:19 end:19:26:
+              vpiParent: ClassTypespec name:::
+              vpiFullName: work@Foo
+            RefTypespec start:19:28 end:19:31:
+              vpiParent: ClassTypespec name:::
+              vpiFullName: work@Foo
+          vpiName Identifier name::::
+            vpiParent: ClassTypespec name:::
+            vpiName: "::"
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:19:11 end:19:18:
         vpiParent: ClassDefn name:work@Foo
-        vpiClassTypespec RefTypespec name:Package start:19:19 end:19:31:
-          vpiParent: Extends
-          vpiName: Package
-          vpiFullName: work@Foo::Package
-          vpiActual: ClassTypespec name:Package
+        vpiClassTypespec (1 items):
+          "RefTypespec name::: start:19:19 end:19:31":
+            vpiParent: Extends
+            vpiName: "::"
+            vpiFullName: work@Foo
+            vpiActual: ClassTypespec name:::
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work
@@ -138,7 +150,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: work@Foo
+      vpiName Identifier name:work@Foo:
+        vpiParent: ClassTypespec name:work@Foo
+        vpiName: work@Foo
       vpiClassDefn: ClassDefn name:work@Foo
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
@@ -194,7 +208,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_7/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                    26      26       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1083,7 +1083,7 @@ Design name:unnamed:
           vpiParent: Module name:work@t
           vpiStmt EventControl start:21:11 end:32:7:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:21:14 end:21:25:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1337,14 +1337,18 @@ Design name:unnamed:
             vpiParent: PropertyDecl name:C1
             vpiDisableCondition Operation start:90:15 end:90:22:
               vpiParent: PropertySpec
-              vpiOpType: not (3)
+              vpiOpType: iff (82)
               vpiOperand (1 items):
-                RefObj name:toggle start:90:16 end:90:22:
+                Operation start:90:15 end:90:22:
                   vpiParent: Operation
-                  vpiName: toggle
-                  vpiFullName: work@Test.C1.toggle
-                  vpiActual: Net name:toggle
-            vpiClockingEvent Operation:
+                  vpiOpType: not (3)
+                  vpiOperand (1 items):
+                    RefObj name:toggle start:90:16 end:90:22:
+                      vpiParent: Operation
+                      vpiName: toggle
+                      vpiFullName: work@Test.C1.toggle
+                      vpiActual: Net name:toggle
+            vpiClockingEvent Operation start:89:9 end:89:20:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1381,7 +1385,7 @@ Design name:unnamed:
           vpiFullName: work@Test.counter1
           vpiCoverageEvent EventControl start:97:24 end:97:39:
             vpiParent: CoverGroup name:counter1
-            vpiCondition Operation:
+            vpiCondition Operation start:97:27 end:97:38:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1630,7 +1634,7 @@ Design name:unnamed:
           vpiParent: Module name:work@Test
           vpiProperty PropertySpec start:44:20 end:44:41:
             vpiParent: Cover
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:44:22 end:44:33:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1681,7 +1685,7 @@ Design name:unnamed:
                 vpiValue: "*COVER: Cyc==5"
           vpiProperty PropertySpec start:54:22 end:54:43:
             vpiParent: Cover
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:54:24 end:54:35:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1768,12 +1772,16 @@ Design name:unnamed:
                 vpiValue: "*COVER: Cyc==8"
           vpiProperty PropertySpec start:62:20 end:62:62:
             vpiParent: Cover
-            vpiDisableCondition RefObj name:toggle start:62:48 end:62:54:
+            vpiDisableCondition Operation start:62:48 end:62:54:
               vpiParent: PropertySpec
-              vpiName: toggle
-              vpiFullName: work@Test.toggle
-              vpiActual: Net name:toggle
-            vpiClockingEvent Operation:
+              vpiOpType: iff (82)
+              vpiOperand (1 items):
+                RefObj name:toggle start:62:48 end:62:54:
+                  vpiParent: Operation
+                  vpiName: toggle
+                  vpiFullName: work@Test.toggle
+                  vpiActual: Net name:toggle
+            vpiClockingEvent Operation start:62:22 end:62:33:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1812,14 +1820,18 @@ Design name:unnamed:
             vpiParent: Cover
             vpiDisableCondition Operation start:64:48 end:64:55:
               vpiParent: PropertySpec
-              vpiOpType: not (3)
+              vpiOpType: iff (82)
               vpiOperand (1 items):
-                RefObj name:toggle start:64:49 end:64:55:
+                Operation start:64:48 end:64:55:
                   vpiParent: Operation
-                  vpiName: toggle
-                  vpiFullName: work@Test.toggle
-                  vpiActual: Net name:toggle
-            vpiClockingEvent Operation:
+                  vpiOpType: not (3)
+                  vpiOperand (1 items):
+                    RefObj name:toggle start:64:49 end:64:55:
+                      vpiParent: Operation
+                      vpiName: toggle
+                      vpiFullName: work@Test.toggle
+                      vpiActual: Net name:toggle
+            vpiClockingEvent Operation start:64:22 end:64:33:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1990,35 +2002,22 @@ Design name:unnamed:
         ImmediateAssert start:68:18 end:68:32:
           vpiParent: Module name:work@Test
           vpiIsDeferred: true
-          vpiExpr DelayControl start:68:25 end:68:27:
+          vpiExpr Constant start:68:29 end:68:30:
             vpiParent: ImmediateAssert
-            vpiDelay: 0
-            vpiStmt Constant start:68:29 end:68:30:
-              vpiParent: DelayControl
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@Test
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "1"
-              vpiValue: 1
-            vpiDelay Constant start:68:26 end:68:27:
-              vpiParent: DelayControl
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: work@Test
-                vpiActual: IntTypespec
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: work@Test
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefaultClocking ClockingBlock start:57:4 end:57:48:
         vpiParent: Module name:work@Test
         vpiFullName: work@Test
         vpiClockingEvent EventControl start:57:21 end:57:35:
           vpiParent: ClockingBlock
-          vpiCondition Operation:
+          vpiCondition Operation start:57:23 end:57:34:
             vpiParent: EventControl
             vpiOpType: posedge (39)
             vpiOperand (1 items):
@@ -2106,7 +2105,7 @@ Design name:unnamed:
                         vpiValue: "*COVER: Cyc==4"
                   vpiProperty PropertySpec start:48:23 end:48:44:
                     vpiParent: Cover
-                    vpiClockingEvent Operation:
+                    vpiClockingEvent Operation start:48:25 end:48:36:
                       vpiParent: PropertySpec
                       vpiOpType: posedge (39)
                       vpiOperand (1 items):
@@ -2222,12 +2221,16 @@ Design name:unnamed:
                     vpiName: CycCover_i
                   vpiProperty PropertySpec start:75:37 end:75:81:
                     vpiParent: Cover
-                    vpiDisableCondition RefObj name:reset start:75:65 end:75:70:
+                    vpiDisableCondition Operation start:75:65 end:75:70:
                       vpiParent: PropertySpec
-                      vpiName: reset
-                      vpiFullName: work@Test.cycval.reset
-                      vpiActual: Net name:reset
-                    vpiClockingEvent Operation:
+                      vpiOpType: iff (82)
+                      vpiOperand (1 items):
+                        RefObj name:reset start:75:65 end:75:70:
+                          vpiParent: Operation
+                          vpiName: reset
+                          vpiFullName: work@Test.cycval.reset
+                          vpiActual: Net name:reset
+                    vpiClockingEvent Operation start:75:39 end:75:50:
                       vpiParent: PropertySpec
                       vpiOpType: posedge (39)
                       vpiOperand (1 items):
@@ -2318,7 +2321,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_assert_cover/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             318     318       0         0
+Others                             319     319       0         0
 ----------------------------------------------------------------
-                                   318     318       0         0
+                                   319     319       0         0
 ===================== END REDUCTION RESULT =====================

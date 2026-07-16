@@ -84,7 +84,7 @@ Design name:unnamed:
         vpiParent: Module name:work@top
         vpiName: work@top
       vpiFullName: work@top
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@top
           vpiRange (1 items):
@@ -111,6 +111,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -138,7 +140,17 @@ Design name:unnamed:
           vpiRhs Operation start:5:18 end:5:25:
             vpiParent: ContAssign
             vpiOpType: logical shift left (22)
-            vpiOperand (1 items):
+            vpiOperand (2 items):
+              Constant start:5:18 end:5:20:
+                vpiParent: Operation
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@top
+                  vpiActual: LogicTypespec
+                vpiConstType: binary (3)
+                vpiSize: 1
+                vpiDecompile: "'x"
+                vpiValue: x
               Constant start:5:24 end:5:25:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -206,8 +218,12 @@ COMMAND: ${HLC_DIR}/regression/ShiftX/ShiftX/design.hldb ${HLC_DIR}/regression/S
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             4       3       1         2
+LogicTypespec                        2       3       1         0
+Operation                            1       0       0         1
+RefTypespec                          5       4       1         2
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                              12      12       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                    24      22       3         5
 ===================== END REDUCTION RESULT =====================

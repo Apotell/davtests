@@ -113,8 +113,8 @@ n<$Source01/18.7--in-line-constraints--randomize_3.sv> u<99> t<Top_level_rule> c
               n<> u<92> t<ENDFUNCTION> p<93> l<22:1> el<22:12>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/18.7--in-line-constraints--randomize_3.sv:21:36: Illegal implicit net "id:22, name:x".
-[ERR:EL0535] $Source01/18.7--in-line-constraints--randomize_3.sv:21:43: Illegal implicit net "id:28, name:x".
+[ERR:EL0535] $Source01/18.7--in-line-constraints--randomize_3.sv:21:36: Illegal implicit net "id:23, name:x".
+[ERR:EL0535] $Source01/18.7--in-line-constraints--randomize_3.sv:21:43: Illegal implicit net "id:29, name:x".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -149,7 +149,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@a:
       vpiParent: Design name:unnamed
-      vpiName: work@a
+      vpiName Identifier name:work@a:
+        vpiParent: ClassTypespec name:work@a
+        vpiName: work@a
       vpiClassDefn: ClassDefn name:work@a
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -161,22 +163,17 @@ Design name:unnamed:
         vpiParent: Function name:F
         vpiName: F
       vpiFullName: F
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:a start:20:16 end:20:17:
-          vpiParent: Function name:F
-          vpiName Identifier name:a:
-            vpiParent: UnsupportedTypespec name:a
-            vpiName: a
       vpiVisibility: public (1)
       vpiIODecl (2 items):
         IODecl name:obj start:20:18 end:20:21:
           vpiParent: Function name:F
           vpiName: obj
           vpiDirection: input (1)
-          vpiTypespec RefTypespec start:20:16 end:20:17:
+          vpiTypespec RefTypespec name:a start:20:16 end:20:17:
             vpiParent: IODecl name:obj
-            vpiFullName: F.obj
-            vpiActual: UnsupportedTypespec name:a
+            vpiName: a
+            vpiFullName: F.obj.a
+            vpiActual: ClassTypespec name:work@a
         IODecl name:y start:20:27 end:20:28:
           vpiParent: Function name:F
           vpiName: y
@@ -299,7 +296,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--rand
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

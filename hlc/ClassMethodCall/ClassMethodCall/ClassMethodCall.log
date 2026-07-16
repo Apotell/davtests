@@ -33,11 +33,15 @@ Design name:unnamed:
       vpiTypespec (2 items):
         ClassTypespec name:work@door:
           vpiParent: Package name:work@pack
-          vpiName: work@door
+          vpiName Identifier name:work@door:
+            vpiParent: ClassTypespec name:work@door
+            vpiName: work@door
           vpiClassDefn: ClassDefn name:work@door
         ClassTypespec name:work@doorOpen:
           vpiParent: Package name:work@pack
-          vpiName: work@doorOpen
+          vpiName Identifier name:work@doorOpen:
+            vpiParent: ClassTypespec name:work@doorOpen
+            vpiName: work@doorOpen
           vpiClassDefn: ClassDefn name:work@doorOpen
       vpiDefName: work@pack
       vpiDefNetType: none (12)
@@ -208,6 +212,9 @@ Design name:unnamed:
                 vpiParent: TaskDecl name:work@door_fsm
                 vpiName: work@door_fsm
               vpiFullName: work@pack::work@door::work@door_fsm
+              vpiVisibility: public (1)
+              vpiVirtual: true
+              vpiPure: true
         ClassDefn name:work@doorOpen file:$Source01/dut.sv start:21:1 end:38:9:
           vpiParent: Package name:work@pack
           vpiName Identifier name:work@doorOpen start:21:7 end:21:15:
@@ -217,20 +224,25 @@ Design name:unnamed:
           vpiTypespec (2 items):
             ClassTypespec name:door start:21:24 end:21:28:
               vpiParent: ClassDefn name:work@doorOpen
-              vpiName: door
+              vpiName Identifier name:door:
+                vpiParent: ClassTypespec name:door
+                vpiName: door
               vpiClassDefn: ClassDefn name:work@door
             ClassTypespec name:work@doorOpen:
               vpiParent: ClassDefn name:work@doorOpen
-              vpiName: work@doorOpen
+              vpiName Identifier name:work@doorOpen:
+                vpiParent: ClassTypespec name:work@doorOpen
+                vpiName: work@doorOpen
               vpiClassDefn: ClassDefn name:work@doorOpen
           vpiClassType: userdefined class (3)
           vpiExtends Extends start:21:16 end:21:23:
             vpiParent: ClassDefn name:work@doorOpen
-            vpiClassTypespec RefTypespec name:door start:21:24 end:21:28:
-              vpiParent: Extends
-              vpiName: door
-              vpiFullName: work@pack::work@doorOpen::door
-              vpiActual: ClassTypespec name:door
+            vpiClassTypespec (1 items):
+              RefTypespec name:door start:21:24 end:21:28:
+                vpiParent: Extends
+                vpiName: door
+                vpiFullName: work@pack::work@doorOpen::door
+                vpiActual: ClassTypespec name:door
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:work@doorOpen
             vpiName: work
@@ -252,6 +264,7 @@ Design name:unnamed:
                 vpiName Identifier name:f1 start:26:7 end:26:9:
                   vpiParent: FuncCall name:f1
                   vpiName: f1
+                vpiTaskFunc: Function name:f1
               vpiReturn RefTypespec start:25:14 end:25:14:
                 vpiParent: Function name:f2
                 vpiFullName: work@pack::work@doorOpen::f2
@@ -281,11 +294,13 @@ Design name:unnamed:
                     vpiName Identifier name:f1 start:30:5 end:30:7:
                       vpiParent: FuncCall name:f1
                       vpiName: f1
+                    vpiTaskFunc: Function name:f1
                   FuncCall name:f2 start:31:5 end:31:9:
                     vpiParent: Begin
                     vpiName Identifier name:f2 start:31:5 end:31:7:
                       vpiParent: FuncCall name:f2
                       vpiName: f2
+                    vpiTaskFunc: Function name:f2
               vpiReturn RefTypespec name:work@doorOpen:
                 vpiParent: Function name:new
                 vpiName: work@doorOpen
@@ -347,10 +362,6 @@ Design name:unnamed:
         vpiParent: Module name:work@door_mod
         vpiName: work@door_mod
       vpiFullName: work@door_mod
-      vpiTypespec (1 items):
-        ClassTypespec name:pack start:45:5 end:45:9:
-          vpiParent: Module name:work@door_mod
-          vpiName: pack
       vpiDefName: work@door_mod
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -480,7 +491,7 @@ COMMAND: ${HLC_DIR}/regression/ClassMethodCall/ClassMethodCall/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             106     106       0         0
+Others                             109     109       0         0
 ----------------------------------------------------------------
-                                   106     106       0         0
+                                   109     109       0         0
 ===================== END REDUCTION RESULT =====================

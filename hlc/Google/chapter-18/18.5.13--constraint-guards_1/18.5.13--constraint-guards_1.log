@@ -3010,12 +3010,12 @@ n<$Source01/18.5.13--constraint-guards_1.sv> u<2965> t<Top_level_rule> c<1> l<16
 AST_DEBUG_END
 [INF:CP0303] $Source01/18.5.13--constraint-guards_1.sv:53:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:563, name:UVM_LOW".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:564, name:UVM_INFO".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:80: Illegal implicit net "id:581, name:UVM_LOW".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:29: Illegal implicit net "id:599, name:UVM_NONE".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:38: Illegal implicit net "id:600, name:UVM_ERROR".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:80: Illegal implicit net "id:617, name:UVM_NONE".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:567, name:UVM_LOW".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:568, name:UVM_INFO".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:80: Illegal implicit net "id:585, name:UVM_LOW".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:29: Illegal implicit net "id:603, name:UVM_NONE".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:38: Illegal implicit net "id:604, name:UVM_ERROR".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:80: Illegal implicit net "id:621, name:UVM_NONE".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -5528,19 +5528,24 @@ Design name:unnamed:
       vpiTypespec (2 items):
         ClassTypespec name:uvm_env start:30:19 end:30:26:
           vpiParent: ClassDefn name:work@env
-          vpiName: uvm_env
+          vpiName Identifier name:uvm_env:
+            vpiParent: ClassTypespec name:uvm_env
+            vpiName: uvm_env
         ClassTypespec name:work@env:
           vpiParent: ClassDefn name:work@env
-          vpiName: work@env
+          vpiName Identifier name:work@env:
+            vpiParent: ClassTypespec name:work@env
+            vpiName: work@env
           vpiClassDefn: ClassDefn name:work@env
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:30:11 end:30:18:
         vpiParent: ClassDefn name:work@env
-        vpiClassTypespec RefTypespec name:uvm_env start:30:19 end:30:26:
-          vpiParent: Extends
-          vpiName: uvm_env
-          vpiFullName: work@env::uvm_env
-          vpiActual: ClassTypespec name:uvm_env
+        vpiClassTypespec (1 items):
+          RefTypespec name:uvm_env start:30:19 end:30:26:
+            vpiParent: Extends
+            vpiName: uvm_env
+            vpiFullName: work@env::uvm_env
+            vpiActual: ClassTypespec name:uvm_env
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@env
         vpiName: work
@@ -5556,7 +5561,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:uvm_component start:34:29 end:34:42:
               vpiParent: Function name:new
-              vpiName Identifier name:uvm_component:
+              vpiName Identifier name:uvm_component start:34:29 end:34:42:
                 vpiParent: UnsupportedTypespec name:uvm_component
                 vpiName: uvm_component
           vpiVisibility: public (1)
@@ -5565,9 +5570,10 @@ Design name:unnamed:
               vpiParent: Function name:new
               vpiName: name
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:34:16 end:34:22:
+              vpiTypespec RefTypespec name:string start:34:16 end:34:22:
                 vpiParent: IODecl name:name
-                vpiFullName: work@env::new::name
+                vpiName: string
+                vpiFullName: work@env::new::name::string
                 vpiActual: StringTypespec
             IODecl name:parent start:34:43 end:34:49:
               vpiParent: Function name:new
@@ -5577,9 +5583,10 @@ Design name:unnamed:
                 vpiParent: IODecl name:parent
                 vpiName: null
                 vpiFullName: work@env::new::parent::null
-              vpiTypespec RefTypespec start:34:29 end:34:42:
+              vpiTypespec RefTypespec name:uvm_component start:34:29 end:34:42:
                 vpiParent: IODecl name:parent
-                vpiFullName: work@env::new::parent
+                vpiName: uvm_component
+                vpiFullName: work@env::new::parent::uvm_component
                 vpiActual: UnsupportedTypespec name:uvm_component
           vpiStmt HierPath name:super.new(name, parent) start:35:5 end:35:14:
             vpiParent: Function name:new
@@ -5595,6 +5602,7 @@ Design name:unnamed:
                 vpiName Identifier name:new:
                   vpiParent: FuncCall name:new
                   vpiName: new
+                vpiTaskFunc: Function name:new
                 vpiArgument (2 items):
                   RefObj name:name start:35:15 end:35:19:
                     vpiParent: FuncCall name:new
@@ -5623,9 +5631,10 @@ Design name:unnamed:
               vpiParent: Task name:run_phase
               vpiName: phase
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:38:18 end:38:27:
+              vpiTypespec RefTypespec name:uvm_phase start:38:18 end:38:27:
                 vpiParent: IODecl name:phase
-                vpiFullName: work@env::run_phase::phase
+                vpiName: uvm_phase
+                vpiFullName: work@env::run_phase::phase::uvm_phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt Begin:
             vpiParent: Task name:run_phase
@@ -5633,7 +5642,7 @@ Design name:unnamed:
             vpiTypespec (1 items):
               UnsupportedTypespec name:uvm_phase start:38:18 end:38:27:
                 vpiParent: Begin
-                vpiName Identifier name:uvm_phase:
+                vpiName Identifier name:uvm_phase start:38:18 end:38:27:
                   vpiParent: UnsupportedTypespec name:uvm_phase
                   vpiName: uvm_phase
             vpiStmt (3 items):
@@ -6049,18 +6058,24 @@ Design name:unnamed:
         vpiName: uvm_pkg
     ClassTypespec name:work@b:
       vpiParent: Design name:unnamed
-      vpiName: work@b
+      vpiName Identifier name:work@b:
+        vpiParent: ClassTypespec name:work@b
+        vpiName: work@b
       vpiClassDefn: ClassDefn name:work@b
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:work@a:
       vpiParent: Design name:unnamed
-      vpiName: work@a
+      vpiName Identifier name:work@a:
+        vpiParent: ClassTypespec name:work@a
+        vpiName: work@a
       vpiClassDefn: ClassDefn name:work@a
     ClassTypespec name:work@env:
       vpiParent: Design name:unnamed
-      vpiName: work@env
+      vpiName Identifier name:work@env:
+        vpiParent: ClassTypespec name:work@env
+        vpiName: work@env
       vpiClassDefn: ClassDefn name:work@env
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -6118,7 +6133,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.13--constraint-guards_1/de
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             633     633       0         0
+Others                             638     638       0         0
 ----------------------------------------------------------------
-                                   633     633       0         0
+                                   638     638       0         0
 ===================== END REDUCTION RESULT =====================

@@ -82,7 +82,7 @@ n<$Source01/sva_range.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
                                         n<a> u<48> t<SIMPLE_IDENTIFIER> p<49> l<8:3> el<8:4>
                               n<> u<56> t<Cycle_delay_range> p<63> c<54> s<62> l<8:5> el<8:10>
                                 n<##> u<54> t<POUND_POUND_DELAY> p<56> s<55> l<8:5> el<8:7>
-                                n<> u<55> t<Associative_dimension> p<56> l<8:7> el<8:10>
+                                n<> u<55> t<STAR> p<56> l<8:7> el<8:10>
                               n<> u<62> t<Sequence_expr> p<63> c<61> l<8:11> el<8:12>
                                 n<> u<61> t<Expression_or_dist> p<62> c<60> l<8:11> el<8:12>
                                   n<> u<60> t<Expression> p<61> c<59> l<8:11> el<8:12>
@@ -178,7 +178,6 @@ n<$Source01/sva_range.sv> u<164> t<Top_level_rule> c<1> l<1:1> el<20:1>
         n<> u<160> t<ENDMODULE> p<161> l<19:1> el<19:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva_range.sv:1:1: Compile module "work@top".
-[ERR:CP0347] $Source01/sva_range.sv:1:1: Call to "ArrayTypespec::setParent" failed.
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -218,7 +217,26 @@ Design name:unnamed:
                           vpiName: a
                           vpiFullName: work@top.a
                           vpiActual: Net name:a
-                        ArrayTypespec:
+                        Range start:8:5 end:8:10:
+                          vpiParent: Operation
+                          vpiLeftRange Constant:
+                            vpiParent: Range
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top
+                              vpiActual: IntTypespec
+                            vpiConstType: int (7)
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                          vpiRightRange Constant:
+                            vpiParent: Range
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: work@top
+                              vpiActual: StringTypespec
+                            vpiConstType: unbounded (11)
+                            vpiDecompile: "$"
+                            vpiValue: "$"
                         RefObj name:b start:8:11 end:8:12:
                           vpiParent: Operation
                           vpiName: b
@@ -306,18 +324,9 @@ Design name:unnamed:
                   vpiName: c
                   vpiFullName: work@top.c
                   vpiActual: Net name:c
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:work@top
-        ArrayTypespec:
-          vpiParent: Module name:work@top
-          vpiArrayType: associative (3)
-          vpiIndexTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: work@top
-          vpiElemTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: work@top
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -376,7 +385,7 @@ Design name:unnamed:
         vpiFullName: work@top
         vpiClockingEvent EventControl start:5:19 end:5:33:
           vpiParent: ClockingBlock
-          vpiCondition Operation:
+          vpiCondition Operation start:5:21 end:5:32:
             vpiParent: EventControl
             vpiOpType: posedge (39)
             vpiOperand (1 items):
@@ -448,7 +457,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiClockingBlock (1 items):
         ClockingBlock:
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@top start:1:8 end:1:11:
@@ -458,10 +467,12 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    StringTypespec:
+      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -506,7 +517,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/sva/sva_range/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

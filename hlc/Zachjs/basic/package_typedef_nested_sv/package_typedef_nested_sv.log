@@ -142,7 +142,6 @@ n<$Source01/basic/package_typedef_nested.sv> u<127> t<Top_level_rule> c<1> l<1:1
 AST_DEBUG_END
 [INF:CP0301] $Source01/basic/package_typedef_nested.sv:1:1: Compile package "work@foo_pkg".
 [INF:CP0303] $Source01/basic/package_typedef_nested.sv:20:1: Compile module "work@top".
-[WRN:CP0323] $Source01/basic/package_typedef_nested.sv:20:1: Multiply defined typedef "foo_pkg".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -318,28 +317,43 @@ Design name:unnamed:
             vpiParent: Variable name:dat_o
             vpiName: out_t
             vpiFullName: work@top.dat_o.out_t
-            vpiPrefix: HierPath name:foo_pkg::out_t
-            vpiActual: UnsupportedTypespec name:out_t
+            vpiActual: UnsupportedTypespec name:foo_pkg::out_t
           vpiName: dat_o
           vpiFullName: work@top.dat_o
           vpiNetType: none (12)
-      vpiTypespec (4 items):
-        ClassTypespec name:foo_pkg start:21:12 end:21:19:
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:foo_pkg::inp_t start:21:12 end:21:26:
           vpiParent: Module name:work@top
-          vpiName: foo_pkg
-        UnsupportedTypespec name:inp_t start:21:21 end:21:26:
+          vpiPathElem (2 items):
+            UnsupportedScope name:foo_pkg start:21:12 end:21:21:
+              vpiParent: UnsupportedTypespec name:foo_pkg::inp_t
+              vpiName Identifier name:foo_pkg start:21:12 end:21:19:
+                vpiParent: UnsupportedScope name:foo_pkg
+                vpiName: foo_pkg
+              vpiFullName: work@top.foo_pkg::inp_t.foo_pkg
+            RefTypespec name:inp_t start:21:21 end:21:26:
+              vpiParent: UnsupportedTypespec name:foo_pkg::inp_t
+              vpiName: inp_t
+              vpiFullName: work@top.foo_pkg::inp_t.inp_t
+          vpiName Identifier name:foo_pkg::inp_t start:21:12 end:21:26:
+            vpiParent: UnsupportedTypespec name:foo_pkg::inp_t
+            vpiName: foo_pkg::inp_t
+        UnsupportedTypespec name:foo_pkg::out_t start:22:12 end:22:26:
           vpiParent: Module name:work@top
-          vpiName Identifier name:inp_t:
-            vpiParent: UnsupportedTypespec name:inp_t
-            vpiName: inp_t
-        ClassTypespec name:foo_pkg start:22:12 end:22:19:
-          vpiParent: Module name:work@top
-          vpiName: foo_pkg
-        UnsupportedTypespec name:out_t start:22:21 end:22:26:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:out_t:
-            vpiParent: UnsupportedTypespec name:out_t
-            vpiName: out_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:foo_pkg start:22:12 end:22:21:
+              vpiParent: UnsupportedTypespec name:foo_pkg::out_t
+              vpiName Identifier name:foo_pkg start:22:12 end:22:19:
+                vpiParent: UnsupportedScope name:foo_pkg
+                vpiName: foo_pkg
+              vpiFullName: work@top.foo_pkg::out_t.foo_pkg
+            RefTypespec name:out_t start:22:21 end:22:26:
+              vpiParent: UnsupportedTypespec name:foo_pkg::out_t
+              vpiName: out_t
+              vpiFullName: work@top.foo_pkg::out_t.out_t
+          vpiName Identifier name:foo_pkg::out_t start:22:12 end:22:26:
+            vpiParent: UnsupportedTypespec name:foo_pkg::out_t
+            vpiName: foo_pkg::out_t
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -354,8 +368,7 @@ Design name:unnamed:
             vpiParent: Net name:dat_i
             vpiName: inp_t
             vpiFullName: work@top.dat_i.inp_t
-            vpiPrefix: HierPath name:foo_pkg::inp_t
-            vpiActual: UnsupportedTypespec name:inp_t
+            vpiActual: UnsupportedTypespec name:foo_pkg::inp_t
           vpiName: dat_i
           vpiFullName: work@top.dat_i
           vpiNetType: wire (1)
@@ -372,14 +385,7 @@ Design name:unnamed:
             vpiParent: Port name:dat_i
             vpiName: inp_t
             vpiFullName: work@top.dat_i.inp_t
-            vpiPrefix HierPath name:foo_pkg::inp_t start:21:12 end:21:21:
-              vpiParent: RefTypespec name:inp_t
-              vpiName: foo_pkg::inp_t
-              vpiFullName: work@top.dat_i.inp_t.foo_pkg::inp_t
-              vpiPathElem (2 items):
-                ClassTypespec name:foo_pkg:
-                UnsupportedTypespec name:inp_t:
-            vpiActual: UnsupportedTypespec name:inp_t
+            vpiActual: UnsupportedTypespec name:foo_pkg::inp_t
         Port name:dat_o start:22:27 end:22:32:
           vpiParent: Module name:work@top
           vpiName: dat_o
@@ -392,14 +398,7 @@ Design name:unnamed:
             vpiParent: Port name:dat_o
             vpiName: out_t
             vpiFullName: work@top.dat_o.out_t
-            vpiPrefix HierPath name:foo_pkg::out_t start:22:12 end:22:21:
-              vpiParent: RefTypespec name:out_t
-              vpiName: foo_pkg::out_t
-              vpiFullName: work@top.dat_o.out_t.foo_pkg::out_t
-              vpiPathElem (2 items):
-                ClassTypespec name:foo_pkg:
-                UnsupportedTypespec name:out_t:
-            vpiActual: UnsupportedTypespec name:out_t
+            vpiActual: UnsupportedTypespec name:foo_pkg::out_t
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -414,7 +413,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -458,7 +457,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/package_typedef_nested_sv/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

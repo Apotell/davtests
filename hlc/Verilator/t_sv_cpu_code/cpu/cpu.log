@@ -1670,8 +1670,8 @@ AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/cpu.sv:18:3: Illegal implicit net "id:17, name:genbus_if".
 [ERR:EL0535] $Source01/cpu.sv:18:13: Illegal implicit net "id:18, name:master".
-[ERR:EL0535] $Source01/cpu.sv:80:26: Illegal implicit net "id:199, name:rom".
-[ERR:EL0535] $Source01/cpu.sv:81:23: Illegal implicit net "id:208, name:rom".
+[ERR:EL0535] $Source01/cpu.sv:80:26: Illegal implicit net "id:200, name:rom".
+[ERR:EL0535] $Source01/cpu.sv:81:23: Illegal implicit net "id:209, name:rom".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1725,9 +1725,23 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:work@cpu
+        UnsupportedTypespec name:genbus_if::master start:18:3 end:18:19:
+          vpiParent: Module name:work@cpu
+          vpiPathElem (2 items):
+            RefObj name:genbus_if start:18:3 end:18:12:
+              vpiParent: UnsupportedTypespec name:genbus_if::master
+              vpiName: genbus_if
+              vpiFullName: work@cpu.genbus_if::master.genbus_if
+            RefObj name:master start:18:13 end:18:19:
+              vpiParent: UnsupportedTypespec name:genbus_if::master
+              vpiName: master
+              vpiFullName: work@cpu.genbus_if::master.master
+          vpiName Identifier name:genbus_if::master:
+            vpiParent: UnsupportedTypespec name:genbus_if::master
+            vpiName: genbus_if::master
         LogicTypespec:
           vpiParent: Module name:work@cpu
           vpiRange (1 items):
@@ -2027,11 +2041,10 @@ Design name:unnamed:
       vpiNet (18 items):
         Net name:dbus start:18:22 end:18:26:
           vpiParent: Module name:work@cpu
-          vpiTypespec RefTypespec name:genbus_if.master start:18:3 end:18:19:
+          vpiTypespec RefTypespec start:18:3 end:18:19:
             vpiParent: Net name:dbus
-            vpiName: genbus_if.master
-            vpiFullName: work@cpu.dbus.genbus_if.master
-            vpiPrefix: HierPath name:genbus_if.master
+            vpiFullName: work@cpu.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::master
           vpiName: dbus
           vpiFullName: work@cpu.dbus
           vpiNetType: wire (1)
@@ -2182,23 +2195,10 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiFullName: work@cpu.dbus
             vpiActual: Net name:dbus
-          vpiTypespec RefTypespec name:genbus_if.master start:18:3 end:18:19:
+          vpiTypespec RefTypespec start:18:3 end:18:19:
             vpiParent: Port name:dbus
-            vpiName: genbus_if.master
-            vpiFullName: work@cpu.dbus.genbus_if.master
-            vpiPrefix HierPath name:genbus_if.master start:18:3 end:18:19:
-              vpiParent: RefTypespec name:genbus_if.master
-              vpiName: genbus_if.master
-              vpiFullName: work@cpu.dbus.genbus_if.master.genbus_if.master
-              vpiPathElem (2 items):
-                RefObj name:genbus_if start:18:3 end:18:12:
-                  vpiParent: HierPath name:genbus_if.master
-                  vpiName: genbus_if
-                  vpiFullName: work@cpu.dbus.genbus_if.master.genbus_if
-                RefObj name:master start:18:13 end:18:19:
-                  vpiParent: HierPath name:genbus_if.master
-                  vpiName: master
-                  vpiFullName: work@cpu.dbus.genbus_if.master.master
+            vpiFullName: work@cpu.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::master
         Port name:clk start:26:21 end:26:24:
           vpiParent: Module name:work@cpu
           vpiName: clk
@@ -2495,7 +2495,7 @@ Design name:unnamed:
           vpiParent: Module name:work@cpu
           vpiStmt EventControl start:95:13 end:108:8:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:95:16 end:95:27:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -2715,7 +2715,7 @@ Design name:unnamed:
           vpiParent: Module name:work@cpu
           vpiStmt EventControl start:117:13 end:137:8:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:117:16 end:117:27:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -4047,7 +4047,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/cpu/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             538     538       0         0
+Others                             539     539       0         0
 ----------------------------------------------------------------
-                                   538     538       0         0
+                                   539     539       0         0
 ===================== END REDUCTION RESULT =====================

@@ -479,7 +479,7 @@ n<$Source01/top.sv> u<526> t<Top_level_rule> c<1> l<1:1> el<43:1>
                         n<> u<191> t<Constant_primary> p<192> c<190> l<23:15> el<23:16>
                           n<> u<190> t<Primary_literal> p<191> c<189> l<23:15> el<23:16>
                             n<0> u<189> t<INTEGRAL_NUMBER> p<190> l<23:15> el<23:16>
-              n<> u<198> t<Port_identifier_list> p<199> c<197> l<23:18> el<23:19>
+              n<> u<198> t<Output_port_identifier_list> p<199> c<197> l<23:18> el<23:19>
                 n<o> u<197> t<SIMPLE_IDENTIFIER> p<198> l<23:18> el<23:19>
         n<> u<223> t<Module_item> p<276> c<222> s<246> l<24:5> el<24:18>
           n<> u<222> t<Non_port_module_item> p<223> c<221> l<24:5> el<24:18>
@@ -811,10 +811,10 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/top.sv:21:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/top.sv:30:1: No timescale set for "work@dut_part_select".
 [WRN:PA0205] $Source01/top.sv:38:1: No timescale set for "work@dut_no_decl".
-[ERR:EL0535] $Source01/top.sv:7:20: Illegal implicit net "id:164, name:clk".
-[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:179, name:InterruptStatus".
-[ERR:EL0535] $Source01/top.sv:14:9: Illegal implicit net "id:194, name:ConnectionState".
-[ERR:EL0535] $Source01/top.sv:14:31: Illegal implicit net "id:195, name:ESTABLISHED".
+[ERR:EL0535] $Source01/top.sv:7:20: Illegal implicit net "id:169, name:clk".
+[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:184, name:InterruptStatus".
+[ERR:EL0535] $Source01/top.sv:14:9: Illegal implicit net "id:199, name:ConnectionState".
+[ERR:EL0535] $Source01/top.sv:14:31: Illegal implicit net "id:200, name:ESTABLISHED".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2387,7 +2387,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2618,7 +2620,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2635,7 +2637,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2680,7 +2682,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -2890,7 +2894,7 @@ Design name:unnamed:
           vpiParent: Module name:work@toto
           vpiStmt EventControl start:7:10 end:17:6:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:7:12 end:7:23:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -3699,18 +3703,24 @@ Design name:unnamed:
   vpiTypespec (11 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:work@toto:
       vpiParent: Design name:unnamed
@@ -3790,7 +3800,7 @@ COMMAND: ${HLC_DIR}/regression/UnitPartSelect/UnitPartSelect/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             800     800       0         0
+Others                             805     805       0         0
 ----------------------------------------------------------------
-                                   800     800       0         0
+                                   805     805       0         0
 ===================== END REDUCTION RESULT =====================

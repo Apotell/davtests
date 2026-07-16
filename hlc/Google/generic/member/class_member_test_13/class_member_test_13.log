@@ -198,7 +198,7 @@ Design name:unnamed:
             vpiParent: Variable name:null_msg
             vpiName: myclass::msg_t
             vpiFullName: work@protected_stuff::null_msg::myclass::msg_t
-            vpiActual: UnsupportedTypespec name:msg_t
+            vpiActual: UnsupportedTypespec name:myclass::msg_t
           vpiName: null_msg
           vpiFullName: work@protected_stuff::null_msg
           vpiValue Operation start:11:45 end:11:57:
@@ -225,15 +225,23 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
-      vpiTypespec (3 items):
-        ClassTypespec name:myclass start:11:19 end:11:26:
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:myclass::msg_t start:11:19 end:11:33:
           vpiParent: ClassDefn name:work@protected_stuff
-          vpiName: myclass
-        UnsupportedTypespec name:msg_t start:11:28 end:11:33:
-          vpiParent: ClassDefn name:work@protected_stuff
-          vpiName Identifier name:msg_t:
-            vpiParent: UnsupportedTypespec name:msg_t
-            vpiName: msg_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:myclass start:11:19 end:11:28:
+              vpiParent: UnsupportedTypespec name:myclass::msg_t
+              vpiName Identifier name:myclass start:11:19 end:11:26:
+                vpiParent: UnsupportedScope name:myclass
+                vpiName: myclass
+              vpiFullName: work@protected_stuff::myclass::msg_t::myclass
+            RefTypespec name:msg_t start:11:28 end:11:33:
+              vpiParent: UnsupportedTypespec name:myclass::msg_t
+              vpiName: msg_t
+              vpiFullName: work@protected_stuff::myclass::msg_t::msg_t
+          vpiName Identifier name:myclass::msg_t start:11:19 end:11:33:
+            vpiParent: UnsupportedTypespec name:myclass::msg_t
+            vpiName: myclass::msg_t
         BitTypespec:
           vpiParent: ClassDefn name:work@protected_stuff
       vpiClassType: userdefined class (3)
@@ -245,7 +253,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@protected_stuff:
       vpiParent: Design name:unnamed
-      vpiName: work@protected_stuff
+      vpiName Identifier name:work@protected_stuff:
+        vpiParent: ClassTypespec name:work@protected_stuff
+        vpiName: work@protected_stuff
       vpiClassDefn: ClassDefn name:work@protected_stuff
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -299,9 +309,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       4       1         2
 Operation                            1       0       0         1
-RefTypespec                         10       8       0         2
+RefTypespec                         11       9       0         2
 ----------------------------------------------------------------
-Others                              16      16       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    32      28       1         5
+                                    35      31       1         5
 ===================== END REDUCTION RESULT =====================

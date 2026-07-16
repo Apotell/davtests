@@ -315,7 +315,6 @@ n<$Source01/dut.sv> u<300> t<Top_level_rule> c<1> l<1:1> el<45:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@ctrl_pkg".
 [INF:CP0301] $Source01/dut.sv:6:1: Compile package "work@pkg".
-[WRN:CP0323] $Source01/dut.sv:6:1: Multiply defined typedef "ctrl_pkg".
 [INF:CP0303] $Source01/dut.sv:35:1: Compile module "work@foo".
 [INF:CP0303] $Source01/dut.sv:40:1: Compile module "work@top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@ctrl_pkg".
@@ -462,7 +461,11 @@ Design name:unnamed:
             vpiName: ctrl_pkg::RegNumBanks
             vpiFullName: work@pkg::ctrl_pkg::RegNumBanks
             vpiPathElem (2 items):
-              PackageTypespec name:ctrl_pkg:
+              RefObj name:ctrl_pkg start:7:44 end:7:54:
+                vpiParent: HierPath name:ctrl_pkg::RegNumBanks
+                vpiName: ctrl_pkg
+                vpiFullName: work@pkg::ctrl_pkg
+                vpiActual: Package name:work@ctrl_pkg
               RefObj name:RegNumBanks start:7:54 end:7:65:
                 vpiParent: HierPath name:ctrl_pkg::RegNumBanks
                 vpiName: RegNumBanks
@@ -480,7 +483,11 @@ Design name:unnamed:
             vpiName: ctrl_pkg::RegPagesPerBank
             vpiFullName: work@pkg::ctrl_pkg::RegPagesPerBank
             vpiPathElem (2 items):
-              PackageTypespec name:ctrl_pkg:
+              RefObj name:ctrl_pkg start:8:44 end:8:54:
+                vpiParent: HierPath name:ctrl_pkg::RegPagesPerBank
+                vpiName: ctrl_pkg
+                vpiFullName: work@pkg::ctrl_pkg
+                vpiActual: Package name:work@ctrl_pkg
               RefObj name:RegPagesPerBank start:8:54 end:8:69:
                 vpiParent: HierPath name:ctrl_pkg::RegPagesPerBank
                 vpiName: RegPagesPerBank
@@ -563,15 +570,7 @@ Design name:unnamed:
                         vpiName: MuBi4True
                         vpiFullName: work@pkg::MuBi4True
                         vpiActual: EnumConst name:MuBi4True
-      vpiTypespec (12 items):
-        PackageTypespec name:ctrl_pkg start:7:44 end:7:54:
-          vpiParent: Package name:work@pkg
-          vpiName: ctrl_pkg
-          vpiPackage: Package name:work@ctrl_pkg
-        PackageTypespec name:ctrl_pkg start:8:44 end:8:54:
-          vpiParent: Package name:work@pkg
-          vpiName: ctrl_pkg
-          vpiPackage: Package name:work@ctrl_pkg
+      vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Package name:work@pkg
           vpiRange (1 items):
@@ -884,7 +883,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
-[WARNING] : 5
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -929,10 +928,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       1         1
 Operation                            3       2       0         1
-RefObj                              22      21       0         1
+RefObj                              24      23       0         1
 RefTypespec                         29      29       1         1
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              76      76       0         0
 ----------------------------------------------------------------
                                    142     140       2         4
 ===================== END REDUCTION RESULT =====================

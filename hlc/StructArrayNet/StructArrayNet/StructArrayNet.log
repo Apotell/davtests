@@ -152,7 +152,7 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "work@mod".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@dut".
-[ERR:EL0535] $Source01/dut.sv:12:11: Illegal implicit net "id:69, name:struct_i".
+[ERR:EL0535] $Source01/dut.sv:12:11: Illegal implicit net "id:73, name:struct_i".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -233,15 +233,23 @@ Design name:unnamed:
         vpiParent: Module name:work@mod
         vpiName: work@mod
       vpiFullName: work@mod
-      vpiTypespec (2 items):
-        ClassTypespec name:pkg start:6:18 end:6:21:
+      vpiTypespec (1 items):
+        UnsupportedTypespec name:pkg::Struct start:6:18 end:6:29:
           vpiParent: Module name:work@mod
-          vpiName: pkg
-        UnsupportedTypespec name:Struct start:6:23 end:6:29:
-          vpiParent: Module name:work@mod
-          vpiName Identifier name:Struct:
-            vpiParent: UnsupportedTypespec name:Struct
-            vpiName: Struct
+          vpiPathElem (2 items):
+            UnsupportedScope name:pkg start:6:18 end:6:23:
+              vpiParent: UnsupportedTypespec name:pkg::Struct
+              vpiName Identifier name:pkg start:6:18 end:6:21:
+                vpiParent: UnsupportedScope name:pkg
+                vpiName: pkg
+              vpiFullName: work@mod.pkg::Struct.pkg
+            RefTypespec name:Struct start:6:23 end:6:29:
+              vpiParent: UnsupportedTypespec name:pkg::Struct
+              vpiName: Struct
+              vpiFullName: work@mod.pkg::Struct.Struct
+          vpiName Identifier name:pkg::Struct start:6:18 end:6:29:
+            vpiParent: UnsupportedTypespec name:pkg::Struct
+            vpiName: pkg::Struct
       vpiDefName: work@mod
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -256,8 +264,7 @@ Design name:unnamed:
             vpiParent: Net name:struct_i
             vpiName: Struct
             vpiFullName: work@mod.struct_i.Struct
-            vpiPrefix: HierPath name:pkg::Struct
-            vpiActual: UnsupportedTypespec name:Struct
+            vpiActual: UnsupportedTypespec name:pkg::Struct
           vpiName: struct_i
           vpiFullName: work@mod.struct_i
           vpiNetType: wire (1)
@@ -274,29 +281,15 @@ Design name:unnamed:
             vpiParent: Port name:struct_i
             vpiName: Struct
             vpiFullName: work@mod.struct_i.Struct
-            vpiPrefix HierPath name:pkg::Struct start:6:18 end:6:23:
-              vpiParent: RefTypespec name:Struct
-              vpiName: pkg::Struct
-              vpiFullName: work@mod.struct_i.Struct.pkg::Struct
-              vpiPathElem (2 items):
-                ClassTypespec name:pkg:
-                UnsupportedTypespec name:Struct:
-            vpiActual: UnsupportedTypespec name:Struct
+            vpiActual: UnsupportedTypespec name:pkg::Struct
     Module name:work@dut file:$Source01/dut.sv start:9:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@dut start:9:8 end:9:11:
         vpiParent: Module name:work@dut
         vpiName: work@dut
       vpiFullName: work@dut
-      vpiTypespec (5 items):
-        ClassTypespec name:pkg start:10:4 end:10:7:
-          vpiParent: Module name:work@dut
-          vpiName: pkg
-        PackageTypespec name:pkg start:10:17 end:10:22:
-          vpiParent: Module name:work@dut
-          vpiName: pkg
-          vpiPackage: Package name:work@pkg
-        UnsupportedTypespec name:Struct start:10:9 end:10:15:
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:Struct start:10:9 end:10:28:
           vpiParent: Module name:work@dut
           vpiName Identifier name:Struct:
             vpiParent: UnsupportedTypespec name:Struct
@@ -316,7 +309,11 @@ Design name:unnamed:
                   vpiName: pkg::N
                   vpiFullName: work@dut.pkg::N
                   vpiPathElem (2 items):
-                    PackageTypespec name:pkg:
+                    RefObj name:pkg start:10:17 end:10:22:
+                      vpiParent: HierPath name:pkg::N
+                      vpiName: pkg
+                      vpiFullName: work@dut.pkg
+                      vpiActual: Package name:work@pkg
                     RefObj name:N start:10:22 end:10:23:
                       vpiParent: HierPath name:pkg::N
                       vpiName: N
@@ -342,10 +339,9 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:Struct:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: Struct
-            vpiFullName: work@dut.Struct
+            vpiFullName: work@dut
             vpiActual: UnsupportedTypespec name:Struct
         ModuleTypespec name:work@mod start:12:4 end:12:7:
           vpiParent: Module name:work@dut
@@ -375,7 +371,7 @@ Design name:unnamed:
             vpiParent: Net name:struct_array
             vpiName: pkg::Struct
             vpiFullName: work@dut.struct_array.pkg::Struct
-            vpiActual: ArrayTypespec
+            vpiActual: TypedefTypespec name:Struct
           vpiName: struct_array
           vpiFullName: work@dut.struct_array
       vpiPort (1 items):

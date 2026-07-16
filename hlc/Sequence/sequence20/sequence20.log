@@ -91,7 +91,7 @@ n<$Source01/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
                                   n<a> u<60> t<SIMPLE_IDENTIFIER> p<61> l<6:5> el<6:6>
                         n<> u<68> t<Cycle_delay_range> p<75> c<66> s<74> l<6:7> el<6:12>
                           n<##> u<66> t<POUND_POUND_DELAY> p<68> s<67> l<6:7> el<6:9>
-                          n<> u<67> t<Associative_dimension> p<68> l<6:9> el<6:12>
+                          n<> u<67> t<STAR> p<68> l<6:9> el<6:12>
                         n<> u<74> t<Sequence_expr> p<75> c<73> l<6:13> el<6:14>
                           n<> u<73> t<Expression_or_dist> p<74> c<72> l<6:13> el<6:14>
                             n<> u<72> t<Expression> p<73> c<71> l<6:13> el<6:14>
@@ -117,7 +117,7 @@ n<$Source01/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
                                   n<a> u<86> t<SIMPLE_IDENTIFIER> p<87> l<10:5> el<10:6>
                         n<> u<94> t<Cycle_delay_range> p<101> c<92> s<100> l<10:7> el<10:12>
                           n<##> u<92> t<POUND_POUND_DELAY> p<94> s<93> l<10:7> el<10:9>
-                          n<> u<93> t<UnaryOp_Plus> p<94> l<10:10> el<10:11>
+                          n<> u<93> t<PLUS> p<94> l<10:10> el<10:11>
                         n<> u<100> t<Sequence_expr> p<101> c<99> l<10:13> el<10:14>
                           n<> u<99> t<Expression_or_dist> p<100> c<98> l<10:13> el<10:14>
                             n<> u<98> t<Expression> p<99> c<97> l<10:13> el<10:14>
@@ -244,10 +244,7 @@ n<$Source01/sequence20.sv> u<230> t<Top_level_rule> c<1> l<1:1> el<21:10>
         n<> u<226> t<ENDMODULE> p<227> l<21:1> el<21:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sequence20.sv:1:1: Compile module "work@tb".
-[ERR:CP0347] $Source01/sequence20.sv:1:1: Call to "ArrayTypespec::setParent" failed.
 [WRN:PA0205] $Source01/sequence20.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] $Source01/sequence20.sv:13:34: Illegal implicit net "id:40, name:seq_delay_star".
-[ERR:EL0535] $Source01/sequence20.sv:14:34: Illegal implicit net "id:45, name:seq_delay_plus".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -280,7 +277,26 @@ Design name:unnamed:
                 vpiName: a
                 vpiFullName: work@tb.seq_delay_star.a
                 vpiActual: Net name:a
-              ArrayTypespec:
+              Range start:6:7 end:6:12:
+                vpiParent: Operation
+                vpiLeftRange Constant:
+                  vpiParent: Range
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@tb.seq_delay_star
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                vpiRightRange Constant:
+                  vpiParent: Range
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@tb.seq_delay_star
+                    vpiActual: StringTypespec
+                  vpiConstType: unbounded (11)
+                  vpiDecompile: "$"
+                  vpiValue: "$"
               RefObj name:b start:6:13 end:6:14:
                 vpiParent: Operation
                 vpiName: b
@@ -295,12 +311,32 @@ Design name:unnamed:
           vpiExpr Operation start:10:5 end:10:14:
             vpiParent: SequenceDecl name:seq_delay_plus
             vpiOpType: binary cycle delay (71)
-            vpiOperand (2 items):
+            vpiOperand (3 items):
               RefObj name:a start:10:5 end:10:6:
                 vpiParent: Operation
                 vpiName: a
                 vpiFullName: work@tb.seq_delay_plus.a
                 vpiActual: Net name:a
+              Range start:10:7 end:10:12:
+                vpiParent: Operation
+                vpiLeftRange Constant:
+                  vpiParent: Range
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@tb.seq_delay_plus
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiDecompile: "1"
+                  vpiValue: 1
+                vpiRightRange Constant:
+                  vpiParent: Range
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: work@tb.seq_delay_plus
+                    vpiActual: StringTypespec
+                  vpiConstType: unbounded (11)
+                  vpiDecompile: "$"
+                  vpiValue: "$"
               RefObj name:b start:10:13 end:10:14:
                 vpiParent: Operation
                 vpiName: b
@@ -311,7 +347,7 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
           vpiProperty PropertySpec start:13:19 end:13:48:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:13:21 end:13:32:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -324,11 +360,12 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: seq_delay_star
               vpiFullName: work@tb.seq_delay_star
+              vpiActual: SequenceDecl name:seq_delay_star
         Assert start:14:3 end:14:50:
           vpiParent: Module name:work@tb
           vpiProperty PropertySpec start:14:19 end:14:48:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:14:21 end:14:32:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -341,18 +378,10 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: seq_delay_plus
               vpiFullName: work@tb.seq_delay_plus
-      vpiTypespec (2 items):
+              vpiActual: SequenceDecl name:seq_delay_plus
+      vpiTypespec (1 items):
         BitTypespec:
           vpiParent: Module name:work@tb
-        ArrayTypespec:
-          vpiParent: Module name:work@tb
-          vpiArrayType: associative (3)
-          vpiIndexTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: work@tb
-          vpiElemTypespec RefTypespec:
-            vpiParent: ArrayTypespec
-            vpiFullName: work@tb
       vpiDefName: work@tb
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -501,7 +530,7 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "50"
                   vpiValue: 50
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
     ModuleTypespec name:work@tb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@tb start:1:8 end:1:10:
@@ -511,10 +540,12 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    StringTypespec:
+      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -559,7 +590,7 @@ COMMAND: ${HLC_DIR}/regression/Sequence/sequence20/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    67      67       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

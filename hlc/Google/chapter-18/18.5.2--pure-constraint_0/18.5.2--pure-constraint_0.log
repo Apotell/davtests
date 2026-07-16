@@ -32,9 +32,9 @@ n<$Source01/18.5.2--pure-constraint_0.sv> u<62> t<Top_level_rule> c<1> l<16:1> e
             n<a> u<10> t<SIMPLE_IDENTIFIER> p<19> s<15> l<16:15> el<16:16>
             n<> u<15> t<Class_item> p<19> c<14> s<18> l<17:5> el<17:23>
               n<> u<14> t<Class_constraint> p<15> c<13> l<17:5> el<17:23>
-                n<> u<13> t<Constraint_prototype> p<14> c<11> l<17:5> el<17:23>
-                  n<> u<11> t<Pure_keyword> p<13> s<12> l<17:5> el<17:9>
-                  n<c> u<12> t<SIMPLE_IDENTIFIER> p<13> l<17:21> el<17:22>
+                n<> u<13> t<Constraint_prototype> p<14> c<12> l<17:5> el<17:23>
+                  n<> u<12> t<PURE> p<13> s<11> l<17:5> el<17:9>
+                  n<c> u<11> t<SIMPLE_IDENTIFIER> p<13> l<17:21> el<17:22>
             n<> u<18> t<ENDCLASS> p<19> l<18:1> el<18:9>
     n<> u<60> t<Description> p<61> c<59> l<20:1> el<23:9>
       n<> u<59> t<Package_item> p<60> c<58> l<20:1> el<23:9>
@@ -117,16 +117,19 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:a start:20:18 end:20:19:
           vpiParent: ClassDefn name:work@a2
-          vpiName: a
+          vpiName Identifier name:a:
+            vpiParent: ClassTypespec name:a
+            vpiName: a
           vpiClassDefn: ClassDefn name:work@a
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:20:10 end:20:17:
         vpiParent: ClassDefn name:work@a2
-        vpiClassTypespec RefTypespec name:a start:20:18 end:20:19:
-          vpiParent: Extends
-          vpiName: a
-          vpiFullName: work@a2::a
-          vpiActual: ClassTypespec name:a
+        vpiClassTypespec (1 items):
+          RefTypespec name:a start:20:18 end:20:19:
+            vpiParent: Extends
+            vpiName: a
+            vpiFullName: work@a2::a
+            vpiActual: ClassTypespec name:a
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@a2
         vpiName: work
@@ -162,11 +165,15 @@ Design name:unnamed:
   vpiTypespec (3 items):
     ClassTypespec name:work@a:
       vpiParent: Design name:unnamed
-      vpiName: work@a
+      vpiName Identifier name:work@a:
+        vpiParent: ClassTypespec name:work@a
+        vpiName: work@a
       vpiClassDefn: ClassDefn name:work@a
     ClassTypespec name:work@a2:
       vpiParent: Design name:unnamed
-      vpiName: work@a2
+      vpiName Identifier name:work@a2:
+        vpiParent: ClassTypespec name:work@a2
+        vpiName: work@a2
       vpiClassDefn: ClassDefn name:work@a2
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -219,7 +226,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.2--pure-constraint_0/desig
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              25      25       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    25      25       0         0
 ===================== END REDUCTION RESULT =====================

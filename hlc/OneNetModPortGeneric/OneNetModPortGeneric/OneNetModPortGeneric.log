@@ -28,27 +28,27 @@ COMMAND: -wd ../../../tests/OneNetModPortGeneric -fileunit -writepp -d db -sv du
 [WRN:PA0205] $Source01/tb.v:1:1: No timescale set for "work@TESTBENCH".
 [ERR:EL0535] $Source01/dut.v:3:17: Illegal implicit net "id:41, name:drive".
 [ERR:EL0535] $Source01/dut.v:4:21: Illegal implicit net "id:47, name:observe".
-[ERR:EL0535] $Source01/dut.v:6:20: Illegal implicit net "id:58, name:intf".
+[ERR:EL0535] $Source01/dut.v:6:20: Illegal implicit net "id:57, name:intf".
 [ERR:EL0535] $Source01/dut.v:23:22: Illegal implicit net "id:90, name:drive".
 [ERR:EL0535] $Source01/dut.v:23:13: Illegal implicit net "id:92, name:inp".
 [ERR:EL0535] $Source01/dut.v:23:40: Illegal implicit net "id:95, name:observe".
 [ERR:EL0535] $Source01/dut.v:23:31: Illegal implicit net "id:97, name:out".
-[ERR:EL0535] $Source01/dut.v:31:11: Illegal implicit net "id:126, name:obs".
-[ERR:EL0535] $Source01/dut.v:31:22: Illegal implicit net "id:129, name:observe".
-[ERR:EL0535] $Source01/tb.v:5:51: Illegal implicit net "id:154, name:drive".
-[ERR:EL0535] $Source01/tb.v:5:63: Illegal implicit net "id:157, name:observe".
-[ERR:EL0535] $Source01/tb.v:6:10: Illegal implicit net "id:162, name:drive".
-[ERR:EL0535] $Source01/tb.v:7:20: Illegal implicit net "id:173, name:drive".
-[ERR:EL0535] $Source01/tb.v:7:34: Illegal implicit net "id:176, name:observe".
-[ERR:EL0535] $Source01/tb.v:8:15: Illegal implicit net "id:198, name:drive".
-[ERR:EL0535] $Source01/tb.v:9:20: Illegal implicit net "id:209, name:drive".
-[ERR:EL0535] $Source01/tb.v:9:34: Illegal implicit net "id:212, name:observe".
-[ERR:EL0535] $Source01/tb.v:17:23: Illegal implicit net "id:242, name:drive".
-[ERR:EL0535] $Source01/tb.v:17:14: Illegal implicit net "id:244, name:i".
-[ERR:EL0535] $Source01/tb.v:17:41: Illegal implicit net "id:247, name:observe".
-[ERR:EL0535] $Source01/tb.v:17:32: Illegal implicit net "id:249, name:o".
-[ERR:EL0535] $Source01/tb.v:18:17: Illegal implicit net "id:258, name:intf".
-[ERR:EL0535] $Source01/tb.v:19:17: Illegal implicit net "id:265, name:intf".
+[ERR:EL0535] $Source01/dut.v:31:11: Illegal implicit net "id:127, name:obs".
+[ERR:EL0535] $Source01/dut.v:31:22: Illegal implicit net "id:130, name:observe".
+[ERR:EL0535] $Source01/tb.v:5:51: Illegal implicit net "id:156, name:drive".
+[ERR:EL0535] $Source01/tb.v:5:63: Illegal implicit net "id:159, name:observe".
+[ERR:EL0535] $Source01/tb.v:6:10: Illegal implicit net "id:164, name:drive".
+[ERR:EL0535] $Source01/tb.v:7:20: Illegal implicit net "id:175, name:drive".
+[ERR:EL0535] $Source01/tb.v:7:34: Illegal implicit net "id:178, name:observe".
+[ERR:EL0535] $Source01/tb.v:8:15: Illegal implicit net "id:200, name:drive".
+[ERR:EL0535] $Source01/tb.v:9:20: Illegal implicit net "id:211, name:drive".
+[ERR:EL0535] $Source01/tb.v:9:34: Illegal implicit net "id:214, name:observe".
+[ERR:EL0535] $Source01/tb.v:17:23: Illegal implicit net "id:244, name:drive".
+[ERR:EL0535] $Source01/tb.v:17:14: Illegal implicit net "id:246, name:i".
+[ERR:EL0535] $Source01/tb.v:17:41: Illegal implicit net "id:249, name:observe".
+[ERR:EL0535] $Source01/tb.v:17:32: Illegal implicit net "id:251, name:o".
+[ERR:EL0535] $Source01/tb.v:18:17: Illegal implicit net "id:260, name:intf".
+[ERR:EL0535] $Source01/tb.v:19:17: Illegal implicit net "id:267, name:intf".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -148,12 +148,16 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:intf start:1:31 end:1:35:
           vpiParent: Program name:work@TESTBENCH
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:1:21 end:1:30:
             vpiParent: Variable name:intf
             vpiFullName: work@TESTBENCH.intf
+            vpiActual: InterfaceTypespec
           vpiName: intf
           vpiFullName: work@TESTBENCH.intf
           vpiNetType: wire (1)
+      vpiTypespec (1 items):
+        InterfaceTypespec start:1:21 end:1:30:
+          vpiParent: Program name:work@TESTBENCH
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
         vpiParent: Program name:work@TESTBENCH
@@ -505,9 +509,10 @@ Design name:unnamed:
             vpiParent: Port name:intf
             vpiFullName: work@TESTBENCH.intf
             vpiActual: Variable name:intf
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:1:21 end:1:30:
             vpiParent: Port name:intf
             vpiFullName: work@TESTBENCH.intf
+            vpiActual: InterfaceTypespec
   vpiAllModules (5 items):
     Module name:work@dut file:$Source01/dut.v start:2:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -525,14 +530,9 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: work@dut.o
           vpiNetType: none (12)
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@dut
-        InterfaceTypespec name:work@ConnectTB start:5:3 end:5:12:
-          vpiParent: Module name:work@dut
-          vpiName Identifier name:work@ConnectTB start:5:3 end:5:12:
-            vpiParent: InterfaceTypespec name:work@ConnectTB
-            vpiName: work@ConnectTB
         ModuleTypespec name:work@middle start:6:3 end:6:9:
           vpiParent: Module name:work@dut
           vpiName Identifier name:work@middle start:6:3 end:6:9:
@@ -627,10 +627,10 @@ Design name:unnamed:
         RefInstance name:conntb start:5:13 end:5:19:
           vpiParent: Module name:work@dut
           vpiName: conntb
-          vpiTypespec RefTypespec name:work@ConnectTB start:5:3 end:5:12:
+          vpiTypespec RefTypespec name:ConnectTB start:5:3 end:5:12:
             vpiParent: RefInstance name:conntb
-            vpiName: work@ConnectTB
-            vpiFullName: work@dut.conntb.work@ConnectTB
+            vpiName: ConnectTB
+            vpiFullName: work@dut.conntb.ConnectTB
             vpiActual: InterfaceTypespec name:work@ConnectTB
         RefInstance name:middle1 start:6:10 end:6:17:
           vpiParent: Module name:work@dut
@@ -668,7 +668,9 @@ Design name:unnamed:
         vpiParent: Module name:work@middle
         vpiName: work@middle
       vpiFullName: work@middle
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        InterfaceTypespec start:22:16 end:22:25:
+          vpiParent: Module name:work@middle
         ModuleTypespec name:work@SUB start:23:3 end:23:6:
           vpiParent: Module name:work@middle
           vpiName Identifier name:work@SUB start:23:3 end:23:6:
@@ -684,9 +686,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:intf start:22:26 end:22:30:
           vpiParent: Module name:work@middle
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:22:16 end:22:25:
             vpiParent: Net name:intf
             vpiFullName: work@middle.intf
+            vpiActual: InterfaceTypespec
           vpiName: intf
           vpiFullName: work@middle.intf
           vpiNetType: wire (1)
@@ -699,9 +702,10 @@ Design name:unnamed:
             vpiParent: Port name:intf
             vpiFullName: work@middle.intf
             vpiActual: Net name:intf
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:22:16 end:22:25:
             vpiParent: Port name:intf
             vpiFullName: work@middle.intf
+            vpiActual: InterfaceTypespec
       vpiRefInstance (1 items):
         RefInstance name:sub1 start:23:7 end:23:11:
           vpiParent: Module name:work@middle
@@ -832,6 +836,9 @@ Design name:unnamed:
         vpiParent: Module name:work@OBSERVER
         vpiName: work@OBSERVER
       vpiFullName: work@OBSERVER
+      vpiTypespec (1 items):
+        InterfaceTypespec start:30:17 end:30:26:
+          vpiParent: Module name:work@OBSERVER
       vpiDefName: work@OBSERVER
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -842,9 +849,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:intf start:30:27 end:30:31:
           vpiParent: Module name:work@OBSERVER
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:30:17 end:30:26:
             vpiParent: Net name:intf
             vpiFullName: work@OBSERVER.intf
+            vpiActual: InterfaceTypespec
           vpiName: intf
           vpiFullName: work@OBSERVER.intf
           vpiNetType: wire (1)
@@ -857,9 +865,10 @@ Design name:unnamed:
             vpiParent: Port name:intf
             vpiFullName: work@OBSERVER.intf
             vpiActual: Net name:intf
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:30:17 end:30:26:
             vpiParent: Port name:intf
             vpiFullName: work@OBSERVER.intf
+            vpiActual: InterfaceTypespec
       vpiContAssign (1 items):
         ContAssign start:31:11 end:31:29:
           vpiParent: Module name:work@OBSERVER
@@ -1105,7 +1114,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPortGeneric/OneNetModPortGeneric/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             248     248       0         0
+Others                             249     249       0         0
 ----------------------------------------------------------------
-                                   248     248       0         0
+                                   249     249       0         0
 ===================== END REDUCTION RESULT =====================

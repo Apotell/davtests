@@ -1061,7 +1061,7 @@ n<$Source01/property_sequence_checker.sv> u<2391> t<Top_level_rule> c<1> l<3:1> 
                                                     n<> u<1022> t<Primary> p<1023> c<1021> l<136:30> el<136:31>
                                                       n<> u<1021> t<Primary_literal> p<1022> c<1020> l<136:30> el<136:31>
                                                         n<3> u<1020> t<INTEGRAL_NUMBER> p<1021> l<136:30> el<136:31>
-                                      n<> u<1048> t<AND> p<1049> s<1047> l<136:33> el<136:36>
+                                      n<> u<1048> t<BinaryOp_CompositeAnd> p<1049> s<1047> l<136:33> el<136:36>
                                       n<> u<1047> t<Sequence_expr> p<1049> c<1031> l<136:37> el<136:54>
                                         n<> u<1031> t<Cycle_delay_range> p<1047> c<1030> s<1046> l<136:37> el<136:40>
                                           n<##1> u<1030> t<POUND_POUND_DELAY> p<1031> l<136:37> el<136:40>
@@ -1112,7 +1112,7 @@ n<$Source01/property_sequence_checker.sv> u<2391> t<Top_level_rule> c<1> l<3:1> 
                                                     n<> u<1073> t<Primary> p<1074> c<1072> l<143:30> el<143:31>
                                                       n<> u<1072> t<Primary_literal> p<1073> c<1071> l<143:30> el<143:31>
                                                         n<3> u<1071> t<INTEGRAL_NUMBER> p<1072> l<143:30> el<143:31>
-                                      n<> u<1090> t<OR> p<1091> s<1089> l<143:33> el<143:35>
+                                      n<> u<1090> t<BinaryOp_CompositeOr> p<1091> s<1089> l<143:33> el<143:35>
                                       n<> u<1089> t<Sequence_expr> p<1091> c<1082> l<143:36> el<143:43>
                                         n<> u<1082> t<Cycle_delay_range> p<1089> c<1081> s<1088> l<143:36> el<143:39>
                                           n<##1> u<1081> t<POUND_POUND_DELAY> p<1082> l<143:36> el<143:39>
@@ -2412,29 +2412,6 @@ AST_DEBUG_END
 [INF:CP0307] $Source01/property_sequence_checker.sv:275:11: Compile checker "mix_chk".
 [WRN:CP0348] $Source01/property_sequence_checker.sv:287:22: Feature not yet implemented.
 [WRN:PA0205] $Source01/property_sequence_checker.sv:3:1: No timescale set for "work@tb9".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:62:16: Illegal implicit net "id:281, name:delay".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:71:13: Illegal implicit net "id:291, name:count".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:72:15: Illegal implicit net "id:303, name:count".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:72:23: Illegal implicit net "id:304, name:count".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:113:20: Illegal implicit net "id:375, name:max_delay".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:121:16: Illegal implicit net "id:384, name:no_req_during_busy".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:129:7: Illegal implicit net "id:389, name:overlap_seq".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:207:7: Illegal implicit net "id:562, name:seq_clk1".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:245:7: Illegal implicit net "id:628, name:cross_seq".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:255:9: Illegal implicit net "id:643, name:ev".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:266:9: Illegal implicit net "id:693, name:ev".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:266:14: Illegal implicit net "id:695, name:x".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:266:27: Illegal implicit net "id:703, name:d".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:266:31: Illegal implicit net "id:705, name:y".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:266:36: Illegal implicit net "id:706, name:x".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:279:9: Illegal implicit net "id:754, name:ev".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:279:13: Illegal implicit net "id:756, name:r".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:279:20: Illegal implicit net "id:760, name:d".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:279:23: Illegal implicit net "id:762, name:g".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:284:21: Illegal implicit net "id:778, name:ev".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:284:25: Illegal implicit net "id:779, name:r".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:284:28: Illegal implicit net "id:780, name:g".
-[ERR:EL0535] $Source01/property_sequence_checker.sv:284:31: Illegal implicit net "id:781, name:d".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2695,6 +2672,7 @@ Design name:unnamed:
                             vpiParent: Range
                             vpiName: max_delay
                             vpiFullName: work@tb9.work@advanced_chk.p_with_arg.max_delay
+                            vpiActual: PropFormalDecl name:max_delay
                         RefObj name:gnt start:113:31 end:113:34:
                           vpiParent: Operation
                           vpiName: gnt
@@ -2721,6 +2699,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: no_req_during_busy
                       vpiFullName: work@tb9.work@advanced_chk.p_busy.no_req_during_busy
+                      vpiActual: SequenceDecl name:no_req_during_busy
             PropertyDecl name:p_overlap start:128:5 end:130:16:
               vpiParent: CheckerDecl name:work@advanced_chk
               vpiName Identifier name:p_overlap start:128:14 end:128:23:
@@ -2733,6 +2712,7 @@ Design name:unnamed:
                   vpiParent: PropertySpec
                   vpiName: overlap_seq
                   vpiFullName: work@tb9.work@advanced_chk.p_overlap.overlap_seq
+                  vpiActual: SequenceDecl name:overlap_seq
             PropertyDecl name:p_and start:135:5 end:137:16:
               vpiParent: CheckerDecl name:work@advanced_chk
               vpiName Identifier name:p_and start:135:14 end:135:19:
@@ -2752,7 +2732,7 @@ Design name:unnamed:
                       vpiActual: CheckerPort name:req
                     Operation start:136:19 end:136:54:
                       vpiParent: Operation
-                      vpiOpType: logical and (26)
+                      vpiOpType: comp-and (91)
                       vpiOperand (2 items):
                         FuncCall name:req_to_gnt start:136:19 end:136:32:
                           vpiParent: Operation
@@ -2821,7 +2801,7 @@ Design name:unnamed:
                       vpiActual: CheckerPort name:req
                     Operation start:143:19 end:143:43:
                       vpiParent: Operation
-                      vpiOpType: logical or (27)
+                      vpiOpType: comp-or (92)
                       vpiOperand (2 items):
                         FuncCall name:req_to_gnt start:143:19 end:143:32:
                           vpiParent: Operation
@@ -2890,6 +2870,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiName: delay
                       vpiFullName: work@tb9.work@advanced_chk.req_to_gnt.delay
+                      vpiActual: SeqFormalDecl name:delay
                   RefObj name:gnt start:62:23 end:62:26:
                     vpiParent: Operation
                     vpiName: gnt
@@ -2941,6 +2922,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: count
                           vpiFullName: work@tb9.work@advanced_chk.capture_req_time.count
+                          vpiActual: Variable name:count
                         vpiRhs Constant start:71:21 end:71:22:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -3007,6 +2989,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: count
                               vpiFullName: work@tb9.work@advanced_chk.capture_req_time.count
+                              vpiActual: Variable name:count
                             vpiRhs Operation start:72:23 end:72:32:
                               vpiParent: Assignment
                               vpiOpType: add (24)
@@ -3015,6 +2998,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: count
                                   vpiFullName: work@tb9.work@advanced_chk.capture_req_time.count
+                                  vpiActual: Variable name:count
                                 Constant start:72:31 end:72:32:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -3337,7 +3321,7 @@ Design name:unnamed:
             vpiFullName: work@tb9.work@advanced_chk.cb
             vpiClockingEvent EventControl start:53:25 end:53:39:
               vpiParent: ClockingBlock name:cb
-              vpiCondition Operation:
+              vpiCondition Operation start:53:27 end:53:38:
                 vpiParent: EventControl
                 vpiOpType: posedge (39)
                 vpiOperand (1 items):
@@ -3420,14 +3404,18 @@ Design name:unnamed:
                 vpiParent: PropertyDecl name:p_clk1
                 vpiDisableCondition Operation start:181:20 end:181:26:
                   vpiParent: PropertySpec
-                  vpiOpType: not (3)
+                  vpiOpType: iff (82)
                   vpiOperand (1 items):
-                    RefObj name:rst_n start:181:21 end:181:26:
+                    Operation start:181:20 end:181:26:
                       vpiParent: Operation
-                      vpiName: rst_n
-                      vpiFullName: work@tb9.work@clock_chk.p_clk1.rst_n
-                      vpiActual: CheckerPort name:rst_n
-                vpiClockingEvent Operation:
+                      vpiOpType: not (3)
+                      vpiOperand (1 items):
+                        RefObj name:rst_n start:181:21 end:181:26:
+                          vpiParent: Operation
+                          vpiName: rst_n
+                          vpiFullName: work@tb9.work@clock_chk.p_clk1.rst_n
+                          vpiActual: CheckerPort name:rst_n
+                vpiClockingEvent Operation start:180:9 end:180:21:
                   vpiParent: PropertySpec
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -3472,7 +3460,7 @@ Design name:unnamed:
               vpiFullName: work@tb9.work@clock_chk.p_clk2
               vpiPropertySpec PropertySpec start:192:7 end:193:18:
                 vpiParent: PropertyDecl name:p_clk2
-                vpiClockingEvent Operation:
+                vpiClockingEvent Operation start:192:9 end:192:21:
                   vpiParent: PropertySpec
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -3521,6 +3509,7 @@ Design name:unnamed:
                   vpiParent: PropertySpec
                   vpiName: seq_clk1
                   vpiFullName: work@tb9.work@clock_chk.p_seq_usage.seq_clk1
+                  vpiActual: SequenceDecl name:seq_clk1
             PropertyDecl name:p_cond_clock start:216:5 end:219:16:
               vpiParent: CheckerDecl name:work@clock_chk
               vpiName Identifier name:p_cond_clock start:216:14 end:216:26:
@@ -3529,7 +3518,7 @@ Design name:unnamed:
               vpiFullName: work@tb9.work@clock_chk.p_cond_clock
               vpiPropertySpec PropertySpec start:217:7 end:218:22:
                 vpiParent: PropertyDecl name:p_cond_clock
-                vpiClockingEvent Operation:
+                vpiClockingEvent Operation start:217:9 end:217:31:
                   vpiParent: PropertySpec
                   vpiOpType: posedge (39)
                   vpiOperand (2 items):
@@ -3538,11 +3527,15 @@ Design name:unnamed:
                       vpiName: clk1
                       vpiFullName: work@tb9.work@clock_chk.p_cond_clock.clk1
                       vpiActual: CheckerPort name:clk1
-                    RefObj name:rst_n start:217:26 end:217:31:
+                    Operation start:217:22 end:217:31:
                       vpiParent: Operation
-                      vpiName: rst_n
-                      vpiFullName: work@tb9.work@clock_chk.p_cond_clock.rst_n
-                      vpiActual: CheckerPort name:rst_n
+                      vpiOpType: iff (82)
+                      vpiOperand (1 items):
+                        RefObj name:rst_n start:217:26 end:217:31:
+                          vpiParent: Operation
+                          vpiName: rst_n
+                          vpiFullName: work@tb9.work@clock_chk.p_cond_clock.rst_n
+                          vpiActual: CheckerPort name:rst_n
                 vpiPropertyExpr Operation start:218:7 end:218:22:
                   vpiParent: PropertySpec
                   vpiOpType: overlap imply (52)
@@ -3579,7 +3572,7 @@ Design name:unnamed:
               vpiFullName: work@tb9.work@clock_chk.p_multiclock
               vpiPropertySpec PropertySpec start:229:7 end:230:34:
                 vpiParent: PropertyDecl name:p_multiclock
-                vpiClockingEvent Operation:
+                vpiClockingEvent Operation start:229:9 end:229:21:
                   vpiParent: PropertySpec
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -3599,7 +3592,7 @@ Design name:unnamed:
                       vpiActual: CheckerPort name:req
                     ClockedSeq start:230:15 end:230:34:
                       vpiParent: Operation
-                      vpiClockingEvent Operation:
+                      vpiClockingEvent Operation start:230:17 end:230:29:
                         vpiParent: ClockedSeq
                         vpiOpType: posedge (39)
                         vpiOperand (1 items):
@@ -3625,6 +3618,7 @@ Design name:unnamed:
                   vpiParent: PropertySpec
                   vpiName: cross_seq
                   vpiFullName: work@tb9.work@clock_chk.p_cross.cross_seq
+                  vpiActual: SequenceDecl name:cross_seq
             PropertyDecl name:p_with_clk start:254:5 end:256:16:
               vpiParent: CheckerDecl name:work@clock_chk
               vpiName Identifier name:p_with_clk start:254:14 end:254:24:
@@ -3646,6 +3640,7 @@ Design name:unnamed:
                   vpiParent: PropertySpec
                   vpiName: ev
                   vpiFullName: work@tb9.work@clock_chk.p_with_clk.ev
+                  vpiActual: PropFormalDecl name:ev
                 vpiPropertyExpr Operation start:255:13 end:255:28:
                   vpiParent: PropertySpec
                   vpiOpType: overlap imply (52)
@@ -3683,7 +3678,7 @@ Design name:unnamed:
               vpiFullName: work@tb9.work@clock_chk.seq_clk1
               vpiExpr ClockedSeq start:203:7 end:203:34:
                 vpiParent: SequenceDecl name:seq_clk1
-                vpiClockingEvent Operation:
+                vpiClockingEvent Operation start:203:9 end:203:21:
                   vpiParent: ClockedSeq
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -3724,7 +3719,7 @@ Design name:unnamed:
               vpiFullName: work@tb9.work@clock_chk.cross_seq
               vpiExpr ClockedSeq start:240:7 end:241:26:
                 vpiParent: SequenceDecl name:cross_seq
-                vpiClockingEvent Operation:
+                vpiClockingEvent Operation start:240:9 end:240:21:
                   vpiParent: ClockedSeq
                   vpiOpType: posedge (39)
                   vpiOperand (1 items):
@@ -3754,7 +3749,7 @@ Design name:unnamed:
                       vpiValue: 1
                     ClockedSeq start:241:7 end:241:26:
                       vpiParent: Operation
-                      vpiClockingEvent Operation:
+                      vpiClockingEvent Operation start:241:9 end:241:21:
                         vpiParent: ClockedSeq
                         vpiOpType: posedge (39)
                         vpiOperand (1 items):
@@ -4008,6 +4003,7 @@ Design name:unnamed:
                   vpiParent: ClockedSeq
                   vpiName: ev
                   vpiFullName: work@tb9.work@seq_multi_chk.seq_multi.ev
+                  vpiActual: SeqFormalDecl name:ev
                 vpiSequenceExpr Operation start:266:13 end:266:38:
                   vpiParent: ClockedSeq
                   vpiOpType: binary cycle delay (71)
@@ -4020,6 +4016,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: x
                           vpiFullName: work@tb9.work@seq_multi_chk.seq_multi.x
+                          vpiActual: SeqFormalDecl name:x
                         Constant start:266:19 end:266:20:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -4046,6 +4043,7 @@ Design name:unnamed:
                         vpiParent: Range
                         vpiName: d
                         vpiFullName: work@tb9.work@seq_multi_chk.seq_multi.d
+                        vpiActual: SeqFormalDecl name:d
                     Operation start:266:31 end:266:37:
                       vpiParent: Operation
                       vpiOpType: equal (14)
@@ -4054,10 +4052,12 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: y
                           vpiFullName: work@tb9.work@seq_multi_chk.seq_multi.y
+                          vpiActual: SeqFormalDecl name:y
                         RefObj name:x start:266:36 end:266:37:
                           vpiParent: Operation
                           vpiName: x
                           vpiFullName: work@tb9.work@seq_multi_chk.seq_multi.x
+                          vpiActual: SeqFormalDecl name:x
               vpiSeqFormalDecl (4 items):
                 SeqFormalDecl name:ev start:265:24 end:265:32:
                   vpiParent: SequenceDecl name:seq_multi
@@ -4119,7 +4119,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiOpType: list (37)
                               vpiOperand (2 items):
-                                Operation:
+                                Operation start:270:32 end:270:43:
                                   vpiParent: Operation
                                   vpiOpType: posedge (39)
                                   vpiOperand (1 items):
@@ -4308,18 +4308,22 @@ Design name:unnamed:
                       vpiParent: FuncCall name:handshake_seq
                       vpiName: ev
                       vpiFullName: work@tb9.work@mix_chk.handshake_prop.ev
+                      vpiActual: PropFormalDecl name:ev
                     RefObj name:r start:284:25 end:284:26:
                       vpiParent: FuncCall name:handshake_seq
                       vpiName: r
                       vpiFullName: work@tb9.work@mix_chk.handshake_prop.r
+                      vpiActual: PropFormalDecl name:r
                     RefObj name:g start:284:28 end:284:29:
                       vpiParent: FuncCall name:handshake_seq
                       vpiName: g
                       vpiFullName: work@tb9.work@mix_chk.handshake_prop.g
+                      vpiActual: PropFormalDecl name:g
                     RefObj name:d start:284:31 end:284:32:
                       vpiParent: FuncCall name:handshake_seq
                       vpiName: d
                       vpiFullName: work@tb9.work@mix_chk.handshake_prop.d
+                      vpiActual: PropFormalDecl name:d
           vpiSequenceDecl (1 items):
             SequenceDecl name:handshake_seq start:278:5 end:280:16:
               vpiParent: CheckerDecl name:work@mix_chk
@@ -4333,6 +4337,7 @@ Design name:unnamed:
                   vpiParent: ClockedSeq
                   vpiName: ev
                   vpiFullName: work@tb9.work@mix_chk.handshake_seq.ev
+                  vpiActual: SeqFormalDecl name:ev
                 vpiSequenceExpr Operation start:279:13 end:279:24:
                   vpiParent: ClockedSeq
                   vpiOpType: binary cycle delay (71)
@@ -4341,6 +4346,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: r
                       vpiFullName: work@tb9.work@mix_chk.handshake_seq.r
+                      vpiActual: SeqFormalDecl name:r
                     Range start:279:18 end:279:21:
                       vpiParent: Operation
                       vpiLeftRange Constant start:279:18 end:279:19:
@@ -4357,10 +4363,12 @@ Design name:unnamed:
                         vpiParent: Range
                         vpiName: d
                         vpiFullName: work@tb9.work@mix_chk.handshake_seq.d
+                        vpiActual: SeqFormalDecl name:d
                     RefObj name:g start:279:23 end:279:24:
                       vpiParent: Operation
                       vpiName: g
                       vpiFullName: work@tb9.work@mix_chk.handshake_seq.g
+                      vpiActual: SeqFormalDecl name:g
               vpiSeqFormalDecl (4 items):
                 SeqFormalDecl name:ev start:278:28 end:278:36:
                   vpiParent: SequenceDecl name:handshake_seq
@@ -4422,7 +4430,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiOpType: list (37)
                               vpiOperand (2 items):
-                                Operation:
+                                Operation start:287:37 end:287:48:
                                   vpiParent: Operation
                                   vpiOpType: posedge (39)
                                   vpiOperand (1 items):
@@ -5379,7 +5387,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 23
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -5424,11 +5432,11 @@ COMMAND: ${HLC_DIR}/regression/Checker/property_sequence_checker/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            91      94       3         0
-Operation                           72      69       0         3
+Operation                           74      71       0         3
 RefObj                             135     132       0         3
 RefTypespec                        138     141       3         0
 ----------------------------------------------------------------
 Others                             298     298       0         0
 ----------------------------------------------------------------
-                                   734     734       6         6
+                                   736     736       6         6
 ===================== END REDUCTION RESULT =====================

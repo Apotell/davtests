@@ -238,9 +238,6 @@ n<$Source01/sequence21.sv> u<217> t<Top_level_rule> c<1> l<1:1> el<20:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sequence21.sv:1:1: Compile module "work@tb".
 [WRN:PA0205] $Source01/sequence21.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] $Source01/sequence21.sv:6:5: Illegal implicit net "id:33, name:x".
-[ERR:EL0535] $Source01/sequence21.sv:6:11: Illegal implicit net "id:37, name:y".
-[ERR:EL0535] $Source01/sequence21.sv:13:34: Illegal implicit net "id:49, name:seq_inst".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -272,6 +269,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: x
                 vpiFullName: work@tb.my_seq.x
+                vpiActual: SeqFormalDecl name:x
               Constant start:6:9 end:6:10:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -286,6 +284,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: y
                 vpiFullName: work@tb.my_seq.y
+                vpiActual: SeqFormalDecl name:y
           vpiSeqFormalDecl (2 items):
             SeqFormalDecl name:x start:5:25 end:5:30:
               vpiParent: SequenceDecl name:my_seq
@@ -334,7 +333,7 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
           vpiProperty PropertySpec start:13:19 end:13:42:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:13:21 end:13:32:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -347,6 +346,7 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: seq_inst
               vpiFullName: work@tb.seq_inst
+              vpiActual: SequenceDecl name:seq_inst
       vpiTypespec (1 items):
         BitTypespec:
           vpiParent: Module name:work@tb
@@ -511,7 +511,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

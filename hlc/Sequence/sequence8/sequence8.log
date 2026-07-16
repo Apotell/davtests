@@ -89,7 +89,7 @@ n<$Source01/sequence8.sv> u<177> t<Top_level_rule> c<1> l<1:1> el<16:10>
                               n<> u<62> t<Primary> p<63> c<61> l<6:5> el<6:6>
                                 n<> u<61> t<Primary_literal> p<62> c<60> l<6:5> el<6:6>
                                   n<a> u<60> t<SIMPLE_IDENTIFIER> p<61> l<6:5> el<6:6>
-                        n<> u<72> t<OR> p<73> s<71> l<6:7> el<6:9>
+                        n<> u<72> t<BinaryOp_CompositeOr> p<73> s<71> l<6:7> el<6:9>
                         n<> u<71> t<Sequence_expr> p<73> c<70> l<6:10> el<6:11>
                           n<> u<70> t<Expression_or_dist> p<71> c<69> l<6:10> el<6:11>
                             n<> u<69> t<Expression> p<70> c<68> l<6:10> el<6:11>
@@ -192,7 +192,6 @@ n<$Source01/sequence8.sv> u<177> t<Top_level_rule> c<1> l<1:1> el<16:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sequence8.sv:1:1: Compile module "work@tb".
 [WRN:PA0205] $Source01/sequence8.sv:1:1: No timescale set for "work@tb".
-[ERR:EL0535] $Source01/sequence8.sv:9:34: Illegal implicit net "id:32, name:seq8".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -218,7 +217,7 @@ Design name:unnamed:
           vpiFullName: work@tb.seq8
           vpiExpr Operation start:6:5 end:6:11:
             vpiParent: SequenceDecl name:seq8
-            vpiOpType: logical or (27)
+            vpiOpType: comp-or (92)
             vpiOperand (2 items):
               RefObj name:a start:6:5 end:6:6:
                 vpiParent: Operation
@@ -235,7 +234,7 @@ Design name:unnamed:
           vpiParent: Module name:work@tb
           vpiProperty PropertySpec start:9:19 end:9:38:
             vpiParent: Assert
-            vpiClockingEvent Operation:
+            vpiClockingEvent Operation start:9:21 end:9:32:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -248,6 +247,7 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: seq8
               vpiFullName: work@tb.seq8
+              vpiActual: SequenceDecl name:seq8
       vpiTypespec (1 items):
         BitTypespec:
           vpiParent: Module name:work@tb
@@ -412,7 +412,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

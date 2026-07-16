@@ -424,8 +424,6 @@ AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_func_const_struct_bad.v:13:30: Illegal implicit net "id:40, name:a".
 [ERR:EL0535] $Source01/t_func_const_struct_bad.v:13:35: Illegal implicit net "id:44, name:b".
-[ERR:EL0535] $Source01/t_func_const_struct_bad.v:25:22: Illegal implicit net "id:116, name:a".
-[ERR:EL0535] $Source01/t_func_const_struct_bad.v:25:31: Illegal implicit net "id:119, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -536,6 +534,7 @@ Design name:unnamed:
             vpiName Identifier name:f_add start:14:20 end:14:25:
               vpiParent: FuncCall name:f_add
               vpiName: f_add
+            vpiTaskFunc: Function name:f_add
             vpiArgument (1 items):
               RefObj name:P start:14:26 end:14:27:
                 vpiParent: FuncCall name:f_add
@@ -554,6 +553,7 @@ Design name:unnamed:
             vpiName Identifier name:f_add2 start:15:21 end:15:27:
               vpiParent: FuncCall name:f_add2
               vpiName: f_add2
+            vpiTaskFunc: Function name:f_add2
             vpiArgument (3 items):
               Constant start:15:28 end:15:29:
                 vpiParent: FuncCall name:f_add2
@@ -580,6 +580,7 @@ Design name:unnamed:
                 vpiName Identifier name:f_add start:15:34 end:15:39:
                   vpiParent: FuncCall name:f_add
                   vpiName: f_add
+                vpiTaskFunc: Function name:f_add
                 vpiArgument (1 items):
                   RefObj name:P start:15:40 end:15:41:
                     vpiParent: FuncCall name:f_add
@@ -598,6 +599,7 @@ Design name:unnamed:
             vpiName Identifier name:f_add2 start:16:21 end:16:27:
               vpiParent: FuncCall name:f_add2
               vpiName: f_add2
+            vpiTaskFunc: Function name:f_add2
             vpiArgument (3 items):
               Constant start:16:28 end:16:29:
                 vpiParent: FuncCall name:f_add2
@@ -630,9 +632,9 @@ Design name:unnamed:
                 vpiDecompile: "9"
                 vpiValue: 9
       vpiTypespec (7 items):
-        UnsupportedTypespec name:logic start:9:7 end:9:12:
+        UnsupportedTypespec name:logic start:9:7 end:9:23:
           vpiParent: Module name:work@t
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:9:7 end:9:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
@@ -666,9 +668,9 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: work@t.logic
             vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:10:7 end:10:12:
+        UnsupportedTypespec name:logic start:10:7 end:10:23:
           vpiParent: Module name:work@t
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:10:7 end:10:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
@@ -753,22 +755,18 @@ Design name:unnamed:
               vpiParent: Function name:f_add
               vpiName: params
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:24:33 end:24:41:
+              vpiTypespec RefTypespec name:params_t start:24:33 end:24:41:
                 vpiParent: IODecl name:params
-                vpiFullName: work@t.f_add.params
-                vpiActual: UnsupportedTypespec name:params_t
+                vpiName: params_t
+                vpiFullName: work@t.f_add.params.params_t
+                vpiActual: TypedefTypespec name:params_t
           vpiStmt Begin:
             vpiParent: Function name:f_add
             vpiFullName: work@t.f_add
-            vpiTypespec (2 items):
+            vpiTypespec (1 items):
               IntegerTypespec:
                 vpiParent: Begin
                 vpiSigned: true
-              UnsupportedTypespec name:params_t start:24:33 end:24:41:
-                vpiParent: Begin
-                vpiName Identifier name:params_t:
-                  vpiParent: UnsupportedTypespec name:params_t
-                  vpiName: params_t
             vpiStmt (2 items):
               Assignment start:25:7 end:25:32:
                 vpiParent: Begin
@@ -796,6 +794,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:params.a
                           vpiName: a
                           vpiFullName: work@t.f_add.a
+                          vpiActual: TypespecMember name:a
                     HierPath name:params.b start:25:24 end:25:32:
                       vpiParent: Operation
                       vpiName: params.b
@@ -810,6 +809,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:params.b
                           vpiName: b
                           vpiFullName: work@t.f_add.b
+                          vpiActual: TypespecMember name:b
               IfStmt start:26:7 end:27:33:
                 vpiParent: Begin
                 vpiCondition Operation start:26:11 end:26:22:
@@ -1042,6 +1042,7 @@ Design name:unnamed:
                       vpiName Identifier name:f_add start:37:16 end:37:21:
                         vpiParent: FuncCall name:f_add
                         vpiName: f_add
+                      vpiTaskFunc: Function name:f_add
                       vpiArgument (1 items):
                         RefObj name:params start:37:22 end:37:28:
                           vpiParent: FuncCall name:f_add
@@ -1100,7 +1101,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1145,7 +1146,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_const_struct_bad/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             165     165       0         0
+Others                             163     163       0         0
 ----------------------------------------------------------------
-                                   165     165       0         0
+                                   163     163       0         0
 ===================== END REDUCTION RESULT =====================
