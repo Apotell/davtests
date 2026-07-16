@@ -241,6 +241,7 @@ Design name:unnamed:
               vpiTypespec RefTypespec start:12:11 end:12:23:
                 vpiParent: Variable name:a
                 vpiFullName: work@aa::foo_bar::a
+                vpiActual: UnsupportedTypespec name:b::foo_bar_t
               vpiName: a
               vpiFullName: work@aa::foo_bar::a
           vpiVisibility: public (1)
@@ -252,6 +253,7 @@ Design name:unnamed:
               vpiTypespec RefTypespec start:12:11 end:12:23:
                 vpiParent: IODecl name:a
                 vpiFullName: work@aa::foo_bar::a
+                vpiActual: UnsupportedTypespec name:b::foo_bar_t
           vpiStmt Begin:
             vpiParent: Function name:foo_bar
             vpiFullName: work@aa::foo_bar
@@ -273,16 +275,39 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: a_vec
                 vpiFullName: work@aa::foo_bar::a_vec
-            vpiTypespec (4 items):
-              ClassTypespec name:b start:10:22 end:10:23:
+            vpiTypespec (3 items):
+              UnsupportedTypespec name:b::foo_bar_t start:10:22 end:10:34:
                 vpiParent: Begin
-                vpiName: b
-              ClassTypespec name:b start:12:11 end:12:12:
+                vpiPathElem (2 items):
+                  UnsupportedScope name:b start:10:22 end:10:25:
+                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
+                    vpiName Identifier name:b start:10:22 end:10:23:
+                      vpiParent: UnsupportedScope name:b
+                      vpiName: b
+                    vpiFullName: work@aa::foo_bar::b::foo_bar_t::b
+                  RefTypespec name:foo_bar_t start:10:25 end:10:34:
+                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
+                    vpiName: foo_bar_t
+                    vpiFullName: work@aa::foo_bar::b::foo_bar_t::foo_bar_t
+                vpiName Identifier name:b::foo_bar_t start:10:22 end:10:34:
+                  vpiParent: UnsupportedTypespec name:b::foo_bar_t
+                  vpiName: b::foo_bar_t
+              UnsupportedTypespec name:b::foo_bar_t start:12:11 end:12:23:
                 vpiParent: Begin
-                vpiName: b
-              ClassTypespec name:b start:14:5 end:14:6:
-                vpiParent: Begin
-                vpiName: b
+                vpiPathElem (2 items):
+                  UnsupportedScope name:b start:12:11 end:12:14:
+                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
+                    vpiName Identifier name:b start:12:11 end:12:12:
+                      vpiParent: UnsupportedScope name:b
+                      vpiName: b
+                    vpiFullName: work@aa::foo_bar::b::foo_bar_t::b
+                  RefTypespec name:foo_bar_t start:12:14 end:12:23:
+                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
+                    vpiName: foo_bar_t
+                    vpiFullName: work@aa::foo_bar::b::foo_bar_t::foo_bar_t
+                vpiName Identifier name:b::foo_bar_t start:12:11 end:12:23:
+                  vpiParent: UnsupportedTypespec name:b::foo_bar_t
+                  vpiName: b::foo_bar_t
               LogicTypespec:
                 vpiParent: Begin
                 vpiRange (1 items):
@@ -345,6 +370,7 @@ Design name:unnamed:
           vpiReturn RefTypespec start:10:22 end:10:34:
             vpiParent: Function name:foo_bar
             vpiFullName: work@aa::foo_bar
+            vpiActual: UnsupportedTypespec name:b::foo_bar_t
   vpiTypespec (1 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -397,7 +423,7 @@ COMMAND: ${HLC_DIR}/regression/PackFunc/PackFunc/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

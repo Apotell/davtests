@@ -123,6 +123,7 @@ n<$Source01/8.25.1--parametrized_class_invalid_scope_resolution.sv> u<108> t<Top
 AST_DEBUG_END
 [INF:CP0303] $Source01/8.25.1--parametrized_class_invalid_scope_resolution.sv:17:1: Compile module "work@class_tb".
 [INF:CM0029] Using global timescale: "1ns/1ns".
+[ERR:EL0535] $Source01/8.25.1--parametrized_class_invalid_scope_resolution.sv:28:21: Illegal implicit net "id:44, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -153,7 +154,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:work@par_cls:
           vpiParent: Module name:work@class_tb
-          vpiName: work@par_cls
+          vpiName Identifier name:work@par_cls:
+            vpiParent: ClassTypespec name:work@par_cls
+            vpiName: work@par_cls
           vpiClassDefn: ClassDefn name:work@par_cls
       vpiDefName: work@class_tb
       vpiDefNetType: none (12)
@@ -233,11 +236,6 @@ Design name:unnamed:
           vpiStmt Begin start:25:10 end:29:5:
             vpiParent: Initial
             vpiFullName: work@class_tb
-            vpiTypespec (1 items):
-              ClassTypespec name:par_cls start:28:12 end:28:19:
-                vpiParent: Begin
-                vpiName: par_cls
-                vpiClassDefn: ClassDefn name:work@par_cls
             vpiStmt (2 items):
               Assignment start:26:3 end:26:13:
                 vpiParent: Begin
@@ -263,12 +261,16 @@ Design name:unnamed:
                     vpiName: par_cls::b
                     vpiFullName: work@class_tb.par_cls::b
                     vpiPathElem (2 items):
-                      ClassTypespec name:par_cls:
+                      UnsupportedScope name:par_cls start:28:12 end:28:21:
+                        vpiParent: HierPath name:par_cls::b
+                        vpiName Identifier name:par_cls start:28:12 end:28:19:
+                          vpiParent: UnsupportedScope name:par_cls
+                          vpiName: par_cls
+                        vpiFullName: work@class_tb.par_cls::b.par_cls
                       RefObj name:b start:28:21 end:28:22:
                         vpiParent: HierPath name:par_cls::b
                         vpiName: b
                         vpiFullName: work@class_tb.b
-                        vpiActual: Parameter name:b
   vpiTypespec (2 items):
     ModuleTypespec name:work@class_tb:
       vpiParent: Design name:unnamed
@@ -282,7 +284,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -327,7 +329,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.25.1--parametrized_class_inval
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    39      39       0         0
 ===================== END REDUCTION RESULT =====================

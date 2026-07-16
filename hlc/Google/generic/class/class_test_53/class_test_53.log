@@ -193,7 +193,6 @@ n<$Source01/class_test_53.sv> u<179> t<Top_level_rule> c<1> l<15:1> el<37:1>
         n<> u<175> t<ENDMODULE> p<176> l<36:1> el<36:10>
 AST_DEBUG_END
 [INF:CP0301] $Source01/class_test_53.sv:15:1: Compile package "work@mypkg".
-[WRN:CP0323] $Source01/class_test_53.sv:27:1: Multiply defined typedef "mypkg".
 [INF:CP0303] $Source01/class_test_53.sv:35:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -224,7 +223,9 @@ Design name:unnamed:
             vpiActual: IntTypespec
         ClassTypespec name:work@ModuleType:
           vpiParent: Package name:work@mypkg
-          vpiName: work@ModuleType
+          vpiName Identifier name:work@ModuleType:
+            vpiParent: ClassTypespec name:work@ModuleType
+            vpiName: work@ModuleType
           vpiClassDefn: ClassDefn name:work@ModuleType
       vpiDefName: work@mypkg
       vpiDefNetType: none (12)
@@ -361,14 +362,7 @@ Design name:unnamed:
           vpiRhs RefTypespec start:31:24 end:31:39:
             vpiParent: ParamAssign
             vpiFullName: work@param_types_as_class_item
-            vpiPrefix HierPath name:mypkg::GlueType start:31:24 end:31:31:
-              vpiParent: RefTypespec
-              vpiName: mypkg::GlueType
-              vpiFullName: work@param_types_as_class_item::mypkg::GlueType
-              vpiPathElem (2 items):
-                ClassTypespec name:mypkg:
-                UnsupportedTypespec name:GlueType:
-            vpiActual: UnsupportedTypespec name:GlueType
+            vpiActual: UnsupportedTypespec name:mypkg::GlueType
         ParamAssign start:31:41 end:31:50:
           vpiParent: ClassDefn name:work@param_types_as_class_item
           vpiLhs RefTypespec name:GT2 start:31:41 end:31:44:
@@ -401,55 +395,67 @@ Design name:unnamed:
           vpiRhs RefTypespec start:32:36 end:32:59:
             vpiParent: ParamAssign
             vpiFullName: work@param_types_as_class_item
-            vpiPrefix HierPath name:mypkg::ModuleType #(type =N + M) start:32:36 end:32:43:
-              vpiParent: RefTypespec
-              vpiName: mypkg::ModuleType #(type =N + M)
-              vpiFullName: work@param_types_as_class_item::mypkg::ModuleType #(type =N + M)
-              vpiPathElem (2 items):
-                ClassTypespec name:mypkg:
-                UnsupportedTypespec name:ModuleType:
-            vpiActual: UnsupportedTypespec name:ModuleType
-      vpiTypespec (15 items):
+            vpiActual: "UnsupportedTypespec name:mypkg:: #(type =N + M)"
+      vpiTypespec (14 items):
         TypeParameter name:AT:
         UnsupportedTypespec name:BrickType start:29:23 end:29:32:
           vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName Identifier name:BrickType:
+          vpiName Identifier name:BrickType start:29:23 end:29:32:
             vpiParent: UnsupportedTypespec name:BrickType
             vpiName: BrickType
         TypeParameter name:BT:
         UnsupportedTypespec name:Ctype1 start:30:24 end:30:30:
           vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName Identifier name:Ctype1:
+          vpiName Identifier name:Ctype1 start:30:24 end:30:30:
             vpiParent: UnsupportedTypespec name:Ctype1
             vpiName: Ctype1
         UnsupportedTypespec name:Ctype2 start:30:38 end:30:44:
           vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName Identifier name:Ctype2:
+          vpiName Identifier name:Ctype2 start:30:38 end:30:44:
             vpiParent: UnsupportedTypespec name:Ctype2
             vpiName: Ctype2
         TypeParameter name:CT1:
         TypeParameter name:CT2:
-        ClassTypespec name:mypkg start:31:24 end:31:29:
+        UnsupportedTypespec name:mypkg::GlueType start:31:24 end:31:39:
           vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName: mypkg
-        UnsupportedTypespec name:GlueType start:31:31 end:31:39:
-          vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName Identifier name:GlueType:
-            vpiParent: UnsupportedTypespec name:GlueType
-            vpiName: GlueType
+          vpiPathElem (2 items):
+            UnsupportedScope name:mypkg start:31:24 end:31:31:
+              vpiParent: UnsupportedTypespec name:mypkg::GlueType
+              vpiName Identifier name:mypkg start:31:24 end:31:29:
+                vpiParent: UnsupportedScope name:mypkg
+                vpiName: mypkg
+              vpiFullName: work@param_types_as_class_item::mypkg::GlueType::mypkg
+            RefTypespec name:GlueType start:31:31 end:31:39:
+              vpiParent: UnsupportedTypespec name:mypkg::GlueType
+              vpiName: GlueType
+              vpiFullName: work@param_types_as_class_item::mypkg::GlueType::GlueType
+          vpiName Identifier name:mypkg::GlueType start:31:24 end:31:39:
+            vpiParent: UnsupportedTypespec name:mypkg::GlueType
+            vpiName: mypkg::GlueType
         TypeParameter name:GT:
         TypeParameter name:GT2:
-        ClassTypespec name:mypkg start:32:36 end:32:41:
+        "UnsupportedTypespec name:mypkg:: #(type =N + M) start:32:36 end:32:59":
           vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName: mypkg
-        UnsupportedTypespec name:ModuleType start:32:43 end:32:59:
+          vpiPathElem (2 items):
+            UnsupportedScope name:mypkg start:32:36 end:32:43:
+              vpiParent: "UnsupportedTypespec name:mypkg:: #(type =N + M)"
+              vpiName Identifier name:mypkg start:32:36 end:32:41:
+                vpiParent: UnsupportedScope name:mypkg
+                vpiName: mypkg
+              vpiFullName: "work@param_types_as_class_item::mypkg:: #(type =N + M)::mypkg"
+            RefTypespec name:ModuleType start:32:43 end:32:53:
+              vpiParent: "UnsupportedTypespec name:mypkg:: #(type =N + M)"
+              vpiName: ModuleType
+              vpiFullName: "work@param_types_as_class_item::mypkg:: #(type =N + M)::ModuleType"
+              vpiActual: UnsupportedTypespec
+          "vpiName Identifier name:mypkg:: #(type =N + M) start:32:36 end:32:59":
+            vpiParent: "UnsupportedTypespec name:mypkg:: #(type =N + M)"
+            vpiName: "mypkg:: #(type =N + M)"
+        UnsupportedTypespec start:32:43 end:32:59:
           vpiParent: ClassDefn name:work@param_types_as_class_item
-          vpiName Identifier name:ModuleType:
-            vpiParent: UnsupportedTypespec name:ModuleType
-            vpiName: ModuleType
           vpiParamAssign (1 items):
             ParamAssign start:32:55 end:32:58:
-              vpiParent: UnsupportedTypespec name:ModuleType
+              vpiParent: UnsupportedTypespec
               vpiRhs Operation start:32:55 end:32:58:
                 vpiParent: ParamAssign
                 vpiOpType: add (24)
@@ -457,12 +463,12 @@ Design name:unnamed:
                   RefObj name:N start:32:55 end:32:56:
                     vpiParent: Operation
                     vpiName: N
-                    vpiFullName: work@param_types_as_class_item::ModuleType::N
+                    vpiFullName: work@param_types_as_class_item::N
                     vpiActual: Parameter name:N
                   RefObj name:M start:32:57 end:32:58:
                     vpiParent: Operation
                     vpiName: M
-                    vpiFullName: work@param_types_as_class_item::ModuleType::M
+                    vpiFullName: work@param_types_as_class_item::M
                     vpiActual: Parameter name:M
         TypeParameter name:HT1:
         TypeParameter name:HT2:
@@ -519,7 +525,9 @@ Design name:unnamed:
         vpiActual: IntTypespec
     ClassTypespec name:work@param_types_as_class_item:
       vpiParent: Design name:unnamed
-      vpiName: work@param_types_as_class_item
+      vpiName Identifier name:work@param_types_as_class_item:
+        vpiParent: ClassTypespec name:work@param_types_as_class_item
+        vpiName: work@param_types_as_class_item
       vpiClassDefn: ClassDefn name:work@param_types_as_class_item
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
@@ -581,7 +589,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -625,7 +633,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_53/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                   103     103       0         0
 ===================== END REDUCTION RESULT =====================

@@ -23,22 +23,22 @@ n<$Source01/class_test_33.sv> u<28> t<Top_level_rule> c<1> l<6:1> el<8:9>
             n<> u<21> t<CLASS> p<23> s<3> l<6:1> el<6:6>
             n<zzxy> u<3> t<SIMPLE_IDENTIFIER> p<23> s<20> l<6:7> el<6:11>
             n<> u<20> t<Class_item> p<23> c<19> s<22> l<7:1> el<7:59>
-              n<> u<19> t<Class_method> p<20> c<4> l<7:1> el<7:59>
-                n<> u<4> t<Extern_qualifier> p<19> s<18> l<7:1> el<7:7>
-                n<> u<18> t<Method_prototype> p<19> c<17> l<7:8> el<7:58>
-                  n<> u<17> t<Function_prototype> p<18> c<6> l<7:8> el<7:58>
-                    n<> u<6> t<Function_data_type_or_implicit> p<17> c<5> s<7> l<7:17> el<7:21>
-                      n<> u<5> t<Function_data_type> p<6> l<7:17> el<7:21>
-                    n<set_port> u<7> t<SIMPLE_IDENTIFIER> p<17> s<16> l<7:22> el<7:30>
-                    n<> u<16> t<Tf_port_item_list> p<17> c<15> l<7:30> el<7:58>
-                      n<> u<15> t<Tf_port_item> p<16> c<13> l<7:31> el<7:57>
-                        n<> u<13> t<Data_type_or_implicit> p<15> c<12> s<14> l<7:31> el<7:53>
-                          n<dbg_pkg::analysis_port> u<12> t<Data_type> p<13> c<10> l<7:31> el<7:53>
-                            n<> u<10> t<Class_scope> p<12> c<9> s<11> l<7:31> el<7:40>
-                              n<> u<9> t<Class_type> p<10> c<8> l<7:31> el<7:38>
-                                n<dbg_pkg> u<8> t<SIMPLE_IDENTIFIER> p<9> l<7:31> el<7:38>
-                            n<analysis_port> u<11> t<SIMPLE_IDENTIFIER> p<12> l<7:40> el<7:53>
-                        n<app> u<14> t<SIMPLE_IDENTIFIER> p<15> l<7:54> el<7:57>
+              n<> u<19> t<Class_method> p<20> c<18> l<7:1> el<7:59>
+                n<> u<18> t<EXTERN> p<19> s<17> l<7:1> el<7:7>
+                n<> u<17> t<Method_prototype> p<19> c<16> l<7:8> el<7:58>
+                  n<> u<16> t<Function_prototype> p<17> c<5> l<7:8> el<7:58>
+                    n<> u<5> t<Function_data_type_or_implicit> p<16> c<4> s<6> l<7:17> el<7:21>
+                      n<> u<4> t<Function_data_type> p<5> l<7:17> el<7:21>
+                    n<set_port> u<6> t<SIMPLE_IDENTIFIER> p<16> s<15> l<7:22> el<7:30>
+                    n<> u<15> t<Tf_port_item_list> p<16> c<14> l<7:30> el<7:58>
+                      n<> u<14> t<Tf_port_item> p<15> c<12> l<7:31> el<7:57>
+                        n<> u<12> t<Data_type_or_implicit> p<14> c<11> s<13> l<7:31> el<7:53>
+                          n<dbg_pkg::analysis_port> u<11> t<Data_type> p<12> c<9> l<7:31> el<7:53>
+                            n<> u<9> t<Class_scope> p<11> c<8> s<10> l<7:31> el<7:40>
+                              n<> u<8> t<Class_type> p<9> c<7> l<7:31> el<7:38>
+                                n<dbg_pkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:31> el<7:38>
+                            n<analysis_port> u<10> t<SIMPLE_IDENTIFIER> p<11> l<7:40> el<7:53>
+                        n<app> u<13> t<SIMPLE_IDENTIFIER> p<14> l<7:54> el<7:57>
             n<> u<22> t<ENDCLASS> p<23> l<8:1> el<8:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
@@ -59,9 +59,22 @@ Design name:unnamed:
         vpiName: work@zzxy
       vpiFullName: work@zzxy
       vpiTypespec (1 items):
-        ClassTypespec name:dbg_pkg start:7:31 end:7:38:
+        UnsupportedTypespec name:dbg_pkg::analysis_port start:7:31 end:7:53:
           vpiParent: ClassDefn name:work@zzxy
-          vpiName: dbg_pkg
+          vpiPathElem (2 items):
+            UnsupportedScope name:dbg_pkg start:7:31 end:7:40:
+              vpiParent: UnsupportedTypespec name:dbg_pkg::analysis_port
+              vpiName Identifier name:dbg_pkg start:7:31 end:7:38:
+                vpiParent: UnsupportedScope name:dbg_pkg
+                vpiName: dbg_pkg
+              vpiFullName: work@zzxy::dbg_pkg::analysis_port::dbg_pkg
+            RefTypespec name:analysis_port start:7:40 end:7:53:
+              vpiParent: UnsupportedTypespec name:dbg_pkg::analysis_port
+              vpiName: analysis_port
+              vpiFullName: work@zzxy::dbg_pkg::analysis_port::analysis_port
+          vpiName Identifier name:dbg_pkg::analysis_port start:7:31 end:7:53:
+            vpiParent: UnsupportedTypespec name:dbg_pkg::analysis_port
+            vpiName: dbg_pkg::analysis_port
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@zzxy
@@ -75,14 +88,17 @@ Design name:unnamed:
             vpiParent: FunctionDecl name:set_port
             vpiName: set_port
           vpiFullName: work@zzxy::set_port
+          vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:app start:7:54 end:7:57:
               vpiParent: FunctionDecl name:set_port
               vpiName: app
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:7:31 end:7:53:
+              vpiTypespec RefTypespec name:dbg_pkg::analysis_port start:7:31 end:7:53:
                 vpiParent: IODecl name:app
-                vpiFullName: work@zzxy::set_port::app
+                vpiName: dbg_pkg::analysis_port
+                vpiFullName: work@zzxy::set_port::app::dbg_pkg::analysis_port
+                vpiActual: UnsupportedTypespec name:dbg_pkg::analysis_port
           vpiReturn RefTypespec start:7:17 end:7:21:
             vpiParent: FunctionDecl name:set_port
             vpiFullName: work@zzxy::set_port
@@ -90,7 +106,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@zzxy:
       vpiParent: Design name:unnamed
-      vpiName: work@zzxy
+      vpiName Identifier name:work@zzxy:
+        vpiParent: ClassTypespec name:work@zzxy
+        vpiName: work@zzxy
       vpiClassDefn: ClassDefn name:work@zzxy
     VoidTypespec start:7:17 end:7:21:
       vpiParent: Design name:unnamed
@@ -142,7 +160,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_33/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              13      13       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    13      13       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

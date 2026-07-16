@@ -3017,12 +3017,12 @@ n<$Source01/18.5.14.1--soft-constraint-priorities_1.sv> u<2972> t<Top_level_rule
 AST_DEBUG_END
 [INF:CP0303] $Source01/18.5.14.1--soft-constraint-priorities_1.sv:54:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:568, name:UVM_LOW".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:569, name:UVM_INFO".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:76: Illegal implicit net "id:586, name:UVM_LOW".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:29: Illegal implicit net "id:604, name:UVM_NONE".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:38: Illegal implicit net "id:605, name:UVM_ERROR".
-[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:76: Illegal implicit net "id:622, name:UVM_NONE".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:29: Illegal implicit net "id:573, name:UVM_LOW".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:37: Illegal implicit net "id:574, name:UVM_INFO".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:76: Illegal implicit net "id:591, name:UVM_LOW".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:29: Illegal implicit net "id:609, name:UVM_NONE".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:38: Illegal implicit net "id:610, name:UVM_ERROR".
+[ERR:EL0535] $Source02/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:76: Illegal implicit net "id:627, name:UVM_NONE".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -5497,16 +5497,19 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:a1 start:27:18 end:27:20:
           vpiParent: ClassDefn name:work@a2
-          vpiName: a1
+          vpiName Identifier name:a1:
+            vpiParent: ClassTypespec name:a1
+            vpiName: a1
           vpiClassDefn: ClassDefn name:work@a1
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:27:10 end:27:17:
         vpiParent: ClassDefn name:work@a2
-        vpiClassTypespec RefTypespec name:a1 start:27:18 end:27:20:
-          vpiParent: Extends
-          vpiName: a1
-          vpiFullName: work@a2::a1
-          vpiActual: ClassTypespec name:a1
+        vpiClassTypespec (1 items):
+          RefTypespec name:a1 start:27:18 end:27:20:
+            vpiParent: Extends
+            vpiName: a1
+            vpiFullName: work@a2::a1
+            vpiActual: ClassTypespec name:a1
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@a2
         vpiName: work
@@ -5564,19 +5567,24 @@ Design name:unnamed:
       vpiTypespec (2 items):
         ClassTypespec name:uvm_env start:31:19 end:31:26:
           vpiParent: ClassDefn name:work@env
-          vpiName: uvm_env
+          vpiName Identifier name:uvm_env:
+            vpiParent: ClassTypespec name:uvm_env
+            vpiName: uvm_env
         ClassTypespec name:work@env:
           vpiParent: ClassDefn name:work@env
-          vpiName: work@env
+          vpiName Identifier name:work@env:
+            vpiParent: ClassTypespec name:work@env
+            vpiName: work@env
           vpiClassDefn: ClassDefn name:work@env
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:31:11 end:31:18:
         vpiParent: ClassDefn name:work@env
-        vpiClassTypespec RefTypespec name:uvm_env start:31:19 end:31:26:
-          vpiParent: Extends
-          vpiName: uvm_env
-          vpiFullName: work@env::uvm_env
-          vpiActual: ClassTypespec name:uvm_env
+        vpiClassTypespec (1 items):
+          RefTypespec name:uvm_env start:31:19 end:31:26:
+            vpiParent: Extends
+            vpiName: uvm_env
+            vpiFullName: work@env::uvm_env
+            vpiActual: ClassTypespec name:uvm_env
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@env
         vpiName: work
@@ -5592,7 +5600,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:uvm_component start:35:29 end:35:42:
               vpiParent: Function name:new
-              vpiName Identifier name:uvm_component:
+              vpiName Identifier name:uvm_component start:35:29 end:35:42:
                 vpiParent: UnsupportedTypespec name:uvm_component
                 vpiName: uvm_component
           vpiVisibility: public (1)
@@ -5601,9 +5609,10 @@ Design name:unnamed:
               vpiParent: Function name:new
               vpiName: name
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:35:16 end:35:22:
+              vpiTypespec RefTypespec name:string start:35:16 end:35:22:
                 vpiParent: IODecl name:name
-                vpiFullName: work@env::new::name
+                vpiName: string
+                vpiFullName: work@env::new::name::string
                 vpiActual: StringTypespec
             IODecl name:parent start:35:43 end:35:49:
               vpiParent: Function name:new
@@ -5613,9 +5622,10 @@ Design name:unnamed:
                 vpiParent: IODecl name:parent
                 vpiName: null
                 vpiFullName: work@env::new::parent::null
-              vpiTypespec RefTypespec start:35:29 end:35:42:
+              vpiTypespec RefTypespec name:uvm_component start:35:29 end:35:42:
                 vpiParent: IODecl name:parent
-                vpiFullName: work@env::new::parent
+                vpiName: uvm_component
+                vpiFullName: work@env::new::parent::uvm_component
                 vpiActual: UnsupportedTypespec name:uvm_component
           vpiStmt HierPath name:super.new(name, parent) start:36:5 end:36:14:
             vpiParent: Function name:new
@@ -5660,9 +5670,10 @@ Design name:unnamed:
               vpiParent: Task name:run_phase
               vpiName: phase
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:39:18 end:39:27:
+              vpiTypespec RefTypespec name:uvm_phase start:39:18 end:39:27:
                 vpiParent: IODecl name:phase
-                vpiFullName: work@env::run_phase::phase
+                vpiName: uvm_phase
+                vpiFullName: work@env::run_phase::phase::uvm_phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt Begin:
             vpiParent: Task name:run_phase
@@ -5670,7 +5681,7 @@ Design name:unnamed:
             vpiTypespec (1 items):
               UnsupportedTypespec name:uvm_phase start:39:18 end:39:27:
                 vpiParent: Begin
-                vpiName Identifier name:uvm_phase:
+                vpiName Identifier name:uvm_phase start:39:18 end:39:27:
                   vpiParent: UnsupportedTypespec name:uvm_phase
                   vpiName: uvm_phase
             vpiStmt (3 items):
@@ -6086,18 +6097,24 @@ Design name:unnamed:
         vpiName: uvm_pkg
     ClassTypespec name:work@a1:
       vpiParent: Design name:unnamed
-      vpiName: work@a1
+      vpiName Identifier name:work@a1:
+        vpiParent: ClassTypespec name:work@a1
+        vpiName: work@a1
       vpiClassDefn: ClassDefn name:work@a1
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:work@a2:
       vpiParent: Design name:unnamed
-      vpiName: work@a2
+      vpiName Identifier name:work@a2:
+        vpiParent: ClassTypespec name:work@a2
+        vpiName: work@a2
       vpiClassDefn: ClassDefn name:work@a2
     ClassTypespec name:work@env:
       vpiParent: Design name:unnamed
-      vpiName: work@env
+      vpiName Identifier name:work@env:
+        vpiParent: ClassTypespec name:work@env
+        vpiName: work@env
       vpiClassDefn: ClassDefn name:work@env
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -6155,7 +6172,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-prio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             639     639       0         0
+Others                             645     645       0         0
 ----------------------------------------------------------------
-                                   639     639       0         0
+                                   645     645       0         0
 ===================== END REDUCTION RESULT =====================

@@ -498,8 +498,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_flag_csplit.v:6:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_flag_csplit.v:48:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_flag_csplit.v:20:30: Illegal implicit net "id:69, name:i".
-[ERR:EL0535] $Source01/t_flag_csplit.v:20:40: Illegal implicit net "id:78, name:z".
+[ERR:EL0535] $Source01/t_flag_csplit.v:20:30: Illegal implicit net "id:70, name:i".
+[ERR:EL0535] $Source01/t_flag_csplit.v:20:40: Illegal implicit net "id:79, name:z".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -714,7 +714,7 @@ Design name:unnamed:
           vpiParent: Module name:work@t
           vpiStmt EventControl start:27:11 end:44:7:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:27:14 end:27:25:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -985,81 +985,85 @@ Design name:unnamed:
                   vpiName: CNT
                   vpiFullName: work@t.CNT
                   vpiActual: Parameter name:CNT
-            vpiStmt RefInstance name:sub start:20:13 end:20:16:
+            vpiStmt Begin:
               vpiParent: GenFor
-              vpiName: sub
-              vpiTypespec RefTypespec name:work@sub start:20:9 end:20:12:
-                vpiParent: RefInstance name:sub
-                vpiName: work@sub
-                vpiFullName: work@t.sub.work@sub
-                vpiActual: ModuleTypespec name:work@sub
-              vpiPort (3 items):
-                Port start:20:18 end:20:27:
-                  vpiParent: RefInstance name:sub
-                  vpiLowConn RefObj name:clk start:20:19 end:20:22:
-                    vpiParent: Port
-                    vpiName: clk
-                    vpiFullName: work@t.sub.clk
-                    vpiActual: Net name:clk
-                  vpiHighConn RefObj name:clk start:20:23 end:20:26:
-                    vpiParent: Port
-                    vpiName: clk
-                    vpiFullName: work@t.sub.clk
-                    vpiActual: Net name:clk
-                Port start:20:29 end:20:37:
-                  vpiParent: RefInstance name:sub
-                  vpiLowConn RefObj name:i start:20:30 end:20:31:
-                    vpiParent: Port
-                    vpiName: i
-                    vpiFullName: work@t.sub.i
-                  vpiHighConn BitSelect name:w[g] start:20:32 end:20:36:
-                    vpiParent: Port
-                    vpiName: w[g]
-                    vpiFullName: work@t.sub.w[g]
-                    vpiPrefix RefObj name:w start:20:32 end:20:33:
-                      vpiParent: BitSelect name:w[g]
-                      vpiName: w
-                      vpiFullName: work@t.sub.w
-                      vpiActual: Net name:w
-                    vpiIndex RefObj name:g start:20:34 end:20:35:
-                      vpiParent: BitSelect name:w[g]
-                      vpiName: g
-                      vpiFullName: work@t.sub.g
-                      vpiActual: Variable name:g
-                Port start:20:39 end:20:49:
-                  vpiParent: RefInstance name:sub
-                  vpiLowConn RefObj name:z start:20:40 end:20:41:
-                    vpiParent: Port
-                    vpiName: z
-                    vpiFullName: work@t.sub.z
-                  vpiHighConn BitSelect name:w[g + 1] start:20:42 end:20:48:
-                    vpiParent: Port
-                    vpiName: w[g + 1]
-                    vpiFullName: work@t.sub.w[g + 1]
-                    vpiPrefix RefObj name:w start:20:42 end:20:43:
-                      vpiParent: BitSelect name:w[g + 1]
-                      vpiName: w
-                      vpiFullName: work@t.sub.w
-                      vpiActual: Net name:w
-                    vpiIndex Operation start:20:44 end:20:47:
-                      vpiParent: BitSelect name:w[g + 1]
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        RefObj name:g start:20:44 end:20:45:
-                          vpiParent: Operation
+              vpiFullName: work@t
+              vpiStmt (1 items):
+                RefInstance name:sub start:20:13 end:20:16:
+                  vpiParent: Begin
+                  vpiName: sub
+                  vpiTypespec RefTypespec name:work@sub start:20:9 end:20:12:
+                    vpiParent: RefInstance name:sub
+                    vpiName: work@sub
+                    vpiFullName: work@t.sub.work@sub
+                    vpiActual: ModuleTypespec name:work@sub
+                  vpiPort (3 items):
+                    Port start:20:18 end:20:27:
+                      vpiParent: RefInstance name:sub
+                      vpiLowConn RefObj name:clk start:20:19 end:20:22:
+                        vpiParent: Port
+                        vpiName: clk
+                        vpiFullName: work@t.sub.clk
+                        vpiActual: Net name:clk
+                      vpiHighConn RefObj name:clk start:20:23 end:20:26:
+                        vpiParent: Port
+                        vpiName: clk
+                        vpiFullName: work@t.sub.clk
+                        vpiActual: Net name:clk
+                    Port start:20:29 end:20:37:
+                      vpiParent: RefInstance name:sub
+                      vpiLowConn RefObj name:i start:20:30 end:20:31:
+                        vpiParent: Port
+                        vpiName: i
+                        vpiFullName: work@t.sub.i
+                      vpiHighConn BitSelect name:w[g] start:20:32 end:20:36:
+                        vpiParent: Port
+                        vpiName: w[g]
+                        vpiFullName: work@t.sub.w[g]
+                        vpiPrefix RefObj name:w start:20:32 end:20:33:
+                          vpiParent: BitSelect name:w[g]
+                          vpiName: w
+                          vpiFullName: work@t.sub.w
+                          vpiActual: Net name:w
+                        vpiIndex RefObj name:g start:20:34 end:20:35:
+                          vpiParent: BitSelect name:w[g]
                           vpiName: g
-                          vpiFullName: work@t.sub.w[g + 1].g
+                          vpiFullName: work@t.sub.g
                           vpiActual: Variable name:g
-                        Constant start:20:46 end:20:47:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: work@t.sub.w[g + 1]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
+                    Port start:20:39 end:20:49:
+                      vpiParent: RefInstance name:sub
+                      vpiLowConn RefObj name:z start:20:40 end:20:41:
+                        vpiParent: Port
+                        vpiName: z
+                        vpiFullName: work@t.sub.z
+                      vpiHighConn BitSelect name:w[g + 1] start:20:42 end:20:48:
+                        vpiParent: Port
+                        vpiName: w[g + 1]
+                        vpiFullName: work@t.sub.w[g + 1]
+                        vpiPrefix RefObj name:w start:20:42 end:20:43:
+                          vpiParent: BitSelect name:w[g + 1]
+                          vpiName: w
+                          vpiFullName: work@t.sub.w
+                          vpiActual: Net name:w
+                        vpiIndex Operation start:20:44 end:20:47:
+                          vpiParent: BitSelect name:w[g + 1]
+                          vpiOpType: add (24)
+                          vpiOperand (2 items):
+                            RefObj name:g start:20:44 end:20:45:
+                              vpiParent: Operation
+                              vpiName: g
+                              vpiFullName: work@t.sub.w[g + 1].g
+                              vpiActual: Variable name:g
+                            Constant start:20:46 end:20:47:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: work@t.sub.w[g + 1]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
     Module name:work@sub file:$Source01/t_flag_csplit.v start:48:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sub start:48:8 end:48:11:
@@ -1198,7 +1202,7 @@ Design name:unnamed:
           vpiParent: Module name:work@sub
           vpiStmt EventControl start:49:11 end:50:23:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:49:13 end:49:24:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -1326,7 +1330,7 @@ Operation                           12       8       0         4
 RefObj                              33      29       0         4
 RefTypespec                         37      37       4         4
 ----------------------------------------------------------------
-Others                              79      79       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                   184     176       8        16
+                                   185     177       8        16
 ===================== END REDUCTION RESULT =====================

@@ -111,9 +111,8 @@ n<$Source01/basic/package_enum.sv> u<96> t<Top_level_rule> c<1> l<1:1> el<13:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/basic/package_enum.sv:1:1: Compile package "work@foo_pkg".
 [INF:CP0303] $Source01/basic/package_enum.sv:8:1: Compile module "work@top".
-[WRN:CP0323] $Source01/basic/package_enum.sv:8:1: Multiply defined typedef "foo_pkg".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/basic/package_enum.sv:10:28: Illegal implicit net "id:43, name:AccessAck".
+[ERR:EL0535] $Source01/basic/package_enum.sv:10:28: Illegal implicit net "id:45, name:AccessAck".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -217,13 +216,6 @@ Design name:unnamed:
         vpiParent: Module name:work@top
         vpiName: work@top
       vpiFullName: work@top
-      vpiTypespec (2 items):
-        ClassTypespec name:foo_pkg start:9:5 end:9:12:
-          vpiParent: Module name:work@top
-          vpiName: foo_pkg
-        ClassTypespec name:foo_pkg start:10:19 end:10:26:
-          vpiParent: Module name:work@top
-          vpiName: foo_pkg
       vpiDefName: work@top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -268,7 +260,12 @@ Design name:unnamed:
             vpiName: foo_pkg::AccessAck
             vpiFullName: work@top.foo_pkg::AccessAck
             vpiPathElem (2 items):
-              ClassTypespec name:foo_pkg:
+              UnsupportedScope name:foo_pkg start:10:19 end:10:28:
+                vpiParent: HierPath name:foo_pkg::AccessAck
+                vpiName Identifier name:foo_pkg start:10:19 end:10:26:
+                  vpiParent: UnsupportedScope name:foo_pkg
+                  vpiName: foo_pkg
+                vpiFullName: work@top.foo_pkg::AccessAck.foo_pkg
               RefObj name:AccessAck start:10:28 end:10:37:
                 vpiParent: HierPath name:foo_pkg::AccessAck
                 vpiName: AccessAck
@@ -287,7 +284,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

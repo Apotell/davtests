@@ -23,20 +23,20 @@ n<$Source01/class_member_test_46.sv> u<27> t<Top_level_rule> c<1> l<6:1> el<8:9>
             n<> u<20> t<CLASS> p<22> s<3> l<6:1> el<6:6>
             n<constructible> u<3> t<SIMPLE_IDENTIFIER> p<22> s<18> l<6:7> el<6:20>
             n<> u<18> t<Class_item> p<22> c<17> s<19> l<7:1> el<7:44>
-              n<> u<17> t<Class_method> p<18> c<4> l<7:1> el<7:44>
-                n<> u<4> t<Extern_qualifier> p<17> s<16> l<7:1> el<7:7>
-                n<> u<16> t<Class_constructor_prototype> p<17> c<15> l<7:8> el<7:44>
-                  n<> u<15> t<Tf_port_item_list> p<16> c<9> l<7:20> el<7:44>
-                    n<> u<9> t<Tf_port_item> p<15> c<7> s<14> l<7:21> el<7:32>
-                      n<> u<7> t<Data_type_or_implicit> p<9> c<6> s<8> l<7:21> el<7:27>
-                        n<string> u<6> t<Data_type> p<7> c<5> l<7:21> el<7:27>
-                          n<string> u<5> t<String_type> p<6> l<7:21> el<7:27>
-                      n<name> u<8> t<SIMPLE_IDENTIFIER> p<9> l<7:28> el<7:32>
-                    n<> u<14> t<Tf_port_item> p<15> c<12> l<7:34> el<7:43>
-                      n<> u<12> t<Data_type_or_implicit> p<14> c<11> s<13> l<7:34> el<7:37>
-                        n<> u<11> t<Data_type> p<12> c<10> l<7:34> el<7:37>
-                          n<> u<10> t<INT> p<11> l<7:34> el<7:37>
-                      n<count> u<13> t<SIMPLE_IDENTIFIER> p<14> l<7:38> el<7:43>
+              n<> u<17> t<Class_method> p<18> c<16> l<7:1> el<7:44>
+                n<> u<16> t<EXTERN> p<17> s<15> l<7:1> el<7:7>
+                n<> u<15> t<Class_constructor_prototype> p<17> c<14> l<7:8> el<7:44>
+                  n<> u<14> t<Tf_port_item_list> p<15> c<8> l<7:20> el<7:44>
+                    n<> u<8> t<Tf_port_item> p<14> c<6> s<13> l<7:21> el<7:32>
+                      n<> u<6> t<Data_type_or_implicit> p<8> c<5> s<7> l<7:21> el<7:27>
+                        n<string> u<5> t<Data_type> p<6> c<4> l<7:21> el<7:27>
+                          n<string> u<4> t<String_type> p<5> l<7:21> el<7:27>
+                      n<name> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:28> el<7:32>
+                    n<> u<13> t<Tf_port_item> p<14> c<11> l<7:34> el<7:43>
+                      n<> u<11> t<Data_type_or_implicit> p<13> c<10> s<12> l<7:34> el<7:37>
+                        n<> u<10> t<Data_type> p<11> c<9> l<7:34> el<7:37>
+                          n<> u<9> t<INT> p<10> l<7:34> el<7:37>
+                      n<count> u<12> t<SIMPLE_IDENTIFIER> p<13> l<7:38> el<7:43>
             n<> u<19> t<Class_item> p<22> s<21> l<7:44> el<7:45>
             n<> u<21> t<ENDCLASS> p<22> l<8:1> el<8:9>
 AST_DEBUG_END
@@ -60,7 +60,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:work@constructible:
           vpiParent: ClassDefn name:work@constructible
-          vpiName: work@constructible
+          vpiName Identifier name:work@constructible:
+            vpiParent: ClassTypespec name:work@constructible
+            vpiName: work@constructible
           vpiClassDefn: ClassDefn name:work@constructible
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
@@ -80,9 +82,10 @@ Design name:unnamed:
               vpiParent: FunctionDecl name:new
               vpiName: name
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:7:21 end:7:27:
+              vpiTypespec RefTypespec name:string start:7:21 end:7:27:
                 vpiParent: IODecl name:name
-                vpiFullName: work@constructible::new::name
+                vpiName: string
+                vpiFullName: work@constructible::new::name::string
                 vpiActual: StringTypespec
             IODecl name:count start:7:38 end:7:43:
               vpiParent: FunctionDecl name:new
@@ -100,7 +103,9 @@ Design name:unnamed:
   vpiTypespec (3 items):
     ClassTypespec name:work@constructible:
       vpiParent: Design name:unnamed
-      vpiName: work@constructible
+      vpiName Identifier name:work@constructible:
+        vpiParent: ClassTypespec name:work@constructible
+        vpiName: work@constructible
       vpiClassDefn: ClassDefn name:work@constructible
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -155,7 +160,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_46/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              16      16       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    16      16       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

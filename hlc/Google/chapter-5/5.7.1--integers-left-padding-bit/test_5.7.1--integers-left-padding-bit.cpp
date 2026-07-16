@@ -123,7 +123,7 @@ TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsIsBinaryConstant) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'0 constant should be present as RHS";
   // vpiUdpConst == 3, but in this context binary (3) means fill-0
-  EXPECT_EQ(rhs->getConstType(), 3) << "'0 fill constant should have constType binary (3)";
+  EXPECT_EQ(rhs->getConstType(), vpiBinaryConst) << "'0 fill constant should have constType binary (3)";
 }
 
 TEST_F(IntegersLeftPaddingBit, AssignmentA_RhsSizeIsOne) {
@@ -151,7 +151,7 @@ TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsIsBinaryConstant) {
   ASSERT_NE(assign, nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'1 constant should be present as RHS";
-  EXPECT_EQ(rhs->getConstType(), 3) << "'1 fill constant should have constType binary (3)";
+  EXPECT_EQ(rhs->getConstType(), vpiBinaryConst) << "'1 fill constant should have constType binary (3)";
 }
 
 TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsSizeIsOne) {
@@ -171,21 +171,59 @@ TEST_F(IntegersLeftPaddingBit, AssignmentB_RhsDecompile) {
 }
 
 // ---------------------------------------------------------------------------
-// 'x and 'z fill constants — Surelog does not emit a Constant RHS node for
-// these forms; the RHS pointer is absent from the Assignment.
+// 'x fill constant — binary (3), size 1, decompile "'x"
 // ---------------------------------------------------------------------------
-TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsIsNull) {
+TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsIsBinaryConstant) {
   // c = 'x  —  no RHS constant emitted by Surelog
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getRhs(), nullptr) << "'x fill constant: Surelog emits no RHS node";
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr) << "'x constant should be present as RHS";
+  EXPECT_EQ(rhs->getConstType(), vpiBinaryConst) << "'x fill constant should have constType binary (3)";
 }
 
-TEST_F(IntegersLeftPaddingBit, AssignmentD_RhsIsNull) {
+TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsSizeIsOne) {
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
+  ASSERT_NE(assign, nullptr);
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getSize(), 1);
+}
+
+TEST_F(IntegersLeftPaddingBit, AssignmentC_RhsDecompile) {
+  const hldb::Assignment *const assign = getAssignment(m_design, 2);
+  ASSERT_NE(assign, nullptr);
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), "'x");
+}
+
+// ---------------------------------------------------------------------------
+// 'x fill constant — binary (3), size 1, decompile "'x"
+// ---------------------------------------------------------------------------
+TEST_F(IntegersLeftPaddingBit, AssignmentD_RhsIsBinaryConstant) {
   // d = 'z  —  no RHS constant emitted by Surelog
   const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getRhs(), nullptr) << "'z fill constant: Surelog emits no RHS node";
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr) << "'z constant should be present as RHS";
+  EXPECT_EQ(rhs->getConstType(), vpiBinaryConst) << "'z fill constant should have constType binary (3)";
+}
+
+TEST_F(IntegersLeftPaddingBit, AssignmentD_RhsSizeIsOne) {
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
+  ASSERT_NE(assign, nullptr);
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getSize(), 1);
+}
+
+TEST_F(IntegersLeftPaddingBit, AssignmentD_RhsDecompile) {
+  const hldb::Assignment *const assign = getAssignment(m_design, 3);
+  ASSERT_NE(assign, nullptr);
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), "'z");
 }
 
 }  // namespace hlc

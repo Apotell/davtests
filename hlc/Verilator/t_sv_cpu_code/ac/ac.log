@@ -231,8 +231,8 @@ AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/ac.sv:17:3: Illegal implicit net "id:17, name:genbus_if".
 [ERR:EL0535] $Source01/ac.sv:17:13: Illegal implicit net "id:18, name:slave".
-[ERR:EL0535] $Source01/ac.sv:18:3: Illegal implicit net "id:25, name:pads_if".
-[ERR:EL0535] $Source01/ac.sv:18:11: Illegal implicit net "id:26, name:mp_ana".
+[ERR:EL0535] $Source01/ac.sv:18:3: Illegal implicit net "id:26, name:pads_if".
+[ERR:EL0535] $Source01/ac.sv:18:11: Illegal implicit net "id:27, name:mp_ana".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -276,9 +276,37 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (3 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:work@ac
+        UnsupportedTypespec name:genbus_if::slave start:17:3 end:17:18:
+          vpiParent: Module name:work@ac
+          vpiPathElem (2 items):
+            RefObj name:genbus_if start:17:3 end:17:12:
+              vpiParent: UnsupportedTypespec name:genbus_if::slave
+              vpiName: genbus_if
+              vpiFullName: work@ac.genbus_if::slave.genbus_if
+            RefObj name:slave start:17:13 end:17:18:
+              vpiParent: UnsupportedTypespec name:genbus_if::slave
+              vpiName: slave
+              vpiFullName: work@ac.genbus_if::slave.slave
+          vpiName Identifier name:genbus_if::slave:
+            vpiParent: UnsupportedTypespec name:genbus_if::slave
+            vpiName: genbus_if::slave
+        UnsupportedTypespec name:pads_if::mp_ana start:18:3 end:18:17:
+          vpiParent: Module name:work@ac
+          vpiPathElem (2 items):
+            RefObj name:pads_if start:18:3 end:18:10:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_ana
+              vpiName: pads_if
+              vpiFullName: work@ac.pads_if::mp_ana.pads_if
+            RefObj name:mp_ana start:18:11 end:18:17:
+              vpiParent: UnsupportedTypespec name:pads_if::mp_ana
+              vpiName: mp_ana
+              vpiFullName: work@ac.pads_if::mp_ana.mp_ana
+          vpiName Identifier name:pads_if::mp_ana:
+            vpiParent: UnsupportedTypespec name:pads_if::mp_ana
+            vpiName: pads_if::mp_ana
         UnsupportedTypespec name:work@ac_dig start:40:3 end:40:9:
           vpiParent: Module name:work@ac
           vpiName Identifier name:work@ac_dig start:40:3 end:40:9:
@@ -299,21 +327,19 @@ Design name:unnamed:
       vpiNet (6 items):
         Net name:dbus start:17:19 end:17:23:
           vpiParent: Module name:work@ac
-          vpiTypespec RefTypespec name:genbus_if.slave start:17:3 end:17:18:
+          vpiTypespec RefTypespec start:17:3 end:17:18:
             vpiParent: Net name:dbus
-            vpiName: genbus_if.slave
-            vpiFullName: work@ac.dbus.genbus_if.slave
-            vpiPrefix: HierPath name:genbus_if.slave
+            vpiFullName: work@ac.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::slave
           vpiName: dbus
           vpiFullName: work@ac.dbus
           vpiNetType: wire (1)
         Net name:padsif start:18:19 end:18:25:
           vpiParent: Module name:work@ac
-          vpiTypespec RefTypespec name:pads_if.mp_ana start:18:3 end:18:17:
+          vpiTypespec RefTypespec start:18:3 end:18:17:
             vpiParent: Net name:padsif
-            vpiName: pads_if.mp_ana
-            vpiFullName: work@ac.padsif.pads_if.mp_ana
-            vpiPrefix: HierPath name:pads_if.mp_ana
+            vpiFullName: work@ac.padsif
+            vpiActual: UnsupportedTypespec name:pads_if::mp_ana
           vpiName: padsif
           vpiFullName: work@ac.padsif
           vpiNetType: wire (1)
@@ -360,23 +386,10 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiFullName: work@ac.dbus
             vpiActual: Net name:dbus
-          vpiTypespec RefTypespec name:genbus_if.slave start:17:3 end:17:18:
+          vpiTypespec RefTypespec start:17:3 end:17:18:
             vpiParent: Port name:dbus
-            vpiName: genbus_if.slave
-            vpiFullName: work@ac.dbus.genbus_if.slave
-            vpiPrefix HierPath name:genbus_if.slave start:17:3 end:17:18:
-              vpiParent: RefTypespec name:genbus_if.slave
-              vpiName: genbus_if.slave
-              vpiFullName: work@ac.dbus.genbus_if.slave.genbus_if.slave
-              vpiPathElem (2 items):
-                RefObj name:genbus_if start:17:3 end:17:12:
-                  vpiParent: HierPath name:genbus_if.slave
-                  vpiName: genbus_if
-                  vpiFullName: work@ac.dbus.genbus_if.slave.genbus_if
-                RefObj name:slave start:17:13 end:17:18:
-                  vpiParent: HierPath name:genbus_if.slave
-                  vpiName: slave
-                  vpiFullName: work@ac.dbus.genbus_if.slave.slave
+            vpiFullName: work@ac.dbus
+            vpiActual: UnsupportedTypespec name:genbus_if::slave
         Port name:padsif start:18:19 end:18:25:
           vpiParent: Module name:work@ac
           vpiName: padsif
@@ -385,23 +398,10 @@ Design name:unnamed:
             vpiParent: Port name:padsif
             vpiFullName: work@ac.padsif
             vpiActual: Net name:padsif
-          vpiTypespec RefTypespec name:pads_if.mp_ana start:18:3 end:18:17:
+          vpiTypespec RefTypespec start:18:3 end:18:17:
             vpiParent: Port name:padsif
-            vpiName: pads_if.mp_ana
-            vpiFullName: work@ac.padsif.pads_if.mp_ana
-            vpiPrefix HierPath name:pads_if.mp_ana start:18:3 end:18:17:
-              vpiParent: RefTypespec name:pads_if.mp_ana
-              vpiName: pads_if.mp_ana
-              vpiFullName: work@ac.padsif.pads_if.mp_ana.pads_if.mp_ana
-              vpiPathElem (2 items):
-                RefObj name:pads_if start:18:3 end:18:10:
-                  vpiParent: HierPath name:pads_if.mp_ana
-                  vpiName: pads_if
-                  vpiFullName: work@ac.padsif.pads_if.mp_ana.pads_if
-                RefObj name:mp_ana start:18:11 end:18:17:
-                  vpiParent: HierPath name:pads_if.mp_ana
-                  vpiName: mp_ana
-                  vpiFullName: work@ac.padsif.pads_if.mp_ana.mp_ana
+            vpiFullName: work@ac.padsif
+            vpiActual: UnsupportedTypespec name:pads_if::mp_ana
         Port name:clk start:21:22 end:21:25:
           vpiParent: Module name:work@ac
           vpiName: clk
@@ -637,7 +637,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    88      88       0         0
 ===================== END REDUCTION RESULT =====================

@@ -767,22 +767,21 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:41:1: Compile module "work@sub_top".
 [INF:CP0335] $Source01/dut.sv:45:49: Compile generate block "gen_dio_attr".
 [INF:CP0303] $Source01/dut.sv:52:1: Compile module "work@top".
-[WRN:CP0323] $Source01/dut.sv:52:1: Multiply defined typedef "pinmux_pkg".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@prim_pad_wrapper_pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@pinmux_pkg".
 [WRN:PA0205] $Source01/dut.sv:22:1: No timescale set for "work@prim_generic_pad_attr".
 [WRN:PA0205] $Source01/dut.sv:30:1: No timescale set for "work@prim_pad_attr".
 [WRN:PA0205] $Source01/dut.sv:41:1: No timescale set for "work@sub_top".
 [WRN:PA0205] $Source01/dut.sv:52:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:204, name:dio_pad_type".
-[ERR:EL0535] $Source01/dut.sv:37:25: Illegal implicit net "id:272, name:a".
-[ERR:EL0535] $Source01/dut.sv:47:10: Illegal implicit net "id:313, name:PadType".
-[ERR:EL0535] $Source01/dut.sv:48:25: Illegal implicit net "id:316, name:b".
-[ERR:EL0535] $Source01/dut.sv:54:7: Illegal implicit net "id:333, name:dio_pad_type".
-[ERR:EL0535] $Source01/dut.sv:54:34: Illegal implicit net "id:336, name:NDioPads".
-[ERR:EL0535] $Source01/dut.sv:54:65: Illegal implicit net "id:339, name:B".
-[ERR:EL0535] $Source01/dut.sv:58:8: Illegal implicit net "id:350, name:TargetCfg".
-[ERR:EL0535] $Source01/dut.sv:59:13: Illegal implicit net "id:353, name:c".
+[ERR:EL0535] $Source01/dut.sv:18:7: Illegal implicit net "id:209, name:dio_pad_type".
+[ERR:EL0535] $Source01/dut.sv:37:25: Illegal implicit net "id:277, name:a".
+[ERR:EL0535] $Source01/dut.sv:47:10: Illegal implicit net "id:318, name:PadType".
+[ERR:EL0535] $Source01/dut.sv:48:25: Illegal implicit net "id:321, name:b".
+[ERR:EL0535] $Source01/dut.sv:54:7: Illegal implicit net "id:339, name:dio_pad_type".
+[ERR:EL0535] $Source01/dut.sv:54:34: Illegal implicit net "id:343, name:NDioPads".
+[ERR:EL0535] $Source01/dut.sv:54:65: Illegal implicit net "id:347, name:B".
+[ERR:EL0535] $Source01/dut.sv:58:8: Illegal implicit net "id:358, name:TargetCfg".
+[ERR:EL0535] $Source01/dut.sv:59:13: Illegal implicit net "id:361, name:c".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2598,7 +2597,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2829,7 +2830,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2846,7 +2847,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2891,7 +2892,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -3475,7 +3478,12 @@ Design name:unnamed:
                       vpiName: pinmux_pkg::NDioPads
                       vpiFullName: work@top.pinmux_pkg::NDioPads
                       vpiPathElem (2 items):
-                        ClassTypespec name:pinmux_pkg:
+                        UnsupportedScope name:pinmux_pkg start:54:22 end:54:34:
+                          vpiParent: HierPath name:pinmux_pkg::NDioPads
+                          vpiName Identifier name:pinmux_pkg start:54:22 end:54:32:
+                            vpiParent: UnsupportedScope name:pinmux_pkg
+                            vpiName: pinmux_pkg
+                          vpiFullName: work@top.pinmux_pkg::NDioPads.pinmux_pkg
                         RefObj name:NDioPads start:54:34 end:54:42:
                           vpiParent: HierPath name:pinmux_pkg::NDioPads
                           vpiName: NDioPads
@@ -3489,21 +3497,17 @@ Design name:unnamed:
                           vpiName: prim_pad_wrapper_pkg::B
                           vpiFullName: work@top.prim_pad_wrapper_pkg::B
                           vpiPathElem (2 items):
-                            ClassTypespec name:prim_pad_wrapper_pkg:
+                            UnsupportedScope name:prim_pad_wrapper_pkg start:54:43 end:54:65:
+                              vpiParent: HierPath name:prim_pad_wrapper_pkg::B
+                              vpiName Identifier name:prim_pad_wrapper_pkg start:54:43 end:54:63:
+                                vpiParent: UnsupportedScope name:prim_pad_wrapper_pkg
+                                vpiName: prim_pad_wrapper_pkg
+                              vpiFullName: work@top.prim_pad_wrapper_pkg::B.prim_pad_wrapper_pkg
                             RefObj name:B start:54:65 end:54:66:
                               vpiParent: HierPath name:prim_pad_wrapper_pkg::B
                               vpiName: B
                               vpiFullName: work@top.B
-      vpiTypespec (4 items):
-        ClassTypespec name:pinmux_pkg start:53:15 end:53:25:
-          vpiParent: Module name:work@top
-          vpiName: pinmux_pkg
-        ClassTypespec name:pinmux_pkg start:54:22 end:54:32:
-          vpiParent: Module name:work@top
-          vpiName: pinmux_pkg
-        ClassTypespec name:prim_pad_wrapper_pkg start:54:43 end:54:63:
-          vpiParent: Module name:work@top
-          vpiName: prim_pad_wrapper_pkg
+      vpiTypespec (1 items):
         ModuleTypespec name:work@sub_top start:57:4 end:57:11:
           vpiParent: Module name:work@top
           vpiName Identifier name:work@sub_top start:57:4 end:57:11:
@@ -3566,18 +3570,24 @@ Design name:unnamed:
   vpiTypespec (12 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3615,7 +3625,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 9
-[WARNING] : 7
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3664,7 +3674,7 @@ Operation                           10       6       0         4
 RefObj                              46      41       0         5
 RefTypespec                        209     210       2         1
 ----------------------------------------------------------------
-Others                             497     497       0         0
+Others                             503     503       0         0
 ----------------------------------------------------------------
-                                   785     780       6        11
+                                   791     786       6        11
 ===================== END REDUCTION RESULT =====================

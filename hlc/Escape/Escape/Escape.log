@@ -31,11 +31,11 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -verbose -d 0 -fileunit
 [WRN:PA0205] $Source01/top.v:27:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:26:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "work@my_interface".
-[ERR:EL0535] $Source01/top.v:13:95: Illegal implicit net "id:194, name:m_if".
-[ERR:EL0535] $Source01/top.v:64:17: Illegal implicit net "id:268, name:capture".
-[ERR:EL0535] $Source01/top.v:64:8: Illegal implicit net "id:270, name:capture".
-[ERR:EL0535] $Source01/top.v:65:13: Illegal implicit net "id:271, name:clk".
-[ERR:EL0535] $Source01/top.v:65:8: Illegal implicit net "id:273, name:clk".
+[ERR:EL0535] $Source01/top.v:13:95: Illegal implicit net "id:200, name:m_if".
+[ERR:EL0535] $Source01/top.v:64:17: Illegal implicit net "id:276, name:capture".
+[ERR:EL0535] $Source01/top.v:64:8: Illegal implicit net "id:278, name:capture".
+[ERR:EL0535] $Source01/top.v:65:13: Illegal implicit net "id:279, name:clk".
+[ERR:EL0535] $Source01/top.v:65:8: Illegal implicit net "id:281, name:clk".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1628,7 +1628,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -1859,7 +1861,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -1876,7 +1878,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -1921,7 +1923,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -2048,15 +2052,18 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:uvm_env start:8:19 end:8:26:
           vpiParent: ClassDefn name:work@env
-          vpiName: uvm_env
+          vpiName Identifier name:uvm_env:
+            vpiParent: ClassTypespec name:uvm_env
+            vpiName: uvm_env
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:8:11 end:8:18:
         vpiParent: ClassDefn name:work@env
-        vpiClassTypespec RefTypespec name:uvm_env start:8:19 end:8:26:
-          vpiParent: Extends
-          vpiName: uvm_env
-          vpiFullName: work@env::uvm_env
-          vpiActual: ClassTypespec name:uvm_env
+        vpiClassTypespec (1 items):
+          RefTypespec name:uvm_env start:8:19 end:8:26:
+            vpiParent: Extends
+            vpiName: uvm_env
+            vpiFullName: work@env::uvm_env
+            vpiActual: ClassTypespec name:uvm_env
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@env
         vpiName: work
@@ -2069,47 +2076,50 @@ Design name:unnamed:
             vpiParent: Function name:connect_phase
             vpiName: connect_phase
           vpiFullName: work@env::connect_phase
-          vpiTypespec (3 items):
+          vpiTypespec (2 items):
             UnsupportedTypespec name:uvm_phase start:11:31 end:11:40:
               vpiParent: Function name:connect_phase
-              vpiName Identifier name:uvm_phase:
+              vpiName Identifier name:uvm_phase start:11:31 end:11:40:
                 vpiParent: UnsupportedTypespec name:uvm_phase
                 vpiName: uvm_phase
-            InterfaceTypespec name:add_sub_if start:13:29 end:13:47:
+            UnsupportedTypespec name:add_sub_if start:13:37 end:13:47:
               vpiParent: Function name:connect_phase
               vpiName Identifier name:add_sub_if start:13:37 end:13:47:
-                vpiParent: InterfaceTypespec name:add_sub_if
+                vpiParent: UnsupportedTypespec name:add_sub_if
                 vpiName: add_sub_if
-            ClassTypespec name:uvm_resource_db start:13:12 end:13:48:
-              vpiParent: Function name:connect_phase
-              vpiName: uvm_resource_db
-              vpiParamAssign (1 items):
-                ParamAssign start:13:29 end:13:47:
-                  vpiParent: ClassTypespec name:uvm_resource_db
-                  vpiRhs RefTypespec start:13:29 end:13:47:
-                    vpiParent: ParamAssign
-                    vpiFullName: work@env::connect_phase::uvm_resource_db
-                    vpiActual: InterfaceTypespec name:add_sub_if
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:phase start:11:41 end:11:46:
               vpiParent: Function name:connect_phase
               vpiName: phase
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:11:31 end:11:40:
+              vpiTypespec RefTypespec name:uvm_phase start:11:31 end:11:40:
                 vpiParent: IODecl name:phase
-                vpiFullName: work@env::connect_phase::phase
+                vpiName: uvm_phase
+                vpiFullName: work@env::connect_phase::phase::uvm_phase
                 vpiActual: UnsupportedTypespec name:uvm_phase
           vpiStmt ImmediateAssert start:13:5 end:13:102:
             vpiParent: Function name:connect_phase
-            "vpiExpr HierPath name:uvm_resource_db #(type =add_sub_if)::read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:99":
+            "vpiExpr HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:99":
               vpiParent: ImmediateAssert
-              vpiName: uvm_resource_db #(type =add_sub_if)::read_by_name(get_full_name(), "add_sub_if", m_if)
-              vpiFullName: work@env::connect_phase::uvm_resource_db #(type =add_sub_if)::read_by_name(get_full_name(), "add_sub_if", m_if)
+              vpiName: uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
+              vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
               vpiPathElem (2 items):
-                ClassTypespec name:uvm_resource_db:
+                UnsupportedScope name:uvm_resource_db start:13:12 end:13:50:
+                  vpiParent: "HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
+                  vpiName Identifier name:uvm_resource_db start:13:12 end:13:27:
+                    vpiParent: UnsupportedScope name:uvm_resource_db
+                    vpiName: uvm_resource_db
+                  vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::uvm_resource_db
+                  vpiParamAssign (1 items):
+                    ParamAssign start:13:29 end:13:47:
+                      vpiParent: UnsupportedScope name:uvm_resource_db
+                      vpiRhs RefTypespec start:13:29 end:13:47:
+                        vpiParent: ParamAssign
+                        vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::uvm_resource_db
+                        vpiActual: UnsupportedTypespec name:add_sub_if
                 MethodFuncCall name:read_by_name start:13:50 end:13:100:
-                  vpiParent: "HierPath name:uvm_resource_db #(type =add_sub_if)::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
+                  vpiParent: "HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
                   vpiName Identifier name:read_by_name start:13:50 end:13:62:
                     vpiParent: MethodFuncCall name:read_by_name
                     vpiName: read_by_name
@@ -2123,7 +2133,7 @@ Design name:unnamed:
                       vpiParent: MethodFuncCall name:read_by_name
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@env::connect_phase::uvm_resource_db #(type =add_sub_if)::read_by_name(get_full_name(), "add_sub_if", m_if)
+                        vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 80
@@ -2132,7 +2142,7 @@ Design name:unnamed:
                     RefObj name:m_if start:13:95 end:13:99:
                       vpiParent: MethodFuncCall name:read_by_name
                       vpiName: m_if
-                      vpiFullName: work@env::connect_phase::uvm_resource_db #(type =add_sub_if)::read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
+                      vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
           vpiReturn RefTypespec start:11:12 end:11:16:
             vpiParent: Function name:connect_phase
             vpiFullName: work@env::connect_phase
@@ -2216,7 +2226,7 @@ Design name:unnamed:
           vpiFullName: work@my_interface.cb
           vpiClockingEvent EventControl start:7:15 end:7:31:
             vpiParent: ClockingBlock name:cb
-            vpiCondition Operation:
+            vpiCondition Operation start:7:17 end:7:30:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -2752,18 +2762,24 @@ Design name:unnamed:
   vpiTypespec (18 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -2773,7 +2789,9 @@ Design name:unnamed:
       vpiModule: Module name:work@top
     ClassTypespec name:work@env:
       vpiParent: Design name:unnamed
-      vpiName: work@env
+      vpiName Identifier name:work@env:
+        vpiParent: ClassTypespec name:work@env
+        vpiName: work@env
       vpiClassDefn: ClassDefn name:work@env
     VoidTypespec start:11:12 end:11:16:
       vpiParent: Design name:unnamed
@@ -2886,7 +2904,7 @@ COMMAND: ${HLC_DIR}/regression/Escape/Escape/design.hldb ${HLC_DIR}/regression/E
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             781     781       0         0
+Others                             789     789       0         0
 ----------------------------------------------------------------
-                                   781     781       0         0
+                                   789     789       0         0
 ===================== END REDUCTION RESULT =====================

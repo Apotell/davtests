@@ -126,7 +126,7 @@ n<$Source01/various/constmsk_testmap.v> u<678> t<Top_level_rule> c<1> l<1:1> el<
                           n<> u<101> t<Constant_primary> p<102> c<100> l<8:27> el<8:28>
                             n<> u<100> t<Primary_literal> p<101> c<99> l<8:27> el<8:28>
                               n<0> u<99> t<INTEGRAL_NUMBER> p<100> l<8:27> el<8:28>
-              n<> u<109> t<Port_identifier_list> p<110> c<108> l<8:30> el<8:31>
+              n<> u<109> t<Output_port_identifier_list> p<110> c<108> l<8:30> el<8:31>
                 n<Y> u<108> t<SIMPLE_IDENTIFIER> p<109> l<8:30> el<8:31>
         n<> u<129> t<Module_item> p<675> c<128> s<146> l<10:5> el<10:40>
           n<> u<128> t<Non_port_module_item> p<129> c<127> l<10:5> el<10:40>
@@ -693,9 +693,7 @@ n<$Source01/various/constmsk_testmap.v> u<678> t<Top_level_rule> c<1> l<1:1> el<
 AST_DEBUG_END
 [INF:CP0303] $Source01/various/constmsk_testmap.v:1:1: Compile module "work@my_opt_reduce_or".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/various/constmsk_testmap.v:41:13: Illegal implicit net "id:202, name:Y".
-[ERR:EL0535] $Source01/various/constmsk_testmap.v:45:28: Illegal implicit net "id:231, name:A".
-[ERR:EL0535] $Source01/various/constmsk_testmap.v:46:13: Illegal implicit net "id:247, name:Y".
+[ERR:EL0535] $Source01/various/constmsk_testmap.v:45:28: Illegal implicit net "id:233, name:A".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1345,7 +1343,16 @@ Design name:unnamed:
             vpiParent: Function name:has_const_one
             vpiFullName: work@my_opt_reduce_or.has_const_one
             vpiActual: LogicTypespec
-      vpiNet (4 items):
+      vpiNet (5 items):
+        Net name:Y start:8:30 end:8:31:
+          vpiParent: Module name:work@my_opt_reduce_or
+          vpiTypespec RefTypespec start:8:12 end:8:29:
+            vpiParent: Net name:Y
+            vpiFullName: work@my_opt_reduce_or.Y
+            vpiActual: LogicTypespec
+          vpiName: Y
+          vpiFullName: work@my_opt_reduce_or.Y
+          vpiNetType: reg (48)
         Net name:_TECHMAP_FAIL_ start:13:10 end:13:24:
           vpiParent: Module name:work@my_opt_reduce_or
           vpiTypespec RefTypespec start:13:10 end:13:10:
@@ -1433,6 +1440,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: Y
                           vpiFullName: work@my_opt_reduce_or.Y
+                          vpiActual: Net name:Y
                         vpiRhs Constant start:41:17 end:41:18:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1604,6 +1612,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: Y
                           vpiFullName: work@my_opt_reduce_or.Y
+                          vpiActual: Net name:Y
                         vpiRhs Operation start:46:17 end:46:21:
                           vpiParent: Assignment
                           vpiOpType: unary or (7)
@@ -1629,7 +1638,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1645,25 +1654,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/various/constmsk_testmap.v/mounts.json
 
 
-{'result': {'coverage': 99.79,
+{'result': {'coverage': 99.9,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/various/constmsk_testmap.v': {'post_len': 2,
+            'files': {'$Output/lib/work/various/constmsk_testmap.v': {'post_len': 1,
                                                                       'pre_len': 955}},
-            'post_len': 2,
+            'post_len': 1,
             'pre_len': 955,
             'test_name': 'Yosys/various/constmsk_testmap.v'}}
 
 +---------------------------------------------+----------+-----------+
 | INPUT                                       |   PRELEN |   POSTLEN |
 +=============================================+==========+===========+
-| $Output/lib/work/various/constmsk_testmap.v |      955 |         2 |
+| $Output/lib/work/various/constmsk_testmap.v |      955 |         1 |
 +=============================================+==========+===========+
-|                                             |      955 |         2 |
+|                                             |      955 |         1 |
 +---------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.79
+[COVERAGE] : 99.9
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1676,9 +1685,9 @@ Name                            Before   After   Added   Removed
 Constant                            29      29       2         2
 Operation                           18      16       0         2
 RefObj                              44      42       0         2
-RefTypespec                         42      42       2         2
+RefTypespec                         43      43       2         2
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                   220     216       4         8
+                                   222     218       4         8
 ===================== END REDUCTION RESULT =====================

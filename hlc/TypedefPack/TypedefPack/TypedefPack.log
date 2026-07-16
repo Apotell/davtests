@@ -214,7 +214,7 @@ Design name:unnamed:
             vpiActual: EnumTypespec
         UnsupportedTypespec name:lc_tx_e start:7:11 end:7:18:
           vpiParent: Package name:work@lc_ctrl_pkg
-          vpiName Identifier name:lc_tx_e:
+          vpiName Identifier name:lc_tx_e start:7:11 end:7:18:
             vpiParent: UnsupportedTypespec name:lc_tx_e
             vpiName: lc_tx_e
         TypedefTypespec name:lc_tx_t start:7:3 end:7:27:
@@ -250,12 +250,11 @@ Design name:unnamed:
             vpiParent: Variable name:lc_en_o
             vpiName: lc_tx_t
             vpiFullName: work@prim_lc_sender.lc_en_o.lc_tx_t
-            vpiPrefix: HierPath name:lc_ctrl_pkg::lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_tx_t
+            vpiActual: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
           vpiName: lc_en_o
           vpiFullName: work@prim_lc_sender.lc_en_o
           vpiNetType: none (12)
-      vpiTypespec (4 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:work@prim_lc_sender
           vpiRange (1 items):
@@ -282,18 +281,22 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ClassTypespec name:lc_ctrl_pkg start:12:10 end:12:21:
+        UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
           vpiParent: Module name:work@prim_lc_sender
-          vpiName: lc_ctrl_pkg
-        UnsupportedTypespec name:lc_tx_t start:12:23 end:12:30:
-          vpiParent: Module name:work@prim_lc_sender
-          vpiName Identifier name:lc_tx_t:
-            vpiParent: UnsupportedTypespec name:lc_tx_t
-            vpiName: lc_tx_t
-        PackageTypespec name:lc_ctrl_pkg start:14:20 end:14:33:
-          vpiParent: Module name:work@prim_lc_sender
-          vpiName: lc_ctrl_pkg
-          vpiPackage: Package name:work@lc_ctrl_pkg
+          vpiPathElem (2 items):
+            UnsupportedScope name:lc_ctrl_pkg start:12:10 end:12:23:
+              vpiParent: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
+              vpiName Identifier name:lc_ctrl_pkg start:12:10 end:12:21:
+                vpiParent: UnsupportedScope name:lc_ctrl_pkg
+                vpiName: lc_ctrl_pkg
+              vpiFullName: work@prim_lc_sender.lc_ctrl_pkg::lc_tx_t.lc_ctrl_pkg
+            RefTypespec name:lc_tx_t start:12:23 end:12:30:
+              vpiParent: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
+              vpiName: lc_tx_t
+              vpiFullName: work@prim_lc_sender.lc_ctrl_pkg::lc_tx_t.lc_tx_t
+          vpiName Identifier name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
+            vpiParent: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
+            vpiName: lc_ctrl_pkg::lc_tx_t
       vpiDefName: work@prim_lc_sender
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -336,14 +339,7 @@ Design name:unnamed:
             vpiParent: Port name:lc_en_o
             vpiName: lc_tx_t
             vpiFullName: work@prim_lc_sender.lc_en_o.lc_tx_t
-            vpiPrefix HierPath name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:23:
-              vpiParent: RefTypespec name:lc_tx_t
-              vpiName: lc_ctrl_pkg::lc_tx_t
-              vpiFullName: work@prim_lc_sender.lc_en_o.lc_tx_t.lc_ctrl_pkg::lc_tx_t
-              vpiPathElem (2 items):
-                ClassTypespec name:lc_ctrl_pkg:
-                UnsupportedTypespec name:lc_tx_t:
-            vpiActual: UnsupportedTypespec name:lc_tx_t
+            vpiActual: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
       vpiContAssign (1 items):
         ContAssign start:14:10 end:14:50:
           vpiParent: Module name:work@prim_lc_sender
@@ -354,19 +350,13 @@ Design name:unnamed:
             vpiActual: Variable name:lc_en_o
           vpiRhs Operation start:14:20 end:14:50:
             vpiParent: ContAssign
+            vpiTypespec RefTypespec name:lc_ctrl_pkg::lc_tx_t start:14:20 end:14:40:
+              vpiParent: Operation
+              vpiName: lc_ctrl_pkg::lc_tx_t
+              vpiFullName: work@prim_lc_sender.lc_ctrl_pkg::lc_tx_t
+              vpiActual: TypedefTypespec name:lc_tx_t
             vpiOpType: cast (81)
-            vpiOperand (2 items):
-              HierPath name:lc_ctrl_pkg::lc_tx_t start:14:20 end:14:40:
-                vpiParent: Operation
-                vpiName: lc_ctrl_pkg::lc_tx_t
-                vpiFullName: work@prim_lc_sender.lc_ctrl_pkg::lc_tx_t
-                vpiPathElem (2 items):
-                  PackageTypespec name:lc_ctrl_pkg:
-                  RefTypespec name:lc_tx_t start:14:33 end:14:40:
-                    vpiParent: HierPath name:lc_ctrl_pkg::lc_tx_t
-                    vpiName: lc_tx_t
-                    vpiFullName: work@prim_lc_sender.lc_ctrl_pkg::lc_tx_t.lc_tx_t
-                    vpiActual: TypedefTypespec name:lc_tx_t
+            vpiOperand (1 items):
               RefObj name:lc_en_i start:14:42 end:14:49:
                 vpiParent: Operation
                 vpiName: lc_en_i
@@ -435,7 +425,7 @@ COMMAND: ${HLC_DIR}/regression/TypedefPack/TypedefPack/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    65      65       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

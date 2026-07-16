@@ -35,7 +35,7 @@ n<$Source01/lut/map_or.v> u<48> t<Top_level_rule> c<1> l<1:1> el<6:1>
             n<> u<19> t<Output_declaration> p<20> c<16> l<3:5> el<3:13>
               n<> u<16> t<Net_port_type> p<19> c<15> s<18> l<3:12> el<3:12>
                 n<> u<15> t<Data_type_or_implicit> p<16> l<3:12> el<3:12>
-              n<> u<18> t<Port_identifier_list> p<19> c<17> l<3:12> el<3:13>
+              n<> u<18> t<Output_port_identifier_list> p<19> c<17> l<3:12> el<3:13>
                 n<y> u<17> t<SIMPLE_IDENTIFIER> p<18> l<3:12> el<3:13>
         n<> u<43> t<Module_item> p<45> c<42> s<44> l<4:5> el<4:20>
           n<> u<42> t<Non_port_module_item> p<43> c<41> l<4:5> el<4:20>
@@ -63,9 +63,8 @@ n<$Source01/lut/map_or.v> u<48> t<Top_level_rule> c<1> l<1:1> el<6:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/lut/map_or.v:1:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/lut/map_or.v:4:12: Illegal implicit net "id:10, name:y".
-[ERR:EL0535] $Source01/lut/map_or.v:4:16: Illegal implicit net "id:11, name:a".
-[ERR:EL0535] $Source01/lut/map_or.v:4:18: Illegal implicit net "id:12, name:b".
+[ERR:EL0535] $Source01/lut/map_or.v:4:16: Illegal implicit net "id:13, name:a".
+[ERR:EL0535] $Source01/lut/map_or.v:4:18: Illegal implicit net "id:14, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -92,6 +91,15 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@top.work
       vpiCell: top
+      vpiNet (1 items):
+        Net name:y start:3:12 end:3:13:
+          vpiParent: Module name:work@top
+          vpiTypespec RefTypespec start:3:12 end:3:12:
+            vpiParent: Net name:y
+            vpiFullName: work@top.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: work@top.y
       vpiContAssign (1 items):
         ContAssign start:4:12 end:4:19:
           vpiParent: Module name:work@top
@@ -99,6 +107,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: y
             vpiFullName: work@top.y
+            vpiActual: Net name:y
           vpiRhs Operation start:4:16 end:4:19:
             vpiParent: ContAssign
             vpiOpType: bitwise or (29)
@@ -121,7 +130,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -137,25 +146,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/lut/map_or.v/mounts.json
 
 
-{'result': {'coverage': 92.98,
+{'result': {'coverage': 94.74,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/lut/map_or.v': {'post_len': 4,
+            'files': {'$Output/lib/work/lut/map_or.v': {'post_len': 3,
                                                         'pre_len': 57}},
-            'post_len': 4,
+            'post_len': 3,
             'pre_len': 57,
             'test_name': 'Yosys/lut/map_or.v'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/lut/map_or.v |       57 |         4 |
+| $Output/lib/work/lut/map_or.v |       57 |         3 |
 +===============================+==========+===========+
-|                               |       57 |         4 |
+|                               |       57 |         3 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.98
+[COVERAGE] : 94.74
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -166,7 +175,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/lut/map_or.v/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              13      13       0         0
+Others                              15      15       0         0
 ----------------------------------------------------------------
-                                    13      13       0         0
+                                    15      15       0         0
 ===================== END REDUCTION RESULT =====================
