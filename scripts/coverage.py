@@ -238,8 +238,10 @@ def _run_one(args):
       mounts = json_load(mounts_filepath.open())
 
       if hldb_filepath.exists():
+        db = pyhldb.Database()
         s = pyhldb.Serializer()
-        designs = s.restore(str(hldb_filepath))
+        s.restore(str(hldb_filepath), db)
+        designs = db.get_objects(pyhldb.AnyType.Design)
 
         file_contents = {}
         logical_to_path = {}
