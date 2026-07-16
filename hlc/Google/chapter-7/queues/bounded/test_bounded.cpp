@@ -369,7 +369,7 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size");
+  EXPECT_EQ(size->getName(), "q.size()");
   ASSERT_NE(size->getPathElems(), nullptr);
   ASSERT_EQ(size->getPathElems()->size(), 2u);
 
