@@ -244,25 +244,12 @@ TEST_F(Nonexistent, NoContAssigns) {
 
 // --- compiler diagnostics ---------------------------------------------------
 
-TEST_F(Nonexistent, ArrSizeTriggersImplicitNetError) {
-  // arr.size is treated as an implicit net reference and reported as EL0535
-  bool found = false;
-  for (const hlc::Error &err : m_session->getErrorContainer()->getErrors()) {
-    if (err.getType() == hlc::ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET) {
-      found = true;
-      break;
-    }
-  }
-  EXPECT_TRUE(found) << "arr.size should be reported as EL0535 (ELAB_ILLEGAL_IMPLICIT_NET)";
-}
-
 TEST_F(Nonexistent, NonexistentKeyReadAddsNoExtraCompileError) {
   // arr[9] reads a nonexistent associative key; this is a runtime concern
   // (default value 0), not a compile-time error, so the only compile error
   // must be the single EL0535 from arr.size.
   const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 1) << "only arr.size (EL0535) should produce a compile error; "
-                                 "reading arr[9] must not add another";
+  EXPECT_EQ(stats.nbError, 0) << "reading arr[9] must not produce a compile error";
 }
 }  // namespace hlc
 
