@@ -200,7 +200,6 @@ n<$Source01/sort.sv> u<185> t<Top_level_rule> c<1> l<16:1> el<29:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sort.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/sort.sv:23:5: Illegal implicit net "id:56, name:sort".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -384,20 +383,21 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "3"
                       vpiValue: 3
-              HierPath name:ia.sort start:23:2 end:23:9:
+              HierPath name:ia.sort() start:23:2 end:23:9:
                 vpiParent: Begin
-                vpiName: ia.sort
-                vpiFullName: work@top.ia.sort
+                vpiName: ia.sort()
+                vpiFullName: work@top.ia.sort()
                 vpiPathElem (2 items):
                   RefObj name:ia start:23:2 end:23:4:
-                    vpiParent: HierPath name:ia.sort
+                    vpiParent: HierPath name:ia.sort()
                     vpiName: ia
                     vpiFullName: work@top.ia
                     vpiActual: Net name:ia
-                  RefObj name:sort start:23:5 end:23:9:
-                    vpiParent: HierPath name:ia.sort
-                    vpiName: sort
-                    vpiFullName: work@top.sort
+                  MethodFuncCall name:sort start:23:5 end:23:9:
+                    vpiParent: HierPath name:ia.sort()
+                    vpiName Identifier name:sort start:23:5 end:23:9:
+                      vpiParent: MethodFuncCall name:sort
+                      vpiName: sort
               SysFuncCall name:$display start:24:2 end:25:30:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:2 end:24:10:
@@ -505,7 +505,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -553,7 +553,7 @@ Constant                            14      11       1         4
 Operation                            1       0       0         1
 RefTypespec                         16      12       0         4
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    67      59       1         9
+                                    68      60       1         9
 ===================== END REDUCTION RESULT =====================
