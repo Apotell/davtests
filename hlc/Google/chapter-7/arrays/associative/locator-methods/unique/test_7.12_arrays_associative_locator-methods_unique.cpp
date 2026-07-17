@@ -267,7 +267,7 @@ TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsHierPathSDotUnique) {
   ASSERT_NE(assign, nullptr);
   const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("s.unique()"));
+  EXPECT_EQ(rhs->getName(), std::string_view("s.unique"));
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
@@ -307,12 +307,12 @@ TEST_F(ArrayLocatorUniqueTest, ThirdStmtIsHierPathQiDotSort) {
   ASSERT_NE(qiRef, nullptr);
   EXPECT_EQ(qiRef->getName(), "qi");
   EXPECT_NE(qiRef->getActual<hldb::Net>(), nullptr);
-  const hldb::RefObj *const sortRef = any_cast<hldb::RefObj>(sort->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const sortRef = any_cast<hldb::MethodFuncCall>(sort->getPathElems()->at(1));
   ASSERT_NE(sortRef, nullptr);
   EXPECT_EQ(sortRef->getName(), "sort");
   // Built-in ".sort" (no "()" in source, bare statement) is unresolved --
   // same limitation as ".size".
-  EXPECT_EQ(sortRef->getActual(), nullptr);
+  EXPECT_EQ(sortRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 3)", qi.size) ---------------------------------
@@ -348,11 +348,11 @@ TEST_F(ArrayLocatorUniqueTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(qiRef, nullptr);
   EXPECT_EQ(qiRef->getName(), "qi");
   EXPECT_NE(qiRef->getActual<hldb::Net>(), nullptr);
-  const hldb::RefObj *const sizeRef = any_cast<hldb::RefObj>(size->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
   // Built-in ".size" is never resolved either -- same limitation as "sort".
-  EXPECT_EQ(sizeRef->getActual(), nullptr);
+  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: ((%d == 3) and (%d == 10) and (%d == 20))", ...) -----
@@ -433,16 +433,16 @@ TEST_F(ArrayLocatorUniqueTest, NoContAssigns) {
 
 // --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation --------
 
-TEST_F(ArrayLocatorUniqueTest, CompilerReportsExactlyTwoErrorsNoFatalNoWarning) {
+TEST_F(ArrayLocatorUniqueTest, CompilerReportsExactlyZeroErrorsNoFatalNoWarning) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 2);
+  EXPECT_EQ(stats.nbError, 0);
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(ArrayLocatorUniqueTest, ExactlyTwoIllegalImplicitNetErrors) {
+TEST_F(ArrayLocatorUniqueTest, ExactlyZeroIllegalImplicitNetErrors) {
   // getErrors() holds every diagnostic emitted (INFO progress messages too),
   // so isolate the real errors by type rather than assuming the container
   // holds only errors.
@@ -454,13 +454,7 @@ TEST_F(ArrayLocatorUniqueTest, ExactlyTwoIllegalImplicitNetErrors) {
       implicitNetErrors.push_back(err);
     }
   }
-  ASSERT_EQ(implicitNetErrors.size(), 2u);
-  ASSERT_FALSE(implicitNetErrors[0].getLocations().empty());
-  EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_line, 23u);
-  EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_column, 39u);
-  ASSERT_FALSE(implicitNetErrors[1].getLocations().empty());
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_line, 24u);
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_column, 5u);
+  ASSERT_TRUE(implicitNetErrors.empty());
 }
 
 }  // namespace hlc

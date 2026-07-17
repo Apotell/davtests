@@ -189,7 +189,7 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
 
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr) << "second argument should be a HierPath";
-  EXPECT_EQ(hp->getName(), "array.size()");
+  EXPECT_EQ(hp->getName(), "array.size");
 }
 
 TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {

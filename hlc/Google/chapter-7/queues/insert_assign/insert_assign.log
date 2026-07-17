@@ -182,7 +182,6 @@ n<$Source01/insert_assign.sv> u<167> t<Top_level_rule> c<1> l<16:1> el<28:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/insert_assign.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/insert_assign.sv:23:35: Illegal implicit net "id:63, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -388,20 +387,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 5)\""
                     vpiValue: ":assert: (%d == 5)"
-                  HierPath name:q.size start:23:33 end:23:39:
+                  HierPath name:q.size() start:23:33 end:23:39:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: q.size
-                    vpiFullName: work@top.q.size
+                    vpiName: q.size()
+                    vpiFullName: work@top.q.size()
                     vpiPathElem (2 items):
                       RefObj name:q start:23:33 end:23:34:
-                        vpiParent: HierPath name:q.size
+                        vpiParent: HierPath name:q.size()
                         vpiName: q
                         vpiFullName: work@top.q
                         vpiActual: Net name:q
-                      RefObj name:size start:23:35 end:23:39:
-                        vpiParent: HierPath name:q.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:23:35 end:23:39:
+                        vpiParent: HierPath name:q.size()
+                        vpiName Identifier name:size start:23:35 end:23:39:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
               SysFuncCall name:$display start:24:2 end:24:39:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:2 end:24:10:
@@ -452,7 +452,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -500,7 +500,7 @@ Constant                            13      10       1         4
 Operation                            2       1       0         1
 RefTypespec                         14      10       0         4
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    62      54       1         9
+                                    63      55       1         9
 ===================== END REDUCTION RESULT =====================
