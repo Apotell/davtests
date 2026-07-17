@@ -29,13 +29,12 @@
 //   - work@top: no processes, no continuous assignments
 //   - work@mod_i: 1 Net "in" (vpiWire), 1 Port "in" (input)
 //   - work@mod_o: 1 Net "out" (vpiWire), 1 Port "out" (output)
-//
-// Not checked:
-//   - HLC EL0535 error count (2 errors emitted, for m1(bus) and m2(bus))
+//   - HLC emits exactly 2 EL0535 errors (for m1(bus) and m2(bus))
 //   - net vpiFullName is "work@top" (parent scope, no own name segment)
-//   - RefInstance names m1/m2 — only port HighConn verified
+//   - RefInstance names are "m1" and "m2" (in declaration order)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -112,6 +111,25 @@ TEST_F(Interconnect, TopHasTwoRefInstances) {
   EXPECT_EQ(top->getRefInstances()->size(), 2u);
 }
 
+TEST_F(Interconnect, RefInstanceNamesAreM1AndM2) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getRefInstances(), nullptr);
+  ASSERT_EQ(top->getRefInstances()->size(), 2u);
+  EXPECT_EQ(top->getRefInstances()->at(0)->getName(), "m1");
+  EXPECT_EQ(top->getRefInstances()->at(1)->getName(), "m2");
+}
+
+TEST_F(Interconnect, TopNetFullNameIsParentScope) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  const hldb::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  EXPECT_EQ(net->getFullName(), "work@top")
+      << "the unnamed error-recovery net has no own name segment; vpiFullName is just the parent scope";
+}
+
 TEST_F(Interconnect, EachRefInstanceHasOnePort) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -148,6 +166,14 @@ TEST_F(Interconnect, TopHasNoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- HLC emits EL0535 for each implicit-net instantiation
+// ---------------------------------------------------------------------------
+TEST_F(Interconnect, Compiler_ReportsTwoErrors) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 2) << "expected 2 EL0535 'Illegal implicit net' errors, for m1(bus) and m2(bus)";
 }
 
 TEST_F(Interconnect, ModIExists) {

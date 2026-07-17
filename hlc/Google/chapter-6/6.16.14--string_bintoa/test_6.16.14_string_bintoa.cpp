@@ -30,10 +30,6 @@
 //   - HierPath element[1] is FuncCall "bintoa" with 1 argument (Constant "12")
 //   - argument to bintoa is stored as vpiUIntConst (unsized integer literals
 //     are unsigned in HLC — same as established in the itoa test)
-//
-// Not checked:
-//   - bintoa() is void — no return value; there is no net to capture a result
-//   - a's value after a.bintoa(12) is set at simulation runtime only
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

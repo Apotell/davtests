@@ -28,11 +28,10 @@
 //   - net "val" exists with typespec → EnumTypespec
 //   - net "val" has no initial value
 //   - work@top has no processes
-//
-// Not checked:
 //   - HLC doesn't flag the invalid ordering (unassigned enumerator after x-valued one)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -158,6 +157,15 @@ TEST_F(EnumXxInvOrder, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- an unassigned enumerator following an x-valued one is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(EnumXxInvOrder, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0)
+      << "HLC does not reject an unassigned enumerator following an x-valued one at compile time";
 }
 
 }  // namespace hlc

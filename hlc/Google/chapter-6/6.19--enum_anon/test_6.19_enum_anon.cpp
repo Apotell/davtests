@@ -28,10 +28,10 @@
 //   - net "val" RefTypespec vpiActual resolves directly to EnumTypespec
 //     (not through a TypedefTypespec)
 //   - net "val" has no initial value
-//
-// Not checked:
-//   - enum base type (default logic in SV)
-//   - enum const default values (a=0, b=1, c=2) — HLC may not store implicit values
+//   - anonymous EnumTypespec has no explicit base typespec stored (default
+//     type is implicit, not materialized as a RefTypespec)
+//   - enum consts a, b, c have no stored implicit default value (HLC does not
+//     materialize the implicit values 0, 1, 2)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -123,6 +123,34 @@ TEST_F(EnumAnon, NetValHasNoInitialValue) {
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getValue<hldb::Any>(), nullptr);
+}
+
+// ---------------------------------------------------------------------------
+// Anonymous EnumTypespec has no explicit base typespec (default type)
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnon, EnumHasNoExplicitBaseTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
+  ASSERT_NE(enumTs, nullptr);
+  EXPECT_EQ(enumTs->getBaseTypespec(), nullptr)
+      << "enum {a, b, c} with no explicit base type stores no base RefTypespec";
+}
+
+// ---------------------------------------------------------------------------
+// Enum consts a, b, c have no stored implicit default value (0, 1, 2)
+// ---------------------------------------------------------------------------
+TEST_F(EnumAnon, EnumConstsHaveNoImplicitDefaultValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
+  ASSERT_NE(enumTs, nullptr);
+  const auto *consts = enumTs->getEnumConsts();
+  ASSERT_NE(consts, nullptr);
+  ASSERT_EQ(consts->size(), 3u);
+  EXPECT_EQ(consts->at(0)->getValue<hldb::Any>(), nullptr) << "'a' implicit default value 0 is not stored";
+  EXPECT_EQ(consts->at(1)->getValue<hldb::Any>(), nullptr) << "'b' implicit default value 1 is not stored";
+  EXPECT_EQ(consts->at(2)->getValue<hldb::Any>(), nullptr) << "'c' implicit default value 2 is not stored";
 }
 
 }  // namespace hlc

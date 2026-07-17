@@ -30,12 +30,11 @@
 //   - Begin block has 1 Variable "val"
 //   - assignment rhs is Constant "1" (vpiUIntConst) — NOT RefObj → EnumConst
 //   - assignment rhs is confirmed NOT a RefObj (no enum resolution happened)
-//
-// Not checked:
-//   - HLC does not emit a compile error for this invalid assignment;
-//     this test validates only the UHDM representation, not semantic enforcement
+//   - HLC does not emit a compile error for this invalid assignment (validates
+//     only the UHDM representation, not semantic enforcement)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -132,6 +131,14 @@ TEST_F(EnumTypeCheckingInv, AssignmentRhsIsIntegerConstant) {
   EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
   EXPECT_EQ(rhs->getDecompile(), "1");
   EXPECT_EQ(assign->getRhs<hldb::RefObj>(), nullptr) << "rhs is an integer literal, not a RefObj → EnumConst";
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the invalid enum assignment is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(EnumTypeCheckingInv, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'val = 1' assigned to an enum variable at compile time";
 }
 
 }  // namespace hlc

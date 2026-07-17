@@ -34,11 +34,10 @@
 //   - add operands are RefObj "val" and Constant "1"
 //   - 1st assignment (val=a) rhs is RefObj "a" → EnumConst
 //   - add constant 1 is stored as vpiUIntConst
-//
-// Not checked:
 //   - HLC does not emit a compile error for this invalid assignment
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -199,6 +198,14 @@ TEST_F(EnumNumericalExprNoCast, AddConstant1IsUIntConst) {
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the missing cast on 'val += 1' is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(EnumNumericalExprNoCast, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'val += 1' on an enum variable without a cast at compile time";
 }
 
 }  // namespace hlc

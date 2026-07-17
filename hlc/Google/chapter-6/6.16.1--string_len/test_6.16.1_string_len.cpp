@@ -28,9 +28,7 @@
 //   - net 'b' initial value is a HierPath named "a.len()"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "len" with no arguments
-//
-// Not checked:
-//   - b does NOT get a pre-evaluated constant value (e.g. 4) — HLDB stores
+//   - 'b' does NOT get a pre-evaluated constant value (e.g. 4) -- HLDB stores
 //     the unevaluated HierPath expression only; compile-time evaluation of
 //     string method return values is not performed
 
@@ -175,6 +173,22 @@ TEST_F(StringLen, LenCallHasNoArguments) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "len() takes no arguments";
+}
+
+// ---------------------------------------------------------------------------
+// a.len() runtime result -- kept as a real assertion for when HLC adds
+// compile-time evaluation of string methods
+// ---------------------------------------------------------------------------
+TEST_F(StringLen, LenResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::Constant *const value = b->getValue<hldb::Constant>();
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "net 'b' should hold a pre-evaluated Constant";
+    EXPECT_EQ(value->getDecompile(), "4") << "a.len() should evaluate to 4";
+  }
 }
 
 }  // namespace hlc

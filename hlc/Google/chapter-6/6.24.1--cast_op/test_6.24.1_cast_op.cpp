@@ -26,9 +26,8 @@
 //   - cast has 1 operand: vpiMultOp(vpiRealConst "2.1", vpiRealConst "3.7")
 //   - work@top has no continuous assignments (inline init stored as vpiValue, not ContAssign)
 //   - work@top has no processes
-//
-// Not checked:
-//   - actual evaluated result (int'(2.1 * 3.7) = 7, truncation; runtime-only)
+//   - net 'a' vpiValue is not folded to a Constant at compile time (result is
+//     only known at runtime)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -165,6 +164,15 @@ TEST_F(CastOp, NoContAssigns) {
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "int a = int'(...) stores the cast as vpiValue, not a ContAssign";
+}
+
+TEST_F(CastOp, NetAValueIsNotFoldedConstant) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr)
+      << "int'(2.1 * 3.7) is stored as an Operation, not pre-evaluated to a Constant at compile time";
 }
 
 }  // namespace hlc

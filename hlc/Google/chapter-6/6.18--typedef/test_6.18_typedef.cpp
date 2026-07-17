@@ -28,9 +28,6 @@
 //   - TypedefTypespec alias RefTypespec vpiActual resolves to LogicTypespec
 //   - net 'a' has no initial value
 //   - work@top has no processes
-//
-// Not checked:
-//   - (all observable graph properties of this design are verified above)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

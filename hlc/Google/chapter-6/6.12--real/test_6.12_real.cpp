@@ -26,9 +26,7 @@
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
 //   - work@top has no continuous assignments
 //   - work@top has no processes
-//
-// Not checked:
-//   - net type of 'a' (vpiRealVar — the SV real keyword maps to a special net type)
+//   - net type of 'a' is vpiRealVar (the SV real keyword maps to a special net type)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -80,6 +78,18 @@ TEST_F(Real, ANetTypespecIsReal) {
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr) << "net 'a' has no typespec";
   EXPECT_NE(rts->getActual<hldb::RealTypespec>(), nullptr) << "net 'a' typespec does not resolve to RealTypespec";
+}
+
+// ---------------------------------------------------------------------------
+// Net type -- the SV 'real' keyword maps to vpiRealVar, not vpiWire/vpiReg
+// ---------------------------------------------------------------------------
+TEST_F(Real, ANetTypeIsRealVar) {
+  GTEST_SKIP() << "Net types aren't being set correctly yet";
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getNetType(), vpiRealVar) << "expected vpiNetType vpiRealVar (47) for 'real a'";
 }
 
 // ---------------------------------------------------------------------------

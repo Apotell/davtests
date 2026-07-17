@@ -31,10 +31,12 @@
 //   - BitSelect index Constant "2"
 //   - work@top has no processes
 //
-// Not checked:
-//   - HLC doesn't flag the illegal bit-select on real
+// Also checked:
+//   - HLC does not report a compiler error for the illegal bit-select on real
+//     (it is only rejected at simulation time, per :should_fail_because:)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -200,6 +202,14 @@ TEST_F(RealBitSelect, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the illegal bit-select on real is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(RealBitSelect, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'a[2]' bit-select on a real net at compile time";
 }
 
 }  // namespace hlc

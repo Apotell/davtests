@@ -30,9 +30,7 @@
 //   - 1 ContAssign: LHS RefObj "c" has vpiActual (formally declared), RHS = vpiBitOrOp(a, b)
 //   - net 'c' has no initial value
 //   - work@top has no processes
-//
-// Not checked:
-//   - net type of 'a', 'b', 'c' (vpiLogic from wire declarations)
+//   - net type of 'a', 'b', 'c' is vpiWire (implicit wire from port/internal declarations)
 //   - 'a' and 'b' have no initial values
 
 #include <hlc/Common/Session.h>
@@ -88,6 +86,46 @@ TEST_F(ImplicitPort, CNetExists) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
       << "net 'c' not found — it is a formally declared internal wire";
+}
+
+TEST_F(ImplicitPort, ANetTypeIsWire) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getNetType(), vpiWire) << "expected vpiNetType wire (1) for implicit-wire port 'a'";
+}
+
+TEST_F(ImplicitPort, BNetTypeIsWire) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  EXPECT_EQ(b->getNetType(), vpiWire) << "expected vpiNetType wire (1) for implicit-wire port 'b'";
+}
+
+TEST_F(ImplicitPort, CNetTypeIsWire) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  ASSERT_NE(c, nullptr);
+  EXPECT_EQ(c->getNetType(), vpiWire) << "expected vpiNetType wire (1) for 'wire [3:0] c'";
+}
+
+TEST_F(ImplicitPort, ANetHasNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getValue<hldb::Any>(), nullptr) << "port 'a' has no initializer";
+}
+
+TEST_F(ImplicitPort, BNetHasNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  EXPECT_EQ(b->getValue<hldb::Any>(), nullptr) << "port 'b' has no initializer";
 }
 
 // ---------------------------------------------------------------------------

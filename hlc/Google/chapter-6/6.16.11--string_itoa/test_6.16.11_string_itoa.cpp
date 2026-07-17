@@ -31,11 +31,6 @@
 //   - HierPath element[1] is FuncCall "itoa" with 1 argument
 //   - argument to itoa is Constant "12" stored as vpiUIntConst (HLDB stores
 //     unsized integer literals as unsigned; vpiIntConst is NOT used here)
-//
-// Not checked:
-//   - itoa() is void — it has no return value; there is no net 'b' to inspect
-//   - a's value after a.itoa(12) is not visible in UHDM because it is set
-//     at simulation runtime, not at compile time
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

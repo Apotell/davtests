@@ -28,9 +28,7 @@
 //   - net 'b' initial value is a HierPath named "a.atooct()"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "atooct" with no arguments
-//
-// Not checked:
-//   - b does NOT get a pre-evaluated constant value (e.g. 511) — HLDB stores
+//   - 'b' does NOT get a pre-evaluated constant value (e.g. 511) — HLDB stores
 //     the unevaluated HierPath expression only
 
 #include <hlc/Common/Session.h>

@@ -22,8 +22,8 @@
 //     endfunction
 //     initial fun();
 //   endmodule
-// Key properties: no nets; Function "fun" with vpiReturn → VoidTypespec;
-// Initial process with body FuncCall "fun".
+// Key properties: no nets; Function "fun" with vpiReturn -> VoidTypespec;
+// Initial process with body FuncCall "fun" with no arguments.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -36,6 +36,7 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/tf_call.h>
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
 
@@ -121,6 +122,17 @@ TEST_F(Void, InitialProcessBodyIsFuncCallToFun) {
   const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "Initial body is not a FuncCall";
   EXPECT_EQ(call->getName(), "fun");
+}
+
+TEST_F(Void, FuncCallHasNoArguments) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr);
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
+      << "fun() is called with no arguments";
 }
 
 }  // namespace hlc

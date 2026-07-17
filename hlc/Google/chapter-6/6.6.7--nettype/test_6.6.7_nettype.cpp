@@ -23,9 +23,6 @@
 //   - design has module work@top
 //   - module has 1 TypedefTypespec "real_net" (alias→RealTypespec, no resolution function)
 //   - work@top has no nets, no processes, no task/functions
-//
-// Not checked:
-//   - full name / scope path of the TypedefTypespec
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

@@ -23,6 +23,16 @@
 // Initial process (no result net 'b'). The Initial stmt is a HierPath
 // "a.putc(2, \"B\")" whose FuncCall carries two arguments: Constant 2 and
 // Constant "B".
+//
+// Checked:
+//   - design has module work@top with 1 net (a: string)
+//   - net 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
+//   - work@top has 1 Initial process whose stmt is a HierPath named "a.putc(2, \"B\")"
+//   - HierPath element[0] is RefObj "a"; element[1] is FuncCall "putc" with 2 arguments
+//   - putc arguments are Constant "2" and Constant "B" (vpiStringConst)
+//   - the in-place mutation of 'a' performed by putc (index 2 set to 'B') --
+//     kept as a real assertion for when HLC adds compile-time evaluation of
+//     string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -170,6 +180,21 @@ TEST_F(StringPutc, PutcSecondArgumentIsB) {
   ASSERT_NE(arg1, nullptr) << "putc second argument is not a Constant";
   EXPECT_EQ(arg1->getConstType(), vpiStringConst);
   EXPECT_EQ(arg1->getDecompile(), "\"B\"");
+}
+
+// ---------------------------------------------------------------------------
+// a.putc(2, "B") runtime mutation
+// ---------------------------------------------------------------------------
+TEST_F(StringPutc, PutcMutationIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(a, nullptr);
+  const hldb::Constant *const value = a->getValue<hldb::Constant>();
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "net 'a' should hold a pre-evaluated Constant reflecting the putc mutation";
+    EXPECT_EQ(value->getDecompile(), "\"TeBt\"") << "a.putc(2, \"B\") should mutate 'a' to \"TeBt\"";
+  }
 }
 
 }  // namespace hlc

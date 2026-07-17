@@ -27,9 +27,6 @@
 //   - 1 ContAssign: LHS RefObj "v" resolves to the net 'v'
 //   - ContAssign RHS is Constant "12" (vpiUIntConst — unsized integer)
 //   - work@top has no processes
-//
-// Not checked:
-//   - continuous assignment to a variable (vs wire) is unusual but valid in SV
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

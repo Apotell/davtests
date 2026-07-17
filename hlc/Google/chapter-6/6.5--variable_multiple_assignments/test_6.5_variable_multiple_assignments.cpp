@@ -27,12 +27,11 @@
 //   - module has exactly 1 net: 'v' (int, no initial value)
 //   - 2 ContAssigns, both LHS RefObj "v": first RHS "12", second RHS "13"
 //   - work@top has no processes
-//
-// Not checked:
 //   - HLC doesn't flag the multiple continuous assignments error
-//   - RHS constant types (vpiUIntConst for unsized integers)
+//   - RHS constant types are vpiUIntConst (unsized integers)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -43,6 +42,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
+#include <hldb/vpi_user.h>
 
 namespace hlc {
 
@@ -136,6 +136,24 @@ TEST_F(VariableMultipleAssignments, NoProcesses) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
+}
+
+TEST_F(VariableMultipleAssignments, RhsConstantsAreUIntConst) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getContAssigns(), nullptr);
+  ASSERT_EQ(top->getContAssigns()->size(), 2u);
+  EXPECT_EQ(top->getContAssigns()->at(0)->getRhs<hldb::Constant>()->getConstType(), vpiUIntConst)
+      << "HLDB stores unsized integer literals as vpiUIntConst (9)";
+  EXPECT_EQ(top->getContAssigns()->at(1)->getRhs<hldb::Constant>()->getConstType(), vpiUIntConst);
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the multiple continuous assignments are not flagged
+// ---------------------------------------------------------------------------
+TEST_F(VariableMultipleAssignments, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject two continuous assignments driving the same net 'v'";
 }
 
 }  // namespace hlc

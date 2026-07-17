@@ -25,10 +25,10 @@
 //   - LogicTypespec: vpiVector=true, 1 Range [15:0] (left=15, right=0)
 //   - net initial value is Constant "0" (vpiUIntConst)
 //   - work@top has no processes, no continuous assignments
-//
-// Not checked:
-//   - vpiScalared flag on the net/typespec (scalared keyword behavior)
-//   - const type of the initial value (vpiUIntConst=9)
+//   - COMPILER BEHAVIOR: the `scalared` keyword is not stored — the UHDM dump
+//     has no vpiScalared property, so getExplicitScalared() returns false
+//     (mirrors the `vectored` modifier being silently dropped in vector_vectored.sv)
+//   - const type of the initial value is vpiUIntConst (9)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -186,6 +186,28 @@ TEST_F(VectorScalared, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+TEST_F(VectorScalared, NetIsNotExplicitlyScalared) {
+  // COMPILER BEHAVIOR: HLC parses `scalared` without error but does not call
+  // setExplicitScalared(true) -- the modifier is silently dropped in UHDM.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  const hldb::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  EXPECT_FALSE(net->getExplicitScalared());
+}
+
+TEST_F(VectorScalared, NetInitialValueConstTypeIsUInt) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  const hldb::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  const hldb::Constant *const val = net->getValue<hldb::Constant>();
+  ASSERT_NE(val, nullptr);
+  EXPECT_EQ(val->getConstType(), vpiUIntConst);
 }
 }  // namespace hlc
 

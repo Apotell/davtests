@@ -30,10 +30,10 @@
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "compare" with 1 argument
 //   - compare() argument is RefObj "b" resolving to Net 'b' (not a Constant)
-//
-// Not checked:
-//   - c does NOT get a pre-evaluated constant value — HLDB stores the
+//   - 'c' does NOT get a pre-evaluated constant value -- HLDB stores the
 //     unevaluated HierPath expression only; runtime comparison result not known
+//   - the actual numeric result of a.compare(b) -- kept as a real assertion
+//     for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -196,6 +196,21 @@ TEST_F(StringCompare, CompareArgumentIsRefObjB) {
   ASSERT_NE(arg, nullptr) << "compare() argument is not a RefObj";
   EXPECT_EQ(arg->getName(), "b");
   EXPECT_NE(arg->getActual<hldb::Net>(), nullptr) << "compare() argument should resolve to Net b";
+}
+
+// ---------------------------------------------------------------------------
+// a.compare(b) runtime result
+// ---------------------------------------------------------------------------
+TEST_F(StringCompare, CompareResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  ASSERT_NE(c, nullptr);
+  const hldb::Constant *const value = c->getValue<hldb::Constant>();
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "net 'c' should hold a pre-evaluated Constant";
+    EXPECT_NE(value->getDecompile(), "0") << "\"Test\".compare(\"TEST\") should evaluate to a nonzero result";
+  }
 }
 
 }  // namespace hlc

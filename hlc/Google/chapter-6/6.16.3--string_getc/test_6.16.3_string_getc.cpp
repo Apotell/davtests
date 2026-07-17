@@ -28,12 +28,12 @@
 //   - net 'b' initial value is a HierPath named "a.getc(2)"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "getc" with 1 argument (Constant "2")
-//
-// Not checked:
-//   - b does NOT get a pre-evaluated constant value — HLDB stores the
+//   - 'b' does NOT get a pre-evaluated constant value -- HLDB stores the
 //     unevaluated HierPath expression only; compile-time evaluation not performed
-//   - const type of argument "2" (vpiUIntConst — unsized integer literals are
+//   - const type of argument "2" is vpiUIntConst (unsized integer literals are
 //     stored as unsigned by HLC, as established in the itoa test)
+//   - the actual character result of a.getc(2) ('s') -- kept as a real
+//     assertion for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -180,6 +180,37 @@ TEST_F(StringGetc, GetcArgumentIsTwo) {
   const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "getc argument is not a Constant";
   EXPECT_EQ(arg->getDecompile(), "2");
+}
+
+TEST_F(StringGetc, GetcArgumentIsUIntConst) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
+  ASSERT_NE(hp, nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr);
+  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  ASSERT_NE(arg, nullptr);
+  EXPECT_EQ(arg->getConstType(), vpiUIntConst)
+      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+}
+
+// ---------------------------------------------------------------------------
+// a.getc(2) runtime result -- kept as a real assertion for when HLC adds
+// compile-time evaluation of string methods
+// ---------------------------------------------------------------------------
+TEST_F(StringGetc, GetcResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::Constant *const value = b->getValue<hldb::Constant>();
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "net 'b' should hold a pre-evaluated Constant";
+    EXPECT_EQ(value->getDecompile(), "115") << "a.getc(2) should evaluate to the ASCII code of 's' (115)";
+  }
 }
 
 }  // namespace hlc

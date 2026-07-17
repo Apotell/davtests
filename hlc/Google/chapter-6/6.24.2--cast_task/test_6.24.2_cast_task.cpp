@@ -27,9 +27,8 @@
 //   - 1 Initial process; Initial stmt is directly SysFuncCall "$cast" (no IfStmt wrapper)
 //   - $cast has 2 args: RefObj "a" → Net, vpiMultOp(vpiRealConst "2.1", vpiRealConst "3.7")
 //   - work@top has no continuous assignments
-//
-// Not checked:
-//   - when $cast is used as a task, the return value is discarded (void context)
+//   - $cast SysFuncCall carries no static return typespec, consistent with the
+//     return value being discarded in void (task) context
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -149,6 +148,17 @@ TEST_F(CastTask, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+TEST_F(CastTask, CastSysFuncCallHasNoStaticReturnTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::SysFuncCall *const castFn = init->getStmt<hldb::SysFuncCall>();
+  ASSERT_NE(castFn, nullptr);
+  EXPECT_EQ(castFn->getTypespec(), nullptr)
+      << "$cast used as a task discards its return value; HLC does not attach a static typespec";
 }
 
 }  // namespace hlc

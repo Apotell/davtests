@@ -28,10 +28,10 @@
 //   - net 'b' initial value is a HierPath named "a.atobin()"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "atobin" with no arguments
-//
-// Not checked:
-//   - b does NOT get a pre-evaluated constant value (e.g. 21) — HLDB stores
+//   - 'b' does NOT get a pre-evaluated constant value (e.g. 21) -- HLDB stores
 //     the unevaluated HierPath expression only
+//   - the actual numeric result of a.atobin() (21) -- kept as a real assertion
+//     for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -169,6 +169,21 @@ TEST_F(StringAtobin, AtobinHasNoArguments) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "atobin() takes no arguments";
+}
+
+// ---------------------------------------------------------------------------
+// a.atobin() runtime result
+// ---------------------------------------------------------------------------
+TEST_F(StringAtobin, AtobinResultIsPreEvaluated) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  const hldb::Constant *const value = b->getValue<hldb::Constant>();
+  if (m_design->getElaborated()) {
+    ASSERT_NE(value, nullptr) << "net 'b' should hold a pre-evaluated Constant";
+    EXPECT_EQ(value->getDecompile(), "21") << "a.atobin() should evaluate to 21";
+  }
 }
 
 }  // namespace hlc

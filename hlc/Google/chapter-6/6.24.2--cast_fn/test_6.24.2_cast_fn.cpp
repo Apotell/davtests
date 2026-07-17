@@ -30,10 +30,9 @@
 //   - $cast has 2 args: RefObj "a" → Net, vpiMultOp(vpiRealConst "2.1", vpiRealConst "3.7")
 //   - IfStmt then-branch = SysFuncCall "$display" with arg vpiStringConst "\"cast failed\""
 //   - work@top has no continuous assignments
-//
-// Not checked:
-//   - IfStmt has no else branch
-//   - $cast return value (1=success / 0=failure, runtime-only)
+//   - IfStmt has no else branch (statement is IfStmt, not IfElse)
+//   - $cast SysFuncCall carries no static return typespec (success/failure is
+//     only known at runtime)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -42,6 +41,7 @@
 #include <hldb/Utils.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/if_else.h>
 #include <hldb/if_stmt.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
@@ -216,6 +216,32 @@ TEST_F(CastFn, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// IfStmt has no else branch — statement is IfStmt, not IfElse
+// ---------------------------------------------------------------------------
+TEST_F(CastFn, IfStmtHasNoElseBranch) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  EXPECT_EQ(init->getStmt<hldb::IfElse>(), nullptr) << "if(...) without else is stored as IfStmt, not IfElse";
+}
+
+TEST_F(CastFn, CastSysFuncCallHasNoStaticReturnTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
+  ASSERT_NE(ifStmt, nullptr);
+  const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
+  ASSERT_NE(cond, nullptr);
+  const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
+  ASSERT_NE(castFn, nullptr);
+  EXPECT_EQ(castFn->getTypespec(), nullptr)
+      << "$cast success/failure is only known at simulation runtime; HLC does not attach a static typespec";
 }
 
 }  // namespace hlc

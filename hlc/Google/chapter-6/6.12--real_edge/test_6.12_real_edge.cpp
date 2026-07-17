@@ -30,11 +30,13 @@
 //   - EventControl body is a SysFuncCall "$display"
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - HLC doesn't flag the illegal posedge on real
+// Also checked:
+//   - HLC does not report a compiler error for the illegal posedge on real
+//     (it is only rejected at simulation time, per :should_fail_because:)
 //   - $display argument value ("posedge")
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -190,10 +192,35 @@ TEST_F(RealEdge, EventControlStmtIsDisplayCall) {
   EXPECT_EQ(call->getName(), "$display");
 }
 
+TEST_F(RealEdge, DisplayArgumentIsPosedgeString) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Always *const always = dynamic_cast<const hldb::Always *>(top->getProcesses()->at(0));
+  ASSERT_NE(always, nullptr);
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
+  ASSERT_NE(ec, nullptr);
+  const hldb::SysFuncCall *const call = ec->getStmt<hldb::SysFuncCall>();
+  ASSERT_NE(call, nullptr);
+
+  ASSERT_NE(call->getArguments(), nullptr) << "$display call has no arguments";
+  ASSERT_EQ(call->getArguments()->size(), 1u);
+  const hldb::Constant *const arg = any_cast<hldb::Constant>((*call->getArguments())[0]);
+  ASSERT_NE(arg, nullptr) << "$display argument is not a Constant";
+  EXPECT_EQ(arg->getDecompile(), "\"posedge\"");
+}
+
 TEST_F(RealEdge, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+// ---------------------------------------------------------------------------
+// Compiler diagnostics -- the illegal posedge on real is not flagged
+// ---------------------------------------------------------------------------
+TEST_F(RealEdge, Compiler_NoErrorsReported) {
+  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "HLC does not reject 'posedge a' on a real net at compile time";
 }
 
 }  // namespace hlc

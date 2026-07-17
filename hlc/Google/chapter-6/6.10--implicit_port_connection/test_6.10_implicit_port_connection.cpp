@@ -29,10 +29,8 @@
 //   - port connection for 'c' on the RefInstance has no vpiActual (implicit net)
 //   - work@test has 3 nets (a, b, c) and 3 ports (a:input, b:input, c:output)
 //   - work@test ContAssign RHS is a vpiBitOrOp with operands a and b
-//
-// Not checked:
-//   - ModuleTypespec::getModule() — returns null in HLC for this pattern;
-//     use getName() == "work@test" instead to verify the submodule reference
+//   - ModuleTypespec::getModule() is null for this pattern (pinned known limitation;
+//     getName() == "work@test" is used instead to verify the submodule reference)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -203,6 +201,23 @@ TEST_F(ImplicitPortConnection, TopRefInstanceModPointsToWorkAtTest) {
   ASSERT_NE(ts, nullptr) << "RefInstance 'mod' typespec is not a ModuleTypespec";
 
   EXPECT_EQ(ts->getName(), "work@test") << "RefInstance 'mod' in work@top should point to work@test";
+}
+
+TEST_F(ImplicitPortConnection, TopRefInstanceModTypespecGetModuleIsNull) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getRefInstances(), nullptr);
+
+  const hldb::RefInstance *const inst = any_cast<hldb::RefInstance>(top->getRefInstances()->at(0));
+  ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+
+  const hldb::ModuleTypespec *const ts = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(ts, nullptr);
+
+  EXPECT_EQ(ts->getModule(), nullptr)
+      << "known HLC limitation: ModuleTypespec::getModule() is not resolved for this pattern; "
+      << "getName() is the only reliable way to identify the submodule";
 }
 
 // ---------------------------------------------------------------------------

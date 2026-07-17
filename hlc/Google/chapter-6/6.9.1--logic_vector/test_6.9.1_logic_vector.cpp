@@ -25,10 +25,8 @@
 //   - LogicTypespec: vpiVector=true, 1 Range [15:0] (left=15, right=0)
 //   - net has no initial value (plain declaration, no initializer)
 //   - work@top has no processes, no continuous assignments
-//
-// Not checked:
-//   - vpiNetType not set (logic keyword — HLC does not assign vpiWire; getNetType() returns 0)
-//   - vpiScalared flag (not set)
+//   - vpiNetType is not set (logic keyword — HLC does not assign vpiWire; getNetType() returns 0)
+//   - vpiScalared flag is not set (getExplicitScalared() returns false)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -165,6 +163,24 @@ TEST_F(LogicVector, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
+}
+
+TEST_F(LogicVector, NetTypeIsNotSet) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  const hldb::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  EXPECT_EQ(net->getNetType(), 0) << "logic keyword does not set vpiNetType (no vpiWire on a plain logic net)";
+}
+
+TEST_F(LogicVector, NetIsNotExplicitlyScalared) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+  const hldb::Net *const net = top->getNets()->at(0);
+  ASSERT_NE(net, nullptr);
+  EXPECT_FALSE(net->getExplicitScalared());
 }
 
 }  // namespace hlc
