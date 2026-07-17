@@ -41,16 +41,17 @@
 //   - stmt[5]: $display(4 args) with arraya[0,1,2] (same format as stmt[3])
 //   - work@top has no continuous assignments
 //
-// Not checked:
+// Also checked:
 //   - 'arraya' net has no initial value
-//   - FuncCall arg RefObj "arraya" resolves to the net node
-//   - IODecl idx/elem typespec details (only top-level assoc type checked)
+//   - FuncCall arg RefObj "arraya" resolves to the net node via getActual()
+//   - IODecl 'arrayb' idx/elem typespec details (idx=IntTypespec, elem=StringTypespec)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/any.h>
 #include <hldb/array_typespec.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -189,6 +190,34 @@ TEST_F(Arguments, IODeclTypespecIsAssocArray) {
   const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 3);  // associative = 3
+}
+
+TEST_F(Arguments, IODeclKeyTypeIsInt) {
+  // string arrayb[int] -- the IODecl's associative array index type is IntTypespec
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
+  ASSERT_NE(task, nullptr);
+  const hldb::IODecl *const decl = task->getIODecls()->at(0);
+  ASSERT_NE(decl, nullptr);
+  const hldb::ArrayTypespec *const at = decl->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  ASSERT_NE(at->getIndexTypespec(), nullptr);
+  EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
+}
+
+TEST_F(Arguments, IODeclValueTypeIsString) {
+  // string arrayb[int] -- the IODecl's associative array element type is StringTypespec
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
+  ASSERT_NE(task, nullptr);
+  const hldb::IODecl *const decl = task->getIODecls()->at(0);
+  ASSERT_NE(decl, nullptr);
+  const hldb::ArrayTypespec *const at = decl->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  ASSERT_NE(at->getElemTypespec(), nullptr);
+  EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
 TEST_F(Arguments, TaskBodyIsBeginWith2Stmts) {
@@ -340,6 +369,24 @@ TEST_F(Arguments, InitialFifthStmtIsFunCallWithArraya) {
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arraya");
+}
+
+TEST_F(Arguments, FunCallArgResolvesToArrayaNet) {
+  // fun(arraya) -- the RefObj argument's getActual() must resolve to the
+  // same Net node as the top-level 'arraya' declaration.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const arraya = top->getNets()->at(0);
+  ASSERT_NE(arraya, nullptr);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr);
+  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>(blk->getStmts()->at(4));
+  ASSERT_NE(fc, nullptr);
+  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
+  ASSERT_NE(arg, nullptr);
+  EXPECT_EQ(arg->getActual<hldb::Net>(), arraya);
 }
 
 TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {

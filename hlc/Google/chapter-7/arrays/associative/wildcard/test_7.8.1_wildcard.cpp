@@ -27,11 +27,15 @@
 //   - work@top has no processes
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - runtime behavior of wildcard-indexed associative arrays
-//   - positive confirmation of no actual at all (no getActual<Any>() in hldb API)
+// Also checked:
+//   - HLC reports no compile errors for a wildcard-indexed associative array
+//     declaration (structural proxy for "this construct is legal"; full
+//     runtime behavior requires simulation, out of scope for this frontend)
+//   - the wildcard index RefTypespec's untemplated getActual() (Typespec*)
+//     is null, positively confirming no actual type was resolved at all
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -130,6 +134,25 @@ TEST_F(WildcardTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+TEST_F(WildcardTest, IndexTypespecActualIsNull) {
+  // Positive confirmation that the wildcard index resolves to no actual type
+  // at all: RefTypespec::getActual() (untemplated) returns the raw Typespec*
+  // and must be null, independent of what concrete type was probed for.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::ArrayTypespec *const at =
+      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(at, nullptr);
+  ASSERT_NE(at->getIndexTypespec(), nullptr);
+  EXPECT_EQ(at->getIndexTypespec()->getActual(), nullptr);
+}
+
+TEST_F(WildcardTest, CompilerHasNoErrors) {
+  // int arr[*] is legal SystemVerilog; HLC must accept it without diagnostics.
+  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "wildcard-indexed associative array declaration must not produce compile errors";
 }
 
 }  // namespace hlc

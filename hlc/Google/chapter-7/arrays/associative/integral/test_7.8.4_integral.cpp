@@ -26,10 +26,13 @@
 //   - work@top has no processes
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - runtime behavior of integer-keyed associative arrays
+// Also checked:
+//   - HLC reports no compile errors for an integer-keyed associative array
+//     declaration (structural proxy for "this construct is legal"; full
+//     runtime behavior requires simulation, out of scope for this frontend)
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -124,6 +127,12 @@ TEST_F(Integral, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
+}
+
+TEST_F(Integral, CompilerHasNoErrors) {
+  // int arr[integer] is legal SystemVerilog; HLC must accept it without diagnostics.
+  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "integer-keyed associative array declaration must not produce compile errors";
 }
 }  // namespace hlc
 
