@@ -266,7 +266,7 @@ TEST_F(ArrayLocatorFindFirstIndexTest, AssignmentRhsIsHierPathSDotFindFirstIndex
   ASSERT_NE(assign, nullptr);
   const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("s.find_first_index()"));
+  EXPECT_EQ(rhs->getName(), std::string_view("s.find_first_index"));
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
@@ -351,11 +351,11 @@ TEST_F(ArrayLocatorFindFirstIndexTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(qiRef, nullptr);
   EXPECT_EQ(qiRef->getName(), "qi");
   EXPECT_NE(qiRef->getActual<hldb::Net>(), nullptr);
-  const hldb::RefObj *const sizeRef = any_cast<hldb::RefObj>(size->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
   // Built-in ".size" is never resolved either -- same limitation as "item".
-  EXPECT_EQ(sizeRef->getActual(), nullptr);
+  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 0)", qi[0]) -----------------------------------
@@ -422,16 +422,16 @@ TEST_F(ArrayLocatorFindFirstIndexTest, NoContAssigns) {
 
 // --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation --------
 
-TEST_F(ArrayLocatorFindFirstIndexTest, CompilerReportsExactlyTwoErrorsNoFatalNoWarning) {
+TEST_F(ArrayLocatorFindFirstIndexTest, CompilerReportsExactlyOneErrorsNoFatalNoWarning) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 2);
+  EXPECT_EQ(stats.nbError, 1);
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(ArrayLocatorFindFirstIndexTest, ExactlyTwoIllegalImplicitNetErrors) {
+TEST_F(ArrayLocatorFindFirstIndexTest, ExactlyOneIllegalImplicitNetErrors) {
   // getErrors() holds every diagnostic emitted (INFO progress messages too),
   // so isolate the real errors by type rather than assuming the container
   // holds only errors.
@@ -443,13 +443,10 @@ TEST_F(ArrayLocatorFindFirstIndexTest, ExactlyTwoIllegalImplicitNetErrors) {
       implicitNetErrors.push_back(err);
     }
   }
-  ASSERT_EQ(implicitNetErrors.size(), 2u);
+  ASSERT_EQ(implicitNetErrors.size(), 1u);
   ASSERT_FALSE(implicitNetErrors[0].getLocations().empty());
   EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_line, 22u);
   EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_column, 33u);
-  ASSERT_FALSE(implicitNetErrors[1].getLocations().empty());
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_line, 23u);
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_column, 39u);
 }
 }  // namespace hlc
 

@@ -198,8 +198,6 @@ n<$Source01/max-size.sv> u<183> t<Top_level_rule> c<1> l<16:1> el<35:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/max-size.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/max-size.sv:27:35: Illegal implicit net "id:69, name:size".
-[ERR:EL0535] $Source01/max-size.sv:31:35: Illegal implicit net "id:84, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -436,20 +434,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 6)\""
                     vpiValue: ":assert: (%d == 6)"
-                  HierPath name:q.size start:27:33 end:27:39:
+                  HierPath name:q.size() start:27:33 end:27:39:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: q.size
-                    vpiFullName: work@top.q.size
+                    vpiName: q.size()
+                    vpiFullName: work@top.q.size()
                     vpiPathElem (2 items):
                       RefObj name:q start:27:33 end:27:34:
-                        vpiParent: HierPath name:q.size
+                        vpiParent: HierPath name:q.size()
                         vpiName: q
                         vpiFullName: work@top.q
                         vpiActual: Net name:q
-                      RefObj name:size start:27:35 end:27:39:
-                        vpiParent: HierPath name:q.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:27:35 end:27:39:
+                        vpiParent: HierPath name:q.size()
+                        vpiName Identifier name:size start:27:35 end:27:39:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
               HierPath name:q.push_back(6) start:30:2 end:30:15:
                 vpiParent: Begin
                 vpiName: q.push_back(6)
@@ -492,20 +491,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 6)\""
                     vpiValue: ":assert: (%d == 6)"
-                  HierPath name:q.size start:31:33 end:31:39:
+                  HierPath name:q.size() start:31:33 end:31:39:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: q.size
-                    vpiFullName: work@top.q.size
+                    vpiName: q.size()
+                    vpiFullName: work@top.q.size()
                     vpiPathElem (2 items):
                       RefObj name:q start:31:33 end:31:34:
-                        vpiParent: HierPath name:q.size
+                        vpiParent: HierPath name:q.size()
                         vpiName: q
                         vpiFullName: work@top.q
                         vpiActual: Net name:q
-                      RefObj name:size start:31:35 end:31:39:
-                        vpiParent: HierPath name:q.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:31:35 end:31:39:
+                        vpiParent: HierPath name:q.size()
+                        vpiName Identifier name:size start:31:35 end:31:39:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
   vpiTypespec (3 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -521,7 +521,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -566,7 +566,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/queues/max-size/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              75      75       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    75      75       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

@@ -218,7 +218,6 @@ n<$Source01/pop_front_assign.sv> u<203> t<Top_level_rule> c<1> l<16:1> el<33:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/pop_front_assign.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/pop_front_assign.sv:27:35: Illegal implicit net "id:66, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -440,20 +439,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 2)\""
                     vpiValue: ":assert: (%d == 2)"
-                  HierPath name:q.size start:27:33 end:27:39:
+                  HierPath name:q.size() start:27:33 end:27:39:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: q.size
-                    vpiFullName: work@top.q.size
+                    vpiName: q.size()
+                    vpiFullName: work@top.q.size()
                     vpiPathElem (2 items):
                       RefObj name:q start:27:33 end:27:34:
-                        vpiParent: HierPath name:q.size
+                        vpiParent: HierPath name:q.size()
                         vpiName: q
                         vpiFullName: work@top.q
                         vpiActual: Net name:q
-                      RefObj name:size start:27:35 end:27:39:
-                        vpiParent: HierPath name:q.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:27:35 end:27:39:
+                        vpiParent: HierPath name:q.size()
+                        vpiName Identifier name:size start:27:35 end:27:39:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
               SysFuncCall name:$display start:28:2 end:28:35:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:28:2 end:28:10:
@@ -525,7 +525,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -570,7 +570,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/queues/pop_front_assign/design.h
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

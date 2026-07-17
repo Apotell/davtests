@@ -174,7 +174,6 @@ n<$Source01/reverse.sv> u<159> t<Top_level_rule> c<1> l<16:1> el<29:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/reverse.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/reverse.sv:23:4: Illegal implicit net "id:48, name:reverse".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -330,20 +329,21 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-              HierPath name:s.reverse start:23:2 end:23:11:
+              HierPath name:s.reverse() start:23:2 end:23:11:
                 vpiParent: Begin
-                vpiName: s.reverse
-                vpiFullName: work@top.s.reverse
+                vpiName: s.reverse()
+                vpiFullName: work@top.s.reverse()
                 vpiPathElem (2 items):
                   RefObj name:s start:23:2 end:23:3:
-                    vpiParent: HierPath name:s.reverse
+                    vpiParent: HierPath name:s.reverse()
                     vpiName: s
                     vpiFullName: work@top.s
                     vpiActual: Net name:s
-                  RefObj name:reverse start:23:4 end:23:11:
-                    vpiParent: HierPath name:s.reverse
-                    vpiName: reverse
-                    vpiFullName: work@top.reverse
+                  MethodFuncCall name:reverse start:23:4 end:23:11:
+                    vpiParent: HierPath name:s.reverse()
+                    vpiName Identifier name:reverse start:23:4 end:23:11:
+                      vpiParent: MethodFuncCall name:reverse
+                      vpiName: reverse
               SysFuncCall name:$display start:24:2 end:25:20:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:2 end:24:10:
@@ -432,7 +432,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -480,7 +480,7 @@ Constant                            11       9       1         3
 Operation                            1       0       0         1
 RefTypespec                         13      10       0         3
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    57      51       1         7
+                                    58      52       1         7
 ===================== END REDUCTION RESULT =====================

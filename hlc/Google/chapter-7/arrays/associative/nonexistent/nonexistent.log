@@ -158,7 +158,6 @@ n<$Source01/nonexistent.sv> u<143> t<Top_level_rule> c<1> l<16:1> el<32:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/nonexistent.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/nonexistent.sv:23:37: Illegal implicit net "id:34, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -266,20 +265,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 1)\""
                     vpiValue: ":assert: (%d == 1)"
-                  HierPath name:arr.size start:23:33 end:23:41:
+                  HierPath name:arr.size() start:23:33 end:23:41:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: arr.size
-                    vpiFullName: work@top.arr.size
+                    vpiName: arr.size()
+                    vpiFullName: work@top.arr.size()
                     vpiPathElem (2 items):
                       RefObj name:arr start:23:33 end:23:36:
-                        vpiParent: HierPath name:arr.size
+                        vpiParent: HierPath name:arr.size()
                         vpiName: arr
                         vpiFullName: work@top.arr
                         vpiActual: Net name:arr
-                      RefObj name:size start:23:37 end:23:41:
-                        vpiParent: HierPath name:arr.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:23:37 end:23:41:
+                        vpiParent: HierPath name:arr.size()
+                        vpiName Identifier name:size start:23:37 end:23:41:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
               SysFuncCall name:$display start:26:2 end:26:42:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:26:2 end:26:10:
@@ -354,7 +354,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -399,7 +399,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/nonexistent/d
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

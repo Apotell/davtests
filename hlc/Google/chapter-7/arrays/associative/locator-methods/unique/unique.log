@@ -199,8 +199,6 @@ n<$Source01/unique.sv> u<184> t<Top_level_rule> c<1> l<16:1> el<30:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/unique.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/unique.sv:23:39: Illegal implicit net "id:55, name:size".
-[ERR:EL0535] $Source01/unique.sv:24:5: Illegal implicit net "id:60, name:sort".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -373,34 +371,36 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 3)\""
                     vpiValue: ":assert: (%d == 3)"
-                  HierPath name:qi.size start:23:36 end:23:43:
+                  HierPath name:qi.size() start:23:36 end:23:43:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: qi.size
-                    vpiFullName: work@top.qi.size
+                    vpiName: qi.size()
+                    vpiFullName: work@top.qi.size()
                     vpiPathElem (2 items):
                       RefObj name:qi start:23:36 end:23:38:
-                        vpiParent: HierPath name:qi.size
+                        vpiParent: HierPath name:qi.size()
                         vpiName: qi
                         vpiFullName: work@top.qi
                         vpiActual: Net name:qi
-                      RefObj name:size start:23:39 end:23:43:
-                        vpiParent: HierPath name:qi.size
-                        vpiName: size
-                        vpiFullName: work@top.size
-              HierPath name:qi.sort start:24:2 end:24:9:
+                      MethodFuncCall name:size start:23:39 end:23:43:
+                        vpiParent: HierPath name:qi.size()
+                        vpiName Identifier name:size start:23:39 end:23:43:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
+              HierPath name:qi.sort() start:24:2 end:24:9:
                 vpiParent: Begin
-                vpiName: qi.sort
-                vpiFullName: work@top.qi.sort
+                vpiName: qi.sort()
+                vpiFullName: work@top.qi.sort()
                 vpiPathElem (2 items):
                   RefObj name:qi start:24:2 end:24:4:
-                    vpiParent: HierPath name:qi.sort
+                    vpiParent: HierPath name:qi.sort()
                     vpiName: qi
                     vpiFullName: work@top.qi
                     vpiActual: Net name:qi
-                  RefObj name:sort start:24:5 end:24:9:
-                    vpiParent: HierPath name:qi.sort
-                    vpiName: sort
-                    vpiFullName: work@top.sort
+                  MethodFuncCall name:sort start:24:5 end:24:9:
+                    vpiParent: HierPath name:qi.sort()
+                    vpiName Identifier name:sort start:24:5 end:24:9:
+                      vpiParent: MethodFuncCall name:sort
+                      vpiName: sort
               SysFuncCall name:$display start:25:5 end:26:23:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:25:5 end:25:13:
@@ -489,7 +489,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -537,7 +537,7 @@ Constant                            12       7       1         6
 Operation                            1       0       0         1
 RefTypespec                         15       9       0         6
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    66      54       1        13
+                                    68      56       1        13
 ===================== END REDUCTION RESULT =====================

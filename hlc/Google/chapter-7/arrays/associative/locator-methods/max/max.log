@@ -160,8 +160,6 @@ n<$Source01/max.sv> u<145> t<Top_level_rule> c<1> l<16:1> el<28:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/max.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/max.sv:22:9: Illegal implicit net "id:44, name:max".
-[ERR:EL0535] $Source01/max.sv:23:39: Illegal implicit net "id:51, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -293,20 +291,21 @@ Design name:unnamed:
                   vpiName: qi
                   vpiFullName: work@top.qi
                   vpiActual: Net name:qi
-                vpiRhs HierPath name:s.max start:22:7 end:22:12:
+                vpiRhs HierPath name:s.max() start:22:7 end:22:12:
                   vpiParent: Assignment
-                  vpiName: s.max
-                  vpiFullName: work@top.s.max
+                  vpiName: s.max()
+                  vpiFullName: work@top.s.max()
                   vpiPathElem (2 items):
                     RefObj name:s start:22:7 end:22:8:
-                      vpiParent: HierPath name:s.max
+                      vpiParent: HierPath name:s.max()
                       vpiName: s
                       vpiFullName: work@top.s
                       vpiActual: Net name:s
-                    RefObj name:max start:22:9 end:22:12:
-                      vpiParent: HierPath name:s.max
-                      vpiName: max
-                      vpiFullName: work@top.max
+                    MethodFuncCall name:max start:22:9 end:22:12:
+                      vpiParent: HierPath name:s.max()
+                      vpiName Identifier name:max start:22:9 end:22:12:
+                        vpiParent: MethodFuncCall name:max
+                        vpiName: max
               SysFuncCall name:$display start:23:5 end:23:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:5 end:23:13:
@@ -323,20 +322,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 1)\""
                     vpiValue: ":assert: (%d == 1)"
-                  HierPath name:qi.size start:23:36 end:23:43:
+                  HierPath name:qi.size() start:23:36 end:23:43:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: qi.size
-                    vpiFullName: work@top.qi.size
+                    vpiName: qi.size()
+                    vpiFullName: work@top.qi.size()
                     vpiPathElem (2 items):
                       RefObj name:qi start:23:36 end:23:38:
-                        vpiParent: HierPath name:qi.size
+                        vpiParent: HierPath name:qi.size()
                         vpiName: qi
                         vpiFullName: work@top.qi
                         vpiActual: Net name:qi
-                      RefObj name:size start:23:39 end:23:43:
-                        vpiParent: HierPath name:qi.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:23:39 end:23:43:
+                        vpiParent: HierPath name:qi.size()
+                        vpiName Identifier name:size start:23:39 end:23:43:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
               SysFuncCall name:$display start:24:5 end:24:43:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:5 end:24:13:
@@ -387,7 +387,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -435,7 +435,7 @@ Constant                             9       5       1         5
 Operation                            1       0       0         1
 RefTypespec                         12       7       0         5
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              32      32       0         0
 ----------------------------------------------------------------
-                                    52      42       1        11
+                                    54      44       1        11
 ===================== END REDUCTION RESULT =====================

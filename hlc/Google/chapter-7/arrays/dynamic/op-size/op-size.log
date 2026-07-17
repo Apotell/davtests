@@ -136,8 +136,6 @@ n<$Source01/op-size.sv> u<121> t<Top_level_rule> c<1> l<16:1> el<28:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/op-size.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/op-size.sv:22:41: Illegal implicit net "id:33, name:size".
-[ERR:EL0535] $Source01/op-size.sv:24:40: Illegal implicit net "id:46, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -243,20 +241,21 @@ Design name:unnamed:
                     vpiSize: 152
                     vpiDecompile: "\":assert: (%d == 16)\""
                     vpiValue: ":assert: (%d == 16)"
-                  HierPath name:arr.size start:22:37 end:22:45:
+                  HierPath name:arr.size() start:22:37 end:22:45:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: arr.size
-                    vpiFullName: work@top.arr.size
+                    vpiName: arr.size()
+                    vpiFullName: work@top.arr.size()
                     vpiPathElem (2 items):
                       RefObj name:arr start:22:37 end:22:40:
-                        vpiParent: HierPath name:arr.size
+                        vpiParent: HierPath name:arr.size()
                         vpiName: arr
                         vpiFullName: work@top.arr
                         vpiActual: Net name:arr
-                      RefObj name:size start:22:41 end:22:45:
-                        vpiParent: HierPath name:arr.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:22:41 end:22:45:
+                        vpiParent: HierPath name:arr.size()
+                        vpiName Identifier name:size start:22:41 end:22:45:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
               Assignment start:23:5 end:23:20:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -289,20 +288,21 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 8)\""
                     vpiValue: ":assert: (%d == 8)"
-                  HierPath name:arr.size start:24:36 end:24:44:
+                  HierPath name:arr.size() start:24:36 end:24:44:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: arr.size
-                    vpiFullName: work@top.arr.size
+                    vpiName: arr.size()
+                    vpiFullName: work@top.arr.size()
                     vpiPathElem (2 items):
                       RefObj name:arr start:24:36 end:24:39:
-                        vpiParent: HierPath name:arr.size
+                        vpiParent: HierPath name:arr.size()
                         vpiName: arr
                         vpiFullName: work@top.arr
                         vpiActual: Net name:arr
-                      RefObj name:size start:24:40 end:24:44:
-                        vpiParent: HierPath name:arr.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:24:40 end:24:44:
+                        vpiParent: HierPath name:arr.size()
+                        vpiName Identifier name:size start:24:40 end:24:44:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
   vpiTypespec (3 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -318,7 +318,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -363,7 +363,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/dynamic/op-size/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================
