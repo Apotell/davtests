@@ -445,7 +445,7 @@ TEST_F(OpDeleteTest, DeleteHierPathSecondElemIsDelete) {
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
-  const hldb::RefObj *const elem = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const elem = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(elem, nullptr);
   EXPECT_EQ(elem->getName(), "delete");
 }

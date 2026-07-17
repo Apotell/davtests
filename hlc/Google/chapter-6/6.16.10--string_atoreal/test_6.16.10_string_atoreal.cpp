@@ -124,7 +124,7 @@ TEST_F(StringAtoreal, BNetValueIsHierPath) {
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "a.atoreal()");
+  EXPECT_EQ(hp->getName(), "a.atoreal");
 }
 
 TEST_F(StringAtoreal, HierPathReceiverIsA) {

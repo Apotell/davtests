@@ -203,7 +203,7 @@ TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
   const hldb::RefObj *const ro0 = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(ro0, nullptr);
   EXPECT_EQ(ro0->getName(), "arr");
-  const hldb::RefObj *const ro1 = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const ro1 = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(ro1, nullptr);
   EXPECT_EQ(ro1->getName(), "size");
 }
