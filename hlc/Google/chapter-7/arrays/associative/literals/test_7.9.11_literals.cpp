@@ -35,11 +35,14 @@
 //   - stmt[2]: $display(3 args) — words[0] and words[1] BitSelects verified
 //   - work@top has no continuous assignments
 //
-// Not checked:
-//   - runtime default-value behavior (words[x] == "hello" for any unset key)
-//   - format string in stmt[2] not separately verified
+// Also checked:
+//   - HLC reports no compile errors for the '{default: "hello"} assignment
+//     pattern (structural proxy for "this construct is legal"; the actual
+//     default-value read for unset keys is runtime-only, out of scope here)
+//   - format string in stmt[2] verified
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -245,6 +248,19 @@ TEST_F(Literals, ThirdStmtIsDisplayWithBothValues) {
   EXPECT_EQ(words1->getName(), "words[1]");
 }
 
+TEST_F(Literals, ThirdStmtFormatStringIsHelloWorldAssert) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr);
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(2));
+  ASSERT_NE(disp, nullptr);
+  ASSERT_NE(disp->getArguments(), nullptr);
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  ASSERT_NE(fmt, nullptr);
+  EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'world'))\"");
+}
+
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Literals, NoContAssigns) {
@@ -252,6 +268,12 @@ TEST_F(Literals, NoContAssigns) {
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "'{default: \"hello\"} is stored as net vpiValue, not a ContAssign";
+}
+
+TEST_F(Literals, CompilerHasNoErrors) {
+  // '{default: "hello"} is a legal assignment pattern; HLC must accept it without diagnostics.
+  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0) << "default-value assignment pattern must not produce compile errors";
 }
 }  // namespace hlc
 
