@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Tests for pop_back.sv (tags: 7.10.2.5 7.10.2)
+// Tests for delete.sv (tags: 7.10.2.3 7.10.2)
 //   module top ();
 //     int q[$];
 //     int r;
@@ -22,20 +22,23 @@
 //       q.push_back(2);
 //       q.push_back(3);
 //       q.push_back(4);
-//       r = q.pop_back;
+//       $display(":assert: (%d == 3)", q.size);
+//       q.delete(0);
 //       $display(":assert: (%d == 2)", q.size);
-//       $display(":assert: (%d == 4)", r);
+//       q.delete;
+//       $display(":assert: (%d == 0)", q.size);
 //     end
 //   endmodule
 //
-// IEEE 1800-2017 7.10.2.5 "pop_back()": removes and returns the last
-// element of a queue. 7.24.4 permits calling a no-argument built-in method
-// with or without parentheses, so "r = q.pop_back;" is a legal use of
-// pop_back() as an expression, equivalent to "r = q.pop_back();".
+// IEEE 1800-2017 7.10.2.3 "Deleting queue elements": "q.delete(index)"
+// removes the element at "index"; the built-in "delete()" method may also
+// be called with no arguments and no parentheses ("q.delete;") to remove
+// all elements (7.10.2, Table 7.1 lists "delete" as callable without an
+// argument).
 //
 // Checked:
 //   - design has module work@top with exactly 2 nets: "q" (unbounded
-//     queue of int) and "r" (plain int)
+//     queue of int) and "r" (plain int, unused otherwise)
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
@@ -43,40 +46,37 @@
 //   - the 3 "q.push_back(N)" calls are each parsed as a HierPath with a
 //     RefObj "q" (resolved to Net "q") and a MethodFuncCall "push_back"
 //     carrying 1 Constant argument (2, 3, 4)
-//   - "r = q.pop_back" must resolve like "r = q.pop_back()" would:
-//     Assignment (blocking) whose lhs is RefObj "r" (resolved) and whose
-//     rhs is a HierPath with RefObj "q" (resolved) and a MethodFuncCall
-//     named "pop_back" taking no arguments -- see the KNOWN BUG note below
-//   - "q.size" must likewise resolve like "q.size()" would (RefObj "q"
-//     resolved + MethodFuncCall "size" taking no arguments) -- same gap
-//   - "r" in the final $display resolves to the declared Net "r"
-//   - the initial process' Begin block has exactly 6 statements in source
+//   - "q.delete(0)" IS correctly parsed as a HierPath with a RefObj "q"
+//     (resolved) and a MethodFuncCall named "delete" carrying 1 Constant
+//     argument "0" -- this is the parenthesized-call form working as
+//     intended
+//   - "q.delete;" (no parens, no args) must be parsed just like
+//     "q.delete()" would be: a HierPath with RefObj "q" (resolved) and a
+//     MethodFuncCall named "delete" taking no arguments -- see the KNOWN
+//     BUG note below
+//   - the 3 "q.size" (no parens) accesses must each resolve the same way:
+//     RefObj "q" (resolved) and a MethodFuncCall named "size" taking no
+//     arguments (same no-parens gap tracked for chapter-7/arrays/
+//     associative/locator-methods/find/find.sv and
+//     chapter-7/queues/bounded/bounded.sv)
+//   - the initial process' Begin block has exactly 8 statements in source
 //     order
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //
-// KNOWN COMPILER BUG (not a defect in pop_back.sv):
-//   IEEE 1800-2017 7.24.4 permits any no-argument built-in method to be
-//   called with or without parentheses. This HLC build never resolves the
-//   parenthesis-less form: instead of a MethodFuncCall, both "pop_back" in
-//   "q.pop_back" and "size" in "q.size" are left as unresolved RefObj path
-//   elements, and a spurious ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit
-//   net") is raised for each (same gap tracked across
-//   chapter-7/queues/bounded/bounded.sv, chapter-7/queues/delete/delete.sv,
-//   chapter-7/queues/delete_assign/delete_assign.sv, chapter-7/queues/
-//   insert_assign/insert_assign.sv, chapter-7/queues/insert/insert.sv,
-//   chapter-7/queues/max-size/max-size.sv, chapter-7/queues/
-//   persistence/persistence.sv and chapter-7/queues/
-//   pop_back_assing/pop_back_assing.sv). That the parenthesized form works
-//   for other no-argument built-in methods is independently verified by
-//   chapter-5/5.13-builtin-methods-arrays.sv ("array.size()") and
-//   chapter-7/queues/persistence/persistence.sv ("q.delete()"); no test in
-//   this repo directly exercises "q.pop_back()" with explicit parens, but
-//   the bug is in how the parser handles omitted parens generally, not in
-//   any particular method name, so the same fix is expected to cover it.
-//   FourthStmtAssignmentRhsMustBePopBackMethodCall,
-//   FifthStmtDisplayAssertsSizeTwo, and the two error-count tests below
-//   assert the IEEE-mandated behavior and will FAIL until the parser is
-//   fixed.
+// KNOWN COMPILER BUG (not a defect in delete.sv):
+//   IEEE 1800-2017 7.10.2.3 / Table 7.1 permit calling the built-in
+//   "delete()" queue method with no arguments, and 7.24.4 explicitly
+//   permits omitting the parentheses for any no-argument built-in method
+//   call. This HLC build only recognizes "delete" (and "size") as a
+//   MethodFuncCall when parentheses are present -- "q.delete(0)" and, per
+//   chapter-7/queues/persistence/persistence.sv, "q.delete()" both work.
+//   The parenthesis-less forms "q.delete;" and "q.size" are instead parsed
+//   as plain, unresolved hierarchical references and raise a spurious
+//   ELAB_ILLEGAL_IMPLICIT_NET ("Illegal implicit net") each. The
+//   DeleteWithNoArgsIsHierPathWithMethodFuncCall test and the two
+//   error-count tests below assert the IEEE-mandated (parenthesis-less
+//   works too) behavior and will FAIL until the parser is fixed -- they
+//   are intentionally red, tracking this bug rather than tolerating it.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -88,7 +88,6 @@
 
 #include <hldb/Utils.h>
 #include <hldb/array_typespec.h>
-#include <hldb/assignment.h>
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
@@ -108,9 +107,9 @@
 
 namespace hlc {
 
-class QueuesPopBackTest : public Test {
+class QueuesDeleteTest : public Test {
  public:
-  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "pop_back.hlc"}); }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "delete.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
@@ -168,38 +167,71 @@ class QueuesPopBackTest : public Test {
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getDecompile(), value);
   }
+
+  // Verifies stmt[index] is "$display(fmt, q.size)": SysFuncCall with a
+  // Constant format-string arg and a "q.size" HierPath arg.
+  static void ExpectDisplayWithQSize(size_t index, std::string_view fmt) {
+    const hldb::Begin *const begin = getInitialBegin();
+    ASSERT_NE(begin, nullptr);
+    ASSERT_GT(begin->getStmts()->size(), index);
+    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(index));
+    ASSERT_NE(disp, nullptr) << "stmt[" << index << "] should be a $display SysFuncCall";
+    EXPECT_EQ(disp->getName(), "$display");
+    ASSERT_NE(disp->getArguments(), nullptr);
+    ASSERT_EQ(disp->getArguments()->size(), 2u);
+
+    const hldb::Constant *const fmtArg = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+    ASSERT_NE(fmtArg, nullptr);
+    EXPECT_EQ(fmtArg->getValue(), fmt);
+
+    const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+    ASSERT_NE(size, nullptr);
+    EXPECT_EQ(size->getName(), "q.size");
+    ASSERT_NE(size->getPathElems(), nullptr);
+    ASSERT_EQ(size->getPathElems()->size(), 2u);
+
+    const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+    ASSERT_NE(qRef, nullptr);
+    EXPECT_EQ(qRef->getName(), "q");
+    EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
+
+    const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
+    ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
+    EXPECT_EQ(sizeCall->getName(), "size");
+    EXPECT_EQ(sizeCall->getArguments(), nullptr) << "size() takes no arguments";
+  }
 };
 
 // --- module / nets -----------------------------------------------------------
 
-TEST_F(QueuesPopBackTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+TEST_F(QueuesDeleteTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(QueuesPopBackTest, ModuleHasTwoNets) {
+TEST_F(QueuesDeleteTest, ModuleHasTwoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
-TEST_F(QueuesPopBackTest, NetQExists) { EXPECT_NE(getNetQ(), nullptr); }
+TEST_F(QueuesDeleteTest, NetQExists) { EXPECT_NE(getNetQ(), nullptr); }
 
-TEST_F(QueuesPopBackTest, NetRExists) { EXPECT_NE(getNetR(), nullptr); }
+TEST_F(QueuesDeleteTest, NetRExists) { EXPECT_NE(getNetR(), nullptr); }
 
 // --- net "q": unbounded queue "int q[$]" ------------------------------------
 
-TEST_F(QueuesPopBackTest, NetQArrayTypeIsQueue) {
+TEST_F(QueuesDeleteTest, NetQArrayTypeIsQueue) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), vpiQueueArray) << "7.10: 'int q[$]' must be modeled as a queue array";
 }
 
-TEST_F(QueuesPopBackTest, NetQArrayIsNotPacked) {
+TEST_F(QueuesDeleteTest, NetQArrayIsNotPacked) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   EXPECT_FALSE(at->getPacked()) << "a queue dimension is an unpacked dimension";
 }
 
-TEST_F(QueuesPopBackTest, NetQRangeLeftIsUnboundedDollar) {
+TEST_F(QueuesDeleteTest, NetQRangeLeftIsUnboundedDollar) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
@@ -209,7 +241,7 @@ TEST_F(QueuesPopBackTest, NetQRangeLeftIsUnboundedDollar) {
   EXPECT_EQ(dollar->getConstType(), vpiUnboundedConst);
 }
 
-TEST_F(QueuesPopBackTest, NetQElemTypespecIsSignedIntTypespec) {
+TEST_F(QueuesDeleteTest, NetQElemTypespecIsSignedIntTypespec) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
@@ -218,7 +250,7 @@ TEST_F(QueuesPopBackTest, NetQElemTypespecIsSignedIntTypespec) {
   EXPECT_TRUE(elem->getSigned());
 }
 
-TEST_F(QueuesPopBackTest, NetQHasNoInitialValue) {
+TEST_F(QueuesDeleteTest, NetQHasNoInitialValue) {
   const hldb::Net *const q = getNetQ();
   ASSERT_NE(q, nullptr);
   EXPECT_EQ(q->getValue(), nullptr);
@@ -226,7 +258,7 @@ TEST_F(QueuesPopBackTest, NetQHasNoInitialValue) {
 
 // --- net "r": plain "int r;" -------------------------------------------------
 
-TEST_F(QueuesPopBackTest, NetRTypespecIsSignedIntTypespec) {
+TEST_F(QueuesDeleteTest, NetRTypespecIsSignedIntTypespec) {
   const hldb::Net *const r = getNetR();
   ASSERT_NE(r, nullptr);
   ASSERT_NE(r->getTypespec(), nullptr);
@@ -235,7 +267,7 @@ TEST_F(QueuesPopBackTest, NetRTypespecIsSignedIntTypespec) {
   EXPECT_TRUE(it->getSigned());
 }
 
-TEST_F(QueuesPopBackTest, NetRHasNoInitialValue) {
+TEST_F(QueuesDeleteTest, NetRHasNoInitialValue) {
   const hldb::Net *const r = getNetR();
   ASSERT_NE(r, nullptr);
   EXPECT_EQ(r->getValue(), nullptr);
@@ -243,7 +275,7 @@ TEST_F(QueuesPopBackTest, NetRHasNoInitialValue) {
 
 // --- initial process structure ----------------------------------------------
 
-TEST_F(QueuesPopBackTest, ModuleHasOneInitialProcess) {
+TEST_F(QueuesDeleteTest, ModuleHasOneInitialProcess) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -251,154 +283,136 @@ TEST_F(QueuesPopBackTest, ModuleHasOneInitialProcess) {
   EXPECT_NE(any_cast<hldb::Initial>(top->getProcesses()->at(0)), nullptr);
 }
 
-TEST_F(QueuesPopBackTest, InitialBeginHasSixStmts) {
+TEST_F(QueuesDeleteTest, InitialBeginHasEightStmts) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 6u);
+  EXPECT_EQ(begin->getStmts()->size(), 8u);
 }
 
 // --- q.push_back(2/3/4) ------------------------------------------------------
 
-TEST_F(QueuesPopBackTest, FirstPushBackHasArgTwo) { ExpectPushBack(0, "2"); }
-TEST_F(QueuesPopBackTest, SecondPushBackHasArgThree) { ExpectPushBack(1, "3"); }
-TEST_F(QueuesPopBackTest, ThirdPushBackHasArgFour) { ExpectPushBack(2, "4"); }
+TEST_F(QueuesDeleteTest, FirstPushBackHasArgTwo) { ExpectPushBack(0, "2"); }
+TEST_F(QueuesDeleteTest, SecondPushBackHasArgThree) { ExpectPushBack(1, "3"); }
+TEST_F(QueuesDeleteTest, ThirdPushBackHasArgFour) { ExpectPushBack(2, "4"); }
 
-// --- r = q.pop_back; must resolve like r = q.pop_back(); -------------------
+// --- $display(":assert: (%d == 3)", q.size) ---------------------------------
 
-TEST_F(QueuesPopBackTest, FourthStmtAssignmentIsBlockingWithLhsR) {
+TEST_F(QueuesDeleteTest, FirstDisplayAssertsSizeThree) { ExpectDisplayWithQSize(3, ":assert: (%d == 3)"); }
+
+// --- q.delete(0): parenthesized delete(index) IS correctly recognized ------
+
+TEST_F(QueuesDeleteTest, DeleteWithIndexIsHierPathWithMethodFuncCall) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  ASSERT_GT(begin->getStmts()->size(), 3u);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(3));
-  ASSERT_NE(assign, nullptr) << "'r = q.pop_back' should be an Assignment";
-  EXPECT_TRUE(assign->getBlocking());
-  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "r");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
-}
+  ASSERT_GT(begin->getStmts()->size(), 4u);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(4));
+  ASSERT_NE(hp, nullptr) << "'q.delete(0)' should be a HierPath";
+  EXPECT_EQ(hp->getName(), "q.delete(0)");
+  ASSERT_NE(hp->getPathElems(), nullptr);
+  ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-TEST_F(QueuesPopBackTest, FourthStmtAssignmentRhsMustBePopBackMethodCall) {
-  const hldb::Begin *const begin = getInitialBegin();
-  ASSERT_NE(begin, nullptr);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(3));
-  ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
-  ASSERT_NE(rhs, nullptr) << "'q.pop_back' should be a HierPath";
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
+  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(qRef, nullptr);
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
 
-  // IEEE 1800-2017 7.10.2.5/7.24.4: "q.pop_back" without parens must
-  // resolve exactly like "q.pop_back()" does -- a MethodFuncCall named
-  // "pop_back" taking no arguments. KNOWN BUG: this build currently parses
-  // "pop_back" here as an unresolved RefObj instead, so this assertion
-  // FAILS until fixed. See the file-level comment above.
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'pop_back' without parens should resolve to a MethodFuncCall, not a plain RefObj";
-  EXPECT_EQ(call->getName(), "pop_back");
-  EXPECT_EQ(call->getArguments(), nullptr) << "pop_back() takes no arguments";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "7.10.2.3: 'delete(0)' with explicit parens should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), "delete");
+}
+
+TEST_F(QueuesDeleteTest, DeleteWithIndexArgumentIsConstantZero) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(4));
+  ASSERT_NE(hp, nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr);
+  ASSERT_NE(call->getArguments(), nullptr);
+  ASSERT_EQ(call->getArguments()->size(), 1u) << "'delete(0)' should carry exactly the index argument";
+  const hldb::Constant *const index = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  ASSERT_NE(index, nullptr);
+  EXPECT_EQ(index->getDecompile(), "0");
+  EXPECT_EQ(index->getConstType(), vpiUIntConst);
 }
 
 // --- $display(":assert: (%d == 2)", q.size) ---------------------------------
 
-TEST_F(QueuesPopBackTest, FifthStmtDisplayAssertsSizeTwo) {
+TEST_F(QueuesDeleteTest, SecondDisplayAssertsSizeTwo) { ExpectDisplayWithQSize(5, ":assert: (%d == 2)"); }
+
+// --- q.delete; (no parens, no args): must resolve like q.delete() ---------
+
+TEST_F(QueuesDeleteTest, DeleteWithNoArgsIsHierPathWithMethodFuncCall) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
-  ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(disp->getName(), "$display");
-  ASSERT_NE(disp->getArguments(), nullptr);
-  ASSERT_EQ(disp->getArguments()->size(), 2u);
+  ASSERT_GT(begin->getStmts()->size(), 6u);
+  const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(6));
+  ASSERT_NE(hp, nullptr) << "'q.delete;' should still be a HierPath";
+  ASSERT_NE(hp->getPathElems(), nullptr);
+  ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
-  ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
-
-  const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
-  ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size()");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(qRef, nullptr);
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
 
-  // Same parenthesis-less-builtin-method gap as "pop_back" above.
-  const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
-  EXPECT_EQ(sizeCall->getName(), "size");
-  EXPECT_EQ(sizeCall->getArguments(), nullptr) << "size() takes no arguments";
+  // IEEE 1800-2017 7.10.2.3/7.24.4: "q.delete;" without parens must resolve
+  // exactly like the verified-working "q.delete()" (see
+  // chapter-7/queues/persistence/persistence.sv) -- a MethodFuncCall named
+  // "delete" taking no arguments. KNOWN BUG: this build currently parses
+  // "delete" here as an unresolved RefObj instead, so this assertion FAILS
+  // until the parser is fixed. See the file-level comment above.
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr) << "'delete' without parens should resolve to a MethodFuncCall, not a plain RefObj";
+  EXPECT_EQ(call->getName(), "delete");
+  EXPECT_EQ(call->getArguments(), nullptr) << "delete-all takes no arguments";
 }
 
-// --- $display(":assert: (%d == 4)", r) --------------------------------------
+// --- $display(":assert: (%d == 0)", q.size) ---------------------------------
 
-TEST_F(QueuesPopBackTest, SixthStmtDisplayAssertsREqualsFour) {
-  const hldb::Begin *const begin = getInitialBegin();
-  ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
-  ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(disp->getName(), "$display");
-  ASSERT_NE(disp->getArguments(), nullptr);
-  ASSERT_EQ(disp->getArguments()->size(), 2u);
-
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
-  ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 4)");
-
-  const hldb::RefObj *const rRef = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
-  ASSERT_NE(rRef, nullptr);
-  EXPECT_EQ(rRef->getName(), "r");
-  EXPECT_NE(rRef->getActual<hldb::Net>(), nullptr);
-}
+TEST_F(QueuesDeleteTest, ThirdDisplayAssertsSizeZero) { ExpectDisplayWithQSize(7, ":assert: (%d == 0)"); }
 
 // --- structural completeness / design-level typespecs -----------------------
 
-TEST_F(QueuesPopBackTest, ModuleHasNoContAssigns) {
+TEST_F(QueuesDeleteTest, ModuleHasNoContAssigns) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(QueuesPopBackTest, DesignHasThreeTypespecs) {
+TEST_F(QueuesDeleteTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
-TEST_F(QueuesPopBackTest, DesignHasModuleTypespec) {
+TEST_F(QueuesDeleteTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
 
-TEST_F(QueuesPopBackTest, DesignHasIntTypespecSigned) {
+TEST_F(QueuesDeleteTest, DesignHasIntTypespecSigned) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }
 
-TEST_F(QueuesPopBackTest, DesignHasStringTypespec) {
+TEST_F(QueuesDeleteTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   ASSERT_GT(m_design->getTypespecs()->size(), 2u);
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-// --- compiler diagnostics: KNOWN BUG, pop_back/size wrongly flagged -------
+// --- compiler diagnostics: KNOWN BUG, size/delete wrongly flagged ----------
 
-TEST_F(QueuesPopBackTest, CompilerReportsNoErrors) {
-  // pop_back.sv is valid SystemVerilog; a correct compiler reports zero
-  // errors. KNOWN BUG: this build raises 2 spurious
-  // ELAB_ILLEGAL_IMPLICIT_NET errors (one for "q.pop_back", one for
-  // "q.size"), so this currently FAILS. See the file-level comment above.
+TEST_F(QueuesDeleteTest, CompilerReportsNoErrors) {
+  // delete.sv is valid SystemVerilog; a correct compiler reports zero
+  // errors. KNOWN BUG: this build raises 4 spurious
+  // ELAB_ILLEGAL_IMPLICIT_NET errors (3 for "q.size", 1 for "q.delete;"),
+  // so this currently FAILS. See the file-level comment above.
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
@@ -407,9 +421,9 @@ TEST_F(QueuesPopBackTest, CompilerReportsNoErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(QueuesPopBackTest, NoIllegalImplicitNetErrorsForPopBackOrSize) {
-  // KNOWN BUG: currently raises 2 ELAB_ILLEGAL_IMPLICIT_NET errors (line
-  // 25, column 8 for "q.pop_back"; line 26, column 35 for "q.size"). This
+TEST_F(QueuesDeleteTest, NoIllegalImplicitNetErrorsForSizeOrDelete) {
+  // KNOWN BUG: currently raises 4 ELAB_ILLEGAL_IMPLICIT_NET errors (line
+  // 25:35, 27:35, 29:35 for "q.size"; line 28:4 for "q.delete;"). This
   // assertion encodes the spec-correct expectation (zero such errors) and
   // FAILS until the parser recognizes parenthesis-less no-arg built-in
   // method calls.

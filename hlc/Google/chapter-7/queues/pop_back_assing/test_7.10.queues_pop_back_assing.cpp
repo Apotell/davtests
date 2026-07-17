@@ -367,7 +367,7 @@ TEST_F(QueuesPopBackAssignTest, FourthStmtDisplayAssertsSizeTwo) {
 
   const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size()");
+  EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);
   ASSERT_EQ(size->getPathElems()->size(), 2u);
 
@@ -376,11 +376,6 @@ TEST_F(QueuesPopBackAssignTest, FourthStmtDisplayAssertsSizeTwo) {
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
 
-  // IEEE 1800-2017 7.24.4: "q.size" without parens must resolve exactly
-  // like "q.size()" does -- a MethodFuncCall named "size" taking no
-  // arguments. KNOWN BUG: this build currently parses "size" here as an
-  // unresolved RefObj instead, so this assertion FAILS until fixed. See
-  // the file-level comment above.
   const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
   EXPECT_EQ(sizeCall->getName(), "size");

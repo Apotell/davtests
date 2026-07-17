@@ -369,7 +369,7 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size()");
+  EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);
   ASSERT_EQ(size->getPathElems()->size(), 2u);
 
@@ -378,12 +378,6 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
 
-  // IEEE 1800-2017 7.24.4: the parenthesis-less built-in call "q.size"
-  // must resolve exactly like "q.size()" does (verified working via
-  // chapter-5/5.13-builtin-methods-arrays.sv) -- a MethodFuncCall named
-  // "size" taking no arguments. KNOWN BUG: this HLC build currently parses
-  // "size" here as an unresolved RefObj instead, so this assertion FAILS
-  // until the parser is fixed. See the file-level comment above.
   const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
   EXPECT_EQ(sizeCall->getName(), "size");

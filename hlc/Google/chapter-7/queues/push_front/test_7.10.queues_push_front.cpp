@@ -14,25 +14,23 @@
  limitations under the License.
 */
 
-// Tests for push_front_assign.sv (tags: 7.10.4)
+// Tests for push_front.sv (tags: 7.10.2.6 7.10.2)
 //   module top ();
 //     int q[$];
 //     initial begin
-//       q = { 2, q };
-//       q = { 3, q };
-//       q = { 4, q };
+//       q.push_front(2);
+//       q.push_front(3);
+//       q.push_front(4);
 //       $display(":assert: (%d == 3)", q.size);
 //       $display(":assert: (%d == 4)", q[0]);
 //     end
 //   endmodule
 //
-// IEEE 1800-2017 7.10.4 "Inserting queue elements": prepending an element
-// can be expressed either with the built-in "push_front()" method or,
-// equivalently, by re-assigning the queue to the concatenation of the new
-// element with the queue's current (self-referential) value --
-// "q = {2, q}" is equivalent to "q.push_front(2)". Applying this 3 times
-// with 2, 3, then 4 leaves the queue as {4, 3, 2} -- the LAST value
-// prepended (4) ends up at the front (index 0).
+// IEEE 1800-2017 7.10.2.6 "push_front(item)": inserts "item" at the front
+// (index 0) of the queue, growing it by one element and shifting existing
+// elements to higher indices. Pushing 2, then 3, then 4 leaves the queue
+// as {4, 3, 2} -- the LAST-pushed value "4" ends up at the front
+// (index 0), the opposite ordering from push_back.
 //
 // Checked:
 //   - design has module work@top with exactly 1 net: "q" (unbounded
@@ -40,23 +38,20 @@
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
-//   - each "q = {N, q}" is an Assignment (blocking) whose rhs is a
-//     concatenation Operation with exactly 2 operands: a Constant (the
-//     new front value N) and a self-referential RefObj "q" resolved to
-//     the same Net "q" being assigned -- confirming the parser correctly
-//     captures the queue referencing itself on the rhs of its own
-//     assignment, in source order (2, 3, 4)
+//   - the 3 "q.push_front(N)" calls are each parsed as a HierPath with a
+//     RefObj "q" (resolved to Net "q") and a MethodFuncCall "push_front"
+//     carrying 1 Constant argument, in source order (2, 3, 4)
 //   - "q.size" must resolve like "q.size()" would (RefObj "q" resolved +
 //     MethodFuncCall "size" taking no arguments) -- see the KNOWN BUG note
 //     below
 //   - "q[0]" is a BitSelect with prefix RefObj "q" (resolved) and index
-//     Constant "0" -- confirms the LAST prepend (value 4) becomes the
-//     front element, matching push_front's insertion order
+//     Constant "0" -- confirms the LAST push_front call (value 4) becomes
+//     the front element, the reverse of push_back's insertion order
 //   - the initial process' Begin block has exactly 5 statements in source
 //     order
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //
-// KNOWN COMPILER BUG (not a defect in push_front_assign.sv):
+// KNOWN COMPILER BUG (not a defect in push_front.sv):
 //   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
 //   with or without parentheses. This HLC build never resolves the
 //   parenthesis-less form: instead of a MethodFuncCall, "size" in "q.size"
@@ -70,14 +65,13 @@
 //   persistence/persistence.sv, chapter-7/queues/
 //   pop_back_assing/pop_back_assing.sv, chapter-7/queues/pop_back/pop_back.sv,
 //   chapter-7/queues/pop_front/pop_front.sv, chapter-7/queues/
-//   pop_front_assign/pop_front_assign.sv, chapter-7/queues/
-//   push_back/push_back.sv and chapter-7/queues/push_front/push_front.sv).
-//   That the parenthesized form works is independently verified by
-//   chapter-5/5.13-builtin-methods-arrays.sv ("array.size()") and
-//   chapter-7/queues/persistence/persistence.sv ("q.delete()").
-//   FourthStmtDisplayAssertsSizeThree and the two error-count tests below
-//   assert the IEEE-mandated behavior and will FAIL until the parser is
-//   fixed.
+//   pop_front_assign/pop_front_assign.sv and chapter-7/queues/
+//   push_back/push_back.sv). That the parenthesized form works is
+//   independently verified by chapter-5/5.13-builtin-methods-arrays.sv
+//   ("array.size()") and chapter-7/queues/persistence/persistence.sv
+//   ("q.delete()"). FourthStmtDisplayAssertsSizeThree and the two
+//   error-count tests below assert the IEEE-mandated behavior and will
+//   FAIL until the parser is fixed.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -89,7 +83,6 @@
 
 #include <hldb/Utils.h>
 #include <hldb/array_typespec.h>
-#include <hldb/assignment.h>
 #include <hldb/begin.h>
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
@@ -101,7 +94,6 @@
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/net.h>
-#include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -111,9 +103,9 @@
 
 namespace hlc {
 
-class QueuesPushFrontAssignTest : public Test {
+class QueuesPushFrontTest : public Test {
  public:
-  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "push_front_assign.hlc"}); }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "push_front.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
@@ -139,69 +131,62 @@ class QueuesPushFrontAssignTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "q = {value, q}": Assignment (blocking) with
-  // lhs RefObj "q" (resolved) and rhs a 2-operand concatenation Operation
-  // whose operands are Constant(value) and a self-referential RefObj "q"
-  // (resolved to the same Net).
-  static void ExpectPrependAssignment(size_t index, std::string_view value) {
+  // Verifies stmt[index] is "q.push_front(value)": HierPath -> RefObj "q"
+  // (resolved to Net) + MethodFuncCall "push_front" with 1 Constant arg.
+  static void ExpectPushFront(size_t index, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_NE(begin->getStmts(), nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(index));
-    ASSERT_NE(assign, nullptr) << "stmt[" << index << "] should be an Assignment (q = {" << value << ", q})";
-    EXPECT_TRUE(assign->getBlocking());
+    const hldb::HierPath *const hp = any_cast<hldb::HierPath>(begin->getStmts()->at(index));
+    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a HierPath (q.push_front(...))";
+    ASSERT_NE(hp->getPathElems(), nullptr);
+    ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
-    const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr);
-    EXPECT_EQ(lhs->getName(), "q");
-    EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+    const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+    ASSERT_NE(qRef, nullptr);
+    EXPECT_EQ(qRef->getName(), "q");
+    EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
 
-    const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
-    ASSERT_NE(rhs, nullptr) << "'{" << value << ", q}' should be a concatenation Operation";
-    EXPECT_EQ(rhs->getOpType(), vpiConcatOp);
-    ASSERT_NE(rhs->getOperands(), nullptr);
-    ASSERT_EQ(rhs->getOperands()->size(), 2u);
-
-    const hldb::Constant *const newFront = any_cast<hldb::Constant>(rhs->getOperands()->at(0));
-    ASSERT_NE(newFront, nullptr) << "operand[0] (the new front value) should be a Constant";
-    EXPECT_EQ(newFront->getDecompile(), value);
-
-    const hldb::RefObj *const qSelfRef = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
-    ASSERT_NE(qSelfRef, nullptr) << "operand[1] (the queue's current value) should be a self-referential RefObj";
-    EXPECT_EQ(qSelfRef->getName(), "q");
-    EXPECT_NE(qSelfRef->getActual<hldb::Net>(), nullptr) << "'q' on the rhs should resolve to the same declared Net";
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+    ASSERT_NE(call, nullptr);
+    EXPECT_EQ(call->getName(), "push_front");
+    ASSERT_NE(call->getArguments(), nullptr);
+    ASSERT_EQ(call->getArguments()->size(), 1u);
+    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    ASSERT_NE(arg, nullptr);
+    EXPECT_EQ(arg->getDecompile(), value);
   }
 };
 
 // --- module / net ------------------------------------------------------------
 
-TEST_F(QueuesPushFrontAssignTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+TEST_F(QueuesPushFrontTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(QueuesPushFrontAssignTest, ModuleHasOneNet) {
+TEST_F(QueuesPushFrontTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
-TEST_F(QueuesPushFrontAssignTest, NetQExists) { EXPECT_NE(getNetQ(), nullptr); }
+TEST_F(QueuesPushFrontTest, NetQExists) { EXPECT_NE(getNetQ(), nullptr); }
 
 // --- net "q": unbounded queue "int q[$]" ------------------------------------
 
-TEST_F(QueuesPushFrontAssignTest, NetQArrayTypeIsQueue) {
+TEST_F(QueuesPushFrontTest, NetQArrayTypeIsQueue) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), vpiQueueArray) << "7.10: 'int q[$]' must be modeled as a queue array";
 }
 
-TEST_F(QueuesPushFrontAssignTest, NetQArrayIsNotPacked) {
+TEST_F(QueuesPushFrontTest, NetQArrayIsNotPacked) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   EXPECT_FALSE(at->getPacked()) << "a queue dimension is an unpacked dimension";
 }
 
-TEST_F(QueuesPushFrontAssignTest, NetQRangeLeftIsUnboundedDollar) {
+TEST_F(QueuesPushFrontTest, NetQRangeLeftIsUnboundedDollar) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
@@ -211,7 +196,7 @@ TEST_F(QueuesPushFrontAssignTest, NetQRangeLeftIsUnboundedDollar) {
   EXPECT_EQ(dollar->getConstType(), vpiUnboundedConst);
 }
 
-TEST_F(QueuesPushFrontAssignTest, NetQElemTypespecIsSignedIntTypespec) {
+TEST_F(QueuesPushFrontTest, NetQElemTypespecIsSignedIntTypespec) {
   const hldb::ArrayTypespec *const at = getQArrayTypespec();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
@@ -220,7 +205,7 @@ TEST_F(QueuesPushFrontAssignTest, NetQElemTypespecIsSignedIntTypespec) {
   EXPECT_TRUE(elem->getSigned());
 }
 
-TEST_F(QueuesPushFrontAssignTest, NetQHasNoInitialValue) {
+TEST_F(QueuesPushFrontTest, NetQHasNoInitialValue) {
   const hldb::Net *const q = getNetQ();
   ASSERT_NE(q, nullptr);
   EXPECT_EQ(q->getValue(), nullptr);
@@ -228,7 +213,7 @@ TEST_F(QueuesPushFrontAssignTest, NetQHasNoInitialValue) {
 
 // --- initial process structure ----------------------------------------------
 
-TEST_F(QueuesPushFrontAssignTest, ModuleHasOneInitialProcess) {
+TEST_F(QueuesPushFrontTest, ModuleHasOneInitialProcess) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -236,22 +221,22 @@ TEST_F(QueuesPushFrontAssignTest, ModuleHasOneInitialProcess) {
   EXPECT_NE(any_cast<hldb::Initial>(top->getProcesses()->at(0)), nullptr);
 }
 
-TEST_F(QueuesPushFrontAssignTest, InitialBeginHasFiveStmts) {
+TEST_F(QueuesPushFrontTest, InitialBeginHasFiveStmts) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 5u);
 }
 
-// --- q = {2, q}; q = {3, q}; q = {4, q}: push_front via self-concat -------
+// --- q.push_front(2/3/4) ------------------------------------------------------
 
-TEST_F(QueuesPushFrontAssignTest, FirstAssignmentPrependsTwo) { ExpectPrependAssignment(0, "2"); }
-TEST_F(QueuesPushFrontAssignTest, SecondAssignmentPrependsThree) { ExpectPrependAssignment(1, "3"); }
-TEST_F(QueuesPushFrontAssignTest, ThirdAssignmentPrependsFour) { ExpectPrependAssignment(2, "4"); }
+TEST_F(QueuesPushFrontTest, FirstPushFrontHasArgTwo) { ExpectPushFront(0, "2"); }
+TEST_F(QueuesPushFrontTest, SecondPushFrontHasArgThree) { ExpectPushFront(1, "3"); }
+TEST_F(QueuesPushFrontTest, ThirdPushFrontHasArgFour) { ExpectPushFront(2, "4"); }
 
 // --- $display(":assert: (%d == 3)", q.size) ---------------------------------
 
-TEST_F(QueuesPushFrontAssignTest, FourthStmtDisplayAssertsSizeThree) {
+TEST_F(QueuesPushFrontTest, FourthStmtDisplayAssertsSizeThree) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
@@ -266,7 +251,7 @@ TEST_F(QueuesPushFrontAssignTest, FourthStmtDisplayAssertsSizeThree) {
 
   const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size()");
+  EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);
   ASSERT_EQ(size->getPathElems()->size(), 2u);
 
@@ -275,11 +260,6 @@ TEST_F(QueuesPushFrontAssignTest, FourthStmtDisplayAssertsSizeThree) {
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Net>(), nullptr);
 
-  // IEEE 1800-2017 7.24.4: "q.size" without parens must resolve exactly
-  // like "q.size()" does -- a MethodFuncCall named "size" taking no
-  // arguments. KNOWN BUG: this build currently parses "size" here as an
-  // unresolved RefObj instead, so this assertion FAILS until fixed. See
-  // the file-level comment above.
   const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
   EXPECT_EQ(sizeCall->getName(), "size");
@@ -288,7 +268,7 @@ TEST_F(QueuesPushFrontAssignTest, FourthStmtDisplayAssertsSizeThree) {
 
 // --- $display(":assert: (%d == 4)", q[0]) -----------------------------------
 
-TEST_F(QueuesPushFrontAssignTest, FifthStmtDisplayAssertsQAtZeroEqualsFour) {
+TEST_F(QueuesPushFrontTest, FifthStmtDisplayAssertsQAtZeroEqualsFour) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
@@ -302,7 +282,8 @@ TEST_F(QueuesPushFrontAssignTest, FifthStmtDisplayAssertsQAtZeroEqualsFour) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 4)");
 
   const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
-  ASSERT_NE(sel, nullptr) << "'q[0]' should be a BitSelect -- confirms the LAST prepend becomes the front element";
+  ASSERT_NE(sel, nullptr)
+      << "'q[0]' should be a BitSelect -- confirms the LAST push_front call becomes the front element";
   EXPECT_EQ(sel->getName(), "q[0]");
   const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
@@ -315,32 +296,32 @@ TEST_F(QueuesPushFrontAssignTest, FifthStmtDisplayAssertsQAtZeroEqualsFour) {
 
 // --- structural completeness / design-level typespecs -----------------------
 
-TEST_F(QueuesPushFrontAssignTest, ModuleHasNoContAssigns) {
+TEST_F(QueuesPushFrontTest, ModuleHasNoContAssigns) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(QueuesPushFrontAssignTest, DesignHasThreeTypespecs) {
+TEST_F(QueuesPushFrontTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
-TEST_F(QueuesPushFrontAssignTest, DesignHasModuleTypespec) {
+TEST_F(QueuesPushFrontTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
 
-TEST_F(QueuesPushFrontAssignTest, DesignHasIntTypespecSigned) {
+TEST_F(QueuesPushFrontTest, DesignHasIntTypespecSigned) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }
 
-TEST_F(QueuesPushFrontAssignTest, DesignHasStringTypespec) {
+TEST_F(QueuesPushFrontTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   ASSERT_GT(m_design->getTypespecs()->size(), 2u);
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
@@ -348,9 +329,9 @@ TEST_F(QueuesPushFrontAssignTest, DesignHasStringTypespec) {
 
 // --- compiler diagnostics: KNOWN BUG, "q.size" wrongly flagged -------------
 
-TEST_F(QueuesPushFrontAssignTest, CompilerReportsNoErrors) {
-  // push_front_assign.sv is valid SystemVerilog; a correct compiler
-  // reports zero errors. KNOWN BUG: this build raises 1 spurious
+TEST_F(QueuesPushFrontTest, CompilerReportsNoErrors) {
+  // push_front.sv is valid SystemVerilog; a correct compiler reports zero
+  // errors. KNOWN BUG: this build raises 1 spurious
   // ELAB_ILLEGAL_IMPLICIT_NET for "q.size", so this currently FAILS. See
   // the file-level comment above.
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
@@ -361,7 +342,7 @@ TEST_F(QueuesPushFrontAssignTest, CompilerReportsNoErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(QueuesPushFrontAssignTest, NoIllegalImplicitNetErrorForSize) {
+TEST_F(QueuesPushFrontTest, NoIllegalImplicitNetErrorForSize) {
   // KNOWN BUG: currently raises 1 ELAB_ILLEGAL_IMPLICIT_NET for the
   // parenthesis-less "q.size" at line 24, column 35. This assertion
   // encodes the spec-correct expectation (zero such errors) and FAILS
