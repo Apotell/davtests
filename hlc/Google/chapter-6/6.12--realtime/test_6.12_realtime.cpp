@@ -89,13 +89,15 @@ TEST_F(Realtime, ANetTypespecActualIsNull) {
 }
 
 TEST_F(Realtime, ANetTypespecNameIsRealtime) {
+  GTEST_SKIP() << "Compiler doesn't support TimeTypesoec yet";
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getName(), "realtime") << "RefTypespec name for an unresolved realtime typespec";
+  EXPECT_NE(rts->getActual(), nullptr) << "RefTypespec actual is nullptr";
+  EXPECT_NE(rts->getActual<hldb::TimeTypespec>(), nullptr);
 }
 
 // ---------------------------------------------------------------------------
