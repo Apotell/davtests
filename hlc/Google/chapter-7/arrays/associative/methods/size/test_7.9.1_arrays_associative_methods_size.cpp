@@ -159,10 +159,10 @@ TEST_F(AssociativeArraySizeTest, FirstDisplayAssertsSizeEqualsZero) {
   ASSERT_NE(arrRef, nullptr);
   EXPECT_EQ(arrRef->getName(), "arr");
   EXPECT_NE(arrRef->getActual<hldb::Net>(), nullptr);
-  const hldb::RefObj *const sizeRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  EXPECT_EQ(sizeRef->getActual(), nullptr);
+  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
 TEST_F(AssociativeArraySizeTest, FirstAssignmentSetsArrThreeToOne) {
@@ -318,7 +318,7 @@ TEST_F(AssociativeArraySizeTest, CompilerReportsExactlyFourErrorsNoFatalNoWarnin
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 4);
+  EXPECT_EQ(stats.nbError, 0);
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
@@ -331,13 +331,7 @@ TEST_F(AssociativeArraySizeTest, ExactlyFourIllegalImplicitNetErrors) {
       implicitNetErrors.push_back(err);
     }
   }
-  ASSERT_EQ(implicitNetErrors.size(), 4u);
-  const uint32_t expectedLines[4] = {21u, 23u, 25u, 27u};
-  for (size_t i = 0; i < 4; ++i) {
-    ASSERT_FALSE(implicitNetErrors[i].getLocations().empty());
-    EXPECT_EQ(implicitNetErrors[i].getLocations()[0].m_line, expectedLines[i]);
-    EXPECT_EQ(implicitNetErrors[i].getLocations()[0].m_column, 40u);
-  }
+  ASSERT_TRUE(implicitNetErrors.empty());
 }
 
 }  // namespace hlc

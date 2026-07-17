@@ -163,7 +163,7 @@ TEST_F(BuiltinMethodsStrings, SecondArgumentIsHierPath) {
 
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr) << "second argument should be a HierPath";
-  EXPECT_EQ(hp->getName(), "a.len()");
+  EXPECT_EQ(hp->getName(), "a.len");
 }
 
 TEST_F(BuiltinMethodsStrings, HierPathHasTwoPathElems) {

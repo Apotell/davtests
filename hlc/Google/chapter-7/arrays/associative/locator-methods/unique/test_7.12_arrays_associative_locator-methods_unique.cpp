@@ -14,14 +14,16 @@
  limitations under the License.
 */
 
-// Tests for min.sv (tags: 7.12.1 7.12 7.10)
+// Tests for unique.sv (tags: 7.12.1 7.12 7.10 7.12.2)
 //   module top ();
-//     int s[] = { 10, 20, 2, 11, 5 };
+//     int s[] = { 10, 10, 3, 20, 20, 10 };
 //     int qi[$];
 //     initial begin
-//       qi = s.min;
-//       $display(":assert: (%d == 1)", qi.size);
-//       $display(":assert: (%d == 2)", qi[0]);
+//       qi = s.unique;
+//       $display(":assert: (%d == 3)", qi.size);
+//       qi.sort;
+//       $display(":assert: ((%d == 3) and (%d == 10) and (%d == 20))",
+//         qi[0], qi[1], qi[2]);
 //     end
 //   endmodule
 //
@@ -29,20 +31,22 @@
 //   - design has module work@top with exactly 2 nets: "s" (dynamic array)
 //     and "qi" (queue of int)
 //   - net "s": ArrayTypespec vpiArrayType=dynamic(2), ElemTypespec ->
-//     IntTypespec; initial value is a 5-operand concatenation
-//     (10, 20, 2, 11, 5)
+//     IntTypespec; initial value is a 6-operand concatenation
+//     (10, 10, 3, 20, 20, 10)
 //   - net "qi": ArrayTypespec vpiArrayType=static(1) -- the compiler models
 //     a queue ("int qi[$]") as a queue array with an unbounded
 //     left-range ("$"); ElemTypespec -> IntTypespec
-//   - Initial process: 1 Begin with 3 stmts (Assignment + 2 SysFuncCall)
-//   - Assignment: qi = s.min is a HierPath "s.min" with 2 RefObj path
-//     elems -- "s" (resolved to Net "s") and "min" (unresolved). Unlike
-//     find/find_index/.../unique, ".min" (no "with" clause, no parens in
-//     source) is NOT modeled as a MethodFuncCall; it is a plain RefObj, so
-//     "min" itself -- not just an implicit iterator -- is the identifier the
-//     compiler cannot resolve
-//   - both $display calls and their HierPath("qi.size")/BitSelect("qi[0]")
-//     arguments
+//   - Initial process: 1 Begin with 4 stmts (Assignment + SysFuncCall +
+//     HierPath("qi.sort") + SysFuncCall)
+//   - Assignment: qi = s.unique is a HierPath "s.unique()" whose 2nd path
+//     elem IS a MethodFuncCall "unique" (unlike max/min, ".unique" with
+//     source parens-less call is still modeled as a method call) with no
+//     vpiWith clause (unique.sv has no "with" clause)
+//   - "qi.sort;" on its own line is parsed as a bare HierPath statement (not
+//     a SysFuncCall/MethodFuncCall) with 2 RefObj path elems: "qi" (resolved)
+//     and "sort" (unresolved)
+//   - both $display calls; first has HierPath("qi.size") argument, second
+//     has 3 BitSelect("qi[0]"/"qi[1]"/"qi[2]") arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //     (element type is int, so IntTypespec is created before the
 //     StringTypespec used for the $display format string constants --
@@ -68,6 +72,7 @@
 #include <hldb/hier_path.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/net.h>
@@ -81,33 +86,33 @@
 
 namespace hlc {
 
-class ArrayLocatorMinTest : public Test {
+class ArrayLocatorUniqueTest : public Test {
  public:
-  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "min.hlc"}); }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "unique.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module / nets -----------------------------------------------------------
 
-TEST_F(ArrayLocatorMinTest, ModuleExists) {
+TEST_F(ArrayLocatorUniqueTest, ModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, ModuleHasTwoNets) {
+TEST_F(ArrayLocatorUniqueTest, ModuleHasTwoNets) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
-TEST_F(ArrayLocatorMinTest, NetSNameIsS) {
+TEST_F(ArrayLocatorUniqueTest, NetSNameIsS) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, NetQiNameIsQi) {
+TEST_F(ArrayLocatorUniqueTest, NetQiNameIsQi) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const qi = hldb::findByName<hldb::Net>("qi", top->getNets());
@@ -116,7 +121,7 @@ TEST_F(ArrayLocatorMinTest, NetQiNameIsQi) {
 
 // --- net "s": dynamic array of int --------------------------------------------
 
-TEST_F(ArrayLocatorMinTest, NetSTypespecIsDynamicArray) {
+TEST_F(ArrayLocatorUniqueTest, NetSTypespecIsDynamicArray) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
@@ -126,7 +131,7 @@ TEST_F(ArrayLocatorMinTest, NetSTypespecIsDynamicArray) {
   EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
 }
 
-TEST_F(ArrayLocatorMinTest, NetSElemTypespecIsInt) {
+TEST_F(ArrayLocatorUniqueTest, NetSElemTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
@@ -137,7 +142,7 @@ TEST_F(ArrayLocatorMinTest, NetSElemTypespecIsInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, NetSInitialValueIsFiveElemConcat) {
+TEST_F(ArrayLocatorUniqueTest, NetSInitialValueIsSixElemConcat) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
@@ -146,27 +151,32 @@ TEST_F(ArrayLocatorMinTest, NetSInitialValueIsFiveElemConcat) {
   ASSERT_NE(concat, nullptr);
   EXPECT_EQ(concat->getOpType(), vpiConcatOp);
   ASSERT_NE(concat->getOperands(), nullptr);
-  ASSERT_EQ(concat->getOperands()->size(), 5u);
+  ASSERT_EQ(concat->getOperands()->size(), 6u);
   const hldb::Constant *const c0 = any_cast<hldb::Constant>(concat->getOperands()->at(0));
   const hldb::Constant *const c1 = any_cast<hldb::Constant>(concat->getOperands()->at(1));
   const hldb::Constant *const c2 = any_cast<hldb::Constant>(concat->getOperands()->at(2));
   const hldb::Constant *const c3 = any_cast<hldb::Constant>(concat->getOperands()->at(3));
   const hldb::Constant *const c4 = any_cast<hldb::Constant>(concat->getOperands()->at(4));
+  const hldb::Constant *const c5 = any_cast<hldb::Constant>(concat->getOperands()->at(5));
   ASSERT_NE(c0, nullptr);
   ASSERT_NE(c1, nullptr);
   ASSERT_NE(c2, nullptr);
   ASSERT_NE(c3, nullptr);
   ASSERT_NE(c4, nullptr);
+  ASSERT_NE(c5, nullptr);
   EXPECT_EQ(c0->getValue(), "10");
-  EXPECT_EQ(c1->getValue(), "20");
-  EXPECT_EQ(c2->getValue(), "2");
-  EXPECT_EQ(c3->getValue(), "11");
-  EXPECT_EQ(c4->getValue(), "5");
+  EXPECT_EQ(c1->getValue(), "10");
+  EXPECT_EQ(c2->getValue(), "3");
+  EXPECT_EQ(c3->getValue(), "20");
+  EXPECT_EQ(c4->getValue(), "20");
+  EXPECT_EQ(c5->getValue(), "10");
 }
 
 // --- net "qi": queue of int, modeled as a "queue" array with unbounded range -
 
-TEST_F(ArrayLocatorMinTest, NetQiTypespecIsQueueArray) {
+TEST_F(ArrayLocatorUniqueTest, NetQiTypespecIsQueueArray) {
+  // Compiler quirk: "int qi[$]" (a queue) is reported as vpiArrayType
+  // static(1), not a distinct queue array type.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const qi = hldb::findByName<hldb::Net>("qi", top->getNets());
@@ -176,7 +186,7 @@ TEST_F(ArrayLocatorMinTest, NetQiTypespecIsQueueArray) {
   EXPECT_EQ(at->getArrayType(), vpiQueueArray);
 }
 
-TEST_F(ArrayLocatorMinTest, NetQiRangeLeftIsUnboundedDollar) {
+TEST_F(ArrayLocatorUniqueTest, NetQiRangeLeftIsUnboundedDollar) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const qi = hldb::findByName<hldb::Net>("qi", top->getNets());
@@ -190,7 +200,7 @@ TEST_F(ArrayLocatorMinTest, NetQiRangeLeftIsUnboundedDollar) {
   EXPECT_EQ(dollar->getConstType(), vpiUnboundedConst);  // "unbounded" (not in vpi_user.h; hlc-specific)
 }
 
-TEST_F(ArrayLocatorMinTest, NetQiElemTypespecIsInt) {
+TEST_F(ArrayLocatorUniqueTest, NetQiElemTypespecIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const qi = hldb::findByName<hldb::Net>("qi", top->getNets());
@@ -201,7 +211,7 @@ TEST_F(ArrayLocatorMinTest, NetQiElemTypespecIsInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, NetQiHasNoInitialValue) {
+TEST_F(ArrayLocatorUniqueTest, NetQiHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const qi = hldb::findByName<hldb::Net>("qi", top->getNets());
@@ -209,9 +219,9 @@ TEST_F(ArrayLocatorMinTest, NetQiHasNoInitialValue) {
   EXPECT_EQ(qi->getValue(), nullptr);
 }
 
-// --- initial process: qi = s.min ----------------------------------------------
+// --- initial process: qi = s.unique; ... qi.sort; ... -------------------------
 
-TEST_F(ArrayLocatorMinTest, ModuleHasOneInitialProcess) {
+TEST_F(ArrayLocatorUniqueTest, ModuleHasOneInitialProcess) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -219,7 +229,7 @@ TEST_F(ArrayLocatorMinTest, ModuleHasOneInitialProcess) {
   EXPECT_NE(any_cast<hldb::Initial>(top->getProcesses()->at(0)), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, InitialBeginHasThreeStmts) {
+TEST_F(ArrayLocatorUniqueTest, InitialBeginHasFourStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -227,10 +237,10 @@ TEST_F(ArrayLocatorMinTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = init->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_EQ(begin->getStmts()->size(), 3u);
+  EXPECT_EQ(begin->getStmts()->size(), 4u);
 }
 
-TEST_F(ArrayLocatorMinTest, AssignmentIsBlockingToQi) {
+TEST_F(ArrayLocatorUniqueTest, AssignmentIsBlockingToQi) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -246,7 +256,7 @@ TEST_F(ArrayLocatorMinTest, AssignmentIsBlockingToQi) {
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, AssignmentRhsIsHierPathSDotMin) {
+TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsHierPathSDotUnique) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -257,9 +267,7 @@ TEST_F(ArrayLocatorMinTest, AssignmentRhsIsHierPathSDotMin) {
   ASSERT_NE(assign, nullptr);
   const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(rhs, nullptr);
-  // Note: no "()" -- ".min" (no "with" clause, no source parens) is not
-  // modeled as a MethodFuncCall, unlike find()/find_index()/unique().
-  EXPECT_EQ(rhs->getName(), std::string_view("s.min"));
+  EXPECT_EQ(rhs->getName(), std::string_view("s.unique"));
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
@@ -268,7 +276,7 @@ TEST_F(ArrayLocatorMinTest, AssignmentRhsIsHierPathSDotMin) {
   EXPECT_NE(sRef->getActual<hldb::Net>(), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, RhsSecondPathElemIsUnresolvedRefObjMin) {
+TEST_F(ArrayLocatorUniqueTest, MethodFuncCallIsNamedUniqueWithNoWithClause) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -276,18 +284,40 @@ TEST_F(ArrayLocatorMinTest, RhsSecondPathElemIsUnresolvedRefObjMin) {
   const hldb::HierPath *const rhs =
       any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::HierPath>();
   ASSERT_NE(rhs, nullptr);
-  const hldb::RefObj *const minRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(1));
-  ASSERT_NE(minRef, nullptr);
-  EXPECT_EQ(minRef->getName(), "min");
-  // Unlike "item" (the with-clause iterator) in find/find_index/etc., here
-  // the built-in method name "min" itself is the unresolved implicit net --
-  // see the ELAB_ILLEGAL_IMPLICIT_NET tests below.
-  EXPECT_EQ(minRef->getActual(), nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  ASSERT_NE(call, nullptr);
+  EXPECT_EQ(call->getName(), "unique");
+  // unique.sv has no "with" clause, unlike find/find_index/find_last/etc.
+  EXPECT_EQ(call->getWith<hldb::Operation>(), nullptr);
 }
 
-// --- $display(":assert: (%d == 1)", qi.size) ---------------------------------
+// --- qi.sort; ------------------------------------------------------------------
 
-TEST_F(ArrayLocatorMinTest, FirstDisplayFormatStringIsSizeAssert) {
+TEST_F(ArrayLocatorUniqueTest, ThirdStmtIsHierPathQiDotSort) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::HierPath *const sort = any_cast<hldb::HierPath>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  ASSERT_NE(sort, nullptr);
+  EXPECT_EQ(sort->getName(), "qi.sort");
+  ASSERT_NE(sort->getPathElems(), nullptr);
+  ASSERT_EQ(sort->getPathElems()->size(), 2u);
+  const hldb::RefObj *const qiRef = any_cast<hldb::RefObj>(sort->getPathElems()->at(0));
+  ASSERT_NE(qiRef, nullptr);
+  EXPECT_EQ(qiRef->getName(), "qi");
+  EXPECT_NE(qiRef->getActual<hldb::Net>(), nullptr);
+  const hldb::MethodFuncCall *const sortRef = any_cast<hldb::MethodFuncCall>(sort->getPathElems()->at(1));
+  ASSERT_NE(sortRef, nullptr);
+  EXPECT_EQ(sortRef->getName(), "sort");
+  // Built-in ".sort" (no "()" in source, bare statement) is unresolved --
+  // same limitation as ".size".
+  EXPECT_EQ(sortRef->getTaskFunc(), nullptr);
+}
+
+// --- $display(":assert: (%d == 3)", qi.size) ---------------------------------
+
+TEST_F(ArrayLocatorUniqueTest, FirstDisplayFormatStringIsSizeAssert) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -299,10 +329,10 @@ TEST_F(ArrayLocatorMinTest, FirstDisplayFormatStringIsSizeAssert) {
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
+  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 }
 
-TEST_F(ArrayLocatorMinTest, FirstDisplaySecondArgIsQiDotSize) {
+TEST_F(ArrayLocatorUniqueTest, FirstDisplaySecondArgIsQiDotSize) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -318,63 +348,69 @@ TEST_F(ArrayLocatorMinTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(qiRef, nullptr);
   EXPECT_EQ(qiRef->getName(), "qi");
   EXPECT_NE(qiRef->getActual<hldb::Net>(), nullptr);
-  const hldb::RefObj *const sizeRef = any_cast<hldb::RefObj>(size->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  // Built-in ".size" is never resolved either -- same limitation as "min".
-  EXPECT_EQ(sizeRef->getActual(), nullptr);
+  // Built-in ".size" is never resolved either -- same limitation as "sort".
+  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
 }
 
-// --- $display(":assert: (%d == 2)", qi[0]) -----------------------------------
+// --- $display(":assert: ((%d == 3) and (%d == 10) and (%d == 20))", ...) -----
 
-TEST_F(ArrayLocatorMinTest, SecondDisplayFormatStringIsValueAssert) {
+TEST_F(ArrayLocatorUniqueTest, SecondDisplayFormatStringIsValueAssert) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
+  ASSERT_NE(disp->getArguments(), nullptr);
+  ASSERT_EQ(disp->getArguments()->size(), 4u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
+  EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 3) and (%d == 10) and (%d == 20))");
 }
 
-TEST_F(ArrayLocatorMinTest, SecondDisplaySecondArgIsQiBitSelectZero) {
+TEST_F(ArrayLocatorUniqueTest, SecondDisplayThreeArgsAreQiBitSelectsZeroOneTwo) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
-  ASSERT_NE(sel, nullptr);
-  EXPECT_EQ(sel->getName(), "qi[0]");
-  const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
-  ASSERT_NE(prefix, nullptr);
-  EXPECT_EQ(prefix->getName(), "qi");
-  const hldb::Constant *const index = sel->getIndex<hldb::Constant>();
-  ASSERT_NE(index, nullptr);
-  EXPECT_EQ(index->getDecompile(), "0");
-  EXPECT_EQ(index->getConstType(), vpiUIntConst);
-  EXPECT_NE(index->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+
+  static constexpr const char *kNames[3] = {"qi[0]", "qi[1]", "qi[2]"};
+  for (size_t i = 0; i < 3; ++i) {
+    const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    ASSERT_NE(sel, nullptr);
+    EXPECT_EQ(sel->getName(), kNames[i]);
+    const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
+    ASSERT_NE(prefix, nullptr);
+    EXPECT_EQ(prefix->getName(), "qi");
+    const hldb::Constant *const index = sel->getIndex<hldb::Constant>();
+    ASSERT_NE(index, nullptr);
+    EXPECT_EQ(index->getDecompile(), std::to_string(i));
+    EXPECT_EQ(index->getConstType(), vpiUIntConst);
+    EXPECT_NE(index->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+  }
 }
 
 // --- design-level typespecs / structural completeness -------------------------
 
-TEST_F(ArrayLocatorMinTest, DesignHasThreeTypespecs) {
+TEST_F(ArrayLocatorUniqueTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
-TEST_F(ArrayLocatorMinTest, DesignHasModuleTypespec) {
+TEST_F(ArrayLocatorUniqueTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
 
-TEST_F(ArrayLocatorMinTest, DesignHasIntTypespecSigned) {
+TEST_F(ArrayLocatorUniqueTest, DesignHasIntTypespecSigned) {
   // Element type is int, so IntTypespec is created (index 1) before the
   // StringTypespec (index 2) used by the $display format strings --
   // reversed order vs. the string-array locator-method tests.
@@ -384,12 +420,12 @@ TEST_F(ArrayLocatorMinTest, DesignHasIntTypespecSigned) {
   EXPECT_TRUE(it->getSigned());
 }
 
-TEST_F(ArrayLocatorMinTest, DesignHasStringTypespec) {
+TEST_F(ArrayLocatorUniqueTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, NoContAssigns) {
+TEST_F(ArrayLocatorUniqueTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
@@ -397,16 +433,16 @@ TEST_F(ArrayLocatorMinTest, NoContAssigns) {
 
 // --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation --------
 
-TEST_F(ArrayLocatorMinTest, CompilerReportsExactlyTwoErrorsNoFatalNoWarning) {
+TEST_F(ArrayLocatorUniqueTest, CompilerReportsExactlyZeroErrorsNoFatalNoWarning) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 2);
+  EXPECT_EQ(stats.nbError, 0);
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(ArrayLocatorMinTest, ExactlyTwoIllegalImplicitNetErrors) {
+TEST_F(ArrayLocatorUniqueTest, ExactlyZeroIllegalImplicitNetErrors) {
   // getErrors() holds every diagnostic emitted (INFO progress messages too),
   // so isolate the real errors by type rather than assuming the container
   // holds only errors.
@@ -418,13 +454,7 @@ TEST_F(ArrayLocatorMinTest, ExactlyTwoIllegalImplicitNetErrors) {
       implicitNetErrors.push_back(err);
     }
   }
-  ASSERT_EQ(implicitNetErrors.size(), 2u);
-  ASSERT_FALSE(implicitNetErrors[0].getLocations().empty());
-  EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_line, 22u);
-  EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_column, 9u);
-  ASSERT_FALSE(implicitNetErrors[1].getLocations().empty());
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_line, 23u);
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_column, 39u);
+  ASSERT_TRUE(implicitNetErrors.empty());
 }
 
 }  // namespace hlc
