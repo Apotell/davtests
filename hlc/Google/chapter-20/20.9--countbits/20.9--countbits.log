@@ -259,7 +259,7 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "32'h70008421"
                   vpiValue: "70008421"
-            vpiTypespec (2 items):
+            vpiTypespec (3 items):
               LogicTypespec:
                 vpiParent: Begin
                 vpiRange (1 items):
@@ -287,6 +287,8 @@ Design name:unnamed:
                       vpiValue: 0
                 vpiVector: true
               BitTypespec:
+                vpiParent: Begin
+              LogicTypespec:
                 vpiParent: Begin
             vpiStmt (5 items):
               SysFuncCall name:$display start:21:2 end:21:53:
@@ -458,12 +460,32 @@ Design name:unnamed:
                     vpiName Identifier name:$countbits start:25:33 end:25:43:
                       vpiParent: SysFuncCall name:$countbits
                       vpiName: "$countbits"
-                    vpiArgument (1 items):
+                    vpiArgument (3 items):
                       RefObj name:val start:25:44 end:25:47:
                         vpiParent: SysFuncCall name:$countbits
                         vpiName: val
                         vpiFullName: work@top.val
                         vpiActual: Variable name:val
+                      Constant start:25:49 end:25:51:
+                        vpiParent: SysFuncCall name:$countbits
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@top
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 1
+                        vpiDecompile: "'x"
+                        vpiValue: x
+                      Constant start:25:53 end:25:55:
+                        vpiParent: SysFuncCall name:$countbits
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: work@top
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 1
+                        vpiDecompile: "'z"
+                        vpiValue: z
   vpiTypespec (4 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -525,13 +547,13 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-20/20.9--countbits/design.hldb ${H
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            12      12       4         4
-Identifier                          12       8       0         4
-RefObj                               6       2       0         4
-RefTypespec                         13       9       0         4
-SysFuncCall                         10       6       0         4
+Constant                            14      13       5         6
+Identifier                          12       7       0         5
+RefObj                               6       1       0         5
+RefTypespec                         15       9       0         6
+SysFuncCall                         10       5       0         5
 ----------------------------------------------------------------
-Others                              13      13       0         0
+Others                              14      14       0         0
 ----------------------------------------------------------------
-                                    66      50       4        20
+                                    71      49       5        27
 ===================== END REDUCTION RESULT =====================

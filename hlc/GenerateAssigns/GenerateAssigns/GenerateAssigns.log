@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/GenerateAssigns top.v -writepp -verbose -d inst -d ast -fileunit -d db -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/GenerateAssigns/GenerateAssigns
+COMMAND: -wd ../../../tests/GenerateAssigns top.v -writepp -d inst -d ast -fileunit -d db -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/GenerateAssigns/GenerateAssigns
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
 [INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
@@ -2126,7 +2126,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2357,7 +2359,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2374,7 +2376,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2419,7 +2421,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -2936,18 +2940,24 @@ Design name:unnamed:
   vpiTypespec (8 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:work@dut:
       vpiParent: Design name:unnamed
@@ -3013,7 +3023,7 @@ Operation                            8       5       0         3
 RefObj                              25      22       0         3
 RefTypespec                        193     193       3         3
 ----------------------------------------------------------------
-Others                             442     442       0         0
+Others                             447     447       0         0
 ----------------------------------------------------------------
-                                   681     675       6        12
+                                   686     680       6        12
 ===================== END REDUCTION RESULT =====================

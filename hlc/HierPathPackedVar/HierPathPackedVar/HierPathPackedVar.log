@@ -273,9 +273,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@axi_adapter_arbiter".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@std_cache_pkg".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@axi_adapter_arbiter".
-[ERR:EL0535] $Source01/dut.sv:22:18: Illegal implicit net "id:121, name:i".
-[ERR:EL0535] $Source01/dut.sv:22:21: Illegal implicit net "id:125, name:req".
-[ERR:EL0535] $Source01/dut.sv:23:21: Illegal implicit net "id:132, name:SERVING".
+[ERR:EL0535] $Source01/dut.sv:22:18: Illegal implicit net "id:124, name:i".
+[ERR:EL0535] $Source01/dut.sv:22:21: Illegal implicit net "id:128, name:req".
+[ERR:EL0535] $Source01/dut.sv:23:21: Illegal implicit net "id:135, name:SERVING".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -292,25 +292,41 @@ Design name:unnamed:
         vpiParent: Package name:work@std_cache_pkg
         vpiName: work@std_cache_pkg
       vpiFullName: work@std_cache_pkg
-      vpiTypespec (12 items):
+      vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Package name:work@std_cache_pkg
-        ClassTypespec name:ariane_axi start:4:5 end:4:15:
+        UnsupportedTypespec name:ariane_axi::ad_req_t start:4:5 end:4:25:
           vpiParent: Package name:work@std_cache_pkg
-          vpiName: ariane_axi
-        UnsupportedTypespec name:ad_req_t start:4:17 end:4:25:
+          vpiPathElem (2 items):
+            UnsupportedScope name:ariane_axi start:4:5 end:4:17:
+              vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
+              vpiName Identifier name:ariane_axi start:4:5 end:4:15:
+                vpiParent: UnsupportedScope name:ariane_axi
+                vpiName: ariane_axi
+              vpiFullName: work@std_cache_pkg::ariane_axi::ad_req_t::ariane_axi
+            RefTypespec name:ad_req_t start:4:17 end:4:25:
+              vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
+              vpiName: ad_req_t
+              vpiFullName: work@std_cache_pkg::ariane_axi::ad_req_t::ad_req_t
+          vpiName Identifier name:ariane_axi::ad_req_t start:4:5 end:4:25:
+            vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
+            vpiName: ariane_axi::ad_req_t
+        UnsupportedTypespec name:ariane_pkg::amo_t start:5:5 end:5:22:
           vpiParent: Package name:work@std_cache_pkg
-          vpiName Identifier name:ad_req_t:
-            vpiParent: UnsupportedTypespec name:ad_req_t
-            vpiName: ad_req_t
-        ClassTypespec name:ariane_pkg start:5:5 end:5:15:
-          vpiParent: Package name:work@std_cache_pkg
-          vpiName: ariane_pkg
-        UnsupportedTypespec name:amo_t start:5:17 end:5:22:
-          vpiParent: Package name:work@std_cache_pkg
-          vpiName Identifier name:amo_t:
-            vpiParent: UnsupportedTypespec name:amo_t
-            vpiName: amo_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:ariane_pkg start:5:5 end:5:17:
+              vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
+              vpiName Identifier name:ariane_pkg start:5:5 end:5:15:
+                vpiParent: UnsupportedScope name:ariane_pkg
+                vpiName: ariane_pkg
+              vpiFullName: work@std_cache_pkg::ariane_pkg::amo_t::ariane_pkg
+            RefTypespec name:amo_t start:5:17 end:5:22:
+              vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
+              vpiName: amo_t
+              vpiFullName: work@std_cache_pkg::ariane_pkg::amo_t::amo_t
+          vpiName Identifier name:ariane_pkg::amo_t start:5:5 end:5:22:
+            vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
+            vpiName: ariane_pkg::amo_t
         LogicTypespec:
           vpiParent: Package name:work@std_cache_pkg
           vpiRange (1 items):
@@ -459,7 +475,7 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:reqtype
                 vpiName: ariane_axi::ad_req_t
                 vpiFullName: work@std_cache_pkg::reqtype::ariane_axi::ad_req_t
-                vpiActual: UnsupportedTypespec name:ad_req_t
+                vpiActual: UnsupportedTypespec name:ariane_axi::ad_req_t
             TypespecMember name:amo start:5:26 end:5:29:
               vpiParent: StructTypespec
               vpiName: amo
@@ -467,7 +483,7 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:amo
                 vpiName: ariane_pkg::amo_t
                 vpiFullName: work@std_cache_pkg::amo::ariane_pkg::amo_t
-                vpiActual: UnsupportedTypespec name:amo_t
+                vpiActual: UnsupportedTypespec name:ariane_pkg::amo_t
             TypespecMember name:id start:6:26 end:6:28:
               vpiParent: StructTypespec
               vpiName: id
@@ -574,25 +590,26 @@ Design name:unnamed:
           vpiRhs RefTypespec start:18:28 end:18:55:
             vpiParent: ParamAssign
             vpiFullName: work@axi_adapter_arbiter
-            vpiPrefix HierPath name:std_cache_pkg::bypass_req_t start:18:28 end:18:43:
-              vpiParent: RefTypespec
-              vpiName: std_cache_pkg::bypass_req_t
-              vpiFullName: work@axi_adapter_arbiter.std_cache_pkg::bypass_req_t
-              vpiPathElem (2 items):
-                ClassTypespec name:std_cache_pkg:
-                UnsupportedTypespec name:bypass_req_t:
-            vpiActual: UnsupportedTypespec name:bypass_req_t
-      vpiTypespec (5 items):
+            vpiActual: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:work@axi_adapter_arbiter
-        ClassTypespec name:std_cache_pkg start:18:28 end:18:41:
+        UnsupportedTypespec name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
           vpiParent: Module name:work@axi_adapter_arbiter
-          vpiName: std_cache_pkg
-        UnsupportedTypespec name:bypass_req_t start:18:43 end:18:55:
-          vpiParent: Module name:work@axi_adapter_arbiter
-          vpiName Identifier name:bypass_req_t:
-            vpiParent: UnsupportedTypespec name:bypass_req_t
-            vpiName: bypass_req_t
+          vpiPathElem (2 items):
+            UnsupportedScope name:std_cache_pkg start:18:28 end:18:43:
+              vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
+              vpiName Identifier name:std_cache_pkg start:18:28 end:18:41:
+                vpiParent: UnsupportedScope name:std_cache_pkg
+                vpiName: std_cache_pkg
+              vpiFullName: work@axi_adapter_arbiter.std_cache_pkg::bypass_req_t.std_cache_pkg
+            RefTypespec name:bypass_req_t start:18:43 end:18:55:
+              vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
+              vpiName: bypass_req_t
+              vpiFullName: work@axi_adapter_arbiter.std_cache_pkg::bypass_req_t.bypass_req_t
+          vpiName Identifier name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
+            vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
+            vpiName: std_cache_pkg::bypass_req_t
         ArrayTypespec:
           vpiParent: Module name:work@axi_adapter_arbiter
           vpiArrayType: static (1)
@@ -799,9 +816,9 @@ Name                            Before   After   Added   Removed
 Constant                            14      14       1         1
 Operation                            2       1       0         1
 RefObj                              10       9       0         1
-RefTypespec                         31      31       1         1
+RefTypespec                         34      34       1         1
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   117     115       2         4
+                                   122     120       2         4
 ===================== END REDUCTION RESULT =====================

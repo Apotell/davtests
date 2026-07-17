@@ -100,10 +100,10 @@ n<$Source01/class_member_test_43.sv> u<86> t<Top_level_rule> c<1> l<6:1> el<12:9
             n<> u<80> t<ENDCLASS> p<81> l<12:1> el<12:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_43.sv:9:10: Illegal implicit net "id:19, name:M".
-[ERR:EL0535] $Source01/class_member_test_43.sv:9:12: Illegal implicit net "id:21, name:N".
-[ERR:EL0535] $Source01/class_member_test_43.sv:9:30: Illegal implicit net "id:30, name:K".
-[ERR:EL0535] $Source01/class_member_test_43.sv:10:8: Illegal implicit net "id:39, name:name".
+[ERR:EL0535] $Source01/class_member_test_43.sv:9:10: Illegal implicit net "id:21, name:M".
+[ERR:EL0535] $Source01/class_member_test_43.sv:9:12: Illegal implicit net "id:23, name:N".
+[ERR:EL0535] $Source01/class_member_test_43.sv:9:30: Illegal implicit net "id:33, name:K".
+[ERR:EL0535] $Source01/class_member_test_43.sv:10:8: Illegal implicit net "id:42, name:name".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -123,7 +123,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:work@constructible:
           vpiParent: ClassDefn name:work@constructible
-          vpiName: work@constructible
+          vpiName Identifier name:work@constructible:
+            vpiParent: ClassTypespec name:work@constructible
+            vpiName: work@constructible
           vpiClassDefn: ClassDefn name:work@constructible
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
@@ -139,30 +141,56 @@ Design name:unnamed:
             vpiName: new
           vpiFullName: work@constructible::new
           vpiTypespec (4 items):
-            ClassTypespec name:foo start:7:15 end:7:18:
+            UnsupportedTypespec name:foo::bar start:7:15 end:7:23:
               vpiParent: Function name:new
-              vpiName: foo
-            InterfaceTypespec name:time_if start:8:5 end:8:30:
+              vpiPathElem (2 items):
+                UnsupportedScope name:foo start:7:15 end:7:20:
+                  vpiParent: UnsupportedTypespec name:foo::bar
+                  vpiName Identifier name:foo start:7:15 end:7:18:
+                    vpiParent: UnsupportedScope name:foo
+                    vpiName: foo
+                  vpiFullName: work@constructible::new::foo::bar::foo
+                RefTypespec name:bar start:7:20 end:7:23:
+                  vpiParent: UnsupportedTypespec name:foo::bar
+                  vpiName: bar
+                  vpiFullName: work@constructible::new::foo::bar::bar
+              vpiName Identifier name:foo::bar start:7:15 end:7:23:
+                vpiParent: UnsupportedTypespec name:foo::bar
+                vpiName: foo::bar
+            UnsupportedTypespec name:time_if start:8:23 end:8:30:
               vpiParent: Function name:new
               vpiName Identifier name:time_if start:8:23 end:8:30:
-                vpiParent: InterfaceTypespec name:time_if
+                vpiParent: UnsupportedTypespec name:time_if
                 vpiName: time_if
-            ClassTypespec name:baz start:9:5 end:9:14:
+            UnsupportedTypespec name:baz::foo start:9:5 end:9:19:
               vpiParent: Function name:new
-              vpiName: baz
-              vpiParamAssign (2 items):
-                ParamAssign start:9:10 end:9:11:
-                  vpiParent: ClassTypespec name:baz
-                  vpiRhs RefObj name:M start:9:10 end:9:11:
-                    vpiParent: ParamAssign
-                    vpiName: M
-                    vpiFullName: work@constructible::new::baz::M
-                ParamAssign start:9:12 end:9:13:
-                  vpiParent: ClassTypespec name:baz
-                  vpiRhs RefObj name:N start:9:12 end:9:13:
-                    vpiParent: ParamAssign
-                    vpiName: N
-                    vpiFullName: work@constructible::new::baz::N
+              vpiPathElem (2 items):
+                UnsupportedScope name:baz start:9:5 end:9:16:
+                  vpiParent: UnsupportedTypespec name:baz::foo
+                  vpiName Identifier name:baz start:9:5 end:9:8:
+                    vpiParent: UnsupportedScope name:baz
+                    vpiName: baz
+                  vpiFullName: work@constructible::new::baz::foo::baz
+                  vpiParamAssign (2 items):
+                    ParamAssign start:9:10 end:9:11:
+                      vpiParent: UnsupportedScope name:baz
+                      vpiRhs RefObj name:M start:9:10 end:9:11:
+                        vpiParent: ParamAssign
+                        vpiName: M
+                        vpiFullName: work@constructible::new::baz::foo::baz::M
+                    ParamAssign start:9:12 end:9:13:
+                      vpiParent: UnsupportedScope name:baz
+                      vpiRhs RefObj name:N start:9:12 end:9:13:
+                        vpiParent: ParamAssign
+                        vpiName: N
+                        vpiFullName: work@constructible::new::baz::foo::baz::N
+                RefTypespec name:foo start:9:16 end:9:19:
+                  vpiParent: UnsupportedTypespec name:baz::foo
+                  vpiName: foo
+                  vpiFullName: work@constructible::new::baz::foo::foo
+              vpiName Identifier name:baz::foo start:9:5 end:9:19:
+                vpiParent: UnsupportedTypespec name:baz::foo
+                vpiName: baz::foo
             BitTypespec:
               vpiParent: Function name:new
               vpiRange (1 items):
@@ -189,9 +217,11 @@ Design name:unnamed:
               vpiParent: Function name:new
               vpiName: name
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:7:15 end:7:23:
+              vpiTypespec RefTypespec name:foo::bar start:7:15 end:7:23:
                 vpiParent: IODecl name:name
-                vpiFullName: work@constructible::new::name
+                vpiName: foo::bar
+                vpiFullName: work@constructible::new::name::foo::bar
+                vpiActual: UnsupportedTypespec name:foo::bar
             IODecl name:vif start:8:31 end:8:34:
               vpiParent: Function name:new
               vpiName: vif
@@ -199,14 +229,16 @@ Design name:unnamed:
               vpiTypespec RefTypespec start:8:5 end:8:30:
                 vpiParent: IODecl name:vif
                 vpiFullName: work@constructible::new::vif
-                vpiActual: InterfaceTypespec name:time_if
+                vpiActual: UnsupportedTypespec name:time_if
             IODecl name:bar start:9:20 end:9:23:
               vpiParent: Function name:new
               vpiName: bar
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:5 end:9:19:
+              vpiTypespec RefTypespec name:baz start:9:5 end:9:19:
                 vpiParent: IODecl name:bar
-                vpiFullName: work@constructible::new::bar
+                vpiName: baz
+                vpiFullName: work@constructible::new::bar::baz
+                vpiActual: UnsupportedTypespec name:baz::foo
             IODecl name:b start:9:35 end:9:36:
               vpiParent: Function name:new
               vpiName: b
@@ -245,7 +277,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@constructible:
       vpiParent: Design name:unnamed
-      vpiName: work@constructible
+      vpiName Identifier name:work@constructible:
+        vpiParent: ClassTypespec name:work@constructible
+        vpiName: work@constructible
       vpiClassDefn: ClassDefn name:work@constructible
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -298,7 +332,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_43/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

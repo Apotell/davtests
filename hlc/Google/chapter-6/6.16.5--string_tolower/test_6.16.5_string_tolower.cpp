@@ -129,7 +129,7 @@ TEST_F(StringTolower, BNetValueIsHierPath) {
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "net 'b' initial value is not a HierPath";
-  EXPECT_EQ(hp->getName(), "a.tolower()");
+  EXPECT_EQ(hp->getName(), "a.tolower");
 }
 
 TEST_F(StringTolower, HierPathReceiverIsA) {

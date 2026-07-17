@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/PackageHierRef packages.sv top.sv -writepp -verbose -d lib -d ast -d inst -fileunit -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageHierRef/PackageHierRef
+COMMAND: -wd ../../../tests/PackageHierRef packages.sv top.sv -writepp -d lib -d ast -d inst -fileunit -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/PackageHierRef/PackageHierRef
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
 LIB: work
@@ -715,7 +715,7 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/packages.sv:40:1: No timescale set for "work@r".
 [WRN:PA0205] $Source01/packages.sv:60:1: No timescale set for "work@s".
 [WRN:PA0205] $Source01/top.sv:18:1: No timescale set for "work@m".
-[ERR:EL0535] $Source01/top.sv:30:7: Illegal implicit net "id:288, name:f2".
+[ERR:EL0535] $Source01/top.sv:30:7: Illegal implicit net "id:293, name:f2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2697,7 +2697,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2928,7 +2930,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2945,7 +2947,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2990,7 +2992,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -3294,18 +3298,24 @@ Design name:unnamed:
   vpiTypespec (8 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     VoidTypespec start:13:1 end:13:5:
       vpiParent: Design name:unnamed
@@ -3370,7 +3380,7 @@ COMMAND: ${HLC_DIR}/regression/PackageHierRef/PackageHierRef/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             731     731       0         0
+Others                             736     736       0         0
 ----------------------------------------------------------------
-                                   731     731       0         0
+                                   736     736       0         0
 ===================== END REDUCTION RESULT =====================

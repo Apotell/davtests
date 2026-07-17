@@ -196,9 +196,6 @@ n<$Source01/unique-index.sv> u<181> t<Top_level_rule> c<1> l<16:1> el<30:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/unique-index.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/unique-index.sv:22:9: Illegal implicit net "id:47, name:unique_index".
-[ERR:EL0535] $Source01/unique-index.sv:23:39: Illegal implicit net "id:54, name:size".
-[ERR:EL0535] $Source01/unique-index.sv:24:5: Illegal implicit net "id:59, name:sort".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -340,20 +337,21 @@ Design name:unnamed:
                   vpiName: qi
                   vpiFullName: work@top.qi
                   vpiActual: Net name:qi
-                vpiRhs HierPath name:s.unique_index start:22:7 end:22:21:
+                vpiRhs HierPath name:s.unique_index() start:22:7 end:22:21:
                   vpiParent: Assignment
-                  vpiName: s.unique_index
-                  vpiFullName: work@top.s.unique_index
+                  vpiName: s.unique_index()
+                  vpiFullName: work@top.s.unique_index()
                   vpiPathElem (2 items):
                     RefObj name:s start:22:7 end:22:8:
-                      vpiParent: HierPath name:s.unique_index
+                      vpiParent: HierPath name:s.unique_index()
                       vpiName: s
                       vpiFullName: work@top.s
                       vpiActual: Net name:s
-                    RefObj name:unique_index start:22:9 end:22:21:
-                      vpiParent: HierPath name:s.unique_index
-                      vpiName: unique_index
-                      vpiFullName: work@top.unique_index
+                    MethodFuncCall name:unique_index start:22:9 end:22:21:
+                      vpiParent: HierPath name:s.unique_index()
+                      vpiName Identifier name:unique_index start:22:9 end:22:21:
+                        vpiParent: MethodFuncCall name:unique_index
+                        vpiName: unique_index
               SysFuncCall name:$display start:23:5 end:23:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:5 end:23:13:
@@ -370,34 +368,36 @@ Design name:unnamed:
                     vpiSize: 144
                     vpiDecompile: "\":assert: (%d == 3)\""
                     vpiValue: ":assert: (%d == 3)"
-                  HierPath name:qi.size start:23:36 end:23:43:
+                  HierPath name:qi.size() start:23:36 end:23:43:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: qi.size
-                    vpiFullName: work@top.qi.size
+                    vpiName: qi.size()
+                    vpiFullName: work@top.qi.size()
                     vpiPathElem (2 items):
                       RefObj name:qi start:23:36 end:23:38:
-                        vpiParent: HierPath name:qi.size
+                        vpiParent: HierPath name:qi.size()
                         vpiName: qi
                         vpiFullName: work@top.qi
                         vpiActual: Net name:qi
-                      RefObj name:size start:23:39 end:23:43:
-                        vpiParent: HierPath name:qi.size
-                        vpiName: size
-                        vpiFullName: work@top.size
-              HierPath name:qi.sort start:24:2 end:24:9:
+                      MethodFuncCall name:size start:23:39 end:23:43:
+                        vpiParent: HierPath name:qi.size()
+                        vpiName Identifier name:size start:23:39 end:23:43:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
+              HierPath name:qi.sort() start:24:2 end:24:9:
                 vpiParent: Begin
-                vpiName: qi.sort
-                vpiFullName: work@top.qi.sort
+                vpiName: qi.sort()
+                vpiFullName: work@top.qi.sort()
                 vpiPathElem (2 items):
                   RefObj name:qi start:24:2 end:24:4:
-                    vpiParent: HierPath name:qi.sort
+                    vpiParent: HierPath name:qi.sort()
                     vpiName: qi
                     vpiFullName: work@top.qi
                     vpiActual: Net name:qi
-                  RefObj name:sort start:24:5 end:24:9:
-                    vpiParent: HierPath name:qi.sort
-                    vpiName: sort
-                    vpiFullName: work@top.sort
+                  MethodFuncCall name:sort start:24:5 end:24:9:
+                    vpiParent: HierPath name:qi.sort()
+                    vpiName Identifier name:sort start:24:5 end:24:9:
+                      vpiParent: MethodFuncCall name:sort
+                      vpiName: sort
               SysFuncCall name:$display start:25:5 end:26:23:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:25:5 end:25:13:
@@ -486,7 +486,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -534,7 +534,7 @@ Constant                            12       7       1         6
 Operation                            1       0       0         1
 RefTypespec                         15       9       0         6
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    65      53       1        13
+                                    68      56       1        13
 ===================== END REDUCTION RESULT =====================

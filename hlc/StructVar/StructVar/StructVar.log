@@ -18,9 +18,7 @@ COMMAND: -wd ../../../tests/StructVar -fileunit -writepp -d db dut.sv -nobuiltin
 [WRN:PA0205] $Source01/dut.sv:34:1: No timescale set for "work@dut2".
 [WRN:PA0205] $Source01/dut.sv:47:1: No timescale set for "work@prim_generic_ram_1".
 [WRN:PA0205] $Source01/dut.sv:69:1: No timescale set for "work@test".
-[ERR:EL0535] $Source01/dut.sv:61:10: Illegal implicit net "id:279, name:pmp_addr_we".
-[ERR:EL0535] $Source01/dut.sv:61:36: Illegal implicit net "id:284, name:lock".
-[ERR:EL0535] $Source01/dut.sv:62:17: Illegal implicit net "id:294, name:mode".
+[ERR:EL0535] $Source01/dut.sv:61:10: Illegal implicit net "id:275, name:pmp_addr_we".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -512,7 +510,7 @@ Design name:unnamed:
         vpiParent: Module name:work@dut2
         vpiName: work@dut2
       vpiFullName: work@dut2
-      vpiTypespec (8 items):
+      vpiTypespec (7 items):
         BitTypespec:
           vpiParent: Module name:work@dut2
           vpiRange (1 items):
@@ -592,8 +590,6 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:mem_s
             vpiFullName: work@dut2.mem_s
             vpiActual: StructTypespec
-        LogicTypespec:
-          vpiParent: Module name:work@dut2
         ArrayTypespec:
           vpiParent: Module name:work@dut2
           vpiArrayType: static (1)
@@ -613,11 +609,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "20"
                   vpiValue: 20
-          vpiElemTypespec RefTypespec name:mem_s start:42:3 end:42:8:
+          vpiElemTypespec RefTypespec name:mem_s:
             vpiParent: ArrayTypespec
             vpiName: mem_s
             vpiFullName: work@dut2.mem_s
-            vpiActual: LogicTypespec
+            vpiActual: TypedefTypespec name:mem_s
         ArrayTypespec:
           vpiParent: Module name:work@dut2
           vpiArrayType: static (1)
@@ -660,11 +656,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "30"
                   vpiValue: 30
-          vpiElemTypespec RefTypespec name:mem_s start:43:3 end:43:8:
+          vpiElemTypespec RefTypespec name:mem_s:
             vpiParent: ArrayTypespec
             vpiName: mem_s
             vpiFullName: work@dut2.mem_s
-            vpiActual: LogicTypespec
+            vpiActual: TypedefTypespec name:mem_s
       vpiDefName: work@dut2
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -679,22 +675,24 @@ Design name:unnamed:
             vpiParent: Net name:mem
             vpiName: mem_s
             vpiFullName: work@dut2.mem.mem_s
-            vpiActual: LogicTypespec
+            vpiActual: TypedefTypespec name:mem_s
           vpiName: mem
           vpiFullName: work@dut2.mem
         Net name:memArr start:42:9 end:42:15:
           vpiParent: Module name:work@dut2
-          vpiTypespec RefTypespec start:42:3 end:42:8:
+          vpiTypespec RefTypespec name:mem_s start:42:3 end:42:8:
             vpiParent: Net name:memArr
-            vpiFullName: work@dut2.memArr
+            vpiName: mem_s
+            vpiFullName: work@dut2.memArr.mem_s
             vpiActual: ArrayTypespec
           vpiName: memArr
           vpiFullName: work@dut2.memArr
         Net name:memMulti start:43:9 end:43:17:
           vpiParent: Module name:work@dut2
-          vpiTypespec RefTypespec start:43:3 end:43:8:
+          vpiTypespec RefTypespec name:mem_s start:43:3 end:43:8:
             vpiParent: Net name:memMulti
-            vpiFullName: work@dut2.memMulti
+            vpiName: mem_s
+            vpiFullName: work@dut2.memMulti.mem_s
             vpiActual: ArrayTypespec
           vpiName: memMulti
           vpiFullName: work@dut2.memMulti
@@ -811,11 +809,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
-          vpiElemTypespec RefTypespec name:pmp_cfg_t start:57:3 end:57:12:
+          vpiElemTypespec RefTypespec name:pmp_cfg_t:
             vpiParent: ArrayTypespec
             vpiName: pmp_cfg_t
             vpiFullName: work@prim_generic_ram_1.pmp_cfg_t
-            vpiActual: LogicTypespec
+            vpiActual: TypedefTypespec name:pmp_cfg_t
       vpiDefName: work@prim_generic_ram_1
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -826,9 +824,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:pmp_cfg start:57:17 end:57:24:
           vpiParent: Module name:work@prim_generic_ram_1
-          vpiTypespec RefTypespec start:57:3 end:57:12:
+          vpiTypespec RefTypespec name:pmp_cfg_t start:57:3 end:57:12:
             vpiParent: Net name:pmp_cfg
-            vpiFullName: work@prim_generic_ram_1.pmp_cfg
+            vpiName: pmp_cfg_t
+            vpiFullName: work@prim_generic_ram_1.pmp_cfg.pmp_cfg_t
             vpiActual: ArrayTypespec
           vpiName: pmp_cfg
           vpiFullName: work@prim_generic_ram_1.pmp_cfg
@@ -928,6 +927,7 @@ Design name:unnamed:
                               vpiParent: HierPath name:pmp_cfg[i].lock
                               vpiName: lock
                               vpiFullName: work@prim_generic_ram_1.g_pmp_csrs.lock
+                              vpiActual: TypespecMember name:lock
                     Operation start:62:4 end:62:37:
                       vpiParent: Operation
                       vpiOpType: not equal (15)
@@ -969,6 +969,7 @@ Design name:unnamed:
                               vpiParent: HierPath name:pmp_cfg[i + 1].mode
                               vpiName: mode
                               vpiFullName: work@prim_generic_ram_1.g_pmp_csrs.mode
+                              vpiActual: TypespecMember name:mode
                         RefObj name:PMP_MODE_TOR start:62:25 end:62:37:
                           vpiParent: Operation
                           vpiName: PMP_MODE_TOR
@@ -1075,7 +1076,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
@@ -1120,7 +1121,7 @@ COMMAND: ${HLC_DIR}/regression/StructVar/StructVar/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             265     265       0         0
+Others                             264     264       0         0
 ----------------------------------------------------------------
-                                   265     265       0         0
+                                   264     264       0         0
 ===================== END REDUCTION RESULT =====================

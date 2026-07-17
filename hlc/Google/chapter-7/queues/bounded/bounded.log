@@ -208,7 +208,6 @@ n<$Source01/bounded.sv> u<193> t<Top_level_rule> c<1> l<16:1> el<34:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/bounded.sv:16:1: Compile module "work@top".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/bounded.sv:30:33: Illegal implicit net "id:85, name:size".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -498,20 +497,21 @@ Design name:unnamed:
                     vpiSize: 128
                     vpiDecompile: "\":assert: (%d==3)\""
                     vpiValue: ":assert: (%d==3)"
-                  HierPath name:q.size start:30:31 end:30:37:
+                  HierPath name:q.size() start:30:31 end:30:37:
                     vpiParent: SysFuncCall name:$display
-                    vpiName: q.size
-                    vpiFullName: work@top.q.size
+                    vpiName: q.size()
+                    vpiFullName: work@top.q.size()
                     vpiPathElem (2 items):
                       RefObj name:q start:30:31 end:30:32:
-                        vpiParent: HierPath name:q.size
+                        vpiParent: HierPath name:q.size()
                         vpiName: q
                         vpiFullName: work@top.q
                         vpiActual: Net name:q
-                      RefObj name:size start:30:33 end:30:37:
-                        vpiParent: HierPath name:q.size
-                        vpiName: size
-                        vpiFullName: work@top.size
+                      MethodFuncCall name:size start:30:33 end:30:37:
+                        vpiParent: HierPath name:q.size()
+                        vpiName Identifier name:size start:30:33 end:30:37:
+                          vpiParent: MethodFuncCall name:size
+                          vpiName: size
   vpiTypespec (3 items):
     ModuleTypespec name:work@top:
       vpiParent: Design name:unnamed
@@ -527,7 +527,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -572,7 +572,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/queues/bounded/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              74      74       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    74      74       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

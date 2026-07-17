@@ -643,7 +643,6 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/dut.sv:52:62: Compile generate block "check".
 [INF:CP0335] $Source01/dut.sv:53:66: Compile generate block "operands".
 [INF:CP0335] $Source01/dut.sv:58:22: Compile generate block "no_check".
-[WRN:CP0323] $Source01/dut.sv:43:1: Multiply defined typedef "fpnew_pkg".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@fpnew_pkg".
 [WRN:PA0205] $Source01/dut.sv:43:1: No timescale set for "work@top".
 [ERR:EL0535] $Source01/dut.sv:30:5: Illegal implicit net "id:130, name:Width".
@@ -651,13 +650,13 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/dut.sv:32:5: Illegal implicit net "id:138, name:EnableNanBox".
 [ERR:EL0535] $Source01/dut.sv:33:5: Illegal implicit net "id:142, name:FpFmtMask".
 [ERR:EL0535] $Source01/dut.sv:34:5: Illegal implicit net "id:146, name:IntFmtMask".
-[ERR:EL0535] $Source01/dut.sv:46:31: Illegal implicit net "id:207, name:Width".
-[ERR:EL0535] $Source01/dut.sv:52:18: Illegal implicit net "id:245, name:EnableNanBox".
-[ERR:EL0535] $Source01/dut.sv:53:37: Illegal implicit net "id:261, name:NUM_OPERANDS".
-[ERR:EL0535] $Source01/dut.sv:54:16: Illegal implicit net "id:269, name:is_boxed".
-[ERR:EL0535] $Source01/dut.sv:54:38: Illegal implicit net "id:274, name:vectorial_op_i".
-[ERR:EL0535] $Source01/dut.sv:55:38: Illegal implicit net "id:286, name:operands_i".
-[ERR:EL0535] $Source01/dut.sv:59:14: Illegal implicit net "id:298, name:is_boxed".
+[ERR:EL0535] $Source01/dut.sv:46:31: Illegal implicit net "id:208, name:Width".
+[ERR:EL0535] $Source01/dut.sv:52:18: Illegal implicit net "id:249, name:EnableNanBox".
+[ERR:EL0535] $Source01/dut.sv:53:37: Illegal implicit net "id:265, name:NUM_OPERANDS".
+[ERR:EL0535] $Source01/dut.sv:54:16: Illegal implicit net "id:273, name:is_boxed".
+[ERR:EL0535] $Source01/dut.sv:54:38: Illegal implicit net "id:278, name:vectorial_op_i".
+[ERR:EL0535] $Source01/dut.sv:55:38: Illegal implicit net "id:290, name:operands_i".
+[ERR:EL0535] $Source01/dut.sv:59:14: Illegal implicit net "id:302, name:is_boxed".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1167,7 +1166,7 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:fp_encoding_t
         UnsupportedTypespec name:fpu_features_t start:29:14 end:29:28:
           vpiParent: Package name:work@fpnew_pkg
-          vpiName Identifier name:fpu_features_t:
+          vpiName Identifier name:fpu_features_t start:29:14 end:29:28:
             vpiParent: UnsupportedTypespec name:fpu_features_t
             vpiName: fpu_features_t
         BitTypespec:
@@ -1186,12 +1185,6 @@ Design name:unnamed:
             vpiParent: Function name:fp_width
             vpiName: fp_width
           vpiFullName: work@fpnew_pkg::fp_width
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:fp_format_e start:37:44 end:37:55:
-              vpiParent: Function name:fp_width
-              vpiName Identifier name:fp_format_e:
-                vpiParent: UnsupportedTypespec name:fp_format_e
-                vpiName: fp_format_e
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -1199,10 +1192,11 @@ Design name:unnamed:
               vpiParent: Function name:fp_width
               vpiName: fmt
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:37:44 end:37:55:
+              vpiTypespec RefTypespec name:fp_format_e start:37:44 end:37:55:
                 vpiParent: IODecl name:fmt
-                vpiFullName: work@fpnew_pkg::fp_width::fmt
-                vpiActual: UnsupportedTypespec name:fp_format_e
+                vpiName: fp_format_e
+                vpiFullName: work@fpnew_pkg::fp_width::fmt::fp_format_e
+                vpiActual: TypedefTypespec name:fp_format_e
           vpiStmt ReturnStmt start:38:5 end:38:72:
             vpiParent: Function name:fp_width
             vpiCondition Operation start:38:12 end:38:71:
@@ -1298,6 +1292,7 @@ Design name:unnamed:
             vpiParent: Parameter name:Features
             vpiName: fpnew_pkg::fpu_features_t
             vpiFullName: work@top.Features.fpnew_pkg::fpu_features_t
+            vpiActual: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
           vpiName: Features
           vpiFullName: work@top.Features
         Parameter name:WIDTH start:46:14 end:46:19:
@@ -1321,7 +1316,11 @@ Design name:unnamed:
             vpiName: fpnew_pkg::NUM_FP_FORMATS
             vpiFullName: work@top.fpnew_pkg::NUM_FP_FORMATS
             vpiPathElem (2 items):
-              PackageTypespec name:fpnew_pkg:
+              RefObj name:fpnew_pkg start:44:43 end:44:54:
+                vpiParent: HierPath name:fpnew_pkg::NUM_FP_FORMATS
+                vpiName: fpnew_pkg
+                vpiFullName: work@top.fpnew_pkg
+                vpiActual: Package name:work@fpnew_pkg
               RefObj name:NUM_FP_FORMATS start:44:54 end:44:68:
                 vpiParent: HierPath name:fpnew_pkg::NUM_FP_FORMATS
                 vpiName: NUM_FP_FORMATS
@@ -1339,7 +1338,11 @@ Design name:unnamed:
             vpiName: fpnew_pkg::RV64D_Xsflt
             vpiFullName: work@top.fpnew_pkg::RV64D_Xsflt
             vpiPathElem (2 items):
-              PackageTypespec name:fpnew_pkg:
+              RefObj name:fpnew_pkg start:45:63 end:45:74:
+                vpiParent: HierPath name:fpnew_pkg::RV64D_Xsflt
+                vpiName: fpnew_pkg
+                vpiFullName: work@top.fpnew_pkg
+                vpiActual: Package name:work@fpnew_pkg
               RefObj name:RV64D_Xsflt start:45:74 end:45:85:
                 vpiParent: HierPath name:fpnew_pkg::RV64D_Xsflt
                 vpiName: RV64D_Xsflt
@@ -1366,18 +1369,23 @@ Design name:unnamed:
                 vpiParent: HierPath name:Features.Width
                 vpiName: Width
                 vpiFullName: work@top.Width
-      vpiTypespec (4 items):
-        PackageTypespec name:fpnew_pkg start:44:43 end:44:54:
+      vpiTypespec (2 items):
+        UnsupportedTypespec name:fpnew_pkg::fpu_features_t start:45:14 end:45:39:
           vpiParent: Module name:work@top
-          vpiName: fpnew_pkg
-          vpiPackage: Package name:work@fpnew_pkg
-        ClassTypespec name:fpnew_pkg start:45:14 end:45:23:
-          vpiParent: Module name:work@top
-          vpiName: fpnew_pkg
-        PackageTypespec name:fpnew_pkg start:45:63 end:45:74:
-          vpiParent: Module name:work@top
-          vpiName: fpnew_pkg
-          vpiPackage: Package name:work@fpnew_pkg
+          vpiPathElem (2 items):
+            UnsupportedScope name:fpnew_pkg start:45:14 end:45:25:
+              vpiParent: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
+              vpiName Identifier name:fpnew_pkg start:45:14 end:45:23:
+                vpiParent: UnsupportedScope name:fpnew_pkg
+                vpiName: fpnew_pkg
+              vpiFullName: work@top.fpnew_pkg::fpu_features_t.fpnew_pkg
+            RefTypespec name:fpu_features_t start:45:25 end:45:39:
+              vpiParent: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
+              vpiName: fpu_features_t
+              vpiFullName: work@top.fpnew_pkg::fpu_features_t.fpu_features_t
+          vpiName Identifier name:fpnew_pkg::fpu_features_t start:45:14 end:45:39:
+            vpiParent: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
+            vpiName: fpnew_pkg::fpu_features_t
         LogicTypespec:
           vpiParent: Module name:work@top
       vpiDefName: work@top
@@ -1471,7 +1479,12 @@ Design name:unnamed:
                   vpiName: fpnew_pkg::fp_width()
                   vpiFullName: work@top.gen_nanbox_check.fpnew_pkg::fp_width()
                   vpiPathElem (2 items):
-                    ClassTypespec name:fpnew_pkg:
+                    UnsupportedScope name:fpnew_pkg start:50:40 end:50:51:
+                      vpiParent: HierPath name:fpnew_pkg::fp_width()
+                      vpiName Identifier name:fpnew_pkg start:50:40 end:50:49:
+                        vpiParent: UnsupportedScope name:fpnew_pkg
+                        vpiName: fpnew_pkg
+                      vpiFullName: work@top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg
                     MethodFuncCall name:fp_width start:50:51 end:50:89:
                       vpiParent: HierPath name:fpnew_pkg::fp_width()
                       vpiName Identifier name:fp_width start:50:51 end:50:59:
@@ -1480,32 +1493,18 @@ Design name:unnamed:
                       vpiArgument (1 items):
                         Operation start:50:60 end:50:88:
                           vpiParent: MethodFuncCall name:fp_width
+                          vpiTypespec RefTypespec name:fpnew_pkg::fp_format_e start:50:60 end:50:82:
+                            vpiParent: Operation
+                            vpiName: fpnew_pkg::fp_format_e
+                            vpiFullName: work@top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e
+                            vpiActual: TypedefTypespec name:fp_format_e
                           vpiOpType: cast (81)
-                          vpiOperand (2 items):
-                            HierPath name:fpnew_pkg::fp_format_e start:50:60 end:50:82:
-                              vpiParent: Operation
-                              vpiName: fpnew_pkg::fp_format_e
-                              vpiFullName: work@top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e
-                              vpiPathElem (2 items):
-                                PackageTypespec name:fpnew_pkg:
-                                RefTypespec name:fp_format_e start:50:71 end:50:82:
-                                  vpiParent: HierPath name:fpnew_pkg::fp_format_e
-                                  vpiName: fp_format_e
-                                  vpiFullName: work@top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e.fp_format_e
-                                  vpiActual: TypedefTypespec name:fp_format_e
+                          vpiOperand (1 items):
                             RefObj name:fmt start:50:84 end:50:87:
                               vpiParent: Operation
                               vpiName: fmt
                               vpiFullName: work@top.gen_nanbox_check.fpnew_pkg::fp_width().fmt
                               vpiActual: Variable name:fmt
-            vpiTypespec (2 items):
-              ClassTypespec name:fpnew_pkg start:50:40 end:50:49:
-                vpiParent: Begin name:gen_nanbox_check
-                vpiName: fpnew_pkg
-              PackageTypespec name:fpnew_pkg start:50:60 end:50:71:
-                vpiParent: Begin name:gen_nanbox_check
-                vpiName: fpnew_pkg
-                vpiPackage: Package name:work@fpnew_pkg
             vpiStmt (3 items):
               Parameter name:FP_WIDTH:
               ParamAssign:
@@ -1769,7 +1768,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 12
-[WARNING] : 3
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1813,13 +1812,13 @@ COMMAND: ${HLC_DIR}/regression/ParamOverload3/ParamOverload3/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      33       3         2
-Identifier                          19      18       0         1
+Identifier                          21      20       0         1
 Operation                           24      22       0         2
-RefObj                              49      46       0         3
-RefTypespec                         51      51       2         2
+RefObj                              51      48       0         3
+RefTypespec                         52      52       2         2
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                   264     258       5        11
+                                   265     259       5        11
 ===================== END REDUCTION RESULT =====================

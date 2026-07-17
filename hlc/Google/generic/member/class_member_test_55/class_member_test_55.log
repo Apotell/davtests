@@ -72,10 +72,10 @@ n<$Source01/class_member_test_55.sv> u<58> t<Top_level_rule> c<1> l<6:1> el<11:9
             n<> u<52> t<ENDCLASS> p<53> l<11:1> el<11:9>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/class_member_test_55.sv:8:8: Illegal implicit net "id:10, name:A".
-[ERR:EL0535] $Source01/class_member_test_55.sv:9:3: Illegal implicit net "id:21, name:A".
-[ERR:EL0535] $Source01/class_member_test_55.sv:9:7: Illegal implicit net "id:22, name:B".
-[ERR:EL0535] $Source01/class_member_test_55.sv:9:12: Illegal implicit net "id:24, name:C".
+[ERR:EL0535] $Source01/class_member_test_55.sv:8:8: Illegal implicit net "id:11, name:A".
+[ERR:EL0535] $Source01/class_member_test_55.sv:9:3: Illegal implicit net "id:22, name:A".
+[ERR:EL0535] $Source01/class_member_test_55.sv:9:7: Illegal implicit net "id:23, name:B".
+[ERR:EL0535] $Source01/class_member_test_55.sv:9:12: Illegal implicit net "id:25, name:C".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -95,15 +95,18 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:uvm_object start:6:23 end:6:33:
           vpiParent: ClassDefn name:work@myclass
-          vpiName: uvm_object
+          vpiName Identifier name:uvm_object:
+            vpiParent: ClassTypespec name:uvm_object
+            vpiName: uvm_object
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:6:15 end:6:22:
         vpiParent: ClassDefn name:work@myclass
-        vpiClassTypespec RefTypespec name:uvm_object start:6:23 end:6:33:
-          vpiParent: Extends
-          vpiName: uvm_object
-          vpiFullName: work@myclass::uvm_object
-          vpiActual: ClassTypespec name:uvm_object
+        vpiClassTypespec (1 items):
+          RefTypespec name:uvm_object start:6:23 end:6:33:
+            vpiParent: Extends
+            vpiName: uvm_object
+            vpiFullName: work@myclass::uvm_object
+            vpiActual: ClassTypespec name:uvm_object
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@myclass
         vpiName: work
@@ -177,7 +180,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@myclass:
       vpiParent: Design name:unnamed
-      vpiName: work@myclass
+      vpiName Identifier name:work@myclass:
+        vpiParent: ClassTypespec name:work@myclass
+        vpiName: work@myclass
       vpiClassDefn: ClassDefn name:work@myclass
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -230,7 +235,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_55/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

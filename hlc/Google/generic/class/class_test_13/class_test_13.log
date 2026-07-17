@@ -307,41 +307,43 @@ Design name:unnamed:
             vpiFullName: work@Foo
             vpiActual: IntTypespec
       vpiTypespec (2 items):
-        ClassTypespec name:Bar start:18:44 end:18:56:
+        ClassTypespec name:Bar #(type =x, type =y, type =z) start:18:44 end:18:56:
           vpiParent: ClassDefn name:work@Foo
-          vpiName: Bar
+          vpiName Identifier name:Bar #(type =x, type =y, type =z):
+            vpiParent: ClassTypespec name:Bar #(type =x, type =y, type =z)
+            vpiName: Bar #(type =x, type =y, type =z)
           vpiParamAssign (3 items):
             ParamAssign start:18:50 end:18:51:
-              vpiParent: ClassTypespec name:Bar
+              vpiParent: ClassTypespec name:Bar #(type =x, type =y, type =z)
               vpiRhs RefObj name:x start:18:50 end:18:51:
                 vpiParent: ParamAssign
                 vpiName: x
-                vpiFullName: work@Foo::Bar::x
+                vpiFullName: work@Foo::Bar #(type =x, type =y, type =z)::x
                 vpiActual: Parameter name:x
             ParamAssign start:18:52 end:18:53:
-              vpiParent: ClassTypespec name:Bar
+              vpiParent: ClassTypespec name:Bar #(type =x, type =y, type =z)
               vpiRhs RefObj name:y start:18:52 end:18:53:
                 vpiParent: ParamAssign
                 vpiName: y
-                vpiFullName: work@Foo::Bar::y
+                vpiFullName: work@Foo::Bar #(type =x, type =y, type =z)::y
                 vpiActual: Parameter name:y
             ParamAssign start:18:54 end:18:55:
-              vpiParent: ClassTypespec name:Bar
+              vpiParent: ClassTypespec name:Bar #(type =x, type =y, type =z)
               vpiRhs RefObj name:z start:18:54 end:18:55:
                 vpiParent: ParamAssign
                 vpiName: z
-                vpiFullName: work@Foo::Bar::z
+                vpiFullName: work@Foo::Bar #(type =x, type =y, type =z)::z
                 vpiActual: Parameter name:z
-          vpiClassDefn: ClassDefn name:work@Bar
         TypeParameter name:Int:
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:18:36 end:18:43:
         vpiParent: ClassDefn name:work@Foo
-        vpiClassTypespec RefTypespec name:Bar start:18:44 end:18:56:
-          vpiParent: Extends
-          vpiName: Bar
-          vpiFullName: work@Foo::Bar
-          vpiActual: ClassTypespec name:Bar
+        vpiClassTypespec (1 items):
+          RefTypespec name:Bar #(type =x, type =y, type =z) start:18:44 end:18:56:
+            vpiParent: Extends
+            vpiName: Bar #(type =x, type =y, type =z)
+            vpiFullName: work@Foo::Bar #(type =x, type =y, type =z)
+            vpiActual: ClassTypespec name:Bar #(type =x, type =y, type =z)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@Foo
         vpiName: work
@@ -364,7 +366,9 @@ Design name:unnamed:
   vpiTypespec (5 items):
     ClassTypespec name:work@Bar:
       vpiParent: Design name:unnamed
-      vpiName: work@Bar
+      vpiName Identifier name:work@Bar:
+        vpiParent: ClassTypespec name:work@Bar
+        vpiName: work@Bar
       vpiClassDefn: ClassDefn name:work@Bar
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -373,7 +377,9 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     ClassTypespec name:work@Foo:
       vpiParent: Design name:unnamed
-      vpiName: work@Foo
+      vpiName Identifier name:work@Foo:
+        vpiParent: ClassTypespec name:work@Foo
+        vpiName: work@Foo
       vpiClassDefn: ClassDefn name:work@Foo
     ModuleTypespec name:work@test:
       vpiParent: Design name:unnamed
@@ -506,7 +512,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_13/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

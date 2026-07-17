@@ -23,6 +23,7 @@ PP TREE: (top_level_rule null_rule (source_text (description (module module)) (d
 [WRN:PA0205] $Source01/top.v:8:1: No timescale set for "work@AXI_BUS".
 [WRN:PA0205] $Source01/top.v:29:1: No timescale set for "work@mem_if".
 [ERR:EL0535] $Source01/top.v:36:29: Illegal implicit net "id:93, name:system1".
+[ERR:EL0535] $Source01/top.v:45:29: Illegal implicit net "id:118, name:system".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -93,9 +94,9 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Interface name:work@AXI_BUS
-        UnsupportedTypespec name:logic start:12:11 end:12:16:
+        UnsupportedTypespec name:logic start:12:11 end:12:35:
           vpiParent: Interface name:work@AXI_BUS
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:12:11 end:12:16:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
@@ -330,7 +331,22 @@ Design name:unnamed:
           vpiName: state
           vpiFullName: work@memory_ctrl1.state
           vpiNetType: none (12)
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:mem_if::system1 start:36:22 end:36:36:
+          vpiParent: Module name:work@memory_ctrl1
+          vpiPathElem (2 items):
+            RefObj name:mem_if start:36:22 end:36:28:
+              vpiParent: UnsupportedTypespec name:mem_if::system1
+              vpiName: mem_if
+              vpiFullName: work@memory_ctrl1.mem_if::system1.mem_if
+              vpiActual: Interface name:work@mem_if
+            RefObj name:system1 start:36:29 end:36:36:
+              vpiParent: UnsupportedTypespec name:mem_if::system1
+              vpiName: system1
+              vpiFullName: work@memory_ctrl1.mem_if::system1.system1
+          vpiName Identifier name:mem_if::system1:
+            vpiParent: UnsupportedTypespec name:mem_if::system1
+            vpiName: mem_if::system1
         EnumTypespec start:38:10 end:38:37:
           vpiParent: Module name:work@memory_ctrl1
           vpiEnumConst (4 items):
@@ -373,11 +389,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:sif start:36:37 end:36:40:
           vpiParent: Module name:work@memory_ctrl1
-          vpiTypespec RefTypespec name:mem_if.system1 start:36:22 end:36:36:
+          vpiTypespec RefTypespec start:36:22 end:36:36:
             vpiParent: Net name:sif
-            vpiName: mem_if.system1
-            vpiFullName: work@memory_ctrl1.sif.mem_if.system1
-            vpiPrefix: HierPath name:mem_if.system1
+            vpiFullName: work@memory_ctrl1.sif
+            vpiActual: UnsupportedTypespec name:mem_if::system1
           vpiName: sif
           vpiFullName: work@memory_ctrl1.sif
           vpiNetType: wire (1)
@@ -390,24 +405,10 @@ Design name:unnamed:
             vpiParent: Port name:sif
             vpiFullName: work@memory_ctrl1.sif
             vpiActual: Net name:sif
-          vpiTypespec RefTypespec name:mem_if.system1 start:36:22 end:36:36:
+          vpiTypespec RefTypespec start:36:22 end:36:36:
             vpiParent: Port name:sif
-            vpiName: mem_if.system1
-            vpiFullName: work@memory_ctrl1.sif.mem_if.system1
-            vpiPrefix HierPath name:mem_if.system1 start:36:22 end:36:36:
-              vpiParent: RefTypespec name:mem_if.system1
-              vpiName: mem_if.system1
-              vpiFullName: work@memory_ctrl1.sif.mem_if.system1.mem_if.system1
-              vpiPathElem (2 items):
-                RefObj name:mem_if start:36:22 end:36:28:
-                  vpiParent: HierPath name:mem_if.system1
-                  vpiName: mem_if
-                  vpiFullName: work@memory_ctrl1.sif.mem_if.system1.mem_if
-                  vpiActual: Interface name:work@mem_if
-                RefObj name:system1 start:36:29 end:36:36:
-                  vpiParent: HierPath name:mem_if.system1
-                  vpiName: system1
-                  vpiFullName: work@memory_ctrl1.sif.mem_if.system1.system1
+            vpiFullName: work@memory_ctrl1.sif
+            vpiActual: UnsupportedTypespec name:mem_if::system1
     Module name:work@memory_ctrl2 file:$Source01/top.v start:45:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@memory_ctrl2 start:45:8 end:45:20:
@@ -434,7 +435,22 @@ Design name:unnamed:
           vpiName: t
           vpiFullName: work@memory_ctrl2.t
           vpiNetType: none (12)
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        UnsupportedTypespec name:mem_if::system start:45:22 end:45:35:
+          vpiParent: Module name:work@memory_ctrl2
+          vpiPathElem (2 items):
+            RefObj name:mem_if start:45:22 end:45:28:
+              vpiParent: UnsupportedTypespec name:mem_if::system
+              vpiName: mem_if
+              vpiFullName: work@memory_ctrl2.mem_if::system.mem_if
+              vpiActual: Interface name:work@mem_if
+            RefObj name:system start:45:29 end:45:35:
+              vpiParent: UnsupportedTypespec name:mem_if::system
+              vpiName: system
+              vpiFullName: work@memory_ctrl2.mem_if::system.system
+          vpiName Identifier name:mem_if::system:
+            vpiParent: UnsupportedTypespec name:mem_if::system
+            vpiName: mem_if::system
         EnumTypespec start:47:10 end:47:37:
           vpiParent: Module name:work@memory_ctrl2
           vpiEnumConst (4 items):
@@ -477,11 +493,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:sif start:45:36 end:45:39:
           vpiParent: Module name:work@memory_ctrl2
-          vpiTypespec RefTypespec name:mem_if.system start:45:22 end:45:35:
+          vpiTypespec RefTypespec start:45:22 end:45:35:
             vpiParent: Net name:sif
-            vpiName: mem_if.system
-            vpiFullName: work@memory_ctrl2.sif.mem_if.system
-            vpiPrefix: HierPath name:mem_if.system
+            vpiFullName: work@memory_ctrl2.sif
+            vpiActual: UnsupportedTypespec name:mem_if::system
           vpiName: sif
           vpiFullName: work@memory_ctrl2.sif
           vpiNetType: wire (1)
@@ -494,25 +509,10 @@ Design name:unnamed:
             vpiParent: Port name:sif
             vpiFullName: work@memory_ctrl2.sif
             vpiActual: Net name:sif
-          vpiTypespec RefTypespec name:mem_if.system start:45:22 end:45:35:
+          vpiTypespec RefTypespec start:45:22 end:45:35:
             vpiParent: Port name:sif
-            vpiName: mem_if.system
-            vpiFullName: work@memory_ctrl2.sif.mem_if.system
-            vpiPrefix HierPath name:mem_if.system start:45:22 end:45:35:
-              vpiParent: RefTypespec name:mem_if.system
-              vpiName: mem_if.system
-              vpiFullName: work@memory_ctrl2.sif.mem_if.system.mem_if.system
-              vpiPathElem (2 items):
-                RefObj name:mem_if start:45:22 end:45:28:
-                  vpiParent: HierPath name:mem_if.system
-                  vpiName: mem_if
-                  vpiFullName: work@memory_ctrl2.sif.mem_if.system.mem_if
-                  vpiActual: Interface name:work@mem_if
-                RefObj name:system start:45:29 end:45:35:
-                  vpiParent: HierPath name:mem_if.system
-                  vpiName: system
-                  vpiFullName: work@memory_ctrl2.sif.mem_if.system.system
-                  vpiActual: Modport name:system
+            vpiFullName: work@memory_ctrl2.sif
+            vpiActual: UnsupportedTypespec name:mem_if::system
   vpiTypespec (6 items):
     ModuleTypespec name:work@dff0_test:
       vpiParent: Design name:unnamed
@@ -550,7 +550,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
@@ -599,7 +599,7 @@ Operation                            2       0       0         2
 RefObj                              15      14       0         1
 RefTypespec                         27      27       2         2
 ----------------------------------------------------------------
-Others                              84      84       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                   133     130       4         7
+                                   135     132       4         7
 ===================== END REDUCTION RESULT =====================

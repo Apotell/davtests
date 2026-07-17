@@ -79,8 +79,7 @@ TEST_F(Typedef, ANetTypespecActualIsLogic) {
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "net 'a' resolves through logic_t typedef to LogicTypespec";
+  EXPECT_NE(a->getTypespec()->getActual<hldb::TypedefTypespec>(), nullptr) << "net 'a' resolves to TypedefTypespec";
 }
 
 // ---------------------------------------------------------------------------

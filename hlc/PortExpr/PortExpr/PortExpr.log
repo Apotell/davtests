@@ -38,20 +38,19 @@ n<$Source01/dut.sv> u<36> t<Top_level_rule> c<1> l<1:1> el<7:1>
             n<> u<22> t<Output_declaration> p<23> c<19> l<4:4> el<4:23>
               n<> u<19> t<Net_port_type> p<22> c<18> s<21> l<4:11> el<4:11>
                 n<> u<18> t<Data_type_or_implicit> p<19> l<4:11> el<4:11>
-              n<> u<21> t<Port_identifier_list> p<22> c<20> l<4:11> el<4:23>
+              n<> u<21> t<Output_port_identifier_list> p<22> c<20> l<4:11> el<4:23>
                 n<op[79]> u<20> t<ESCAPED_IDENTIFIER> p<21> l<4:11> el<4:23>
         n<> u<31> t<Module_item> p<33> c<30> s<32> l<5:4> el<5:24>
           n<> u<30> t<Port_declaration> p<31> c<29> l<5:4> el<5:23>
             n<> u<29> t<Output_declaration> p<30> c<26> l<5:4> el<5:23>
               n<> u<26> t<Net_port_type> p<29> c<25> s<28> l<5:11> el<5:11>
                 n<> u<25> t<Data_type_or_implicit> p<26> l<5:11> el<5:11>
-              n<> u<28> t<Port_identifier_list> p<29> c<27> l<5:11> el<5:23>
+              n<> u<28> t<Output_port_identifier_list> p<29> c<27> l<5:11> el<5:23>
                 n<op[78]> u<27> t<ESCAPED_IDENTIFIER> p<28> l<5:11> el<5:23>
         n<> u<32> t<ENDMODULE> p<33> l<6:1> el<6:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:2:9: Illegal implicit net "id:13, name:op[79]".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -78,7 +77,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: work@top.work
       vpiCell: top
-      vpiNet (1 items):
+      vpiNet (3 items):
         Net name:op start:2:5 end:2:7:
           vpiParent: Module name:work@top
           vpiTypespec RefTypespec:
@@ -86,6 +85,22 @@ Design name:unnamed:
             vpiFullName: work@top.op
           vpiName: op
           vpiFullName: work@top.op
+        Net name:op[79] start:4:11 end:4:23:
+          vpiParent: Module name:work@top
+          vpiTypespec RefTypespec start:4:11 end:4:11:
+            vpiParent: Net name:op[79]
+            vpiFullName: work@top.op[79]
+            vpiActual: LogicTypespec
+          vpiName: op[79]
+          vpiFullName: work@top.op[79]
+        Net name:op[78] start:5:11 end:5:23:
+          vpiParent: Module name:work@top
+          vpiTypespec RefTypespec start:5:11 end:5:11:
+            vpiParent: Net name:op[78]
+            vpiFullName: work@top.op[78]
+            vpiActual: LogicTypespec
+          vpiName: op[78]
+          vpiFullName: work@top.op[78]
       vpiPort (1 items):
         Port name:op start:2:5 end:2:7:
           vpiParent: Module name:work@top
@@ -99,6 +114,7 @@ Design name:unnamed:
             vpiParent: Port name:op
             vpiName: op[79]
             vpiFullName: work@top.op.op[79]
+            vpiActual: Net name:op[79]
           vpiTypespec RefTypespec:
             vpiParent: Port name:op
             vpiFullName: work@top.op
@@ -112,7 +128,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -128,25 +144,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PortExpr/PortExpr/mounts.json
 
 
-{'result': {'coverage': 71.28,
+{'result': {'coverage': 90.43,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 27,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 9,
                                                   'pre_len': 94}},
-            'post_len': 27,
+            'post_len': 9,
             'pre_len': 94,
             'test_name': 'PortExpr/PortExpr'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |       94 |        27 |
+| $Output/lib/work/dut.sv |       94 |         9 |
 +=========================+==========+===========+
-|                         |       94 |        27 |
+|                         |       94 |         9 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 71.28
+[COVERAGE] : 90.43
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -157,7 +173,7 @@ COMMAND: ${HLC_DIR}/regression/PortExpr/PortExpr/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    14      14       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

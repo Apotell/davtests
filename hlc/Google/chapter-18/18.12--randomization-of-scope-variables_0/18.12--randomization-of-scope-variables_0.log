@@ -134,10 +134,6 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiName: success
                 vpiFullName: work@a::do_randomize::success
-            vpiTypespec (1 items):
-              ClassTypespec name:std start:19:19 end:19:22:
-                vpiParent: Begin
-                vpiName: std
             vpiStmt (2 items):
               Assignment start:19:9 end:19:36:
                 vpiParent: Begin
@@ -152,7 +148,12 @@ Design name:unnamed:
                   vpiName: std::randomize(x)
                   vpiFullName: work@a::do_randomize::std::randomize(x)
                   vpiPathElem (2 items):
-                    ClassTypespec name:std:
+                    UnsupportedScope name:std start:19:19 end:19:24:
+                      vpiParent: HierPath name:std::randomize(x)
+                      vpiName Identifier name:std start:19:19 end:19:22:
+                        vpiParent: UnsupportedScope name:std
+                        vpiName: std
+                      vpiFullName: work@a::do_randomize::std::randomize(x)::std
                     MethodFuncCall name:randomize start:19:24 end:19:36:
                       vpiParent: HierPath name:std::randomize(x)
                       vpiName Identifier name:randomize start:19:24 end:19:33:
@@ -178,7 +179,9 @@ Design name:unnamed:
   vpiTypespec (2 items):
     ClassTypespec name:work@a:
       vpiParent: Design name:unnamed
-      vpiName: work@a
+      vpiName Identifier name:work@a:
+        vpiParent: ClassTypespec name:work@a
+        vpiName: work@a
       vpiClassDefn: ClassDefn name:work@a
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -231,7 +234,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.12--randomization-of-scope-v
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    24      24       0         0
+                                    26      26       0         0
 ===================== END REDUCTION RESULT =====================

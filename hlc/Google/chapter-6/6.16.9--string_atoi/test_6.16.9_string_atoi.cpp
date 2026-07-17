@@ -118,7 +118,7 @@ TEST_F(StringAtoi, BNetValueIsHierPath) {
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "a.atoi()");
+  EXPECT_EQ(hp->getName(), "a.atoi");
 }
 
 TEST_F(StringAtoi, HierPathReceiverIsA) {

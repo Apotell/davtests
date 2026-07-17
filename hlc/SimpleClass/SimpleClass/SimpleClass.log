@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleClass -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -verbose -fileunit top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleClass/SimpleClass
+COMMAND: -wd ../../../tests/SimpleClass -timescale=1ns/1ns +vcs+flush+all +warn=all -sverilog -d ast -d inst +incdir+. -writepp -fileunit top.sv -wd ${HLC_DIR}/third_party/UVM +incdir+uvm-1.2/src -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/SimpleClass/SimpleClass
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [NTE:CM0009] Command line argument "+vcs+flush+all" ignored.
 [NTE:CM0009] Command line argument "+warn=all" ignored.
@@ -343,24 +343,24 @@ n<$Source01/top.sv> u<75> t<Top_level_rule> c<1> l<2:1> el<22:1>
                                       n<len> u<42> t<SIMPLE_IDENTIFIER> p<43> l<12:27> el<12:30>
                 n<> u<59> t<Class_item> p<67> c<58> s<64> l<15:4> el<15:30>
                   n<> u<58> t<Class_constraint> p<59> c<57> l<15:4> el<15:30>
-                    n<> u<57> t<Constraint_prototype> p<58> c<55> l<15:4> el<15:30>
-                      n<> u<55> t<Extern_qualifier> p<57> s<56> l<15:4> el<15:10>
-                      n<legal2> u<56> t<SIMPLE_IDENTIFIER> p<57> l<15:22> el<15:28>
+                    n<> u<57> t<Constraint_prototype> p<58> c<56> l<15:4> el<15:30>
+                      n<> u<56> t<EXTERN> p<57> s<55> l<15:4> el<15:10>
+                      n<legal2> u<55> t<SIMPLE_IDENTIFIER> p<57> l<15:22> el<15:28>
                 n<> u<64> t<Class_item> p<67> c<63> s<66> l<17:4> el<17:30>
                   n<> u<63> t<Class_constraint> p<64> c<62> l<17:4> el<17:30>
-                    n<> u<62> t<Constraint_prototype> p<63> c<60> l<17:4> el<17:30>
-                      n<> u<60> t<Extern_qualifier> p<62> s<61> l<17:4> el<17:10>
-                      n<legal2> u<61> t<SIMPLE_IDENTIFIER> p<62> l<17:22> el<17:28>
+                    n<> u<62> t<Constraint_prototype> p<63> c<61> l<17:4> el<17:30>
+                      n<> u<61> t<EXTERN> p<62> s<60> l<17:4> el<17:10>
+                      n<legal2> u<60> t<SIMPLE_IDENTIFIER> p<62> l<17:22> el<17:28>
                 n<> u<66> t<ENDCLASS> p<67> l<19:1> el<19:9>
         n<> u<71> t<ENDPROGRAM> p<72> l<21:1> el<21:11>
 AST_DEBUG_END
 [INF:CP0306] $Source01/top.sv:2:9: Compile program "class_t".
 [WRN:CP0314] $Source01/top.sv:2:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/top.sv:10:9: Illegal implicit net "id:139, name:len".
-[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:145, name:len".
-[ERR:EL0535] $Source01/top.sv:12:9: Illegal implicit net "id:152, name:payload".
-[ERR:EL0535] $Source01/top.sv:12:27: Illegal implicit net "id:155, name:len".
+[ERR:EL0535] $Source01/top.sv:10:9: Illegal implicit net "id:145, name:len".
+[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:151, name:len".
+[ERR:EL0535] $Source01/top.sv:12:9: Illegal implicit net "id:158, name:payload".
+[ERR:EL0535] $Source01/top.sv:12:27: Illegal implicit net "id:161, name:len".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1933,7 +1933,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2164,7 +2166,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2181,7 +2183,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2226,7 +2228,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -2354,7 +2358,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:work@A:
           vpiParent: Program name:work@class_t
-          vpiName: work@A
+          vpiName Identifier name:work@A:
+            vpiParent: ClassTypespec name:work@A
+            vpiName: work@A
           vpiClassDefn: ClassDefn name:work@A
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -2448,18 +2454,24 @@ Design name:unnamed:
   vpiTypespec (8 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ProgramTypespec name:work@class_t:
       vpiParent: Design name:unnamed
@@ -2521,7 +2533,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass/SimpleClass/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             611     611       0         0
+Others                             617     617       0         0
 ----------------------------------------------------------------
-                                   611     611       0         0
+                                   617     617       0         0
 ===================== END REDUCTION RESULT =====================

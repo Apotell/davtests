@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/UnitElab top.v small.v -writepp -verbose -d ast -d inst -fileunit -d db -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnitElab/UnitElab
+COMMAND: -wd ../../../tests/UnitElab top.v small.v -writepp -d ast -d inst -fileunit -d db -wd ${HLC_DIR}/third_party/UVM +incdir+ovm-2.1.2/src +incdir+vmm-1.1.1a/sv -mt 0 -mp 0 -d dbstats -d cache -d db -nostdout -o ${HLC_DIR}/regression/UnitElab/UnitElab
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:CM0020] Separate compilation-unit mode is on.
 [INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
@@ -470,7 +470,7 @@ n<$Source01/top.v> u<727> t<Top_level_rule> c<1> l<1:1> el<115:1>
             n<> u<189> t<Output_declaration> p<190> c<186> l<22:1> el<22:9>
               n<> u<186> t<Net_port_type> p<189> c<185> s<188> l<22:8> el<22:8>
                 n<> u<185> t<Data_type_or_implicit> p<186> l<22:8> el<22:8>
-              n<> u<188> t<Port_identifier_list> p<189> c<187> l<22:8> el<22:9>
+              n<> u<188> t<Output_port_identifier_list> p<189> c<187> l<22:8> el<22:9>
                 n<c> u<187> t<SIMPLE_IDENTIFIER> p<188> l<22:8> el<22:9>
         n<> u<213> t<Module_item> p<215> c<212> s<214> l<23:3> el<23:21>
           n<> u<212> t<Non_port_module_item> p<213> c<211> l<23:3> el<23:21>
@@ -553,7 +553,7 @@ n<$Source01/top.v> u<727> t<Top_level_rule> c<1> l<1:1> el<115:1>
                         n<> u<264> t<Constant_primary> p<265> c<263> l<28:11> el<28:12>
                           n<> u<263> t<Primary_literal> p<264> c<262> l<28:11> el<28:12>
                             n<0> u<262> t<INTEGRAL_NUMBER> p<263> l<28:11> el<28:12>
-              n<> u<271> t<Port_identifier_list> p<272> c<270> l<28:14> el<28:15>
+              n<> u<271> t<Output_port_identifier_list> p<272> c<270> l<28:14> el<28:15>
                 n<c> u<270> t<SIMPLE_IDENTIFIER> p<271> l<28:14> el<28:15>
         n<> u<328> t<Module_item> p<354> c<327> s<352> l<29:3> el<29:44>
           n<> u<327> t<Non_port_module_item> p<328> c<326> l<29:3> el<29:44>
@@ -1376,9 +1376,9 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/top.v:35:1: No timescale set for "work@test".
 [WRN:PA0205] $Source01/small.v:1:1: No timescale set for "work@small_top".
 [WRN:PA0205] $Source01/small.v:5:1: No timescale set for "work@small_test".
-[ERR:EL0535] $Source01/top.v:64:26: Illegal implicit net "id:486, name:c".
-[ERR:EL0535] $Source01/top.v:67:26: Illegal implicit net "id:500, name:c".
-[ERR:EL0535] $Source01/top.v:70:27: Illegal implicit net "id:511, name:c".
+[ERR:EL0535] $Source01/top.v:64:26: Illegal implicit net "id:491, name:c".
+[ERR:EL0535] $Source01/top.v:67:26: Illegal implicit net "id:505, name:c".
+[ERR:EL0535] $Source01/top.v:70:27: Illegal implicit net "id:516, name:c".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2956,7 +2956,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -3187,7 +3189,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -3204,7 +3206,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -3249,7 +3251,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -5331,18 +5335,24 @@ Design name:unnamed:
   vpiTypespec (17 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:work@bottom1:
       vpiParent: Design name:unnamed
@@ -5461,7 +5471,7 @@ Operation                           15      10       0         5
 RefObj                             105     100       0         5
 RefTypespec                        269     269       5         5
 ----------------------------------------------------------------
-Others                             651     651       0         0
+Others                             656     656       0         0
 ----------------------------------------------------------------
-                                  1082    1072      10        20
+                                  1087    1077      10        20
 ===================== END REDUCTION RESULT =====================

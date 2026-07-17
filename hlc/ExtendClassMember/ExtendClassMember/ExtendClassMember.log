@@ -130,8 +130,9 @@ n<$Source01/dut.sv> u<115> t<Top_level_rule> c<1> l<1:1> el<27:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
-[ERR:EL0535] $Source01/dut.sv:9:90: Illegal implicit net "id:31, name:RSP".
-[ERR:EL0535] $Source01/dut.sv:15:33: Illegal implicit net "id:50, name:RSP".
+[ERR:EL0535] $Source01/dut.sv:9:90: Illegal implicit net "id:32, name:RSP".
+[ERR:EL0535] $Source01/dut.sv:15:33: Illegal implicit net "id:54, name:RSP".
+[ERR:EL0535] $Source01/dut.sv:21:25: Illegal implicit net "id:65, name:print_enabled".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -151,15 +152,21 @@ Design name:unnamed:
       vpiTypespec (3 items):
         ClassTypespec name:work@uvm_tlm_fifo:
           vpiParent: Package name:work@pkg
-          vpiName: work@uvm_tlm_fifo
+          vpiName Identifier name:work@uvm_tlm_fifo:
+            vpiParent: ClassTypespec name:work@uvm_tlm_fifo
+            vpiName: work@uvm_tlm_fifo
           vpiClassDefn: ClassDefn name:work@uvm_tlm_fifo
         ClassTypespec name:work@uvm_sequencer_analysis_fifo:
           vpiParent: Package name:work@pkg
-          vpiName: work@uvm_sequencer_analysis_fifo
+          vpiName Identifier name:work@uvm_sequencer_analysis_fifo:
+            vpiParent: ClassTypespec name:work@uvm_sequencer_analysis_fifo
+            vpiName: work@uvm_sequencer_analysis_fifo
           vpiClassDefn: ClassDefn name:work@uvm_sequencer_analysis_fifo
         ClassTypespec name:work@uvm_sequencer_param_base:
           vpiParent: Package name:work@pkg
-          vpiName: work@uvm_sequencer_param_base
+          vpiName Identifier name:work@uvm_sequencer_param_base:
+            vpiParent: ClassTypespec name:work@uvm_sequencer_param_base
+            vpiName: work@uvm_sequencer_param_base
           vpiClassDefn: ClassDefn name:work@uvm_sequencer_param_base
       vpiDefName: work@pkg
       vpiDefNetType: none (12)
@@ -229,29 +236,31 @@ Design name:unnamed:
           vpiTypespec (3 items):
             UnsupportedTypespec name:uvm_sequence_item start:9:48 end:9:65:
               vpiParent: ClassDefn name:work@uvm_sequencer_analysis_fifo
-              vpiName Identifier name:uvm_sequence_item:
+              vpiName Identifier name:uvm_sequence_item start:9:48 end:9:65:
                 vpiParent: UnsupportedTypespec name:uvm_sequence_item
                 vpiName: uvm_sequence_item
-            ClassTypespec name:uvm_tlm_fifo start:9:75 end:9:94:
+            ClassTypespec name:uvm_tlm_fifo #(type =RSP) start:9:75 end:9:94:
               vpiParent: ClassDefn name:work@uvm_sequencer_analysis_fifo
-              vpiName: uvm_tlm_fifo
+              vpiName Identifier name:uvm_tlm_fifo #(type =RSP):
+                vpiParent: ClassTypespec name:uvm_tlm_fifo #(type =RSP)
+                vpiName: uvm_tlm_fifo #(type =RSP)
               vpiParamAssign (1 items):
                 ParamAssign start:9:90 end:9:93:
-                  vpiParent: ClassTypespec name:uvm_tlm_fifo
+                  vpiParent: ClassTypespec name:uvm_tlm_fifo #(type =RSP)
                   vpiRhs RefObj name:RSP start:9:90 end:9:93:
                     vpiParent: ParamAssign
                     vpiName: RSP
-                    vpiFullName: work@pkg::work@uvm_sequencer_analysis_fifo::uvm_tlm_fifo::RSP
-              vpiClassDefn: ClassDefn name:work@uvm_tlm_fifo
+                    vpiFullName: work@pkg::work@uvm_sequencer_analysis_fifo::uvm_tlm_fifo #(type =RSP)::RSP
             TypeParameter name:RSP:
           vpiClassType: userdefined class (3)
           vpiExtends Extends start:9:67 end:9:74:
             vpiParent: ClassDefn name:work@uvm_sequencer_analysis_fifo
-            vpiClassTypespec RefTypespec name:uvm_tlm_fifo start:9:75 end:9:94:
-              vpiParent: Extends
-              vpiName: uvm_tlm_fifo
-              vpiFullName: work@pkg::work@uvm_sequencer_analysis_fifo::uvm_tlm_fifo
-              vpiActual: ClassTypespec name:uvm_tlm_fifo
+            vpiClassTypespec (1 items):
+              RefTypespec name:uvm_tlm_fifo #(type =RSP) start:9:75 end:9:94:
+                vpiParent: Extends
+                vpiName: uvm_tlm_fifo #(type =RSP)
+                vpiFullName: work@pkg::work@uvm_sequencer_analysis_fifo::uvm_tlm_fifo #(type =RSP)
+                vpiActual: ClassTypespec name:uvm_tlm_fifo #(type =RSP)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:work@uvm_sequencer_analysis_fifo
             vpiName: work
@@ -308,27 +317,30 @@ Design name:unnamed:
           vpiTypespec (5 items):
             UnsupportedTypespec name:uvm_sequence_item start:12:45 end:12:62:
               vpiParent: ClassDefn name:work@uvm_sequencer_param_base
-              vpiName Identifier name:uvm_sequence_item:
+              vpiName Identifier name:uvm_sequence_item start:12:45 end:12:62:
                 vpiParent: UnsupportedTypespec name:uvm_sequence_item
                 vpiName: uvm_sequence_item
             UnsupportedTypespec name:REQ start:13:45 end:13:48:
               vpiParent: ClassDefn name:work@uvm_sequencer_param_base
-              vpiName Identifier name:REQ:
+              vpiName Identifier name:REQ start:13:45 end:13:48:
                 vpiParent: UnsupportedTypespec name:REQ
                 vpiName: REQ
             ClassTypespec name:uvm_sequencer_base start:13:58 end:13:76:
               vpiParent: ClassDefn name:work@uvm_sequencer_param_base
-              vpiName: uvm_sequencer_base
+              vpiName Identifier name:uvm_sequencer_base:
+                vpiParent: ClassTypespec name:uvm_sequencer_base
+                vpiName: uvm_sequencer_base
             TypeParameter name:REQ:
             TypeParameter name:RSP:
           vpiClassType: userdefined class (3)
           vpiExtends Extends start:13:50 end:13:57:
             vpiParent: ClassDefn name:work@uvm_sequencer_param_base
-            vpiClassTypespec RefTypespec name:uvm_sequencer_base start:13:58 end:13:76:
-              vpiParent: Extends
-              vpiName: uvm_sequencer_base
-              vpiFullName: work@pkg::work@uvm_sequencer_param_base::uvm_sequencer_base
-              vpiActual: ClassTypespec name:uvm_sequencer_base
+            vpiClassTypespec (1 items):
+              RefTypespec name:uvm_sequencer_base start:13:58 end:13:76:
+                vpiParent: Extends
+                vpiName: uvm_sequencer_base
+                vpiFullName: work@pkg::work@uvm_sequencer_param_base::uvm_sequencer_base
+                vpiActual: ClassTypespec name:uvm_sequencer_base
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:work@uvm_sequencer_param_base
             vpiName: work
@@ -358,7 +370,6 @@ Design name:unnamed:
                       vpiParent: HierPath name:sqr_rsp_analysis_fifo.print_enabled
                       vpiName: print_enabled
                       vpiFullName: work@pkg::work@uvm_sequencer_param_base::new::print_enabled
-                      vpiActual: Variable name:print_enabled
                 vpiRhs Constant start:21:41 end:21:42:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -379,7 +390,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -424,7 +435,7 @@ COMMAND: ${HLC_DIR}/regression/ExtendClassMember/ExtendClassMember/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================

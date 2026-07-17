@@ -177,8 +177,8 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_package_dot.v:13:1: Compile package "work@csr_pkg".
 [INF:CP0303] $Source01/t_package_dot.v:18:1: Compile module "work@t".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_package_dot.v:20:20: Illegal implicit net "id:64, name:REG_RST".
-[ERR:EL0535] $Source01/t_package_dot.v:20:28: Illegal implicit net "id:65, name:msk".
+[ERR:EL0535] $Source01/t_package_dot.v:20:20: Illegal implicit net "id:66, name:REG_RST".
+[ERR:EL0535] $Source01/t_package_dot.v:20:28: Illegal implicit net "id:67, name:msk".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -196,9 +196,9 @@ Design name:unnamed:
         vpiName: work@pkg
       vpiFullName: work@pkg
       vpiTypespec (6 items):
-        UnsupportedTypespec name:logic start:8:7 end:8:12:
+        UnsupportedTypespec name:logic start:8:7 end:8:18:
           vpiParent: Package name:work@pkg
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:8:7 end:8:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
@@ -232,9 +232,9 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: work@pkg::logic
             vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:9:7 end:9:12:
+        UnsupportedTypespec name:logic start:9:7 end:9:18:
           vpiParent: Package name:work@pkg
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:9:7 end:9:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         ArrayTypespec:
@@ -340,9 +340,22 @@ Design name:unnamed:
             vpiDecompile: "8'h34"
             vpiValue: "34"
       vpiTypespec (2 items):
-        ClassTypespec name:pkg start:14:12 end:14:15:
+        UnsupportedTypespec name:pkg::STR_t start:14:12 end:14:22:
           vpiParent: Package name:work@csr_pkg
-          vpiName: pkg
+          vpiPathElem (2 items):
+            UnsupportedScope name:pkg start:14:12 end:14:17:
+              vpiParent: UnsupportedTypespec name:pkg::STR_t
+              vpiName Identifier name:pkg start:14:12 end:14:15:
+                vpiParent: UnsupportedScope name:pkg
+                vpiName: pkg
+              vpiFullName: work@csr_pkg::pkg::STR_t::pkg
+            RefTypespec name:STR_t start:14:17 end:14:22:
+              vpiParent: UnsupportedTypespec name:pkg::STR_t
+              vpiName: STR_t
+              vpiFullName: work@csr_pkg::pkg::STR_t::STR_t
+          vpiName Identifier name:pkg::STR_t start:14:12 end:14:22:
+            vpiParent: UnsupportedTypespec name:pkg::STR_t
+            vpiName: pkg::STR_t
         TypedefTypespec name:reg_t start:14:4 end:14:29:
           vpiParent: Package name:work@csr_pkg
           vpiName Identifier name:reg_t start:14:23 end:14:28:
@@ -351,6 +364,7 @@ Design name:unnamed:
           vpiTypedefAlias RefTypespec start:14:12 end:14:22:
             vpiParent: TypedefTypespec name:reg_t
             vpiFullName: work@csr_pkg::reg_t
+            vpiActual: UnsupportedTypespec name:pkg::STR_t
       vpiDefName: work@csr_pkg
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
@@ -378,10 +392,6 @@ Design name:unnamed:
           vpiStmt Begin start:19:12 end:23:7:
             vpiParent: Initial
             vpiFullName: work@t
-            vpiTypespec (1 items):
-              ClassTypespec name:csr_pkg start:20:11 end:20:18:
-                vpiParent: Begin
-                vpiName: csr_pkg
             vpiStmt (3 items):
               IfStmt start:20:7 end:20:47:
                 vpiParent: Begin
@@ -394,7 +404,12 @@ Design name:unnamed:
                       vpiName: csr_pkg::REG_RST.msk
                       vpiFullName: work@t.csr_pkg::REG_RST.msk
                       vpiPathElem (3 items):
-                        ClassTypespec name:csr_pkg:
+                        UnsupportedScope name:csr_pkg start:20:11 end:20:20:
+                          vpiParent: HierPath name:csr_pkg::REG_RST.msk
+                          vpiName Identifier name:csr_pkg start:20:11 end:20:18:
+                            vpiParent: UnsupportedScope name:csr_pkg
+                            vpiName: csr_pkg
+                          vpiFullName: work@t.csr_pkg::REG_RST.msk.csr_pkg
                         RefObj name:REG_RST start:20:20 end:20:27:
                           vpiParent: HierPath name:csr_pkg::REG_RST.msk
                           vpiName: REG_RST
@@ -501,7 +516,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package_dot/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

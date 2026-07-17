@@ -134,7 +134,7 @@ n<$Source01/18.5.14.1--soft-constraint-priorities_2.sv> u<120> t<Top_level_rule>
         n<> u<116> t<Package_or_generate_item_declaration> p<117> l<30:36> el<30:37>
 AST_DEBUG_END
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/18.5.14.1--soft-constraint-priorities_2.sv:30:26: Illegal implicit net "id:39, name:b".
+[ERR:EL0535] $Source01/18.5.14.1--soft-constraint-priorities_2.sv:30:26: Illegal implicit net "id:42, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -225,16 +225,19 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:a1 start:25:18 end:25:20:
           vpiParent: ClassDefn name:work@a2
-          vpiName: a1
+          vpiName Identifier name:a1:
+            vpiParent: ClassTypespec name:a1
+            vpiName: a1
           vpiClassDefn: ClassDefn name:work@a1
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:25:10 end:25:17:
         vpiParent: ClassDefn name:work@a2
-        vpiClassTypespec RefTypespec name:a1 start:25:18 end:25:20:
-          vpiParent: Extends
-          vpiName: a1
-          vpiFullName: work@a2::a1
-          vpiActual: ClassTypespec name:a1
+        vpiClassTypespec (1 items):
+          RefTypespec name:a1 start:25:18 end:25:20:
+            vpiParent: Extends
+            vpiName: a1
+            vpiFullName: work@a2::a1
+            vpiActual: ClassTypespec name:a1
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@a2
         vpiName: work
@@ -268,33 +271,33 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "20"
                     vpiValue: 20
-  vpiTypespec (4 items):
+  vpiTypespec (3 items):
     ClassTypespec name:work@a1:
       vpiParent: Design name:unnamed
-      vpiName: work@a1
+      vpiName Identifier name:work@a1:
+        vpiParent: ClassTypespec name:work@a1
+        vpiName: work@a1
       vpiClassDefn: ClassDefn name:work@a1
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:work@a2:
       vpiParent: Design name:unnamed
-      vpiName: work@a2
-      vpiClassDefn: ClassDefn name:work@a2
-    ClassTypespec name:a2 start:30:12 end:30:14:
-      vpiParent: Design name:unnamed
-      vpiName: a2
+      vpiName Identifier name:work@a2:
+        vpiParent: ClassTypespec name:work@a2
+        vpiName: work@a2
       vpiClassDefn: ClassDefn name:work@a2
   vpiConstraint (1 items):
     Constraint name:c3 start:30:19 end:30:36:
       vpiParent: Design name:unnamed
       vpiName: c3
       vpiFullName: c3
-      vpiPrefix HierPath name:a2 start:30:12 end:30:16:
+      vpiPrefix UnsupportedScope name:a2 start:30:12 end:30:16:
         vpiParent: Constraint name:c3
-        vpiName: a2
+        vpiName Identifier name:a2 start:30:12 end:30:14:
+          vpiParent: UnsupportedScope name:a2
+          vpiName: a2
         vpiFullName: c3.a2
-        vpiPathElem (1 items):
-          ClassTypespec name:a2:
       vpiConstraintItem (1 items):
         Distribution start:30:21 end:30:34:
           vpiParent: Constraint name:c3
@@ -365,7 +368,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-prio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    41      41       0         0
+                                    44      44       0         0
 ===================== END REDUCTION RESULT =====================

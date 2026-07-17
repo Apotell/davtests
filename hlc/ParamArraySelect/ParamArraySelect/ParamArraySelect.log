@@ -795,11 +795,11 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@otp_ctrl_part_pkg".
 [WRN:PA0205] $Source01/dut.sv:33:1: No timescale set for "work@otp_ctrl_lci".
 [WRN:PA0205] $Source01/dut.sv:51:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:15:7: Illegal implicit net "id:183, name:size".
-[ERR:EL0535] $Source01/dut.sv:16:7: Illegal implicit net "id:187, name:offset".
-[ERR:EL0535] $Source01/dut.sv:20:7: Illegal implicit net "id:194, name:size".
-[ERR:EL0535] $Source01/dut.sv:21:7: Illegal implicit net "id:198, name:offset".
-[ERR:EL0535] $Source01/dut.sv:55:6: Illegal implicit net "id:276, name:Info".
+[ERR:EL0535] $Source01/dut.sv:15:7: Illegal implicit net "id:188, name:size".
+[ERR:EL0535] $Source01/dut.sv:16:7: Illegal implicit net "id:192, name:offset".
+[ERR:EL0535] $Source01/dut.sv:20:7: Illegal implicit net "id:199, name:size".
+[ERR:EL0535] $Source01/dut.sv:21:7: Illegal implicit net "id:203, name:offset".
+[ERR:EL0535] $Source01/dut.sv:55:6: Illegal implicit net "id:283, name:Info".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2646,7 +2646,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
           vpiParent: ClassDefn name:mailbox
-          vpiName: mailbox
+          vpiName Identifier name:mailbox:
+            vpiParent: ClassTypespec name:mailbox
+            vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
@@ -2877,7 +2879,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:process start:34:19 end:34:26:
               vpiParent: Function name:self
-              vpiName Identifier name:process:
+              vpiName Identifier name:process start:34:19 end:34:26:
                 vpiParent: UnsupportedTypespec name:process
                 vpiName: process
           vpiVisibility: public (1)
@@ -2894,7 +2896,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             UnsupportedTypespec name:state start:37:12 end:37:17:
               vpiParent: Function name:status
-              vpiName Identifier name:state:
+              vpiName Identifier name:state start:37:12 end:37:17:
                 vpiParent: UnsupportedTypespec name:state
                 vpiName: state
           vpiVisibility: public (1)
@@ -2939,7 +2941,9 @@ Design name:unnamed:
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
           vpiParent: ClassDefn name:semaphore
-          vpiName: semaphore
+          vpiName Identifier name:semaphore:
+            vpiParent: ClassTypespec name:semaphore
+            vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
@@ -3093,11 +3097,10 @@ Design name:unnamed:
             vpiActual: Parameter name:Info
           vpiRhs Operation start:37:32 end:37:47:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec name:part_info_t start:37:32 end:37:43:
+            vpiTypespec RefTypespec start:37:32 end:37:43:
               vpiParent: Operation
-              vpiName: part_info_t
-              vpiFullName: work@otp_ctrl_lci.part_info_t
-              vpiActual: TypedefTypespec name:part_info_t
+              vpiFullName: work@otp_ctrl_lci
+              vpiActual: UnsupportedTypespec name:part_info_t
             vpiOpType: cast (81)
             vpiOperand (1 items):
               Constant start:37:45 end:37:46:
@@ -3146,12 +3149,17 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         ImportTypespec name:otp_ctrl_pkg start:34:10 end:34:25:
           vpiParent: Module name:work@otp_ctrl_lci
           vpiName Identifier name:otp_ctrl_pkg start:34:10 end:34:22:
             vpiParent: ImportTypespec name:otp_ctrl_pkg
             vpiName: otp_ctrl_pkg
+        UnsupportedTypespec name:part_info_t start:37:32 end:37:43:
+          vpiParent: Module name:work@otp_ctrl_lci
+          vpiName Identifier name:part_info_t:
+            vpiParent: UnsupportedTypespec name:part_info_t
+            vpiName: part_info_t
         LogicTypespec:
           vpiParent: Module name:work@otp_ctrl_lci
           vpiRange (1 items):
@@ -3292,30 +3300,30 @@ Design name:unnamed:
           vpiRange (1 items):
             Range start:59:9 end:59:40:
               vpiParent: LogicTypespec
-              vpiLeftRange HierPath name:PartInfo[LifeCycleIdx].size start:59:10 end:59:37:
+              vpiLeftRange HierPath name:PartInfo[LifeCycleIdx].size() start:59:10 end:59:37:
                 vpiParent: Range
-                vpiName: PartInfo[LifeCycleIdx].size
-                vpiFullName: work@top.PartInfo[LifeCycleIdx].size
+                vpiName: PartInfo[LifeCycleIdx].size()
+                vpiFullName: work@top.PartInfo[LifeCycleIdx].size()
                 vpiPathElem (2 items):
                   BitSelect name:PartInfo[LifeCycleIdx] start:59:10 end:59:31:
-                    vpiParent: HierPath name:PartInfo[LifeCycleIdx].size
+                    vpiParent: HierPath name:PartInfo[LifeCycleIdx].size()
                     vpiName: PartInfo[LifeCycleIdx]
-                    vpiFullName: work@top.PartInfo[LifeCycleIdx].size.PartInfo[LifeCycleIdx]
+                    vpiFullName: work@top.PartInfo[LifeCycleIdx].size().PartInfo[LifeCycleIdx]
                     vpiPrefix RefObj name:PartInfo start:59:10 end:59:18:
                       vpiParent: BitSelect name:PartInfo[LifeCycleIdx]
                       vpiName: PartInfo
-                      vpiFullName: work@top.PartInfo[LifeCycleIdx].size.PartInfo
+                      vpiFullName: work@top.PartInfo[LifeCycleIdx].size().PartInfo
                       vpiActual: Parameter name:PartInfo
                     vpiIndex RefObj name:LifeCycleIdx start:59:19 end:59:31:
                       vpiParent: BitSelect name:PartInfo[LifeCycleIdx]
                       vpiName: LifeCycleIdx
-                      vpiFullName: work@top.PartInfo[LifeCycleIdx].size.LifeCycleIdx
+                      vpiFullName: work@top.PartInfo[LifeCycleIdx].size().LifeCycleIdx
                       vpiActual: EnumConst name:LifeCycleIdx
-                  RefObj name:size start:59:33 end:59:37:
-                    vpiParent: HierPath name:PartInfo[LifeCycleIdx].size
-                    vpiName: size
-                    vpiFullName: work@top.size
-                    vpiActual: TypespecMember name:size
+                  MethodFuncCall name:size start:59:33 end:59:37:
+                    vpiParent: HierPath name:PartInfo[LifeCycleIdx].size()
+                    vpiName Identifier name:size start:59:33 end:59:37:
+                      vpiParent: MethodFuncCall name:size
+                      vpiName: size
               vpiRightRange Constant start:59:38 end:59:39:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
@@ -3528,30 +3536,30 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "1"
                               vpiValue: 1
-                        HierPath name:PartInfo[k].size start:63:75 end:63:91:
+                        HierPath name:PartInfo[k].size() start:63:75 end:63:91:
                           vpiParent: Operation
-                          vpiName: PartInfo[k].size
-                          vpiFullName: work@top.gen_part_sel.PartInfo[k].size
+                          vpiName: PartInfo[k].size()
+                          vpiFullName: work@top.gen_part_sel.PartInfo[k].size()
                           vpiPathElem (2 items):
                             BitSelect name:PartInfo[k] start:63:75 end:63:85:
-                              vpiParent: HierPath name:PartInfo[k].size
+                              vpiParent: HierPath name:PartInfo[k].size()
                               vpiName: PartInfo[k]
-                              vpiFullName: work@top.gen_part_sel.PartInfo[k].size.PartInfo[k]
+                              vpiFullName: work@top.gen_part_sel.PartInfo[k].size().PartInfo[k]
                               vpiPrefix RefObj name:PartInfo start:63:75 end:63:83:
                                 vpiParent: BitSelect name:PartInfo[k]
                                 vpiName: PartInfo
-                                vpiFullName: work@top.gen_part_sel.PartInfo[k].size.PartInfo
+                                vpiFullName: work@top.gen_part_sel.PartInfo[k].size().PartInfo
                                 vpiActual: Parameter name:PartInfo
                               vpiIndex RefObj name:k start:63:84 end:63:85:
                                 vpiParent: BitSelect name:PartInfo[k]
                                 vpiName: k
-                                vpiFullName: work@top.gen_part_sel.PartInfo[k].size.k
+                                vpiFullName: work@top.gen_part_sel.PartInfo[k].size().k
                                 vpiActual: Variable name:k
-                            RefObj name:size start:63:87 end:63:91:
-                              vpiParent: HierPath name:PartInfo[k].size
-                              vpiName: size
-                              vpiFullName: work@top.gen_part_sel.size
-                              vpiActual: TypespecMember name:size
+                            MethodFuncCall name:size start:63:87 end:63:91:
+                              vpiParent: HierPath name:PartInfo[k].size()
+                              vpiName Identifier name:size start:63:87 end:63:91:
+                                vpiParent: MethodFuncCall name:size
+                                vpiName: size
               ParamAssign start:65:45 end:66:80:
                 vpiParent: Begin name:gen_part_sel
                 vpiLhs RefObj name:DigestOffset start:65:45 end:65:57:
@@ -3561,10 +3569,10 @@ Design name:unnamed:
                   vpiActual: Parameter name:DigestOffset
                 vpiRhs Operation start:65:60 end:66:80:
                   vpiParent: ParamAssign
-                  vpiTypespec RefTypespec name:OtpByteAddrWidth start:65:60 end:65:76:
+                  vpiTypespec RefTypespec start:65:60 end:65:76:
                     vpiParent: Operation
-                    vpiName: OtpByteAddrWidth
-                    vpiFullName: work@top.gen_part_sel.OtpByteAddrWidth
+                    vpiFullName: work@top.gen_part_sel
+                    vpiActual: UnsupportedTypespec name:OtpByteAddrWidth
                   vpiOpType: cast (81)
                   vpiOperand (1 items):
                     Operation start:65:78 end:66:79:
@@ -3586,7 +3594,7 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "4"
                           vpiValue: 4
-            vpiTypespec (2 items):
+            vpiTypespec (3 items):
               LogicTypespec:
                 vpiParent: Begin name:gen_part_sel
                 vpiRange (1 items):
@@ -3643,6 +3651,11 @@ Design name:unnamed:
                       vpiDecompile: "0"
                       vpiValue: 0
                 vpiVector: true
+              UnsupportedTypespec name:OtpByteAddrWidth start:65:60 end:65:76:
+                vpiParent: Begin name:gen_part_sel
+                vpiName Identifier name:OtpByteAddrWidth:
+                  vpiParent: UnsupportedTypespec name:OtpByteAddrWidth
+                  vpiName: OtpByteAddrWidth
             vpiStmt (4 items):
               Parameter name:PartEnd:
               ParamAssign:
@@ -3651,18 +3664,24 @@ Design name:unnamed:
   vpiTypespec (9 items):
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
-      vpiName: mailbox
+      vpiName Identifier name:mailbox:
+        vpiParent: ClassTypespec name:mailbox
+        vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
-      vpiName: process
+      vpiName Identifier name:process:
+        vpiParent: ClassTypespec name:process
+        vpiName: process
       vpiClassDefn: ClassDefn name:process
     ClassTypespec name:semaphore:
       vpiParent: Design name:unnamed
-      vpiName: semaphore
+      vpiName Identifier name:semaphore:
+        vpiParent: ClassTypespec name:semaphore
+        vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
     ModuleTypespec name:work@otp_ctrl_lci:
       vpiParent: Design name:unnamed
@@ -3731,10 +3750,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            28      28       3         3
 Operation                           18      15       0         3
-RefObj                              40      37       0         3
+RefObj                              38      35       0         3
 RefTypespec                        218     218       3         3
 ----------------------------------------------------------------
-Others                             488     488       0         0
+Others                             501     501       0         0
 ----------------------------------------------------------------
-                                   792     786       6        12
+                                   803     797       6        12
 ===================== END REDUCTION RESULT =====================

@@ -373,7 +373,7 @@ n<$Source01/dut.sv> u<1064> t<Top_level_rule> c<1> l<1:1> el<125:1>
                         n<> u<349> t<Constant_primary> p<350> c<348> l<32:20> el<32:21>
                           n<> u<348> t<Primary_literal> p<349> c<347> l<32:20> el<32:21>
                             n<0> u<347> t<INTEGRAL_NUMBER> p<348> l<32:20> el<32:21>
-              n<> u<356> t<Port_identifier_list> p<357> c<355> l<32:23> el<32:24>
+              n<> u<356> t<Output_port_identifier_list> p<357> c<355> l<32:23> el<32:24>
                 n<z> u<355> t<SIMPLE_IDENTIFIER> p<356> l<32:23> el<32:24>
         n<> u<454> t<Module_item> p<456> c<453> s<455> l<34:1> el<42:12>
           n<> u<453> t<Non_port_module_item> p<454> c<452> l<34:1> el<42:12>
@@ -1110,13 +1110,13 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/dut.sv:106:23: Illegal implicit net "id:391, name:clk".
 [ERR:EL0535] $Source01/dut.sv:106:38: Illegal implicit net "id:393, name:nrst_in".
 [ERR:EL0535] $Source01/dut.sv:107:11: Illegal implicit net "id:397, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:111:12: Illegal implicit net "id:440, name:nrst_out".
-[ERR:EL0535] $Source01/dut.sv:118:22: Illegal implicit net "id:459, name:clk".
-[ERR:EL0535] $Source01/dut.sv:118:18: Illegal implicit net "id:461, name:clk".
-[ERR:EL0535] $Source01/dut.sv:119:19: Illegal implicit net "id:462, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:119:11: Illegal implicit net "id:464, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:120:20: Illegal implicit net "id:465, name:nrst_out".
-[ERR:EL0535] $Source01/dut.sv:120:11: Illegal implicit net "id:467, name:nrst_out".
+[ERR:EL0535] $Source01/dut.sv:111:12: Illegal implicit net "id:443, name:nrst_out".
+[ERR:EL0535] $Source01/dut.sv:118:22: Illegal implicit net "id:462, name:clk".
+[ERR:EL0535] $Source01/dut.sv:118:18: Illegal implicit net "id:464, name:clk".
+[ERR:EL0535] $Source01/dut.sv:119:19: Illegal implicit net "id:465, name:nrst_in".
+[ERR:EL0535] $Source01/dut.sv:119:11: Illegal implicit net "id:467, name:nrst_in".
+[ERR:EL0535] $Source01/dut.sv:120:20: Illegal implicit net "id:468, name:nrst_out".
+[ERR:EL0535] $Source01/dut.sv:120:11: Illegal implicit net "id:470, name:nrst_out".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1241,7 +1241,7 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiStmt EventControl start:12:12 end:13:31:
                   vpiParent: Always
-                  vpiCondition Operation:
+                  vpiCondition Operation start:12:15 end:12:26:
                     vpiParent: EventControl
                     vpiOpType: posedge (39)
                     vpiOperand (1 items):
@@ -1384,7 +1384,7 @@ Design name:unnamed:
                       vpiParent: Begin name:gen_pipe
                       vpiStmt EventControl start:15:15 end:16:39:
                         vpiParent: Always
-                        vpiCondition Operation:
+                        vpiCondition Operation start:15:18 end:15:29:
                           vpiParent: EventControl
                           vpiOpType: posedge (39)
                           vpiOperand (1 items):
@@ -2509,7 +2509,7 @@ Design name:unnamed:
                       vpiParent: EventControl
                       vpiOpType: event or (35)
                       vpiOperand (2 items):
-                        Operation:
+                        Operation start:106:15 end:106:26:
                           vpiParent: Operation
                           vpiOpType: posedge (39)
                           vpiOperand (1 items):
@@ -2517,7 +2517,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: clk
                               vpiFullName: work@oh_rsync.clk
-                        Operation:
+                        Operation start:106:30 end:106:45:
                           vpiParent: Operation
                           vpiOpType: negedge (40)
                           vpiOperand (1 items):
@@ -2577,6 +2577,16 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "0"
                               vpiValue: 0
+                        vpiRhs Constant start:108:36 end:108:39:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: work@oh_rsync
+                            vpiActual: BitTypespec
+                          vpiConstType: binary (3)
+                          vpiSize: 1
+                          vpiDecompile: "'b0"
+                          vpiValue: "0"
                       vpiElseStmt Assignment start:110:9 end:110:66:
                         vpiParent: IfElse
                         vpiLhs PartSelect name:sync_pipe[SYNCPIPE-1:0] start:110:9 end:110:32:
@@ -2888,14 +2898,14 @@ COMMAND: ${HLC_DIR}/regression/GenerateRegion/GenerateRegion/design.hldb ${HLC_D
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            51      53      12        10
+Constant                            52      54      12        10
 Identifier                          24      23       0         1
 Operation                           26      15       0        11
 RefObj                              86      73       0        13
-RefTypespec                         79      80      11        10
+RefTypespec                         80      81      11        10
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                             148     148       0         0
 ----------------------------------------------------------------
-                                   415     392      23        46
+                                   417     394      23        46
 ===================== END REDUCTION RESULT =====================

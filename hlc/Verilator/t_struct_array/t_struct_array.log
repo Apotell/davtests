@@ -322,7 +322,7 @@ n<$Source01/t_struct_array.v> u<386> t<Top_level_rule> c<1> l<6:1> el<38:1>
                           n<> u<297> t<Constant_primary> p<298> c<296> l<28:39> el<28:40>
                             n<> u<296> t<Primary_literal> p<297> c<295> l<28:39> el<28:40>
                               n<0> u<295> t<INTEGRAL_NUMBER> p<296> l<28:39> el<28:40>
-              n<> u<305> t<Port_identifier_list> p<306> c<304> l<28:42> el<28:47>
+              n<> u<305> t<Output_port_identifier_list> p<306> c<304> l<28:42> el<28:47>
                 n<a_out> u<304> t<SIMPLE_IDENTIFIER> p<305> l<28:42> el<28:47>
         n<> u<378> t<Module_item> p<380> c<377> s<379> l<29:4> el<32:7>
           n<> u<377> t<Non_port_module_item> p<378> c<376> l<29:4> el<32:7>
@@ -403,7 +403,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_struct_array.v:12:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_struct_array.v:26:1: Compile module "work@sub".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_struct_array.v:31:11: Illegal implicit net "id:157, name:stuff".
+[ERR:EL0535] $Source01/t_struct_array.v:31:11: Illegal implicit net "id:163, name:stuff".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -423,7 +423,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         UnsupportedTypespec name:logic start:8:7 end:8:12:
           vpiParent: Package name:work@TEST_TYPES
-          vpiName Identifier name:logic:
+          vpiName Identifier name:logic start:8:7 end:8:12:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         StructTypespec start:7:12 end:9:5:
@@ -461,13 +461,10 @@ Design name:unnamed:
         vpiParent: Module name:work@t
         vpiName: work@t
       vpiFullName: work@t
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:work@t
-        ClassTypespec name:TEST_TYPES start:14:4 end:14:14:
-          vpiParent: Module name:work@t
-          vpiName: TEST_TYPES
-        UnsupportedTypespec name:a_struct_t start:14:16 end:14:26:
+        UnsupportedTypespec name:a_struct_t start:14:16 end:14:32:
           vpiParent: Module name:work@t
           vpiName Identifier name:a_struct_t:
             vpiParent: UnsupportedTypespec name:a_struct_t
@@ -498,10 +495,9 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:a_struct_t:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: a_struct_t
-            vpiFullName: work@t.a_struct_t
+            vpiFullName: work@t
             vpiActual: UnsupportedTypespec name:a_struct_t
         ModuleTypespec name:work@sub start:15:4 end:15:7:
           vpiParent: Module name:work@t
@@ -530,7 +526,7 @@ Design name:unnamed:
             vpiParent: Net name:a_out
             vpiName: TEST_TYPES::a_struct_t
             vpiFullName: work@t.a_out.TEST_TYPES::a_struct_t
-            vpiActual: ArrayTypespec
+            vpiActual: TypedefTypespec name:a_struct_t
           vpiName: a_out
           vpiFullName: work@t.a_out
       vpiPort (1 items):
@@ -552,7 +548,7 @@ Design name:unnamed:
           vpiParent: Module name:work@t
           vpiStmt EventControl start:16:11 end:23:7:
             vpiParent: Always
-            vpiCondition Operation:
+            vpiCondition Operation start:16:14 end:16:25:
               vpiParent: EventControl
               vpiOpType: posedge (39)
               vpiOperand (1 items):
@@ -803,10 +799,24 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:work@sub
-        ClassTypespec name:TEST_TYPES start:28:11 end:28:21:
+        UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0] start:28:11 end:28:41:
           vpiParent: Module name:work@sub
-          vpiName: TEST_TYPES
-        UnsupportedTypespec name:a_struct_t start:28:23 end:28:33:
+          vpiPathElem (2 items):
+            UnsupportedScope name:TEST_TYPES start:28:11 end:28:23:
+              vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+              vpiName Identifier name:TEST_TYPES start:28:11 end:28:21:
+                vpiParent: UnsupportedScope name:TEST_TYPES
+                vpiName: TEST_TYPES
+              vpiFullName: work@sub.TEST_TYPES::a_struct_t [n-1:0].TEST_TYPES
+            RefTypespec name:a_struct_t start:28:23 end:28:41:
+              vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+              vpiName: a_struct_t
+              vpiFullName: work@sub.TEST_TYPES::a_struct_t [n-1:0].a_struct_t
+              vpiActual: ArrayTypespec
+          vpiName Identifier name:TEST_TYPES::a_struct_t [n-1:0] start:28:11 end:28:41:
+            vpiParent: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+            vpiName: TEST_TYPES::a_struct_t [n-1:0]
+        UnsupportedTypespec name:a_struct_t start:28:23 end:28:41:
           vpiParent: Module name:work@sub
           vpiName Identifier name:a_struct_t:
             vpiParent: UnsupportedTypespec name:a_struct_t
@@ -846,10 +856,9 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:a_struct_t:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
-            vpiName: a_struct_t
-            vpiFullName: work@sub.a_struct_t
+            vpiFullName: work@sub
             vpiActual: UnsupportedTypespec name:a_struct_t
       vpiDefName: work@sub
       vpiDefNetType: none (12)
@@ -864,6 +873,7 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:28:11 end:28:41:
             vpiParent: Net name:a_out
             vpiFullName: work@sub.a_out
+            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
           vpiName: a_out
           vpiFullName: work@sub.a_out
       vpiPort (1 items):
@@ -879,6 +889,7 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:28:11 end:28:41:
             vpiParent: Port name:a_out
             vpiFullName: work@sub.a_out
+            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
       vpiProcess (1 items):
         Always start:29:4 end:32:7:
           vpiParent: Module name:work@sub
@@ -1050,9 +1061,9 @@ Name                            Before   After   Added   Removed
 Constant                            16      16       1         1
 Operation                            8       7       0         1
 RefObj                              20      19       0         1
-RefTypespec                         28      28       1         1
+RefTypespec                         29      29       1         1
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              78      78       0         0
 ----------------------------------------------------------------
-                                   148     146       2         4
+                                   151     149       2         4
 ===================== END REDUCTION RESULT =====================
