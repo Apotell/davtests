@@ -447,9 +447,6 @@ TEST_F(ArrayLocatorFindFirstIndexTest, ExactlyOneIllegalImplicitNetErrors) {
   ASSERT_FALSE(implicitNetErrors[0].getLocations().empty());
   EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_line, 22u);
   EXPECT_EQ(implicitNetErrors[0].getLocations()[0].m_column, 33u);
-  ASSERT_FALSE(implicitNetErrors[1].getLocations().empty());
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_line, 23u);
-  EXPECT_EQ(implicitNetErrors[1].getLocations()[0].m_column, 39u);
 }
 }  // namespace hlc
 
