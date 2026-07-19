@@ -1,0 +1,410 @@
+/*
+ Copyright 2020 Apotell
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+// Tests for 8.7--constructor.sv (tags: 8.7)
+//   module class_tb ();
+//     class test_cls;
+//       int a;
+//       function new();
+//         a = 42;
+//       endfunction
+//     endclass
+//
+//     initial begin
+//       test_cls test_obj = new;
+//
+//       $display(":assert:(%d == 42)", test_obj.a);
+//     end
+//   endmodule
+//
+// IEEE 1800-2017 8.7 "Constructors": a class may define its own "new"
+// method (a Function whose return type is implicitly the class itself);
+// unlike the implicit/compiler-generated constructor used in
+// chapter-8/8.4--instantiation.sv, this constructor is user-written, so
+// (as with the user-written method in chapter-8/8.6--methods.sv) whether
+// the "new" call site resolves back to it IS verifiable ground truth here
+// -- see the KNOWN COMPILER BUG note below.
+//
+// Also structurally different from every other chapter-8 file so far:
+// "test_cls test_obj = new;" is a BLOCK-SCOPED local variable declaration
+// with an inline initializer, declared directly inside the initial
+// process' Begin (not a module-level net/variable). Because of the inline
+// initializer, "test_obj" is never the lhs of a separate Assignment
+// statement -- the "new" MethodFuncCall is attached directly as the
+// Variable's own getValue().
+//
+// Checked:
+//   - design has module work@class_tb with NO module-level nets or
+//     variables (getNets()/getVariables() empty or null) -- "test_obj"
+//     lives entirely inside the initial block's own scope
+//   - the module has exactly 1 nested ClassDefn: "work@test_cls"
+//   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
+//     property ("a") and exactly 1 method ("new", a Function) -- see the
+//     KNOWN COMPILER BUG notes below for the class's lifetime and the
+//     property's visibility
+//   - constructor "new": resolves to a Function, IS correctly marked
+//     public by default (getVisibility() == vpiPublicVis, matching the
+//     method-visibility behavior already confirmed in
+//     chapter-8/8.6--methods.sv), and its return typespec resolves
+//     (RefTypespec -> ClassTypespec) to the SAME ClassDefn as "test_cls"
+//     itself
+//   - the constructor's body is a single blocking Assignment (not wrapped
+//     in a Begin, since it is only one statement): lhs RefObj "a" resolved
+//     to the SAME Variable as the class's property; rhs Constant "42"
+//   - the initial process' Begin block has exactly 1 local Variable
+//     ("test_obj", via Begin's own getVariables(), not getStmts()) and
+//     exactly 1 statement (the $display)
+//   - local Variable "test_obj": its typespec resolves (RefTypespec ->
+//     ClassTypespec) to the SAME ClassDefn as "test_cls"; its getValue()
+//     is a MethodFuncCall named "new" taking no arguments -- see the KNOWN
+//     COMPILER BUG note below for whether this resolves back to the
+//     user-written constructor
+//   - "$display(...)" has 2 arguments: a Constant string
+//     ":assert:(%d == 42)", and a HierPath "test_obj.a" with 2 path elems
+//     (RefObj "test_obj" resolved to the LOCAL Variable; RefObj "a"
+//     resolved to the class's property Variable)
+//   - design-level: exactly 1 class (work@test_cls)
+//
+// KNOWN COMPILER BUG #1 (class lifetime defaulting, not a defect in this
+// file): IEEE 1800-2017 8.3 says a class declared with no lifetime
+// qualifier must default to automatic lifetime (getAutomatic() == true).
+// Already confirmed independently via multiple other chapter-8 files (see
+// hlc/Google/chapter-8/8.4--instantiation/test_8.4--instantiation.cpp and
+// siblings). ClassIsAutomaticByDefault below asserts the IEEE-mandated
+// behavior and will FAIL until this is fixed.
+//
+// KNOWN COMPILER BUG #2 (property visibility defaulting, not a defect in
+// this file): IEEE 1800-2017 8.14 says a property with no explicit
+// "local"/"protected" qualifier defaults to public visibility. Already
+// confirmed independently via
+// hlc/Google/chapter-8/8.5--properties/test_8.5--properties.cpp: property
+// 'a' returns getVisibility() == 0, not vpiPublicVis.
+// PropertyAIsPublicByDefault below asserts the IEEE-mandated behavior and
+// will FAIL until this is fixed.
+//
+// KNOWN COMPILER BUG #3 (new finding, confirmed via ctest, constructor call
+// resolution): unlike the "test_method" call in
+// chapter-8/8.6--methods.sv (whose getTaskFunc() correctly resolves to the
+// declared Task), the "new" call here has getTaskFunc<Function>() ==
+// nullptr even though test_cls DOES have a user-written "function new()"
+// and getConstructorFunction() correctly finds it as a valid, non-null
+// Function. So this is not a declaration-recognition problem (the
+// constructor is correctly declared, correctly marked public, correctly
+// given the class's own return type) -- it is specifically that the "new"
+// call site is never wired up to point back to whichever Function is the
+// actual constructor, confirmed here where (unlike
+// chapter-8/8.4--instantiation.sv, where no explicit constructor exists
+// and this resolution was deliberately left untested for lack of ground
+// truth) a real constructor exists to check against.
+// LocalTestObjNewCallResolvesToConstructor below asserts the IEEE-mandated
+// resolution and FAILS until this is fixed.
+
+#include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/Error.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/Location.h>
+#include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Tests/Test.h>
+
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/begin.h>
+#include <hldb/class_defn.h>
+#include <hldb/class_typespec.h>
+#include <hldb/constant.h>
+#include <hldb/design.h>
+#include <hldb/function.h>
+#include <hldb/hier_path.h>
+#include <hldb/initial.h>
+#include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
+#include <hldb/module.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/sv_vpi_user.h>
+#include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
+#include <hldb/vpi_user.h>
+
+namespace hlc {
+
+class ClassConstructorTest : public Test {
+ public:
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "8.7--constructor.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static const hldb::Module *getTop() {
+    return hldb::findByName<hldb::Module>("work@class_tb", m_design->getAllModules());
+  }
+
+  static const hldb::ClassDefn *getTestClsDefn() {
+    const hldb::Module *const top = getTop();
+    if (top == nullptr) return nullptr;
+    return hldb::findByName<hldb::ClassDefn>("work@test_cls", top->getClassDefns());
+  }
+
+  static const hldb::Variable *getPropertyA() {
+    const hldb::ClassDefn *const c = getTestClsDefn();
+    if (c == nullptr || c->getVariables() == nullptr || c->getVariables()->empty()) return nullptr;
+    return c->getVariables()->at(0);
+  }
+
+  static const hldb::Function *getConstructorFunction() {
+    const hldb::ClassDefn *const c = getTestClsDefn();
+    if (c == nullptr || c->getMethods() == nullptr || c->getMethods()->empty()) return nullptr;
+    return any_cast<hldb::Function>(c->getMethods()->at(0));
+  }
+
+  static const hldb::Begin *getInitialBegin() {
+    const hldb::Module *const top = getTop();
+    if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
+    const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+    if (init == nullptr) return nullptr;
+    return init->getStmt<hldb::Begin>();
+  }
+
+  static const hldb::Variable *getLocalTestObj() {
+    const hldb::Begin *const begin = getInitialBegin();
+    if (begin == nullptr || begin->getVariables() == nullptr || begin->getVariables()->empty()) return nullptr;
+    return begin->getVariables()->at(0);
+  }
+};
+
+// --- module / design shape ---------------------------------------------------
+
+TEST_F(ClassConstructorTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+
+TEST_F(ClassConstructorTest, ModuleHasNoTopLevelNetsOrVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const bool hasNets = top->getNets() != nullptr && !top->getNets()->empty();
+  const bool hasVariables = top->getVariables() != nullptr && !top->getVariables()->empty();
+  EXPECT_FALSE(hasNets) << "'test_obj' is block-scoped inside the initial process, not a module-level net";
+  EXPECT_FALSE(hasVariables) << "'test_obj' is block-scoped inside the initial process, not a module-level variable";
+}
+
+TEST_F(ClassConstructorTest, ModuleHasOneClassDefn) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getClassDefns(), nullptr);
+  EXPECT_EQ(top->getClassDefns()->size(), 1u);
+}
+
+// --- class "test_cls" ---------------------------------------------------------
+
+TEST_F(ClassConstructorTest, ClassTestClsExists) { EXPECT_NE(getTestClsDefn(), nullptr); }
+
+TEST_F(ClassConstructorTest, ClassIsUserDefinedClass) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  EXPECT_EQ(c->getClassType(), vpiUserDefinedClass);
+}
+
+TEST_F(ClassConstructorTest, ClassIsAutomaticByDefault) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  EXPECT_TRUE(c->getAutomatic()) << "8.3: 'class test_cls' has no lifetime qualifier so it defaults to automatic; "
+                                    "getAutomatic() must return true (see KNOWN COMPILER BUG #1 above)";
+}
+
+TEST_F(ClassConstructorTest, ClassHasOnePropertyA) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  ASSERT_NE(c->getVariables(), nullptr);
+  ASSERT_EQ(c->getVariables()->size(), 1u);
+  const hldb::Variable *const a = getPropertyA();
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getName(), "a");
+  ASSERT_NE(a->getTypespec(), nullptr);
+  const hldb::IntTypespec *const elem = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>();
+  ASSERT_NE(elem, nullptr) << "property 'a' should resolve to IntTypespec";
+  EXPECT_TRUE(elem->getSigned());
+}
+
+TEST_F(ClassConstructorTest, PropertyAIsPublicByDefault) {
+  const hldb::Variable *const a = getPropertyA();
+  ASSERT_NE(a, nullptr);
+  EXPECT_EQ(a->getVisibility(), vpiPublicVis) << "8.14: 'int a;' with no visibility qualifier defaults to public "
+                                                 "(see KNOWN COMPILER BUG #2 above)";
+}
+
+TEST_F(ClassConstructorTest, ClassHasOneConstructorFunction) {
+  const hldb::ClassDefn *const c = getTestClsDefn();
+  ASSERT_NE(c, nullptr);
+  ASSERT_NE(c->getMethods(), nullptr);
+  ASSERT_EQ(c->getMethods()->size(), 1u);
+  const hldb::Function *const ctor = getConstructorFunction();
+  ASSERT_NE(ctor, nullptr) << "'function new()' should resolve to a Function";
+  EXPECT_EQ(ctor->getName(), "new");
+}
+
+TEST_F(ClassConstructorTest, ConstructorIsPublicByDefault) {
+  const hldb::Function *const ctor = getConstructorFunction();
+  ASSERT_NE(ctor, nullptr);
+  EXPECT_EQ(ctor->getVisibility(), vpiPublicVis)
+      << "8.14: 'function new()' with no visibility qualifier defaults to public";
+}
+
+TEST_F(ClassConstructorTest, ConstructorReturnsTestClsType) {
+  const hldb::Function *const ctor = getConstructorFunction();
+  ASSERT_NE(ctor, nullptr);
+  ASSERT_NE(ctor->getReturn(), nullptr);
+  const hldb::ClassTypespec *const ct = ctor->getReturn<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr) << "8.7: a constructor implicitly returns the class's own type";
+  EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
+}
+
+TEST_F(ClassConstructorTest, ConstructorBodyAssignsPropertyA42) {
+  const hldb::Function *const ctor = getConstructorFunction();
+  ASSERT_NE(ctor, nullptr);
+  const hldb::Assignment *const assign = ctor->getStmt<hldb::Assignment>();
+  ASSERT_NE(assign, nullptr) << "'a = 42;' (the constructor's only statement) should be an Assignment, "
+                                "not wrapped in a Begin";
+  EXPECT_TRUE(assign->getBlocking());
+
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "a");
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getPropertyA());
+
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), "42");
+}
+
+// --- initial process / local "test_obj" ----------------------------------------
+
+TEST_F(ClassConstructorTest, ModuleHasOneInitialProcess) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getProcesses(), nullptr);
+  ASSERT_EQ(top->getProcesses()->size(), 1u);
+  EXPECT_NE(any_cast<hldb::Initial>(top->getProcesses()->at(0)), nullptr);
+}
+
+TEST_F(ClassConstructorTest, InitialBeginHasOneLocalVariableTestObj) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  ASSERT_NE(begin->getVariables(), nullptr);
+  ASSERT_EQ(begin->getVariables()->size(), 1u);
+  const hldb::Variable *const testObj = getLocalTestObj();
+  ASSERT_NE(testObj, nullptr);
+  EXPECT_EQ(testObj->getName(), "test_obj");
+}
+
+TEST_F(ClassConstructorTest, InitialBeginHasOneStmt) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  ASSERT_NE(begin->getStmts(), nullptr);
+  EXPECT_EQ(begin->getStmts()->size(), 1u) << "the local variable declaration itself is not counted as a "
+                                              "statement -- only the $display is";
+}
+
+TEST_F(ClassConstructorTest, LocalTestObjTypespecResolvesToTestClsClassDefn) {
+  const hldb::Variable *const testObj = getLocalTestObj();
+  ASSERT_NE(testObj, nullptr);
+  ASSERT_NE(testObj->getTypespec(), nullptr);
+  const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr) << "local 'test_obj' must resolve to a ClassTypespec";
+  EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
+}
+
+TEST_F(ClassConstructorTest, LocalTestObjValueIsNewMethodFuncCall) {
+  const hldb::Variable *const testObj = getLocalTestObj();
+  ASSERT_NE(testObj, nullptr);
+  const hldb::MethodFuncCall *const newCall = testObj->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(newCall, nullptr) << "'= new' should be attached as the Variable's own getValue()";
+  EXPECT_EQ(newCall->getName(), "new");
+  EXPECT_EQ(newCall->getArguments(), nullptr);
+}
+
+TEST_F(ClassConstructorTest, LocalTestObjNewCallResolvesToConstructor) {
+  const hldb::Variable *const testObj = getLocalTestObj();
+  ASSERT_NE(testObj, nullptr);
+  const hldb::MethodFuncCall *const newCall = testObj->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(newCall, nullptr);
+  EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getConstructorFunction())
+      << "8.7: 'new' must resolve back to the SAME user-written 'function new()' declared on test_cls "
+         "(see KNOWN COMPILER BUG #3 above)";
+}
+
+// --- $display(":assert:(%d == 42)", test_obj.a) --------------------------------
+
+TEST_F(ClassConstructorTest, DisplayExistsWithTwoArguments) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  ASSERT_NE(begin->getStmts(), nullptr);
+  ASSERT_GT(begin->getStmts()->size(), 0u);
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(0));
+  ASSERT_NE(disp, nullptr) << "stmt[0] should be a $display SysFuncCall";
+  EXPECT_EQ(disp->getName(), "$display");
+  ASSERT_NE(disp->getArguments(), nullptr);
+  EXPECT_EQ(disp->getArguments()->size(), 2u);
+}
+
+TEST_F(ClassConstructorTest, DisplayFirstArgIsAssertStringLiteral) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  ASSERT_GT(begin->getStmts()->size(), 0u);
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(0));
+  ASSERT_NE(disp, nullptr);
+  ASSERT_NE(disp->getArguments(), nullptr);
+  ASSERT_GT(disp->getArguments()->size(), 0u);
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  ASSERT_NE(fmt, nullptr);
+  EXPECT_EQ(fmt->getValue(), ":assert:(%d == 42)");
+}
+
+TEST_F(ClassConstructorTest, DisplaySecondArgIsTestObjDotA) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  ASSERT_GT(begin->getStmts()->size(), 0u);
+  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(0));
+  ASSERT_NE(disp, nullptr);
+  ASSERT_NE(disp->getArguments(), nullptr);
+  ASSERT_GT(disp->getArguments()->size(), 1u);
+  const hldb::HierPath *const path = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
+  ASSERT_NE(path, nullptr) << "'test_obj.a' should be a HierPath";
+  ASSERT_NE(path->getPathElems(), nullptr);
+  ASSERT_EQ(path->getPathElems()->size(), 2u);
+
+  const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(testObjRef, nullptr);
+  EXPECT_EQ(testObjRef->getName(), "test_obj");
+  EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getLocalTestObj());
+
+  const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
+  ASSERT_NE(aRef, nullptr);
+  EXPECT_EQ(aRef->getName(), "a");
+  EXPECT_EQ(aRef->getActual<hldb::Variable>(), getPropertyA());
+}
+
+// --- compiler diagnostics ---------------------------------------------------------
+
+TEST_F(ClassConstructorTest, CompilerReportsNoErrors) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0);
+}
+
+}  // namespace hlc
+
+int main(int argc, char **argv) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
