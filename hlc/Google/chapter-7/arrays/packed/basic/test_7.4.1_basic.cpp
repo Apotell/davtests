@@ -35,9 +35,7 @@
 //   - no continuous assignments
 //   - compiler emits zero errors
 //
-// Not checked:
-//   - none -- basic.sv is declarations-only with no runtime behavior to
-//     defer to simulation
+// 
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>

@@ -88,7 +88,7 @@ TEST_F(PackedOperationsTest, ModuleHasOneNet) {
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
-
+  
 TEST_F(PackedOperationsTest, ModuleHasOneTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

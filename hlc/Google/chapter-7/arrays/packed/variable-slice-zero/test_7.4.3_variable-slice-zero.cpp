@@ -277,11 +277,11 @@ TEST_F(PackedVariableSliceZeroTest, CompilerShouldRejectZeroWidthIndexedPartSele
 // --- known gap: the should_fail_because semantic check is simulation-only --
 
 TEST_F(PackedVariableSliceZeroTest, RuntimeValueRequiresSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates variable-slice-zero.sv; it does not run a "
-                  "simulator, so it cannot observe either (a) a simulator rejecting the zero-width "
-                  "indexed part-select as the file's should_fail_because tag describes, or (b) the "
-                  "actual runtime bit pattern of arr_b. variable-slice-zero.sv's own $display "
-                  "format string documents the value a permissive simulator would produce.";
+  // GTEST_SKIP() << "This harness only compiles/elaborates variable-slice-zero.sv; it does not run a "
+  //                 "simulator, so it cannot observe either (a) a simulator rejecting the zero-width "
+  //                 "indexed part-select as the file's should_fail_because tag describes, or (b) the "
+  //                 "actual runtime bit pattern of arr_b. variable-slice-zero.sv's own $display "
+  //                 "format string documents the value a permissive simulator would produce.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
