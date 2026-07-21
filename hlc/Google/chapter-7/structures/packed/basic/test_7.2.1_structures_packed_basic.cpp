@@ -14,45 +14,43 @@
  limitations under the License.
 */
 
-// Tests for basic.sv (tags: 7.2 7.1)
+// Tests for basic.sv (tags: 7.2.1 7.2 7.1)
 //   module top ();
-//     struct {
+//     struct packed {
 //       bit [3:0] lo;
 //       bit [3:0] hi;
 //     } p1;
 //     initial begin
-//       p1.lo = 4'h5;
-//       p1.hi = 4'ha;
+//       p1 = 8'h5a;
+//       $display(":assert: ('%h' == '5a')", p1);
 //       $display(":assert: (('%h' == 'a') and ('%h' == '5'))", p1.hi, p1.lo);
 //     end
 //   endmodule
 //
 // Checked:
 //   - design has module work@top with exactly 1 net: "p1"
-//   - net "p1": RefTypespec -> StructTypespec, vpiPacked false (unpacked),
-//     exactly 2 TypespecMember "lo"/"hi", each member's typespec ->
-//     BitTypespec with 1 Range [3:0], vpiVector true
+//   - net "p1": RefTypespec -> StructTypespec, vpiPacked true, exactly 2
+//     TypespecMember "lo"/"hi", each member's typespec -> BitTypespec with
+//     1 Range [3:0], vpiVector true
 //   - design-level typespecs (4): ModuleTypespec, IntTypespec (signed),
 //     IntTypespec (unsigned), StringTypespec
-//   - Initial process: 1 Begin with 3 stmts (2 HierPath Assignment + 1
-//     SysFuncCall)
-//   - Stmt[0]: blocking Assignment, lhs HierPath "p1.lo" (RefObj "p1" -> Net
-//     "p1", RefObj "lo" -> TypespecMember "lo"), rhs Constant hexadecimal
-//     "4'h5" (value "5")
-//   - Stmt[1]: blocking Assignment, lhs HierPath "p1.hi" (RefObj "p1" -> Net
-//     "p1", RefObj "hi" -> TypespecMember "hi"), rhs Constant hexadecimal
-//     "4'ha" (value "a")
-//   - Stmt[2]: $display with 3 args (format ":assert: (('%h' == 'a') and
-//     ('%h' == '5'))" + HierPath "p1.hi" + HierPath "p1.lo")
+//   - Initial process: 1 Begin with 3 stmts (1 Assignment + 2 SysFuncCall)
+//   - Stmt[0]: blocking Assignment, lhs RefObj "p1" resolving Net "p1", rhs
+//     Constant hexadecimal "8'h5a" (value "5a")
+//   - Stmt[1]: $display with 2 args (format ":assert: ('%h' == '5a')" +
+//     RefObj "p1" resolving Net "p1")
+//   - Stmt[2]: $display with 3 args (format + HierPath "p1.hi" [RefObj "p1"
+//     -> Net "p1", RefObj "hi" -> TypespecMember "hi"] + HierPath "p1.lo"
+//     [RefObj "p1" -> Net "p1", RefObj "lo" -> TypespecMember "lo"])
 //   - compiler emits zero errors
 //   - no continuous assignments
 //
 // Not checked:
-//   - actual runtime %h-formatted value of p1.hi/p1.lo -- that requires
+//   - actual runtime %h-formatted value of p1/p1.hi/p1.lo -- that requires
 //     running a simulator, which this harness does not do (it only
-//     compiles/elaborates). basic.sv's own $display format string documents
+//     compiles/elaborates). basic.sv's own $display format strings document
 //     the expected values (see the skipped canary
-//     RuntimeUnpackedFieldValuesRequireSimulation below).
+//     RuntimePackedFieldValuesRequireSimulation below).
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -82,7 +80,7 @@
 
 namespace hlc {
 
-class UnpackedStructBasicTest : public Test {
+class PackedStructBasicTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "basic.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
@@ -109,24 +107,24 @@ class UnpackedStructBasicTest : public Test {
 
 // --- module / net / struct typespec ------------------------------------------
 
-TEST_F(UnpackedStructBasicTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+TEST_F(PackedStructBasicTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnpackedStructBasicTest, ModuleHasOneNet) {
+TEST_F(PackedStructBasicTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
-TEST_F(UnpackedStructBasicTest, P1IsUnpackedStructWithTwoMembers) {
+TEST_F(PackedStructBasicTest, P1IsPackedStructWithTwoMembers) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
-  EXPECT_FALSE(st->getPacked());
+  EXPECT_TRUE(st->getPacked());
   ASSERT_NE(st->getMembers(), nullptr);
   EXPECT_EQ(st->getMembers()->size(), 2u);
 }
 
-TEST_F(UnpackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
+TEST_F(PackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
   ASSERT_NE(st->getMembers(), nullptr);
@@ -136,7 +134,7 @@ TEST_F(UnpackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
     const hldb::TypespecMember *const member = st->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
-    const hldb::BitTypespec *const bt = member->getTypespec<hldb::BitTypespec>();
+    const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     EXPECT_TRUE(bt->getVector());
     ASSERT_NE(bt->getRanges(), nullptr);
@@ -148,57 +146,51 @@ TEST_F(UnpackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
 
 // --- initial process ---------------------------------------------------------
 
-TEST_F(UnpackedStructBasicTest, InitialBeginHasThreeStmts) {
+TEST_F(PackedStructBasicTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 3u);
 }
 
-TEST_F(UnpackedStructBasicTest, FirstStmtAssignsHexFiveToPOneLo) {
+TEST_F(PackedStructBasicTest, FirstStmtAssignsHexFivEaToP1) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "p1.lo");
-  ASSERT_NE(lhs->getPathElems(), nullptr);
-  ASSERT_EQ(lhs->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
-  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
+  EXPECT_EQ(lhs->getName(), "p1");
+  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "4'h5");
-  EXPECT_EQ(rhs->getValue(), "5");
+  EXPECT_EQ(rhs->getDecompile(), "8'h5a");
+  EXPECT_EQ(rhs->getValue(), "5a");
 }
 
-TEST_F(UnpackedStructBasicTest, SecondStmtAssignsHexAToPOneHi) {
+TEST_F(PackedStructBasicTest, SecondStmtDisplaysP1AsHex) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(1));
-  ASSERT_NE(assign, nullptr);
-  EXPECT_TRUE(assign->getBlocking());
-  const hldb::HierPath *const lhs = assign->getLhs<hldb::HierPath>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "p1.hi");
-  ASSERT_NE(lhs->getPathElems(), nullptr);
-  ASSERT_EQ(lhs->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
-  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "4'ha");
-  EXPECT_EQ(rhs->getValue(), "a");
-}
-
-TEST_F(UnpackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
-  const hldb::Begin *const begin = getInitialBegin();
-  ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
+  ASSERT_NE(disp->getArguments(), nullptr);
+  ASSERT_EQ(disp->getArguments()->size(), 2u);
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  ASSERT_NE(fmt, nullptr);
+  EXPECT_EQ(fmt->getValue(), ":assert: ('%h' == '5a')");
+  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  ASSERT_NE(arg, nullptr);
+  EXPECT_EQ(arg->getName(), "p1");
+  EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
+}
+
+TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
+  const hldb::Begin *const begin = getInitialBegin();
+  ASSERT_NE(begin, nullptr);
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
+  ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
@@ -208,31 +200,40 @@ TEST_F(UnpackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   const hldb::HierPath *const hi = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(hi->getName(), "p1.hi");
+  ASSERT_NE(hi->getPathElems(), nullptr);
+  ASSERT_EQ(hi->getPathElems()->size(), 2u);
+  EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
+
   const hldb::HierPath *const lo = any_cast<hldb::HierPath>(disp->getArguments()->at(2));
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(lo->getName(), "p1.lo");
+  ASSERT_NE(lo->getPathElems(), nullptr);
+  ASSERT_EQ(lo->getPathElems()->size(), 2u);
+  EXPECT_NE(any_cast<hldb::RefObj>(lo->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(lo->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
 }
 
 // --- design-level typespecs / compiler diagnostics ---------------------------
 
-TEST_F(UnpackedStructBasicTest, DesignHasFourTypespecs) {
+TEST_F(PackedStructBasicTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
 }
 
-TEST_F(UnpackedStructBasicTest, DesignHasModuleTypespec) {
+TEST_F(PackedStructBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
 
-TEST_F(UnpackedStructBasicTest, DesignHasStringTypespec) {
+TEST_F(PackedStructBasicTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(3)), nullptr);
 }
 
-TEST_F(UnpackedStructBasicTest, CompilerReportsZeroErrors) {
+TEST_F(PackedStructBasicTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
@@ -241,26 +242,30 @@ TEST_F(UnpackedStructBasicTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(UnpackedStructBasicTest, NoContAssigns) {
+TEST_F(PackedStructBasicTest, NoContAssigns) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime unpacked-field values require simulation ------------
+// --- known gap: runtime packed-field values require simulation --------------
 
-TEST_F(UnpackedStructBasicTest, RuntimeUnpackedFieldValuesRequireSimulation) {
+TEST_F(PackedStructBasicTest, RuntimePackedFieldValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates basic.sv; it does not run a simulator, so "
-                  "the actual runtime %h-formatted values of p1.hi/p1.lo cannot be observed here. "
-                  "basic.sv's own $display format string documents the expected values.";
+                  "the actual runtime %h-formatted values of p1/p1.hi/p1.lo cannot be observed here. "
+                  "basic.sv's own $display format strings document the expected values.";
 
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
-  ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
+  const hldb::SysFuncCall *const firstDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  ASSERT_NE(firstDisplay, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(firstDisplay->getArguments()->at(0))->getValue(), ":assert: ('%h' == '5a')")
+      << "expected p1 == 8'h5a immediately after 'p1 = 8'h5a'";
+  const hldb::SysFuncCall *const secondDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  ASSERT_NE(secondDisplay, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(secondDisplay->getArguments()->at(0))->getValue(),
             ":assert: (('%h' == 'a') and ('%h' == '5'))")
-      << "expected p1.hi == 4'ha and p1.lo == 4'h5 after their respective assignments";
+      << "expected p1.hi == 4'ha and p1.lo == 4'h5, matching the 8'h5a bit pattern";
 }
 
 }  // namespace hlc

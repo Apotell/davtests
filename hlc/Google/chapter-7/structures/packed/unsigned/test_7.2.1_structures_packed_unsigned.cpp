@@ -14,16 +14,16 @@
  limitations under the License.
 */
 
-// Tests for signed.sv (tags: 7.2.1 7.2)
+// Tests for unsigned.sv (tags: 7.2.1 7.2)
 //   module top ();
-//     struct packed signed {
+//     struct packed unsigned {
 //       bit [3:0] lo;
 //       bit [3:0] hi;
 //     } p1;
 //     initial begin
 //       p1 = 8'd200;
 //       $display(":assert: ('%h' == 'c8')", p1);
-//       $display(":assert: (%d == -56)", p1);
+//       $display(":assert: (%d == 200)", p1);
 //     end
 //   endmodule
 //
@@ -39,30 +39,24 @@
 //     Constant decimal "8'd200" (value "200")
 //   - Stmt[1]: $display with 2 args (format ":assert: ('%h' == 'c8')" +
 //     RefObj "p1")
-//   - Stmt[2]: $display with 2 args (format ":assert: (%d == -56)" + RefObj
+//   - Stmt[2]: $display with 2 args (format ":assert: (%d == 200)" + RefObj
 //     "p1")
 //   - compiler emits zero errors
 //   - no continuous assignments
 //
 // Not checked:
-//   - whether the compiled StructTypespec captures the 'signed' keyword at
-//     all: StructTypespec (struct_typespec.h) only exposes getPacked() and
-//     getMembers(); its base HierTypespec (hier_typespec.h) adds nothing
-//     else; and the member BitTypespecs (bit_typespec.h) do have a
-//     getSigned(), but it is false/default here just like in plain
-//     "struct packed" (chapter-7/structures/packed/basic) and
-//     "struct packed unsigned" (chapter-7/structures/packed/unsigned) --
-//     i.e. this compiled AST is structurally indistinguishable from those
-//     two. This looks like a genuine capture gap (the 'signed' qualifier
-//     has nowhere to live in the object model), but there is no existing
-//     field to assert against, so no compiling "expected to fail" test can
-//     be written for it the way FuncCallResolvesToDeclaredTask could for a
-//     genuinely unpopulated-but-existing field.
-//   - actual runtime %h/%d-formatted value of p1 (in particular, the signed
-//     reinterpretation of 8'd200 as -56) -- that requires running a
-//     simulator, which this harness does not do. signed.sv's own $display
+//   - whether the compiled StructTypespec captures the 'unsigned' keyword at
+//     all: as with chapter-7/structures/packed/signed, StructTypespec
+//     (struct_typespec.h) only exposes getPacked()/getMembers(), with
+//     nothing for signedness; this compiled AST is structurally
+//     indistinguishable from plain "struct packed" (packed/basic) and
+//     "struct packed signed" (packed/signed). No existing field exists to
+//     assert against, so no compiling "expected to fail" test can be
+//     written for this apparent capture gap.
+//   - actual runtime %h/%d-formatted value of p1 -- that requires running a
+//     simulator, which this harness does not do. unsigned.sv's own $display
 //     format strings document the expected values (see the skipped canary
-//     RuntimePackedSignedValueRequiresSimulation below).
+//     RuntimePackedUnsignedValueRequiresSimulation below).
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -91,9 +85,9 @@
 
 namespace hlc {
 
-class PackedStructSignedTest : public Test {
+class PackedStructUnsignedTest : public Test {
  public:
-  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "signed.hlc"}); }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "unsigned.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
@@ -118,16 +112,16 @@ class PackedStructSignedTest : public Test {
 
 // --- module / net / struct typespec ------------------------------------------
 
-TEST_F(PackedStructSignedTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
+TEST_F(PackedStructUnsignedTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(PackedStructSignedTest, ModuleHasOneNet) {
+TEST_F(PackedStructUnsignedTest, ModuleHasOneNet) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
-TEST_F(PackedStructSignedTest, P1IsPackedStructWithTwoMembers) {
+TEST_F(PackedStructUnsignedTest, P1IsPackedStructWithTwoMembers) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
   EXPECT_TRUE(st->getPacked());
@@ -135,7 +129,7 @@ TEST_F(PackedStructSignedTest, P1IsPackedStructWithTwoMembers) {
   EXPECT_EQ(st->getMembers()->size(), 2u);
 }
 
-TEST_F(PackedStructSignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
+TEST_F(PackedStructUnsignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
   const hldb::StructTypespec *const st = getP1StructTypespec();
   ASSERT_NE(st, nullptr);
   ASSERT_NE(st->getMembers(), nullptr);
@@ -145,7 +139,7 @@ TEST_F(PackedStructSignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
     const hldb::TypespecMember *const member = st->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
-    const hldb::BitTypespec *const bt = member->getTypespec<hldb::BitTypespec>();
+    const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     EXPECT_TRUE(bt->getVector());
     ASSERT_NE(bt->getRanges(), nullptr);
@@ -157,14 +151,14 @@ TEST_F(PackedStructSignedTest, MembersLoAndHiAreFourBitBitTypespecs) {
 
 // --- initial process ---------------------------------------------------------
 
-TEST_F(PackedStructSignedTest, InitialBeginHasThreeStmts) {
+TEST_F(PackedStructUnsignedTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   EXPECT_EQ(begin->getStmts()->size(), 3u);
 }
 
-TEST_F(PackedStructSignedTest, FirstStmtAssignsDecimalTwoHundredToP1) {
+TEST_F(PackedStructUnsignedTest, FirstStmtAssignsDecimalTwoHundredToP1) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
@@ -180,10 +174,10 @@ TEST_F(PackedStructSignedTest, FirstStmtAssignsDecimalTwoHundredToP1) {
   EXPECT_EQ(rhs->getValue(), "200");
 }
 
-TEST_F(PackedStructSignedTest, SecondStmtDisplaysP1AsHex) {
+TEST_F(PackedStructUnsignedTest, SecondStmtDisplaysP1AsHex) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -195,16 +189,16 @@ TEST_F(PackedStructSignedTest, SecondStmtDisplaysP1AsHex) {
   EXPECT_EQ(arg->getName(), "p1");
 }
 
-TEST_F(PackedStructSignedTest, ThirdStmtDisplaysP1AsSignedDecimal) {
+TEST_F(PackedStructUnsignedTest, ThirdStmtDisplaysP1AsUnsignedDecimal) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
-  EXPECT_EQ(fmt->getValue(), ":assert: (%d == -56)");
+  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 200)");
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "p1");
@@ -212,24 +206,24 @@ TEST_F(PackedStructSignedTest, ThirdStmtDisplaysP1AsSignedDecimal) {
 
 // --- design-level typespecs / compiler diagnostics ---------------------------
 
-TEST_F(PackedStructSignedTest, DesignHasThreeTypespecs) {
+TEST_F(PackedStructUnsignedTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
-TEST_F(PackedStructSignedTest, DesignHasModuleTypespec) {
+TEST_F(PackedStructUnsignedTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
 
-TEST_F(PackedStructSignedTest, DesignHasStringTypespec) {
+TEST_F(PackedStructUnsignedTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-TEST_F(PackedStructSignedTest, CompilerReportsZeroErrors) {
+TEST_F(PackedStructUnsignedTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
@@ -238,19 +232,18 @@ TEST_F(PackedStructSignedTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(PackedStructSignedTest, NoContAssigns) {
+TEST_F(PackedStructUnsignedTest, NoContAssigns) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime signed-reinterpretation value requires simulation --
+// --- known gap: runtime unsigned value requires simulation ------------------
 
-TEST_F(PackedStructSignedTest, RuntimePackedSignedValueRequiresSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates signed.sv; it does not run a simulator, so "
-                  "the actual runtime signed-reinterpreted value of p1 (8'd200 displayed as -56) "
-                  "cannot be observed here. signed.sv's own $display format strings document the "
-                  "expected values.";
+TEST_F(PackedStructUnsignedTest, RuntimePackedUnsignedValueRequiresSimulation) {
+  GTEST_SKIP() << "This harness only compiles/elaborates unsigned.sv; it does not run a simulator, so "
+                  "the actual runtime value of p1 cannot be observed here. unsigned.sv's own $display "
+                  "format strings document the expected values.";
 
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
@@ -258,11 +251,11 @@ TEST_F(PackedStructSignedTest, RuntimePackedSignedValueRequiresSimulation) {
   ASSERT_NE(hexDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(hexDisplay->getArguments()->at(0))->getValue(), ":assert: ('%h' == 'c8')")
       << "expected p1 == 8'hc8 (== 8'd200)";
-  const hldb::SysFuncCall *const signedDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
-  ASSERT_NE(signedDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(signedDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == -56)")
-      << "expected p1 read back as -56 once the packed struct's 'signed' qualifier reinterprets "
-         "8'd200 (== 8'hc8) as a signed 8-bit value";
+  const hldb::SysFuncCall *const decDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  ASSERT_NE(decDisplay, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(decDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 200)")
+      << "expected p1 read back as 200, unchanged, since the packed struct's 'unsigned' qualifier does "
+         "not reinterpret the bit pattern the way 'signed' does";
 }
 
 }  // namespace hlc

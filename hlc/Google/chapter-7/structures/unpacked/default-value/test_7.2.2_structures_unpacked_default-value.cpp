@@ -175,7 +175,7 @@ TEST_F(UnpackedStructDefaultValueTest, MemberLoHasLegalDefaultValueResolvingToPa
   const hldb::TypespecMember *const lo = st->getMembers()->at(0);
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(lo->getName(), "lo");
-  const hldb::BitTypespec *const bt = lo->getTypespec<hldb::BitTypespec>();
+  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(lo);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -228,7 +228,7 @@ TEST_F(UnpackedStructDefaultValueTest, FirstStmtAssignsHexAToPOneHi) {
 TEST_F(UnpackedStructDefaultValueTest, SecondStmtDisplaysHiAndLoFields) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
