@@ -361,8 +361,9 @@ n<$Source01/dut.sv> u<84> t<Top_level_rule> c<1> l<1:1> el<11:1>
         n<> u<80> t<ENDMODULE> p<81> l<9:1> el<9:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[ERR:EL0535] $Source01/dut.sv:6:51: Illegal implicit net "id:776, name:a".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/dut.sv:6:51: Illegal implicit net "id:163, name:a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1939,6 +1940,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2156,6 +2158,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2234,6 +2237,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2374,14 +2378,14 @@ Design name:unnamed:
               LogicTypespec:
                 vpiParent: Begin
             vpiStmt (3 items):
-              SysFuncCall name:$display start:4:2 end:4:58:
+              SysTaskCall name:$display start:4:2 end:4:58:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:4:2 end:4:10:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (2 items):
                   Constant start:4:11 end:4:39:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@top
@@ -2391,7 +2395,7 @@ Design name:unnamed:
                     vpiDecompile: "\":assert: ('%s' == 'logic')\""
                     vpiValue: ":assert: ('%s' == 'logic')"
                   SysTaskCall name:$typename start:4:41 end:4:57:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec start:4:51 end:4:56:
                       vpiParent: SysTaskCall name:$typename
                       vpiFullName: work@top
@@ -2399,14 +2403,14 @@ Design name:unnamed:
                     vpiName Identifier name:$typename start:4:41 end:4:50:
                       vpiParent: SysTaskCall name:$typename
                       vpiName: "$typename"
-              SysFuncCall name:$display start:5:2 end:5:56:
+              SysTaskCall name:$display start:5:2 end:5:56:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:5:2 end:5:10:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (2 items):
                   Constant start:5:11 end:5:39:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@top
@@ -2416,7 +2420,7 @@ Design name:unnamed:
                     vpiDecompile: "\":assert: ('%s' == 'logic')\""
                     vpiValue: ":assert: ('%s' == 'logic')"
                   SysTaskCall name:$typename start:5:41 end:5:55:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec start:5:51 end:5:54:
                       vpiParent: SysTaskCall name:$typename
                       vpiFullName: work@top
@@ -2424,14 +2428,14 @@ Design name:unnamed:
                     vpiName Identifier name:$typename start:5:41 end:5:50:
                       vpiParent: SysTaskCall name:$typename
                       vpiName: "$typename"
-              SysFuncCall name:$display start:6:2 end:6:54:
+              SysTaskCall name:$display start:6:2 end:6:54:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:6:2 end:6:10:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (2 items):
                   Constant start:6:11 end:6:39:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@top
@@ -2441,7 +2445,7 @@ Design name:unnamed:
                     vpiDecompile: "\":assert: ('%s' == 'logic')\""
                     vpiValue: ":assert: ('%s' == 'logic')"
                   SysFuncCall name:$typename start:6:41 end:6:53:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName Identifier name:$typename start:6:41 end:6:50:
                       vpiParent: SysFuncCall name:$typename
                       vpiName: "$typename"
@@ -2451,15 +2455,21 @@ Design name:unnamed:
                         vpiName: a
                         vpiFullName: work@top.a
   vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2478,17 +2488,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

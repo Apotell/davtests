@@ -35,12 +35,12 @@
 //   - module has exactly 1 Initial process
 //   - Initial body is a Begin block with 4 statements
 //   - Stmt[0]: blocking Assignment, RHS=ArrayExpr with 1 Constant "16" (vpiUIntConst)
-//   - Stmt[1]: SysFuncCall "$display" with 2 arguments
+//   - Stmt[1]: SysTaskCall "$display" with 2 arguments
 //   - Stmt[2]: HierPath "arr.delete" -- COMPILER BEHAVIOR: arr.delete stored as HierPath
 //       not as a method call; HLC emits EL0535 "Illegal implicit net"
 //   - HierPath getName()="arr.delete", getFullName()="work@top.arr.delete"
 //   - HierPath has 2 path elements: RefObj "arr" and RefObj "delete"
-//   - Stmt[3]: SysFuncCall "$display" with 2 arguments
+//   - Stmt[3]: SysTaskCall "$display" with 2 arguments
 //   - arr.size inside $display args is also a HierPath (same compiler behavior)
 //   - design has 3 typespecs: ModuleTypespec "work@top", IntTypespec, StringTypespec
 //   - StringTypespec present because $display uses string literal arguments
@@ -342,19 +342,19 @@ TEST_F(OpDeleteTest, ArrayExprSizeConstTypeIsUInt) {
 
 // --- Stmt[1]: first $display -------------------------------------------------
 
-TEST_F(OpDeleteTest, SecondStmtIsSysFuncCall) {
+TEST_F(OpDeleteTest, SecondStmtIsSysTaskCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_NE(any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1)), nullptr);
+  EXPECT_NE(any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1)), nullptr);
 }
 
 TEST_F(OpDeleteTest, FirstDisplayNameIsDisplay) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(
+  const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "$display");
@@ -363,7 +363,7 @@ TEST_F(OpDeleteTest, FirstDisplayNameIsDisplay) {
 TEST_F(OpDeleteTest, FirstDisplayHasTwoArguments) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(
+  const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
@@ -374,7 +374,7 @@ TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeHierPath) {
   // COMPILER BEHAVIOR: arr.size is stored as HierPath, not a method call
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(
+  const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
@@ -458,13 +458,13 @@ TEST_F(OpDeleteTest, FourthStmtIsSysFuncCall) {
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_NE(any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3)), nullptr);
+  EXPECT_NE(any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3)), nullptr);
 }
 
 TEST_F(OpDeleteTest, SecondDisplayNameIsDisplay) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(
+  const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "$display");
@@ -473,7 +473,7 @@ TEST_F(OpDeleteTest, SecondDisplayNameIsDisplay) {
 TEST_F(OpDeleteTest, SecondDisplayHasTwoArguments) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(
+  const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
@@ -484,7 +484,7 @@ TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeHierPath) {
   // COMPILER BEHAVIOR: second $display also gets arr.size as HierPath
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(
+  const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);

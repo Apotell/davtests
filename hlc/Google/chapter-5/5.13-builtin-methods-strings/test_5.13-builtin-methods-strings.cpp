@@ -22,7 +22,7 @@
 //   Net "a" → StringTypespec
 //     vpiValue: Constant (vpiStringConst=6), getValue()="test"
 //   Initial → Begin
-//     SysFuncCall "$display"
+//     SysTaskCall "$display"
 //       Arguments[0]: Constant (vpiStringConst=6) — format string
 //       Arguments[1]: HierPath "a.len()"
 //         PathElems[0]: RefObj "a"
@@ -69,7 +69,7 @@ static const hldb::Net *getNetA(const hldb::Design *d) {
   return nullptr;
 }
 
-static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
+static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
   const hldb::Module *const top = getTop(d);
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
@@ -77,7 +77,7 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
       const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
       for (const hldb::Any *const s : *blk->getStmts())
-        if (const hldb::SysFuncCall *const c = any_cast<hldb::SysFuncCall>(s)) return c;
+        if (const hldb::SysTaskCall *const c = any_cast<hldb::SysTaskCall>(s)) return c;
     }
   }
   return nullptr;
@@ -129,20 +129,20 @@ TEST_F(BuiltinMethodsStrings, DisplayCallExists) {
 }
 
 TEST_F(BuiltinMethodsStrings, DisplayCallName) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getName(), "$display");
 }
 
 TEST_F(BuiltinMethodsStrings, DisplayCallHasTwoArguments) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   EXPECT_EQ(c->getArguments()->size(), 2u);
 }
 
 TEST_F(BuiltinMethodsStrings, FirstArgumentIsStringConstant) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
@@ -156,7 +156,7 @@ TEST_F(BuiltinMethodsStrings, FirstArgumentIsStringConstant) {
 // a.len() — HierPath with RefObj + FuncCall
 // ---------------------------------------------------------------------------
 TEST_F(BuiltinMethodsStrings, SecondArgumentIsHierPath) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
@@ -167,7 +167,7 @@ TEST_F(BuiltinMethodsStrings, SecondArgumentIsHierPath) {
 }
 
 TEST_F(BuiltinMethodsStrings, HierPathHasTwoPathElems) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
@@ -176,7 +176,7 @@ TEST_F(BuiltinMethodsStrings, HierPathHasTwoPathElems) {
 }
 
 TEST_F(BuiltinMethodsStrings, FirstPathElemIsStringRefA) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
@@ -188,7 +188,7 @@ TEST_F(BuiltinMethodsStrings, FirstPathElemIsStringRefA) {
 }
 
 TEST_F(BuiltinMethodsStrings, SecondPathElemIsLenFuncCall) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);

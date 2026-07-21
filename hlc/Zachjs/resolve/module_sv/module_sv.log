@@ -162,8 +162,8 @@ n<$Source01/resolve/module.sv> u<137> t<Top_level_rule> c<1> l<1:1> el<11:1>
         n<> u<133> t<ENDMODULE> p<134> l<10:1> el<10:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/resolve/module.sv:1:1: Compile module "work@top".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/resolve/module.sv:8:10: Illegal implicit net "id:62, name:display".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -198,17 +198,17 @@ Design name:unnamed:
             vpiName: width
             vpiFullName: work@top.width
             vpiActual: Parameter name:width
-          vpiRhs FuncCall name:width_calc start:3:26 end:3:39:
+          vpiRhs SubroutineCall name:width_calc start:3:26 end:3:39:
             vpiParent: ParamAssign
             vpiName Identifier name:width_calc start:3:26 end:3:36:
-              vpiParent: FuncCall name:width_calc
+              vpiParent: SubroutineCall name:width_calc
               vpiName: width_calc
             vpiArgument (1 items):
               Constant start:3:37 end:3:38:
-                vpiParent: FuncCall name:width_calc
+                vpiParent: SubroutineCall name:width_calc
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: work@top.width_calc
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -352,14 +352,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@top
             vpiStmt (2 items):
-              SysFuncCall name:$display start:7:9 end:7:24:
+              SysTaskCall name:$display start:7:9 end:7:24:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:7:9 end:7:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   RefObj name:width start:7:18 end:7:23:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: width
                     vpiFullName: work@top.width
                     vpiActual: Parameter name:width

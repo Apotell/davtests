@@ -965,6 +965,7 @@ n<$Source01/dut.sv> u<688> t<Top_level_rule> c<1> l<2:1> el<80:1>
         n<> u<684> t<ENDMODULE> p<685> l<79:1> el<79:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "work@SimDTM".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "work@SimDTM".
 ====== HLDB =======
 Design name:unnamed:
@@ -2542,6 +2543,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2759,6 +2761,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2837,6 +2840,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3676,56 +3680,56 @@ Design name:unnamed:
                           vpiName: "__exit"
                           vpiFullName: work@SimDTM.__exit
                           vpiActual: Net name:__exit
-                        vpiRhs FuncCall name:debug_tick start:66:16 end:76:8:
+                        vpiRhs SubroutineCall name:debug_tick start:66:16 end:76:8:
                           vpiParent: Assignment
                           vpiName Identifier name:debug_tick start:66:16 end:66:26:
-                            vpiParent: FuncCall name:debug_tick
+                            vpiParent: SubroutineCall name:debug_tick
                             vpiName: debug_tick
                           vpiArgument (9 items):
                             RefObj name:__debug_req_valid start:67:9 end:67:26:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_req_valid"
-                              vpiFullName: work@SimDTM.__debug_req_valid
+                              vpiFullName: work@SimDTM.debug_tick.__debug_req_valid
                               vpiActual: Net name:__debug_req_valid
                             RefObj name:__debug_req_ready start:68:9 end:68:26:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_req_ready"
-                              vpiFullName: work@SimDTM.__debug_req_ready
+                              vpiFullName: work@SimDTM.debug_tick.__debug_req_ready
                               vpiActual: Net name:__debug_req_ready
                             RefObj name:__debug_req_bits_addr start:69:9 end:69:30:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_req_bits_addr"
-                              vpiFullName: work@SimDTM.__debug_req_bits_addr
+                              vpiFullName: work@SimDTM.debug_tick.__debug_req_bits_addr
                               vpiActual: Net name:__debug_req_bits_addr
                             RefObj name:__debug_req_bits_op start:70:9 end:70:28:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_req_bits_op"
-                              vpiFullName: work@SimDTM.__debug_req_bits_op
+                              vpiFullName: work@SimDTM.debug_tick.__debug_req_bits_op
                               vpiActual: Net name:__debug_req_bits_op
                             RefObj name:__debug_req_bits_data start:71:9 end:71:30:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_req_bits_data"
-                              vpiFullName: work@SimDTM.__debug_req_bits_data
+                              vpiFullName: work@SimDTM.debug_tick.__debug_req_bits_data
                               vpiActual: Net name:__debug_req_bits_data
                             RefObj name:__debug_resp_valid start:72:9 end:72:27:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_resp_valid"
-                              vpiFullName: work@SimDTM.__debug_resp_valid
+                              vpiFullName: work@SimDTM.debug_tick.__debug_resp_valid
                               vpiActual: Net name:__debug_resp_valid
                             RefObj name:__debug_resp_ready start:73:9 end:73:27:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_resp_ready"
-                              vpiFullName: work@SimDTM.__debug_resp_ready
+                              vpiFullName: work@SimDTM.debug_tick.__debug_resp_ready
                               vpiActual: Net name:__debug_resp_ready
                             RefObj name:__debug_resp_bits_resp start:74:9 end:74:31:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_resp_bits_resp"
-                              vpiFullName: work@SimDTM.__debug_resp_bits_resp
+                              vpiFullName: work@SimDTM.debug_tick.__debug_resp_bits_resp
                               vpiActual: Net name:__debug_resp_bits_resp
                             RefObj name:__debug_resp_bits_data start:75:9 end:75:31:
-                              vpiParent: FuncCall name:debug_tick
+                              vpiParent: SubroutineCall name:debug_tick
                               vpiName: "__debug_resp_bits_data"
-                              vpiFullName: work@SimDTM.__debug_resp_bits_data
+                              vpiFullName: work@SimDTM.debug_tick.__debug_resp_bits_data
                               vpiActual: Net name:__debug_resp_bits_data
           vpiAlwaysType: always (1)
       vpiContAssign (6 items):
@@ -3940,15 +3944,21 @@ Design name:unnamed:
             vpiFullName: work@SimDTM.__exit
             vpiActual: Net name:__exit
   vpiTypespec (10 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3970,12 +3980,6 @@ Design name:unnamed:
         vpiName: work@SimDTM
       vpiModule: Module name:work@SimDTM
     LogicTypespec:
-      vpiParent: Design name:unnamed
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
       vpiParent: Design name:unnamed
   vpiTaskFuncDecl (1 items):
     FunctionDecl name:debug_tick start:2:1 end:14:3:
@@ -4066,7 +4070,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

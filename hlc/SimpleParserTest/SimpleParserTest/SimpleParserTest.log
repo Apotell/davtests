@@ -53,21 +53,21 @@ COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m
 [INF:CP0305] $Source01/jkff_udp.v:24:11: Compile udp "xor2_input".
 [WRN:CP0334] Colliding compilation unit name: "work@arbiter".
 [WRN:CP0334] Colliding compilation unit name: "work@encoder_using_case".
+[ERR:EL0535] $Source01/synfifo.v:92:2: Illegal implicit net "id:2841, name:address_0".
+[ERR:EL0535] $Source01/synfifo.v:93:2: Illegal implicit net "id:2844, name:data_0".
+[ERR:EL0535] $Source01/synfifo.v:94:2: Illegal implicit net "id:2847, name:cs_0".
+[ERR:EL0535] $Source01/synfifo.v:95:2: Illegal implicit net "id:2850, name:we_0".
+[ERR:EL0535] $Source01/synfifo.v:96:2: Illegal implicit net "id:2855, name:oe_0".
+[ERR:EL0535] $Source01/synfifo.v:97:2: Illegal implicit net "id:2858, name:address_1".
+[ERR:EL0535] $Source01/synfifo.v:98:2: Illegal implicit net "id:2861, name:data_1".
+[ERR:EL0535] $Source01/synfifo.v:99:2: Illegal implicit net "id:2864, name:cs_1".
+[ERR:EL0535] $Source01/synfifo.v:100:2: Illegal implicit net "id:2869, name:we_1".
+[ERR:EL0535] $Source01/synfifo.v:101:2: Illegal implicit net "id:2872, name:oe_1".
+[ERR:EL0535] $Source01/lfsr_task.v:18:12: Illegal implicit net "id:4604, name:I".
+[ERR:EL0535] $Source01/lfsr_task.v:18:20: Illegal implicit net "id:4610, name:I".
+[ERR:EL0535] $Source01/mux21.v:19:23: Illegal implicit net "id:4747, name:w".
+[ERR:EL0535] $Source01/mux21.v:20:29: Illegal implicit net "id:4758, name:w".
 [INF:CM0029] Using global timescale: "1ps/1ps".
-[ERR:EL0535] $Source01/synfifo.v:92:2: Illegal implicit net "id:2228, name:address_0".
-[ERR:EL0535] $Source01/synfifo.v:93:2: Illegal implicit net "id:2231, name:data_0".
-[ERR:EL0535] $Source01/synfifo.v:94:2: Illegal implicit net "id:2234, name:cs_0".
-[ERR:EL0535] $Source01/synfifo.v:95:2: Illegal implicit net "id:2237, name:we_0".
-[ERR:EL0535] $Source01/synfifo.v:96:2: Illegal implicit net "id:2242, name:oe_0".
-[ERR:EL0535] $Source01/synfifo.v:97:2: Illegal implicit net "id:2245, name:address_1".
-[ERR:EL0535] $Source01/synfifo.v:98:2: Illegal implicit net "id:2248, name:data_1".
-[ERR:EL0535] $Source01/synfifo.v:99:2: Illegal implicit net "id:2251, name:cs_1".
-[ERR:EL0535] $Source01/synfifo.v:100:2: Illegal implicit net "id:2256, name:we_1".
-[ERR:EL0535] $Source01/synfifo.v:101:2: Illegal implicit net "id:2259, name:oe_1".
-[ERR:EL0535] $Source01/lfsr_task.v:18:12: Illegal implicit net "id:3991, name:I".
-[ERR:EL0535] $Source01/lfsr_task.v:18:20: Illegal implicit net "id:3997, name:I".
-[ERR:EL0535] $Source01/mux21.v:19:23: Illegal implicit net "id:4134, name:w".
-[ERR:EL0535] $Source01/mux21.v:20:29: Illegal implicit net "id:4145, name:w".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1709,6 +1709,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1926,6 +1927,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2004,6 +2006,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -14351,14 +14354,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@top
             vpiStmt (28 items):
-              SysFuncCall name:$dumpfile start:20:3 end:20:28:
+              SysTaskCall name:$dumpfile start:20:3 end:20:28:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:20:3 end:20:12:
-                  vpiParent: SysFuncCall name:$dumpfile
+                  vpiParent: SysTaskCall name:$dumpfile
                   vpiName: "$dumpfile"
                 vpiArgument (1 items):
                   Constant start:20:14 end:20:27:
-                    vpiParent: SysFuncCall name:$dumpfile
+                    vpiParent: SysTaskCall name:$dumpfile
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@top
@@ -14367,10 +14370,10 @@ Design name:unnamed:
                     vpiSize: 88
                     vpiDecompile: "\"arbiter.vcd\""
                     vpiValue: arbiter.vcd
-              SysFuncCall name:$dumpvars start:21:3 end:21:14:
+              SysTaskCall name:$dumpvars start:21:3 end:21:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:21:3 end:21:12:
-                  vpiParent: SysFuncCall name:$dumpvars
+                  vpiParent: SysTaskCall name:$dumpvars
                   vpiName: "$dumpvars"
               Assignment start:22:3 end:22:10:
                 vpiParent: Begin
@@ -14866,10 +14869,10 @@ Design name:unnamed:
                         vpiActual: Net name:clk
               DelayControl start:47:3 end:47:15:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:47:7 end:47:14:
+                vpiStmt SysTaskCall name:$finish start:47:7 end:47:14:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:47:7 end:47:14:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:47:4 end:47:6:
                   vpiParent: DelayControl
@@ -16900,26 +16903,26 @@ Design name:unnamed:
                   vpiName: seed1
                   vpiFullName: work@LFSR_TASK.seed1
                   vpiActual: Net name:seed1
-              vpiElseStmt FuncCall name:LFSR_TASK start:31:2 end:31:38:
+              vpiElseStmt SubroutineCall name:LFSR_TASK start:31:2 end:31:38:
                 vpiParent: IfElse
                 vpiName Identifier name:LFSR_TASK start:31:2 end:31:11:
-                  vpiParent: FuncCall name:LFSR_TASK
+                  vpiParent: SubroutineCall name:LFSR_TASK
                   vpiName: LFSR_TASK
                 vpiArgument (3 items):
                   RefObj name:random1 start:31:13 end:31:20:
-                    vpiParent: FuncCall name:LFSR_TASK
+                    vpiParent: SubroutineCall name:LFSR_TASK
                     vpiName: random1
-                    vpiFullName: work@LFSR_TASK.random1
+                    vpiFullName: work@LFSR_TASK.LFSR_TASK.random1
                     vpiActual: Net name:random1
                   RefObj name:Chain1 start:31:22 end:31:28:
-                    vpiParent: FuncCall name:LFSR_TASK
+                    vpiParent: SubroutineCall name:LFSR_TASK
                     vpiName: Chain1
-                    vpiFullName: work@LFSR_TASK.Chain1
+                    vpiFullName: work@LFSR_TASK.LFSR_TASK.Chain1
                     vpiActual: Parameter name:Chain1
                   RefObj name:random1 start:31:30 end:31:37:
-                    vpiParent: FuncCall name:LFSR_TASK
+                    vpiParent: SubroutineCall name:LFSR_TASK
                     vpiName: random1
-                    vpiFullName: work@LFSR_TASK.random1
+                    vpiFullName: work@LFSR_TASK.LFSR_TASK.random1
                     vpiActual: Net name:random1
           vpiAlwaysType: always (1)
         Always start:32:1 end:36:39:
@@ -16972,26 +16975,26 @@ Design name:unnamed:
                   vpiName: seed2
                   vpiFullName: work@LFSR_TASK.seed2
                   vpiActual: Net name:seed2
-              vpiElseStmt FuncCall name:LFSR_TASK start:36:2 end:36:38:
+              vpiElseStmt SubroutineCall name:LFSR_TASK start:36:2 end:36:38:
                 vpiParent: IfElse
                 vpiName Identifier name:LFSR_TASK start:36:2 end:36:11:
-                  vpiParent: FuncCall name:LFSR_TASK
+                  vpiParent: SubroutineCall name:LFSR_TASK
                   vpiName: LFSR_TASK
                 vpiArgument (3 items):
                   RefObj name:random2 start:36:13 end:36:20:
-                    vpiParent: FuncCall name:LFSR_TASK
+                    vpiParent: SubroutineCall name:LFSR_TASK
                     vpiName: random2
-                    vpiFullName: work@LFSR_TASK.random2
+                    vpiFullName: work@LFSR_TASK.LFSR_TASK.random2
                     vpiActual: Net name:random2
                   RefObj name:Chain2 start:36:22 end:36:28:
-                    vpiParent: FuncCall name:LFSR_TASK
+                    vpiParent: SubroutineCall name:LFSR_TASK
                     vpiName: Chain2
-                    vpiFullName: work@LFSR_TASK.Chain2
+                    vpiFullName: work@LFSR_TASK.LFSR_TASK.Chain2
                     vpiActual: Parameter name:Chain2
                   RefObj name:random2 start:36:30 end:36:37:
-                    vpiParent: FuncCall name:LFSR_TASK
+                    vpiParent: SubroutineCall name:LFSR_TASK
                     vpiName: random2
-                    vpiFullName: work@LFSR_TASK.random2
+                    vpiFullName: work@LFSR_TASK.LFSR_TASK.random2
                     vpiActual: Net name:random2
           vpiAlwaysType: always (1)
     Module name:work@mux21_switch file:$Source01/mux21.v start:7:1 end:22:10:
@@ -17281,15 +17284,21 @@ Design name:unnamed:
                 vpiName: w
                 vpiFullName: work@mux21_switch.C2.w
   vpiTypespec (25 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -17366,8 +17375,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
-    StringTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:work@encoder_using_case:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@encoder_using_case start:8:8 end:8:26:
@@ -17398,10 +17405,6 @@ Design name:unnamed:
     UdpDefnTypespec name:work@xor2_input:
       vpiParent: Design name:unnamed
       vpiName: work@xor2_input
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

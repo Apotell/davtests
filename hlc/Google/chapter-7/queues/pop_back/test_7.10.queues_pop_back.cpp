@@ -310,7 +310,7 @@ TEST_F(QueuesPopBackTest, FourthStmtAssignmentRhsMustBePopBackMethodCall) {
 TEST_F(QueuesPopBackTest, FifthStmtDisplayAssertsSizeTwo) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -343,7 +343,7 @@ TEST_F(QueuesPopBackTest, FifthStmtDisplayAssertsSizeTwo) {
 TEST_F(QueuesPopBackTest, SixthStmtDisplayAssertsREqualsFour) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);

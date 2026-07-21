@@ -246,9 +246,9 @@ n<$Source01/9.7--process_cls_kill.sv> u<232> t<Top_level_rule> c<1> l<15:1> el<4
         n<> u<228> t<ENDMODULE> p<229> l<42:1> el<42:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/9.7--process_cls_kill.sv:15:1: Compile module "work@process_tb".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/9.7--process_cls_kill.sv:34:14: Illegal implicit net "id:69, name:status".
 [ERR:EL0535] $Source01/9.7--process_cls_kill.sv:34:33: Illegal implicit net "id:73, name:FINISHED".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -389,19 +389,19 @@ Design name:unnamed:
                                   vpiParent: UnsupportedScope name:process
                                   vpiName: process
                                 vpiFullName: work@process_tb.test.process::self().process
-                              MethodFuncCall name:self start:23:24 end:23:30:
+                              SubroutineCall name:self start:23:24 end:23:30:
                                 vpiParent: HierPath name:process::self()
                                 vpiName Identifier name:self start:23:24 end:23:28:
-                                  vpiParent: MethodFuncCall name:self
+                                  vpiParent: SubroutineCall name:self
                                   vpiName: self
-                        SysFuncCall name:$display start:24:6 end:24:31:
+                        SysTaskCall name:$display start:24:6 end:24:31:
                           vpiParent: Begin
                           vpiName Identifier name:$display start:24:6 end:24:14:
-                            vpiParent: SysFuncCall name:$display
+                            vpiParent: SysTaskCall name:$display
                             vpiName: "$display"
                           vpiArgument (2 items):
                             Constant start:24:15 end:24:27:
-                              vpiParent: SysFuncCall name:$display
+                              vpiParent: SysTaskCall name:$display
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
                                 vpiFullName: work@process_tb.test
@@ -411,7 +411,7 @@ Design name:unnamed:
                               vpiDecompile: "\"process %d\""
                               vpiValue: process %d
                             RefObj name:k start:24:29 end:24:30:
-                              vpiParent: SysFuncCall name:$display
+                              vpiParent: SysTaskCall name:$display
                               vpiName: k
                               vpiFullName: work@process_tb.test.k
                               vpiActual: Variable name:k
@@ -478,10 +478,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
-                  MethodFuncCall name:await start:31:10 end:31:17:
+                  SubroutineCall name:await start:31:10 end:31:17:
                     vpiParent: HierPath name:job[1].await()
                     vpiName Identifier name:await start:31:10 end:31:15:
-                      vpiParent: MethodFuncCall name:await
+                      vpiParent: SubroutineCall name:await
                       vpiName: await
               ForeachStmt start:33:3 end:35:19:
                 vpiParent: Begin
@@ -561,10 +561,10 @@ Design name:unnamed:
                           vpiName: i
                           vpiFullName: work@process_tb.test.job[i].kill().i
                           vpiActual: Variable name:i
-                      MethodFuncCall name:kill start:35:12 end:35:18:
+                      SubroutineCall name:kill start:35:12 end:35:18:
                         vpiParent: HierPath name:job[i].kill()
                         vpiName Identifier name:kill start:35:12 end:35:16:
-                          vpiParent: MethodFuncCall name:kill
+                          vpiParent: SubroutineCall name:kill
                           vpiName: kill
       vpiProcess (1 items):
         Initial start:38:2 end:40:5:
@@ -573,14 +573,15 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@process_tb
             vpiStmt (1 items):
-              FuncCall name:test start:39:3 end:39:10:
+              TaskCall name:test start:39:3 end:39:10:
                 vpiParent: Begin
                 vpiName Identifier name:test start:39:3 end:39:7:
-                  vpiParent: FuncCall name:test
+                  vpiParent: TaskCall name:test
                   vpiName: test
+                vpiTaskFunc: Task name:test
                 vpiArgument (1 items):
                   Constant start:39:8 end:39:9:
-                    vpiParent: FuncCall name:test
+                    vpiParent: TaskCall name:test
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@process_tb

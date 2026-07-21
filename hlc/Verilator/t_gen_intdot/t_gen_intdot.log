@@ -842,7 +842,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_gen_intdot.v:74:1: Compile module "work@Test".
 [INF:CP0303] $Source01/t_gen_intdot.v:84:1: Compile module "work@Genit".
 [INF:CP0335] $Source01/t_gen_intdot.v:106:10: Compile generate block "foo".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_gen_intdot.v:18:25: Illegal implicit net "id:46, name:value".
 [ERR:EL0535] $Source01/t_gen_intdot.v:18:37: Illegal implicit net "id:49, name:result".
 [ERR:EL0535] $Source01/t_gen_intdot.v:80:27: Illegal implicit net "id:237, name:Internal".
@@ -850,6 +849,7 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/t_gen_intdot.v:114:30: Illegal implicit net "id:307, name:tt".
 [ERR:EL0535] $Source01/t_gen_intdot.v:114:33: Illegal implicit net "id:308, name:gen".
 [ERR:EL0535] $Source01/t_gen_intdot.v:114:37: Illegal implicit net "id:309, name:Internal".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1139,10 +1139,10 @@ Design name:unnamed:
                                   vpiSize: 1
                                   vpiDecompile: "1'b1"
                                   vpiValue: "1"
-                            vpiStmt SysFuncCall name:$stop start:31:20 end:31:25:
+                            vpiStmt SysTaskCall name:$stop start:31:20 end:31:25:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:31:20 end:31:25:
-                                vpiParent: SysFuncCall name:$stop
+                                vpiParent: SysTaskCall name:$stop
                                 vpiName: "$stop"
                       vpiElseStmt IfElse start:33:12 end:39:10:
                         vpiParent: IfElse
@@ -1193,10 +1193,10 @@ Design name:unnamed:
                                     vpiSize: 1
                                     vpiDecompile: "1'b0"
                                     vpiValue: "0"
-                              vpiStmt SysFuncCall name:$stop start:34:20 end:34:25:
+                              vpiStmt SysTaskCall name:$stop start:34:20 end:34:25:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:34:20 end:34:25:
-                                  vpiParent: SysFuncCall name:$stop
+                                  vpiParent: SysTaskCall name:$stop
                                   vpiName: "$stop"
                         vpiElseStmt IfStmt start:36:12 end:39:10:
                           vpiParent: IfElse
@@ -1223,14 +1223,14 @@ Design name:unnamed:
                             vpiParent: IfStmt
                             vpiFullName: work@t
                             vpiStmt (2 items):
-                              SysFuncCall name:$write start:37:3 end:37:35:
+                              SysTaskCall name:$write start:37:3 end:37:35:
                                 vpiParent: Begin
                                 vpiName Identifier name:$write start:37:3 end:37:9:
-                                  vpiParent: SysFuncCall name:$write
+                                  vpiParent: SysTaskCall name:$write
                                   vpiName: "$write"
                                 vpiArgument (1 items):
                                   Constant start:37:10 end:37:34:
-                                    vpiParent: SysFuncCall name:$write
+                                    vpiParent: SysTaskCall name:$write
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
                                       vpiFullName: work@t
@@ -1239,10 +1239,10 @@ Design name:unnamed:
                                     vpiSize: 168
                                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                                     vpiValue: "*-* All Finished *-*\\n"
-                              SysFuncCall name:$finish start:38:3 end:38:10:
+                              SysTaskCall name:$finish start:38:3 end:38:10:
                                 vpiParent: Begin
                                 vpiName Identifier name:$finish start:38:3 end:38:10:
-                                  vpiParent: SysFuncCall name:$finish
+                                  vpiParent: SysTaskCall name:$finish
                                   vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
@@ -1517,14 +1517,14 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiFullName: work@Checker
               vpiStmt (1 items):
-                SysFuncCall name:$write start:69:7 end:69:48:
+                SysTaskCall name:$write start:69:7 end:69:48:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:69:7 end:69:13:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiName: "$write"
                   vpiArgument (3 items):
                     Constant start:69:15 end:69:33:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: work@Checker
@@ -1534,12 +1534,12 @@ Design name:unnamed:
                       vpiDecompile: "\"[%0t] value=%h\\n\""
                       vpiValue: "[%0t] value=%h\\n"
                     SysTaskCall name:$time start:69:35 end:69:40:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiName Identifier name:$time start:69:35 end:69:40:
                         vpiParent: SysTaskCall name:$time
                         vpiName: "$time"
                     RefObj name:value start:69:42 end:69:47:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiName: value
                       vpiFullName: work@Checker.value
                       vpiActual: Net name:value
@@ -1866,14 +1866,14 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiFullName: work@Genit
               vpiStmt (1 items):
-                SysFuncCall name:$write start:116:7 end:116:53:
+                SysTaskCall name:$write start:116:7 end:116:53:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:116:7 end:116:13:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiName: "$write"
                   vpiArgument (3 items):
                     Constant start:116:14 end:116:36:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: work@Genit
@@ -1883,12 +1883,12 @@ Design name:unnamed:
                       vpiDecompile: "\"[%0t] Result2 = %x\\n\""
                       vpiValue: "[%0t] Result2 = %x\\n"
                     SysTaskCall name:$time start:116:38 end:116:43:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiName Identifier name:$time start:116:38 end:116:43:
                         vpiParent: SysTaskCall name:$time
                         vpiName: "$time"
                     RefObj name:Result2 start:116:45 end:116:52:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiName: Result2
                       vpiFullName: work@Genit.Result2
                       vpiActual: Net name:Result2

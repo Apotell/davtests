@@ -157,7 +157,7 @@ TEST_F(EnumNum, NInitializerIsHierPath) {
   ASSERT_NE(n, nullptr);
   const hldb::HierPath *const hp = n->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "n's vpiValue should be HierPath (inline initializer int n = val.num())";
-  EXPECT_EQ(hp->getName(), "val.num()");
+  EXPECT_EQ(hp->getName(), "val.num");
 }
 
 TEST_F(EnumNum, HierPathReceiverAndFuncCall) {
