@@ -33,7 +33,7 @@
 //   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
 //     -> BitTypespec
 //   - Initial process: 1 Begin with 6 stmts (2 Assignment assign-pattern +
-//     2 SysFuncCall + 1 PartSelect Assignment + 1 SysFuncCall)
+//     2 SysFuncCall + 1 PartSelect Assignment + 1 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, rhs Operation
 //     (vpiOpType=assign pattern(87)) with 8 Constant operands (all "1" /
 //     all "0")
@@ -181,7 +181,7 @@ TEST_F(UnpackedSliceTest, SixthStmtDisplaysArrBBitsAfterSliceWrite) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -234,7 +234,7 @@ TEST_F(UnpackedSliceTest, RuntimeArrBBitPatternRequiresSimulation) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
             ":assert: ('%b%b%b%b_%b%b%b%b' == '0011_1000')")

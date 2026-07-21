@@ -135,7 +135,7 @@ TEST_F(UnpackedBasicTest, RegNetMapsToSameLogicTypespecAsLogicNet) {
   ASSERT_NE(logicElem, nullptr);
   ASSERT_NE(regElem, nullptr);
   EXPECT_EQ(logicElem, regElem) << "'reg' should map to the same LogicTypespec kind as 'logic', not a "
-                                    "distinct typespec";
+                                   "distinct typespec";
 }
 
 // --- design-level typespecs / compiler diagnostics ---------------------------

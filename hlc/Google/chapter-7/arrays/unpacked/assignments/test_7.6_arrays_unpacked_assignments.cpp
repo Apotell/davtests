@@ -37,7 +37,7 @@
 //     bounds vs "A"), elem IntTypespec (signed) -- a DISTINCT ArrayTypespec
 //     instance from A's, not shared/deduplicated
 //   - Initial process: 1 Begin with 6 stmts (4 BitSelect Assignment + 1
-//     whole-array Assignment + 1 SysFuncCall)
+//     whole-array Assignment + 1 SysTaskCall)
 //   - Stmt[0..3]: blocking Assignment, lhs BitSelect "A[N]" (prefix RefObj
 //     "A" resolving Net "A", Constant index N), rhs Constant N, for N in
 //     0..3
@@ -191,7 +191,7 @@ TEST_F(UnpackedAssignmentsTest, SixthStmtDisplaysBIndicesInReverseOrder) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -253,7 +253,7 @@ TEST_F(UnpackedAssignmentsTest, RuntimeArrayCopyContentsRequireSimulation) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
             ":assert: ((%d == 0) and (%d == 1) and (%d == 2) and (%d == 3))")

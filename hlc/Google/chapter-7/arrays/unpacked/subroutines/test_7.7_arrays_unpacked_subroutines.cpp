@@ -38,7 +38,7 @@
 //     typespec -> ArrayTypespec static(1) range [2:0], elem -> IntTypespec
 //     (signed)
 //   - task body is NOT wrapped in a Begin (single unpacked statement): the
-//     task's vpiStmt is directly a SysFuncCall "$display" with 4 args
+//     task's vpiStmt is directly a SysTaskCall "$display" with 4 args
 //     (format + BitSelect a[0], a[1], a[2], each prefix RefObj "a"
 //     resolving the IODecl "a")
 //   - Initial process: Begin declaring 1 local Variable "b" (typespec ->
@@ -179,7 +179,7 @@ TEST_F(UnpackedSubroutinesTest, IODeclTypespecIsArrayOfSignedIntRangeTwoToZero) 
 TEST_F(UnpackedSubroutinesTest, TaskBodyIsBareDisplayNotWrappedInBegin) {
   const hldb::Task *const task = getTaskFun();
   ASSERT_NE(task, nullptr);
-  const hldb::SysFuncCall *const disp = task->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const disp = task->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(disp, nullptr) << "single-statement task body should not be wrapped in a Begin";
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -248,7 +248,7 @@ TEST_F(UnpackedSubroutinesTest, FirstThreeStmtsAssignBIndicesToMatchingConstants
 TEST_F(UnpackedSubroutinesTest, FourthStmtDisplaysBIndices) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -267,12 +267,12 @@ TEST_F(UnpackedSubroutinesTest, FourthStmtDisplaysBIndices) {
 TEST_F(UnpackedSubroutinesTest, FifthStmtIsFunCallWithBArgument) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>(begin->getStmts()->at(4));
-  ASSERT_NE(fc, nullptr) << "'fun(b)' should be a FuncCall";
-  EXPECT_EQ(fc->getName(), "fun");
-  ASSERT_NE(fc->getArguments(), nullptr);
-  ASSERT_EQ(fc->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
+  const hldb::TaskCall *const tc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(tc, nullptr) << "'fun(b)' should be a TaskCall";
+  EXPECT_EQ(tc->getName(), "fun");
+  ASSERT_NE(tc->getArguments(), nullptr);
+  ASSERT_EQ(tc->getArguments()->size(), 1u);
+  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(tc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "b");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
@@ -319,14 +319,14 @@ TEST_F(UnpackedSubroutinesTest, NoContAssigns) {
 // link that call site back to the Task it invokes, via getTaskFunc<Task>().
 // This is NOT a simulation question -- no execution is required to know that
 // 'fun(b)' calls the task declared as 'task fun(...)' two lines above it.
-TEST_F(UnpackedSubroutinesTest, FuncCallResolvesToDeclaredTask) {
+TEST_F(UnpackedSubroutinesTest, TaskCallResolvesToDeclaredTask) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>(begin->getStmts()->at(4));
-  ASSERT_NE(fc, nullptr) << "'fun(b)' should be a FuncCall";
-  const hldb::Task *const declaredFun = getTaskFun();
-  ASSERT_NE(declaredFun, nullptr);
-  EXPECT_EQ(fc->getTaskFunc<hldb::Task>(), declaredFun)
+  const hldb::TaskCall *const tc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(tc, nullptr) << "'fun(b)' should be a TaskCall";
+  const hldb::Task *const declaredTask = getTaskFun();
+  ASSERT_NE(declaredTask, nullptr);
+  EXPECT_EQ(tc->getTaskFunc<hldb::Task>(), declaredTask)
       << "call-site 'fun(b)' must resolve (via getTaskFunc<Task>()) back to the "
          "declared task 'fun' -- if this fails, the compiler is not performing "
          "compile-time name binding from task-invocation call sites to their "

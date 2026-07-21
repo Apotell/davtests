@@ -33,7 +33,7 @@
 //   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
 //     -> BitTypespec
 //   - Initial process: 1 Begin with 6 stmts (2 Assignment assign-pattern +
-//     4 SysFuncCall)
+//     4 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, rhs Operation
 //     (vpiOpType=assign pattern(87)) with 8 Constant operands (1,1,1,1,
 //     0,0,0,0 / 0,0,0,0,1,1,1,1)
@@ -152,7 +152,7 @@ TEST_F(UnpackedSliceEqualityTest, FifthStmtArgIsEqualOperationOnPartSelects) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -181,7 +181,7 @@ TEST_F(UnpackedSliceEqualityTest, SixthStmtArgIsNotEqualOperationOnPartSelects) 
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -241,11 +241,11 @@ TEST_F(UnpackedSliceEqualityTest, RuntimeSliceComparisonResultsRequireSimulation
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const eqDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const eqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(eqDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(eqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
       << "expected (arr_a[7:4] == arr_b[3:0]) == 1 since both slices hold 1111";
-  const hldb::SysFuncCall *const neqDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const neqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(neqDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(neqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
       << "expected (arr_a[7:4] != arr_b[3:0]) == 0 since both slices hold 1111";

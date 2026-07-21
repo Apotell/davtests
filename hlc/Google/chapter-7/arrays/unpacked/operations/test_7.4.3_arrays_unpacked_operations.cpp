@@ -32,7 +32,7 @@
 //   - net "arr": RefTypespec -> ArrayTypespec static(1) range [7:0], elem
 //     -> BitTypespec
 //   - Initial process: 1 Begin with 6 stmts (3 Assignment assign-pattern +
-//     3 SysFuncCall), alternating write/read three times
+//     3 SysTaskCall), alternating write/read three times
 //   - Stmt[0]/[2]/[4]: blocking Assignment, RefObj lhs "arr", rhs Operation
 //     (vpiOpType=assign pattern(87)) with 8 unsigned-int Constant operands
 //     -- values 0x8, 1101_1110, 1010_1101 respectively (in %b display order
@@ -169,7 +169,7 @@ TEST_F(UnpackedOperationsTest, ThreeDisplaysReadEightBitSelectsEach) {
   };
   const uint32_t stmtIdx[3] = {1, 3, 5};
   for (uint32_t s = 0; s < 3u; ++s) {
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(stmtIdx[s]));
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(stmtIdx[s]));
     ASSERT_NE(disp, nullptr) << "stmt[" << stmtIdx[s] << "]";
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 9u);
@@ -230,7 +230,7 @@ TEST_F(UnpackedOperationsTest, RuntimeArrValuesRequireSimulation) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const thirdDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const thirdDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(thirdDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(thirdDisplay->getArguments()->at(0))->getValue(),
             ":assert: ('%b%b%b%b_%b%b%b%b' == '1010_1101')")

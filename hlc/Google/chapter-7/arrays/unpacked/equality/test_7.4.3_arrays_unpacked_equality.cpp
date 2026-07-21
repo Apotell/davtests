@@ -35,7 +35,7 @@
 //   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
 //     -> BitTypespec -- the SAME (shared) BitTypespec instance for both
 //     nets, unlike the ArrayTypespec instances which are distinct per net
-//   - Initial process: 1 Begin with 6 stmts (2 Assignment + 4 SysFuncCall)
+//   - Initial process: 1 Begin with 6 stmts (2 Assignment + 4 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, rhs Operation
 //     (vpiOpType=assign pattern(87)) with 8 unsigned-int Constant operands
 //     1,1,1,0,0,1,1,1
@@ -161,8 +161,7 @@ TEST_F(UnpackedEqualityTest, FirstTwoStmtsAssignPatternLiteralsToArrAAndArrB) {
     ASSERT_NE(op->getOperands(), nullptr);
     ASSERT_EQ(op->getOperands()->size(), 8u);
     for (uint32_t j = 0; j < 8u; ++j) {
-      EXPECT_EQ(any_cast<hldb::Constant>(op->getOperands()->at(j))->getDecompile(), expected[j])
-          << "operand " << j;
+      EXPECT_EQ(any_cast<hldb::Constant>(op->getOperands()->at(j))->getDecompile(), expected[j]) << "operand " << j;
     }
   }
 }
@@ -174,7 +173,7 @@ TEST_F(UnpackedEqualityTest, ThirdAndFourthStmtsDisplayEightBitSelectsEach) {
   ASSERT_NE(begin, nullptr);
   const char *const names[2] = {"arr_a", "arr_b"};
   for (uint32_t s = 0; s < 2u; ++s) {
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(s + 2));
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(s + 2));
     ASSERT_NE(disp, nullptr) << "stmt[" << (s + 2) << "]";
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 9u);
@@ -192,7 +191,7 @@ TEST_F(UnpackedEqualityTest, FifthStmtArgIsEqualOperationOnRefObjs) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -217,7 +216,7 @@ TEST_F(UnpackedEqualityTest, SixthStmtArgIsNotEqualOperationOnRefObjs) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -279,11 +278,11 @@ TEST_F(UnpackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const eqDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const eqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(eqDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(eqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
       << "expected (arr_a == arr_b) == 1 since both hold '{1,1,1,0,0,1,1,1}";
-  const hldb::SysFuncCall *const neqDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const neqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(neqDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(neqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
       << "expected (arr_a != arr_b) == 0 since both hold '{1,1,1,0,0,1,1,1}";
