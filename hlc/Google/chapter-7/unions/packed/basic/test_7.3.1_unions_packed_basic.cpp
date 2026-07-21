@@ -140,7 +140,7 @@ TEST_F(UnionsPackedBasicTest, MembersV1AndV2AreBothEightBitBitTypespecs) {
     const hldb::TypespecMember *const member = ut->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
-    const hldb::BitTypespec *const bt = member->getTypespec<hldb::BitTypespec>();
+    const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     ASSERT_NE(bt->getRanges(), nullptr);
     ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -176,7 +176,7 @@ TEST_F(UnionsPackedBasicTest, FirstStmtAssignsDecimalOneFourZeroToUnV1) {
 TEST_F(UnionsPackedBasicTest, SecondStmtDisplaysUnV1) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -187,7 +187,7 @@ TEST_F(UnionsPackedBasicTest, SecondStmtDisplaysUnV1) {
 TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);

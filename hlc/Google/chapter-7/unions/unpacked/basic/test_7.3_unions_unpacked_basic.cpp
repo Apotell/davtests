@@ -139,7 +139,7 @@ TEST_F(UnionsUnpackedBasicTest, MemberV1IsEightBitBitTypespec) {
   const hldb::TypespecMember *const v1 = ut->getMembers()->at(0);
   ASSERT_NE(v1, nullptr);
   EXPECT_EQ(v1->getName(), "v1");
-  const hldb::BitTypespec *const bt = v1->getTypespec<hldb::BitTypespec>();
+  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(v1);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -154,7 +154,7 @@ TEST_F(UnionsUnpackedBasicTest, MemberV2IsFourBitBitTypespec) {
   const hldb::TypespecMember *const v2 = ut->getMembers()->at(1);
   ASSERT_NE(v2, nullptr);
   EXPECT_EQ(v2->getName(), "v2");
-  const hldb::BitTypespec *const bt = v2->getTypespec<hldb::BitTypespec>();
+  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(v2);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -193,7 +193,7 @@ TEST_F(UnionsUnpackedBasicTest, FirstStmtAssignsDecimalOneFourZeroToUnV1) {
 TEST_F(UnionsUnpackedBasicTest, SecondStmtDisplaysUnV1) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -204,7 +204,7 @@ TEST_F(UnionsUnpackedBasicTest, SecondStmtDisplaysUnV1) {
 TEST_F(UnionsUnpackedBasicTest, ThirdStmtDisplaysUnV2) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);

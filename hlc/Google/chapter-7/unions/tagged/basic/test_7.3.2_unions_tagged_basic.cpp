@@ -152,7 +152,7 @@ TEST_F(UnionsTaggedBasicTest, MemberValidIsFourBitBitTypespec) {
   const hldb::TypespecMember *const valid = ut->getMembers()->at(1);
   ASSERT_NE(valid, nullptr);
   EXPECT_EQ(valid->getName(), "valid");
-  const hldb::BitTypespec *const bt = valid->getTypespec<hldb::BitTypespec>();
+  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(valid);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -179,16 +179,19 @@ TEST_F(UnionsTaggedBasicTest, FirstStmtAssignsWholeUnFromTenLiteral) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "un");
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  const hldb::TaggedPattern *const rhs = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "10");
-  EXPECT_EQ(rhs->getValue(), "10");
+  EXPECT_EQ(rhs->getName(), "valid");
+  const hldb::Constant *const tag = rhs->getTag<hldb::Constant>();
+  ASSERT_NE(tag, nullptr);
+  EXPECT_EQ(tag->getDecompile(), "10");
+  EXPECT_EQ(tag->getValue(), "10");
 }
 
 TEST_F(UnionsTaggedBasicTest, SecondStmtDisplaysUn) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -241,16 +244,9 @@ TEST_F(UnionsTaggedBasicTest, AssignmentRhsShouldCaptureTaggedMemberButDoesNot) 
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   const hldb::TaggedPattern *const tagged = assign->getRhs<hldb::TaggedPattern>();
-  ASSERT_NE(tagged, nullptr)
-      << "'un = tagged valid (10)' should elaborate its rhs as a TaggedPattern (tagged_pattern.h) so "
-         "that the tagged member name ('valid') is preserved -- instead the rhs is just a bare "
-         "Constant('10'), silently discarding which member was tagged. TaggedPattern is a real, "
-         "existing class in the object model (getName()/getTag()/getPattern()), so this is a genuine "
-         "compile-time gap, not something that requires a simulator.";
-  if (tagged != nullptr) {
-    EXPECT_EQ(tagged->getName(), "valid");
-    EXPECT_NE(tagged->getTag<hldb::Constant>(), nullptr);
-  }
+  ASSERT_NE(tagged, nullptr);
+  EXPECT_EQ(tagged->getName(), "valid");
+  EXPECT_NE(tagged->getTag<hldb::Constant>(), nullptr);
 }
 
 // --- known gap: runtime union display requires simulation --------------------

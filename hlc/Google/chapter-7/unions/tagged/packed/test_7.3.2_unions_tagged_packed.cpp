@@ -142,7 +142,7 @@ TEST_F(UnionsTaggedPackedTest, MembersV1AndV2AreBothSevenBitBitTypespecs) {
     const hldb::TypespecMember *const member = ut->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
-    const hldb::BitTypespec *const bt = member->getTypespec<hldb::BitTypespec>();
+    const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     ASSERT_NE(bt->getRanges(), nullptr);
     ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -170,10 +170,13 @@ TEST_F(UnionsTaggedPackedTest, FirstStmtAssignsWholeUnFromTenLiteral) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "un");
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  const hldb::TaggedPattern *const rhs = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "10");
-  EXPECT_EQ(rhs->getValue(), "10");
+  EXPECT_EQ(rhs->getName(), "v2");
+  const hldb::Constant *const tag = rhs->getTag<hldb::Constant>();
+  ASSERT_NE(tag, nullptr);
+  EXPECT_EQ(tag->getDecompile(), "10");
+  EXPECT_EQ(tag->getValue(), "10");
 }
 
 TEST_F(UnionsTaggedPackedTest, SecondStmtAssignsWholeUnFromEightyFiveLiteral) {
@@ -185,16 +188,19 @@ TEST_F(UnionsTaggedPackedTest, SecondStmtAssignsWholeUnFromEightyFiveLiteral) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "un");
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  const hldb::TaggedPattern *const rhs = assign->getRhs<hldb::TaggedPattern>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "85");
-  EXPECT_EQ(rhs->getValue(), "85");
+  EXPECT_EQ(rhs->getName(), "v1");
+  const hldb::Constant *const tag = rhs->getTag<hldb::Constant>();
+  ASSERT_NE(tag, nullptr);
+  EXPECT_EQ(tag->getDecompile(), "85");
+  EXPECT_EQ(tag->getValue(), "85");
 }
 
 TEST_F(UnionsTaggedPackedTest, ThirdStmtDisplaysUn) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
