@@ -30,7 +30,7 @@
 //   - net "mem": RefTypespec -> ArrayTypespec static(1), unpacked range
 //     [0:255], elem -> LogicTypespec with 1 packed Range [7:0]
 //   - Initial process: 1 Begin with 4 stmts (2 BitSelect Assignment + 2
-//     SysFuncCall)
+//     SysTaskCall)
 //   - Stmt[0]: blocking Assignment, lhs BitSelect "mem[5]" (prefix RefObj
 //     "mem" resolving Net "mem", Constant index "5"), rhs Constant "0"
 //   - Stmt[1]: $display with 2 args (format ":assert: (%d == 0)" + BitSelect
@@ -156,7 +156,7 @@ TEST_F(MemoriesReadWriteTest, FirstStmtAssignsZeroToMemFive) {
 TEST_F(MemoriesReadWriteTest, SecondStmtDisplaysMemFiveExpectingZero) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -245,11 +245,11 @@ TEST_F(MemoriesReadWriteTest, RuntimeMemFiveValueRequiresSimulation) {
 
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const firstDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+  const hldb::SysTaskCall *const firstDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(firstDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(firstDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
       << "expected mem[5] == 0 immediately after 'mem[5] = 0'";
-  const hldb::SysFuncCall *const secondDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const secondDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(secondDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(secondDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 5)")
       << "expected mem[5] == 5 immediately after 'mem[5] = 5'";
