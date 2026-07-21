@@ -296,6 +296,7 @@ n<$Source01/rtl2/ast_pkg.sv> u<3> t<Top_level_rule> c<1> l<9:1> el<9:1>
   n<> u<2> t<Source_text> p<3> l<9:1> el<9:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/rtl1/ast_pkg.sv:5:1: Compile package "work@ast_pkg".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/rtl1/ast_pkg.sv:5:1: No timescale set for "work@ast_pkg".
 ====== HLDB =======
 Design name:unnamed:
@@ -317,19 +318,6 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/rtl2/ast_pkg.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@ast_pkg file:$Source01/rtl1/ast_pkg.sv start:5:1 end:6:11:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ast_pkg start:5:9 end:5:16:
-        vpiParent: Package name:work@ast_pkg
-        vpiName: work@ast_pkg
-      vpiFullName: work@ast_pkg
-      vpiDefName: work@ast_pkg
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@ast_pkg
-        vpiName: work
-        vpiFullName: work@ast_pkg::work
-      vpiCell: ast_pkg
     Package name:builtin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin:
@@ -1882,6 +1870,19 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
+    Package name:work@ast_pkg file:$Source01/rtl1/ast_pkg.sv start:5:1 end:6:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@ast_pkg start:5:9 end:5:16:
+        vpiParent: Package name:work@ast_pkg
+        vpiName: work@ast_pkg
+      vpiFullName: work@ast_pkg
+      vpiDefName: work@ast_pkg
+      vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@ast_pkg
+        vpiName: work
+        vpiFullName: work@ast_pkg::work
+      vpiCell: ast_pkg
   vpiAllClasses (3 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
@@ -1896,6 +1897,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2113,6 +2115,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2191,6 +2194,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2308,15 +2312,21 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiTypespec (7 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2329,17 +2339,11 @@ Design name:unnamed:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

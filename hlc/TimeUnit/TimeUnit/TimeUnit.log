@@ -34,6 +34,15 @@ COMMAND: -wd ../../../tests/TimeUnit top.v top1.v -writepp -d 0 -fileunit -split
 [WRN:CP0334] Colliding compilation unit name: "work@bottom1".
 [WRN:CP0334] Colliding compilation unit name: "work@bottom2".
 [WRN:CP0334] Colliding compilation unit name: "work@bottom3".
+[ERR:EL0535] $Source01/top.v:26:17: Illegal implicit net "id:868, name:capture".
+[ERR:EL0535] $Source01/top.v:26:8: Illegal implicit net "id:870, name:capture".
+[ERR:EL0535] $Source01/top.v:27:13: Illegal implicit net "id:871, name:clk".
+[ERR:EL0535] $Source01/top.v:27:8: Illegal implicit net "id:873, name:clk".
+[ERR:EL0535] $Source01/top.v:89:17: Illegal implicit net "id:880, name:capture".
+[ERR:EL0535] $Source01/top.v:89:8: Illegal implicit net "id:882, name:capture".
+[ERR:EL0535] $Source01/top.v:90:13: Illegal implicit net "id:883, name:clk".
+[ERR:EL0535] $Source01/top.v:90:8: Illegal implicit net "id:885, name:clk".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:13:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:32:1: No timescale set for "work@splice1".
 [WRN:PA0205] $Source01/top1.v:122:1: No timescale set for "work@splice1".
@@ -41,14 +50,6 @@ COMMAND: -wd ../../../tests/TimeUnit top.v top1.v -writepp -d 0 -fileunit -split
 [WRN:PA0205] $Source01/top1.v:253:1: No timescale set for "work@splice1".
 [WRN:PA0205] $Source01/top1.v:277:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "work@my_interface".
-[ERR:EL0535] $Source01/top.v:26:17: Illegal implicit net "id:255, name:capture".
-[ERR:EL0535] $Source01/top.v:26:8: Illegal implicit net "id:257, name:capture".
-[ERR:EL0535] $Source01/top.v:27:13: Illegal implicit net "id:258, name:clk".
-[ERR:EL0535] $Source01/top.v:27:8: Illegal implicit net "id:260, name:clk".
-[ERR:EL0535] $Source01/top.v:89:17: Illegal implicit net "id:267, name:capture".
-[ERR:EL0535] $Source01/top.v:89:8: Illegal implicit net "id:269, name:capture".
-[ERR:EL0535] $Source01/top.v:90:13: Illegal implicit net "id:270, name:clk".
-[ERR:EL0535] $Source01/top.v:90:8: Illegal implicit net "id:272, name:clk".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1634,6 +1635,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1851,6 +1853,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1929,6 +1932,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2795,15 +2799,21 @@ Design name:unnamed:
             vpiFullName: work@bottom3.u5.work@bottom4
             vpiActual: ModuleTypespec name:work@bottom4
   vpiTypespec (21 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2900,17 +2910,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@bottom3
         vpiName: work@bottom3
       vpiModule: Module name:work@bottom3
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 8
-[WARNING] : 13
+[WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

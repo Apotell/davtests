@@ -86,6 +86,11 @@ COMMAND: -wd ../../../tests/YosysDsp +incdir+. -sverilog -writepp -fileunit boxc
 [INF:CP0335] $Source01/slowsymf.v:114:19: Compile generate block "DYNAMIC_TAP_ADJUSTMENT".
 [INF:CP0303] $Source01/smplfir.v:47:1: Compile module "work@smplfir".
 [WRN:CP0334] Colliding compilation unit name: "work@slowfil_srl".
+[ERR:EL0535] $Source01/fastfir.v:90:6: Illegal implicit net "id:2143, name:INITIAL_VALUE".
+[ERR:EL0535] $Source01/genericfir.v:81:6: Illegal implicit net "id:3196, name:INITIAL_VALUE".
+[ERR:EL0535] $Source01/slowfil_fixedtaps.v:18:62: Illegal implicit net "id:6203, name:INITIAL_COEFFS".
+[ERR:EL0535] $Source01/slowfil_srl_fixedtaps.v:20:66: Illegal implicit net "id:7138, name:INITIAL_COEFFS".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/boxcar.v:74:1: No timescale set for "work@boxcar".
 [WRN:PA0205] $Source01/delayw.v:42:1: No timescale set for "work@delayw".
 [WRN:PA0205] $Source01/dspswitch.v:40:1: No timescale set for "work@dspswitch".
@@ -106,10 +111,6 @@ COMMAND: -wd ../../../tests/YosysDsp +incdir+. -sverilog -writepp -fileunit boxc
 [WRN:PA0205] $Source01/slowfil_srl.vh:49:1: No timescale set for "work@slowfil_srl".
 [WRN:PA0205] $Source01/slowsymf.v:45:1: No timescale set for "work@slowsymf".
 [WRN:PA0205] $Source01/smplfir.v:47:1: No timescale set for "work@smplfir".
-[ERR:EL0535] $Source01/fastfir.v:90:6: Illegal implicit net "id:1530, name:INITIAL_VALUE".
-[ERR:EL0535] $Source01/genericfir.v:81:6: Illegal implicit net "id:2583, name:INITIAL_VALUE".
-[ERR:EL0535] $Source01/slowfil_fixedtaps.v:18:62: Illegal implicit net "id:5590, name:INITIAL_COEFFS".
-[ERR:EL0535] $Source01/slowfil_srl_fixedtaps.v:20:66: Illegal implicit net "id:6525, name:INITIAL_COEFFS".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1804,6 +1805,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2021,6 +2023,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2099,6 +2102,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -6977,14 +6981,14 @@ Design name:unnamed:
                   vpiStmt (2 items):
                     Initial start:75:3 end:75:38:
                       vpiParent: Begin
-                      vpiStmt SysFuncCall name:$readmemh start:75:11 end:75:37:
+                      vpiStmt SysTaskCall name:$readmemh start:75:11 end:75:37:
                         vpiParent: Initial
                         vpiName Identifier name:$readmemh start:75:11 end:75:20:
-                          vpiParent: SysFuncCall name:$readmemh
+                          vpiParent: SysTaskCall name:$readmemh
                           vpiName: "$readmemh"
                         vpiArgument (2 items):
                           Constant start:75:21 end:75:31:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: work@fastfir
@@ -6994,7 +6998,7 @@ Design name:unnamed:
                             vpiDecompile: "\"taps.hex\""
                             vpiValue: taps.hex
                           RefObj name:tap start:75:33 end:75:36:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: tap
                             vpiFullName: work@fastfir.tap
                             vpiActual: Net name:tap
@@ -10970,14 +10974,14 @@ Design name:unnamed:
                   vpiStmt (2 items):
                     Initial start:68:3 end:68:38:
                       vpiParent: Begin
-                      vpiStmt SysFuncCall name:$readmemh start:68:11 end:68:37:
+                      vpiStmt SysTaskCall name:$readmemh start:68:11 end:68:37:
                         vpiParent: Initial
                         vpiName Identifier name:$readmemh start:68:11 end:68:20:
-                          vpiParent: SysFuncCall name:$readmemh
+                          vpiParent: SysTaskCall name:$readmemh
                           vpiName: "$readmemh"
                         vpiArgument (2 items):
                           Constant start:68:21 end:68:31:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: work@genericfir
@@ -10987,7 +10991,7 @@ Design name:unnamed:
                             vpiDecompile: "\"taps.hex\""
                             vpiValue: taps.hex
                           RefObj name:tap start:68:33 end:68:36:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: tap
                             vpiFullName: work@genericfir.tap
                             vpiActual: Net name:tap
@@ -18712,19 +18716,19 @@ Design name:unnamed:
               vpiStmt (2 items):
                 Initial start:123:3 end:123:45:
                   vpiParent: Begin name:SET_FIXED_TAPS
-                  vpiStmt SysFuncCall name:$readmemh start:123:11 end:123:44:
+                  vpiStmt SysTaskCall name:$readmemh start:123:11 end:123:44:
                     vpiParent: Initial
                     vpiName Identifier name:$readmemh start:123:11 end:123:20:
-                      vpiParent: SysFuncCall name:$readmemh
+                      vpiParent: SysTaskCall name:$readmemh
                       vpiName: "$readmemh"
                     vpiArgument (2 items):
                       RefObj name:INITIAL_COEFFS start:123:21 end:123:35:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: INITIAL_COEFFS
                         vpiFullName: work@shalfband.SET_FIXED_TAPS.INITIAL_COEFFS
                         vpiActual: Parameter name:INITIAL_COEFFS
                       RefObj name:tapmem start:123:37 end:123:43:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: tapmem
                         vpiFullName: work@shalfband.SET_FIXED_TAPS.tapmem
                         vpiActual: Net name:tapmem
@@ -18921,19 +18925,19 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       Initial start:142:4 end:142:46:
                         vpiParent: Begin
-                        vpiStmt SysFuncCall name:$readmemh start:142:12 end:142:45:
+                        vpiStmt SysTaskCall name:$readmemh start:142:12 end:142:45:
                           vpiParent: Initial
                           vpiName Identifier name:$readmemh start:142:12 end:142:21:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: "$readmemh"
                           vpiArgument (2 items):
                             RefObj name:INITIAL_COEFFS start:142:22 end:142:36:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: INITIAL_COEFFS
                               vpiFullName: work@shalfband.DYNAMIC_TAP_ADJUSTMENT.INITIAL_COEFFS
                               vpiActual: Parameter name:INITIAL_COEFFS
                             RefObj name:tapmem start:142:38 end:142:44:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: tapmem
                               vpiFullName: work@shalfband.DYNAMIC_TAP_ADJUSTMENT.tapmem
                               vpiActual: Net name:tapmem
@@ -21504,19 +21508,19 @@ Design name:unnamed:
               vpiStmt (2 items):
                 Initial start:101:3 end:101:45:
                   vpiParent: Begin
-                  vpiStmt SysFuncCall name:$readmemh start:101:11 end:101:44:
+                  vpiStmt SysTaskCall name:$readmemh start:101:11 end:101:44:
                     vpiParent: Initial
                     vpiName Identifier name:$readmemh start:101:11 end:101:20:
-                      vpiParent: SysFuncCall name:$readmemh
+                      vpiParent: SysTaskCall name:$readmemh
                       vpiName: "$readmemh"
                     vpiArgument (2 items):
                       RefObj name:INITIAL_COEFFS start:101:21 end:101:35:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: INITIAL_COEFFS
                         vpiFullName: work@slowfil.INITIAL_COEFFS
                         vpiActual: Parameter name:INITIAL_COEFFS
                       RefObj name:tapmem start:101:37 end:101:43:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: tapmem
                         vpiFullName: work@slowfil.tapmem
                         vpiActual: Net name:tapmem
@@ -21710,19 +21714,19 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       Initial start:120:4 end:120:46:
                         vpiParent: Begin
-                        vpiStmt SysFuncCall name:$readmemh start:120:12 end:120:45:
+                        vpiStmt SysTaskCall name:$readmemh start:120:12 end:120:45:
                           vpiParent: Initial
                           vpiName Identifier name:$readmemh start:120:12 end:120:21:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: "$readmemh"
                           vpiArgument (2 items):
                             RefObj name:INITIAL_COEFFS start:120:22 end:120:36:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: INITIAL_COEFFS
                               vpiFullName: work@slowfil.INITIAL_COEFFS
                               vpiActual: Parameter name:INITIAL_COEFFS
                             RefObj name:tapmem start:120:38 end:120:44:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: tapmem
                               vpiFullName: work@slowfil.tapmem
                               vpiActual: Net name:tapmem
@@ -24811,19 +24815,19 @@ Design name:unnamed:
               vpiStmt (2 items):
                 Initial start:104:3 end:104:45:
                   vpiParent: Begin name:FIXED_TAP_READMEM
-                  vpiStmt SysFuncCall name:$readmemh start:104:11 end:104:44:
+                  vpiStmt SysTaskCall name:$readmemh start:104:11 end:104:44:
                     vpiParent: Initial
                     vpiName Identifier name:$readmemh start:104:11 end:104:20:
-                      vpiParent: SysFuncCall name:$readmemh
+                      vpiParent: SysTaskCall name:$readmemh
                       vpiName: "$readmemh"
                     vpiArgument (2 items):
                       RefObj name:INITIAL_COEFFS start:104:21 end:104:35:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: INITIAL_COEFFS
                         vpiFullName: work@slowfil_srl.FIXED_TAP_READMEM.INITIAL_COEFFS
                         vpiActual: Parameter name:INITIAL_COEFFS
                       RefObj name:tapmem start:104:37 end:104:43:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: tapmem
                         vpiFullName: work@slowfil_srl.FIXED_TAP_READMEM.tapmem
                         vpiActual: Net name:tapmem
@@ -25020,19 +25024,19 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       Initial start:123:4 end:123:46:
                         vpiParent: Begin
-                        vpiStmt SysFuncCall name:$readmemh start:123:12 end:123:45:
+                        vpiStmt SysTaskCall name:$readmemh start:123:12 end:123:45:
                           vpiParent: Initial
                           vpiName Identifier name:$readmemh start:123:12 end:123:21:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: "$readmemh"
                           vpiArgument (2 items):
                             RefObj name:INITIAL_COEFFS start:123:22 end:123:36:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: INITIAL_COEFFS
                               vpiFullName: work@slowfil_srl.SET_DYNAMIC_TAP_VALUES.INITIAL_COEFFS
                               vpiActual: Parameter name:INITIAL_COEFFS
                             RefObj name:tapmem start:123:38 end:123:44:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: tapmem
                               vpiFullName: work@slowfil_srl.SET_DYNAMIC_TAP_VALUES.tapmem
                               vpiActual: Net name:tapmem
@@ -28157,19 +28161,19 @@ Design name:unnamed:
               vpiStmt (2 items):
                 Initial start:103:3 end:103:45:
                   vpiParent: Begin name:FIXED_TAP_READMEM
-                  vpiStmt SysFuncCall name:$readmemh start:103:11 end:103:44:
+                  vpiStmt SysTaskCall name:$readmemh start:103:11 end:103:44:
                     vpiParent: Initial
                     vpiName Identifier name:$readmemh start:103:11 end:103:20:
-                      vpiParent: SysFuncCall name:$readmemh
+                      vpiParent: SysTaskCall name:$readmemh
                       vpiName: "$readmemh"
                     vpiArgument (2 items):
                       RefObj name:INITIAL_COEFFS start:103:21 end:103:35:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: INITIAL_COEFFS
                         vpiFullName: work@slowfil_srl.FIXED_TAP_READMEM.INITIAL_COEFFS
                         vpiActual: Parameter name:INITIAL_COEFFS
                       RefObj name:tapmem start:103:37 end:103:43:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: tapmem
                         vpiFullName: work@slowfil_srl.FIXED_TAP_READMEM.tapmem
                         vpiActual: Net name:tapmem
@@ -28366,19 +28370,19 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       Initial start:122:4 end:122:46:
                         vpiParent: Begin
-                        vpiStmt SysFuncCall name:$readmemh start:122:12 end:122:45:
+                        vpiStmt SysTaskCall name:$readmemh start:122:12 end:122:45:
                           vpiParent: Initial
                           vpiName Identifier name:$readmemh start:122:12 end:122:21:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: "$readmemh"
                           vpiArgument (2 items):
                             RefObj name:INITIAL_COEFFS start:122:22 end:122:36:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: INITIAL_COEFFS
                               vpiFullName: work@slowfil_srl.SET_DYNAMIC_TAP_VALUES.INITIAL_COEFFS
                               vpiActual: Parameter name:INITIAL_COEFFS
                             RefObj name:tapmem start:122:38 end:122:44:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: tapmem
                               vpiFullName: work@slowfil_srl.SET_DYNAMIC_TAP_VALUES.tapmem
                               vpiActual: Net name:tapmem
@@ -32445,19 +32449,19 @@ Design name:unnamed:
               vpiStmt (2 items):
                 Initial start:107:3 end:107:45:
                   vpiParent: Begin name:SET_FIXED_TAPS
-                  vpiStmt SysFuncCall name:$readmemh start:107:11 end:107:44:
+                  vpiStmt SysTaskCall name:$readmemh start:107:11 end:107:44:
                     vpiParent: Initial
                     vpiName Identifier name:$readmemh start:107:11 end:107:20:
-                      vpiParent: SysFuncCall name:$readmemh
+                      vpiParent: SysTaskCall name:$readmemh
                       vpiName: "$readmemh"
                     vpiArgument (2 items):
                       RefObj name:INITIAL_COEFFS start:107:21 end:107:35:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: INITIAL_COEFFS
                         vpiFullName: work@slowsymf.SET_FIXED_TAPS.INITIAL_COEFFS
                         vpiActual: Parameter name:INITIAL_COEFFS
                       RefObj name:tapmem start:107:37 end:107:43:
-                        vpiParent: SysFuncCall name:$readmemh
+                        vpiParent: SysTaskCall name:$readmemh
                         vpiName: tapmem
                         vpiFullName: work@slowsymf.SET_FIXED_TAPS.tapmem
                         vpiActual: Net name:tapmem
@@ -32654,19 +32658,19 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       Initial start:126:4 end:126:46:
                         vpiParent: Begin
-                        vpiStmt SysFuncCall name:$readmemh start:126:12 end:126:45:
+                        vpiStmt SysTaskCall name:$readmemh start:126:12 end:126:45:
                           vpiParent: Initial
                           vpiName Identifier name:$readmemh start:126:12 end:126:21:
-                            vpiParent: SysFuncCall name:$readmemh
+                            vpiParent: SysTaskCall name:$readmemh
                             vpiName: "$readmemh"
                           vpiArgument (2 items):
                             RefObj name:INITIAL_COEFFS start:126:22 end:126:36:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: INITIAL_COEFFS
                               vpiFullName: work@slowsymf.DYNAMIC_TAP_ADJUSTMENT.INITIAL_COEFFS
                               vpiActual: Parameter name:INITIAL_COEFFS
                             RefObj name:tapmem start:126:38 end:126:44:
-                              vpiParent: SysFuncCall name:$readmemh
+                              vpiParent: SysTaskCall name:$readmemh
                               vpiName: tapmem
                               vpiFullName: work@slowsymf.DYNAMIC_TAP_ADJUSTMENT.tapmem
                               vpiActual: Net name:tapmem
@@ -33090,15 +33094,21 @@ Design name:unnamed:
                       vpiActual: Net name:delayed
           vpiAlwaysType: always (1)
   vpiTypespec (29 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -33135,8 +33145,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@fastfir
         vpiName: work@fastfir
       vpiModule: Module name:work@fastfir
-    StringTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:work@fastfir_dynamictaps:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@fastfir_dynamictaps start:1:9 end:1:28:
@@ -33237,15 +33245,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@smplfir
         vpiName: work@smplfir
       vpiModule: Module name:work@smplfir
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 9
-[WARNING] : 21
+[WARNING] : 22
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

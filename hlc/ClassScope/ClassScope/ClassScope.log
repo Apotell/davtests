@@ -9931,10 +9931,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:14:1: Compile module "work@M".
 [INF:CP0304] $Source01/dut.sv:25:1: Compile interface "work@I".
 [INF:CP0303] $Source01/dut.sv:36:1: Compile module "work@top".
-[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@P".
-[WRN:PA0205] $Source01/dut.sv:14:1: No timescale set for "work@M".
-[WRN:PA0205] $Source01/dut.sv:36:1: No timescale set for "work@top".
-[WRN:PA0205] $Source01/dut.sv:25:1: No timescale set for "work@I".
 [ERR:EL0535] $Source01/dut.sv:52:50: Illegal implicit net "id:274, name:T".
 [ERR:EL0535] $Source01/dut.sv:56:36: Illegal implicit net "id:327, name:T".
 [ERR:EL0535] $Source01/dut.sv:57:36: Illegal implicit net "id:353, name:T".
@@ -10131,6 +10127,10 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/dut.sv:61:69: Illegal implicit net "id:4407, name:T".
 [ERR:EL0535] $Source01/dut.sv:61:97: Illegal implicit net "id:4440, name:T".
 [ERR:EL0535] $Source01/dut.sv:61:106: Illegal implicit net "id:4453, name:T".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@P".
+[WRN:PA0205] $Source01/dut.sv:14:1: No timescale set for "work@M".
+[WRN:PA0205] $Source01/dut.sv:36:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:25:1: No timescale set for "work@I".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -10484,6 +10484,7 @@ Design name:unnamed:
             vpiActual: TypeParameter name:PARAM_T
         TypeParameter name:T:
         TypeParameter name:PARAM_T:
+      vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@C
@@ -10585,14 +10586,14 @@ Design name:unnamed:
           vpiParent: Interface name:work@I
           vpiStmt DelayControl start:32:13 end:33:54:
             vpiParent: Initial
-            vpiStmt SysFuncCall name:$display start:32:20 end:33:53:
+            vpiStmt SysTaskCall name:$display start:32:20 end:33:53:
               vpiParent: DelayControl
               vpiName Identifier name:$display start:32:20 end:32:28:
-                vpiParent: SysFuncCall name:$display
+                vpiParent: SysTaskCall name:$display
                 vpiName: "$display"
               vpiArgument (7 items):
                 Constant start:32:29 end:32:60:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
                     vpiFullName: work@I
@@ -10602,32 +10603,32 @@ Design name:unnamed:
                   vpiDecompile: "\"I: %sE%s=%0d $bits(%sT%s)=%0d\""
                   vpiValue: "I: %sE%s=%0d $bits(%sT%s)=%0d"
                 RefObj name:PREFIX start:33:9 end:33:15:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: PREFIX
                   vpiFullName: work@I.PREFIX
                   vpiActual: Parameter name:PREFIX
                 RefObj name:SUFFIX start:33:17 end:33:23:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: SUFFIX
                   vpiFullName: work@I.SUFFIX
                   vpiActual: Parameter name:SUFFIX
                 RefObj name:E start:33:25 end:33:26:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: E
                   vpiFullName: work@I.E
                   vpiActual: Parameter name:E
                 RefObj name:PREFIX start:33:28 end:33:34:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: PREFIX
                   vpiFullName: work@I.PREFIX
                   vpiActual: Parameter name:PREFIX
                 RefObj name:SUFFIX start:33:36 end:33:42:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: SUFFIX
                   vpiFullName: work@I.SUFFIX
                   vpiActual: Parameter name:SUFFIX
                 SysFuncCall name:$bits start:33:44 end:33:52:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName Identifier name:$bits start:33:44 end:33:49:
                     vpiParent: SysFuncCall name:$bits
                     vpiName: "$bits"
@@ -10738,14 +10739,14 @@ Design name:unnamed:
           vpiParent: Module name:work@M
           vpiStmt DelayControl start:21:13 end:22:54:
             vpiParent: Initial
-            vpiStmt SysFuncCall name:$display start:21:20 end:22:53:
+            vpiStmt SysTaskCall name:$display start:21:20 end:22:53:
               vpiParent: DelayControl
               vpiName Identifier name:$display start:21:20 end:21:28:
-                vpiParent: SysFuncCall name:$display
+                vpiParent: SysTaskCall name:$display
                 vpiName: "$display"
               vpiArgument (7 items):
                 Constant start:21:29 end:21:60:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
                     vpiFullName: work@M
@@ -10755,32 +10756,32 @@ Design name:unnamed:
                   vpiDecompile: "\"M: %sE%s=%0d $bits(%sT%s)=%0d\""
                   vpiValue: "M: %sE%s=%0d $bits(%sT%s)=%0d"
                 RefObj name:PREFIX start:22:9 end:22:15:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: PREFIX
                   vpiFullName: work@M.PREFIX
                   vpiActual: Parameter name:PREFIX
                 RefObj name:SUFFIX start:22:17 end:22:23:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: SUFFIX
                   vpiFullName: work@M.SUFFIX
                   vpiActual: Parameter name:SUFFIX
                 RefObj name:E start:22:25 end:22:26:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: E
                   vpiFullName: work@M.E
                   vpiActual: Parameter name:E
                 RefObj name:PREFIX start:22:28 end:22:34:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: PREFIX
                   vpiFullName: work@M.PREFIX
                   vpiActual: Parameter name:PREFIX
                 RefObj name:SUFFIX start:22:36 end:22:42:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: SUFFIX
                   vpiFullName: work@M.SUFFIX
                   vpiActual: Parameter name:SUFFIX
                 SysFuncCall name:$bits start:22:44 end:22:52:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName Identifier name:$bits start:22:44 end:22:49:
                     vpiParent: SysFuncCall name:$bits
                     vpiName: "$bits"
@@ -11047,14 +11048,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:53:
+                    SysTaskCall name:$display start:48:17 end:48:53:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:39:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11064,23 +11065,23 @@ Design name:unnamed:
                           vpiDecompile: "\"E = %0d %0d\""
                           vpiValue: E = %0d %0d
                         RefObj name:the_expr start:48:41 end:48:49:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         RefObj name:E start:48:51 end:48:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: E
                           vpiFullName: work@top.E
                           vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:74:
+                    SysTaskCall name:$display start:49:17 end:49:74:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:46:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11090,7 +11091,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(E) = %0d %0d\""
                           vpiValue: "$bits(E) = %0d %0d"
                         SysFuncCall name:$bits start:49:48 end:49:63:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:48 end:49:53:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -11101,7 +11102,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:65 end:49:73:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:65 end:49:70:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -11111,14 +11112,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:74:
+                    SysTaskCall name:$display start:50:17 end:50:74:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:46:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11128,7 +11129,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(T) = %0d %0d\""
                           vpiValue: "$bits(T) = %0d %0d"
                         SysFuncCall name:$bits start:50:48 end:50:63:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:48 end:50:53:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -11139,7 +11140,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:65 end:50:73:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:65 end:50:70:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -11149,14 +11150,14 @@ Design name:unnamed:
                               vpiName: T
                               vpiFullName: work@top.T
                               vpiActual: TypeParameter name:T
-                    SysFuncCall name:$display start:51:17 end:51:53:
+                    SysTaskCall name:$display start:51:17 end:51:53:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:42:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11166,7 +11167,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(E) = %0d\""
                           vpiValue: "$left(E) = %0d"
                         SysFuncCall name:$left start:51:44 end:51:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:44 end:51:49:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -11176,14 +11177,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:53:
+                    SysTaskCall name:$display start:52:17 end:52:53:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:42:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11193,7 +11194,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(T) = %0d\""
                           vpiValue: "$left(T) = %0d"
                         SysFuncCall name:$left start:52:44 end:52:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:44 end:52:49:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -11202,14 +11203,14 @@ Design name:unnamed:
                               vpiParent: SysFuncCall name:$left
                               vpiName: T
                               vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:48:
+                    SysTaskCall name:$display start:53:17 end:53:48:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:39:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11219,7 +11220,7 @@ Design name:unnamed:
                           vpiDecompile: "\"E'('z) = %b\""
                           vpiValue: "E'('z) = %b"
                         Operation start:53:41 end:53:47:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec name:E start:53:41 end:53:42:
                             vpiParent: Operation
                             vpiName: E
@@ -11237,14 +11238,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:48:
+                    SysTaskCall name:$display start:54:17 end:54:48:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:39:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -11254,7 +11255,7 @@ Design name:unnamed:
                           vpiDecompile: "\"T'('z) = %b\""
                           vpiValue: "T'('z) = %b"
                         Operation start:54:41 end:54:47:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec name:T start:54:41 end:54:42:
                             vpiParent: Operation
                             vpiName: T
@@ -12089,14 +12090,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:59:
+                    SysTaskCall name:$display start:48:17 end:48:59:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:42:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12106,12 +12107,12 @@ Design name:unnamed:
                           vpiDecompile: "\"P::E = %0d %0d\""
                           vpiValue: P::E = %0d %0d
                         RefObj name:the_expr start:48:44 end:48:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:P::E start:48:54 end:48:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: P::E
                           vpiFullName: work@top.P::E
                           vpiPathElem (2 items):
@@ -12126,14 +12127,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:80:
+                    SysTaskCall name:$display start:49:17 end:49:80:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:49:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12143,7 +12144,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(P::E) = %0d %0d\""
                           vpiValue: "$bits(P::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:51 end:49:66:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:51 end:49:56:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -12154,7 +12155,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:68 end:49:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:68 end:49:73:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -12175,14 +12176,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:80:
+                    SysTaskCall name:$display start:50:17 end:50:80:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:49:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12192,7 +12193,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(P::T) = %0d %0d\""
                           vpiValue: "$bits(P::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:51 end:50:66:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:51 end:50:56:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -12203,7 +12204,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:68 end:50:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:68 end:50:73:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -12223,14 +12224,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:P::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:59:
+                    SysTaskCall name:$display start:51:17 end:51:59:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:45:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12240,7 +12241,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(P::E) = %0d\""
                           vpiValue: "$left(P::E) = %0d"
                         SysFuncCall name:$left start:51:47 end:51:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:47 end:51:52:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -12261,14 +12262,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:59:
+                    SysTaskCall name:$display start:52:17 end:52:59:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:45:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12278,7 +12279,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(P::T) = %0d\""
                           vpiValue: "$left(P::T) = %0d"
                         SysFuncCall name:$left start:52:47 end:52:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:47 end:52:52:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -12298,14 +12299,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:P::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:54:
+                    SysTaskCall name:$display start:53:17 end:53:54:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:42:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12315,7 +12316,7 @@ Design name:unnamed:
                           vpiDecompile: "\"P::E'('z) = %b\""
                           vpiValue: "P::E'('z) = %b"
                         Operation start:53:44 end:53:53:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec name:P::E start:53:44 end:53:48:
                             vpiParent: Operation
                             vpiName: P::E
@@ -12333,14 +12334,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:54:
+                    SysTaskCall name:$display start:54:17 end:54:54:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:42:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -12350,7 +12351,7 @@ Design name:unnamed:
                           vpiDecompile: "\"P::T'('z) = %b\""
                           vpiValue: "P::T'('z) = %b"
                         Operation start:54:44 end:54:53:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec name:P::T start:54:44 end:54:48:
                             vpiParent: Operation
                             vpiName: P::T
@@ -13309,14 +13310,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:65:
+                    SysTaskCall name:$display start:48:17 end:48:65:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:45:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13326,12 +13327,12 @@ Design name:unnamed:
                           vpiDecompile: "\"C#()::E = %0d %0d\""
                           vpiValue: C#()::E = %0d %0d
                         RefObj name:the_expr start:48:47 end:48:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:C::E start:48:57 end:48:64:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: C::E
                           vpiFullName: work@top.C::E
                           vpiPathElem (2 items):
@@ -13346,14 +13347,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:86:
+                    SysTaskCall name:$display start:49:17 end:49:86:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13363,7 +13364,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#()::E) = %0d %0d\""
                           vpiValue: "$bits(C#()::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:54 end:49:69:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:54 end:49:59:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -13374,7 +13375,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:71 end:49:85:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:71 end:49:76:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -13395,14 +13396,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:86:
+                    SysTaskCall name:$display start:50:17 end:50:86:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13412,7 +13413,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#()::T) = %0d %0d\""
                           vpiValue: "$bits(C#()::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:54 end:50:69:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:54 end:50:59:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -13423,7 +13424,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:71 end:50:85:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:71 end:50:76:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -13443,14 +13444,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:65:
+                    SysTaskCall name:$display start:51:17 end:51:65:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:48:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13460,7 +13461,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#()::E) = %0d\""
                           vpiValue: "$left(C#()::E) = %0d"
                         SysFuncCall name:$left start:51:50 end:51:64:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:50 end:51:55:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -13481,14 +13482,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:65:
+                    SysTaskCall name:$display start:52:17 end:52:65:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:48:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13498,7 +13499,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#()::T) = %0d\""
                           vpiValue: "$left(C#()::T) = %0d"
                         SysFuncCall name:$left start:52:50 end:52:64:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:50 end:52:55:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -13518,14 +13519,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:60:
+                    SysTaskCall name:$display start:53:17 end:53:60:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:45:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13535,7 +13536,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#()::E'('z) = %b\""
                           vpiValue: "C#()::E'('z) = %b"
                         Operation start:53:47 end:53:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:53:47 end:53:54:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -13551,14 +13552,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:60:
+                    SysTaskCall name:$display start:54:17 end:54:60:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:45:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -13568,7 +13569,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#()::T'('z) = %b\""
                           vpiValue: "C#()::T'('z) = %b"
                         Operation start:54:47 end:54:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:54:47 end:54:54:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -14553,14 +14554,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:73:
+                    SysTaskCall name:$display start:48:17 end:48:73:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:49:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14570,12 +14571,12 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E, T)::E = %0d %0d\""
                           vpiValue: C#(E, T)::E = %0d %0d
                         RefObj name:the_expr start:48:51 end:48:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:C::E start:48:61 end:48:72:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: C::E
                           vpiFullName: work@top.C::E
                           vpiPathElem (2 items):
@@ -14604,14 +14605,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:94:
+                    SysTaskCall name:$display start:49:17 end:49:94:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:56:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14621,7 +14622,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(E, T)::E) = %0d %0d\""
                           vpiValue: "$bits(C#(E, T)::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:58 end:49:73:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:58 end:49:63:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -14632,7 +14633,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:75 end:49:93:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:75 end:49:80:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -14667,14 +14668,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:94:
+                    SysTaskCall name:$display start:50:17 end:50:94:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:56:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14684,7 +14685,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(E, T)::T) = %0d %0d\""
                           vpiValue: "$bits(C#(E, T)::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:58 end:50:73:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:58 end:50:63:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -14695,7 +14696,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:75 end:50:93:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:75 end:50:80:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -14729,14 +14730,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:73:
+                    SysTaskCall name:$display start:51:17 end:51:73:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14746,7 +14747,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(E, T)::E) = %0d\""
                           vpiValue: "$left(C#(E, T)::E) = %0d"
                         SysFuncCall name:$left start:51:54 end:51:72:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:54 end:51:59:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -14781,14 +14782,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:73:
+                    SysTaskCall name:$display start:52:17 end:52:73:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:52:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14798,7 +14799,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(E, T)::T) = %0d\""
                           vpiValue: "$left(C#(E, T)::T) = %0d"
                         SysFuncCall name:$left start:52:54 end:52:72:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:54 end:52:59:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -14832,14 +14833,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:68:
+                    SysTaskCall name:$display start:53:17 end:53:68:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:49:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14849,7 +14850,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E, T)::E'('z) = %b\""
                           vpiValue: "C#(E, T)::E'('z) = %b"
                         Operation start:53:51 end:53:67:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:53:51 end:53:62:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -14865,14 +14866,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:68:
+                    SysTaskCall name:$display start:54:17 end:54:68:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:49:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -14882,7 +14883,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E, T)::T'('z) = %b\""
                           vpiValue: "C#(E, T)::T'('z) = %b"
                         Operation start:54:51 end:54:67:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:54:51 end:54:62:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -16079,14 +16080,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:85:
+                    SysTaskCall name:$display start:48:17 end:48:85:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16096,12 +16097,12 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(P::E, P::T)::E = %0d %0d\""
                           vpiValue: C#(P::E, P::T)::E = %0d %0d
                         RefObj name:the_expr start:48:57 end:48:65:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:C::E start:48:67 end:48:84:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: C::E
                           vpiFullName: work@top.C::E
                           vpiPathElem (2 items):
@@ -16152,14 +16153,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:106:
+                    SysTaskCall name:$display start:49:17 end:49:106:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:62:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16169,7 +16170,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(P::E, P::T)::E) = %0d %0d\""
                           vpiValue: "$bits(C#(P::E, P::T)::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:64 end:49:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:64 end:49:69:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -16180,7 +16181,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:81 end:49:105:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:81 end:49:86:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -16237,14 +16238,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:106:
+                    SysTaskCall name:$display start:50:17 end:50:106:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:62:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16254,7 +16255,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(P::E, P::T)::T) = %0d %0d\""
                           vpiValue: "$bits(C#(P::E, P::T)::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:64 end:50:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:64 end:50:69:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -16265,7 +16266,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:81 end:50:105:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:81 end:50:86:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -16321,14 +16322,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:85:
+                    SysTaskCall name:$display start:51:17 end:51:85:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16338,7 +16339,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(P::E, P::T)::E) = %0d\""
                           vpiValue: "$left(C#(P::E, P::T)::E) = %0d"
                         SysFuncCall name:$left start:51:60 end:51:84:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:60 end:51:65:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -16395,14 +16396,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:85:
+                    SysTaskCall name:$display start:52:17 end:52:85:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16412,7 +16413,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(P::E, P::T)::T) = %0d\""
                           vpiValue: "$left(C#(P::E, P::T)::T) = %0d"
                         SysFuncCall name:$left start:52:60 end:52:84:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:60 end:52:65:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -16468,14 +16469,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:80:
+                    SysTaskCall name:$display start:53:17 end:53:80:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16485,7 +16486,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(P::E, P::T)::E'('z) = %b\""
                           vpiValue: "C#(P::E, P::T)::E'('z) = %b"
                         Operation start:53:57 end:53:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:53:57 end:53:74:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -16501,14 +16502,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:80:
+                    SysTaskCall name:$display start:54:17 end:54:80:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -16518,7 +16519,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(P::E, P::T)::T'('z) = %b\""
                           vpiValue: "C#(P::E, P::T)::T'('z) = %b"
                         Operation start:54:57 end:54:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:54:57 end:54:74:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -18035,14 +18036,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:113:
+                    SysTaskCall name:$display start:48:17 end:48:113:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:69:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18052,12 +18053,12 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(C#(E, T)::E, C#(E, T)::T)::E = %0d %0d\""
                           vpiValue: C#(C#(E, T)::E, C#(E, T)::T)::E = %0d %0d
                         RefObj name:the_expr start:48:71 end:48:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:C::E start:48:81 end:48:112:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: C::E
                           vpiFullName: work@top.C::E
                           vpiPathElem (2 items):
@@ -18136,14 +18137,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:134:
+                    SysTaskCall name:$display start:49:17 end:49:134:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:76:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18153,7 +18154,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(C#(E, T)::E, C#(E, T)::T)::E) = %0d %0d\""
                           vpiValue: "$bits(C#(C#(E, T)::E, C#(E, T)::T)::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:78 end:49:93:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:78 end:49:83:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -18164,7 +18165,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:95 end:49:133:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:95 end:49:100:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -18249,14 +18250,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:134:
+                    SysTaskCall name:$display start:50:17 end:50:134:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:76:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18266,7 +18267,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(C#(E, T)::E, C#(E, T)::T)::T) = %0d %0d\""
                           vpiValue: "$bits(C#(C#(E, T)::E, C#(E, T)::T)::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:78 end:50:93:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:78 end:50:83:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -18277,7 +18278,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:95 end:50:133:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:95 end:50:100:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -18361,14 +18362,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:113:
+                    SysTaskCall name:$display start:51:17 end:51:113:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:72:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18378,7 +18379,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(C#(E, T)::E, C#(E, T)::T)::E) = %0d\""
                           vpiValue: "$left(C#(C#(E, T)::E, C#(E, T)::T)::E) = %0d"
                         SysFuncCall name:$left start:51:74 end:51:112:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:74 end:51:79:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -18463,14 +18464,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:113:
+                    SysTaskCall name:$display start:52:17 end:52:113:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:72:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18480,7 +18481,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(C#(E, T)::E, C#(E, T)::T)::T) = %0d\""
                           vpiValue: "$left(C#(C#(E, T)::E, C#(E, T)::T)::T) = %0d"
                         SysFuncCall name:$left start:52:74 end:52:112:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:74 end:52:79:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -18564,14 +18565,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:108:
+                    SysTaskCall name:$display start:53:17 end:53:108:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:69:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18581,7 +18582,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(C#(E, T)::E, C#(E, T)::T)::E'('z) = %b\""
                           vpiValue: "C#(C#(E, T)::E, C#(E, T)::T)::E'('z) = %b"
                         Operation start:53:71 end:53:107:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:53:71 end:53:102:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -18597,14 +18598,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:108:
+                    SysTaskCall name:$display start:54:17 end:54:108:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:69:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -18614,7 +18615,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(C#(E, T)::E, C#(E, T)::T)::T'('z) = %b\""
                           vpiValue: "C#(C#(E, T)::E, C#(E, T)::T)::T'('z) = %b"
                         Operation start:54:71 end:54:107:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:54:71 end:54:102:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -20423,14 +20424,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:85:
+                    SysTaskCall name:$display start:48:17 end:48:85:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20440,12 +20441,12 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E[1], T[2])::E = %0d %0d\""
                           vpiValue: C#(E[1], T[2])::E = %0d %0d
                         RefObj name:the_expr start:48:57 end:48:65:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:C::E start:48:67 end:48:84:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: C::E
                           vpiFullName: work@top.C::E
                           vpiPathElem (2 items):
@@ -20502,14 +20503,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:106:
+                    SysTaskCall name:$display start:49:17 end:49:106:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:62:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20519,7 +20520,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(E[1], T[2])::E) = %0d %0d\""
                           vpiValue: "$bits(C#(E[1], T[2])::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:64 end:49:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:64 end:49:69:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -20530,7 +20531,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:81 end:49:105:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:81 end:49:86:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -20593,14 +20594,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:106:
+                    SysTaskCall name:$display start:50:17 end:50:106:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:62:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20610,7 +20611,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(E[1], T[2])::T) = %0d %0d\""
                           vpiValue: "$bits(C#(E[1], T[2])::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:64 end:50:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:64 end:50:69:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -20621,7 +20622,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:81 end:50:105:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:81 end:50:86:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -20683,14 +20684,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:85:
+                    SysTaskCall name:$display start:51:17 end:51:85:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20700,7 +20701,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(E[1], T[2])::E) = %0d\""
                           vpiValue: "$left(C#(E[1], T[2])::E) = %0d"
                         SysFuncCall name:$left start:51:60 end:51:84:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:60 end:51:65:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -20763,14 +20764,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:85:
+                    SysTaskCall name:$display start:52:17 end:52:85:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:58:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20780,7 +20781,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(E[1], T[2])::T) = %0d\""
                           vpiValue: "$left(C#(E[1], T[2])::T) = %0d"
                         SysFuncCall name:$left start:52:60 end:52:84:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:60 end:52:65:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -20842,14 +20843,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:80:
+                    SysTaskCall name:$display start:53:17 end:53:80:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20859,7 +20860,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E[1], T[2])::E'('z) = %b\""
                           vpiValue: "C#(E[1], T[2])::E'('z) = %b"
                         Operation start:53:57 end:53:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:53:57 end:53:74:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -20875,14 +20876,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:80:
+                    SysTaskCall name:$display start:54:17 end:54:80:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:55:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -20892,7 +20893,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E[1], T[2])::T'('z) = %b\""
                           vpiValue: "C#(E[1], T[2])::T'('z) = %b"
                         Operation start:54:57 end:54:79:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:54:57 end:54:74:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -22485,14 +22486,14 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "10"
                             vpiValue: 10
-                    SysFuncCall name:$display start:48:17 end:48:93:
+                    SysTaskCall name:$display start:48:17 end:48:93:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:17 end:48:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:48:26 end:48:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -22502,12 +22503,12 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E[2:0], T[2:0])::E = %0d %0d\""
                           vpiValue: C#(E[2:0], T[2:0])::E = %0d %0d
                         RefObj name:the_expr start:48:61 end:48:69:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: the_expr
                           vpiFullName: work@top.the_expr
                           vpiActual: Parameter name:the_expr
                         HierPath name:C::E start:48:71 end:48:92:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: C::E
                           vpiFullName: work@top.C::E
                           vpiPathElem (2 items):
@@ -22588,14 +22589,14 @@ Design name:unnamed:
                               vpiName: E
                               vpiFullName: work@top.E
                               vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:49:17 end:49:114:
+                    SysTaskCall name:$display start:49:17 end:49:114:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:17 end:49:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:49:26 end:49:66:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -22605,7 +22606,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(E[2:0], T[2:0])::E) = %0d %0d\""
                           vpiValue: "$bits(C#(E[2:0], T[2:0])::E) = %0d %0d"
                         SysFuncCall name:$bits start:49:68 end:49:83:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:68 end:49:73:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -22616,7 +22617,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_expr
                               vpiActual: Parameter name:the_expr
                         SysFuncCall name:$bits start:49:85 end:49:113:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:49:85 end:49:90:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -22703,14 +22704,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:50:17 end:50:114:
+                    SysTaskCall name:$display start:50:17 end:50:114:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:17 end:50:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:26 end:50:66:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -22720,7 +22721,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$bits(C#(E[2:0], T[2:0])::T) = %0d %0d\""
                           vpiValue: "$bits(C#(E[2:0], T[2:0])::T) = %0d %0d"
                         SysFuncCall name:$bits start:50:68 end:50:83:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:68 end:50:73:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -22731,7 +22732,7 @@ Design name:unnamed:
                               vpiFullName: work@top.the_type
                               vpiActual: TypeParameter name:the_type
                         SysFuncCall name:$bits start:50:85 end:50:113:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:50:85 end:50:90:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -22817,14 +22818,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:51:17 end:51:93:
+                    SysTaskCall name:$display start:51:17 end:51:93:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:17 end:51:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:51:26 end:51:62:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -22834,7 +22835,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(E[2:0], T[2:0])::E) = %0d\""
                           vpiValue: "$left(C#(E[2:0], T[2:0])::E) = %0d"
                         SysFuncCall name:$left start:51:64 end:51:92:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:51:64 end:51:69:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -22921,14 +22922,14 @@ Design name:unnamed:
                                   vpiName: E
                                   vpiFullName: work@top.E
                                   vpiActual: Parameter name:E
-                    SysFuncCall name:$display start:52:17 end:52:93:
+                    SysTaskCall name:$display start:52:17 end:52:93:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:52:17 end:52:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:52:26 end:52:62:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -22938,7 +22939,7 @@ Design name:unnamed:
                           vpiDecompile: "\"$left(C#(E[2:0], T[2:0])::T) = %0d\""
                           vpiValue: "$left(C#(E[2:0], T[2:0])::T) = %0d"
                         SysFuncCall name:$left start:52:64 end:52:92:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$left start:52:64 end:52:69:
                             vpiParent: SysFuncCall name:$left
                             vpiName: "$left"
@@ -23024,14 +23025,14 @@ Design name:unnamed:
                                   vpiParent: HierPath name:C::T
                                   vpiName: T
                                   vpiFullName: work@top.T
-                    SysFuncCall name:$display start:53:17 end:53:88:
+                    SysTaskCall name:$display start:53:17 end:53:88:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:17 end:53:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:53:26 end:53:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -23041,7 +23042,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E[2:0], T[2:0])::E'('z) = %b\""
                           vpiValue: "C#(E[2:0], T[2:0])::E'('z) = %b"
                         Operation start:53:61 end:53:87:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:53:61 end:53:82:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -23057,14 +23058,14 @@ Design name:unnamed:
                               vpiSize: 1
                               vpiDecompile: "'z"
                               vpiValue: z
-                    SysFuncCall name:$display start:54:17 end:54:88:
+                    SysTaskCall name:$display start:54:17 end:54:88:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:17 end:54:25:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (2 items):
                         Constant start:54:26 end:54:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@top
@@ -23074,7 +23075,7 @@ Design name:unnamed:
                           vpiDecompile: "\"C#(E[2:0], T[2:0])::T'('z) = %b\""
                           vpiValue: "C#(E[2:0], T[2:0])::T'('z) = %b"
                         Operation start:54:61 end:54:87:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec start:54:61 end:54:82:
                             vpiParent: Operation
                             vpiFullName: work@top
@@ -24770,9 +24771,9 @@ Identifier                         360     358       0         2
 Operation                          125      17       0       108
 RefObj                             477     472       0         5
 RefTypespec                        683     578      59       164
-SysFuncCall                        109     107       0         2
+SysFuncCall                         51      49       0         2
 ----------------------------------------------------------------
-Others                            1371    1371       0         0
+Others                            1429    1429       0         0
 ----------------------------------------------------------------
                                   3676    3351     120       445
 ===================== END REDUCTION RESULT =====================

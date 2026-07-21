@@ -381,7 +381,6 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/dut.sv:3:24: Compile generate block "i".
 [INF:CP0335] $Source01/dut.sv:8:28: Compile generate block "blk".
 [INF:CP0335] $Source01/dut.sv:19:24: Compile generate block "blk".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 [ERR:EL0535] $Source01/dut.sv:28:18: Illegal implicit net "id:101, name:blk".
 [ERR:EL0535] $Source01/dut.sv:29:18: Illegal implicit net "id:110, name:i".
 [ERR:EL0535] $Source01/dut.sv:30:18: Illegal implicit net "id:119, name:i".
@@ -390,6 +389,7 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/dut.sv:33:22: Illegal implicit net "id:149, name:i".
 [ERR:EL0535] $Source01/dut.sv:34:22: Illegal implicit net "id:159, name:i".
 [ERR:EL0535] $Source01/dut.sv:34:24: Illegal implicit net "id:160, name:blk".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -420,36 +420,36 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@top
             vpiStmt (8 items):
-              SysFuncCall name:$display start:27:9 end:27:23:
+              SysTaskCall name:$display start:27:9 end:27:23:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:27:9 end:27:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
-                  FuncCall name:f start:27:18 end:27:22:
-                    vpiParent: SysFuncCall name:$display
+                  SubroutineCall name:f start:27:18 end:27:22:
+                    vpiParent: SysTaskCall name:$display
                     vpiName Identifier name:f start:27:18 end:27:19:
-                      vpiParent: FuncCall name:f
+                      vpiParent: SubroutineCall name:f
                       vpiName: f
                     vpiArgument (1 items):
                       Constant start:27:20 end:27:21:
-                        vpiParent: FuncCall name:f
+                        vpiParent: SubroutineCall name:f
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: work@top.f
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "0"
                         vpiValue: 0
-              SysFuncCall name:$display start:28:9 end:28:27:
+              SysTaskCall name:$display start:28:9 end:28:27:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:28:9 end:28:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:blk.f(0) start:28:18 end:28:25:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: blk.f(0)
                     vpiFullName: work@top.blk.f(0)
                     vpiPathElem (2 items):
@@ -457,30 +457,30 @@ Design name:unnamed:
                         vpiParent: HierPath name:blk.f(0)
                         vpiName: blk
                         vpiFullName: work@top.blk
-                      MethodFuncCall name:f start:28:22 end:28:26:
+                      SubroutineCall name:f start:28:22 end:28:26:
                         vpiParent: HierPath name:blk.f(0)
                         vpiName Identifier name:f start:28:22 end:28:23:
-                          vpiParent: MethodFuncCall name:f
+                          vpiParent: SubroutineCall name:f
                           vpiName: f
                         vpiArgument (1 items):
                           Constant start:28:24 end:28:25:
-                            vpiParent: MethodFuncCall name:f
+                            vpiParent: SubroutineCall name:f
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.blk.f(0)
+                              vpiFullName: work@top.blk.f(0).f
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-              SysFuncCall name:$display start:29:9 end:29:25:
+              SysTaskCall name:$display start:29:9 end:29:25:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:29:9 end:29:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:i.f(0) start:29:18 end:29:23:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: i.f(0)
                     vpiFullName: work@top.i.f(0)
                     vpiPathElem (2 items):
@@ -488,30 +488,30 @@ Design name:unnamed:
                         vpiParent: HierPath name:i.f(0)
                         vpiName: i
                         vpiFullName: work@top.i
-                      MethodFuncCall name:f start:29:20 end:29:24:
+                      SubroutineCall name:f start:29:20 end:29:24:
                         vpiParent: HierPath name:i.f(0)
                         vpiName Identifier name:f start:29:20 end:29:21:
-                          vpiParent: MethodFuncCall name:f
+                          vpiParent: SubroutineCall name:f
                           vpiName: f
                         vpiArgument (1 items):
                           Constant start:29:22 end:29:23:
-                            vpiParent: MethodFuncCall name:f
+                            vpiParent: SubroutineCall name:f
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.i.f(0)
+                              vpiFullName: work@top.i.f(0).f
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-              SysFuncCall name:$display start:30:9 end:30:29:
+              SysTaskCall name:$display start:30:9 end:30:29:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:30:9 end:30:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:i.blk.f(0) start:30:18 end:30:27:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: i.blk.f(0)
                     vpiFullName: work@top.i.blk.f(0)
                     vpiPathElem (3 items):
@@ -523,30 +523,30 @@ Design name:unnamed:
                         vpiParent: HierPath name:i.blk.f(0)
                         vpiName: blk
                         vpiFullName: work@top.blk
-                      MethodFuncCall name:f start:30:24 end:30:28:
+                      SubroutineCall name:f start:30:24 end:30:28:
                         vpiParent: HierPath name:i.blk.f(0)
                         vpiName Identifier name:f start:30:24 end:30:25:
-                          vpiParent: MethodFuncCall name:f
+                          vpiParent: SubroutineCall name:f
                           vpiName: f
                         vpiArgument (1 items):
                           Constant start:30:26 end:30:27:
-                            vpiParent: MethodFuncCall name:f
+                            vpiParent: SubroutineCall name:f
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.i.blk.f(0)
+                              vpiFullName: work@top.i.blk.f(0).f
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-              SysFuncCall name:$display start:31:9 end:31:28:
+              SysTaskCall name:$display start:31:9 end:31:28:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:31:9 end:31:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:top.f3(0) start:31:18 end:31:26:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: top.f3(0)
                     vpiFullName: work@top.top.f3(0)
                     vpiPathElem (2 items):
@@ -555,30 +555,30 @@ Design name:unnamed:
                         vpiName: top
                         vpiFullName: work@top.top
                         vpiActual: Module name:work@top
-                      MethodFuncCall name:f3 start:31:22 end:31:27:
+                      SubroutineCall name:f3 start:31:22 end:31:27:
                         vpiParent: HierPath name:top.f3(0)
                         vpiName Identifier name:f3 start:31:22 end:31:24:
-                          vpiParent: MethodFuncCall name:f3
+                          vpiParent: SubroutineCall name:f3
                           vpiName: f3
                         vpiArgument (1 items):
                           Constant start:31:25 end:31:26:
-                            vpiParent: MethodFuncCall name:f3
+                            vpiParent: SubroutineCall name:f3
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.top.f3(0)
+                              vpiFullName: work@top.top.f3(0).f3
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-              SysFuncCall name:$display start:32:9 end:32:31:
+              SysTaskCall name:$display start:32:9 end:32:31:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:32:9 end:32:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:top.blk.f(0) start:32:18 end:32:29:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: top.blk.f(0)
                     vpiFullName: work@top.top.blk.f(0)
                     vpiPathElem (3 items):
@@ -591,30 +591,30 @@ Design name:unnamed:
                         vpiParent: HierPath name:top.blk.f(0)
                         vpiName: blk
                         vpiFullName: work@top.blk
-                      MethodFuncCall name:f start:32:26 end:32:30:
+                      SubroutineCall name:f start:32:26 end:32:30:
                         vpiParent: HierPath name:top.blk.f(0)
                         vpiName Identifier name:f start:32:26 end:32:27:
-                          vpiParent: MethodFuncCall name:f
+                          vpiParent: SubroutineCall name:f
                           vpiName: f
                         vpiArgument (1 items):
                           Constant start:32:28 end:32:29:
-                            vpiParent: MethodFuncCall name:f
+                            vpiParent: SubroutineCall name:f
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.top.blk.f(0)
+                              vpiFullName: work@top.top.blk.f(0).f
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-              SysFuncCall name:$display start:33:9 end:33:29:
+              SysTaskCall name:$display start:33:9 end:33:29:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:33:9 end:33:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:top.i.f(0) start:33:18 end:33:27:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: top.i.f(0)
                     vpiFullName: work@top.top.i.f(0)
                     vpiPathElem (3 items):
@@ -627,30 +627,30 @@ Design name:unnamed:
                         vpiParent: HierPath name:top.i.f(0)
                         vpiName: i
                         vpiFullName: work@top.i
-                      MethodFuncCall name:f start:33:24 end:33:28:
+                      SubroutineCall name:f start:33:24 end:33:28:
                         vpiParent: HierPath name:top.i.f(0)
                         vpiName Identifier name:f start:33:24 end:33:25:
-                          vpiParent: MethodFuncCall name:f
+                          vpiParent: SubroutineCall name:f
                           vpiName: f
                         vpiArgument (1 items):
                           Constant start:33:26 end:33:27:
-                            vpiParent: MethodFuncCall name:f
+                            vpiParent: SubroutineCall name:f
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.top.i.f(0)
+                              vpiFullName: work@top.top.i.f(0).f
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
-              SysFuncCall name:$display start:34:9 end:34:33:
+              SysTaskCall name:$display start:34:9 end:34:33:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:34:9 end:34:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:top.i.blk.f(0) start:34:18 end:34:31:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: top.i.blk.f(0)
                     vpiFullName: work@top.top.i.blk.f(0)
                     vpiPathElem (4 items):
@@ -667,17 +667,17 @@ Design name:unnamed:
                         vpiParent: HierPath name:top.i.blk.f(0)
                         vpiName: blk
                         vpiFullName: work@top.blk
-                      MethodFuncCall name:f start:34:28 end:34:32:
+                      SubroutineCall name:f start:34:28 end:34:32:
                         vpiParent: HierPath name:top.i.blk.f(0)
                         vpiName Identifier name:f start:34:28 end:34:29:
-                          vpiParent: MethodFuncCall name:f
+                          vpiParent: SubroutineCall name:f
                           vpiName: f
                         vpiArgument (1 items):
                           Constant start:34:30 end:34:31:
-                            vpiParent: MethodFuncCall name:f
+                            vpiParent: SubroutineCall name:f
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.top.i.blk.f(0)
+                              vpiFullName: work@top.top.i.blk.f(0).f
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64

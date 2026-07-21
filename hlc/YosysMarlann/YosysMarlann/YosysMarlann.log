@@ -13,11 +13,12 @@ COMMAND: -wd ../../../tests/YosysMarlann +incdir+. -writepp -fileunit marlann_co
 [INF:PA0201] Parsing source file "$Source01/marlann_compute.v".
 [INF:CP0303] $Source01/marlann_compute.v:18:1: Compile module "work@marlann_compute".
 [INF:CP0303] $Source01/marlann_compute.v:545:1: Compile module "work@marlann_compute_mul2".
+[ERR:EL0535] $Source01/marlann_compute.v:366:4: Illegal implicit net "id:3026, name:A".
+[ERR:EL0535] $Source01/marlann_compute.v:367:4: Illegal implicit net "id:3029, name:B".
+[ERR:EL0535] $Source01/marlann_compute.v:368:4: Illegal implicit net "id:3032, name:X".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/marlann_compute.v:18:1: No timescale set for "work@marlann_compute".
 [WRN:PA0205] $Source01/marlann_compute.v:545:1: No timescale set for "work@marlann_compute_mul2".
-[ERR:EL0535] $Source01/marlann_compute.v:366:4: Illegal implicit net "id:2413, name:A".
-[ERR:EL0535] $Source01/marlann_compute.v:367:4: Illegal implicit net "id:2416, name:B".
-[ERR:EL0535] $Source01/marlann_compute.v:368:4: Illegal implicit net "id:2419, name:X".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1594,6 +1595,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1811,6 +1813,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1889,6 +1892,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -15306,15 +15310,21 @@ Design name:unnamed:
                 vpiFullName: work@marlann_compute_mul2.r3A
                 vpiActual: Net name:r3A
   vpiTypespec (11 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -15343,17 +15353,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@marlann_compute_mul2
         vpiName: work@marlann_compute_mul2
       vpiModule: Module name:work@marlann_compute_mul2
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

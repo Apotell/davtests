@@ -13,6 +13,7 @@ COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writ
 [INF:CP0303] $Source01/top.sv:2:1: Compile module "work@sram".
 [INF:CP0303] $Source01/top.sv:74:1: Compile module "work@sram".
 [WRN:CP0334] Colliding compilation unit name: "work@sram".
+[WRN:PA0205] No timescale set for "builtin".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1591,6 +1592,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1808,6 +1810,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1886,6 +1889,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2560,19 +2564,19 @@ Design name:unnamed:
                                         vpiName: WRB
                                         vpiFullName: work@sram.WRB
                                         vpiActual: Net name:WRB
-                            SysFuncCall name:$display start:35:9 end:35:64:
+                            SysTaskCall name:$display start:35:9 end:35:64:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:35:9 end:35:17:
-                                vpiParent: SysFuncCall name:$display
+                                vpiParent: SysTaskCall name:$display
                                 vpiName: "$display"
                               vpiArgument (4 items):
                                 SysTaskCall name:$time start:35:18 end:35:23:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiName Identifier name:$time start:35:18 end:35:23:
                                     vpiParent: SysTaskCall name:$time
                                     vpiName: "$time"
                                 Constant start:35:24 end:35:53:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
                                     vpiFullName: work@sram
@@ -2582,12 +2586,12 @@ Design name:unnamed:
                                   vpiDecompile: "\" Writing %m ABUS=%h DATA=%h\""
                                   vpiValue: Writing %m ABUS=%h DATA=%h
                                 RefObj name:ABUS start:35:54 end:35:58:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiName: ABUS
                                   vpiFullName: work@sram.ABUS
                                   vpiActual: Net name:ABUS
                                 RefObj name:DBUS start:35:59 end:35:63:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiName: DBUS
                                   vpiFullName: work@sram.DBUS
                                   vpiActual: Net name:DBUS
@@ -2672,19 +2676,19 @@ Design name:unnamed:
                                   vpiSize: 32
                                   vpiDecompile: "10"
                                   vpiValue: 10
-                              SysFuncCall name:$display start:41:9 end:41:71:
+                              SysTaskCall name:$display start:41:9 end:41:71:
                                 vpiParent: Begin
                                 vpiName Identifier name:$display start:41:9 end:41:17:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiName: "$display"
                                 vpiArgument (4 items):
                                   SysTaskCall name:$time start:41:18 end:41:23:
-                                    vpiParent: SysFuncCall name:$display
+                                    vpiParent: SysTaskCall name:$display
                                     vpiName Identifier name:$time start:41:18 end:41:23:
                                       vpiParent: SysTaskCall name:$time
                                       vpiName: "$time"
                                   Constant start:41:24 end:41:53:
-                                    vpiParent: SysFuncCall name:$display
+                                    vpiParent: SysTaskCall name:$display
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
                                       vpiFullName: work@sram
@@ -2694,12 +2698,12 @@ Design name:unnamed:
                                     vpiDecompile: "\" Reading %m ABUS=%h DATA=%h\""
                                     vpiValue: Reading %m ABUS=%h DATA=%h
                                   RefObj name:ABUS start:41:54 end:41:58:
-                                    vpiParent: SysFuncCall name:$display
+                                    vpiParent: SysTaskCall name:$display
                                     vpiName: ABUS
                                     vpiFullName: work@sram.ABUS
                                     vpiActual: Net name:ABUS
                                   RefObj name:DBUS_driver start:41:59 end:41:70:
-                                    vpiParent: SysFuncCall name:$display
+                                    vpiParent: SysTaskCall name:$display
                                     vpiName: DBUS_driver
                                     vpiFullName: work@sram.DBUS_driver
                                     vpiActual: Net name:DBUS_driver
@@ -2929,15 +2933,21 @@ Design name:unnamed:
             vpiFullName: work@sram.DBUS
             vpiActual: LogicTypespec
   vpiTypespec (10 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2958,23 +2968,17 @@ Design name:unnamed:
       vpiModule: Module name:work@sram
     LogicTypespec:
       vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:work@sram:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@sram start:74:8 end:74:12:
         vpiParent: ModuleTypespec name:work@sram
         vpiName: work@sram
       vpiModule: Module name:work@sram
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

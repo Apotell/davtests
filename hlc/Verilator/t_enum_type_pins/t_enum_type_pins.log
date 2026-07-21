@@ -657,11 +657,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_enum_type_pins.v:47:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_enum_type_pins.v:70:1: Compile module "work@test".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_enum_type_pins.v:78:31: Illegal implicit net "id:368, name:num".
-[ERR:EL0535] $Source01/t_enum_type_pins.v:86:13: Illegal implicit net "id:382, name:first".
-[ERR:EL0535] $Source01/t_enum_type_pins.v:89:20: Illegal implicit net "id:391, name:prev".
-[ERR:EL0535] $Source01/t_enum_type_pins.v:95:14: Illegal implicit net "id:396, name:last".
-[ERR:EL0535] $Source01/t_enum_type_pins.v:99:12: Illegal implicit net "id:404, name:next".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -777,14 +772,14 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiFullName: work@t
               vpiStmt (2 items):
-                SysFuncCall name:$write start:63:7 end:63:39:
+                SysTaskCall name:$write start:63:7 end:63:39:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:63:7 end:63:13:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiName: "$write"
                   vpiArgument (1 items):
                     Constant start:63:14 end:63:38:
-                      vpiParent: SysFuncCall name:$write
+                      vpiParent: SysTaskCall name:$write
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: work@t
@@ -793,10 +788,10 @@ Design name:unnamed:
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
-                SysFuncCall name:$finish start:64:7 end:64:14:
+                SysTaskCall name:$finish start:64:7 end:64:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:64:7 end:64:14:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
@@ -888,10 +883,11 @@ Design name:unnamed:
                   vpiName: e
                   vpiFullName: work@test.myarray1.new[e.num].e
                   vpiActual: Net name:e
-                RefObj name:num start:78:31 end:78:34:
+                MethodFuncCall name:num start:78:31 end:78:34:
                   vpiParent: HierPath name:e.num
-                  vpiName: num
-                  vpiFullName: work@test.myarray1.new[e.num].num
+                  vpiName Identifier name:num start:78:31 end:78:34:
+                    vpiParent: MethodFuncCall name:num
+                    vpiName: num
       vpiPort (1 items):
         Port name:clk start:72:4 end:72:7:
           vpiParent: Module name:work@test
@@ -942,10 +938,11 @@ Design name:unnamed:
                         vpiName: e
                         vpiFullName: work@test.e
                         vpiActual: Net name:e
-                      RefObj name:first start:86:13 end:86:18:
+                      MethodFuncCall name:first start:86:13 end:86:18:
                         vpiParent: HierPath name:e.first
-                        vpiName: first
-                        vpiFullName: work@test.first
+                        vpiName Identifier name:first start:86:13 end:86:18:
+                          vpiParent: MethodFuncCall name:first
+                          vpiName: first
                 ForeverStmt start:88:7 end:101:10:
                   vpiParent: Begin
                   vpiStmt Begin start:88:15 end:101:10:
@@ -978,10 +975,11 @@ Design name:unnamed:
                               vpiName: e
                               vpiFullName: work@test.e
                               vpiActual: Net name:e
-                            RefObj name:prev start:89:20 end:89:24:
+                            MethodFuncCall name:prev start:89:20 end:89:24:
                               vpiParent: HierPath name:e.prev
-                              vpiName: prev
-                              vpiFullName: work@test.prev
+                              vpiName Identifier name:prev start:89:20 end:89:24:
+                                vpiParent: MethodFuncCall name:prev
+                                vpiName: prev
                       IfElse start:95:3 end:100:6:
                         vpiParent: Begin
                         vpiCondition Operation start:95:7 end:95:18:
@@ -1003,10 +1001,11 @@ Design name:unnamed:
                                   vpiName: e
                                   vpiFullName: work@test.e
                                   vpiActual: Net name:e
-                                RefObj name:last start:95:14 end:95:18:
+                                MethodFuncCall name:last start:95:14 end:95:18:
                                   vpiParent: HierPath name:e.last
-                                  vpiName: last
-                                  vpiFullName: work@test.last
+                                  vpiName Identifier name:last start:95:14 end:95:18:
+                                    vpiParent: MethodFuncCall name:last
+                                    vpiName: last
                         vpiStmt Begin start:95:20 end:97:6:
                           vpiParent: IfElse
                           vpiFullName: work@test
@@ -1035,10 +1034,11 @@ Design name:unnamed:
                                     vpiName: e
                                     vpiFullName: work@test.e
                                     vpiActual: Net name:e
-                                  RefObj name:next start:99:12 end:99:16:
+                                  MethodFuncCall name:next start:99:12 end:99:16:
                                     vpiParent: HierPath name:e.next
-                                    vpiName: next
-                                    vpiFullName: work@test.next
+                                    vpiName Identifier name:next start:99:12 end:99:16:
+                                      vpiParent: MethodFuncCall name:next
+                                      vpiName: next
           vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     IntTypespec:
@@ -1821,7 +1821,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1866,7 +1866,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_type_pins/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             399     399       0         0
+Others                             404     404       0         0
 ----------------------------------------------------------------
-                                   399     399       0         0
+                                   404     404       0         0
 ===================== END REDUCTION RESULT =====================

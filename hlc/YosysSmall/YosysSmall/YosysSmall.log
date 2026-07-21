@@ -33,6 +33,7 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [INF:CP0303] $Source01/pwm256.v:6:1: Compile module "work@pwm256".
 [WRN:CP0334] Colliding compilation unit name: "work@tb".
 [WRN:CP0334] Colliding compilation unit name: "work@tb".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/cic5_tb.v:8:1: No timescale set for "work@tb".
 [WRN:PA0205] $Source01/cic5.v:6:1: No timescale set for "work@cic5".
 [WRN:PA0205] $Source01/crc32.v:8:1: No timescale set for "work@crc32".
@@ -1651,6 +1652,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1868,6 +1870,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1946,6 +1949,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2257,14 +2261,14 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin
             vpiStmt (6 items):
-              SysFuncCall name:$dumpfile start:24:5 end:24:29:
+              SysTaskCall name:$dumpfile start:24:5 end:24:29:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:24:5 end:24:14:
-                  vpiParent: SysFuncCall name:$dumpfile
+                  vpiParent: SysTaskCall name:$dumpfile
                   vpiName: "$dumpfile"
                 vpiArgument (1 items):
                   Constant start:24:15 end:24:28:
-                    vpiParent: SysFuncCall name:$dumpfile
+                    vpiParent: SysTaskCall name:$dumpfile
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@tb
@@ -2273,10 +2277,10 @@ Design name:unnamed:
                     vpiSize: 88
                     vpiDecompile: "\"cic5_tb.vcd\""
                     vpiValue: cic5_tb.vcd
-              SysFuncCall name:$dumpvars start:25:5 end:25:14:
+              SysTaskCall name:$dumpvars start:25:5 end:25:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:25:5 end:25:14:
-                  vpiParent: SysFuncCall name:$dumpvars
+                  vpiParent: SysTaskCall name:$dumpvars
                   vpiName: "$dumpvars"
               Assignment start:26:5 end:26:25:
                 vpiParent: Begin
@@ -2360,10 +2364,10 @@ Design name:unnamed:
                   vpiValue: 60
               DelayControl start:29:5 end:29:17:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:29:9 end:29:16:
+                vpiStmt SysTaskCall name:$finish start:29:9 end:29:16:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:29:9 end:29:16:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:29:6 end:29:8:
                   vpiParent: DelayControl
@@ -12292,14 +12296,14 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin
             vpiStmt (11 items):
-              SysFuncCall name:$dumpfile start:23:5 end:23:37:
+              SysTaskCall name:$dumpfile start:23:5 end:23:37:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:23:5 end:23:14:
-                  vpiParent: SysFuncCall name:$dumpfile
+                  vpiParent: SysTaskCall name:$dumpfile
                   vpiName: "$dumpfile"
                 vpiArgument (1 items):
                   Constant start:23:15 end:23:36:
-                    vpiParent: SysFuncCall name:$dumpfile
+                    vpiParent: SysTaskCall name:$dumpfile
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@tb
@@ -12308,10 +12312,10 @@ Design name:unnamed:
                     vpiSize: 152
                     vpiDecompile: "\"dspmac_16_40_tb.vcd\""
                     vpiValue: dspmac_16_40_tb.vcd
-              SysFuncCall name:$dumpvars start:24:5 end:24:14:
+              SysTaskCall name:$dumpvars start:24:5 end:24:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:24:5 end:24:14:
-                  vpiParent: SysFuncCall name:$dumpvars
+                  vpiParent: SysTaskCall name:$dumpvars
                   vpiName: "$dumpvars"
               Assignment start:26:5 end:26:19:
                 vpiParent: Begin
@@ -12507,10 +12511,10 @@ Design name:unnamed:
                   vpiValue: 2
               DelayControl start:35:5 end:35:16:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:35:8 end:35:15:
+                vpiStmt SysTaskCall name:$finish start:35:8 end:35:15:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:35:8 end:35:15:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:35:6 end:35:7:
                   vpiParent: DelayControl
@@ -12972,14 +12976,14 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin
             vpiStmt (6 items):
-              SysFuncCall name:$dumpfile start:21:5 end:21:31:
+              SysTaskCall name:$dumpfile start:21:5 end:21:31:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:21:5 end:21:14:
-                  vpiParent: SysFuncCall name:$dumpfile
+                  vpiParent: SysTaskCall name:$dumpfile
                   vpiName: "$dumpfile"
                 vpiArgument (1 items):
                   Constant start:21:15 end:21:30:
-                    vpiParent: SysFuncCall name:$dumpfile
+                    vpiParent: SysTaskCall name:$dumpfile
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@tb
@@ -12988,10 +12992,10 @@ Design name:unnamed:
                     vpiSize: 104
                     vpiDecompile: "\"pwm256_tb.vcd\""
                     vpiValue: pwm256_tb.vcd
-              SysFuncCall name:$dumpvars start:22:5 end:22:14:
+              SysTaskCall name:$dumpvars start:22:5 end:22:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:22:5 end:22:14:
-                  vpiParent: SysFuncCall name:$dumpvars
+                  vpiParent: SysTaskCall name:$dumpvars
                   vpiName: "$dumpvars"
               DelayControl start:24:5 end:24:21:
                 vpiParent: Begin
@@ -13085,10 +13089,10 @@ Design name:unnamed:
                   vpiValue: 1028
               DelayControl start:27:5 end:27:19:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:27:11 end:27:18:
+                vpiStmt SysTaskCall name:$finish start:27:11 end:27:18:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:27:11 end:27:18:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:27:6 end:27:10:
                   vpiParent: DelayControl
@@ -13495,15 +13499,21 @@ Design name:unnamed:
                             vpiValue: "0"
           vpiAlwaysType: always (1)
   vpiTypespec (16 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -13522,8 +13532,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@tb
         vpiName: work@tb
       vpiModule: Module name:work@tb
-    StringTypespec:
-      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:work@cic5:
@@ -13564,15 +13572,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@pwm256
         vpiName: work@pwm256
       vpiModule: Module name:work@pwm256
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 9
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
