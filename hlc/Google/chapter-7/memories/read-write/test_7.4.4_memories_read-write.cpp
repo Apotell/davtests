@@ -188,7 +188,7 @@ TEST_F(MemoriesReadWriteTest, ThirdStmtAssignsFiveToMemFive) {
 TEST_F(MemoriesReadWriteTest, FourthStmtDisplaysMemFiveExpectingFive) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
