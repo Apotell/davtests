@@ -417,6 +417,7 @@ n<$Source01/dut.sv> u<140> t<Top_level_rule> c<1> l<1:1> el<12:1>
         n<> u<136> t<ENDMODULE> p<137> l<11:1> el<11:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
 ====== HLDB =======
 Design name:unnamed:
@@ -1994,6 +1995,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2211,6 +2213,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2289,6 +2292,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2511,22 +2515,22 @@ Design name:unnamed:
                   vpiParent: ForStmt
                   vpiFullName: work@top.foo
                   vpiStmt (1 items):
-                    FuncCall name:f2 start:4:10 end:4:17:
+                    SubroutineCall name:f2 start:4:10 end:4:17:
                       vpiParent: Begin
                       vpiName Identifier name:f2 start:4:10 end:4:12:
-                        vpiParent: FuncCall name:f2
+                        vpiParent: SubroutineCall name:f2
                         vpiName: f2
                       vpiArgument (2 items):
                         RefObj name:i start:4:13 end:4:14:
-                          vpiParent: FuncCall name:f2
+                          vpiParent: SubroutineCall name:f2
                           vpiName: i
-                          vpiFullName: work@top.foo.i
+                          vpiFullName: work@top.foo.f2.i
                           vpiActual: Variable name:i
                         Constant start:4:15 end:4:16:
-                          vpiParent: FuncCall name:f2
+                          vpiParent: SubroutineCall name:f2
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@top.foo
+                            vpiFullName: work@top.foo.f2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -2591,22 +2595,22 @@ Design name:unnamed:
                   vpiParent: ForStmt
                   vpiFullName: work@top.foo
                   vpiStmt (1 items):
-                    FuncCall name:f2 start:7:10 end:7:17:
+                    SubroutineCall name:f2 start:7:10 end:7:17:
                       vpiParent: Begin
                       vpiName Identifier name:f2 start:7:10 end:7:12:
-                        vpiParent: FuncCall name:f2
+                        vpiParent: SubroutineCall name:f2
                         vpiName: f2
                       vpiArgument (2 items):
                         RefObj name:j start:7:13 end:7:14:
-                          vpiParent: FuncCall name:f2
+                          vpiParent: SubroutineCall name:f2
                           vpiName: j
-                          vpiFullName: work@top.foo.j
+                          vpiFullName: work@top.foo.f2.j
                           vpiActual: Variable name:j
                         Constant start:7:15 end:7:16:
-                          vpiParent: FuncCall name:f2
+                          vpiParent: SubroutineCall name:f2
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@top.foo
+                            vpiFullName: work@top.foo.f2
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -2617,15 +2621,21 @@ Design name:unnamed:
             vpiFullName: work@top.foo
             vpiActual: LogicTypespec
   vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2644,17 +2654,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

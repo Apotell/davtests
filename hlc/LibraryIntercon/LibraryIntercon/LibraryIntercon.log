@@ -38,12 +38,13 @@ LIB: logicLib
 [INF:CP0303] $Source01/cmp.sv:2:1: Compile module "logicLib@cmp".
 [INF:CP0303] $Source01/driver.sv:2:1: Compile module "logicLib@driver".
 [INF:CP0303] $Source01/top.sv:1:1: Compile module "logicLib@top".
+[ERR:EL0535] $Source01/top.sv:5:25: Illegal implicit net "id:1203, name:aBus".
+[ERR:EL0535] $Source01/top.sv:7:19: Illegal implicit net "id:1219, name:aBus".
+[ERR:EL0535] $Source01/top.sv:7:24: Illegal implicit net "id:1222, name:rst".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/nets.pkg:1:1: No timescale set for "work@NetsPkg".
 [WRN:PA0205] $Source01/cmp.sv:2:1: No timescale set for "logicLib@cmp".
 [WRN:PA0205] $Source01/top.sv:1:1: No timescale set for "logicLib@top".
-[ERR:EL0535] $Source01/top.sv:5:25: Illegal implicit net "id:590, name:aBus".
-[ERR:EL0535] $Source01/top.sv:7:19: Illegal implicit net "id:606, name:aBus".
-[ERR:EL0535] $Source01/top.sv:7:24: Illegal implicit net "id:609, name:rst".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -79,32 +80,6 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/logicLib/top.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@NetsPkg file:$Source01/nets.pkg start:1:1 end:5:21:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@NetsPkg start:1:9 end:1:16:
-        vpiParent: Package name:work@NetsPkg
-        vpiName: work@NetsPkg
-      vpiFullName: work@NetsPkg
-      vpiTypespec (1 items):
-        TypedefTypespec name:realNet start:3:1 end:3:22:
-          vpiParent: Package name:work@NetsPkg
-          vpiName Identifier name:realNet start:3:14 end:3:21:
-            vpiParent: TypedefTypespec name:realNet
-            vpiName: realNet
-          vpiTypedefAlias RefTypespec start:3:9 end:3:13:
-            vpiParent: TypedefTypespec name:realNet
-            vpiFullName: work@NetsPkg::realNet
-            vpiActual: RealTypespec
-      vpiDefName: work@NetsPkg
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@NetsPkg
-        vpiName: work
-        vpiFullName: work@NetsPkg::work
-      vpiCell: NetsPkg
-      vpiEndLabel Identifier name:NetsPkg start:5:14 end:5:21:
-        vpiParent: Package name:work@NetsPkg
-        vpiName: NetsPkg
     Package name:builtin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin:
@@ -1657,6 +1632,32 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
+    Package name:work@NetsPkg file:$Source01/nets.pkg start:1:1 end:5:21:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@NetsPkg start:1:9 end:1:16:
+        vpiParent: Package name:work@NetsPkg
+        vpiName: work@NetsPkg
+      vpiFullName: work@NetsPkg
+      vpiTypespec (1 items):
+        TypedefTypespec name:realNet start:3:1 end:3:22:
+          vpiParent: Package name:work@NetsPkg
+          vpiName Identifier name:realNet start:3:14 end:3:21:
+            vpiParent: TypedefTypespec name:realNet
+            vpiName: realNet
+          vpiTypedefAlias RefTypespec start:3:9 end:3:13:
+            vpiParent: TypedefTypespec name:realNet
+            vpiFullName: work@NetsPkg::realNet
+            vpiActual: RealTypespec
+      vpiDefName: work@NetsPkg
+      vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@NetsPkg
+        vpiName: work
+        vpiFullName: work@NetsPkg::work
+      vpiCell: NetsPkg
+      vpiEndLabel Identifier name:NetsPkg start:5:14 end:5:21:
+        vpiParent: Package name:work@NetsPkg
+        vpiName: NetsPkg
   vpiAllClasses (3 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
@@ -1671,6 +1672,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1888,6 +1890,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1966,6 +1969,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3665,15 +3669,21 @@ Design name:unnamed:
         vpiParent: Module name:logicLib@top
         vpiName: top
   vpiTypespec (12 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3686,8 +3696,6 @@ Design name:unnamed:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    RealTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:realLib@cmp:
       vpiParent: Design name:unnamed
       vpiName Identifier name:realLib@cmp start:3:2 end:3:5:
@@ -3718,10 +3726,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:logicLib@top
         vpiName: logicLib@top
       vpiModule: Module name:logicLib@top
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
   vpiLibrary (3 items):
     Library name:realLib:
       vpiParent: Design name:unnamed
@@ -3803,7 +3807,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -1201,7 +1201,6 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/t_type_param.v:93:41: Compile generate block "gen_m".
 [WRN:CP0323] $Source01/t_type_param.v:23:1: Multiply defined typedef "work@foo".
 [WRN:CP0323] $Source01/t_type_param.v:23:1: Multiply defined typedef "work@foo".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_type_param.v:7:26: Illegal implicit net "id:16, name:logic".
 [ERR:EL0535] $Source01/t_type_param.v:19:16: Illegal implicit net "id:64, name:logic".
 [ERR:EL0535] $Source01/t_type_param.v:19:11: Illegal implicit net "id:66, name:bar".
@@ -1232,6 +1231,7 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/t_type_param.v:102:25: Illegal implicit net "id:420, name:logic".
 [ERR:EL0535] $Source01/t_type_param.v:102:20: Illegal implicit net "id:422, name:bar".
 [ERR:EL0535] $Source01/t_type_param.v:102:51: Illegal implicit net "id:424, name:bar_size".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1769,14 +1769,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:50:11 end:51:47:
+                    SysTaskCall name:$display start:50:11 end:51:47:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:11 end:50:19:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:50:20 end:50:74:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -1786,7 +1786,7 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bits of qux1 != bits of foo_inst1.baz (%0d, %0d)\""
                           vpiValue: "%m: bits of qux1 != bits of foo_inst1.baz (%0d, %0d)"
                         SysFuncCall name:$bits start:51:20 end:51:31:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:51:20 end:51:25:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -1797,7 +1797,7 @@ Design name:unnamed:
                               vpiFullName: work@t.qux1
                               vpiActual: Net name:qux1
                         HierPath name:foo_inst1.baz start:51:33 end:51:46:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: foo_inst1.baz
                           vpiFullName: work@t.foo_inst1.baz
                           vpiPathElem (2 items):
@@ -1810,10 +1810,10 @@ Design name:unnamed:
                               vpiParent: HierPath name:foo_inst1.baz
                               vpiName: baz
                               vpiFullName: work@t.baz
-                    SysFuncCall name:$stop start:52:11 end:52:18:
+                    SysTaskCall name:$stop start:52:11 end:52:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:52:11 end:52:16:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:54:8 end:58:11:
                 vpiParent: Begin
@@ -1850,14 +1850,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:55:11 end:56:47:
+                    SysTaskCall name:$display start:55:11 end:56:47:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:55:11 end:55:19:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:55:20 end:55:74:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -1867,7 +1867,7 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bits of qux2 != bits of foo_inst2.baz (%0d, %0d)\""
                           vpiValue: "%m: bits of qux2 != bits of foo_inst2.baz (%0d, %0d)"
                         SysFuncCall name:$bits start:56:20 end:56:31:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:56:20 end:56:25:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -1878,7 +1878,7 @@ Design name:unnamed:
                               vpiFullName: work@t.qux2
                               vpiActual: Net name:qux2
                         HierPath name:foo_inst2.baz start:56:33 end:56:46:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: foo_inst2.baz
                           vpiFullName: work@t.foo_inst2.baz
                           vpiPathElem (2 items):
@@ -1891,10 +1891,10 @@ Design name:unnamed:
                               vpiParent: HierPath name:foo_inst2.baz
                               vpiName: baz
                               vpiFullName: work@t.baz
-                    SysFuncCall name:$stop start:57:11 end:57:18:
+                    SysTaskCall name:$stop start:57:11 end:57:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:57:11 end:57:16:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:59:8 end:63:11:
                 vpiParent: Begin
@@ -1931,14 +1931,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:60:11 end:61:47:
+                    SysTaskCall name:$display start:60:11 end:61:47:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:60:11 end:60:19:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:60:20 end:60:74:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -1948,7 +1948,7 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bits of qux3 != bits of foo_inst3.baz (%0d, %0d)\""
                           vpiValue: "%m: bits of qux3 != bits of foo_inst3.baz (%0d, %0d)"
                         SysFuncCall name:$bits start:61:20 end:61:31:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:61:20 end:61:25:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -1959,7 +1959,7 @@ Design name:unnamed:
                               vpiFullName: work@t.qux3
                               vpiActual: Net name:qux3
                         HierPath name:foo_inst3.baz start:61:33 end:61:46:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: foo_inst3.baz
                           vpiFullName: work@t.foo_inst3.baz
                           vpiPathElem (2 items):
@@ -1972,10 +1972,10 @@ Design name:unnamed:
                               vpiParent: HierPath name:foo_inst3.baz
                               vpiName: baz
                               vpiFullName: work@t.baz
-                    SysFuncCall name:$stop start:62:11 end:62:18:
+                    SysTaskCall name:$stop start:62:11 end:62:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:62:11 end:62:16:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:64:8 end:68:11:
                 vpiParent: Begin
@@ -2010,14 +2010,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:65:11 end:66:60:
+                    SysTaskCall name:$display start:65:11 end:66:60:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:65:11 end:65:19:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:65:20 end:65:86:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -2027,12 +2027,12 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bar_bits != bits of foo_wrapper_inst.foo_inst.baz (%0d, %0d)\""
                           vpiValue: "%m: bar_bits != bits of foo_wrapper_inst.foo_inst.baz (%0d, %0d)"
                         RefObj name:bar_bits start:66:20 end:66:28:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: bar_bits
                           vpiFullName: work@t.bar_bits
                           vpiActual: Parameter name:bar_bits
                         HierPath name:foo_wrapper_inst.foo_inst.baz start:66:30 end:66:59:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: foo_wrapper_inst.foo_inst.baz
                           vpiFullName: work@t.foo_wrapper_inst.foo_inst.baz
                           vpiPathElem (3 items):
@@ -2049,10 +2049,10 @@ Design name:unnamed:
                               vpiParent: HierPath name:foo_wrapper_inst.foo_inst.baz
                               vpiName: baz
                               vpiFullName: work@t.baz
-                    SysFuncCall name:$stop start:67:11 end:67:18:
+                    SysTaskCall name:$stop start:67:11 end:67:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:67:11 end:67:16:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:69:7 end:73:10:
                 vpiParent: Begin
@@ -2080,14 +2080,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:70:10 end:71:41:
+                    SysTaskCall name:$display start:70:10 end:71:41:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:70:10 end:70:18:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:70:19 end:70:61:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -2097,12 +2097,12 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bar_size1 != bits of qux1 (%0d, %0d)\""
                           vpiValue: "%m: bar_size1 != bits of qux1 (%0d, %0d)"
                         RefObj name:bar_size1 start:71:18 end:71:27:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: bar_size1
                           vpiFullName: work@t.bar_size1
                           vpiActual: Net name:bar_size1
                         SysFuncCall name:$bits start:71:29 end:71:40:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:71:29 end:71:34:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -2112,10 +2112,10 @@ Design name:unnamed:
                               vpiName: qux1
                               vpiFullName: work@t.qux1
                               vpiActual: Net name:qux1
-                    SysFuncCall name:$stop start:72:10 end:72:17:
+                    SysTaskCall name:$stop start:72:10 end:72:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:72:10 end:72:15:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:74:7 end:78:10:
                 vpiParent: Begin
@@ -2143,14 +2143,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:75:10 end:76:41:
+                    SysTaskCall name:$display start:75:10 end:76:41:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:75:10 end:75:18:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:75:19 end:75:61:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -2160,12 +2160,12 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bar_size2 != bits of qux2 (%0d, %0d)\""
                           vpiValue: "%m: bar_size2 != bits of qux2 (%0d, %0d)"
                         RefObj name:bar_size2 start:76:18 end:76:27:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: bar_size2
                           vpiFullName: work@t.bar_size2
                           vpiActual: Net name:bar_size2
                         SysFuncCall name:$bits start:76:29 end:76:40:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:76:29 end:76:34:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -2175,10 +2175,10 @@ Design name:unnamed:
                               vpiName: qux2
                               vpiFullName: work@t.qux2
                               vpiActual: Net name:qux2
-                    SysFuncCall name:$stop start:77:10 end:77:17:
+                    SysTaskCall name:$stop start:77:10 end:77:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:77:10 end:77:15:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:79:7 end:83:10:
                 vpiParent: Begin
@@ -2206,14 +2206,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:80:10 end:81:41:
+                    SysTaskCall name:$display start:80:10 end:81:41:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:80:10 end:80:18:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:80:19 end:80:61:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -2223,12 +2223,12 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bar_size3 != bits of qux3 (%0d, %0d)\""
                           vpiValue: "%m: bar_size3 != bits of qux3 (%0d, %0d)"
                         RefObj name:bar_size3 start:81:18 end:81:27:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: bar_size3
                           vpiFullName: work@t.bar_size3
                           vpiActual: Net name:bar_size3
                         SysFuncCall name:$bits start:81:29 end:81:40:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName Identifier name:$bits start:81:29 end:81:34:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: "$bits"
@@ -2238,10 +2238,10 @@ Design name:unnamed:
                               vpiName: qux3
                               vpiFullName: work@t.qux3
                               vpiActual: Net name:qux3
-                    SysFuncCall name:$stop start:82:10 end:82:17:
+                    SysTaskCall name:$stop start:82:10 end:82:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:82:10 end:82:15:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
               IfStmt start:84:7 end:88:10:
                 vpiParent: Begin
@@ -2263,14 +2263,14 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: work@t
                   vpiStmt (2 items):
-                    SysFuncCall name:$display start:85:10 end:86:45:
+                    SysTaskCall name:$display start:85:10 end:86:45:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:85:10 end:85:18:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiName: "$display"
                       vpiArgument (3 items):
                         Constant start:85:19 end:85:64:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: work@t
@@ -2280,19 +2280,19 @@ Design name:unnamed:
                           vpiDecompile: "\"%m: bar_size_wrapper != bar_bits (%0d, %0d)\""
                           vpiValue: "%m: bar_size_wrapper != bar_bits (%0d, %0d)"
                         RefObj name:bar_size_wrapper start:86:18 end:86:34:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: bar_size_wrapper
                           vpiFullName: work@t.bar_size_wrapper
                           vpiActual: Net name:bar_size_wrapper
                         RefObj name:bar_bits start:86:36 end:86:44:
-                          vpiParent: SysFuncCall name:$display
+                          vpiParent: SysTaskCall name:$display
                           vpiName: bar_bits
                           vpiFullName: work@t.bar_bits
                           vpiActual: Parameter name:bar_bits
-                    SysFuncCall name:$stop start:87:10 end:87:17:
+                    SysTaskCall name:$stop start:87:10 end:87:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:87:10 end:87:15:
-                        vpiParent: SysFuncCall name:$stop
+                        vpiParent: SysTaskCall name:$stop
                         vpiName: "$stop"
         Initial start:106:4 end:109:7:
           vpiParent: Module name:work@t
@@ -2300,14 +2300,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@t
             vpiStmt (2 items):
-              SysFuncCall name:$write start:107:7 end:107:39:
+              SysTaskCall name:$write start:107:7 end:107:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:107:7 end:107:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:107:14 end:107:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@t
@@ -2316,10 +2316,10 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:108:7 end:108:14:
+              SysTaskCall name:$finish start:108:7 end:108:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:108:7 end:108:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
       vpiRefInstance (4 items):
         RefInstance name:foo_inst1 start:28:4 end:28:13:
@@ -2695,14 +2695,14 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiFullName: work@t.gen_m
                           vpiStmt (2 items):
-                            SysFuncCall name:$display start:96:20 end:97:45:
+                            SysTaskCall name:$display start:96:20 end:97:45:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:96:20 end:96:28:
-                                vpiParent: SysFuncCall name:$display
+                                vpiParent: SysTaskCall name:$display
                                 vpiName: "$display"
                               vpiArgument (3 items):
                                 Constant start:96:29 end:96:71:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
                                     vpiFullName: work@t.gen_m
@@ -2712,12 +2712,12 @@ Design name:unnamed:
                                   vpiDecompile: "\"%m: m != bits of foo_inst.baz (%0d, %0d)\""
                                   vpiValue: "%m: m != bits of foo_inst.baz (%0d, %0d)"
                                 RefObj name:m start:97:29 end:97:30:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiName: m
                                   vpiFullName: work@t.gen_m.m
                                   vpiActual: Variable name:m
                                 HierPath name:foo_inst.baz start:97:32 end:97:44:
-                                  vpiParent: SysFuncCall name:$display
+                                  vpiParent: SysTaskCall name:$display
                                   vpiName: foo_inst.baz
                                   vpiFullName: work@t.gen_m.foo_inst.baz
                                   vpiPathElem (2 items):
@@ -2729,10 +2729,10 @@ Design name:unnamed:
                                       vpiParent: HierPath name:foo_inst.baz
                                       vpiName: baz
                                       vpiFullName: work@t.gen_m.baz
-                            SysFuncCall name:$stop start:98:20 end:98:27:
+                            SysTaskCall name:$stop start:98:20 end:98:27:
                               vpiParent: Begin
                               vpiName Identifier name:$stop start:98:20 end:98:25:
-                                vpiParent: SysFuncCall name:$stop
+                                vpiParent: SysTaskCall name:$stop
                                 vpiName: "$stop"
                 RefInstance name:foo_inst start:102:40 end:102:48:
                   vpiParent: Begin name:gen_m

@@ -418,10 +418,11 @@ n<$Source01/dut.sv> u<140> t<Top_level_rule> c<1> l<1:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@test".
+[ERR:EL0535] $Source01/dut.sv:3:18: Illegal implicit net "id:760, name:Width".
+[ERR:EL0535] $Source01/dut.sv:4:18: Illegal implicit net "id:765, name:DataBitsPerMask".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@test".
-[ERR:EL0535] $Source01/dut.sv:3:18: Illegal implicit net "id:147, name:Width".
-[ERR:EL0535] $Source01/dut.sv:4:18: Illegal implicit net "id:152, name:DataBitsPerMask".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1998,6 +1999,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2215,6 +2217,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2293,6 +2296,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2637,15 +2641,21 @@ Design name:unnamed:
                     vpiFullName: work@test.u.work@G1
                     vpiActual: UnsupportedTypespec name:work@G1
   vpiTypespec (9 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2670,17 +2680,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@test
         vpiName: work@test
       vpiModule: Module name:work@test
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

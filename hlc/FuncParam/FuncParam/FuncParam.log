@@ -14,10 +14,11 @@ COMMAND: -wd ../../../tests/FuncParam dut.sv -fileunit -d db -mt 0 -mp 0 -d dbst
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@prim_lfsr".
 [INF:CP0303] $Source01/dut.sv:10:1: Compile module "work@aes_prng".
 [WRN:CP0323] $Source01/dut.sv:10:1: Multiply defined typedef "work@prim_lfsr".
+[ERR:EL0535] $Source01/dut.sv:12:8: Illegal implicit net "id:798, name:LfsrDw".
+[ERR:EL0535] $Source01/dut.sv:16:8: Illegal implicit net "id:807, name:LfsrDw".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@prim_lfsr".
 [WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "work@aes_prng".
-[ERR:EL0535] $Source01/dut.sv:12:8: Illegal implicit net "id:185, name:LfsrDw".
-[ERR:EL0535] $Source01/dut.sv:16:8: Illegal implicit net "id:194, name:LfsrDw".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1594,6 +1595,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1811,6 +1813,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1889,6 +1892,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2228,15 +2232,21 @@ Design name:unnamed:
                 vpiDecompile: "18"
                 vpiValue: 18
   vpiTypespec (10 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2263,17 +2273,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@aes_prng
         vpiName: work@aes_prng
       vpiModule: Module name:work@aes_prng
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

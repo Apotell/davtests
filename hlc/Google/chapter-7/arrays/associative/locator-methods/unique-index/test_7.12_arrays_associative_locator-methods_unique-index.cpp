@@ -325,7 +325,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, FirstDisplayFormatStringIsSizeAssert) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -340,7 +340,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
   const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);
@@ -365,7 +365,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, SecondDisplayFormatStringIsIndexAssert) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -380,7 +380,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, SecondDisplayThreeArgsAreQiBitSelectsZeroOne
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
 
   static constexpr const char *kNames[3] = {"qi[0]", "qi[1]", "qi[2]"};

@@ -459,14 +459,15 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@pkg".
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
 [INF:CP0303] $Source01/dut.sv:17:1: Compile module "work@dut".
+[ERR:EL0535] $Source01/dut.sv:10:43: Illegal implicit net "id:781, name:a".
+[ERR:EL0535] $Source01/dut.sv:10:52: Illegal implicit net "id:785, name:b".
+[ERR:EL0535] $Source01/dut.sv:12:26: Illegal implicit net "id:799, name:complex_t".
+[ERR:EL0535] $Source01/dut.sv:12:9: Illegal implicit net "id:803, name:size".
+[ERR:EL0535] $Source01/dut.sv:13:9: Illegal implicit net "id:807, name:init".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@pkg".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
 [WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@dut".
-[ERR:EL0535] $Source01/dut.sv:10:43: Illegal implicit net "id:168, name:a".
-[ERR:EL0535] $Source01/dut.sv:10:52: Illegal implicit net "id:172, name:b".
-[ERR:EL0535] $Source01/dut.sv:12:26: Illegal implicit net "id:186, name:complex_t".
-[ERR:EL0535] $Source01/dut.sv:12:9: Illegal implicit net "id:190, name:size".
-[ERR:EL0535] $Source01/dut.sv:13:9: Illegal implicit net "id:194, name:init".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -477,75 +478,6 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@pkg file:$Source01/dut.sv start:1:1 end:6:11:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@pkg start:1:9 end:1:12:
-        vpiParent: Package name:work@pkg
-        vpiName: work@pkg
-      vpiFullName: work@pkg
-      vpiTypespec (4 items):
-        LogicTypespec:
-          vpiParent: Package name:work@pkg
-        LogicTypespec:
-          vpiParent: Package name:work@pkg
-          vpiRange (1 items):
-            Range start:4:11 end:4:16:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:4:12 end:4:13:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@pkg
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
-              vpiRightRange Constant start:4:14 end:4:15:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: work@pkg
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        StructTypespec start:2:11 end:5:4:
-          vpiParent: Package name:work@pkg
-          vpiPacked: true
-          vpiTypespecMember (2 items):
-            TypespecMember name:a start:3:11 end:3:12:
-              vpiParent: StructTypespec
-              vpiName: a
-              vpiTypespec RefTypespec start:3:5 end:3:10:
-                vpiParent: TypespecMember name:a
-                vpiFullName: work@pkg::a
-                vpiActual: LogicTypespec
-            TypespecMember name:b start:4:17 end:4:18:
-              vpiParent: StructTypespec
-              vpiName: b
-              vpiTypespec RefTypespec start:4:5 end:4:16:
-                vpiParent: TypespecMember name:b
-                vpiFullName: work@pkg::b
-                vpiActual: LogicTypespec
-        TypedefTypespec name:complex_t start:2:3 end:5:15:
-          vpiParent: Package name:work@pkg
-          vpiName Identifier name:complex_t start:5:5 end:5:14:
-            vpiParent: TypedefTypespec name:complex_t
-            vpiName: complex_t
-          vpiTypedefAlias RefTypespec start:2:11 end:5:4:
-            vpiParent: TypedefTypespec name:complex_t
-            vpiFullName: work@pkg::complex_t
-            vpiActual: StructTypespec
-      vpiDefName: work@pkg
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@pkg
-        vpiName: work
-        vpiFullName: work@pkg::work
-      vpiCell: pkg
     Package name:builtin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin:
@@ -2098,6 +2030,75 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
+    Package name:work@pkg file:$Source01/dut.sv start:1:1 end:6:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@pkg start:1:9 end:1:12:
+        vpiParent: Package name:work@pkg
+        vpiName: work@pkg
+      vpiFullName: work@pkg
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Package name:work@pkg
+        LogicTypespec:
+          vpiParent: Package name:work@pkg
+          vpiRange (1 items):
+            Range start:4:11 end:4:16:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:4:12 end:4:13:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@pkg
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+              vpiRightRange Constant start:4:14 end:4:15:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: work@pkg
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
+        StructTypespec start:2:11 end:5:4:
+          vpiParent: Package name:work@pkg
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:a start:3:11 end:3:12:
+              vpiParent: StructTypespec
+              vpiName: a
+              vpiTypespec RefTypespec start:3:5 end:3:10:
+                vpiParent: TypespecMember name:a
+                vpiFullName: work@pkg::a
+                vpiActual: LogicTypespec
+            TypespecMember name:b start:4:17 end:4:18:
+              vpiParent: StructTypespec
+              vpiName: b
+              vpiTypespec RefTypespec start:4:5 end:4:16:
+                vpiParent: TypespecMember name:b
+                vpiFullName: work@pkg::b
+                vpiActual: LogicTypespec
+        TypedefTypespec name:complex_t start:2:3 end:5:15:
+          vpiParent: Package name:work@pkg
+          vpiName Identifier name:complex_t start:5:5 end:5:14:
+            vpiParent: TypedefTypespec name:complex_t
+            vpiName: complex_t
+          vpiTypedefAlias RefTypespec start:2:11 end:5:4:
+            vpiParent: TypedefTypespec name:complex_t
+            vpiFullName: work@pkg::complex_t
+            vpiActual: StructTypespec
+      vpiDefName: work@pkg
+      vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@pkg
+        vpiName: work
+        vpiFullName: work@pkg::work
+      vpiCell: pkg
   vpiAllClasses (3 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
@@ -2112,6 +2113,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2329,6 +2331,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2407,6 +2410,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2758,15 +2762,21 @@ Design name:unnamed:
         vpiFullName: work@dut.work
       vpiCell: dut
   vpiTypespec (9 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2791,17 +2801,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@dut
         vpiName: work@dut
       vpiModule: Module name:work@dut
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

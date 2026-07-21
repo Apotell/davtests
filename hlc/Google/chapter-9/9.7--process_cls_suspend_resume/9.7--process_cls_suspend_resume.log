@@ -280,9 +280,9 @@ n<$Source01/9.7--process_cls_suspend_resume.sv> u<266> t<Top_level_rule> c<1> l<
         n<> u<262> t<ENDMODULE> p<263> l<46:1> el<46:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/9.7--process_cls_suspend_resume.sv:15:1: Compile module "work@process_tb".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/9.7--process_cls_suspend_resume.sv:38:14: Illegal implicit net "id:84, name:status".
 [ERR:EL0535] $Source01/9.7--process_cls_suspend_resume.sv:38:33: Illegal implicit net "id:88, name:FINISHED".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -423,10 +423,10 @@ Design name:unnamed:
                                   vpiParent: UnsupportedScope name:process
                                   vpiName: process
                                 vpiFullName: work@process_tb.test.process::self().process
-                              MethodFuncCall name:self start:23:24 end:23:30:
+                              SubroutineCall name:self start:23:24 end:23:30:
                                 vpiParent: HierPath name:process::self()
                                 vpiName Identifier name:self start:23:24 end:23:28:
-                                  vpiParent: MethodFuncCall name:self
+                                  vpiParent: SubroutineCall name:self
                                   vpiName: self
                         HierPath name:job[k].suspend() start:24:6 end:24:21:
                           vpiParent: Begin
@@ -447,19 +447,19 @@ Design name:unnamed:
                                 vpiName: k
                                 vpiFullName: work@process_tb.test.job[k].suspend().k
                                 vpiActual: Variable name:k
-                            MethodFuncCall name:suspend start:24:13 end:24:22:
+                            SubroutineCall name:suspend start:24:13 end:24:22:
                               vpiParent: HierPath name:job[k].suspend()
                               vpiName Identifier name:suspend start:24:13 end:24:20:
-                                vpiParent: MethodFuncCall name:suspend
+                                vpiParent: SubroutineCall name:suspend
                                 vpiName: suspend
-                        SysFuncCall name:$display start:25:6 end:25:31:
+                        SysTaskCall name:$display start:25:6 end:25:31:
                           vpiParent: Begin
                           vpiName Identifier name:$display start:25:6 end:25:14:
-                            vpiParent: SysFuncCall name:$display
+                            vpiParent: SysTaskCall name:$display
                             vpiName: "$display"
                           vpiArgument (2 items):
                             Constant start:25:15 end:25:27:
-                              vpiParent: SysFuncCall name:$display
+                              vpiParent: SysTaskCall name:$display
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
                                 vpiFullName: work@process_tb.test
@@ -469,7 +469,7 @@ Design name:unnamed:
                               vpiDecompile: "\"process %d\""
                               vpiValue: process %d
                             RefObj name:k start:25:29 end:25:30:
-                              vpiParent: SysFuncCall name:$display
+                              vpiParent: SysTaskCall name:$display
                               vpiName: k
                               vpiFullName: work@process_tb.test.k
                               vpiActual: Variable name:k
@@ -546,10 +546,10 @@ Design name:unnamed:
                         vpiName: i
                         vpiFullName: work@process_tb.test.job[i].resume().i
                         vpiActual: Variable name:i
-                    MethodFuncCall name:resume start:33:11 end:33:19:
+                    SubroutineCall name:resume start:33:11 end:33:19:
                       vpiParent: HierPath name:job[i].resume()
                       vpiName Identifier name:resume start:33:11 end:33:17:
-                        vpiParent: MethodFuncCall name:resume
+                        vpiParent: SubroutineCall name:resume
                         vpiName: resume
               HierPath name:job[1].await() start:35:3 end:35:16:
                 vpiParent: Begin
@@ -575,10 +575,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
-                  MethodFuncCall name:await start:35:10 end:35:17:
+                  SubroutineCall name:await start:35:10 end:35:17:
                     vpiParent: HierPath name:job[1].await()
                     vpiName Identifier name:await start:35:10 end:35:15:
-                      vpiParent: MethodFuncCall name:await
+                      vpiParent: SubroutineCall name:await
                       vpiName: await
               ForeachStmt start:37:3 end:39:19:
                 vpiParent: Begin
@@ -658,10 +658,10 @@ Design name:unnamed:
                           vpiName: i
                           vpiFullName: work@process_tb.test.job[i].kill().i
                           vpiActual: Variable name:i
-                      MethodFuncCall name:kill start:39:12 end:39:18:
+                      SubroutineCall name:kill start:39:12 end:39:18:
                         vpiParent: HierPath name:job[i].kill()
                         vpiName Identifier name:kill start:39:12 end:39:16:
-                          vpiParent: MethodFuncCall name:kill
+                          vpiParent: SubroutineCall name:kill
                           vpiName: kill
       vpiProcess (1 items):
         Initial start:42:2 end:44:5:
@@ -670,14 +670,15 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@process_tb
             vpiStmt (1 items):
-              FuncCall name:test start:43:3 end:43:10:
+              TaskCall name:test start:43:3 end:43:10:
                 vpiParent: Begin
                 vpiName Identifier name:test start:43:3 end:43:7:
-                  vpiParent: FuncCall name:test
+                  vpiParent: TaskCall name:test
                   vpiName: test
+                vpiTaskFunc: Task name:test
                 vpiArgument (1 items):
                   Constant start:43:8 end:43:9:
-                    vpiParent: FuncCall name:test
+                    vpiParent: TaskCall name:test
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@process_tb

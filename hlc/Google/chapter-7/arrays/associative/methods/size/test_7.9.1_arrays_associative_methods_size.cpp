@@ -142,7 +142,7 @@ TEST_F(AssociativeArraySizeTest, FirstDisplayAssertsSizeEqualsZero) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -192,7 +192,7 @@ TEST_F(AssociativeArraySizeTest, SecondDisplayAssertsSizeEqualsOne) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -226,7 +226,7 @@ TEST_F(AssociativeArraySizeTest, ThirdDisplayAssertsSizeEqualsTwo) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -260,7 +260,7 @@ TEST_F(AssociativeArraySizeTest, FourthDisplayAssertsSizeEqualsThree) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);

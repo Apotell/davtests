@@ -20,6 +20,7 @@ COMMAND: -wd ../../../tests/OldLibrary top.v -d inst +libext+.v -writepp -y lib 
 [INF:CP0303] $Source01/lib/CELL1.v:1:1: Compile module "work@CELL1".
 [INF:CP0305] $Source01/lib/CELL2.v:1:11: Compile udp "CELL2".
 [INF:CP0305] $Source01/lib/CELL3.v:1:11: Compile udp "CELL3".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@top".
 [WRN:PA0205] $Source01/lib/CELL1.v:1:1: No timescale set for "work@CELL1".
 ====== HLDB =======
@@ -1613,6 +1614,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1830,6 +1832,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1908,6 +1911,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2242,15 +2246,21 @@ Design name:unnamed:
         vpiFullName: work@CELL1.work
       vpiCell: CELL1
   vpiTypespec (11 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2278,20 +2288,14 @@ Design name:unnamed:
     UdpDefnTypespec name:work@CELL2:
       vpiParent: Design name:unnamed
       vpiName: work@CELL2
-    StringTypespec:
-      vpiParent: Design name:unnamed
     UdpDefnTypespec name:work@CELL3:
       vpiParent: Design name:unnamed
       vpiName: work@CELL3
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

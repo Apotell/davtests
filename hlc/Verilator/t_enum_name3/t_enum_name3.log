@@ -131,7 +131,6 @@ n<$Source01/t_enum_name3.v> u<116> t<Top_level_rule> c<1> l<7:1> el<24:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_enum_name3.v:7:1: Compile module "work@our".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_enum_name3.v:18:30: Illegal implicit net "id:40, name:name".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -238,14 +237,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@our
             vpiStmt (3 items):
-              SysFuncCall name:$write start:18:7 end:18:35:
+              SysTaskCall name:$write start:18:7 end:18:35:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:18:7 end:18:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (2 items):
                   Constant start:18:15 end:18:23:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@our
@@ -255,7 +254,7 @@ Design name:unnamed:
                     vpiDecompile: "\"P:%s\\n\""
                     vpiValue: P:%s\n
                   HierPath name:PS.N.name start:18:25 end:18:34:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiName: PS.N.name
                     vpiFullName: work@our.PS.N.name
                     vpiPathElem (3 items):
@@ -269,18 +268,19 @@ Design name:unnamed:
                         vpiName: N
                         vpiFullName: work@our.N
                         vpiActual: TypespecMember name:N
-                      RefObj name:name start:18:30 end:18:34:
+                      MethodFuncCall name:name start:18:30 end:18:34:
                         vpiParent: HierPath name:PS.N.name
-                        vpiName: name
-                        vpiFullName: work@our.name
-              SysFuncCall name:$write start:19:7 end:19:39:
+                        vpiName Identifier name:name start:18:30 end:18:34:
+                          vpiParent: MethodFuncCall name:name
+                          vpiName: name
+              SysTaskCall name:$write start:19:7 end:19:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:7 end:19:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:19:14 end:19:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@our
@@ -289,10 +289,10 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:20:7 end:20:14:
+              SysTaskCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (2 items):
     ModuleTypespec name:work@our:
@@ -306,7 +306,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -351,7 +351,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_name3/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

@@ -761,14 +761,15 @@ n<$Source01/dut.sv> u<484> t<Top_level_rule> c<1> l<1:1> el<21:1>
         n<> u<480> t<ENDMODULE> p<481> l<20:1> el<20:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@LogicGates".
+[ERR:EL0535] $Source01/dut.sv:15:29: Illegal implicit net "id:898, name:nn".
+[ERR:EL0535] $Source01/dut.sv:16:25: Illegal implicit net "id:926, name:out2".
+[ERR:EL0535] $Source01/dut.sv:17:37: Illegal implicit net "id:943, name:out3".
+[ERR:EL0535] $Source01/dut.sv:18:12: Illegal implicit net "id:981, name:p1".
+[ERR:EL0535] $Source01/dut.sv:18:15: Illegal implicit net "id:982, name:p2".
+[ERR:EL0535] $Source01/dut.sv:18:18: Illegal implicit net "id:983, name:p3".
+[ERR:EL0535] $Source01/dut.sv:19:14: Illegal implicit net "id:989, name:p1".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@LogicGates".
-[ERR:EL0535] $Source01/dut.sv:15:29: Illegal implicit net "id:285, name:nn".
-[ERR:EL0535] $Source01/dut.sv:16:25: Illegal implicit net "id:313, name:out2".
-[ERR:EL0535] $Source01/dut.sv:17:37: Illegal implicit net "id:330, name:out3".
-[ERR:EL0535] $Source01/dut.sv:18:12: Illegal implicit net "id:368, name:p1".
-[ERR:EL0535] $Source01/dut.sv:18:15: Illegal implicit net "id:369, name:p2".
-[ERR:EL0535] $Source01/dut.sv:18:18: Illegal implicit net "id:370, name:p3".
-[ERR:EL0535] $Source01/dut.sv:19:14: Illegal implicit net "id:376, name:p1".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2345,6 +2346,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2562,6 +2564,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2640,6 +2643,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3728,15 +3732,21 @@ Design name:unnamed:
                 vpiName: p1
                 vpiFullName: work@LogicGates.a7.p1
   vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3755,17 +3765,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@LogicGates
         vpiName: work@LogicGates
       vpiModule: Module name:work@LogicGates
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 7
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
