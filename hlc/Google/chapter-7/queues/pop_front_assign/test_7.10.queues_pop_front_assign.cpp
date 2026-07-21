@@ -344,7 +344,7 @@ TEST_F(QueuesPopFrontAssignTest, FifthStmtAssignmentRhsIsQOneToDollarPartSelect)
 TEST_F(QueuesPopFrontAssignTest, SixthStmtDisplayAssertsSizeTwo) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -376,7 +376,7 @@ TEST_F(QueuesPopFrontAssignTest, SixthStmtDisplayAssertsSizeTwo) {
 TEST_F(QueuesPopFrontAssignTest, SeventhStmtDisplayAssertsREqualsTwo) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(6));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(6));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -397,7 +397,7 @@ TEST_F(QueuesPopFrontAssignTest, SeventhStmtDisplayAssertsREqualsTwo) {
 TEST_F(QueuesPopFrontAssignTest, EighthStmtDisplayAssertsQAtZeroEqualsThree) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(7));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(7));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);

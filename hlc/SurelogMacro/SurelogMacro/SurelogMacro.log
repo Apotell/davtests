@@ -273,23 +273,14 @@ n<$Source00/builtin.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<70:1>
 AST_DEBUG_END
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
-Count: 12
+Count: 4
 LIB: work
 FILE: f<14>:$Source01/dut.sv
-n<$Source01/dut.sv> u<11> t<Top_level_rule> c<1> l<3:1> el<8:1>
-  n<> u<1> t<Null_rule> p<11> s<10> l<3:1> el<3:1>
-  n<> u<10> t<Source_text> p<11> c<9> l<3:1> el<5:10>
-    n<> u<9> t<Description> p<10> c<8> l<3:1> el<5:10>
-      n<> u<8> t<Module_declaration> p<9> c<6> l<3:1> el<5:10>
-        n<> u<6> t<Module_nonansi_header> p<8> c<2> s<7> l<3:1> el<3:14>
-          n<module> u<2> t<Module_keyword> p<6> s<3> l<3:1> el<3:7>
-          n<top> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<3:8> el<3:11>
-          n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<3:11> el<3:11>
-          n<> u<5> t<Port_list> p<6> l<3:11> el<3:13>
-        n<> u<7> t<ENDMODULE> p<8> l<5:1> el<5:10>
+n<$Source01/dut.sv> u<3> t<Top_level_rule> c<1> l<8:1> el<8:1>
+  n<> u<1> t<Null_rule> p<3> s<2> l<8:1> el<8:1>
+  n<> u<2> t<Source_text> p<3> l<8:1> el<8:1>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@top".
-[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@top".
+[WRN:PA0205] No timescale set for "builtin".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1866,6 +1857,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2083,6 +2075,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2161,6 +2154,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2277,30 +2271,22 @@ Design name:unnamed:
             vpiParent: Function name:try_get
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
-  vpiAllModules (1 items):
-    Module name:work@top file:$Source01/dut.sv start:3:1 end:5:10:
+  vpiTypespec (7 items):
+    IntTypespec:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:3:8 end:3:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
-        vpiName: work
-        vpiFullName: work@top.work
-      vpiCell: top
-  vpiTypespec (8 items):
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2313,18 +2299,6 @@ Design name:unnamed:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:work@top:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:3:8 end:3:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -2344,25 +2318,24 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SurelogMacro/SurelogMacro/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
-                                                  'pre_len': 22}},
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0, 'pre_len': 0}},
             'post_len': 0,
-            'pre_len': 22,
+            'pre_len': 0,
             'test_name': 'SurelogMacro/SurelogMacro'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |       22 |         0 |
+| $Output/lib/work/dut.sv |        0 |         0 |
 +=========================+==========+===========+
-|                         |       22 |         0 |
+|                         |        0 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2373,7 +2346,7 @@ COMMAND: ${HLC_DIR}/regression/SurelogMacro/SurelogMacro/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             594     594       0         0
+Others                             589     589       0         0
 ----------------------------------------------------------------
-                                   594     594       0         0
+                                   589     589       0         0
 ===================== END REDUCTION RESULT =====================

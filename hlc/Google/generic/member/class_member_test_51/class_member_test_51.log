@@ -71,10 +71,10 @@ n<$Source01/class_member_test_51.sv> u<58> t<Top_level_rule> c<1> l<6:1> el<12:9
                     n<> u<46> t<ENDFUNCTION> p<47> l<11:1> el<11:12>
             n<> u<52> t<ENDCLASS> p<53> l<12:1> el<12:9>
 AST_DEBUG_END
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/class_member_test_51.sv:8:12: Illegal implicit net "id:13, name:foo".
 [ERR:EL0535] $Source01/class_member_test_51.sv:9:5: Illegal implicit net "id:15, name:y".
 [ERR:EL0535] $Source01/class_member_test_51.sv:9:20: Illegal implicit net "id:18, name:foo".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -91,6 +91,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:work@myclass
         vpiName: work@myclass
       vpiFullName: work@myclass
+      vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@myclass
@@ -130,24 +131,24 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y
                     vpiFullName: work@myclass::apply_all::y
-                  vpiRhs FuncCall name:apply_this start:9:9 end:9:27:
+                  vpiRhs SubroutineCall name:apply_this start:9:9 end:9:27:
                     vpiParent: Assignment
                     vpiName Identifier name:apply_this start:9:9 end:9:19:
-                      vpiParent: FuncCall name:apply_this
+                      vpiParent: SubroutineCall name:apply_this
                       vpiName: apply_this
                     vpiArgument (1 items):
                       BitSelect name:foo[i] start:9:20 end:9:26:
-                        vpiParent: FuncCall name:apply_this
+                        vpiParent: SubroutineCall name:apply_this
                         vpiName: foo[i]
-                        vpiFullName: work@myclass::apply_all::foo[i]
+                        vpiFullName: work@myclass::apply_all::apply_this::foo[i]
                         vpiPrefix RefObj name:foo start:9:20 end:9:23:
                           vpiParent: BitSelect name:foo[i]
                           vpiName: foo
-                          vpiFullName: work@myclass::apply_all::foo
+                          vpiFullName: work@myclass::apply_all::apply_this::foo
                         vpiIndex RefObj name:i start:9:24 end:9:25:
                           vpiParent: BitSelect name:foo[i]
                           vpiName: i
-                          vpiFullName: work@myclass::apply_all::i
+                          vpiFullName: work@myclass::apply_all::apply_this::i
                           vpiActual: Variable name:i
           vpiReturn RefTypespec start:7:10 end:7:14:
             vpiParent: Function name:apply_all

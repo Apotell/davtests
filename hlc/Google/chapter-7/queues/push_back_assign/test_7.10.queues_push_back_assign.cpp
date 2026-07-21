@@ -258,7 +258,7 @@ TEST_F(QueuesPushBackAssignTest, ThirdAssignmentAppendsTwo) { ExpectAppendAssign
 TEST_F(QueuesPushBackAssignTest, FourthStmtDisplayAssertsSizeThree) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -290,7 +290,7 @@ TEST_F(QueuesPushBackAssignTest, FourthStmtDisplayAssertsSizeThree) {
 TEST_F(QueuesPushBackAssignTest, FifthStmtDisplayAssertsQAtZeroEqualsFour) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);

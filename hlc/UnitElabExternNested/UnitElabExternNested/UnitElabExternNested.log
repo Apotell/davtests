@@ -23,6 +23,8 @@ COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileun
 [INF:CP0303] $Source01/middle.v:2:1: Compile module "work@m".
 [INF:CP0303] $Source01/middle.v:3:1: Compile module "work@a".
 [INF:CP0303] $Source01/middle.v:18:1: Compile module "work@top".
+[ERR:EL0535] $Source01/middle.v:9:1: Illegal implicit net "id:938, name:logic".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@dff_nested".
 [WRN:PA0205] $Source01/top.v:9:1: No timescale set for "work@ff1".
 [WRN:PA0205] $Source01/top.v:18:1: No timescale set for "work@ff2".
@@ -30,7 +32,6 @@ COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileun
 [WRN:PA0205] $Source01/middle.v:2:1: No timescale set for "work@m".
 [WRN:PA0205] $Source01/middle.v:3:1: No timescale set for "work@a".
 [WRN:PA0205] $Source01/middle.v:18:1: No timescale set for "work@top".
-[ERR:EL0535] $Source01/middle.v:9:1: Illegal implicit net "id:325, name:logic".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1612,6 +1613,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1829,6 +1831,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1907,6 +1910,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2982,15 +2986,21 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiFullName: work@top.aa
   vpiTypespec (11 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3027,17 +3037,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@top
         vpiName: work@top
       vpiModule: Module name:work@top
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 10
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

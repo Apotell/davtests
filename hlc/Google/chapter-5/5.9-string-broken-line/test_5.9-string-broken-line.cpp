@@ -82,14 +82,14 @@ static const hldb::Begin *getBegin(const hldb::Design *d) {
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d) {
+static const hldb::SysTaskCall *getDisplayCall(const hldb::Design *d) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts() || begin->getStmts()->empty()) return nullptr;
-  return any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[0]);
+  return any_cast<const hldb::SysTaskCall *>((*begin->getStmts())[0]);
 }
 
 static const hldb::Constant *getStringArg(const hldb::Design *d) {
-  const hldb::SysFuncCall *call = getDisplayCall(d);
+  const hldb::SysTaskCall *call = getDisplayCall(d);
   if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
@@ -121,13 +121,13 @@ TEST_F(StringBrokenLine, BeginHasOneStatement) {
 // $display call
 // ---------------------------------------------------------------------------
 TEST_F(StringBrokenLine, StatementIsDisplayCall) {
-  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
-  ASSERT_NE(call, nullptr) << "stmt[0] is not a SysFuncCall";
+  const hldb::SysTaskCall *const call = getDisplayCall(m_design);
+  ASSERT_NE(call, nullptr) << "stmt[0] is not a SysTaskCall";
   EXPECT_EQ(call->getName(), "$display") << "system call must be $display";
 }
 
 TEST_F(StringBrokenLine, DisplayCallHasOneArgument) {
-  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
+  const hldb::SysTaskCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr) << "$display has no argument list";
   EXPECT_EQ(call->getArguments()->size(), 1u) << "$display has exactly 1 argument (the broken-line string)";

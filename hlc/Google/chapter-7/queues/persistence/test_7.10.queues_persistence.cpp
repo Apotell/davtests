@@ -274,7 +274,7 @@ TEST_F(QueuesPersistenceTest, TaskFirstStmtDisplaysEEqualsTwo) {
   ASSERT_NE(task, nullptr);
   const hldb::Begin *const blk = task->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -315,7 +315,7 @@ TEST_F(QueuesPersistenceTest, TaskThirdStmtDisplaysEEqualsTen) {
   ASSERT_NE(task, nullptr);
   const hldb::Begin *const blk = task->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
@@ -370,7 +370,7 @@ TEST_F(QueuesPersistenceTest, FirstInitialPushBacksOneTwoThree) {
 TEST_F(QueuesPersistenceTest, FirstInitialFourthStmtDisplaysThreeElemAssert) {
   const hldb::Begin *const begin = getInitialBegin(0);
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 4u);
@@ -389,13 +389,13 @@ TEST_F(QueuesPersistenceTest, FirstInitialFourthStmtDisplaysThreeElemAssert) {
 TEST_F(QueuesPersistenceTest, FirstInitialFifthStmtIsFunCallWithQAtOne) {
   const hldb::Begin *const begin = getInitialBegin(0);
   ASSERT_NE(begin, nullptr);
-  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>(begin->getStmts()->at(4));
-  ASSERT_NE(fc, nullptr) << "'fun(q[1])' should be a FuncCall";
-  EXPECT_EQ(fc->getName(), "fun");
-  ASSERT_NE(fc->getArguments(), nullptr);
-  ASSERT_EQ(fc->getArguments()->size(), 1u);
+  const hldb::TaskCall *const tc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(tc, nullptr) << "'fun(q[1])' should be a FuncCall";
+  EXPECT_EQ(tc->getName(), "fun");
+  ASSERT_NE(tc->getArguments(), nullptr);
+  ASSERT_EQ(tc->getArguments()->size(), 1u);
 
-  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(fc->getArguments()->at(0));
+  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(tc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "the 'ref' argument should be the BitSelect 'q[1]'";
   EXPECT_EQ(arg->getName(), "q[1]");
   const hldb::RefObj *const prefix = arg->getPrefix<hldb::RefObj>();
@@ -425,7 +425,7 @@ TEST_F(QueuesPersistenceTest, SecondInitialFirstStmtIsDelayedDisplayOfQAtOne) {
   ASSERT_NE(delayVal, nullptr);
   EXPECT_EQ(delayVal->getDecompile(), "50");
 
-  const hldb::SysFuncCall *const disp = delay->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const disp = delay->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(disp, nullptr) << "the delayed statement should be the $display call";
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -474,7 +474,7 @@ TEST_F(QueuesPersistenceTest, SecondInitialThirdStmtIsBareDelayWithNoWrappedStmt
 TEST_F(QueuesPersistenceTest, SecondInitialFourthStmtDisplaysSizeAssert) {
   const hldb::Begin *const begin = getInitialBegin(1);
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);

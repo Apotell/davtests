@@ -17,12 +17,13 @@ COMMAND: -wd ../../../../tests/YosysOldTests/usb_phy -writepp rtl/usb_phy.v rtl/
 [INF:CP0303] $Source01/rtl/usb_phy.v:77:1: Compile module "work@usb_phy".
 [INF:CP0303] $Source01/rtl/usb_rx_phy.v:79:1: Compile module "work@usb_rx_phy".
 [INF:CP0303] $Source01/rtl/usb_tx_phy.v:77:1: Compile module "work@usb_tx_phy".
+[ERR:EL0535] $Source01/rtl/usb_phy.v:127:3: Illegal implicit net "id:915, name:phy_mode".
+[ERR:EL0535] $Source01/rtl/usb_phy.v:160:3: Illegal implicit net "id:970, name:RxEn_i".
+[ERR:EL0535] $Source01/rtl/usb_phy.v:161:3: Illegal implicit net "id:973, name:LineState".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/rtl/usb_phy.v:77:1: No timescale set for "work@usb_phy".
 [WRN:PA0205] $Source01/rtl/usb_rx_phy.v:79:1: No timescale set for "work@usb_rx_phy".
 [WRN:PA0205] $Source01/rtl/usb_tx_phy.v:77:1: No timescale set for "work@usb_tx_phy".
-[ERR:EL0535] $Source01/rtl/usb_phy.v:127:3: Illegal implicit net "id:302, name:phy_mode".
-[ERR:EL0535] $Source01/rtl/usb_phy.v:160:3: Illegal implicit net "id:357, name:RxEn_i".
-[ERR:EL0535] $Source01/rtl/usb_phy.v:161:3: Illegal implicit net "id:360, name:LineState".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1624,6 +1625,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1841,6 +1843,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1919,6 +1922,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -10677,15 +10681,21 @@ Design name:unnamed:
             vpiFullName: work@usb_tx_phy.append_eop_sync3
             vpiActual: Net name:append_eop_sync3
   vpiTypespec (12 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -10720,17 +10730,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@usb_tx_phy
         vpiName: work@usb_tx_phy
       vpiModule: Module name:work@usb_tx_phy
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

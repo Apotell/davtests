@@ -714,9 +714,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_package.v:27:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_package.v:54:1: Compile module "work@t2".
 [WRN:CP0323] $Source01/t_package.v:54:1: Multiply defined typedef "p2".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_package.v:43:14: Illegal implicit net "id:201, name:pi".
 [ERR:EL0535] $Source01/t_package.v:50:14: Illegal implicit net "id:234, name:pi".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1126,10 +1126,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-                vpiStmt SysFuncCall name:$stop start:39:34 end:39:39:
+                vpiStmt SysTaskCall name:$stop start:39:34 end:39:39:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:39:34 end:39:39:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               IfStmt start:40:7 end:40:47:
                 vpiParent: Begin
@@ -1148,14 +1148,15 @@ Design name:unnamed:
                             vpiParent: UnsupportedScope name:$unit
                             vpiName: "$unit"
                           vpiFullName: work@t.$unit::unit_plusone(1).$unit
-                        MethodFuncCall name:unit_plusone start:40:18 end:40:33:
+                        FuncCall name:unit_plusone start:40:18 end:40:33:
                           vpiParent: HierPath name:$unit::unit_plusone(1)
                           vpiName Identifier name:unit_plusone start:40:18 end:40:30:
-                            vpiParent: MethodFuncCall name:unit_plusone
+                            vpiParent: FuncCall name:unit_plusone
                             vpiName: unit_plusone
+                          vpiTaskFunc: Function name:unit_plusone
                           vpiArgument (1 items):
                             Constant start:40:31 end:40:32:
-                              vpiParent: MethodFuncCall name:unit_plusone
+                              vpiParent: FuncCall name:unit_plusone
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
                                 vpiFullName: work@t.$unit::unit_plusone(1)
@@ -1174,10 +1175,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-                vpiStmt SysFuncCall name:$stop start:40:41 end:40:46:
+                vpiStmt SysTaskCall name:$stop start:40:41 end:40:46:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:40:41 end:40:46:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               IfStmt start:41:7 end:41:38:
                 vpiParent: Begin
@@ -1196,17 +1197,17 @@ Design name:unnamed:
                             vpiParent: UnsupportedScope name:p
                             vpiName: p
                           vpiFullName: work@t.p::plusone(1).p
-                        MethodFuncCall name:plusone start:41:14 end:41:24:
+                        SubroutineCall name:plusone start:41:14 end:41:24:
                           vpiParent: HierPath name:p::plusone(1)
                           vpiName Identifier name:plusone start:41:14 end:41:21:
-                            vpiParent: MethodFuncCall name:plusone
+                            vpiParent: SubroutineCall name:plusone
                             vpiName: plusone
                           vpiArgument (1 items):
                             Constant start:41:22 end:41:23:
-                              vpiParent: MethodFuncCall name:plusone
+                              vpiParent: SubroutineCall name:plusone
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t.p::plusone(1)
+                                vpiFullName: work@t.p::plusone(1).plusone
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1222,10 +1223,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-                vpiStmt SysFuncCall name:$stop start:41:32 end:41:37:
+                vpiStmt SysTaskCall name:$stop start:41:32 end:41:37:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:41:32 end:41:37:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               Assignment start:42:7 end:42:18:
                 vpiParent: Begin
@@ -1286,19 +1287,19 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "124"
                       vpiValue: 124
-                vpiStmt SysFuncCall name:$stop start:43:26 end:43:31:
+                vpiStmt SysTaskCall name:$stop start:43:26 end:43:31:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:43:26 end:43:31:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
-              SysFuncCall name:$write start:45:7 end:45:39:
+              SysTaskCall name:$write start:45:7 end:45:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:45:7 end:45:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:45:14 end:45:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@t
@@ -1307,10 +1308,10 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:46:7 end:46:14:
+              SysTaskCall name:$finish start:46:7 end:46:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:46:7 end:46:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
         Always start:48:4 end:51:7:
           vpiParent: Module name:work@t
@@ -1407,10 +1408,10 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "124"
                         vpiValue: 124
-                  vpiStmt SysFuncCall name:$stop start:50:24 end:50:29:
+                  vpiStmt SysTaskCall name:$stop start:50:24 end:50:29:
                     vpiParent: IfStmt
                     vpiName Identifier name:$stop start:50:24 end:50:29:
-                      vpiParent: SysFuncCall name:$stop
+                      vpiParent: SysTaskCall name:$stop
                       vpiName: "$stop"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
@@ -1532,10 +1533,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-                vpiStmt SysFuncCall name:$stop start:61:29 end:61:34:
+                vpiStmt SysTaskCall name:$stop start:61:29 end:61:34:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:61:29 end:61:34:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               IfStmt start:62:7 end:62:35:
                 vpiParent: Begin
@@ -1570,10 +1571,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "3"
                       vpiValue: 3
-                vpiStmt SysFuncCall name:$stop start:62:29 end:62:34:
+                vpiStmt SysTaskCall name:$stop start:62:29 end:62:34:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:62:29 end:62:34:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               IfStmt start:63:7 end:63:49:
                 vpiParent: Begin
@@ -1641,10 +1642,10 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "124"
                           vpiValue: 124
-                vpiStmt SysFuncCall name:$stop start:63:43 end:63:48:
+                vpiStmt SysTaskCall name:$stop start:63:43 end:63:48:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:63:43 end:63:48:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
   vpiTypespec (5 items):
     IntTypespec:

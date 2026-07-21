@@ -276,7 +276,7 @@ TEST_F(QueuesBoundedTest, ThirdPushBackCallsPushBackWithArgThree) {
 TEST_F(QueuesBoundedTest, FirstDisplayFormatStringIsThreeElemAssert) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -289,7 +289,7 @@ TEST_F(QueuesBoundedTest, FirstDisplayFormatStringIsThreeElemAssert) {
 TEST_F(QueuesBoundedTest, FirstDisplayArgsAreQBitSelectsZeroOneTwo) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 4u);
 
@@ -311,7 +311,7 @@ TEST_F(QueuesBoundedTest, FirstDisplayArgsAreQBitSelectsZeroOneTwo) {
 TEST_F(QueuesBoundedTest, SecondDisplayIsQueueFullMarker) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -339,7 +339,7 @@ TEST_F(QueuesBoundedTest, FourthPushBackCallsPushBackWithArgFour) {
 TEST_F(QueuesBoundedTest, ThirdDisplayIsEndMarker) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(6));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(6));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
@@ -353,7 +353,7 @@ TEST_F(QueuesBoundedTest, ThirdDisplayIsEndMarker) {
 TEST_F(QueuesBoundedTest, FourthDisplayFormatStringIsSizeAssert) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(7));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(7));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
@@ -365,7 +365,7 @@ TEST_F(QueuesBoundedTest, FourthDisplayFormatStringIsSizeAssert) {
 TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(7));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(7));
   ASSERT_NE(disp, nullptr);
   const hldb::HierPath *const size = any_cast<hldb::HierPath>(disp->getArguments()->at(1));
   ASSERT_NE(size, nullptr);

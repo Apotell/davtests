@@ -20,10 +20,10 @@
 // UHDM structure:
 //   Module name:work@systemfn
 //     Initial
-//       vpiStmt: SysFuncCall "$display"   ← direct stmt, NO Begin wrapper
+//       vpiStmt: SysTaskCall "$display"   ← direct stmt, NO Begin wrapper
 //         vpiArgument[0]: Constant (vpiStringConst=6), getValue()="hello world"
 //
-// Notable difference from the builtin-methods tests: the SysFuncCall is the
+// Notable difference from the builtin-methods tests: the SysTaskCall is the
 // direct statement of the Initial block, not wrapped in a Begin.
 
 #include <hlc/Common/Session.h>
@@ -45,11 +45,11 @@ class SystemFunctions : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
+static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@systemfn", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
-    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysFuncCall>();
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysTaskCall>();
   }
   return nullptr;
 }
@@ -66,24 +66,24 @@ TEST_F(SystemFunctions, ModuleExists) {
 // initial $display("hello world")
 // ---------------------------------------------------------------------------
 TEST_F(SystemFunctions, InitialHasDisplayCall) {
-  ASSERT_NE(getDisplay(m_design), nullptr) << "$display SysFuncCall not found as direct Initial stmt";
+  ASSERT_NE(getDisplay(m_design), nullptr) << "$display SysTaskCall not found as direct Initial stmt";
 }
 
 TEST_F(SystemFunctions, DisplayCallName) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getName(), "$display");
 }
 
 TEST_F(SystemFunctions, DisplayCallHasOneArgument) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   EXPECT_EQ(c->getArguments()->size(), 1u);
 }
 
 TEST_F(SystemFunctions, ArgumentIsStringConstant) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
@@ -95,7 +95,7 @@ TEST_F(SystemFunctions, ArgumentIsStringConstant) {
 }
 
 TEST_F(SystemFunctions, ArgumentValueIsHelloWorld) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);

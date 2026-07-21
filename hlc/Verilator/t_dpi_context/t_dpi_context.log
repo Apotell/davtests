@@ -517,7 +517,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_dpi_context.v:8:1: Compile module "work@t".
 [WRN:CP0323] $Source01/t_dpi_context.v:8:1: Multiply defined typedef "work@sub".
 [INF:CP0303] $Source01/t_dpi_context.v:25:1: Compile module "work@sub".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_dpi_context.v:10:12: Illegal implicit net "id:15, name:inst".
 [ERR:EL0535] $Source01/t_dpi_context.v:11:12: Illegal implicit net "id:24, name:inst".
 [ERR:EL0535] $Source01/t_dpi_context.v:14:9: Illegal implicit net "id:33, name:test1".
@@ -528,6 +527,7 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/t_dpi_context.v:37:34: Illegal implicit net "id:90, name:result".
 [ERR:EL0535] $Source01/t_dpi_context.v:45:7: Illegal implicit net "id:95, name:result".
 [ERR:EL0535] $Source01/t_dpi_context.v:46:11: Illegal implicit net "id:104, name:result".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -625,14 +625,14 @@ Design name:unnamed:
                     vpiParent: HierPath name:b.test2
                     vpiName: test2
                     vpiFullName: work@t.test2
-              SysFuncCall name:$write start:19:7 end:19:39:
+              SysTaskCall name:$write start:19:7 end:19:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:7 end:19:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:19:14 end:19:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@t
@@ -641,10 +641,10 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:20:7 end:20:14:
+              SysTaskCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
       vpiRefInstance (2 items):
         RefInstance name:a start:10:8 end:10:9:
@@ -823,10 +823,10 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: result
                       vpiFullName: work@sub.test1.result
-                vpiStmt SysFuncCall name:$stop start:37:42 end:37:47:
+                vpiStmt SysTaskCall name:$stop start:37:42 end:37:47:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:37:42 end:37:47:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               Assignment start:45:7 end:45:34:
                 vpiParent: Begin
@@ -881,10 +881,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-                vpiStmt SysFuncCall name:$stop start:46:22 end:46:27:
+                vpiStmt SysTaskCall name:$stop start:46:22 end:46:27:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:46:22 end:46:27:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
         Task name:test2 start:49:4 end:51:11:
           vpiParent: Module name:work@sub
@@ -898,10 +898,10 @@ Design name:unnamed:
               vpiParent: IfStmt
               vpiOpType: not equal (15)
               vpiOperand (2 items):
-                FuncCall name:dpic_restore start:50:11 end:50:25:
+                SubroutineCall name:dpic_restore start:50:11 end:50:25:
                   vpiParent: Operation
                   vpiName Identifier name:dpic_restore start:50:11 end:50:23:
-                    vpiParent: FuncCall name:dpic_restore
+                    vpiParent: SubroutineCall name:dpic_restore
                     vpiName: dpic_restore
                 Operation start:50:29 end:50:36:
                   vpiParent: Operation
@@ -922,10 +922,10 @@ Design name:unnamed:
                       vpiName: inst
                       vpiFullName: work@sub.test2.inst
                       vpiActual: Net name:inst
-            vpiStmt SysFuncCall name:$stop start:50:38 end:50:43:
+            vpiStmt SysTaskCall name:$stop start:50:38 end:50:43:
               vpiParent: IfStmt
               vpiName Identifier name:$stop start:50:38 end:50:43:
-                vpiParent: SysFuncCall name:$stop
+                vpiParent: SysTaskCall name:$stop
                 vpiName: "$stop"
       vpiNet (3 items):
         Net name:inst start:25:27 end:25:31:
@@ -1024,10 +1024,10 @@ Design name:unnamed:
                       vpiName: cntxt2
                       vpiFullName: work@sub.cntxt2
                       vpiActual: Net name:cntxt2
-                vpiStmt SysFuncCall name:$stop start:63:28 end:63:33:
+                vpiStmt SysTaskCall name:$stop start:63:28 end:63:33:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:63:28 end:63:33:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
   vpiTypespec (5 items):
     ModuleTypespec name:work@t:

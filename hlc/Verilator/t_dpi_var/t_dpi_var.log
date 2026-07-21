@@ -636,12 +636,12 @@ n<$Source01/t_dpi_var.v> u<589> t<Top_level_rule> c<1> l<8:1> el<91:10>
   n<// Scheme B - use VPIish callbacks to see what signals exist> u<588> t<LINE_COMMENT> p<589> l<85:7> el<85:67>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_dpi_var.v:8:1: Compile module "work@t".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_dpi_var.v:61:4: Illegal implicit net "id:174, name:fr_a".
 [ERR:EL0535] $Source01/t_dpi_var.v:61:10: Illegal implicit net "id:175, name:fr_b".
 [ERR:EL0535] $Source01/t_dpi_var.v:61:16: Illegal implicit net "id:176, name:fr_chk".
 [ERR:EL0535] $Source01/t_dpi_var.v:63:4: Illegal implicit net "id:177, name:in".
 [ERR:EL0535] $Source01/t_dpi_var.v:67:8: Illegal implicit net "id:180, name:mon_class_name".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1025,10 +1025,10 @@ Design name:unnamed:
                                   vpiName: fr_a
                                   vpiFullName: work@t.fr_a
                                   vpiActual: Net name:fr_a
-                            vpiStmt SysFuncCall name:$stop start:38:23 end:38:28:
+                            vpiStmt SysTaskCall name:$stop start:38:23 end:38:28:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:38:23 end:38:28:
-                                vpiParent: SysFuncCall name:$stop
+                                vpiParent: SysTaskCall name:$stop
                                 vpiName: "$stop"
                           IfStmt start:39:3 end:39:29:
                             vpiParent: Begin
@@ -1046,10 +1046,10 @@ Design name:unnamed:
                                   vpiName: fr_b
                                   vpiFullName: work@t.fr_b
                                   vpiActual: Net name:fr_b
-                            vpiStmt SysFuncCall name:$stop start:39:23 end:39:28:
+                            vpiStmt SysTaskCall name:$stop start:39:23 end:39:28:
                               vpiParent: IfStmt
                               vpiName Identifier name:$stop start:39:23 end:39:28:
-                                vpiParent: SysFuncCall name:$stop
+                                vpiParent: SysTaskCall name:$stop
                                 vpiName: "$stop"
                       vpiElseStmt IfStmt start:41:12 end:44:10:
                         vpiParent: IfElse
@@ -1076,14 +1076,14 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiFullName: work@t
                           vpiStmt (2 items):
-                            SysFuncCall name:$write start:42:3 end:42:35:
+                            SysTaskCall name:$write start:42:3 end:42:35:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:42:3 end:42:9:
-                                vpiParent: SysFuncCall name:$write
+                                vpiParent: SysTaskCall name:$write
                                 vpiName: "$write"
                               vpiArgument (1 items):
                                 Constant start:42:10 end:42:34:
-                                  vpiParent: SysFuncCall name:$write
+                                  vpiParent: SysTaskCall name:$write
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
                                     vpiFullName: work@t
@@ -1092,10 +1092,10 @@ Design name:unnamed:
                                   vpiSize: 168
                                   vpiDecompile: "\"*-* All Finished *-*\\n\""
                                   vpiValue: "*-* All Finished *-*\\n"
-                            SysFuncCall name:$finish start:43:3 end:43:10:
+                            SysTaskCall name:$finish start:43:3 end:43:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:43:3 end:43:10:
-                                vpiParent: SysFuncCall name:$finish
+                                vpiParent: SysTaskCall name:$finish
                                 vpiName: "$finish"
           vpiAlwaysType: always (1)
         Always start:48:4 end:50:7:
@@ -1226,10 +1226,10 @@ Design name:unnamed:
               vpiParent: ImportTypespec name:context
               vpiName: context
         vpiStmt (1 items):
-          FuncCall name:mon_register_done start:56:38 end:56:57:
+          SubroutineCall name:mon_register_done start:56:38 end:56:57:
             vpiParent: Begin
             vpiName Identifier name:mon_register_done start:56:38 end:56:55:
-              vpiParent: FuncCall name:mon_register_done
+              vpiParent: SubroutineCall name:mon_register_done
               vpiName: mon_register_done
       vpiReturn RefTypespec start:55:33 end:55:37:
         vpiParent: Function name:mon_register_b
@@ -1246,28 +1246,28 @@ Design name:unnamed:
         vpiParent: Function name:mon_eval
         vpiFullName: mon_eval
         vpiStmt (2 items):
-          FuncCall name:sub start:59:8 end:64:5:
+          SubroutineCall name:sub start:59:8 end:64:5:
             vpiParent: Begin
             vpiName Identifier name:sub start:59:8 end:59:11:
-              vpiParent: FuncCall name:sub
+              vpiParent: SubroutineCall name:sub
               vpiName: sub
             vpiArgument (4 items):
               RefObj name:fr_a start:61:4 end:61:8:
-                vpiParent: FuncCall name:sub
+                vpiParent: SubroutineCall name:sub
                 vpiName: fr_a
-                vpiFullName: mon_eval.fr_a
+                vpiFullName: mon_eval.sub.fr_a
               RefObj name:fr_b start:61:10 end:61:14:
-                vpiParent: FuncCall name:sub
+                vpiParent: SubroutineCall name:sub
                 vpiName: fr_b
-                vpiFullName: mon_eval.fr_b
+                vpiFullName: mon_eval.sub.fr_b
               RefObj name:fr_chk start:61:16 end:61:22:
-                vpiParent: FuncCall name:sub
+                vpiParent: SubroutineCall name:sub
                 vpiName: fr_chk
-                vpiFullName: mon_eval.fr_chk
+                vpiFullName: mon_eval.sub.fr_chk
               RefObj name:in start:63:4 end:63:6:
-                vpiParent: FuncCall name:sub
+                vpiParent: SubroutineCall name:sub
                 vpiName: in
-                vpiFullName: mon_eval.in
+                vpiFullName: mon_eval.sub.in
           RefObj name:mon_class_name start:67:8 end:67:22:
             vpiParent: Begin
             vpiName: mon_class_name

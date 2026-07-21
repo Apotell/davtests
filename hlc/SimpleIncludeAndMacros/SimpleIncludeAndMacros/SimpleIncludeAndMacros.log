@@ -9,6 +9,8 @@ COMMAND: -wd ../../../tests/SimpleIncludeAndMacros top.v top_1.v top_2.v top_3.v
 [WRN:CM0007] Library path "$Source01/blah" does not exist.
 [INF:PP0122] Preprocessing source file "$Source00/builtin.sv".
 [INF:PP0122] Preprocessing source file "$Source01/top.v".
+[NTE:PP0105] $Source01/top.v:2:1: Multiply defined macro "N",
+%exloc previous definition.
 [ERR:PP0109] $Source01/mode.vh:36: Macro instantiation omits argument 2 (y) for "D",
 $Source01/mode.vh:25:9: No default value for argument 2 (y) in macro definition.
 [ERR:PP0109] $Source01/mode.vh:38: Macro instantiation omits argument 1 (x) for "D",
@@ -189,6 +191,7 @@ initial $display("start", "msg1"  , "msg2" , "end");
 [INF:CP0303] $Source01/lib.v:17:1: Compile module "work@FAKELIB_BUF_BIGLOAD".
 [INF:CP0303] $Source01/lib.v:20:1: Compile module "work@FAKELIB_DFF".
 [INF:CP0305] $Source01/lib.v:25:11: Compile udp "FAKELIB_DFF_PRIMITIVE".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/lib.v:2:1: No timescale set for "work@FAKELIB_NAND2".
 [WRN:PA0205] $Source01/lib.v:5:1: No timescale set for "work@FAKELIB_NAND4".
 [WRN:PA0205] $Source01/lib.v:8:1: No timescale set for "work@FAKELIB_NOR2".
@@ -208,51 +211,11 @@ Design name:unnamed:
         SourceFile name:my_incl.vh file:$Source01/my_incl.vh start:4:1 end:4:22:
           vpiParent: SourceFile name:top.v
           vpiName: my_incl.vh
-          vpiPreprocMacroDefinition (9 items):
+          vpiPreprocMacroDefinition (1 items):
             PreprocMacroDefinition name:_my_incl_vh_ start:5:1 end:6:1:
               vpiParent: SourceFile name:my_incl.vh
               vpiName: "_my_incl_vh_"
               vpiNameStartColumn: 9
-            PreprocMacroDefinition name:M start:204:1 end:204:20:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: M
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 11
-            PreprocMacroDefinition name:INCLUSION_FILES start:206:1 end:207:21:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: INCLUSION_FILES
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 25
-            PreprocMacroDefinition name:xyz start:209:1 end:210:37:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: xyz
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 28
-            PreprocMacroDefinition name:single start:213:1 end:213:18:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: single
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 16
-            PreprocMacroDefinition name:MACRO1 start:215:1 end:215:47:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: MACRO1
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 29
-            PreprocMacroDefinition name:msg start:217:1 end:217:34:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: msg
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 18
-            PreprocMacroDefinition name:WB_DUT_U_ASSIGN start:219:1 end:221:1:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: WB_DUT_U_ASSIGN
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 35
-            PreprocMacroDefinition name:DUT_PATH start:222:1 end:222:23:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: DUT_PATH
-              vpiNameStartColumn: 9
-              vpiBodyStartColumn: 18
           vpiDefNetType: none (12)
         SourceFile name:bar.vh file:$Source01/foo/bar.vh start:6:1 end:6:18:
           vpiParent: SourceFile name:top.v
@@ -332,7 +295,6 @@ Design name:unnamed:
         PreprocMacroInstance name:INCLUSION_FILES file:$Source01/top.v start:8:1 end:8:17:
           vpiParent: SourceFile name:top.v
           vpiName: INCLUSION_FILES
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           vpiPreprocMacroInstance (18 items):
             PreprocMacroInstance name:D file:$Source01/mode.vh start:26:1 end:26:22:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
@@ -573,7 +535,6 @@ Design name:unnamed:
         PreprocMacroInstance name:M file:$Source01/top.v start:19:51 end:19:53:
           vpiParent: SourceFile name:top.v
           vpiName: M
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:M
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:N file:$Source01/fake.sv start:204:12 end:204:14:
               vpiParent: PreprocMacroInstance name:M
@@ -634,7 +595,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top.v start:24:1 end:24:10:
           vpiParent: SourceFile name:top.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -646,7 +606,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top.v start:26:1 end:26:8:
           vpiParent: SourceFile name:top.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -670,7 +629,6 @@ Design name:unnamed:
         PreprocMacroInstance name:msg file:$Source01/top.v start:30:10 end:30:36:
           vpiParent: SourceFile name:top.v
           vpiName: msg
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiSectionStartLine: 217
           vpiSectionStartColumn: 18
           vpiSectionEndLine: 217
@@ -694,12 +652,10 @@ Design name:unnamed:
         PreprocMacroInstance name:WB_DUT_U_ASSIGN file:$Source01/top.v start:34:1 end:34:24:
           vpiParent: SourceFile name:top.v
           vpiName: WB_DUT_U_ASSIGN
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:WB_DUT_U_ASSIGN
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:DUT_PATH file:$Source01/fake.sv start:220:16 end:220:25:
               vpiParent: PreprocMacroInstance name:WB_DUT_U_ASSIGN
               vpiName: DUT_PATH
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:DUT_PATH
               vpiSectionStartLine: 222
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 222
@@ -852,7 +808,6 @@ Design name:unnamed:
         PreprocMacroInstance name:INCLUSION_FILES file:$Source01/top_1.v start:8:1 end:8:17:
           vpiParent: SourceFile name:top_1.v
           vpiName: INCLUSION_FILES
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           vpiPreprocMacroInstance (18 items):
             PreprocMacroInstance name:D file:$Source01/mode.vh start:26:1 end:26:22:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
@@ -1093,7 +1048,6 @@ Design name:unnamed:
         PreprocMacroInstance name:M file:$Source01/top_1.v start:19:51 end:19:53:
           vpiParent: SourceFile name:top_1.v
           vpiName: M
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:M
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:N file:$Source01/fake.sv start:204:12 end:204:14:
               vpiParent: PreprocMacroInstance name:M
@@ -1154,7 +1108,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_1.v start:24:1 end:24:10:
           vpiParent: SourceFile name:top_1.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -1166,7 +1119,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_1.v start:26:1 end:26:8:
           vpiParent: SourceFile name:top_1.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -1190,7 +1142,6 @@ Design name:unnamed:
         PreprocMacroInstance name:msg file:$Source01/top_1.v start:30:10 end:30:36:
           vpiParent: SourceFile name:top_1.v
           vpiName: msg
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiSectionStartLine: 217
           vpiSectionStartColumn: 18
           vpiSectionEndLine: 217
@@ -1214,12 +1165,10 @@ Design name:unnamed:
         PreprocMacroInstance name:WB_DUT_U_ASSIGN file:$Source01/top_1.v start:34:1 end:34:24:
           vpiParent: SourceFile name:top_1.v
           vpiName: WB_DUT_U_ASSIGN
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:WB_DUT_U_ASSIGN
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:DUT_PATH file:$Source01/fake.sv start:220:16 end:220:25:
               vpiParent: PreprocMacroInstance name:WB_DUT_U_ASSIGN
               vpiName: DUT_PATH
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:DUT_PATH
               vpiSectionStartLine: 222
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 222
@@ -1329,7 +1278,6 @@ Design name:unnamed:
         PreprocMacroInstance name:INCLUSION_FILES file:$Source01/top_2.v start:8:1 end:8:17:
           vpiParent: SourceFile name:top_2.v
           vpiName: INCLUSION_FILES
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           vpiPreprocMacroInstance (18 items):
             PreprocMacroInstance name:D file:$Source01/mode.vh start:26:1 end:26:22:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
@@ -1570,7 +1518,6 @@ Design name:unnamed:
         PreprocMacroInstance name:M file:$Source01/top_2.v start:19:51 end:19:53:
           vpiParent: SourceFile name:top_2.v
           vpiName: M
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:M
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:N file:$Source01/fake.sv start:204:12 end:204:14:
               vpiParent: PreprocMacroInstance name:M
@@ -1631,7 +1578,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_2.v start:24:1 end:24:10:
           vpiParent: SourceFile name:top_2.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -1643,7 +1589,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_2.v start:26:1 end:26:8:
           vpiParent: SourceFile name:top_2.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -1667,7 +1612,6 @@ Design name:unnamed:
         PreprocMacroInstance name:msg file:$Source01/top_2.v start:30:10 end:30:36:
           vpiParent: SourceFile name:top_2.v
           vpiName: msg
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiSectionStartLine: 217
           vpiSectionStartColumn: 18
           vpiSectionEndLine: 217
@@ -1691,12 +1635,10 @@ Design name:unnamed:
         PreprocMacroInstance name:WB_DUT_U_ASSIGN file:$Source01/top_2.v start:34:1 end:34:24:
           vpiParent: SourceFile name:top_2.v
           vpiName: WB_DUT_U_ASSIGN
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:WB_DUT_U_ASSIGN
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:DUT_PATH file:$Source01/fake.sv start:220:16 end:220:25:
               vpiParent: PreprocMacroInstance name:WB_DUT_U_ASSIGN
               vpiName: DUT_PATH
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:DUT_PATH
               vpiSectionStartLine: 222
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 222
@@ -1721,9 +1663,9 @@ Design name:unnamed:
           vpiSectionStartColumn: 20
           vpiSectionEndLine: 43
           vpiSectionEndColumn: 36
-          vpiSourceStartLine: 161
+          vpiSourceStartLine: 160
           vpiSourceStartColumn: 10
-          vpiSourceEndLine: 161
+          vpiSourceEndLine: 160
           vpiSourceEndColumn: 26
         PreprocMacroInstance name:home file:$Source01/top_2.v start:52:1 end:52:14:
           vpiParent: SourceFile name:top_2.v
@@ -1733,9 +1675,9 @@ Design name:unnamed:
           vpiSectionStartColumn: 24
           vpiSectionEndLine: 51
           vpiSectionEndColumn: 32
-          vpiSourceStartLine: 168
+          vpiSourceStartLine: 167
           vpiSourceStartColumn: 1
-          vpiSourceEndLine: 168
+          vpiSourceEndLine: 167
           vpiSourceEndColumn: 9
         PreprocMacroInstance name:wxyz file:$Source01/top_2.v start:54:1 end:54:11:
           vpiParent: SourceFile name:top_2.v
@@ -1745,9 +1687,9 @@ Design name:unnamed:
           vpiSectionStartColumn: 29
           vpiSectionEndLine: 4
           vpiSectionEndColumn: 33
-          vpiSourceStartLine: 175
+          vpiSourceStartLine: 174
           vpiSourceStartColumn: 1
-          vpiSourceEndLine: 176
+          vpiSourceEndLine: 175
           vpiSourceEndColumn: 33
       vpiDefNetType: none (12)
     SourceFile name:top_3.v file:$Source01/top_3.v:
@@ -1864,7 +1806,6 @@ Design name:unnamed:
         PreprocMacroInstance name:INCLUSION_FILES file:$Source01/top_3.v start:11:1 end:11:17:
           vpiParent: SourceFile name:top_3.v
           vpiName: INCLUSION_FILES
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           vpiPreprocMacroInstance (18 items):
             PreprocMacroInstance name:D file:$Source01/mode.vh start:26:1 end:26:22:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
@@ -2097,15 +2038,14 @@ Design name:unnamed:
           vpiSectionStartLine: 2
           vpiSectionStartColumn: 11
           vpiSectionEndLine: 2
-          vpiSectionEndColumn: 12
+          vpiSectionEndColumn: 13
           vpiSourceStartLine: 120
           vpiSourceStartColumn: 30
           vpiSourceEndLine: 120
-          vpiSourceEndColumn: 31
+          vpiSourceEndColumn: 32
         PreprocMacroInstance name:M file:$Source01/top_3.v start:22:51 end:22:53:
           vpiParent: SourceFile name:top_3.v
           vpiName: M
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:M
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:N file:$Source01/fake.sv start:204:12 end:204:14:
               vpiParent: PreprocMacroInstance name:M
@@ -2114,19 +2054,19 @@ Design name:unnamed:
               vpiSectionStartLine: 2
               vpiSectionStartColumn: 11
               vpiSectionEndLine: 2
-              vpiSectionEndColumn: 12
+              vpiSectionEndColumn: 13
               vpiSourceStartLine: 120
-              vpiSourceStartColumn: 51
+              vpiSourceStartColumn: 52
               vpiSourceEndLine: 120
-              vpiSourceEndColumn: 52
+              vpiSourceEndColumn: 54
           vpiSectionStartLine: 204
           vpiSectionStartColumn: 11
           vpiSectionEndLine: 204
-          vpiSectionEndColumn: 19
+          vpiSectionEndColumn: 20
           vpiSourceStartLine: 120
-          vpiSourceStartColumn: 50
+          vpiSourceStartColumn: 51
           vpiSourceEndLine: 120
-          vpiSourceEndColumn: 58
+          vpiSourceEndColumn: 60
         PreprocMacroInstance name:single file:$Source01/top_3.v start:24:9 end:24:16:
           vpiParent: SourceFile name:top_3.v
           vpiName: single
@@ -2166,7 +2106,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_3.v start:27:1 end:27:10:
           vpiParent: SourceFile name:top_3.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -2178,7 +2117,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_3.v start:29:1 end:29:8:
           vpiParent: SourceFile name:top_3.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -2262,7 +2200,6 @@ Design name:unnamed:
         PreprocMacroInstance name:msg file:$Source01/top_3.v start:43:10 end:43:36:
           vpiParent: SourceFile name:top_3.v
           vpiName: msg
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiSectionStartLine: 217
           vpiSectionStartColumn: 18
           vpiSectionEndLine: 217
@@ -2286,12 +2223,10 @@ Design name:unnamed:
         PreprocMacroInstance name:WB_DUT_U_ASSIGN file:$Source01/top_3.v start:47:1 end:47:24:
           vpiParent: SourceFile name:top_3.v
           vpiName: WB_DUT_U_ASSIGN
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:WB_DUT_U_ASSIGN
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:DUT_PATH file:$Source01/fake.sv start:220:16 end:220:25:
               vpiParent: PreprocMacroInstance name:WB_DUT_U_ASSIGN
               vpiName: DUT_PATH
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:DUT_PATH
               vpiSectionStartLine: 222
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 222
@@ -2396,7 +2331,6 @@ Design name:unnamed:
         PreprocMacroInstance name:INCLUSION_FILES file:$Source01/top_4.v start:8:1 end:8:17:
           vpiParent: SourceFile name:top_4.v
           vpiName: INCLUSION_FILES
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           vpiPreprocMacroInstance (18 items):
             PreprocMacroInstance name:D file:$Source01/mode.vh start:26:1 end:26:22:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
@@ -2661,7 +2595,6 @@ Design name:unnamed:
         PreprocMacroInstance name:M file:$Source01/top_4.v start:31:51 end:31:53:
           vpiParent: SourceFile name:top_4.v
           vpiName: M
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:M
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:N file:$Source01/fake.sv start:204:12 end:204:14:
               vpiParent: PreprocMacroInstance name:M
@@ -2722,7 +2655,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_4.v start:36:1 end:36:10:
           vpiParent: SourceFile name:top_4.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -2734,7 +2666,6 @@ Design name:unnamed:
         PreprocMacroInstance name:xyz file:$Source01/top_4.v start:38:1 end:38:8:
           vpiParent: SourceFile name:top_4.v
           vpiName: xyz
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:xyz
           vpiSectionStartLine: 209
           vpiSectionStartColumn: 28
           vpiSectionEndLine: 210
@@ -2758,7 +2689,6 @@ Design name:unnamed:
         PreprocMacroInstance name:msg file:$Source01/top_4.v start:42:10 end:42:36:
           vpiParent: SourceFile name:top_4.v
           vpiName: msg
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:msg
           vpiSectionStartLine: 217
           vpiSectionStartColumn: 18
           vpiSectionEndLine: 217
@@ -2782,12 +2712,10 @@ Design name:unnamed:
         PreprocMacroInstance name:WB_DUT_U_ASSIGN file:$Source01/top_4.v start:46:1 end:46:24:
           vpiParent: SourceFile name:top_4.v
           vpiName: WB_DUT_U_ASSIGN
-          vpiPreprocMacroDefinition: PreprocMacroDefinition name:WB_DUT_U_ASSIGN
           vpiPreprocMacroInstance (1 items):
             PreprocMacroInstance name:DUT_PATH file:$Source01/fake.sv start:220:16 end:220:25:
               vpiParent: PreprocMacroInstance name:WB_DUT_U_ASSIGN
               vpiName: DUT_PATH
-              vpiPreprocMacroDefinition: PreprocMacroDefinition name:DUT_PATH
               vpiSectionStartLine: 222
               vpiSectionStartColumn: 18
               vpiSectionEndLine: 222
@@ -4389,6 +4317,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -4606,6 +4535,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -4684,6 +4614,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -5737,15 +5668,21 @@ Design name:unnamed:
                 vpiFullName: work@FAKELIB_DFF.dff.D
                 vpiActual: Net name:D
   vpiTypespec (15 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -5803,18 +5740,12 @@ Design name:unnamed:
     UdpDefnTypespec name:work@FAKELIB_DFF_PRIMITIVE:
       vpiParent: Design name:unnamed
       vpiName: work@FAKELIB_DFF_PRIMITIVE
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 6
 [  ERROR] : 52
-[WARNING] : 20
-[   NOTE] : 16
+[WARNING] : 21
+[   NOTE] : 17
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -5828,7 +5759,7 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/mounts.json
 
 
-{'result': {'coverage': 38.79,
+{'result': {'coverage': 38.74,
             'error_count': 0,
             'file_count': 6,
             'files': {'$Output/lib/work/lib.v': {'post_len': 25,
@@ -5837,14 +5768,14 @@ mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMa
                                                  'pre_len': 1031},
                       '$Output/lib/work/top_1.v': {'post_len': 698,
                                                    'pre_len': 1001},
-                      '$Output/lib/work/top_2.v': {'post_len': 876,
-                                                   'pre_len': 1230},
-                      '$Output/lib/work/top_3.v': {'post_len': 805,
-                                                   'pre_len': 1126},
+                      '$Output/lib/work/top_2.v': {'post_len': 864,
+                                                   'pre_len': 1207},
+                      '$Output/lib/work/top_3.v': {'post_len': 807,
+                                                   'pre_len': 1128},
                       '$Output/lib/work/top_4.v': {'post_len': 772,
                                                    'pre_len': 1105}},
-            'post_len': 3901,
-            'pre_len': 6373,
+            'post_len': 3891,
+            'pre_len': 6352,
             'test_name': 'SimpleIncludeAndMacros/SimpleIncludeAndMacros'}}
 
 +--------------------------+----------+-----------+
@@ -5852,16 +5783,16 @@ mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMa
 +==========================+==========+===========+
 | $Output/lib/work/top.v   |     1031 |       725 |
 | $Output/lib/work/top_1.v |     1001 |       698 |
-| $Output/lib/work/top_2.v |     1230 |       876 |
-| $Output/lib/work/top_3.v |     1126 |       805 |
+| $Output/lib/work/top_2.v |     1207 |       864 |
+| $Output/lib/work/top_3.v |     1128 |       807 |
 | $Output/lib/work/top_4.v |     1105 |       772 |
 | $Output/lib/work/lib.v   |      880 |        25 |
 +==========================+==========+===========+
-|                          |     6373 |      3901 |
+|                          |     6352 |      3891 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 38.79
+[COVERAGE] : 38.74
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5872,7 +5803,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1097    1097       0         0
+Others                            1089    1089       0         0
 ----------------------------------------------------------------
-                                  1097    1097       0         0
+                                  1089    1089       0         0
 ===================== END REDUCTION RESULT =====================

@@ -39,8 +39,8 @@
 //   The SV source provides both:
 //     pass block: $display("pass")
 //     fail block: $display("fail")
-//   -> getStmt()     must be non-null (SysFuncCall for $display)
-//   -> getElseStmt() must be non-null (SysFuncCall for $display)
+//   -> getStmt()     must be non-null (SysTaskCall for $display)
+//   -> getElseStmt() must be non-null (SysTaskCall for $display)
 //
 // Rule 4 -- 'initial assert (expr)' is a single statement. No begin...end
 //   wrapper. ImmediateAssert is the direct stmt of the Initial process.
@@ -60,7 +60,7 @@
 //         operands[0]: RefObj -> 'a'
 //         operands[1]: Constant -> "0"
 //       },
-//       stmt = SysFuncCall {           // Rule 3 -- pass block
+//       stmt = SysTaskCall {           // Rule 3 -- pass block
 //         name: "$display"
 //         arguments[0]: Constant {
 //           value:     "pass"
@@ -68,7 +68,7 @@
 //           constType: vpiStringConst
 //         }
 //       },
-//       elseStmt = SysFuncCall {       // Rule 3 -- fail block
+//       elseStmt = SysTaskCall {       // Rule 3 -- fail block
 //         name: "$display"
 //         arguments[0]: Constant {
 //           value:     "fail"
@@ -125,19 +125,19 @@ static const hldb::ImmediateAssert *getAssert(const hldb::Design *d) {
   return initial->getStmt<hldb::ImmediateAssert>();
 }
 
-static const hldb::SysFuncCall *getPassCall(const hldb::Design *d) {
+static const hldb::TFCall *getPassCall(const hldb::Design *d) {
   const auto *ia = getAssert(d);
   if (!ia) return nullptr;
-  return ia->getStmt<hldb::SysFuncCall>();
+  return ia->getStmt<hldb::TFCall>();
 }
 
-static const hldb::SysFuncCall *getFailCall(const hldb::Design *d) {
+static const hldb::TFCall *getFailCall(const hldb::Design *d) {
   const auto *ia = getAssert(d);
   if (!ia) return nullptr;
-  return ia->getElseStmt<hldb::SysFuncCall>();
+  return ia->getElseStmt<hldb::TFCall>();
 }
 
-static const hldb::Constant *getFirstArg(const hldb::SysFuncCall *call) {
+static const hldb::Constant *getFirstArg(const hldb::TFCall *call) {
   if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
@@ -272,7 +272,7 @@ TEST_F(ImmediateAssertTest, Assert_RightOperand_ValueIsZero) {
 // sec. 16.2 Rule 3: pass action block -- $display("pass").
 // The pass action executes when the assertion expression evaluates to true.
 // sec. 16.2 allows a single statement without begin...end as the action block.
-// $display is a system task call represented as SysFuncCall in UHDM.
+// $display is a system task call represented as SysTaskCall in UHDM.
 // ---------------------------------------------------------------------------
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
   // sec. 16.2: 'assert (expr) stmt' -- the statement after the expression is
@@ -283,12 +283,12 @@ TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Exists) {
                                        "non-null pass action block";
 }
 
-TEST_F(ImmediateAssertTest, Assert_PassActionBlock_IsSysFuncCall) {
-  // $display is a system call -- represented as SysFuncCall in UHDM.
+TEST_F(ImmediateAssertTest, Assert_PassActionBlock_IsSysTaskcCall) {
+  // $display is a system call -- represented as SysTaskCall in UHDM.
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getStmt<hldb::SysFuncCall>(), nullptr)
-      << "sec. 16.2: pass action '$display(...)' must be a SysFuncCall";
+  EXPECT_NE(ia->getStmt<hldb::SysTaskCall>(), nullptr)
+      << "sec. 16.2: pass action '$display(...)' must be a SysTaskCall";
 }
 
 TEST_F(ImmediateAssertTest, Assert_PassActionBlock_Name) {
@@ -348,11 +348,11 @@ TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Exists) {
                                            "non-null fail action block";
 }
 
-TEST_F(ImmediateAssertTest, Assert_FailActionBlock_IsSysFuncCall) {
+TEST_F(ImmediateAssertTest, Assert_FailActionBlock_IsSysTaskCall) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_NE(ia->getElseStmt<hldb::SysFuncCall>(), nullptr)
-      << "sec. 16.2: fail action '$display(...)' must be a SysFuncCall";
+  EXPECT_NE(ia->getElseStmt<hldb::SysTaskCall>(), nullptr)
+      << "sec. 16.2: fail action '$display(...)' must be a SysTaskCall";
 }
 
 TEST_F(ImmediateAssertTest, Assert_FailActionBlock_Name) {

@@ -942,6 +942,7 @@ AST_DEBUG_END
 [INF:CP0305] $Source01/dut.sv:37:11: Compile udp "udp_sequential".
 [INF:CP0305] $Source01/dut.sv:60:11: Compile udp "udp_sequential_initial".
 [INF:CP0303] $Source01/dut.sv:84:1: Compile module "work@udp_body_tb".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:84:1: No timescale set for "work@udp_body_tb".
 ====== HLDB =======
 Design name:unnamed:
@@ -2519,6 +2520,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2736,6 +2738,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2814,6 +2817,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3483,14 +3487,14 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin
             vpiStmt (12 items):
-              SysFuncCall name:$monitor start:92:3 end:92:43:
+              SysTaskCall name:$monitor start:92:3 end:92:43:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:92:3 end:92:11:
-                  vpiParent: SysFuncCall name:$monitor
+                  vpiParent: SysTaskCall name:$monitor
                   vpiName: "$monitor"
                 vpiArgument (4 items):
                   Constant start:92:12 end:92:36:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@udp_body_tb
@@ -3500,17 +3504,17 @@ Design name:unnamed:
                     vpiDecompile: "\" B = %b C = %b  A = %b\""
                     vpiValue: B = %b C = %b  A = %b
                   RefObj name:b start:92:37 end:92:38:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiName: b
                     vpiFullName: work@udp_body_tb.b
                     vpiActual: Net name:b
                   RefObj name:c start:92:39 end:92:40:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiName: c
                     vpiFullName: work@udp_body_tb.c
                     vpiActual: Net name:c
                   RefObj name:a start:92:41 end:92:42:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiName: a
                     vpiFullName: work@udp_body_tb.a
                     vpiActual: Net name:a
@@ -3792,10 +3796,10 @@ Design name:unnamed:
                   vpiValue: 1
               DelayControl start:103:3 end:103:14:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:103:6 end:103:13:
+                vpiStmt SysTaskCall name:$finish start:103:6 end:103:13:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:103:6 end:103:13:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:103:4 end:103:5:
                   vpiParent: DelayControl
@@ -3843,15 +3847,21 @@ Design name:unnamed:
                 vpiFullName: work@udp_body_tb.udp.c
                 vpiActual: Net name:c
   vpiTypespec (12 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3867,8 +3877,6 @@ Design name:unnamed:
     UdpDefnTypespec name:work@udp_body:
       vpiParent: Design name:unnamed
       vpiName: work@udp_body
-    StringTypespec:
-      vpiParent: Design name:unnamed
     UdpDefnTypespec name:work@udp_latch:
       vpiParent: Design name:unnamed
       vpiName: work@udp_latch
@@ -3884,15 +3892,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@udp_body_tb
         vpiName: work@udp_body_tb
       vpiModule: Module name:work@udp_body_tb
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

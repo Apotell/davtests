@@ -29,7 +29,7 @@
 //   end
 //
 // UHDM representation:
-//   One $display SysFuncCall with one Constant argument:
+//   One $display SysTaskCall with one Constant argument:
 //     constType = vpiStringConst (6)
 //     size      = 64   — "one line" = 8 characters × 8 bits = 64 bits (correct)
 //     value     = "one line"
@@ -76,14 +76,14 @@ static const hldb::Begin *getBegin(const hldb::Design *d) {
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d) {
+static const hldb::SysTaskCall *getDisplayCall(const hldb::Design *d) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts() || begin->getStmts()->empty()) return nullptr;
-  return any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[0]);
+  return any_cast<const hldb::SysTaskCall *>((*begin->getStmts())[0]);
 }
 
 static const hldb::Constant *getStringArg(const hldb::Design *d) {
-  const hldb::SysFuncCall *call = getDisplayCall(d);
+  const hldb::SysTaskCall *call = getDisplayCall(d);
   if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
@@ -116,13 +116,13 @@ TEST_F(StringBasics, BeginHasOneStatement) {
 // $display call
 // ---------------------------------------------------------------------------
 TEST_F(StringBasics, StatementIsDisplayCall) {
-  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
-  ASSERT_NE(call, nullptr) << "stmt[0] is not a SysFuncCall";
+  const hldb::SysTaskCall *const call = getDisplayCall(m_design);
+  ASSERT_NE(call, nullptr) << "stmt[0] is not a SysTaskCall";
   EXPECT_EQ(call->getName(), "$display") << "system call must be $display";
 }
 
 TEST_F(StringBasics, DisplayCallHasOneArgument) {
-  const hldb::SysFuncCall *const call = getDisplayCall(m_design);
+  const hldb::SysTaskCall *const call = getDisplayCall(m_design);
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr) << "$display has no argument list";
   EXPECT_EQ(call->getArguments()->size(), 1u) << "$display(\"one line\") has exactly 1 argument";

@@ -126,7 +126,7 @@ TEST_F(StringAtobin, BNetValueIsHierPath) {
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "net 'b' initial value is not a HierPath";
-  EXPECT_EQ(hp->getName(), "a.atobin()");
+  EXPECT_EQ(hp->getName(), "a.atobin");
 }
 
 TEST_F(StringAtobin, HierPathReceiverIsA) {
