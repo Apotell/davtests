@@ -6183,20 +6183,21 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/fsm1.v:1:1: Compile module "work@FSM1".
 [INF:CP0303] $Source01/fsm2.v:1:1: Compile module "work@FSM2".
 [INF:CP0303] $Source01/fsm3.v:1:1: Compile module "work@FSM3".
+[ERR:EL0535] $Source01/top.v:11:10: Illegal implicit net "id:841, name:Clk".
+[ERR:EL0535] $Source01/top.v:12:10: Illegal implicit net "id:844, name:Reset".
+[ERR:EL0535] $Source01/top.v:14:10: Illegal implicit net "id:850, name:Read".
+[ERR:EL0535] $Source01/top.v:15:10: Illegal implicit net "id:853, name:Write".
+[ERR:EL0535] $Source01/top.v:17:10: Illegal implicit net "id:860, name:clock".
+[ERR:EL0535] $Source01/top.v:18:10: Illegal implicit net "id:863, name:reset".
+[ERR:EL0535] $Source01/top.v:19:10: Illegal implicit net "id:866, name:control".
+[ERR:EL0535] $Source01/top.v:20:10: Illegal implicit net "id:869, name:y".
+[ERR:EL0535] $Source01/top.v:22:10: Illegal implicit net "id:876, name:clock".
+[ERR:EL0535] $Source01/top.v:26:10: Illegal implicit net "id:888, name:Speed".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@top".
 [WRN:PA0205] $Source01/fsm1.v:1:1: No timescale set for "work@FSM1".
 [WRN:PA0205] $Source01/fsm2.v:1:1: No timescale set for "work@FSM2".
 [WRN:PA0205] $Source01/fsm3.v:1:1: No timescale set for "work@FSM3".
-[ERR:EL0535] $Source01/top.v:11:10: Illegal implicit net "id:228, name:Clk".
-[ERR:EL0535] $Source01/top.v:12:10: Illegal implicit net "id:231, name:Reset".
-[ERR:EL0535] $Source01/top.v:14:10: Illegal implicit net "id:237, name:Read".
-[ERR:EL0535] $Source01/top.v:15:10: Illegal implicit net "id:240, name:Write".
-[ERR:EL0535] $Source01/top.v:17:10: Illegal implicit net "id:247, name:clock".
-[ERR:EL0535] $Source01/top.v:18:10: Illegal implicit net "id:250, name:reset".
-[ERR:EL0535] $Source01/top.v:19:10: Illegal implicit net "id:253, name:control".
-[ERR:EL0535] $Source01/top.v:20:10: Illegal implicit net "id:256, name:y".
-[ERR:EL0535] $Source01/top.v:22:10: Illegal implicit net "id:263, name:clock".
-[ERR:EL0535] $Source01/top.v:26:10: Illegal implicit net "id:275, name:Speed".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -7788,6 +7789,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -8005,6 +8007,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -8083,6 +8086,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -9763,10 +9767,10 @@ Design name:unnamed:
                         vpiActual: RefInstance name:F2
               DelayControl start:126:3 end:126:20:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:126:12 end:126:19:
+                vpiStmt SysTaskCall name:$finish start:126:12 end:126:19:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:126:12 end:126:19:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:126:4 end:126:11:
                   vpiParent: DelayControl
@@ -15496,15 +15500,21 @@ Design name:unnamed:
                           vpiActual: Net name:Ctrl3
           vpiAlwaysType: always (1)
   vpiTypespec (12 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -15543,17 +15553,11 @@ Design name:unnamed:
       vpiModule: Module name:work@FSM3
     LogicTypespec:
       vpiParent: Design name:unnamed
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 10
-[WARNING] : 4
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

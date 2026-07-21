@@ -180,7 +180,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_enum_name2.v:15:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_enum_name2.v:19:1: Compile module "work@our".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/t_enum_name2.v:26:31: Illegal implicit net "id:73, name:name".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -405,14 +404,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@our
             vpiStmt (3 items):
-              SysFuncCall name:$write start:26:7 end:26:47:
+              SysTaskCall name:$write start:26:7 end:26:47:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:26:7 end:26:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (3 items):
                   Constant start:26:15 end:26:26:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@our
@@ -422,7 +421,7 @@ Design name:unnamed:
                     vpiDecompile: "\"%s (%t)\\n\""
                     vpiValue: "%s (%t)\\n"
                   HierPath name:IR.name start:26:28 end:26:35:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiName: IR.name
                     vpiFullName: work@our.IR.name
                     vpiPathElem (2 items):
@@ -431,23 +430,24 @@ Design name:unnamed:
                         vpiName: IR
                         vpiFullName: work@our.IR
                         vpiActual: Variable name:IR
-                      RefObj name:name start:26:31 end:26:35:
+                      MethodFuncCall name:name start:26:31 end:26:35:
                         vpiParent: HierPath name:IR.name
-                        vpiName: name
-                        vpiFullName: work@our.name
+                        vpiName Identifier name:name start:26:31 end:26:35:
+                          vpiParent: MethodFuncCall name:name
+                          vpiName: name
                   SysTaskCall name:$realtime start:26:37 end:26:46:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiName Identifier name:$realtime start:26:37 end:26:46:
                       vpiParent: SysTaskCall name:$realtime
                       vpiName: "$realtime"
-              SysFuncCall name:$write start:27:7 end:27:39:
+              SysTaskCall name:$write start:27:7 end:27:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:27:7 end:27:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:27:14 end:27:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@our
@@ -456,10 +456,10 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:28:7 end:28:14:
+              SysTaskCall name:$finish start:28:7 end:28:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:28:7 end:28:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (5 items):
     IntTypespec:
@@ -484,7 +484,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -532,7 +532,7 @@ Constant                             9       8       1         2
 Operation                            1       0       0         1
 RefTypespec                         14      13       1         2
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    78      75       2         5
+                                    79      76       2         5
 ===================== END REDUCTION RESULT =====================

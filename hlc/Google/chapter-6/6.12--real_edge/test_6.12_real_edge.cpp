@@ -27,7 +27,7 @@
 //   - 1 Always process (vpiAlways type), stmt = EventControl
 //   - EventControl condition = vpiPosedgeOp on RefObj "a"
 //   - posedge operand resolves to the real Net 'a'
-//   - EventControl body is a SysFuncCall "$display"
+//   - EventControl body is a SysTaskCall "$display"
 //   - work@top has no continuous assignments
 //
 // Also checked:
@@ -187,8 +187,8 @@ TEST_F(RealEdge, EventControlStmtIsDisplayCall) {
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
 
-  const hldb::SysFuncCall *const call = ec->getStmt<hldb::SysFuncCall>();
-  ASSERT_NE(call, nullptr) << "EventControl body is not a SysFuncCall";
+  const hldb::SysTaskCall *const call = ec->getStmt<hldb::SysTaskCall>();
+  ASSERT_NE(call, nullptr) << "EventControl body is not a SysTaskCall";
   EXPECT_EQ(call->getName(), "$display");
 }
 
@@ -199,7 +199,7 @@ TEST_F(RealEdge, DisplayArgumentIsPosedgeString) {
   ASSERT_NE(always, nullptr);
   const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
   ASSERT_NE(ec, nullptr);
-  const hldb::SysFuncCall *const call = ec->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const call = ec->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(call, nullptr);
 
   ASSERT_NE(call->getArguments(), nullptr) << "$display call has no arguments";

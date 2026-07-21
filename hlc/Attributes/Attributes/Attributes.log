@@ -921,6 +921,16 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/test_attributes.sv:34:3: Compile module "work@top2".
 [INF:CP0304] $Source01/test_attributes.sv:52:1: Compile interface "work@itf".
 [INF:CP0304] $Source01/test_attributes.sv:54:3: Compile interface "work@itf2".
+[ERR:EL0535] $Source01/dut.sv:22:10: Illegal implicit net "id:867, name:blah".
+[ERR:EL0535] $Source01/dut.sv:22:18: Illegal implicit net "id:868, name:pieces0".
+[ERR:EL0535] $Source01/dut.sv:22:61: Illegal implicit net "id:873, name:b".
+[ERR:EL0535] $Source01/dut.sv:24:10: Illegal implicit net "id:876, name:$37".
+[ERR:EL0535] $Source01/dut.sv:24:22: Illegal implicit net "id:877, name:empty2".
+[ERR:EL0535] $Source01/dut.sv:29:11: Illegal implicit net "id:897, name:a".
+[ERR:EL0535] $Source01/dut.sv:31:9: Illegal implicit net "id:901, name:b".
+[ERR:EL0535] $Source01/dut.sv:33:9: Illegal implicit net "id:913, name:b".
+[ERR:EL0535] $Source01/dut.sv:35:9: Illegal implicit net "id:919, name:b".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/test_attributes.sv:2:1: No timescale set for "work@myPackage".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@bar".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "work@foo".
@@ -928,15 +938,6 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/test_attributes.sv:34:3: No timescale set for "work@top2".
 [WRN:PA0205] $Source01/test_attributes.sv:52:1: No timescale set for "work@itf".
 [WRN:PA0205] $Source01/test_attributes.sv:54:3: No timescale set for "work@itf2".
-[ERR:EL0535] $Source01/dut.sv:22:10: Illegal implicit net "id:254, name:blah".
-[ERR:EL0535] $Source01/dut.sv:22:18: Illegal implicit net "id:255, name:pieces0".
-[ERR:EL0535] $Source01/dut.sv:22:61: Illegal implicit net "id:260, name:b".
-[ERR:EL0535] $Source01/dut.sv:24:10: Illegal implicit net "id:263, name:$37".
-[ERR:EL0535] $Source01/dut.sv:24:22: Illegal implicit net "id:264, name:empty2".
-[ERR:EL0535] $Source01/dut.sv:29:11: Illegal implicit net "id:284, name:a".
-[ERR:EL0535] $Source01/dut.sv:31:9: Illegal implicit net "id:288, name:b".
-[ERR:EL0535] $Source01/dut.sv:33:9: Illegal implicit net "id:300, name:b".
-[ERR:EL0535] $Source01/dut.sv:35:9: Illegal implicit net "id:306, name:b".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -952,23 +953,6 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/test_attributes.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@myPackage file:$Source01/test_attributes.sv start:2:1 end:4:11:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:work@myPackage start:3:9 end:3:18:
-        vpiParent: Package name:work@myPackage
-        vpiName: work@myPackage
-      vpiFullName: work@myPackage
-      vpiAttribute (1 items):
-        Attribute name:myPackageAttribute1 start:2:4 end:2:23:
-          vpiParent: Package name:work@myPackage
-          vpiName: myPackageAttribute1
-      vpiDefName: work@myPackage
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@myPackage
-        vpiName: work
-        vpiFullName: work@myPackage::work
-      vpiCell: myPackage
     Package name:builtin:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin:
@@ -2521,6 +2505,23 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
+    Package name:work@myPackage file:$Source01/test_attributes.sv start:2:1 end:4:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:work@myPackage start:3:9 end:3:18:
+        vpiParent: Package name:work@myPackage
+        vpiName: work@myPackage
+      vpiFullName: work@myPackage
+      vpiAttribute (1 items):
+        Attribute name:myPackageAttribute1 start:2:4 end:2:23:
+          vpiParent: Package name:work@myPackage
+          vpiName: myPackageAttribute1
+      vpiDefName: work@myPackage
+      vpiDefNetType: none (12)
+      vpiLibrary RefObj name:work:
+        vpiParent: Package name:work@myPackage
+        vpiName: work
+        vpiFullName: work@myPackage::work
+      vpiCell: myPackage
   vpiAllClasses (4 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
       vpiParent: Design name:unnamed
@@ -2535,6 +2536,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2752,6 +2754,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2830,6 +2833,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2963,6 +2967,7 @@ Design name:unnamed:
         Attribute name:class_attribute start:42:4 end:42:19:
           vpiParent: ClassDefn name:work@toto
           vpiName: class_attribute
+      vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiLibrary RefObj name:work:
         vpiParent: ClassDefn name:work@toto
@@ -2980,6 +2985,7 @@ Design name:unnamed:
             Attribute name:class_attribute2 start:45:6 end:45:22:
               vpiParent: ClassDefn name:work@tata
               vpiName: class_attribute2
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:work@tata
@@ -3855,15 +3861,21 @@ Design name:unnamed:
             vpiFullName: work@top.work@top2.work
           vpiCell: top2
   vpiTypespec (16 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3888,8 +3900,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@foo
         vpiName: work@foo
       vpiModule: Module name:work@foo
-    StringTypespec:
-      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
     LogicTypespec:
@@ -3921,15 +3931,11 @@ Design name:unnamed:
         vpiParent: InterfaceTypespec name:work@itf2
         vpiName: work@itf2
       vpiInterface: Interface name:work@itf2
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 9
-[WARNING] : 7
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

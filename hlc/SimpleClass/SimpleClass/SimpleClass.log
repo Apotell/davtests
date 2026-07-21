@@ -356,11 +356,11 @@ n<$Source01/top.sv> u<75> t<Top_level_rule> c<1> l<2:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0306] $Source01/top.sv:2:9: Compile program "class_t".
 [WRN:CP0314] $Source01/top.sv:2:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
+[ERR:EL0535] $Source01/top.sv:10:9: Illegal implicit net "id:758, name:len".
+[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:764, name:len".
+[ERR:EL0535] $Source01/top.sv:12:9: Illegal implicit net "id:771, name:payload".
+[ERR:EL0535] $Source01/top.sv:12:27: Illegal implicit net "id:774, name:len".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/top.sv:10:9: Illegal implicit net "id:145, name:len".
-[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:151, name:len".
-[ERR:EL0535] $Source01/top.sv:12:9: Illegal implicit net "id:158, name:payload".
-[ERR:EL0535] $Source01/top.sv:12:27: Illegal implicit net "id:161, name:len".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1937,6 +1937,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2154,6 +2155,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2232,6 +2234,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2375,6 +2378,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:work@A
             vpiName: work@A
           vpiFullName: work@class_t::work@A
+          vpiAutomatic: true
           vpiClassType: userdefined class (3)
           vpiLibrary RefObj name:work:
             vpiParent: ClassDefn name:work@A
@@ -2452,15 +2456,21 @@ Design name:unnamed:
                         vpiName: len
                         vpiFullName: work@class_t::work@A::legal::len
   vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2479,12 +2489,6 @@ Design name:unnamed:
         vpiParent: ProgramTypespec name:work@class_t
         vpiName: work@class_t
       vpiProgram: Program name:work@class_t
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

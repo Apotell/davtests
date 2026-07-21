@@ -132,7 +132,7 @@ TEST_F(EnumFirst, AssignmentRhsIsHierPath) {
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "val");
   const hldb::HierPath *const hp = assign->getRhs<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "val.first() rhs should be a HierPath";
-  EXPECT_EQ(hp->getName(), "val.first()");
+  EXPECT_EQ(hp->getName(), "val.first");
 }
 
 TEST_F(EnumFirst, HierPathReceiverAndFuncCall) {

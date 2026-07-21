@@ -1067,7 +1067,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface2.v:95:1: Compile module "work@counter_nansi".
 [WRN:CP0331] $Source01/t_interface2.v:95:1: Multiply defined variable "c_data".
 [INF:CP0303] $Source01/t_interface2.v:106:1: Compile module "work@modunused".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_interface2.v:19:23: Illegal implicit net "id:49, name:clkm".
 [ERR:EL0535] $Source01/t_interface2.v:20:9: Illegal implicit net "id:52, name:c_data".
 [ERR:EL0535] $Source01/t_interface2.v:21:9: Illegal implicit net "id:57, name:i_value".
@@ -1095,6 +1094,7 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/t_interface2.v:56:15: Illegal implicit net "id:234, name:value".
 [ERR:EL0535] $Source01/t_interface2.v:57:15: Illegal implicit net "id:244, name:value".
 [ERR:EL0535] $Source01/t_interface2.v:58:15: Illegal implicit net "id:254, name:value".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1715,10 +1715,10 @@ Design name:unnamed:
                                   vpiName: c1_data
                                   vpiFullName: work@t.c1_data
                                   vpiActual: RefInstance name:c1_data
-                                MethodFuncCall name:get_lcl start:49:15 end:49:24:
+                                SubroutineCall name:get_lcl start:49:15 end:49:24:
                                   vpiParent: HierPath name:c1_data.get_lcl()
                                   vpiName Identifier name:get_lcl start:49:15 end:49:22:
-                                    vpiParent: MethodFuncCall name:get_lcl
+                                    vpiParent: SubroutineCall name:get_lcl
                                     vpiName: get_lcl
                             Constant start:49:28 end:49:33:
                               vpiParent: Operation
@@ -1730,10 +1730,10 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "12345"
                               vpiValue: 12345
-                        vpiStmt SysFuncCall name:$stop start:49:35 end:49:40:
+                        vpiStmt SysTaskCall name:$stop start:49:35 end:49:40:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:49:35 end:49:40:
-                            vpiParent: SysFuncCall name:$stop
+                            vpiParent: SysTaskCall name:$stop
                             vpiName: "$stop"
                 IfStmt start:51:7 end:61:10:
                   vpiParent: Begin
@@ -1760,14 +1760,14 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiFullName: work@t
                     vpiStmt (6 items):
-                      SysFuncCall name:$write start:52:3 end:55:32:
+                      SysTaskCall name:$write start:52:3 end:55:32:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:52:3 end:52:9:
-                          vpiParent: SysFuncCall name:$write
+                          vpiParent: SysTaskCall name:$write
                           vpiName: "$write"
                         vpiArgument (9 items):
                           Constant start:52:10 end:52:65:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: work@t
@@ -1777,17 +1777,17 @@ Design name:unnamed:
                             vpiDecompile: "\"[%0t] c1 cyc%0d: c1 %0x %0x  c2 %0x %0x  c3 %0x %0x\\n\""
                             vpiValue: "[%0t] c1 cyc%0d: c1 %0x %0x  c2 %0x %0x  c3 %0x %0x\\n"
                           SysTaskCall name:$time start:52:67 end:52:72:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName Identifier name:$time start:52:67 end:52:72:
                               vpiParent: SysTaskCall name:$time
                               vpiName: "$time"
                           RefObj name:cyc start:52:74 end:52:77:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: cyc
                             vpiFullName: work@t.cyc
                             vpiActual: Net name:cyc
                           HierPath name:c1_data.value start:53:3 end:53:16:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: c1_data.value
                             vpiFullName: work@t.c1_data.value
                             vpiPathElem (2 items):
@@ -1801,7 +1801,7 @@ Design name:unnamed:
                                 vpiName: value
                                 vpiFullName: work@t.value
                           HierPath name:c1_data.reset start:53:18 end:53:31:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: c1_data.reset
                             vpiFullName: work@t.c1_data.reset
                             vpiPathElem (2 items):
@@ -1815,7 +1815,7 @@ Design name:unnamed:
                                 vpiName: reset
                                 vpiFullName: work@t.reset
                           HierPath name:c2_data.value start:54:3 end:54:16:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: c2_data.value
                             vpiFullName: work@t.c2_data.value
                             vpiPathElem (2 items):
@@ -1829,7 +1829,7 @@ Design name:unnamed:
                                 vpiName: value
                                 vpiFullName: work@t.value
                           HierPath name:c2_data.reset start:54:18 end:54:31:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: c2_data.reset
                             vpiFullName: work@t.c2_data.reset
                             vpiPathElem (2 items):
@@ -1843,7 +1843,7 @@ Design name:unnamed:
                                 vpiName: reset
                                 vpiFullName: work@t.reset
                           HierPath name:c3_data.value start:55:3 end:55:16:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: c3_data.value
                             vpiFullName: work@t.c3_data.value
                             vpiPathElem (2 items):
@@ -1857,7 +1857,7 @@ Design name:unnamed:
                                 vpiName: value
                                 vpiFullName: work@t.value
                           HierPath name:c3_data.reset start:55:18 end:55:31:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiName: c3_data.reset
                             vpiFullName: work@t.c3_data.reset
                             vpiPathElem (2 items):
@@ -1900,10 +1900,10 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "2"
                               vpiValue: 2
-                        vpiStmt SysFuncCall name:$stop start:56:27 end:56:32:
+                        vpiStmt SysTaskCall name:$stop start:56:27 end:56:32:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:56:27 end:56:32:
-                            vpiParent: SysFuncCall name:$stop
+                            vpiParent: SysTaskCall name:$stop
                             vpiName: "$stop"
                       IfStmt start:57:3 end:57:33:
                         vpiParent: Begin
@@ -1935,10 +1935,10 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "3"
                               vpiValue: 3
-                        vpiStmt SysFuncCall name:$stop start:57:27 end:57:32:
+                        vpiStmt SysTaskCall name:$stop start:57:27 end:57:32:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:57:27 end:57:32:
-                            vpiParent: SysFuncCall name:$stop
+                            vpiParent: SysTaskCall name:$stop
                             vpiName: "$stop"
                       IfStmt start:58:3 end:58:33:
                         vpiParent: Begin
@@ -1970,19 +1970,19 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "4"
                               vpiValue: 4
-                        vpiStmt SysFuncCall name:$stop start:58:27 end:58:32:
+                        vpiStmt SysTaskCall name:$stop start:58:27 end:58:32:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:58:27 end:58:32:
-                            vpiParent: SysFuncCall name:$stop
+                            vpiParent: SysTaskCall name:$stop
                             vpiName: "$stop"
-                      SysFuncCall name:$write start:59:3 end:59:35:
+                      SysTaskCall name:$write start:59:3 end:59:35:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:59:3 end:59:9:
-                          vpiParent: SysFuncCall name:$write
+                          vpiParent: SysTaskCall name:$write
                           vpiName: "$write"
                         vpiArgument (1 items):
                           Constant start:59:10 end:59:34:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: work@t
@@ -1991,10 +1991,10 @@ Design name:unnamed:
                             vpiSize: 168
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
                             vpiValue: "*-* All Finished *-*\\n"
-                      SysFuncCall name:$finish start:60:3 end:60:10:
+                      SysTaskCall name:$finish start:60:3 end:60:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:60:3 end:60:10:
-                          vpiParent: SysFuncCall name:$finish
+                          vpiParent: SysTaskCall name:$finish
                           vpiName: "$finish"
           vpiAlwaysType: always (1)
       vpiRefInstance (6 items):
@@ -2301,14 +2301,15 @@ Design name:unnamed:
                     vpiName: c_data
                     vpiFullName: work@counter_ansi.c_data
                     vpiActual: Net name:c_data
-                  MethodFuncCall name:set_lcl start:85:14 end:85:28:
+                  TaskCall name:set_lcl start:85:14 end:85:28:
                     vpiParent: HierPath name:c_data.set_lcl(12345)
                     vpiName Identifier name:set_lcl start:85:14 end:85:21:
-                      vpiParent: MethodFuncCall name:set_lcl
+                      vpiParent: TaskCall name:set_lcl
                       vpiName: set_lcl
+                    vpiTaskFunc: Task name:set_lcl
                     vpiArgument (1 items):
                       Constant start:85:22 end:85:27:
-                        vpiParent: MethodFuncCall name:set_lcl
+                        vpiParent: TaskCall name:set_lcl
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@counter_ansi.c_data.set_lcl(12345)

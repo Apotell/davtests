@@ -31,6 +31,17 @@ COMMAND: -wd ../../../../tests/YosysOldTests/systemcaes rtl/timescale.v rtl/aes.
 [INF:CP0303] $Source01/rtl/mixcolum.v:53:1: Compile module "work@mixcolum".
 [INF:CP0303] $Source01/rtl/subbytes.v:52:1: Compile module "work@subbytes".
 [INF:CP0303] $Source01/rtl/word_mixcolum.v:52:1: Compile module "work@word_mixcolum".
+[ERR:EL0535] $Source01/rtl/aes.v:117:43: Illegal implicit net "id:1136, name:start_i".
+[ERR:EL0535] $Source01/rtl/aes.v:117:237: Illegal implicit net "id:1157, name:sbox_decrypt_o".
+[ERR:EL0535] $Source01/rtl/aes.v:118:66: Illegal implicit net "id:1173, name:start_i".
+[ERR:EL0535] $Source01/rtl/aes.v:119:42: Illegal implicit net "id:1195, name:start_i".
+[ERR:EL0535] $Source01/rtl/aes.v:119:70: Illegal implicit net "id:1198, name:round_i".
+[ERR:EL0535] $Source01/rtl/aes.v:119:98: Illegal implicit net "id:1201, name:last_key_i".
+[ERR:EL0535] $Source01/rtl/aes.v:119:132: Illegal implicit net "id:1204, name:new_key_o".
+[ERR:EL0535] $Source01/rtl/aes.v:119:192: Illegal implicit net "id:1210, name:sbox_access_o".
+[ERR:EL0535] $Source01/rtl/aes.v:119:295: Illegal implicit net "id:1219, name:sbox_decrypt_o".
+[ERR:EL0535] $Source01/rtl/mixcolum.v:79:20: Illegal implicit net "id:5655, name:in".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/rtl/aes.v:52:1: No timescale set for "work@aes".
 [WRN:PA0205] $Source01/rtl/keysched.v:52:1: No timescale set for "work@keysched".
 [WRN:PA0205] $Source01/rtl/sbox.v:52:1: No timescale set for "work@sbox".
@@ -38,16 +49,6 @@ COMMAND: -wd ../../../../tests/YosysOldTests/systemcaes rtl/timescale.v rtl/aes.
 [WRN:PA0205] $Source01/rtl/mixcolum.v:53:1: No timescale set for "work@mixcolum".
 [WRN:PA0205] $Source01/rtl/subbytes.v:52:1: No timescale set for "work@subbytes".
 [WRN:PA0205] $Source01/rtl/word_mixcolum.v:52:1: No timescale set for "work@word_mixcolum".
-[ERR:EL0535] $Source01/rtl/aes.v:117:43: Illegal implicit net "id:523, name:start_i".
-[ERR:EL0535] $Source01/rtl/aes.v:117:237: Illegal implicit net "id:544, name:sbox_decrypt_o".
-[ERR:EL0535] $Source01/rtl/aes.v:118:66: Illegal implicit net "id:560, name:start_i".
-[ERR:EL0535] $Source01/rtl/aes.v:119:42: Illegal implicit net "id:582, name:start_i".
-[ERR:EL0535] $Source01/rtl/aes.v:119:70: Illegal implicit net "id:585, name:round_i".
-[ERR:EL0535] $Source01/rtl/aes.v:119:98: Illegal implicit net "id:588, name:last_key_i".
-[ERR:EL0535] $Source01/rtl/aes.v:119:132: Illegal implicit net "id:591, name:new_key_o".
-[ERR:EL0535] $Source01/rtl/aes.v:119:192: Illegal implicit net "id:597, name:sbox_access_o".
-[ERR:EL0535] $Source01/rtl/aes.v:119:295: Illegal implicit net "id:606, name:sbox_decrypt_o".
-[ERR:EL0535] $Source01/rtl/mixcolum.v:79:20: Illegal implicit net "id:5042, name:in".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1714,6 +1715,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1931,6 +1933,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2009,6 +2012,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -28680,15 +28684,21 @@ Design name:unnamed:
                 vpiFullName: work@word_mixcolum.bm4.y4
                 vpiActual: Net name:y4
   vpiTypespec (15 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -28745,17 +28755,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@word_mixcolum
         vpiName: work@word_mixcolum
       vpiModule: Module name:work@word_mixcolum
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 10
-[WARNING] : 7
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

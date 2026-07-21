@@ -168,9 +168,9 @@ n<$Source01/dut.sv> u<153> t<Top_level_rule> c<1> l<1:1> el<17:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/dut.sv:1:1: Compile interface "work@Foo".
 [INF:CP0303] $Source01/dut.sv:9:1: Compile module "work@top".
+[ERR:EL0535] $Source01/dut.sv:11:12: Illegal implicit net "id:47, name:MULTIPLIER".
 [WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@top".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@Foo".
-[ERR:EL0535] $Source01/dut.sv:11:12: Illegal implicit net "id:47, name:MULTIPLIER".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -306,14 +306,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@top
             vpiStmt (2 items):
-              SysFuncCall name:$display start:13:9 end:13:31:
+              SysTaskCall name:$display start:13:9 end:13:31:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:13:9 end:13:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:foo_1.bar(3) start:13:18 end:13:29:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: foo_1.bar(3)
                     vpiFullName: work@top.foo_1.bar(3)
                     vpiPathElem (2 items):
@@ -322,30 +322,30 @@ Design name:unnamed:
                         vpiName: foo_1
                         vpiFullName: work@top.foo_1
                         vpiActual: RefInstance name:foo_1
-                      MethodFuncCall name:bar start:13:24 end:13:30:
+                      SubroutineCall name:bar start:13:24 end:13:30:
                         vpiParent: HierPath name:foo_1.bar(3)
                         vpiName Identifier name:bar start:13:24 end:13:27:
-                          vpiParent: MethodFuncCall name:bar
+                          vpiParent: SubroutineCall name:bar
                           vpiName: bar
                         vpiArgument (1 items):
                           Constant start:13:28 end:13:29:
-                            vpiParent: MethodFuncCall name:bar
+                            vpiParent: SubroutineCall name:bar
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.foo_1.bar(3)
+                              vpiFullName: work@top.foo_1.bar(3).bar
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "3"
                             vpiValue: 3
-              SysFuncCall name:$display start:14:9 end:14:31:
+              SysTaskCall name:$display start:14:9 end:14:31:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:14:9 end:14:17:
-                  vpiParent: SysFuncCall name:$display
+                  vpiParent: SysTaskCall name:$display
                   vpiName: "$display"
                 vpiArgument (1 items):
                   HierPath name:foo_2.bar(3) start:14:18 end:14:29:
-                    vpiParent: SysFuncCall name:$display
+                    vpiParent: SysTaskCall name:$display
                     vpiName: foo_2.bar(3)
                     vpiFullName: work@top.foo_2.bar(3)
                     vpiPathElem (2 items):
@@ -354,17 +354,17 @@ Design name:unnamed:
                         vpiName: foo_2
                         vpiFullName: work@top.foo_2
                         vpiActual: RefInstance name:foo_2
-                      MethodFuncCall name:bar start:14:24 end:14:30:
+                      SubroutineCall name:bar start:14:24 end:14:30:
                         vpiParent: HierPath name:foo_2.bar(3)
                         vpiName Identifier name:bar start:14:24 end:14:27:
-                          vpiParent: MethodFuncCall name:bar
+                          vpiParent: SubroutineCall name:bar
                           vpiName: bar
                         vpiArgument (1 items):
                           Constant start:14:28 end:14:29:
-                            vpiParent: MethodFuncCall name:bar
+                            vpiParent: SubroutineCall name:bar
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@top.foo_2.bar(3)
+                              vpiFullName: work@top.foo_2.bar(3).bar
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64

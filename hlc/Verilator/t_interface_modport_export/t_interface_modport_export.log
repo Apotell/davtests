@@ -354,7 +354,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_modport_export.v:31:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_interface_modport_export.v:45:1: Compile module "work@testmod_callee".
 [INF:CP0303] $Source01/t_interface_modport_export.v:58:1: Compile module "work@testmod_caller".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_interface_modport_export.v:39:44: Illegal implicit net "id:49, name:mp_e".
 [ERR:EL0535] $Source01/t_interface_modport_export.v:39:38: Illegal implicit net "id:51, name:ie".
 [ERR:EL0535] $Source01/t_interface_modport_export.v:41:16: Illegal implicit net "id:61, name:mp_i".
@@ -362,6 +361,7 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/t_interface_modport_export.v:47:12: Illegal implicit net "id:72, name:mp_e".
 [ERR:EL0535] $Source01/t_interface_modport_export.v:61:12: Illegal implicit net "id:107, name:mp_i".
 [ERR:EL0535] $Source01/t_interface_modport_export.v:65:10: Illegal implicit net "id:120, name:data".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -841,17 +841,17 @@ Design name:unnamed:
                         vpiName: ii
                         vpiFullName: work@testmod_caller.ii
                         vpiActual: Net name:ii
-                      MethodFuncCall name:myfunc start:66:14 end:66:27:
+                      SubroutineCall name:myfunc start:66:14 end:66:27:
                         vpiParent: "HierPath name:ii.myfunc(1'b0)"
                         vpiName Identifier name:myfunc start:66:14 end:66:20:
-                          vpiParent: MethodFuncCall name:myfunc
+                          vpiParent: SubroutineCall name:myfunc
                           vpiName: myfunc
                         vpiArgument (1 items):
                           Constant start:66:22 end:66:26:
-                            vpiParent: MethodFuncCall name:myfunc
+                            vpiParent: SubroutineCall name:myfunc
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: "work@testmod_caller.ii.myfunc(1'b0)"
+                              vpiFullName: "work@testmod_caller.ii.myfunc(1'b0).myfunc"
                               vpiActual: BitTypespec
                             vpiConstType: binary (3)
                             vpiSize: 1
@@ -861,14 +861,14 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiFullName: work@testmod_caller
                     vpiStmt (2 items):
-                      SysFuncCall name:$write start:67:3 end:67:35:
+                      SysTaskCall name:$write start:67:3 end:67:35:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:67:3 end:67:9:
-                          vpiParent: SysFuncCall name:$write
+                          vpiParent: SysTaskCall name:$write
                           vpiName: "$write"
                         vpiArgument (1 items):
                           Constant start:67:10 end:67:34:
-                            vpiParent: SysFuncCall name:$write
+                            vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: work@testmod_caller
@@ -877,19 +877,19 @@ Design name:unnamed:
                             vpiSize: 168
                             vpiDecompile: "\"*-* All Finished *-*\\n\""
                             vpiValue: "*-* All Finished *-*\\n"
-                      SysFuncCall name:$finish start:68:3 end:68:10:
+                      SysTaskCall name:$finish start:68:3 end:68:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:68:3 end:68:10:
-                          vpiParent: SysFuncCall name:$finish
+                          vpiParent: SysTaskCall name:$finish
                           vpiName: "$finish"
                   vpiElseStmt Begin start:70:12 end:72:10:
                     vpiParent: IfElse
                     vpiFullName: work@testmod_caller
                     vpiStmt (1 items):
-                      SysFuncCall name:$stop start:71:3 end:71:8:
+                      SysTaskCall name:$stop start:71:3 end:71:8:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:71:3 end:71:8:
-                          vpiParent: SysFuncCall name:$stop
+                          vpiParent: SysTaskCall name:$stop
                           vpiName: "$stop"
           vpiAlwaysType: always (1)
   vpiTypespec (5 items):
