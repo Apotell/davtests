@@ -201,7 +201,7 @@ TEST_F(Literals, FirstStmtIsDisplayWithDefaultHello) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(body->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -235,7 +235,7 @@ TEST_F(Literals, ThirdStmtIsDisplayWithBothValues) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(body->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -253,7 +253,7 @@ TEST_F(Literals, ThirdStmtFormatStringIsHelloWorldAssert) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(body->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));

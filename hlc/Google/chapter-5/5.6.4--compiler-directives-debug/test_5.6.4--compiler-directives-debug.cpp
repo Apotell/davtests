@@ -23,7 +23,7 @@
 // UHDM structure:
 //   Module name:work@directives
 //     Initial
-//       vpiStmt: SysFuncCall "$display"
+//       vpiStmt: SysTaskCall "$display"
 //         vpiArgument[0]: Constant (string, 6)  — format string "At %s @ %d\n"
 //         vpiArgument[1]: Constant (string, 6)  — `__FILE__ → full source path
 //         vpiArgument[2]: Constant (uint,   9)  — `__LINE__ → integer 17
@@ -51,17 +51,17 @@ class CompilerDirectivesDebug : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
+static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@directives", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
-    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysFuncCall>();
+    if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysTaskCall>();
   }
   return nullptr;
 }
 
 static const hldb::Constant *getArg(const hldb::Design *d, std::size_t idx) {
-  const hldb::SysFuncCall *const c = getDisplay(d);
+  const hldb::SysTaskCall *const c = getDisplay(d);
   if (!c || !c->getArguments() || c->getArguments()->size() <= idx) return nullptr;
   return any_cast<hldb::Constant>((*c->getArguments())[idx]);
 }
@@ -78,7 +78,7 @@ TEST_F(CompilerDirectivesDebug, ModuleExists) {
 // $display with three arguments
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, DisplayCallHasThreeArguments) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr) << "$display call not found";
   ASSERT_NE(c->getArguments(), nullptr);
   EXPECT_EQ(c->getArguments()->size(), 3u);

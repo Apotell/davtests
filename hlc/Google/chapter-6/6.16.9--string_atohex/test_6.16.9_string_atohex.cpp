@@ -124,7 +124,7 @@ TEST_F(StringAtohex, BNetValueIsHierPath) {
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr) << "net 'b' initial value is not a HierPath";
-  EXPECT_EQ(hp->getName(), "a.atohex()");
+  EXPECT_EQ(hp->getName(), "a.atohex");
 }
 
 TEST_F(StringAtohex, HierPathReceiverIsA) {

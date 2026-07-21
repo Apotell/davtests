@@ -28,7 +28,7 @@
 //   - 1 Initial process; Initial stmt = IfStmt
 //   - IfStmt condition = vpiNotOp( SysFuncCall "$cast" )
 //   - $cast has 2 args: RefObj "a" → Net, vpiMultOp(vpiRealConst "2.1", vpiRealConst "3.7")
-//   - IfStmt then-branch = SysFuncCall "$display" with arg vpiStringConst "\"cast failed\""
+//   - IfStmt then-branch = SysTaskCall "$display" with arg vpiStringConst "\"cast failed\""
 //   - work@top has no continuous assignments
 //   - IfStmt has no else branch (statement is IfStmt, not IfElse)
 //   - $cast SysFuncCall carries no static return typespec (success/failure is
@@ -182,7 +182,7 @@ TEST_F(CastFn, CastArgOneIsMultiplyOperation) {
 }
 
 // ---------------------------------------------------------------------------
-// IfStmt then-branch = SysFuncCall "$display" with string arg "cast failed"
+// IfStmt then-branch = SysTaskCall "$display" with string arg "cast failed"
 // ---------------------------------------------------------------------------
 TEST_F(CastFn, IfBodyIsDisplayCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
@@ -191,7 +191,7 @@ TEST_F(CastFn, IfBodyIsDisplayCall) {
   ASSERT_NE(init, nullptr);
   const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
   ASSERT_NE(ifStmt, nullptr);
-  const hldb::SysFuncCall *const display = ifStmt->getStmt<hldb::SysFuncCall>();
+  const hldb::SysTaskCall *const display = ifStmt->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(display, nullptr);
   EXPECT_EQ(display->getName(), "$display");
   ASSERT_NE(display->getArguments(), nullptr);

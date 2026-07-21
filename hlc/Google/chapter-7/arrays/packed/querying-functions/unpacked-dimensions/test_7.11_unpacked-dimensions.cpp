@@ -124,7 +124,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, DisplayCallHasTwoArgumentsFirstIsAsser
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -141,7 +141,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, NestedUnpackedDimensionsCallHasArrArgu
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   const hldb::SysFuncCall *const uDims = any_cast<hldb::SysFuncCall>(disp->getArguments()->at(1));
   ASSERT_NE(uDims, nullptr);
@@ -208,7 +208,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, RuntimeUnpackedDimensionsValueRequires
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
       << "expected $unpacked_dimensions(arr) == 0 since arr has no unpacked dimensions, only a "

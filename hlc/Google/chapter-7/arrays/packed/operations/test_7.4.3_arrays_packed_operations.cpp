@@ -159,7 +159,7 @@ TEST_F(PackedOperationsTest, ThreeDisplaysAssertZeroDeAndAd) {
   const char *const expectedFmt[3] = {":assert: ('%h' == '00')", ":assert: ('%h' == 'de')",
                                        ":assert: ('%h' == 'ad')"};
   for (size_t i = 0; i < 3; ++i) {
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(stmtIndices[i]));
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(stmtIndices[i]));
     ASSERT_NE(disp, nullptr);
     EXPECT_EQ(disp->getName(), "$display");
     ASSERT_NE(disp->getArguments(), nullptr);

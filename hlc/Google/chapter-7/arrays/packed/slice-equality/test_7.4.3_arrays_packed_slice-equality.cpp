@@ -132,7 +132,7 @@ TEST_F(PackedSliceEqualityTest, FirstDisplayHasThreeArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
@@ -145,7 +145,7 @@ TEST_F(PackedSliceEqualityTest, SecondDisplayArgIsEqualOperationOnSlices) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 1)");
   const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
@@ -172,7 +172,7 @@ TEST_F(PackedSliceEqualityTest, ThirdDisplayArgIsNotEqualOperationOnSlices) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 0)");
   const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
@@ -218,11 +218,11 @@ TEST_F(PackedSliceEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const eqDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
+  const hldb::SysTaskCall *const eqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(eqDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(eqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
       << "expected (arr_a[7:4] == arr_b[3:0]) == 1 since both slices hold 4'hf";
-  const hldb::SysFuncCall *const neqDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const neqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(neqDisplay, nullptr);
   EXPECT_EQ(any_cast<hldb::Constant>(neqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
       << "expected (arr_a[7:4] != arr_b[3:0]) == 0 since both slices hold 4'hf";

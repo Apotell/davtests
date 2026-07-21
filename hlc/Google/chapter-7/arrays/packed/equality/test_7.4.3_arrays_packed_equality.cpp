@@ -14,38 +14,39 @@
  limitations under the License.
 */
 
-// Tests for onebit.sv (tags: 7.4.3)
+// Tests for equality.sv (tags: 7.4.3)
 //   module top ();
 //     bit [7:0] arr_a;
 //     bit [7:0] arr_b;
 //     initial begin
 //       arr_a = 8'hff;
-//       arr_b = 8'h00;
-//       $display(":assert: (('%h' == 'ff') and ('%h' == '00'))", arr_a, arr_b);
-//       arr_b[5] = arr_a[2];
-//       $display(":assert: ('%b' == '00100000')", arr_b);
+//       arr_b = 8'hff;
+//       $display(":assert: (('%h' == 'ff') and ('%h' == 'ff'))", arr_a, arr_b);
+//       $display(":assert: (%d == 1)", (arr_a == arr_b));
+//       $display(":assert: (%d == 0)", (arr_a != arr_b));
 //     end
 //   endmodule
 //
 // Checked:
 //   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
-//   - Initial process: 1 Begin with 5 stmts (3 Assignment + 2 SysFuncCall)
+//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true --
+//     each net gets its own distinct BitTypespec instance
+//   - Initial process: 1 Begin with 5 stmts (2 Assignment + 3 SysTaskCall)
 //   - Stmt[0]/Stmt[1]: blocking Assignment, RefObj lhs, hexadecimal Constant
-//     rhs ("8'hff" / "8'h00")
+//     rhs ("8'hff", vpiConstType=hexadecimal(5), size=8)
 //   - Stmt[2]: $display with 3 args (format + RefObj arr_a + RefObj arr_b)
-//   - Stmt[3]: arr_b[5] = arr_a[2] -- single-bit select assignment: lhs
-//     BitSelect "arr_b[5]" (prefix RefObj arr_b resolving the Net, index
-//     Constant "5"), rhs BitSelect "arr_a[2]" (prefix RefObj arr_a, index
-//     Constant "2")
-//   - Stmt[4]: $display(":assert: ('%b' == '00100000')", arr_b)
+//   - Stmt[3]: $display(":assert: (%d == 1)", (arr_a == arr_b)) -- 2nd arg is
+//     an Operation (vpiOpType=equal(14)) with 2 RefObj operands
+//   - Stmt[4]: $display(":assert: (%d == 0)", (arr_a != arr_b)) -- 2nd arg is
+//     an Operation (vpiOpType=not equal(15)) with 2 RefObj operands
 //   - design-level typespecs (4): ModuleTypespec, IntTypespec (signed),
-//     IntTypespec (unsigned/default), StringTypespec
+//     IntTypespec (unsigned/default -- from the (arr_a == arr_b) comparison
+//     result type), StringTypespec
 //   - compiler emits zero errors
 //   - no continuous assignments
 //
 //  checked:
-//   - actual runtime bit pattern of arr_b after the single-bit copy --
+//   - actual runtime result of the == / != comparisons -- simulation-only
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -55,7 +56,6 @@
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
-#include <hldb/bit_select.h>
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
@@ -64,6 +64,7 @@
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/net.h>
+#include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -73,27 +74,27 @@
 
 namespace hlc {
 
-class PackedOnebitTest : public Test {
+class PackedEqualityTest : public Test {
  public:
-  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "onebit.hlc"}); }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "equality.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
 
 // --- module / nets ------------------------------------------------------------
 
-TEST_F(PackedOnebitTest, ModuleExists) {
+TEST_F(PackedEqualityTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedOnebitTest, ModuleHasTwoNets) {
+TEST_F(PackedEqualityTest, ModuleHasTwoNets) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
-TEST_F(PackedOnebitTest, NetArrAAndArrBAreBitTypespecRange7to0) {
+TEST_F(PackedEqualityTest, NetArrAAndArrBAreBitTypespecRange7to0) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
@@ -101,13 +102,17 @@ TEST_F(PackedOnebitTest, NetArrAAndArrBAreBitTypespecRange7to0) {
   ASSERT_NE(arrA, nullptr);
   ASSERT_NE(arrB, nullptr);
   const hldb::BitTypespec *const btA = arrA->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
+  const hldb::BitTypespec *const btB = arrB->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
   ASSERT_NE(btA, nullptr);
+  ASSERT_NE(btB, nullptr);
+  EXPECT_NE(btA, btB) << "each net should get its own distinct BitTypespec instance";
   EXPECT_EQ(btA->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "7");
+  EXPECT_EQ(btA->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
 // --- initial process ---------------------------------------------------------
 
-TEST_F(PackedOnebitTest, InitialBeginHasFiveStmts) {
+TEST_F(PackedEqualityTest, InitialBeginHasFiveStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -120,18 +125,27 @@ TEST_F(PackedOnebitTest, InitialBeginHasFiveStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 5u);
 }
 
-TEST_F(PackedOnebitTest, FirstAssignmentSetsArrAToHexFf) {
+TEST_F(PackedEqualityTest, FirstAssignmentSetsArrAToHexFf) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "arr_a");
-  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getValue(), "ff");
+  EXPECT_TRUE(assign->getBlocking());
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "arr_a");
+  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getConstType(), 5);  // hexadecimal = 5
+  EXPECT_EQ(rhs->getSize(), 8);
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("8'hff"));
+  EXPECT_EQ(rhs->getValue(), "ff");
 }
 
-TEST_F(PackedOnebitTest, SecondAssignmentSetsArrBToHexZero) {
+TEST_F(PackedEqualityTest, SecondAssignmentSetsArrBToHexFf) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -139,70 +153,84 @@ TEST_F(PackedOnebitTest, SecondAssignmentSetsArrBToHexZero) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "arr_b");
-  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getValue(), "00");
+  EXPECT_EQ(assign->getRhs<hldb::Constant>()->getValue(), "ff");
 }
 
-TEST_F(PackedOnebitTest, FirstDisplayHasThreeArguments) {
+TEST_F(PackedEqualityTest, FirstDisplayHasThreeArguments) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
+  EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
-            ":assert: (('%h' == 'ff') and ('%h' == '00'))");
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  ASSERT_NE(fmt, nullptr);
+  EXPECT_EQ(fmt->getValue(), ":assert: (('%h' == 'ff') and ('%h' == 'ff'))");
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_a");
+  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), "arr_b");
 }
 
-TEST_F(PackedOnebitTest, ThirdAssignmentCopiesArrATwoIntoArrBFive) {
+TEST_F(PackedEqualityTest, SecondDisplayArgIsEqualOperation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(3));
-  ASSERT_NE(assign, nullptr);
-  EXPECT_TRUE(assign->getBlocking());
-  const hldb::BitSelect *const lhs = assign->getLhs<hldb::BitSelect>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "arr_b[5]");
-  EXPECT_EQ(lhs->getPrefix<hldb::RefObj>()->getName(), "arr_b");
-  EXPECT_EQ(lhs->getIndex<hldb::Constant>()->getDecompile(), "5");
-  const hldb::BitSelect *const rhs = assign->getRhs<hldb::BitSelect>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "arr_a[2]");
-  EXPECT_EQ(rhs->getPrefix<hldb::RefObj>()->getName(), "arr_a");
-  EXPECT_EQ(rhs->getIndex<hldb::Constant>()->getDecompile(), "2");
-}
-
-TEST_F(PackedOnebitTest, SecondDisplayAssertsBitPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
-  ASSERT_NE(top, nullptr);
-  const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
-  ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  ASSERT_NE(disp->getArguments(), nullptr);
-  ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('%b' == '00100000')");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_b");
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  ASSERT_NE(fmt, nullptr);
+  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
+  const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  ASSERT_NE(op, nullptr);
+  EXPECT_EQ(op->getOpType(), vpiEqOp);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_EQ(op->getOperands()->size(), 2u);
+  EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(0))->getName(), "arr_a");
+  EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(1))->getName(), "arr_b");
+}
+
+TEST_F(PackedEqualityTest, ThirdDisplayArgIsNotEqualOperation) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
+  ASSERT_NE(begin, nullptr);
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(disp, nullptr);
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  ASSERT_NE(fmt, nullptr);
+  EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
+  const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  ASSERT_NE(op, nullptr);
+  EXPECT_EQ(op->getOpType(), vpiNeqOp);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_EQ(op->getOperands()->size(), 2u);
+  EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(0))->getName(), "arr_a");
+  EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(1))->getName(), "arr_b");
 }
 
 // --- design-level typespecs / compiler diagnostics ---------------------------
 
-TEST_F(PackedOnebitTest, DesignHasFourTypespecs) {
+TEST_F(PackedEqualityTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
 }
 
-TEST_F(PackedOnebitTest, DesignHasModuleTypespec) {
+TEST_F(PackedEqualityTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "work@top");
 }
 
-TEST_F(PackedOnebitTest, CompilerReportsZeroErrors) {
+TEST_F(PackedEqualityTest, DesignHasStringTypespec) {
+  ASSERT_NE(m_design->getTypespecs(), nullptr);
+  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(3)), nullptr);
+}
+
+TEST_F(PackedEqualityTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
@@ -211,27 +239,32 @@ TEST_F(PackedOnebitTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(PackedOnebitTest, NoContAssigns) {
+TEST_F(PackedEqualityTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime value requires simulation -----------------------------
+// --- known gap: runtime comparison results require simulation ---------------
 
-TEST_F(PackedOnebitTest, RuntimeValueRequiresSimulation) {
-  // GTEST_SKIP() << "This harness only compiles/elaborates onebit.sv; it does not run a simulator, so "
-  //                 "the actual runtime bit pattern of arr_b after the single-bit copy cannot be "
-  //                 "observed here. onebit.sv's own $display format string documents the expected value.";
+TEST_F(PackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
+  // GTEST_SKIP() << "This harness only compiles/elaborates equality.sv; it does not run a simulator, "
+  //                 "so the actual runtime results of (arr_a == arr_b) / (arr_a != arr_b) cannot be "
+  //                 "observed here. equality.sv's own $display format strings document the expected "
+  //                 "values instead.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
-  ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('%b' == '00100000')")
-      << "expected arr_b == 8'b00100000 after copying bit 2 of arr_a (0xff, bit=1) into bit 5 of arr_b";
+  const hldb::SysTaskCall *const eqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
+  ASSERT_NE(eqDisplay, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(eqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
+      << "expected (arr_a == arr_b) == 1 since both hold 8'hff";
+  const hldb::SysTaskCall *const neqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(neqDisplay, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(neqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
+      << "expected (arr_a != arr_b) == 0 since both hold 8'hff";
 }
 
 }  // namespace hlc
