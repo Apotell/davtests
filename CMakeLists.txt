@@ -16,7 +16,6 @@ endif()
 add_subdirectory(third_party/googletest EXCLUDE_FROM_ALL)
 
 enable_testing()
-include(GoogleTest)
 
 set(HLC_BUILD_DIR "${CMAKE_SOURCE_DIR}/build" CACHE PATH "hlc install directory")
 cmake_path(ABSOLUTE_PATH HLC_BUILD_DIR BASE_DIRECTORY "${CMAKE_SOURCE_DIR}" NORMALIZE OUTPUT_VARIABLE HLC_BUILD_DIR)
@@ -60,8 +59,7 @@ foreach(TEST_SRC IN LISTS TEST_SOURCES)
     "SHELL:$<IF:$<CXX_COMPILER_ID:MSVC>,/FI hlc/config.h,-include hlc/config.h>"
   )
   target_link_libraries(${TEST_NAME} PRIVATE hlc::hlc_test)
-  gtest_discover_tests(${TEST_NAME}
-    TEST_PREFIX "${TEST_NAME}/"
-    WORKING_DIRECTORY "${TEST_DIR}"
-    DISCOVERY_TIMEOUT 60)
+  add_test(NAME ${TEST_NAME}
+    COMMAND ${TEST_NAME}
+    WORKING_DIRECTORY "${TEST_DIR}")
 endforeach()
