@@ -807,14 +807,15 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/top.sv:21:1: Compile module "work@dut".
 [INF:CP0303] $Source01/top.sv:30:1: Compile module "work@dut_part_select".
 [INF:CP0303] $Source01/top.sv:38:1: Compile module "work@dut_no_decl".
+[ERR:EL0535] $Source01/top.sv:7:20: Illegal implicit net "id:782, name:clk".
+[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:797, name:InterruptStatus".
+[ERR:EL0535] $Source01/top.sv:14:9: Illegal implicit net "id:812, name:ConnectionState".
+[ERR:EL0535] $Source01/top.sv:14:31: Illegal implicit net "id:813, name:ESTABLISHED".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.sv:1:1: No timescale set for "work@toto".
 [WRN:PA0205] $Source01/top.sv:21:1: No timescale set for "work@dut".
 [WRN:PA0205] $Source01/top.sv:30:1: No timescale set for "work@dut_part_select".
 [WRN:PA0205] $Source01/top.sv:38:1: No timescale set for "work@dut_no_decl".
-[ERR:EL0535] $Source01/top.sv:7:20: Illegal implicit net "id:169, name:clk".
-[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:184, name:InterruptStatus".
-[ERR:EL0535] $Source01/top.sv:14:9: Illegal implicit net "id:199, name:ConnectionState".
-[ERR:EL0535] $Source01/top.sv:14:31: Illegal implicit net "id:200, name:ESTABLISHED".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2391,6 +2392,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2608,6 +2610,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2686,6 +2689,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3701,15 +3705,21 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
   vpiTypespec (11 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -3746,17 +3756,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@dut_no_decl
         vpiName: work@dut_no_decl
       vpiModule: Module name:work@dut_no_decl
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
-[WARNING] : 4
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -172,8 +172,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_v.v:8:1: Compile module "work@t".
 [INF:CP0303] $Source01/t_func_v.v:16:1: Compile module "work@level1".
 [INF:CP0303] $Source01/t_func_v.v:29:1: Compile module "work@level2".
-[INF:CM0029] Using global timescale: "1ns/1ns".
 [ERR:EL0535] $Source01/t_func_v.v:23:11: Illegal implicit net "id:49, name:mem".
+[INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -216,17 +216,17 @@ Design name:unnamed:
                 vpiName: ul1
                 vpiFullName: work@t.ul1
                 vpiActual: RefInstance name:ul1
-              MethodFuncCall name:doit start:13:16 end:13:26:
+              SubroutineCall name:doit start:13:16 end:13:26:
                 vpiParent: "HierPath name:ul1.doit(4'b0)"
                 vpiName Identifier name:doit start:13:16 end:13:20:
-                  vpiParent: MethodFuncCall name:doit
+                  vpiParent: SubroutineCall name:doit
                   vpiName: doit
                 vpiArgument (1 items):
                   Constant start:13:21 end:13:25:
-                    vpiParent: MethodFuncCall name:doit
+                    vpiParent: SubroutineCall name:doit
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: "work@t.ul1.doit(4'b0)"
+                      vpiFullName: "work@t.ul1.doit(4'b0).doit"
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 4
@@ -340,14 +340,14 @@ Design name:unnamed:
                   vpiName: v
                   vpiFullName: work@level1.doit.v
                   vpiActual: IODecl name:v
-              SysFuncCall name:$write start:24:7 end:24:39:
+              SysTaskCall name:$write start:24:7 end:24:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:24:7 end:24:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:24:14 end:24:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@level1.doit
@@ -356,10 +356,10 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:25:7 end:25:14:
+              SysTaskCall name:$finish start:25:7 end:25:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:25:7 end:25:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
       vpiRefInstance (1 items):
         RefInstance name:ul2 start:20:11 end:20:14:

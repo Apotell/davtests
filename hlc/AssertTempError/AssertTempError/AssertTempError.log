@@ -1479,9 +1479,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/design.sv:2:1: Compile module "work@UART".
 [INF:CP0303] $Source01/design.sv:70:1: Compile module "work@UART_assertions".
 [INF:CP0303] $Source01/testbench.sv:3:1: Compile module "work@tb_UART".
-[WRN:PA0205] $Source01/design.sv:2:1: No timescale set for "work@UART".
-[WRN:PA0205] $Source01/design.sv:70:1: No timescale set for "work@UART_assertions".
-[WRN:PA0205] $Source01/testbench.sv:3:1: No timescale set for "work@tb_UART".
 [ERR:EL0535] $Source01/design.sv:100:36: Illegal implicit net "id:390, name:clk".
 [ERR:EL0535] $Source01/design.sv:100:32: Illegal implicit net "id:392, name:clk".
 [ERR:EL0535] $Source01/design.sv:100:48: Illegal implicit net "id:393, name:rst_n".
@@ -1490,6 +1487,9 @@ AST_DEBUG_END
 [ERR:EL0535] $Source01/design.sv:100:56: Illegal implicit net "id:398, name:send".
 [ERR:EL0535] $Source01/design.sv:100:73: Illegal implicit net "id:399, name:done".
 [ERR:EL0535] $Source01/design.sv:100:68: Illegal implicit net "id:401, name:done".
+[WRN:PA0205] $Source01/design.sv:2:1: No timescale set for "work@UART".
+[WRN:PA0205] $Source01/design.sv:70:1: No timescale set for "work@UART_assertions".
+[WRN:PA0205] $Source01/testbench.sv:3:1: No timescale set for "work@tb_UART".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2657,14 +2657,14 @@ Design name:unnamed:
               vpiName: p_send
               vpiFullName: work@UART_assertions.p_send
               vpiActual: PropertyDecl name:p_send
-          vpiElseStmt SysFuncCall name:$display start:87:34 end:87:68:
+          vpiElseStmt SysTaskCall name:$display start:87:34 end:87:68:
             vpiParent: Assert
             vpiName Identifier name:$display start:87:34 end:87:42:
-              vpiParent: SysFuncCall name:$display
+              vpiParent: SysTaskCall name:$display
               vpiName: "$display"
             vpiArgument (1 items):
               Constant start:87:43 end:87:67:
-                vpiParent: SysFuncCall name:$display
+                vpiParent: SysTaskCall name:$display
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: work@UART_assertions
@@ -2682,14 +2682,14 @@ Design name:unnamed:
               vpiName: p_done
               vpiFullName: work@UART_assertions.p_done
               vpiActual: PropertyDecl name:p_done
-          vpiElseStmt SysFuncCall name:$display start:95:35 end:95:69:
+          vpiElseStmt SysTaskCall name:$display start:95:35 end:95:69:
             vpiParent: Assert
             vpiName Identifier name:$display start:95:35 end:95:43:
-              vpiParent: SysFuncCall name:$display
+              vpiParent: SysTaskCall name:$display
               vpiName: "$display"
             vpiArgument (1 items):
               Constant start:95:44 end:95:68:
-                vpiParent: SysFuncCall name:$display
+                vpiParent: SysTaskCall name:$display
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: work@UART_assertions
@@ -3074,14 +3074,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@tb_UART
             vpiStmt (11 items):
-              SysFuncCall name:$dumpfile start:29:9 end:29:30:
+              SysTaskCall name:$dumpfile start:29:9 end:29:30:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:29:9 end:29:18:
-                  vpiParent: SysFuncCall name:$dumpfile
+                  vpiParent: SysTaskCall name:$dumpfile
                   vpiName: "$dumpfile"
                 vpiArgument (1 items):
                   Constant start:29:19 end:29:29:
-                    vpiParent: SysFuncCall name:$dumpfile
+                    vpiParent: SysTaskCall name:$dumpfile
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@tb_UART
@@ -3090,14 +3090,14 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "\"UART.vcd\""
                     vpiValue: UART.vcd
-              SysFuncCall name:$dumpvars start:30:9 end:30:30:
+              SysTaskCall name:$dumpvars start:30:9 end:30:30:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:30:9 end:30:18:
-                  vpiParent: SysFuncCall name:$dumpvars
+                  vpiParent: SysTaskCall name:$dumpvars
                   vpiName: "$dumpvars"
                 vpiArgument (2 items):
                   Constant start:30:19 end:30:20:
-                    vpiParent: SysFuncCall name:$dumpvars
+                    vpiParent: SysTaskCall name:$dumpvars
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@tb_UART
@@ -3107,7 +3107,7 @@ Design name:unnamed:
                     vpiDecompile: "0"
                     vpiValue: 0
                   RefObj name:tb_UART start:30:22 end:30:29:
-                    vpiParent: SysFuncCall name:$dumpvars
+                    vpiParent: SysTaskCall name:$dumpvars
                     vpiName: tb_UART
                     vpiFullName: work@tb_UART.tb_UART
                     vpiActual: Module name:work@tb_UART
@@ -3369,10 +3369,10 @@ Design name:unnamed:
                         vpiSize: 32
                         vpiDecompile: "10"
                         vpiValue: 10
-              SysFuncCall name:$finish start:52:9 end:52:16:
+              SysTaskCall name:$finish start:52:9 end:52:16:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:52:9 end:52:16:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
       vpiRefInstance (1 items):
         RefInstance name:uart_inst start:10:10 end:10:19:

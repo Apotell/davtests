@@ -91,14 +91,14 @@ static const hldb::Begin *getBegin(const hldb::Design *d) {
   return initial->getStmt<hldb::Begin>();
 }
 
-static const hldb::SysFuncCall *getDisplayCall(const hldb::Design *d, std::size_t index) {
+static const hldb::SysTaskCall *getDisplayCall(const hldb::Design *d, std::size_t index) {
   const hldb::Begin *begin = getBegin(d);
   if (!begin || !begin->getStmts()) return nullptr;
   if (index >= begin->getStmts()->size()) return nullptr;
-  return any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[index]);
+  return any_cast<const hldb::SysTaskCall *>((*begin->getStmts())[index]);
 }
 
-static const hldb::Constant *getStringArg(const hldb::SysFuncCall *call) {
+static const hldb::Constant *getStringArg(const hldb::SysTaskCall *call) {
   if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
   return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
 }
@@ -131,8 +131,8 @@ TEST_F(StringSpecialChars, AllStatementsAreDisplayCalls) {
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
   for (std::size_t i = 0; i < begin->getStmts()->size(); ++i) {
-    const auto *call = any_cast<const hldb::SysFuncCall *>((*begin->getStmts())[i]);
-    ASSERT_NE(call, nullptr) << "stmt[" << i << "] is not a SysFuncCall";
+    const auto *call = any_cast<const hldb::SysTaskCall *>((*begin->getStmts())[i]);
+    ASSERT_NE(call, nullptr) << "stmt[" << i << "] is not a SysTaskCall";
     EXPECT_EQ(call->getName(), "$display") << "stmt[" << i << "] should be $display";
   }
 }

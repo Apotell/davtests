@@ -1178,21 +1178,21 @@ AST_DEBUG_END
 [INF:CP0306] $Source01/top.v:99:9: Compile program "test".
 [WRN:CP0314] $Source01/top.v:99:9: Using programs is discouraged "test", programs are obsoleted by UVM.
 [INF:CP0303] $Source01/top.v:112:1: Compile module "work@interface_modports".
+[ERR:EL0535] $Source01/top.v:62:29: Illegal implicit net "id:978, name:memory".
+[ERR:EL0535] $Source01/top.v:69:23: Illegal implicit net "id:1006, name:clk".
+[ERR:EL0535] $Source01/top.v:70:10: Illegal implicit net "id:1011, name:ce_mem".
+[ERR:EL0535] $Source01/top.v:70:24: Illegal implicit net "id:1014, name:we_mem".
+[ERR:EL0535] $Source01/top.v:71:12: Illegal implicit net "id:1020, name:addr_mem".
+[ERR:EL0535] $Source01/top.v:71:29: Illegal implicit net "id:1024, name:datai_mem".
+[ERR:EL0535] $Source01/top.v:77:23: Illegal implicit net "id:1030, name:clk".
+[ERR:EL0535] $Source01/top.v:78:10: Illegal implicit net "id:1035, name:ce_mem".
+[ERR:EL0535] $Source01/top.v:78:25: Illegal implicit net "id:1038, name:we_mem".
+[ERR:EL0535] $Source01/top.v:79:8: Illegal implicit net "id:1044, name:datao_mem".
+[ERR:EL0535] $Source01/top.v:79:29: Illegal implicit net "id:1047, name:addr_mem".
+[ERR:EL0535] $Source01/top.v:87:28: Illegal implicit net "id:1057, name:system".
+[ERR:EL0535] $Source01/top.v:99:21: Illegal implicit net "id:1082, name:tb".
+[ERR:EL0535] $Source01/top.v:102:11: Illegal implicit net "id:1093, name:reset".
 [INF:CM0029] Using global timescale: "1ns/1ns".
-[ERR:EL0535] $Source01/top.v:62:29: Illegal implicit net "id:365, name:memory".
-[ERR:EL0535] $Source01/top.v:69:23: Illegal implicit net "id:393, name:clk".
-[ERR:EL0535] $Source01/top.v:70:10: Illegal implicit net "id:398, name:ce_mem".
-[ERR:EL0535] $Source01/top.v:70:24: Illegal implicit net "id:401, name:we_mem".
-[ERR:EL0535] $Source01/top.v:71:12: Illegal implicit net "id:407, name:addr_mem".
-[ERR:EL0535] $Source01/top.v:71:29: Illegal implicit net "id:411, name:datai_mem".
-[ERR:EL0535] $Source01/top.v:77:23: Illegal implicit net "id:417, name:clk".
-[ERR:EL0535] $Source01/top.v:78:10: Illegal implicit net "id:422, name:ce_mem".
-[ERR:EL0535] $Source01/top.v:78:25: Illegal implicit net "id:425, name:we_mem".
-[ERR:EL0535] $Source01/top.v:79:8: Illegal implicit net "id:431, name:datao_mem".
-[ERR:EL0535] $Source01/top.v:79:29: Illegal implicit net "id:434, name:addr_mem".
-[ERR:EL0535] $Source01/top.v:87:28: Illegal implicit net "id:444, name:system".
-[ERR:EL0535] $Source01/top.v:99:21: Illegal implicit net "id:469, name:tb".
-[ERR:EL0535] $Source01/top.v:102:11: Illegal implicit net "id:480, name:reset".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2769,6 +2769,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2986,6 +2987,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -3064,6 +3066,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -3977,10 +3980,10 @@ Design name:unnamed:
                   vpiValue: 1
               DelayControl start:104:7 end:104:19:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:104:11 end:104:18:
+                vpiStmt SysTaskCall name:$finish start:104:11 end:104:18:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:104:11 end:104:18:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:104:8 end:104:10:
                   vpiParent: DelayControl
@@ -4574,15 +4577,21 @@ Design name:unnamed:
                 vpiFullName: work@interface_modports.U_test.miff
                 vpiActual: RefInstance name:miff
   vpiTypespec (14 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -4633,12 +4642,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@interface_modports
         vpiName: work@interface_modports
       vpiModule: Module name:work@interface_modports
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

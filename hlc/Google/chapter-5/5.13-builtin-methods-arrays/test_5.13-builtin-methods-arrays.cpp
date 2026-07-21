@@ -23,14 +23,14 @@
 //     Range: vpiLeftRange = Operation(subtract, opType=11) with Constant "3"
 //     ElemTypespec → LogicTypespec [7:0]
 //   Initial → Begin
-//     SysFuncCall "$display"
+//     SysTaskCall "$display"
 //       Arguments[0]: Constant (vpiStringConst=6) — format string
 //       Arguments[1]: HierPath "array.size()"
 //         PathElems[0]: RefObj "array"
 //         PathElems[1]: FuncCall "size"
 //
 // Key API:
-//   SysFuncCall inherits TFCall::getArguments() → AnyCollection*
+//   SysTaskCall inherits TFCall::getArguments() → AnyCollection*
 //   HierPath::getPathElems()                    → AnyCollection*
 //   FuncCall inherits TFCall::getName()         → std::string_view
 
@@ -75,8 +75,8 @@ static const hldb::Net *getNetArray(const hldb::Design *d) {
   return nullptr;
 }
 
-// Returns the $display SysFuncCall inside initial begin.
-static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
+// Returns the $display SysTaskCall inside initial begin.
+static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
   const hldb::Module *const top = getTop(d);
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
@@ -84,7 +84,7 @@ static const hldb::SysFuncCall *getDisplay(const hldb::Design *d) {
       const hldb::Begin *const blk = i->getStmt<hldb::Begin>();
       if (!blk || !blk->getStmts()) return nullptr;
       for (const hldb::Any *const s : *blk->getStmts())
-        if (const hldb::SysFuncCall *const c = any_cast<hldb::SysFuncCall>(s)) return c;
+        if (const hldb::SysTaskCall *const c = any_cast<hldb::SysTaskCall>(s)) return c;
     }
   }
   return nullptr;
@@ -154,20 +154,20 @@ TEST_F(BuiltinMethodsArrays, DisplayCallExists) {
 }
 
 TEST_F(BuiltinMethodsArrays, DisplayCallName) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getName(), "$display");
 }
 
 TEST_F(BuiltinMethodsArrays, DisplayCallHasTwoArguments) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   EXPECT_EQ(c->getArguments()->size(), 2u);
 }
 
 TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
@@ -182,7 +182,7 @@ TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
 // array.size() — HierPath with RefObj + FuncCall
 // ---------------------------------------------------------------------------
 TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
@@ -193,7 +193,7 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsHierPath) {
 }
 
 TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
@@ -202,7 +202,7 @@ TEST_F(BuiltinMethodsArrays, HierPathHasTwoPathElems) {
 }
 
 TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);
@@ -214,7 +214,7 @@ TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
 }
 
 TEST_F(BuiltinMethodsArrays, SecondPathElemIsSizeMethodFuncCall) {
-  const hldb::SysFuncCall *const c = getDisplay(m_design);
+  const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr);

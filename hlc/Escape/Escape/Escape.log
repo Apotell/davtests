@@ -28,14 +28,15 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -d 0 -fileunit -wd ${HL
 [WRN:CP0334] Colliding compilation unit name: "work@bottom1".
 [WRN:CP0334] Colliding compilation unit name: "work@bottom2".
 [WRN:CP0334] Colliding compilation unit name: "work@bottom3".
+[ERR:EL0535] $Source01/top.v:13:95: Illegal implicit net "id:813, name:m_if".
+[ERR:EL0535] $Source01/top.v:64:17: Illegal implicit net "id:889, name:capture".
+[ERR:EL0535] $Source01/top.v:64:8: Illegal implicit net "id:891, name:capture".
+[ERR:EL0535] $Source01/top.v:65:13: Illegal implicit net "id:892, name:clk".
+[ERR:EL0535] $Source01/top.v:65:8: Illegal implicit net "id:894, name:clk".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:27:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:26:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top1.v:2:1: No timescale set for "work@my_interface".
-[ERR:EL0535] $Source01/top.v:13:95: Illegal implicit net "id:200, name:m_if".
-[ERR:EL0535] $Source01/top.v:64:17: Illegal implicit net "id:276, name:capture".
-[ERR:EL0535] $Source01/top.v:64:8: Illegal implicit net "id:278, name:capture".
-[ERR:EL0535] $Source01/top.v:65:13: Illegal implicit net "id:279, name:clk".
-[ERR:EL0535] $Source01/top.v:65:8: Illegal implicit net "id:281, name:clk".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1632,6 +1633,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -1849,6 +1851,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -1927,6 +1930,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2055,6 +2059,7 @@ Design name:unnamed:
           vpiName Identifier name:uvm_env:
             vpiParent: ClassTypespec name:uvm_env
             vpiName: uvm_env
+      vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiExtends Extends start:8:11 end:8:18:
         vpiParent: ClassDefn name:work@env
@@ -2118,31 +2123,31 @@ Design name:unnamed:
                         vpiParent: ParamAssign
                         vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::uvm_resource_db
                         vpiActual: UnsupportedTypespec name:add_sub_if
-                MethodFuncCall name:read_by_name start:13:50 end:13:100:
+                SubroutineCall name:read_by_name start:13:50 end:13:100:
                   vpiParent: "HierPath name:uvm_resource_db::read_by_name(get_full_name(), \"add_sub_if\", m_if)"
                   vpiName Identifier name:read_by_name start:13:50 end:13:62:
-                    vpiParent: MethodFuncCall name:read_by_name
+                    vpiParent: SubroutineCall name:read_by_name
                     vpiName: read_by_name
                   vpiArgument (3 items):
-                    FuncCall name:get_full_name start:13:64 end:13:79:
-                      vpiParent: MethodFuncCall name:read_by_name
+                    SubroutineCall name:get_full_name start:13:64 end:13:79:
+                      vpiParent: SubroutineCall name:read_by_name
                       vpiName Identifier name:get_full_name start:13:64 end:13:77:
-                        vpiParent: FuncCall name:get_full_name
+                        vpiParent: SubroutineCall name:get_full_name
                         vpiName: get_full_name
                     Constant start:13:81 end:13:93:
-                      vpiParent: MethodFuncCall name:read_by_name
+                      vpiParent: SubroutineCall name:read_by_name
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)
+                        vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 80
                       vpiDecompile: "\"add_sub_if\""
                       vpiValue: add_sub_if
                     RefObj name:m_if start:13:95 end:13:99:
-                      vpiParent: MethodFuncCall name:read_by_name
+                      vpiParent: SubroutineCall name:read_by_name
                       vpiName: m_if
-                      vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
+                      vpiFullName: work@env::connect_phase::uvm_resource_db::read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name::m_if
           vpiReturn RefTypespec start:11:12 end:11:16:
             vpiParent: Function name:connect_phase
             vpiFullName: work@env::connect_phase
@@ -2760,15 +2765,21 @@ Design name:unnamed:
         vpiFullName: work@bottom3.work
       vpiCell: bottom3
   vpiTypespec (18 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2793,10 +2804,6 @@ Design name:unnamed:
         vpiParent: ClassTypespec name:work@env
         vpiName: work@env
       vpiClassDefn: ClassDefn name:work@env
-    VoidTypespec start:11:12 end:11:16:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:work@bottom1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@bottom1 start:17:8 end:17:15:
@@ -2851,13 +2858,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@bottom3
         vpiName: work@bottom3
       vpiModule: Module name:work@bottom3
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
-[WARNING] : 7
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

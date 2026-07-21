@@ -142,7 +142,7 @@ TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -159,10 +159,10 @@ TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
   ASSERT_NE(arrRef, nullptr);
   EXPECT_EQ(arrRef->getName(), "arr");
   EXPECT_NE(arrRef->getActual<hldb::Net>(), nullptr);
-  const hldb::RefObj *const numRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(1));
-  ASSERT_NE(numRef, nullptr);
-  EXPECT_EQ(numRef->getName(), "num");
-  EXPECT_EQ(numRef->getActual(), nullptr);
+  const hldb::MethodFuncCall *const numCall = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  ASSERT_NE(numCall, nullptr);
+  EXPECT_EQ(numCall->getName(), "num");
+  EXPECT_EQ(numCall->getTaskFunc(), nullptr);
 }
 
 TEST_F(AssociativeArrayNumTest, FirstAssignmentSetsArrThreeToOne) {
@@ -192,7 +192,7 @@ TEST_F(AssociativeArrayNumTest, SecondDisplayAssertsNumEqualsOne) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -226,7 +226,7 @@ TEST_F(AssociativeArrayNumTest, ThirdDisplayAssertsNumEqualsTwo) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -260,7 +260,7 @@ TEST_F(AssociativeArrayNumTest, FourthDisplayAssertsNumEqualsThree) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
   ASSERT_NE(disp, nullptr);
   const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr);
@@ -313,16 +313,16 @@ TEST_F(AssociativeArrayNumTest, DesignHasLogicTypespec) {
 
 // --- compiler diagnostics: known ELAB_ILLEGAL_IMPLICIT_NET limitation --------
 
-TEST_F(AssociativeArrayNumTest, CompilerReportsExactlyFourErrorsNoFatalNoWarning) {
+TEST_F(AssociativeArrayNumTest, CompilerReportsExactlyZeroErrorsNoFatalNoWarning) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 4);
+  EXPECT_EQ(stats.nbError, 0);
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-TEST_F(AssociativeArrayNumTest, ExactlyFourIllegalImplicitNetErrors) {
+TEST_F(AssociativeArrayNumTest, ExactlyZeroIllegalImplicitNetErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
   std::vector<Error> implicitNetErrors;
@@ -331,13 +331,7 @@ TEST_F(AssociativeArrayNumTest, ExactlyFourIllegalImplicitNetErrors) {
       implicitNetErrors.push_back(err);
     }
   }
-  ASSERT_EQ(implicitNetErrors.size(), 4u);
-  const uint32_t expectedLines[4] = {21u, 23u, 25u, 27u};
-  for (size_t i = 0; i < 4; ++i) {
-    ASSERT_FALSE(implicitNetErrors[i].getLocations().empty());
-    EXPECT_EQ(implicitNetErrors[i].getLocations()[0].m_line, expectedLines[i]);
-    EXPECT_EQ(implicitNetErrors[i].getLocations()[0].m_column, 40u);
-  }
+  ASSERT_EQ(implicitNetErrors.size(), 0u);
 }
 
 }  // namespace hlc

@@ -580,6 +580,7 @@ n<$Source01/dut.sv> u<303> t<Top_level_rule> c<1> l<8:1> el<36:1>
         n<> u<299> t<ENDMODULE> p<300> l<35:1> el<35:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@t".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@t".
 ====== HLDB =======
 Design name:unnamed:
@@ -2157,6 +2158,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2374,6 +2376,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2452,6 +2455,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -2897,10 +2901,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "4"
                       vpiValue: 4
-                vpiStmt SysFuncCall name:$stop start:30:25 end:30:30:
+                vpiStmt SysTaskCall name:$stop start:30:25 end:30:30:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:30:25 end:30:30:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
               IfStmt start:31:7 end:31:32:
                 vpiParent: Begin
@@ -2929,19 +2933,19 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "4"
                       vpiValue: 4
-                vpiStmt SysFuncCall name:$stop start:31:26 end:31:31:
+                vpiStmt SysTaskCall name:$stop start:31:26 end:31:31:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:31:26 end:31:31:
-                    vpiParent: SysFuncCall name:$stop
+                    vpiParent: SysTaskCall name:$stop
                     vpiName: "$stop"
-              SysFuncCall name:$write start:32:7 end:32:39:
+              SysTaskCall name:$write start:32:7 end:32:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:32:7 end:32:13:
-                  vpiParent: SysFuncCall name:$write
+                  vpiParent: SysTaskCall name:$write
                   vpiName: "$write"
                 vpiArgument (1 items):
                   Constant start:32:14 end:32:38:
-                    vpiParent: SysFuncCall name:$write
+                    vpiParent: SysTaskCall name:$write
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@t
@@ -2950,21 +2954,27 @@ Design name:unnamed:
                     vpiSize: 168
                     vpiDecompile: "\"*-* All Finished *-*\\n\""
                     vpiValue: "*-* All Finished *-*\\n"
-              SysFuncCall name:$finish start:33:7 end:33:14:
+              SysTaskCall name:$finish start:33:7 end:33:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:33:7 end:33:14:
-                  vpiParent: SysFuncCall name:$finish
+                  vpiParent: SysTaskCall name:$finish
                   vpiName: "$finish"
   vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -2983,17 +2993,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@t
         vpiName: work@t
       vpiModule: Module name:work@t
-    StringTypespec:
-      vpiParent: Design name:unnamed
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    RealTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

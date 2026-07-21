@@ -976,23 +976,24 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/small.v:14:1: Multiply defined typedef "work@secret_number".
 [WRN:CP0323] $Source01/small.v:14:1: Multiply defined typedef "work@secret_number".
 [WRN:CP0323] $Source01/small.v:14:1: Multiply defined typedef "work@secret_number".
+[ERR:EL0535] $Source01/def.v:5:23: Illegal implicit net "id:943, name:SIZE".
+[ERR:EL0535] $Source01/def.v:7:23: Illegal implicit net "id:949, name:dummy".
+[ERR:EL0535] $Source01/small.v:15:32: Illegal implicit net "id:994, name:SIZE".
+[ERR:EL0535] $Source01/small.v:16:15: Illegal implicit net "id:1001, name:SIZE".
+[ERR:EL0535] $Source01/small.v:17:15: Illegal implicit net "id:1008, name:SIZE".
+[ERR:EL0535] $Source01/small.v:18:15: Illegal implicit net "id:1015, name:SIZE".
+[ERR:EL0535] $Source01/small.v:24:15: Illegal implicit net "id:1042, name:SIZE".
+[ERR:EL0535] $Source01/small.v:25:12: Illegal implicit net "id:1048, name:NO_MATCH".
+[ERR:EL0535] $Source01/small.v:25:21: Illegal implicit net "id:1049, name:SIZE1".
+[ERR:EL0535] $Source01/small.v:26:29: Illegal implicit net "id:1056, name:NO_MATCH".
+[ERR:EL0535] $Source01/small.v:26:38: Illegal implicit net "id:1057, name:SIZE2".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@top_def".
 [WRN:PA0205] $Source01/top.v:7:1: No timescale set for "work@small_top".
 [WRN:PA0205] $Source01/top.v:11:1: No timescale set for "work@small_test".
 [WRN:PA0205] $Source01/def.v:2:1: No timescale set for "work@def".
 [WRN:PA0205] $Source01/small.v:2:1: No timescale set for "work@secret_number".
 [WRN:PA0205] $Source01/small.v:14:1: No timescale set for "work@defparam_example".
-[ERR:EL0535] $Source01/def.v:5:23: Illegal implicit net "id:330, name:SIZE".
-[ERR:EL0535] $Source01/def.v:7:23: Illegal implicit net "id:336, name:dummy".
-[ERR:EL0535] $Source01/small.v:15:32: Illegal implicit net "id:381, name:SIZE".
-[ERR:EL0535] $Source01/small.v:16:15: Illegal implicit net "id:388, name:SIZE".
-[ERR:EL0535] $Source01/small.v:17:15: Illegal implicit net "id:395, name:SIZE".
-[ERR:EL0535] $Source01/small.v:18:15: Illegal implicit net "id:402, name:SIZE".
-[ERR:EL0535] $Source01/small.v:24:15: Illegal implicit net "id:429, name:SIZE".
-[ERR:EL0535] $Source01/small.v:25:12: Illegal implicit net "id:435, name:NO_MATCH".
-[ERR:EL0535] $Source01/small.v:25:21: Illegal implicit net "id:436, name:SIZE1".
-[ERR:EL0535] $Source01/small.v:26:29: Illegal implicit net "id:443, name:NO_MATCH".
-[ERR:EL0535] $Source01/small.v:26:38: Illegal implicit net "id:444, name:SIZE2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2579,6 +2580,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -2796,6 +2798,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -2874,6 +2877,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -4112,15 +4116,21 @@ Design name:unnamed:
             vpiFullName: work@defparam_example.U5.work@NO_DEF
             vpiActual: UnsupportedTypespec name:work@NO_DEF
   vpiTypespec (14 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -4145,8 +4155,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@small_top
         vpiName: work@small_top
       vpiModule: Module name:work@small_top
-    RealTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:work@small_test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@small_test start:11:8 end:11:18:
@@ -4173,15 +4181,11 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@defparam_example
         vpiName: work@defparam_example
       vpiModule: Module name:work@defparam_example
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 11
-[WARNING] : 9
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

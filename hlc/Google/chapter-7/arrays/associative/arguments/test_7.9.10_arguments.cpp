@@ -255,7 +255,7 @@ TEST_F(Arguments, TaskSecondStmtIsDisplayWithAssertADC) {
   ASSERT_NE(task, nullptr);
   const hldb::Begin *const blk = task->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(1));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(1));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
@@ -344,7 +344,7 @@ TEST_F(Arguments, InitialFourthStmtIsDisplayABC) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(3));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(3));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
@@ -354,14 +354,14 @@ TEST_F(Arguments, InitialFourthStmtIsDisplayABC) {
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'a') and ('%s' == 'b') and ('%s' == 'c'))\"");
 }
 
-TEST_F(Arguments, InitialFifthStmtIsFunCallWithArraya) {
+TEST_F(Arguments, InitialFifthStmtIsTFCallWithArraya) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>(blk->getStmts()->at(4));
+  const hldb::TFCall *const fc = any_cast<hldb::TFCall>(blk->getStmts()->at(4));
   ASSERT_NE(fc, nullptr);
   EXPECT_EQ(fc->getName(), "fun");
   ASSERT_NE(fc->getArguments(), nullptr);
@@ -371,7 +371,7 @@ TEST_F(Arguments, InitialFifthStmtIsFunCallWithArraya) {
   EXPECT_EQ(arg->getName(), "arraya");
 }
 
-TEST_F(Arguments, FunCallArgResolvesToArrayaNet) {
+TEST_F(Arguments, TFCallArgResolvesToArrayaNet) {
   // fun(arraya) -- the RefObj argument's getActual() must resolve to the
   // same Net node as the top-level 'arraya' declaration.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
@@ -382,7 +382,7 @@ TEST_F(Arguments, FunCallArgResolvesToArrayaNet) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>(blk->getStmts()->at(4));
+  const hldb::TFCall *const fc = any_cast<hldb::TFCall>(blk->getStmts()->at(4));
   ASSERT_NE(fc, nullptr);
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
@@ -396,7 +396,7 @@ TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(5));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(5));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);

@@ -19,13 +19,6 @@ COMMAND: -wd ../../../tests/OneNetModPortGeneric -fileunit -writepp -d db -sv du
 [INF:CP0306] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP0314] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
 [INF:CP0303] $Source01/tb.v:15:1: Compile module "work@TOP".
-[WRN:PA0205] $Source01/dut.v:2:1: No timescale set for "work@dut".
-[WRN:PA0205] $Source01/dut.v:22:1: No timescale set for "work@middle".
-[WRN:PA0205] $Source01/dut.v:26:1: No timescale set for "work@SUB".
-[WRN:PA0205] $Source01/dut.v:30:1: No timescale set for "work@OBSERVER".
-[WRN:PA0205] $Source01/tb.v:15:1: No timescale set for "work@TOP".
-[WRN:PA0205] $Source01/dut.v:9:1: No timescale set for "work@ConnectTB".
-[WRN:PA0205] $Source01/tb.v:1:1: No timescale set for "work@TESTBENCH".
 [ERR:EL0535] $Source01/dut.v:3:17: Illegal implicit net "id:41, name:drive".
 [ERR:EL0535] $Source01/dut.v:4:21: Illegal implicit net "id:47, name:observe".
 [ERR:EL0535] $Source01/dut.v:6:20: Illegal implicit net "id:57, name:intf".
@@ -49,6 +42,13 @@ COMMAND: -wd ../../../tests/OneNetModPortGeneric -fileunit -writepp -d db -sv du
 [ERR:EL0535] $Source01/tb.v:17:32: Illegal implicit net "id:251, name:o".
 [ERR:EL0535] $Source01/tb.v:18:17: Illegal implicit net "id:260, name:intf".
 [ERR:EL0535] $Source01/tb.v:19:17: Illegal implicit net "id:267, name:intf".
+[WRN:PA0205] $Source01/dut.v:2:1: No timescale set for "work@dut".
+[WRN:PA0205] $Source01/dut.v:22:1: No timescale set for "work@middle".
+[WRN:PA0205] $Source01/dut.v:26:1: No timescale set for "work@SUB".
+[WRN:PA0205] $Source01/dut.v:30:1: No timescale set for "work@OBSERVER".
+[WRN:PA0205] $Source01/tb.v:15:1: No timescale set for "work@TOP".
+[WRN:PA0205] $Source01/dut.v:9:1: No timescale set for "work@ConnectTB".
+[WRN:PA0205] $Source01/tb.v:1:1: No timescale set for "work@TESTBENCH".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -171,14 +171,14 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: work@TESTBENCH
             vpiStmt (8 items):
-              SysFuncCall name:$dumpfile start:3:5 end:3:26:
+              SysTaskCall name:$dumpfile start:3:5 end:3:26:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:3:5 end:3:14:
-                  vpiParent: SysFuncCall name:$dumpfile
+                  vpiParent: SysTaskCall name:$dumpfile
                   vpiName: "$dumpfile"
                 vpiArgument (1 items):
                   Constant start:3:15 end:3:25:
-                    vpiParent: SysFuncCall name:$dumpfile
+                    vpiParent: SysTaskCall name:$dumpfile
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@TESTBENCH
@@ -187,19 +187,19 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "\"test.vcd\""
                     vpiValue: test.vcd
-              SysFuncCall name:$dumpvars start:4:5 end:4:14:
+              SysTaskCall name:$dumpvars start:4:5 end:4:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:4:5 end:4:14:
-                  vpiParent: SysFuncCall name:$dumpvars
+                  vpiParent: SysTaskCall name:$dumpvars
                   vpiName: "$dumpvars"
-              SysFuncCall name:$monitor start:5:5 end:5:71:
+              SysTaskCall name:$monitor start:5:5 end:5:71:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:5:5 end:5:13:
-                  vpiParent: SysFuncCall name:$monitor
+                  vpiParent: SysTaskCall name:$monitor
                   vpiName: "$monitor"
                 vpiArgument (4 items):
                   Constant start:5:14 end:5:39:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: work@TESTBENCH
@@ -209,12 +209,12 @@ Design name:unnamed:
                     vpiDecompile: "\"@%0dns i = %0d, o = %0d\""
                     vpiValue: "@%0dns i = %0d, o = %0d"
                   SysTaskCall name:$time start:5:40 end:5:45:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiName Identifier name:$time start:5:40 end:5:45:
                       vpiParent: SysTaskCall name:$time
                       vpiName: "$time"
                   HierPath name:intf.drive start:5:46 end:5:56:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiName: intf.drive
                     vpiFullName: work@TESTBENCH.intf.drive
                     vpiPathElem (2 items):
@@ -228,7 +228,7 @@ Design name:unnamed:
                         vpiName: drive
                         vpiFullName: work@TESTBENCH.drive
                   HierPath name:intf.observe start:5:58 end:5:70:
-                    vpiParent: SysFuncCall name:$monitor
+                    vpiParent: SysTaskCall name:$monitor
                     vpiName: intf.observe
                     vpiFullName: work@TESTBENCH.intf.observe
                     vpiPathElem (2 items):
@@ -304,14 +304,14 @@ Design name:unnamed:
                             vpiParent: HierPath name:intf.observe
                             vpiName: observe
                             vpiFullName: work@TESTBENCH.observe
-                  vpiStmt SysFuncCall name:$display start:7:43 end:7:58:
+                  vpiStmt SysTaskCall name:$display start:7:43 end:7:58:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$display start:7:43 end:7:51:
-                      vpiParent: SysFuncCall name:$display
+                      vpiParent: SysTaskCall name:$display
                       vpiName: "$display"
                     vpiArgument (1 items):
                       Constant start:7:52 end:7:57:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@TESTBENCH
@@ -320,14 +320,14 @@ Design name:unnamed:
                         vpiSize: 24
                         vpiDecompile: "\"OK!\""
                         vpiValue: OK!
-                  vpiElseStmt SysFuncCall name:$fatal start:7:65 end:7:105:
+                  vpiElseStmt SysTaskCall name:$fatal start:7:65 end:7:105:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$fatal start:7:65 end:7:71:
-                      vpiParent: SysFuncCall name:$fatal
+                      vpiParent: SysTaskCall name:$fatal
                       vpiName: "$fatal"
                     vpiArgument (2 items):
                       Constant start:7:72 end:7:73:
-                        vpiParent: SysFuncCall name:$fatal
+                        vpiParent: SysTaskCall name:$fatal
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@TESTBENCH
@@ -337,7 +337,7 @@ Design name:unnamed:
                         vpiDecompile: "1"
                         vpiValue: 1
                       Constant start:7:75 end:7:104:
-                        vpiParent: SysFuncCall name:$fatal
+                        vpiParent: SysTaskCall name:$fatal
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@TESTBENCH
@@ -431,14 +431,14 @@ Design name:unnamed:
                             vpiParent: HierPath name:intf.observe
                             vpiName: observe
                             vpiFullName: work@TESTBENCH.observe
-                  vpiStmt SysFuncCall name:$display start:9:43 end:9:58:
+                  vpiStmt SysTaskCall name:$display start:9:43 end:9:58:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$display start:9:43 end:9:51:
-                      vpiParent: SysFuncCall name:$display
+                      vpiParent: SysTaskCall name:$display
                       vpiName: "$display"
                     vpiArgument (1 items):
                       Constant start:9:52 end:9:57:
-                        vpiParent: SysFuncCall name:$display
+                        vpiParent: SysTaskCall name:$display
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@TESTBENCH
@@ -447,14 +447,14 @@ Design name:unnamed:
                         vpiSize: 24
                         vpiDecompile: "\"OK!\""
                         vpiValue: OK!
-                  vpiElseStmt SysFuncCall name:$fatal start:9:65 end:9:105:
+                  vpiElseStmt SysTaskCall name:$fatal start:9:65 end:9:105:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$fatal start:9:65 end:9:71:
-                      vpiParent: SysFuncCall name:$fatal
+                      vpiParent: SysTaskCall name:$fatal
                       vpiName: "$fatal"
                     vpiArgument (2 items):
                       Constant start:9:72 end:9:73:
-                        vpiParent: SysFuncCall name:$fatal
+                        vpiParent: SysTaskCall name:$fatal
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@TESTBENCH
@@ -464,7 +464,7 @@ Design name:unnamed:
                         vpiDecompile: "1"
                         vpiValue: 1
                       Constant start:9:75 end:9:104:
-                        vpiParent: SysFuncCall name:$fatal
+                        vpiParent: SysTaskCall name:$fatal
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: work@TESTBENCH
@@ -485,10 +485,10 @@ Design name:unnamed:
                   vpiValue: 1
               DelayControl start:10:5 end:10:20:
                 vpiParent: Begin
-                vpiStmt SysFuncCall name:$finish start:10:10 end:10:19:
+                vpiStmt SysTaskCall name:$finish start:10:10 end:10:19:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:10:10 end:10:17:
-                    vpiParent: SysFuncCall name:$finish
+                    vpiParent: SysTaskCall name:$finish
                     vpiName: "$finish"
                 vpiDelay Constant start:10:6 end:10:9:
                   vpiParent: DelayControl

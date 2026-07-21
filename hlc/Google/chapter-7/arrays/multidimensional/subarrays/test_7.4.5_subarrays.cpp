@@ -329,7 +329,7 @@ TEST_F(MultiDimSubarraysTest, DisplayHasFiveArgumentsAndCorrectFormatString) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -344,7 +344,7 @@ TEST_F(MultiDimSubarraysTest, DisplayArgumentsAreBOneOneZeroThroughThree) {
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
 

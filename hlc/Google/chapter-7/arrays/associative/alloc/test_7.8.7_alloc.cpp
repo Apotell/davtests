@@ -163,7 +163,7 @@ TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
@@ -179,7 +179,7 @@ TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeHierPath) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>(sc->getArguments()->at(1));
@@ -194,7 +194,7 @@ TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(0));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   const hldb::HierPath *const hp = any_cast<hldb::HierPath>(sc->getArguments()->at(1));
   ASSERT_NE(hp, nullptr);
@@ -264,7 +264,7 @@ TEST_F(Alloc, ThirdStmtIsDisplayWithAssertOne) {
   ASSERT_NE(init, nullptr);
   const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr);
-  const hldb::SysFuncCall *const sc = any_cast<hldb::SysFuncCall>(blk->getStmts()->at(2));
+  const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(2));
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);

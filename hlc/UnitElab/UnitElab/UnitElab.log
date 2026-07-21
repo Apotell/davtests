@@ -1367,6 +1367,10 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/small.v:32:2: Compile generate block "B3".
 [INF:CP0335] $Source01/small.v:40:2: Compile generate block "B4".
 [INF:CP0335] $Source01/small.v:45:2: Compile generate block "B5".
+[ERR:EL0535] $Source01/top.v:64:26: Illegal implicit net "id:1104, name:c".
+[ERR:EL0535] $Source01/top.v:67:26: Illegal implicit net "id:1118, name:c".
+[ERR:EL0535] $Source01/top.v:70:27: Illegal implicit net "id:1129, name:c".
+[WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "work@bottom1".
 [WRN:PA0205] $Source01/top.v:6:1: No timescale set for "work@bottom2".
 [WRN:PA0205] $Source01/top.v:11:1: No timescale set for "work@bottom4".
@@ -1376,9 +1380,6 @@ AST_DEBUG_END
 [WRN:PA0205] $Source01/top.v:35:1: No timescale set for "work@test".
 [WRN:PA0205] $Source01/small.v:1:1: No timescale set for "work@small_top".
 [WRN:PA0205] $Source01/small.v:5:1: No timescale set for "work@small_test".
-[ERR:EL0535] $Source01/top.v:64:26: Illegal implicit net "id:491, name:c".
-[ERR:EL0535] $Source01/top.v:67:26: Illegal implicit net "id:505, name:c".
-[ERR:EL0535] $Source01/top.v:70:27: Illegal implicit net "id:516, name:c".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2960,6 +2961,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:mailbox
             vpiName: mailbox
           vpiClassDefn: ClassDefn name:mailbox
+      vpiAutomatic: true
       vpiClassType: mailbox class (1)
       vpiCell: mailbox
       vpiMethod (8 items):
@@ -3177,6 +3179,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:state
             vpiFullName: process::state
             vpiActual: EnumTypespec
+      vpiAutomatic: true
       vpiClassType: process class (4)
       vpiCell: process
       vpiMethod (6 items):
@@ -3255,6 +3258,7 @@ Design name:unnamed:
             vpiParent: ClassTypespec name:semaphore
             vpiName: semaphore
           vpiClassDefn: ClassDefn name:semaphore
+      vpiAutomatic: true
       vpiClassType: semaphore class (2)
       vpiCell: semaphore
       vpiMethod (4 items):
@@ -5333,15 +5337,21 @@ Design name:unnamed:
                                 vpiFullName: work@small_test.B1.B4.B5.N4.work@M4
                                 vpiActual: UnsupportedTypespec name:work@M4
   vpiTypespec (17 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
     ClassTypespec name:mailbox:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mailbox:
         vpiParent: ClassTypespec name:mailbox
         vpiName: mailbox
       vpiClassDefn: ClassDefn name:mailbox
-    IntTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ClassTypespec name:process:
       vpiParent: Design name:unnamed
       vpiName Identifier name:process:
@@ -5402,8 +5412,6 @@ Design name:unnamed:
         vpiParent: ModuleTypespec name:work@small_top
         vpiName: work@small_top
       vpiModule: Module name:work@small_top
-    RealTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:work@small_test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:work@small_test start:5:8 end:5:18:
@@ -5412,15 +5420,11 @@ Design name:unnamed:
       vpiModule: Module name:work@small_test
     LogicTypespec:
       vpiParent: Design name:unnamed
-    VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 10
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
