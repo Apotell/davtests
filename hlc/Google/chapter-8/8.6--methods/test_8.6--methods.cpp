@@ -195,7 +195,7 @@ class ClassMethodsTest : public Test {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(index));
+    const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(index));
     ASSERT_NE(disp, nullptr) << "stmt[" << index << "] should be a $display SysFuncCall";
     EXPECT_EQ(disp->getName(), "$display");
     ASSERT_NE(disp->getArguments(), nullptr);
@@ -350,7 +350,7 @@ TEST_F(ClassMethodsTest, TestMethodFirstStmtDisplaysItsOwnName) {
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(body->getStmts()->at(0));
+  const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(body->getStmts()->at(0));
   ASSERT_NE(disp, nullptr) << "'$display(\"test_method\")' should be a $display SysFuncCall";
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);

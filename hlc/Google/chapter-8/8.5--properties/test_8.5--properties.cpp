@@ -158,10 +158,10 @@ class ClassPropertiesTest : public Test {
     return any_cast<hldb::Assignment>(begin->getStmts()->at(index));
   }
 
-  static const hldb::SysFuncCall *getDisplayStmt() {
+  static const hldb::SysTaskCall *getDisplayStmt() {
     const hldb::Begin *const begin = getInitialBegin();
     if (begin == nullptr || begin->getStmts() == nullptr || begin->getStmts()->size() < 3) return nullptr;
-    return any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
+    return any_cast<hldb::SysTaskCall>(begin->getStmts()->at(2));
   }
 };
 
@@ -316,7 +316,7 @@ TEST_F(ClassPropertiesTest, SecondStmtRhsIsTwelve) {
 // --- $display(":assert:(%d == 12)", test_obj.a) -------------------------------
 
 TEST_F(ClassPropertiesTest, DisplayExistsWithTwoArguments) {
-  const hldb::SysFuncCall *const disp = getDisplayStmt();
+  const hldb::SysTaskCall *const disp = getDisplayStmt();
   ASSERT_NE(disp, nullptr) << "stmt[2] should be a $display SysFuncCall";
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -324,7 +324,7 @@ TEST_F(ClassPropertiesTest, DisplayExistsWithTwoArguments) {
 }
 
 TEST_F(ClassPropertiesTest, DisplayFirstArgIsAssertStringLiteral) {
-  const hldb::SysFuncCall *const disp = getDisplayStmt();
+  const hldb::SysTaskCall *const disp = getDisplayStmt();
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 0u);
@@ -334,7 +334,7 @@ TEST_F(ClassPropertiesTest, DisplayFirstArgIsAssertStringLiteral) {
 }
 
 TEST_F(ClassPropertiesTest, DisplaySecondArgIsTestObjDotAMatchingTheEarlierWrite) {
-  const hldb::SysFuncCall *const disp = getDisplayStmt();
+  const hldb::SysTaskCall *const disp = getDisplayStmt();
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 1u);

@@ -160,10 +160,10 @@ class ClassPropertiesEnumTest : public Test {
     return any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   }
 
-  static const hldb::SysFuncCall *getDisplayStmt() {
+  static const hldb::SysTaskCall *getDisplayStmt() {
     const hldb::Begin *const begin = getInitialBegin();
     if (begin == nullptr || begin->getStmts() == nullptr || begin->getStmts()->size() < 2) return nullptr;
-    return any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
+    return any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   }
 
   // Verifies the EnumTypespec's enumConsts[index] is named "name" and has a
@@ -339,7 +339,7 @@ TEST_F(ClassPropertiesEnumTest, AssignmentRhsIsNewMethodFuncCall) {
 // --- $display(test_obj.C) -------------------------------------------------------
 
 TEST_F(ClassPropertiesEnumTest, DisplayExistsWithOneArgument) {
-  const hldb::SysFuncCall *const disp = getDisplayStmt();
+  const hldb::SysTaskCall *const disp = getDisplayStmt();
   ASSERT_NE(disp, nullptr) << "stmt[1] should be a $display SysFuncCall";
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
@@ -347,7 +347,7 @@ TEST_F(ClassPropertiesEnumTest, DisplayExistsWithOneArgument) {
 }
 
 TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
-  const hldb::SysFuncCall *const disp = getDisplayStmt();
+  const hldb::SysTaskCall *const disp = getDisplayStmt();
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 0u);
