@@ -62,22 +62,23 @@ Design name:unnamed:
       vpiPreprocMacroDefinition (1 items):
         PreprocMacroDefinition name:FOO start:1:1 end:1:16:
           vpiParent: SourceFile name:pr622.v
-          vpiName: FOO
-          vpiNameStartColumn: 9
-          vpiBodyStartColumn: 13
+          vpiName Identifier name:FOO start:1:9 end:1:12:
+            vpiParent: PreprocMacroDefinition name:FOO
+            vpiName: FOO
+          vpiPMDToken (1 items):
+            Identifier name:bar start:1:13 end:1:16:
+              vpiParent: PreprocMacroDefinition name:FOO
+              vpiName: bar
       vpiPreprocMacroInstance (1 items):
-        PreprocMacroInstance name:FOO file:$Source01/pr622.v start:4:46 end:4:50:
+        PreprocMacroInstance name:FOO file:$Source01/pr622.v start:4:46 end:4:50 ppstart:4:46 ppend:4:49:
           vpiParent: SourceFile name:pr622.v
-          vpiName: FOO
+          vpiName Identifier name:FOO start:4:46 end:4:50:
+            vpiParent: PreprocMacroInstance name:FOO
+            vpiName: FOO
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:FOO
-          vpiSectionStartLine: 1
-          vpiSectionStartColumn: 13
-          vpiSectionEndLine: 1
-          vpiSectionEndColumn: 16
-          vpiSourceStartLine: 4
-          vpiSourceStartColumn: 46
-          vpiSourceEndLine: 4
-          vpiSourceEndColumn: 49
+          vpiPMIBody Identifier name:bar start:1:13 end:1:16:
+            vpiParent: PreprocMacroInstance name:FOO
+            vpiName: bar
       vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:work@foo file:$Source01/pr622.v start:2:1 end:6:10:
@@ -183,7 +184,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr622/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    18      18       0         0
+                                    22      22       0         0
 ===================== END REDUCTION RESULT =====================
