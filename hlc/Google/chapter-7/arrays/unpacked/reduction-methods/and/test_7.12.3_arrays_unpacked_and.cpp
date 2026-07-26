@@ -27,7 +27,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "b", "y"
+//   - design has module top with exactly 2 nets: "b", "y"
 //   - net "b": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
 //     -> ByteTypespec (signed); initial value stored directly on the Net
 //     as an Operation (vpiOpType=concatenation(33)) with 4 unsigned
@@ -89,19 +89,19 @@ class UnpackedAndTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedAndTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedAndTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(UnpackedAndTest, NetBIsDynamicArrayOfSignedByte) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -114,7 +114,7 @@ TEST_F(UnpackedAndTest, NetBIsDynamicArrayOfSignedByte) {
 }
 
 TEST_F(UnpackedAndTest, NetBInitialValueIsConcatenationOfOneThreeFiveSeven) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -130,7 +130,7 @@ TEST_F(UnpackedAndTest, NetBInitialValueIsConcatenationOfOneThreeFiveSeven) {
 }
 
 TEST_F(UnpackedAndTest, NetYIsPlainSignedIntWithNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const y = hldb::findByName<hldb::Net>("y", top->getNets());
   ASSERT_NE(y, nullptr);
@@ -141,7 +141,7 @@ TEST_F(UnpackedAndTest, NetYIsPlainSignedIntWithNoInitialValue) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedAndTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -154,7 +154,7 @@ TEST_F(UnpackedAndTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedAndTest, FirstStmtDisplaysOneThreeFiveSeven) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -174,7 +174,7 @@ TEST_F(UnpackedAndTest, FirstStmtDisplaysOneThreeFiveSeven) {
 }
 
 TEST_F(UnpackedAndTest, SecondStmtAssignsYFromBAndReduction) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -197,7 +197,7 @@ TEST_F(UnpackedAndTest, SecondStmtAssignsYFromBAndReduction) {
 }
 
 TEST_F(UnpackedAndTest, ThirdStmtDisplaysYEqualsOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -225,7 +225,7 @@ TEST_F(UnpackedAndTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedAndTest, DesignHasSignedIntTypespec) {
@@ -250,7 +250,7 @@ TEST_F(UnpackedAndTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedAndTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -262,7 +262,7 @@ TEST_F(UnpackedAndTest, RuntimeAndResultRequiresSimulation) {
                   "the actual runtime value of y after y = b.and cannot be observed here. and.sv's "
                   "own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

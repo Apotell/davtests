@@ -34,7 +34,7 @@ class MacroInstanceAlignmentTest : public Test {
 
 // LRM 22.5.1: the design must compile the top-level module.
 TEST_F(MacroInstanceAlignmentTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@m", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("m", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'm' must compile";
 }
 

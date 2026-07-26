@@ -26,7 +26,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
+//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
 //   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with 3 stmts (2 Assignment + 1 SysFuncCall)
 //   - Stmt[0]: arr_a = 8'd17 -- RefObj lhs, decimal Constant rhs
@@ -83,12 +83,12 @@ class PackedTreatAsIntegerTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(PackedTreatAsIntegerTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedTreatAsIntegerTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
@@ -97,7 +97,7 @@ TEST_F(PackedTreatAsIntegerTest, ModuleHasTwoNets) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(PackedTreatAsIntegerTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -110,7 +110,7 @@ TEST_F(PackedTreatAsIntegerTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, FirstAssignmentSetsArrAToDecimal17) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -127,7 +127,7 @@ TEST_F(PackedTreatAsIntegerTest, FirstAssignmentSetsArrAToDecimal17) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, SecondAssignmentAddsTwentyNineToArrA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -151,7 +151,7 @@ TEST_F(PackedTreatAsIntegerTest, SecondAssignmentAddsTwentyNineToArrA) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, DisplayAssertsSumEqualsFortySix) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -177,7 +177,7 @@ TEST_F(PackedTreatAsIntegerTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedTreatAsIntegerTest, DesignHasStringTypespec) {
@@ -195,7 +195,7 @@ TEST_F(PackedTreatAsIntegerTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedTreatAsIntegerTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -207,7 +207,7 @@ TEST_F(PackedTreatAsIntegerTest, RuntimeArithmeticResultRequiresSimulation) {
   //                 "simulator, so the actual runtime result of arr_a + 29 cannot be observed here. "
   //                 "treat-as-integer.sv's own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

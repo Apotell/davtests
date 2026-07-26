@@ -30,7 +30,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "A", "B"
+//   - design has module top with exactly 2 nets: "A", "B"
 //   - net "A": RefTypespec -> ArrayTypespec static(1) range [3:0], elem
 //     IntTypespec (signed)
 //   - net "B": RefTypespec -> ArrayTypespec static(1) range [0:3] (reversed
@@ -90,19 +90,19 @@ class UnpackedAssignmentsTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedAssignmentsTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedAssignmentsTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(UnpackedAssignmentsTest, NetAIsArrayThreeDownToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("A", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -116,7 +116,7 @@ TEST_F(UnpackedAssignmentsTest, NetAIsArrayThreeDownToZero) {
 }
 
 TEST_F(UnpackedAssignmentsTest, NetBIsArrayZeroUpToThreeAndDistinctFromA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("A", top->getNets());
   const hldb::Net *const b = hldb::findByName<hldb::Net>("B", top->getNets());
@@ -136,7 +136,7 @@ TEST_F(UnpackedAssignmentsTest, NetBIsArrayZeroUpToThreeAndDistinctFromA) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedAssignmentsTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -149,7 +149,7 @@ TEST_F(UnpackedAssignmentsTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedAssignmentsTest, FirstFourStmtsAssignAIndicesToMatchingConstants) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -169,7 +169,7 @@ TEST_F(UnpackedAssignmentsTest, FirstFourStmtsAssignAIndicesToMatchingConstants)
 }
 
 TEST_F(UnpackedAssignmentsTest, FifthStmtIsWholeArrayCopyBEqualsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -187,7 +187,7 @@ TEST_F(UnpackedAssignmentsTest, FifthStmtIsWholeArrayCopyBEqualsA) {
 }
 
 TEST_F(UnpackedAssignmentsTest, SixthStmtDisplaysBIndicesInReverseOrder) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -219,7 +219,7 @@ TEST_F(UnpackedAssignmentsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedAssignmentsTest, DesignHasStringTypespec) {
@@ -237,7 +237,7 @@ TEST_F(UnpackedAssignmentsTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedAssignmentsTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -249,7 +249,7 @@ TEST_F(UnpackedAssignmentsTest, RuntimeArrayCopyContentsRequireSimulation) {
                   "so the actual runtime contents of B after 'B = A' cannot be observed here. "
                   "assignments.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

@@ -20,11 +20,11 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'arr' (associative ArrayTypespec, idx=IntegerTypespec, elem=IntTypespec)
 //   - index type is IntegerTypespec (4-state `integer` keyword) — NOT IntTypespec (2-state `int`)
-//   - work@top has no processes
-//   - work@top has no continuous assignments
+//   - top has no processes
+//   - top has no continuous assignments
 //
 // Also checked:
 //   - HLC reports no compile errors for an integer-keyed associative array
@@ -54,26 +54,26 @@ class Integral : public Test {
 };
 
 TEST_F(Integral, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Integral, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Integral, NetNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(Integral, NetHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -87,7 +87,7 @@ TEST_F(Integral, NetHasAssociativeArrayTypespec) {
 TEST_F(Integral, AssocArrayKeyTypeIsInteger) {
   // `integer` keyword maps to IntegerTypespec (4-state 32-bit),
   // distinct from IntTypespec (2-state `int` keyword)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -98,7 +98,7 @@ TEST_F(Integral, AssocArrayKeyTypeIsInteger) {
 
 TEST_F(Integral, AssocArrayKeyTypeIsNotInt) {
   // Confirm it is NOT IntTypespec — `integer` and `int` are different types
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -108,7 +108,7 @@ TEST_F(Integral, AssocArrayKeyTypeIsNotInt) {
 }
 
 TEST_F(Integral, AssocArrayValueTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -118,13 +118,13 @@ TEST_F(Integral, AssocArrayValueTypeIsInt) {
 }
 
 TEST_F(Integral, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(Integral, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

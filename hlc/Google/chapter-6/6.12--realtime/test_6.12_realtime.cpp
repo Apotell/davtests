@@ -20,13 +20,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'a'
 //   - 'a' has a RefTypespec node whose vpiActual is null
 //     (realtime has no dedicated typespec class — contrast: real → RealTypespec)
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
-//   - work@top has no continuous assignments
-//   - work@top has no processes
+//   - top has no continuous assignments
+//   - top has no processes
 //   - RefTypespec getName() for realtime
 
 #include <hlc/Common/Session.h>
@@ -50,18 +50,18 @@ class Realtime : public Test {
 };
 
 TEST_F(Realtime, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Realtime, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Realtime, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
 }
@@ -71,7 +71,7 @@ TEST_F(Realtime, ANetExists) {
 // (contrast with 'real' which explicitly resolves to RealTypespec)
 // ---------------------------------------------------------------------------
 TEST_F(Realtime, ANetHasTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -79,7 +79,7 @@ TEST_F(Realtime, ANetHasTypespec) {
 }
 
 TEST_F(Realtime, ANetTypespecActualIsNull) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -90,7 +90,7 @@ TEST_F(Realtime, ANetTypespecActualIsNull) {
 
 TEST_F(Realtime, ANetTypespecNameIsRealtime) {
   GTEST_SKIP() << "Compiler doesn't support TimeTypesoec yet";
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -104,7 +104,7 @@ TEST_F(Realtime, ANetTypespecNameIsRealtime) {
 // Initial value — still recorded as a real constant "0.5"
 // ---------------------------------------------------------------------------
 TEST_F(Realtime, ANetInitialValueConstType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -114,7 +114,7 @@ TEST_F(Realtime, ANetInitialValueConstType) {
 }
 
 TEST_F(Realtime, ANetInitialValueIsHalf) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -124,13 +124,13 @@ TEST_F(Realtime, ANetInitialValueIsHalf) {
 }
 
 TEST_F(Realtime, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Realtime, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

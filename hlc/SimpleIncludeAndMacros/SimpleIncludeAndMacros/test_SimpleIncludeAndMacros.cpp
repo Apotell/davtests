@@ -34,12 +34,12 @@ class SimpleIncludeAndMacrosTest : public Test {
 
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile.
 TEST_F(SimpleIncludeAndMacrosTest, FakelibNand2Compiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@FAKELIB_NAND2", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("FAKELIB_NAND2", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "FAKELIB_NAND2 must compile";
 }
 
 TEST_F(SimpleIncludeAndMacrosTest, FakelibDffCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@FAKELIB_DFF", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("FAKELIB_DFF", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "FAKELIB_DFF must compile";
 }
 

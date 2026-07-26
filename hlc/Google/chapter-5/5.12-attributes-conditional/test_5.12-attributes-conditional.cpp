@@ -54,7 +54,7 @@ class AttributesConditional : public Test {
 
 // Helper: the one Assignment inside initial begin.
 static const hldb::Assignment *getAssignment(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
@@ -72,11 +72,11 @@ static const hldb::Assignment *getAssignment(const hldb::Design *design) {
 // Module and nets
 // ---------------------------------------------------------------------------
 TEST_F(AttributesConditional, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesConditional, FourBitNetsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 4u) << "expected 4 nets: a, b, c, d";

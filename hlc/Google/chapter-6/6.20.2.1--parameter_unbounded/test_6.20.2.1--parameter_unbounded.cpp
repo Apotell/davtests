@@ -32,7 +32,7 @@
 //
 // ── UHDM tree (from log) ──────────────────────────────────────────────────
 //
-//   Module name:work@top
+//   Module name:top
 //   ├── vpiParameter (1 item)
 //   │   └── Parameter name:p
 //   │       └── vpiTypespec  RefTypespec → LogicTypespec
@@ -104,7 +104,7 @@ class ParameterUnboundedTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
@@ -153,7 +153,7 @@ static const hldb::PartSelect *getPartSelect(const hldb::Design *d) {
 // Module
 // ===========================================================================
 
-TEST_F(ParameterUnboundedTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(ParameterUnboundedTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // Parameter — 'parameter p = $'

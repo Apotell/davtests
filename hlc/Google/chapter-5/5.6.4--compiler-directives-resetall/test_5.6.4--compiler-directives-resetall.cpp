@@ -26,7 +26,7 @@
 // default_nettype, etc.) to their defaults.  It produces no UHDM nodes.
 //
 // UHDM structure:
-//   Module name:work@ts  — empty, defNetType: none (12)
+//   Module name:ts  — empty, defNetType: none (12)
 //
 // Note: Surelog records defNetType as none (12) after `resetall, which is
 // Surelog's internal reset state for this property.
@@ -48,14 +48,14 @@ class CompilerDirectivesResetall : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
+  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
 // `resetall is consumed without error; the module compiles cleanly.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesResetall, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found";
 }
 
 TEST_F(CompilerDirectivesResetall, ModuleIsEmpty) {

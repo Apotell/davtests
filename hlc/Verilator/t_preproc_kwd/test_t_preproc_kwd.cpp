@@ -33,24 +33,24 @@ class PreprocKwdTest : public Test {
 // LRM 22.14: `begin_keywords / `end_keywords delimit a region using the keyword
 // set of the specified standard. All versioned sub-modules must compile.
 TEST_F(PreprocKwdTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@t", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("t", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "top module 't' must compile with begin_keywords/end_keywords in scope";
 }
 
 // LRM 22.14: each versioned module block (v95, v01, v05, s05, s09, s12, s17)
 // inside begin_keywords/end_keywords must compile as a separate named module.
 TEST_F(PreprocKwdTest, V95ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@v95", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("v95", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'v95' (1995 keyword set) must compile";
 }
 
 TEST_F(PreprocKwdTest, S09ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@s09", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("s09", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 's09' (SystemVerilog 2009 keyword set) must compile";
 }
 
 TEST_F(PreprocKwdTest, A23ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@a23", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("a23", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'a23' must compile";
 }
 

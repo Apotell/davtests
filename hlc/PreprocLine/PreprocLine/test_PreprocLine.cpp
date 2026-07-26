@@ -34,7 +34,7 @@ class PreprocLineTest : public Test {
 
 // LRM 22.5.1: the module must compile cleanly despite `line directives.
 TEST_F(PreprocLineTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 

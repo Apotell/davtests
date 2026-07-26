@@ -193,11 +193,11 @@ n<$Source01/dut.sv> u<180> t<Top_level_rule> c<1> l<3:1> el<103:3>
         n<> u<175> t<ENDMODULE> p<176> l<19:1> el<19:10>
   n</*\npackage sha3_pkg;\n  parameter int MsgWidth = 64;\n  parameter int MsgStrbW = MsgWidth / 8;\nendpackage\n\n\npackage kmac_pkg;\n  parameter int MsgWidth = sha3_pkg::MsgWidth;\n  parameter int MsgStrbW = sha3_pkg::MsgStrbW;\n  parameter int RegIntfWidth = 32; // 32bit interface\n  parameter int RegLatency   = 5;  // 5 cycle to write one Word\n  parameter int Sha3Latency  = 72; // Expected masked sha3 processing time 24x3\n\n  // Total required buffer size while SHA3 is in processing\n  parameter int BufferCycles   = (Sha3Latency + RegLatency - 1)/RegLatency;\n  parameter int BufferSizeBits = RegIntfWidth * BufferCycles;\n   parameter int MsgFifoDepth   = 2 + ((BufferSizeBits + MsgWidth - 1)/MsgWidth);\n   parameter int MsgFifoDepthW  = $clog2(MsgFifoDepth+1);\nendpackage\n\n\nmodule prim_fifo_sync #(\n  parameter int unsigned Width       = 16,\n  parameter bit Pass                 = 1'b1, // if == 1 allow requests to pass through empty FIFO\n  parameter int unsigned Depth       = 4,\n  parameter bit OutputZeroIfEmpty    = 1'b1, // if == 1 always output 0 when FIFO is empty\n  // derived parameter\n  localparam int unsigned DepthWNorm = $clog2(Depth+1),\n  localparam int unsigned DepthW     = (DepthWNorm == 0) ? 1 : DepthWNorm\n) (output  [DepthW-1:0]    depth);\n\nassign depth = 1'b0;\n\n\nendmodule\n\nmodule kmac_msgfifo\n  import kmac_pkg::*;\n#(\n  // OutWidth is MsgFIFO data width. prim_packer converts InW to OutW prior to\n  // pushing to MsgFIFO\n  parameter int OutWidth = 64,\n\n  // Internal MsgFIFO Entry count\n  parameter  int MsgDepth = 9,\n  localparam int MsgDepthW = $clog2(MsgDepth+1) // derived parameter\n) (\n    output logic [MsgDepthW-1:0] fifo_depth_o);\n\n    typedef struct packed {\n        logic [OutWidth-1:0]   data;\n        logic [OutWidth/8-1:0] strb; // one bit per byte\n      } fifo_t;\n     \n    prim_fifo_sync #(\n        .Width ($bits(fifo_t)),\n        .Pass  (1'b 1),\n        .Depth (MsgDepth)\n      ) u_msgfifo (\n        .depth (fifo_depth_o)\n      );\n\n\nendmodule\n\nmodule kmac ();\n\nlogic [kmac_pkg::MsgFifoDepthW-1:0] msgfifo_depth;\n\nassign o = msgfifo_depth;\n\nkmac_msgfifo #(\n    .OutWidth (kmac_pkg::MsgWidth),\n    .MsgDepth (kmac_pkg::MsgFifoDepth)\n  ) u_msgfifo (\n   \n    .fifo_depth_o (msgfifo_depth)\n  );\n\n\nendmodule\n*/> u<179> t<BLOCK_COMMENT> p<180> l<3:1> el<19:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:3:1: Compile module "work@prim_lfsr".
-[INF:CP0303] $Source01/dut.sv:15:1: Compile module "work@top".
+[INF:CP0303] $Source01/dut.sv:3:1: Compile module "prim_lfsr".
+[INF:CP0303] $Source01/dut.sv:15:1: Compile module "top".
 [ERR:EL0535] $Source01/dut.sv:17:8: Illegal implicit net "id:77, name:LfsrDw".
-[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "work@prim_lfsr".
-[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "work@top".
+[WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "prim_lfsr".
+[WRN:PA0205] $Source01/dut.sv:15:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -208,82 +208,82 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@prim_lfsr file:$Source01/dut.sv start:3:1 end:13:10:
+    Module name:prim_lfsr file:$Source01/dut.sv start:3:1 end:13:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prim_lfsr start:3:8 end:3:17:
-        vpiParent: Module name:work@prim_lfsr
-        vpiName: work@prim_lfsr
-      vpiFullName: work@prim_lfsr
+      vpiName Identifier name:prim_lfsr start:3:8 end:3:17:
+        vpiParent: Module name:prim_lfsr
+        vpiName: prim_lfsr
+      vpiFullName: prim_lfsr
       vpiVariable (1 items):
         Variable name:o start:3:29 end:3:30:
-          vpiParent: Module name:work@prim_lfsr
+          vpiParent: Module name:prim_lfsr
           vpiTypespec RefTypespec start:3:18 end:3:28:
             vpiParent: Variable name:o
-            vpiFullName: work@prim_lfsr.o
+            vpiFullName: prim_lfsr.o
             vpiActual: IntTypespec
           vpiName: o
-          vpiFullName: work@prim_lfsr.o
+          vpiFullName: prim_lfsr.o
           vpiNetType: none (12)
       vpiParameter (1 items):
         Parameter name:LfsrDw start:4:27 end:4:33:
-          vpiParent: Module name:work@prim_lfsr
+          vpiParent: Module name:prim_lfsr
           vpiTypespec RefTypespec start:4:14 end:4:26:
             vpiParent: Parameter name:LfsrDw
-            vpiFullName: work@prim_lfsr.LfsrDw
+            vpiFullName: prim_lfsr.LfsrDw
             vpiActual: IntTypespec
           vpiName: LfsrDw
-          vpiFullName: work@prim_lfsr.LfsrDw
+          vpiFullName: prim_lfsr.LfsrDw
       vpiParamAssign (1 items):
         ParamAssign start:4:27 end:4:38:
-          vpiParent: Module name:work@prim_lfsr
+          vpiParent: Module name:prim_lfsr
           vpiLhs RefObj name:LfsrDw start:4:27 end:4:33:
             vpiParent: ParamAssign
             vpiName: LfsrDw
-            vpiFullName: work@prim_lfsr.LfsrDw
+            vpiFullName: prim_lfsr.LfsrDw
             vpiActual: Parameter name:LfsrDw
           vpiRhs Constant start:4:36 end:4:38:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@prim_lfsr
+              vpiFullName: prim_lfsr
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "12"
             vpiValue: 12
-      vpiDefName: work@prim_lfsr
+      vpiDefName: prim_lfsr
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@prim_lfsr
+        vpiParent: Module name:prim_lfsr
         vpiName: work
-        vpiFullName: work@prim_lfsr.work
+        vpiFullName: prim_lfsr.work
       vpiCell: prim_lfsr
       vpiTaskFunc (1 items):
         Function name:get_1s start:5:4 end:8:15:
-          vpiParent: Module name:work@prim_lfsr
+          vpiParent: Module name:prim_lfsr
           vpiName Identifier name:get_1s start:5:42 end:5:48:
             vpiParent: Function name:get_1s
             vpiName: get_1s
-          vpiFullName: work@prim_lfsr.get_1s
+          vpiFullName: prim_lfsr.get_1s
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt Begin:
             vpiParent: Function name:get_1s
-            vpiFullName: work@prim_lfsr.get_1s
+            vpiFullName: prim_lfsr.get_1s
             vpiVariable (1 items):
               Variable name:a start:6:26 end:6:27:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:6:7 end:6:25:
                   vpiParent: Variable name:a
-                  vpiFullName: work@prim_lfsr.get_1s.a
+                  vpiFullName: prim_lfsr.get_1s.a
                   vpiActual: LogicTypespec
                 vpiName: a
-                vpiFullName: work@prim_lfsr.get_1s.a
+                vpiFullName: prim_lfsr.get_1s.a
                 vpiValue Constant start:6:30 end:6:32:
                   vpiParent: Variable name:a
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@prim_lfsr.get_1s.a
+                    vpiFullName: prim_lfsr.get_1s.a
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
@@ -302,13 +302,13 @@ Design name:unnamed:
                         RefObj name:LfsrDw start:5:30 end:5:36:
                           vpiParent: Operation
                           vpiName: LfsrDw
-                          vpiFullName: work@prim_lfsr.get_1s.LfsrDw
+                          vpiFullName: prim_lfsr.get_1s.LfsrDw
                           vpiActual: Parameter name:LfsrDw
                         Constant start:5:37 end:5:38:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@prim_lfsr.get_1s
+                            vpiFullName: prim_lfsr.get_1s
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -318,7 +318,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@prim_lfsr.get_1s
+                        vpiFullName: prim_lfsr.get_1s
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -337,13 +337,13 @@ Design name:unnamed:
                         RefObj name:LfsrDw start:6:14 end:6:20:
                           vpiParent: Operation
                           vpiName: LfsrDw
-                          vpiFullName: work@prim_lfsr.get_1s.LfsrDw
+                          vpiFullName: prim_lfsr.get_1s.LfsrDw
                           vpiActual: Parameter name:LfsrDw
                         Constant start:6:21 end:6:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@prim_lfsr.get_1s
+                            vpiFullName: prim_lfsr.get_1s
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -353,7 +353,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@prim_lfsr.get_1s
+                        vpiFullName: prim_lfsr.get_1s
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -368,31 +368,31 @@ Design name:unnamed:
                 vpiCondition RefObj name:a start:7:14 end:7:15:
                   vpiParent: ReturnStmt
                   vpiName: a
-                  vpiFullName: work@prim_lfsr.get_1s.a
+                  vpiFullName: prim_lfsr.get_1s.a
                   vpiActual: Variable name:a
           vpiReturn RefTypespec start:5:23 end:5:41:
             vpiParent: Function name:get_1s
-            vpiFullName: work@prim_lfsr.get_1s
+            vpiFullName: prim_lfsr.get_1s
             vpiActual: LogicTypespec
       vpiPort (1 items):
         Port name:o start:3:29 end:3:30:
-          vpiParent: Module name:work@prim_lfsr
+          vpiParent: Module name:prim_lfsr
           vpiName: o
           vpiDirection: output (2)
           vpiLowConn RefObj start:3:29 end:3:30:
             vpiParent: Port name:o
-            vpiFullName: work@prim_lfsr.o
+            vpiFullName: prim_lfsr.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:3:18 end:3:28:
             vpiParent: Port name:o
-            vpiFullName: work@prim_lfsr.o
+            vpiFullName: prim_lfsr.o
             vpiActual: IntTypespec
       vpiProcess (1 items):
         Initial start:10:4 end:12:7:
-          vpiParent: Module name:work@prim_lfsr
+          vpiParent: Module name:prim_lfsr
           vpiStmt Begin start:10:12 end:12:7:
             vpiParent: Initial
-            vpiFullName: work@prim_lfsr
+            vpiFullName: prim_lfsr
             vpiStmt (1 items):
               Assignment start:11:7 end:11:25:
                 vpiParent: Begin
@@ -400,13 +400,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:o start:11:7 end:11:8:
                   vpiParent: Assignment
                   vpiName: o
-                  vpiFullName: work@prim_lfsr.o
+                  vpiFullName: prim_lfsr.o
                   vpiActual: Variable name:o
                 vpiRhs Operation start:11:11 end:11:25:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec start:11:11 end:11:14:
                     vpiParent: Operation
-                    vpiFullName: work@prim_lfsr
+                    vpiFullName: prim_lfsr
                     vpiActual: IntTypespec
                   vpiOpType: cast (81)
                   vpiOperand (1 items):
@@ -416,57 +416,57 @@ Design name:unnamed:
                         vpiParent: FuncCall name:get_1s
                         vpiName: get_1s
                       vpiTaskFunc: Function name:get_1s
-    Module name:work@top file:$Source01/dut.sv start:15:1 end:19:10:
+    Module name:top file:$Source01/dut.sv start:15:1 end:19:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:15:8 end:15:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:15:8 end:15:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiVariable (1 items):
         Variable name:o start:15:23 end:15:24:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypespec RefTypespec start:15:12 end:15:22:
             vpiParent: Variable name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: IntTypespec
           vpiName: o
-          vpiFullName: work@top.o
+          vpiFullName: top.o
           vpiNetType: none (12)
       vpiTypespec (1 items):
-        ModuleTypespec name:work@prim_lfsr start:16:4 end:16:13:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@prim_lfsr start:16:4 end:16:13:
-            vpiParent: ModuleTypespec name:work@prim_lfsr
-            vpiName: work@prim_lfsr
-      vpiDefName: work@top
+        ModuleTypespec name:prim_lfsr start:16:4 end:16:13:
+          vpiParent: Module name:top
+          vpiName Identifier name:prim_lfsr start:16:4 end:16:13:
+            vpiParent: ModuleTypespec name:prim_lfsr
+            vpiName: prim_lfsr
+      vpiDefName: top
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiPort (1 items):
         Port name:o start:15:23 end:15:24:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
           vpiLowConn RefObj start:15:23 end:15:24:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:15:12 end:15:22:
             vpiParent: Port name:o
-            vpiFullName: work@top.o
+            vpiFullName: top.o
             vpiActual: IntTypespec
       vpiRefInstance (1 items):
         RefInstance name:u_lfsr start:18:6 end:18:12:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: u_lfsr
-          vpiTypespec RefTypespec name:work@prim_lfsr start:16:4 end:16:13:
+          vpiTypespec RefTypespec name:prim_lfsr start:16:4 end:16:13:
             vpiParent: RefInstance name:u_lfsr
-            vpiName: work@prim_lfsr
-            vpiFullName: work@top.u_lfsr.work@prim_lfsr
-            vpiActual: ModuleTypespec name:work@prim_lfsr
+            vpiName: prim_lfsr
+            vpiFullName: top.u_lfsr.prim_lfsr
+            vpiActual: ModuleTypespec name:prim_lfsr
           vpiParamAssign (1 items):
             ParamAssign start:17:7 end:17:18:
               vpiParent: RefInstance name:u_lfsr
@@ -474,12 +474,12 @@ Design name:unnamed:
               vpiLhs RefObj name:LfsrDw start:17:8 end:17:14:
                 vpiParent: ParamAssign
                 vpiName: LfsrDw
-                vpiFullName: work@top.u_lfsr.LfsrDw
+                vpiFullName: top.u_lfsr.LfsrDw
               vpiRhs Constant start:17:15 end:17:17:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.u_lfsr
+                  vpiFullName: top.u_lfsr
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -491,31 +491,31 @@ Design name:unnamed:
               vpiLowConn RefObj name:o start:18:14 end:18:15:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_lfsr.o
+                vpiFullName: top.u_lfsr.o
                 vpiActual: Variable name:o
               vpiHighConn RefObj name:o start:18:16 end:18:17:
                 vpiParent: Port
                 vpiName: o
-                vpiFullName: work@top.u_lfsr.o
+                vpiFullName: top.u_lfsr.o
                 vpiActual: Variable name:o
   vpiTypespec (4 items):
-    ModuleTypespec name:work@prim_lfsr:
+    ModuleTypespec name:prim_lfsr:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@prim_lfsr start:3:8 end:3:17:
-        vpiParent: ModuleTypespec name:work@prim_lfsr
-        vpiName: work@prim_lfsr
-      vpiModule: Module name:work@prim_lfsr
+      vpiName Identifier name:prim_lfsr start:3:8 end:3:17:
+        vpiParent: ModuleTypespec name:prim_lfsr
+        vpiName: prim_lfsr
+      vpiModule: Module name:prim_lfsr
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:15:8 end:15:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:15:8 end:15:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

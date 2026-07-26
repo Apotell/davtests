@@ -32,7 +32,7 @@ class YoysysTestsMacroTest : public Test {
 
 // LRM 22.5.1: the top module that exercises macro expansions must compile.
 TEST_F(YoysysTestsMacroTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 

@@ -64,7 +64,7 @@ class IntegersUnsizedIllegal : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getBegin(const hldb::Design *d) {
@@ -79,7 +79,7 @@ static const hldb::Begin *getBegin(const hldb::Design *d) {
 // Unlike hard-syntax-error cases, '4af' is recovered — the module compiles.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersUnsizedIllegal, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' should exist — Surelog recovers '4af' as a "
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'top' should exist — Surelog recovers '4af' as a "
                                           "time literal rather than issuing a hard syntax error";
 }
 

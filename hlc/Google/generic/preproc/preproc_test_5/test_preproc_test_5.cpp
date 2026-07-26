@@ -34,7 +34,7 @@ class PreprocFuncMacroEmptyBodyTest : public Test {
 // LRM 22.5.1: `define INCEPTION(a, b, c) with no replacement text is a valid
 // function-like macro with an empty body. The module must compile cleanly.
 TEST_F(PreprocFuncMacroEmptyBodyTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
 }
 

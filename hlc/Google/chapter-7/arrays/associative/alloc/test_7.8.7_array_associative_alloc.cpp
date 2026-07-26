@@ -25,13 +25,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'arr' (associative ArrayTypespec, idx=IntTypespec, elem=IntTypespec)
 //   - 1 Initial process; body is a Begin with 3 stmts
 //   - stmt[0]: $display(":assert: (%d == 0)", arr.size) — HierPath with 2 RefObj elems
 //   - stmt[1]: blocking Assignment arr[10]=10 (BitSelect lhs, Constant rhs)
 //   - stmt[2]: $display(":assert: (%d == 1)", arr.size)
-//   - work@top has no continuous assignments
+//   - top has no continuous assignments
 //
 // Not checked:
 //   - arr.size produces EL0535 errors (illegal implicit net "size") but appears in UHDM as HierPath
@@ -69,26 +69,26 @@ class Alloc : public Test {
 // --- module and net -------------------------------------------------------
 
 TEST_F(Alloc, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Alloc, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Alloc, NetNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(Alloc, NetHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -102,7 +102,7 @@ TEST_F(Alloc, NetHasAssociativeArrayTypespec) {
 }
 
 TEST_F(Alloc, AssocArrayKeyTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -117,7 +117,7 @@ TEST_F(Alloc, AssocArrayKeyTypeIsInt) {
 }
 
 TEST_F(Alloc, AssocArrayValueTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
@@ -134,7 +134,7 @@ TEST_F(Alloc, AssocArrayValueTypeIsInt) {
 // --- initial process ------------------------------------------------------
 
 TEST_F(Alloc, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
@@ -143,7 +143,7 @@ TEST_F(Alloc, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(Alloc, InitialBodyIsBeginWith3Stmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -157,7 +157,7 @@ TEST_F(Alloc, InitialBodyIsBeginWith3Stmts) {
 // --- $display(":assert: (%d == 0)", arr.size) -----------------------------
 
 TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -173,7 +173,7 @@ TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
 }
 
 TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -188,7 +188,7 @@ TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeHierPath) {
 }
 
 TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -211,7 +211,7 @@ TEST_F(Alloc, ArrSizeHierPathHasTwoElems) {
 // --- arr[10] = 10 ---------------------------------------------------------
 
 TEST_F(Alloc, SecondStmtIsBlockingAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -223,7 +223,7 @@ TEST_F(Alloc, SecondStmtIsBlockingAssignment) {
 }
 
 TEST_F(Alloc, AssignmentLhsIsArrAt10) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -242,7 +242,7 @@ TEST_F(Alloc, AssignmentLhsIsArrAt10) {
 }
 
 TEST_F(Alloc, AssignmentRhsIs10) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -258,7 +258,7 @@ TEST_F(Alloc, AssignmentRhsIs10) {
 // --- $display(":assert: (%d == 1)", arr.size) -----------------------------
 
 TEST_F(Alloc, ThirdStmtIsDisplayWithAssertOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -276,14 +276,14 @@ TEST_F(Alloc, ThirdStmtIsDisplayWithAssertOne) {
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Alloc, ArrNetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr) << "int arr[int] is declared without an initializer";
 }
 
 TEST_F(Alloc, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

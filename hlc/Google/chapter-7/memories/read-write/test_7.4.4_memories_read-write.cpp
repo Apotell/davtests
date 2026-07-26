@@ -26,7 +26,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "mem"
+//   - design has module top with exactly 1 net: "mem"
 //   - net "mem": RefTypespec -> ArrayTypespec static(1), unpacked range
 //     [0:255], elem -> LogicTypespec with 1 packed Range [7:0]
 //   - Initial process: 1 Begin with 4 stmts (2 BitSelect Assignment + 2
@@ -86,7 +86,7 @@ class MemoriesReadWriteTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -212,7 +212,7 @@ TEST_F(MemoriesReadWriteTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MemoriesReadWriteTest, DesignHasStringTypespec) {

@@ -33,14 +33,14 @@ class PreprocIncBadTest : public Test {
 // LRM 22.4: a syntax error inside an included file must not prevent the
 // compiler from completing compilation of the including file's modules.
 TEST_F(PreprocIncBadTest, MainModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@t", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("t", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "main module 't' must compile despite syntax error in included file";
 }
 
 // The included file defines module 'xx'; it must be recorded even with a
 // syntax error, because the error is in the module body, not the declaration.
 TEST_F(PreprocIncBadTest, IncludedModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@xx", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("xx", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'xx' from included file must be compiled";
 }
 

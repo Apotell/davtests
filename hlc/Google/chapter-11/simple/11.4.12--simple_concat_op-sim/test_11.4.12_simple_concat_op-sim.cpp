@@ -20,7 +20,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a" [1:0] (input),
+//   - design has module top with exactly 3 nets: "a" [1:0] (input),
 //     "b" [1:0] (input), "c" [3:0] (output), all vpiNetType wire, each
 //     RefTypespec -> LogicTypespec with its own Range
 //   - module has exactly 1 continuous assignment: lhs RefObj "c", rhs
@@ -63,7 +63,7 @@ class SimpleConcatOpSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets ---------------------------------------------------------

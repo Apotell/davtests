@@ -96,7 +96,7 @@ class DeferredAssertTest : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Net *getNetA(const hldb::Design *d) {
@@ -126,7 +126,7 @@ static const hldb::Operation *getOperation(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module and net
 // ---------------------------------------------------------------------------
-TEST_F(DeferredAssertTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(DeferredAssertTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 TEST_F(DeferredAssertTest, NetA_HasLogicTypespec) {
   // SV source: 'logic a' — §6.3 declares a 4-state single-bit variable.

@@ -39,7 +39,7 @@
 // variable, rather than only asserting the AST shape of the assignment.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", all int
+//   - module top has exactly 3 nets, "a", "b", "c", all int
 //     (RefTypespec -> IntTypespec)
 //   - the initial block is a Begin with exactly 4 statements:
 //       [0] the same 3-deep chain as the non-sim file: Assignment(lhs a)
@@ -96,7 +96,7 @@ class AssignInExprSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;

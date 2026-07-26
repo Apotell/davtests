@@ -48,9 +48,9 @@
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:work@top
+//   Module name:top
 //   +-- getClassDefns() (ClassDefnCollection, 1 item)
-//   |   +-- [0] ClassDefn name:"work@test_cls"
+//   |   +-- [0] ClassDefn name:"test_cls"
 //   |           getVariables() (VariableCollection, 1 item):
 //   |             +-- [0] Variable name:"a"
 //   |                         typespec: RefTypespec -> IntTypespec
@@ -59,7 +59,7 @@
 //   +-- getVariables()   -- NULL (const class handle is NOT a Variable)
 //   +-- getNets() (NetCollection, 1 item)
 //       +-- [0] Net name:"test_obj"
-//               typespec: RefTypespec -> ClassTypespec name:"work@test_cls"
+//               typespec: RefTypespec -> ClassTypespec name:"test_cls"
 //               value:    MethodFuncCall name:"new"
 //
 // NOTE: Surelog represents 'const test_cls test_obj' as a Net node, not a
@@ -102,7 +102,7 @@ class ConstTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::ClassDefn *getClassDefn(const hldb::Design *d, std::string_view name) {
@@ -121,7 +121,7 @@ static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
 // Module
 // ===========================================================================
 
-TEST_F(ConstTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(ConstTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // class test_cls  (ss.8)
@@ -143,10 +143,10 @@ TEST_F(ConstTest, ClassDefnCount) {
 }
 
 // ss.8: the class is named 'test_cls'; UHDM uses the fully-qualified form
-// 'work@test_cls'.
+// 'test_cls'.
 TEST_F(ConstTest, TestCls_Exists) {
-  EXPECT_NE(getClassDefn(m_design, "work@test_cls"), nullptr)
-      << "ClassDefn 'work@test_cls' not found in module class definitions";
+  EXPECT_NE(getClassDefn(m_design, "test_cls"), nullptr)
+      << "ClassDefn 'test_cls' not found in module class definitions";
 }
 
 // ===========================================================================
@@ -156,14 +156,14 @@ TEST_F(ConstTest, TestCls_Exists) {
 // ss.8: 'class test_cls' declares one data member 'int a'. The variable
 // collection of the ClassDefn (via Scope::getVariables()) must be non-null.
 TEST_F(ConstTest, TestCls_HasVariables) {
-  const hldb::ClassDefn *cd = getClassDefn(m_design, "work@test_cls");
+  const hldb::ClassDefn *cd = getClassDefn(m_design, "test_cls");
   ASSERT_NE(cd, nullptr);
   EXPECT_NE(cd->getVariables(), nullptr) << "ss.8: class 'test_cls' must have a non-null variable collection";
 }
 
 // ss.8: exactly one data member ('int a') is declared in 'test_cls'.
 TEST_F(ConstTest, TestCls_VariableCount) {
-  const hldb::ClassDefn *cd = getClassDefn(m_design, "work@test_cls");
+  const hldb::ClassDefn *cd = getClassDefn(m_design, "test_cls");
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getVariables(), nullptr);
   EXPECT_EQ(cd->getVariables()->size(), 1u) << "ss.8: class 'test_cls' declares exactly one member variable: a";
@@ -171,7 +171,7 @@ TEST_F(ConstTest, TestCls_VariableCount) {
 
 // ss.8: the data member 'a' must be registered in the class scope.
 TEST_F(ConstTest, TestCls_Variable_A_Exists) {
-  const hldb::ClassDefn *cd = getClassDefn(m_design, "work@test_cls");
+  const hldb::ClassDefn *cd = getClassDefn(m_design, "test_cls");
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getVariables(), nullptr);
   EXPECT_NE(hldb::findByName<hldb::Variable>("a", cd->getVariables()), nullptr)
@@ -185,14 +185,14 @@ TEST_F(ConstTest, TestCls_Variable_A_Exists) {
 // ss.8: 'class test_cls' declares one task 'test_method'. The method
 // collection (ClassDefn::getMethods()) must be non-null.
 TEST_F(ConstTest, TestCls_HasMethods) {
-  const hldb::ClassDefn *cd = getClassDefn(m_design, "work@test_cls");
+  const hldb::ClassDefn *cd = getClassDefn(m_design, "test_cls");
   ASSERT_NE(cd, nullptr);
   EXPECT_NE(cd->getMethods(), nullptr) << "ss.8: class 'test_cls' must have a non-null method collection";
 }
 
 // ss.8: exactly one task ('test_method') is declared in 'test_cls'.
 TEST_F(ConstTest, TestCls_MethodCount) {
-  const hldb::ClassDefn *cd = getClassDefn(m_design, "work@test_cls");
+  const hldb::ClassDefn *cd = getClassDefn(m_design, "test_cls");
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getMethods(), nullptr);
   EXPECT_EQ(cd->getMethods()->size(), 1u) << "ss.8: class 'test_cls' declares exactly one method: test_method";
@@ -200,7 +200,7 @@ TEST_F(ConstTest, TestCls_MethodCount) {
 
 // ss.8: the task 'test_method' must be registered in the method collection.
 TEST_F(ConstTest, TestCls_Method_TestMethod_Exists) {
-  const hldb::ClassDefn *cd = getClassDefn(m_design, "work@test_cls");
+  const hldb::ClassDefn *cd = getClassDefn(m_design, "test_cls");
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getMethods(), nullptr);
   EXPECT_NE(hldb::findByName<hldb::TaskFunc>("test_method", cd->getMethods()), nullptr)
@@ -263,7 +263,7 @@ TEST_F(ConstTest, TestObj_Typespec_IsClassTypespec) {
 }
 
 // ss.8: the ClassTypespec must refer to the 'test_cls' class defined in the
-// module (fully qualified as 'work@test_cls').
+// module (fully qualified as 'test_cls').
 TEST_F(ConstTest, TestObj_Typespec_ClassIs_TestCls) {
   const hldb::Net *n = getNet(m_design, "test_obj");
   ASSERT_NE(n, nullptr);
@@ -271,7 +271,7 @@ TEST_F(ConstTest, TestObj_Typespec_ClassIs_TestCls) {
   ASSERT_NE(rt, nullptr);
   const hldb::ClassTypespec *ct = rt->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
-  EXPECT_EQ(ct->getName(), "work@test_cls") << "ss.8: ClassTypespec must point to the 'test_cls' class definition";
+  EXPECT_EQ(ct->getName(), "test_cls") << "ss.8: ClassTypespec must point to the 'test_cls' class definition";
 }
 
 // ss.6.20.6: 'const test_cls test_obj = new' initializes the handle with a

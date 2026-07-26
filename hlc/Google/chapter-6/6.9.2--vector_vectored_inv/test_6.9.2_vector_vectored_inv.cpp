@@ -25,7 +25,7 @@
 // `logic` context, so the module body cannot be parsed.
 //
 // Checked:
-//   - no module named work@top (parse failed)
+//   - no module named top (parse failed)
 //   - design has 2 unnamed Module stubs (error-recovery artifacts), no nets,
 //     no processes, no continuous assignments in either stub
 //   - design has 5 Typespec nodes: 2 ModuleTypespec, 1 LogicTypespec,
@@ -58,8 +58,8 @@ class VectorVectoredInv : public Test {
 // --- module-level checks ------------------------------------------------
 
 TEST_F(VectorVectoredInv, NoModuleNamedTop) {
-  // Parse failure: no properly named work@top module in the UHDM graph
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  // Parse failure: no properly named top module in the UHDM graph
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_EQ(top, nullptr);
 }
 

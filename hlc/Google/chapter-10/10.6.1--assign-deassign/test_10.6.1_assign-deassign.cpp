@@ -31,7 +31,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 5 nets: "clk", "q", "d",
+//   - design has module top with exactly 5 nets: "clk", "q", "d",
 //     "clr", "set", each RefTypespec -> LogicTypespec
 //   - module has exactly 5 ports: clk/d/clr/set (input), q (output)
 //   - module has exactly 2 processes, both Always (vpiAlwaysType: always)
@@ -86,7 +86,7 @@ class AssignDeassignTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets / ports -----------------------------------------------

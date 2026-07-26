@@ -22,7 +22,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "_bit", "_logic",
+//   - design has module top with exactly 3 nets: "_bit", "_logic",
 //     "_reg"
 //   - all 3 nets: RefTypespec -> ArrayTypespec static(1), range [7:0]
 //     (unpacked dimension)
@@ -76,26 +76,26 @@ class UnpackedBasicTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedBasicTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasFiveTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 5u);
 }
 
 TEST_F(UnpackedBasicTest, BitNetIsArrayOfBitTypespecRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const bit = hldb::findByName<hldb::Net>("_bit", top->getNets());
   ASSERT_NE(bit, nullptr);
@@ -109,7 +109,7 @@ TEST_F(UnpackedBasicTest, BitNetIsArrayOfBitTypespecRangeSevenToZero) {
 }
 
 TEST_F(UnpackedBasicTest, LogicNetIsArrayOfLogicTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const logic = hldb::findByName<hldb::Net>("_logic", top->getNets());
   ASSERT_NE(logic, nullptr);
@@ -119,7 +119,7 @@ TEST_F(UnpackedBasicTest, LogicNetIsArrayOfLogicTypespec) {
 }
 
 TEST_F(UnpackedBasicTest, RegNetMapsToSameLogicTypespecAsLogicNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const logic = hldb::findByName<hldb::Net>("_logic", top->getNets());
   const hldb::Net *const reg = hldb::findByName<hldb::Net>("_reg", top->getNets());
@@ -150,7 +150,7 @@ TEST_F(UnpackedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedBasicTest, DesignHasSignedIntTypespec) {
@@ -161,7 +161,7 @@ TEST_F(UnpackedBasicTest, DesignHasSignedIntTypespec) {
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasNoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
@@ -176,7 +176,7 @@ TEST_F(UnpackedBasicTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedBasicTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

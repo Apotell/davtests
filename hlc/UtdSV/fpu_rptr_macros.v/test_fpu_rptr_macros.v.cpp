@@ -33,13 +33,13 @@ class FpuRptrMacrosTest : public Test {
 // LRM 22.5.1: both modules that use the `define macros in fpu_rptr_macros.v
 // must compile cleanly.
 TEST_F(FpuRptrMacrosTest, FpuBufrptGrp64Compiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@fpu_bufrpt_grp64", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("fpu_bufrpt_grp64", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'fpu_bufrpt_grp64' must compile";
 }
 
 TEST_F(FpuRptrMacrosTest, FpuBufrptGrp32Compiles) {
   const hldb::Module *const module =
-      hldb::findByName<hldb::Module>("work@fpu_bufrpt_grp32", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("fpu_bufrpt_grp32", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'fpu_bufrpt_grp32' must compile";
 }
 

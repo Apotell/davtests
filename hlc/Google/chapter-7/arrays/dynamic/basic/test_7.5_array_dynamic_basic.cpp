@@ -20,15 +20,15 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: "arr" (RefTypespec->ArrayTypespec)
 //   - ArrayTypespec: vpiArrayType=dynamic(2) -- key distinction from static(1) and associative(3)
 //   - ArrayTypespec ElemTypespec: RefTypespec->BitTypespec
 //   - BitTypespec: vpiVector=true, getSigned()==false, 1 Range [7:0] (left=7, right=0)
 //   - Range constants are vpiUIntConst
 //   - net has no initial value
-//   - design has 2 typespecs: ModuleTypespec "work@top" + IntTypespec (signed)
-//   - work@top has no processes, no continuous assignments
+//   - design has 2 typespecs: ModuleTypespec "top" + IntTypespec (signed)
+//   - top has no processes, no continuous assignments
 //
 // Not checked:
 //   - vpiNetType (not set for bit-type variables -- getNetType() returns 0)
@@ -62,35 +62,35 @@ class DynArrBasic : public Test {
 // --- module ------------------------------------------------------------------
 
 TEST_F(DynArrBasic, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- net arr -----------------------------------------------------------------
 
 TEST_F(DynArrBasic, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(DynArrBasic, NetNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(DynArrBasic, NetFullNameIsWorkAtTopDotArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getFullName(), "work@top.arr");
+  EXPECT_EQ(top->getNets()->at(0)->getFullName(), "top.arr");
 }
 
 TEST_F(DynArrBasic, NetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getValue(), nullptr);
@@ -99,7 +99,7 @@ TEST_F(DynArrBasic, NetHasNoInitialValue) {
 // --- ArrayTypespec -----------------------------------------------------------
 
 TEST_F(DynArrBasic, NetHasArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -110,7 +110,7 @@ TEST_F(DynArrBasic, NetHasArrayTypespec) {
 
 TEST_F(DynArrBasic, ArrayTypespecIsDynamic) {
   // vpiArrayType: dynamic (2) -- distinguishes from static(1) and associative(3)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -119,7 +119,7 @@ TEST_F(DynArrBasic, ArrayTypespecIsDynamic) {
 }
 
 TEST_F(DynArrBasic, ArrayTypespecHasElemTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -130,7 +130,7 @@ TEST_F(DynArrBasic, ArrayTypespecHasElemTypespec) {
 
 TEST_F(DynArrBasic, ArrayTypespecHasNoIndexTypespec) {
   // Dynamic arrays have no index typespec (only associative arrays do)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -142,7 +142,7 @@ TEST_F(DynArrBasic, ArrayTypespecHasNoIndexTypespec) {
 
 TEST_F(DynArrBasic, BitTypespecIsVector) {
   // bit [7:0] is multi-bit -- vpiVector=true on BitTypespec
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -156,7 +156,7 @@ TEST_F(DynArrBasic, BitTypespecIsVector) {
 
 TEST_F(DynArrBasic, BitTypespecIsNotSigned) {
   // `bit` is unsigned by default
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -170,7 +170,7 @@ TEST_F(DynArrBasic, BitTypespecIsNotSigned) {
 
 TEST_F(DynArrBasic, BitTypespecIsNotScalar) {
   // [7:0] makes this a vector, not a scalar 1-bit type
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -183,7 +183,7 @@ TEST_F(DynArrBasic, BitTypespecIsNotScalar) {
 }
 
 TEST_F(DynArrBasic, BitTypespecHasNoIndexTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -198,7 +198,7 @@ TEST_F(DynArrBasic, BitTypespecHasNoIndexTypespec) {
 // --- Range [7:0] -------------------------------------------------------------
 
 TEST_F(DynArrBasic, BitTypespecHasOneRange) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -212,7 +212,7 @@ TEST_F(DynArrBasic, BitTypespecHasOneRange) {
 }
 
 TEST_F(DynArrBasic, RangeLeftIs7) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -228,7 +228,7 @@ TEST_F(DynArrBasic, RangeLeftIs7) {
 }
 
 TEST_F(DynArrBasic, RangeRightIs0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -244,7 +244,7 @@ TEST_F(DynArrBasic, RangeRightIs0) {
 }
 
 TEST_F(DynArrBasic, RangeLeftConstTypeIsUInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -260,7 +260,7 @@ TEST_F(DynArrBasic, RangeLeftConstTypeIsUInt) {
 }
 
 TEST_F(DynArrBasic, RangeRightConstTypeIsUInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getNets()
                                           ->at(0)
@@ -278,7 +278,7 @@ TEST_F(DynArrBasic, RangeRightConstTypeIsUInt) {
 // --- design-level typespecs --------------------------------------------------
 
 TEST_F(DynArrBasic, DesignHasTwoTypespecs) {
-  // log: vpiTypespec (2 items): ModuleTypespec "work@top" + IntTypespec
+  // log: vpiTypespec (2 items): ModuleTypespec "top" + IntTypespec
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
 }
@@ -287,7 +287,7 @@ TEST_F(DynArrBasic, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(DynArrBasic, DesignHasIntTypespec) {
@@ -299,13 +299,13 @@ TEST_F(DynArrBasic, DesignHasIntTypespec) {
 // --- structural completeness -------------------------------------------------
 
 TEST_F(DynArrBasic, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(DynArrBasic, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

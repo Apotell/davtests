@@ -23,7 +23,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "a", RefTypespec ->
+//   - design has module top with exactly 1 net: "a", RefTypespec ->
 //     LogicTypespec, no initializer
 //   - Initial process: 1 Begin with 1 stmt (the source uses explicit
 //     'begin'/'end' around the single statement, so it IS wrapped in a
@@ -63,7 +63,7 @@ class NonBlockingAssignmentTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();

@@ -42,7 +42,7 @@
 // (which HLC, a static parser/elaborator, does not execute).
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "q" (bounded queue
+//   - design has module top with exactly 2 nets: "q" (bounded queue
 //     of int, bound 5) and "r" (unbounded queue of int)
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
@@ -138,7 +138,7 @@ class QueuesSliceTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Net *getNetQ() {
     const hldb::Module *const top = getTop();
@@ -520,7 +520,7 @@ TEST_F(QueuesSliceTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesSliceTest, DesignHasIntTypespecSigned) {

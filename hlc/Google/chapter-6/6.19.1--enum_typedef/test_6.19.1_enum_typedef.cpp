@@ -21,7 +21,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with 1 net ('val')
+//   - design has module top with 1 net ('val')
 //   - net 'val' RefTypespec name is "e"
 //   - net 'val' RefTypespec vpiActual resolves to LogicTypespec (enum base type in UHDM)
 //   - module owns a TypedefTypespec named "e"
@@ -56,11 +56,11 @@ class EnumTypedef : public Test {
 };
 
 TEST_F(EnumTypedef, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumTypedef, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
@@ -70,7 +70,7 @@ TEST_F(EnumTypedef, OneNetExists) {
 // Net 'val' — typespec RefTypespec named "e" resolves to LogicTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, ValNetTypespecNameIsE) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -80,7 +80,7 @@ TEST_F(EnumTypedef, ValNetTypespecNameIsE) {
 }
 
 TEST_F(EnumTypedef, ValNetTypespecActualIsLogic) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -91,7 +91,7 @@ TEST_F(EnumTypedef, ValNetTypespecActualIsLogic) {
 // Module typespec — TypedefTypespec named "e" whose alias → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, ModuleHasTypedefTypespecE) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr) << "module should own a TypedefTypespec named 'e'";
@@ -99,7 +99,7 @@ TEST_F(EnumTypedef, ModuleHasTypedefTypespecE) {
 }
 
 TEST_F(EnumTypedef, TypedefEAliasIsEnumTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -112,7 +112,7 @@ TEST_F(EnumTypedef, TypedefEAliasIsEnumTypespec) {
 // EnumTypespec — 3 constants: a, b, c
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, EnumHasThreeConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -123,7 +123,7 @@ TEST_F(EnumTypedef, EnumHasThreeConsts) {
 }
 
 TEST_F(EnumTypedef, EnumConstsAreABC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -138,7 +138,7 @@ TEST_F(EnumTypedef, EnumConstsAreABC) {
 }
 
 TEST_F(EnumTypedef, ValNetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -149,7 +149,7 @@ TEST_F(EnumTypedef, ValNetHasNoInitialValue) {
 // Enum consts a, b, c have no stored implicit default value (0, 1, 2)
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedef, EnumConstsHaveNoImplicitDefaultValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);

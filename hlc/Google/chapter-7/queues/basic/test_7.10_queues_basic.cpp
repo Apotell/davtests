@@ -25,7 +25,7 @@
 // unbounded queue has no explicit size limit and starts out empty.
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "q"
+//   - design has module top with exactly 1 net: "q"
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed)
 //   - the queue's range has a single left bound Constant "$" with
@@ -63,18 +63,18 @@ class QueuesBasicTest : public Test {
 // --- module / net ------------------------------------------------------------
 
 TEST_F(QueuesBasicTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(QueuesBasicTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(QueuesBasicTest, NetQExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Net>("q", top->getNets()), nullptr);
 }
@@ -82,7 +82,7 @@ TEST_F(QueuesBasicTest, NetQExists) {
 // --- net "q": unbounded queue of int -----------------------------------------
 
 TEST_F(QueuesBasicTest, NetQTypespecIsArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -92,7 +92,7 @@ TEST_F(QueuesBasicTest, NetQTypespecIsArrayTypespec) {
 }
 
 TEST_F(QueuesBasicTest, NetQArrayTypeIsQueue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -102,7 +102,7 @@ TEST_F(QueuesBasicTest, NetQArrayTypeIsQueue) {
 }
 
 TEST_F(QueuesBasicTest, NetQArrayIsNotPacked) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -112,7 +112,7 @@ TEST_F(QueuesBasicTest, NetQArrayIsNotPacked) {
 }
 
 TEST_F(QueuesBasicTest, NetQRangeLeftIsUnboundedDollar) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -128,7 +128,7 @@ TEST_F(QueuesBasicTest, NetQRangeLeftIsUnboundedDollar) {
 }
 
 TEST_F(QueuesBasicTest, NetQRangeHasNoRightExpr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -140,7 +140,7 @@ TEST_F(QueuesBasicTest, NetQRangeHasNoRightExpr) {
 }
 
 TEST_F(QueuesBasicTest, NetQElemTypespecIsIntTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -153,7 +153,7 @@ TEST_F(QueuesBasicTest, NetQElemTypespecIsIntTypespec) {
 }
 
 TEST_F(QueuesBasicTest, NetQHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -163,13 +163,13 @@ TEST_F(QueuesBasicTest, NetQHasNoInitialValue) {
 // --- module structural completeness -------------------------------------------
 
 TEST_F(QueuesBasicTest, ModuleHasNoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr) << "basic.sv has no initial/always blocks";
 }
 
 TEST_F(QueuesBasicTest, ModuleHasNoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr) << "basic.sv has no continuous assignments";
 }
@@ -185,7 +185,7 @@ TEST_F(QueuesBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesBasicTest, DesignHasIntTypespecSigned) {

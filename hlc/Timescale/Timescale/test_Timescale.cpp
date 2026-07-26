@@ -33,16 +33,16 @@ TEST_F(Timescale, default) {
   const hldb::SourceFile *const s = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
   ASSERT_NE(s, nullptr) << "SourceFile s is null";
 
-  const hldb::Module *const m1 = hldb::findByName<hldb::Module>("work@m1", m_design->getAllModules());
+  const hldb::Module *const m1 = hldb::findByName<hldb::Module>("m1", m_design->getAllModules());
   ASSERT_NE(m1, nullptr) << "Module m1 is null";
 
-  const hldb::Module *const m11 = hldb::findByName<hldb::Module>("work@m11", m1->getModules());
+  const hldb::Module *const m11 = hldb::findByName<hldb::Module>("m11", m1->getModules());
   ASSERT_NE(m11, nullptr) << "Module m11 is null";
 
-  const hldb::Module *const m12 = hldb::findByName<hldb::Module>("work@m12", m1->getModules());
+  const hldb::Module *const m12 = hldb::findByName<hldb::Module>("m12", m1->getModules());
   ASSERT_NE(m12, nullptr) << "Module m12 is null";
 
-  const hldb::Module *const m2 = hldb::findByName<hldb::Module>("work@m2", m_design->getAllModules());
+  const hldb::Module *const m2 = hldb::findByName<hldb::Module>("m2", m_design->getAllModules());
   ASSERT_NE(m2, nullptr) << "Module m2 is null";
 
   ASSERT_EQ(s->getTimeUnit(), -9);

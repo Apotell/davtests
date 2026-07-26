@@ -27,7 +27,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "b", "y"
+//   - design has module top with exactly 2 nets: "b", "y"
 //   - net "b": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
 //     -> ByteTypespec (signed); initial value stored directly on the Net
 //     as an Operation (vpiOpType=concatenation(33)) with 4 unsigned
@@ -89,19 +89,19 @@ class UnpackedSumTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedSumTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedSumTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(UnpackedSumTest, NetBIsDynamicArrayOfSignedByte) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -114,7 +114,7 @@ TEST_F(UnpackedSumTest, NetBIsDynamicArrayOfSignedByte) {
 }
 
 TEST_F(UnpackedSumTest, NetBInitialValueIsConcatenationOfOneTwoThreeFour) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -130,7 +130,7 @@ TEST_F(UnpackedSumTest, NetBInitialValueIsConcatenationOfOneTwoThreeFour) {
 }
 
 TEST_F(UnpackedSumTest, NetYIsPlainSignedIntWithNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const y = hldb::findByName<hldb::Net>("y", top->getNets());
   ASSERT_NE(y, nullptr);
@@ -141,7 +141,7 @@ TEST_F(UnpackedSumTest, NetYIsPlainSignedIntWithNoInitialValue) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedSumTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -154,7 +154,7 @@ TEST_F(UnpackedSumTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedSumTest, FirstStmtDisplaysOneTwoThreeFour) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -174,7 +174,7 @@ TEST_F(UnpackedSumTest, FirstStmtDisplaysOneTwoThreeFour) {
 }
 
 TEST_F(UnpackedSumTest, SecondStmtAssignsYFromBSumReduction) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -197,7 +197,7 @@ TEST_F(UnpackedSumTest, SecondStmtAssignsYFromBSumReduction) {
 }
 
 TEST_F(UnpackedSumTest, ThirdStmtDisplaysYEqualsTen) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -225,7 +225,7 @@ TEST_F(UnpackedSumTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedSumTest, DesignHasSignedIntTypespec) {
@@ -250,7 +250,7 @@ TEST_F(UnpackedSumTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedSumTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -262,7 +262,7 @@ TEST_F(UnpackedSumTest, RuntimeSumResultRequiresSimulation) {
                   "the actual runtime value of y after y = b.sum cannot be observed here. sum.sv's "
                   "own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

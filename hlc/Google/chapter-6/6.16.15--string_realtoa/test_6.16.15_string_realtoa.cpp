@@ -22,9 +22,9 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with 1 net (a: string, uninitialized)
+//   - design has module top with 1 net (a: string, uninitialized)
 //   - net 'a' has no compile-time initial value (realtoa writes at runtime)
-//   - work@top has 1 Initial process
+//   - top has 1 Initial process
 //   - Initial stmt is a HierPath named "a.realtoa(4.76)"
 //   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
 //   - HierPath element[1] is FuncCall "realtoa" with 1 argument (Constant "4.76")
@@ -57,21 +57,21 @@ class StringRealtoa : public Test {
 };
 
 TEST_F(StringRealtoa, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net — only 'a' (string, uninitialized)
 // ---------------------------------------------------------------------------
 TEST_F(StringRealtoa, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(StringRealtoa, ANetTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -79,7 +79,7 @@ TEST_F(StringRealtoa, ANetTypespecIsString) {
 }
 
 TEST_F(StringRealtoa, ANetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -90,14 +90,14 @@ TEST_F(StringRealtoa, ANetHasNoInitialValue) {
 // Initial process — initial a.realtoa(4.76)
 // ---------------------------------------------------------------------------
 TEST_F(StringRealtoa, InitialProcessExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringRealtoa, InitialStmtIsHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -110,7 +110,7 @@ TEST_F(StringRealtoa, InitialStmtIsHierPath) {
 // HierPath — receiver 'a' and FuncCall 'realtoa' with 1 real argument
 // ---------------------------------------------------------------------------
 TEST_F(StringRealtoa, HierPathReceiverIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -125,7 +125,7 @@ TEST_F(StringRealtoa, HierPathReceiverIsA) {
 }
 
 TEST_F(StringRealtoa, HierPathMethodIsRealtoa) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -138,7 +138,7 @@ TEST_F(StringRealtoa, HierPathMethodIsRealtoa) {
 }
 
 TEST_F(StringRealtoa, RealtoaArgumentIs4dot76) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

@@ -22,7 +22,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "_bit", "_logic", "_reg"
+//   - design has module top with exactly 3 nets: "_bit", "_logic", "_reg"
 //   - net "_bit": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - net "_logic": RefTypespec -> LogicTypespec, 1 range [7:0], vector=true
 //   - net "_reg": RefTypespec -> LogicTypespec (NOT a distinct "RegTypespec"
@@ -65,19 +65,19 @@ class PackedBasicTest : public Test {
 // --- module -------------------------------------------------------------------
 
 TEST_F(PackedBasicTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedBasicTest, ModuleHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 }
 
 TEST_F(PackedBasicTest, ModuleHasThreeTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 3u);
@@ -86,15 +86,15 @@ TEST_F(PackedBasicTest, ModuleHasThreeTypespecs) {
 // --- net _bit: bit [7:0] -------------------------------------------------------
 
 TEST_F(PackedBasicTest, NetBitNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const bit = hldb::findByName<hldb::Net>("_bit", top->getNets());
   ASSERT_NE(bit, nullptr);
-  EXPECT_EQ(bit->getFullName(), "work@top._bit");
+  EXPECT_EQ(bit->getFullName(), "top._bit");
 }
 
 TEST_F(PackedBasicTest, NetBitIsBitTypespecRange7to0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const bit = hldb::findByName<hldb::Net>("_bit", top->getNets());
   ASSERT_NE(bit, nullptr);
@@ -110,15 +110,15 @@ TEST_F(PackedBasicTest, NetBitIsBitTypespecRange7to0) {
 // --- net _logic: logic [7:0] --------------------------------------------------
 
 TEST_F(PackedBasicTest, NetLogicNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const logic = hldb::findByName<hldb::Net>("_logic", top->getNets());
   ASSERT_NE(logic, nullptr);
-  EXPECT_EQ(logic->getFullName(), "work@top._logic");
+  EXPECT_EQ(logic->getFullName(), "top._logic");
 }
 
 TEST_F(PackedBasicTest, NetLogicIsLogicTypespecRange7to0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const logic = hldb::findByName<hldb::Net>("_logic", top->getNets());
   ASSERT_NE(logic, nullptr);
@@ -134,17 +134,17 @@ TEST_F(PackedBasicTest, NetLogicIsLogicTypespecRange7to0) {
 // --- net _reg: reg [7:0] -------------------------------------------------------
 
 TEST_F(PackedBasicTest, NetRegNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const reg = hldb::findByName<hldb::Net>("_reg", top->getNets());
   ASSERT_NE(reg, nullptr);
-  EXPECT_EQ(reg->getFullName(), "work@top._reg");
+  EXPECT_EQ(reg->getFullName(), "top._reg");
 }
 
 TEST_F(PackedBasicTest, NetRegIsLogicTypespecNotADistinctRegType) {
   // COMPILER BEHAVIOR: "reg" is not a distinct typespec kind; it maps to the
   // same LogicTypespec as "logic".
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const reg = hldb::findByName<hldb::Net>("_reg", top->getNets());
   ASSERT_NE(reg, nullptr);
@@ -168,7 +168,7 @@ TEST_F(PackedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedBasicTest, DesignHasSignedIntTypespec) {
@@ -179,13 +179,13 @@ TEST_F(PackedBasicTest, DesignHasSignedIntTypespec) {
 }
 
 TEST_F(PackedBasicTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(PackedBasicTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

@@ -26,7 +26,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr", "q"
+//   - design has module top with exactly 2 nets: "arr", "q"
 //   - net "arr": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
 //     -> IntTypespec (signed); initial value stored directly on the Net as
 //     an Operation (vpiOpType=concatenation(33)) with 4 unsigned Constant
@@ -114,19 +114,19 @@ class UnpackedIndexTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedIndexTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedIndexTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(UnpackedIndexTest, NetArrIsDynamicArrayOfSignedInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -139,7 +139,7 @@ TEST_F(UnpackedIndexTest, NetArrIsDynamicArrayOfSignedInt) {
 }
 
 TEST_F(UnpackedIndexTest, NetArrInitialValueIsConcatenationOfZeroOneThreeThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -155,7 +155,7 @@ TEST_F(UnpackedIndexTest, NetArrInitialValueIsConcatenationOfZeroOneThreeThree) 
 }
 
 TEST_F(UnpackedIndexTest, NetQIsQueueOfSignedIntWithUnboundedRange) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const q = hldb::findByName<hldb::Net>("q", top->getNets());
   ASSERT_NE(q, nullptr);
@@ -175,7 +175,7 @@ TEST_F(UnpackedIndexTest, NetQIsQueueOfSignedIntWithUnboundedRange) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedIndexTest, InitialBeginHasTwoStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -188,7 +188,7 @@ TEST_F(UnpackedIndexTest, InitialBeginHasTwoStmts) {
 }
 
 TEST_F(UnpackedIndexTest, FirstStmtAssignsQFromArrFindWithClause) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -220,7 +220,7 @@ TEST_F(UnpackedIndexTest, FirstStmtAssignsQFromArrFindWithClause) {
 }
 
 TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsUnresolvedItemRefObj) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -238,7 +238,7 @@ TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsUnresolvedItemRefObj) {
 }
 
 TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -260,7 +260,7 @@ TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexHierPath) {
 }
 
 TEST_F(UnpackedIndexTest, SecondStmtDisplaysSizeAndThreeElements) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -303,7 +303,7 @@ TEST_F(UnpackedIndexTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedIndexTest, DesignHasStringTypespec) {
@@ -312,7 +312,7 @@ TEST_F(UnpackedIndexTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedIndexTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -355,7 +355,7 @@ TEST_F(UnpackedIndexTest, ExactlyThreeIllegalImplicitNetErrorsAtExpectedLocation
 TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolveOnceImplicitNetBugIsFixed) {
   GTEST_SKIP() << "Implicit iterator-index not yet supported.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -384,7 +384,7 @@ TEST_F(UnpackedIndexTest, RuntimeFindResultsRequireSimulation) {
                   "the actual runtime contents of q after 'arr.find with (...)' cannot be observed "
                   "here. index.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

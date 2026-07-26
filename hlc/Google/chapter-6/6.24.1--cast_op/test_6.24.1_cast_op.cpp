@@ -20,12 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'a' (IntTypespec)
 //   - 'a' vpiValue = vpiCastOp Operation; cast typespec → IntTypespec
 //   - cast has 1 operand: vpiMultOp(vpiRealConst "2.1", vpiRealConst "3.7")
-//   - work@top has no continuous assignments (inline init stored as vpiValue, not ContAssign)
-//   - work@top has no processes
+//   - top has no continuous assignments (inline init stored as vpiValue, not ContAssign)
+//   - top has no processes
 //   - net 'a' vpiValue is not folded to a Constant at compile time (result is
 //     only known at runtime)
 
@@ -52,14 +52,14 @@ class CastOp : public Test {
 };
 
 TEST_F(CastOp, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // No processes — module-level `int a` is stored as a Net, not in a begin block
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty())
       << "int a = int'(...) at module level is stored as Net vpiValue, not in a process";
@@ -69,7 +69,7 @@ TEST_F(CastOp, NoProcesses) {
 // Net "a" → IntTypespec (int keyword)
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, NetAIsIntType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -81,7 +81,7 @@ TEST_F(CastOp, NetAIsIntType) {
 // Net "a" vpiValue = Operation(vpiCastOp=67)
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, NetAValueIsCastOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -91,7 +91,7 @@ TEST_F(CastOp, NetAValueIsCastOperation) {
 }
 
 TEST_F(CastOp, CastTypespecIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -103,7 +103,7 @@ TEST_F(CastOp, CastTypespecIsInt) {
 }
 
 TEST_F(CastOp, CastHasOneOperand) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -117,7 +117,7 @@ TEST_F(CastOp, CastHasOneOperand) {
 // Cast operand = Operation(vpiMultOp=25) — 2.1 * 3.7
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, CastOperandIsMultiplyOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -129,7 +129,7 @@ TEST_F(CastOp, CastOperandIsMultiplyOperation) {
 }
 
 TEST_F(CastOp, MultiplyOperandsAreRealConstants) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -153,21 +153,21 @@ TEST_F(CastOp, MultiplyOperandsAreRealConstants) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(CastOp, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'a'";
 }
 
 TEST_F(CastOp, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "int a = int'(...) stores the cast as vpiValue, not a ContAssign";
 }
 
 TEST_F(CastOp, NetAValueIsNotFoldedConstant) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);

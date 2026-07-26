@@ -29,7 +29,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net "arr"
+//   - design has module top with exactly 1 net "arr"
 //   - net "arr": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     IntTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 7 stmts (4 SysFuncCall + 3 Assignment)
@@ -98,18 +98,18 @@ class AssociativeArrayNumTest : public Test {
 // --- module / net -----------------------------------------------------------
 
 TEST_F(AssociativeArrayNumTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayNumTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(AssociativeArrayNumTest, NetArrIsAssociativeArrayOfIntByInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -125,7 +125,7 @@ TEST_F(AssociativeArrayNumTest, NetArrIsAssociativeArrayOfIntByInt) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(AssociativeArrayNumTest, InitialBeginHasSevenStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -138,7 +138,7 @@ TEST_F(AssociativeArrayNumTest, InitialBeginHasSevenStmts) {
 }
 
 TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -166,7 +166,7 @@ TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
 }
 
 TEST_F(AssociativeArrayNumTest, FirstAssignmentSetsArrThreeToOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -188,7 +188,7 @@ TEST_F(AssociativeArrayNumTest, FirstAssignmentSetsArrThreeToOne) {
 }
 
 TEST_F(AssociativeArrayNumTest, SecondDisplayAssertsNumEqualsOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -201,7 +201,7 @@ TEST_F(AssociativeArrayNumTest, SecondDisplayAssertsNumEqualsOne) {
 }
 
 TEST_F(AssociativeArrayNumTest, SecondAssignmentSetsArrHexFfffToTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -222,7 +222,7 @@ TEST_F(AssociativeArrayNumTest, SecondAssignmentSetsArrHexFfffToTwo) {
 }
 
 TEST_F(AssociativeArrayNumTest, ThirdDisplayAssertsNumEqualsTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -234,7 +234,7 @@ TEST_F(AssociativeArrayNumTest, ThirdDisplayAssertsNumEqualsTwo) {
 }
 
 TEST_F(AssociativeArrayNumTest, ThirdAssignmentSetsArrBinary1000ToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -256,7 +256,7 @@ TEST_F(AssociativeArrayNumTest, ThirdAssignmentSetsArrBinary1000ToThree) {
 }
 
 TEST_F(AssociativeArrayNumTest, FourthDisplayAssertsNumEqualsThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -274,7 +274,7 @@ TEST_F(AssociativeArrayNumTest, NumRefObjShouldResolveOnceImplicitNetBugIsFixed)
                   "the no-parens '.num' RefObj to a declared object. Re-enable this test once "
                   "that limitation is fixed.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -303,7 +303,7 @@ TEST_F(AssociativeArrayNumTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(AssociativeArrayNumTest, DesignHasLogicTypespec) {

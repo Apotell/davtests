@@ -25,7 +25,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
 //   - Begin block has 1 Variable "val"
 //   - assignment rhs is Constant "1" (vpiUIntConst) — NOT RefObj → EnumConst
@@ -63,14 +63,14 @@ class EnumTypeCheckingInv : public Test {
 };
 
 TEST_F(EnumTypeCheckingInv, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Module typespec — same typedef enum {a,b,c,d} as the valid variant
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypeCheckingInv, TypedefEExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -78,7 +78,7 @@ TEST_F(EnumTypeCheckingInv, TypedefEExists) {
 }
 
 TEST_F(EnumTypeCheckingInv, EnumHasFourConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -96,7 +96,7 @@ TEST_F(EnumTypeCheckingInv, EnumHasFourConsts) {
 // Variable "val" in begin block
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypeCheckingInv, BeginHasVariableVal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -111,7 +111,7 @@ TEST_F(EnumTypeCheckingInv, BeginHasVariableVal) {
 // Assignment: val = 1 — rhs is Constant "1" (not RefObj → EnumConst)
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypeCheckingInv, AssignmentRhsIsIntegerConstant) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

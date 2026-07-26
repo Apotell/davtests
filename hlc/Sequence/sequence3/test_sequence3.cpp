@@ -42,14 +42,14 @@ class Sequence3 : public Test {
 };
 
 TEST_F(Sequence3, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("tb", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Sequence declaration
 // ---------------------------------------------------------------------------
 TEST_F(Sequence3, SequenceDeclaration) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
@@ -64,7 +64,7 @@ TEST_F(Sequence3, SequenceDeclaration) {
 }
 
 TEST_F(Sequence3, SequenceHasExpression) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -80,7 +80,7 @@ TEST_F(Sequence3, SequenceHasExpression) {
 }
 
 TEST_F(Sequence3, SequenceExprIsConsecutiveRepeat) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -99,7 +99,7 @@ TEST_F(Sequence3, SequenceExprIsConsecutiveRepeat) {
 }
 
 TEST_F(Sequence3, SequenceExprHasTwoOperands) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr);
 
@@ -123,7 +123,7 @@ TEST_F(Sequence3, SequenceExprHasTwoOperands) {
 // No separate property declaration (clocking event is inline in the assert)
 // ---------------------------------------------------------------------------
 TEST_F(Sequence3, NoSeparatePropertyDecl) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const bool hasPropertyDecls = tb->getPropertyDecls() != nullptr && !tb->getPropertyDecls()->empty();
@@ -134,7 +134,7 @@ TEST_F(Sequence3, NoSeparatePropertyDecl) {
 // Concurrent assertion — assert property(@(posedge clk) seq3)
 // ---------------------------------------------------------------------------
 TEST_F(Sequence3, ConcurrentAssertion) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr) << "tb has no concurrent assertions";
   ASSERT_FALSE(tb->getConcurrentAssertions()->empty()) << "tb concurrent assertions list is empty";
@@ -150,7 +150,7 @@ TEST_F(Sequence3, ConcurrentAssertion) {
 }
 
 TEST_F(Sequence3, AssertHasInlineClockingEvent) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -170,7 +170,7 @@ TEST_F(Sequence3, AssertHasInlineClockingEvent) {
 }
 
 TEST_F(Sequence3, AssertPropertyExprReferencesSeq3) {
-  const hldb::Module *const tb = hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+  const hldb::Module *const tb = hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 

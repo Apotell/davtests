@@ -52,8 +52,8 @@ class CompilerDirectivesPreprocessorMacro1 : public Test {
 // line broke the parse before the module body could be resolved.
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesPreprocessorMacro1, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr)
-      << "'work@top' should not exist — parse failure swallowed the module name";
+  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
+      << "'top' should not exist — parse failure swallowed the module name";
 }
 
 // ---------------------------------------------------------------------------

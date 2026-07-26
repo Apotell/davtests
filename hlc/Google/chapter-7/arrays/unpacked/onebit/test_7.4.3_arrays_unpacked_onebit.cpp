@@ -29,7 +29,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
+//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
 //   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
 //     -> BitTypespec (SHARED single BitTypespec instance between both nets)
 //   - Initial process: 1 Begin with 6 stmts (2 Assignment assign-pattern +
@@ -92,19 +92,19 @@ class UnpackedOnebitTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedOnebitTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedOnebitTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(UnpackedOnebitTest, BothNetsAreArraysOfSharedBitTypespecRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
   const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
@@ -127,7 +127,7 @@ TEST_F(UnpackedOnebitTest, BothNetsAreArraysOfSharedBitTypespecRangeSevenToZero)
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedOnebitTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -140,7 +140,7 @@ TEST_F(UnpackedOnebitTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedOnebitTest, FirstStmtAssignsAllOnesToArrA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -158,7 +158,7 @@ TEST_F(UnpackedOnebitTest, FirstStmtAssignsAllOnesToArrA) {
 }
 
 TEST_F(UnpackedOnebitTest, SecondStmtAssignsAllZerosToArrB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -174,7 +174,7 @@ TEST_F(UnpackedOnebitTest, SecondStmtAssignsAllZerosToArrB) {
 }
 
 TEST_F(UnpackedOnebitTest, ThirdAndFourthStmtsDisplayEightBitSelectsEach) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -193,7 +193,7 @@ TEST_F(UnpackedOnebitTest, ThirdAndFourthStmtsDisplayEightBitSelectsEach) {
 }
 
 TEST_F(UnpackedOnebitTest, FifthStmtWritesSingleBitArrBFiveFromArrATwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -213,7 +213,7 @@ TEST_F(UnpackedOnebitTest, FifthStmtWritesSingleBitArrBFiveFromArrATwo) {
 }
 
 TEST_F(UnpackedOnebitTest, SixthStmtDisplaysArrBBitsAfterWrite) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -241,7 +241,7 @@ TEST_F(UnpackedOnebitTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedOnebitTest, DesignHasStringTypespec) {
@@ -259,7 +259,7 @@ TEST_F(UnpackedOnebitTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedOnebitTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -272,7 +272,7 @@ TEST_F(UnpackedOnebitTest, RuntimeArrBBitPatternRequiresSimulation) {
                   "observed here. onebit.sv's own $display format string documents the expected "
                   "pattern.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

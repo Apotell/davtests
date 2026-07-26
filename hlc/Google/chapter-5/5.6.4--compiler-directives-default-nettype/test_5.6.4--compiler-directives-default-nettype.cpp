@@ -49,14 +49,14 @@ class CompilerDirectivesDefaultNettype : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@dn", d->getAllModules());
+  return hldb::findByName<hldb::Module>("dn", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDefaultNettype, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@dn' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'dn' not found";
 }
 
 TEST_F(CompilerDirectivesDefaultNettype, ModuleIsEmpty) {

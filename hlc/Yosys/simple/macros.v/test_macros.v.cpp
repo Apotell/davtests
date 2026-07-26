@@ -34,18 +34,18 @@ class YosysMacrosVTest : public Test {
 
 // LRM 22.5.1: all three test modules in macros.v must compile cleanly.
 TEST_F(YosysMacrosVTest, TestDefModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test_def", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test_def", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test_def' must compile";
 }
 
 TEST_F(YosysMacrosVTest, TestIfdefModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test_ifdef", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test_ifdef", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test_ifdef' must compile";
 }
 
 TEST_F(YosysMacrosVTest, TestCommentInMacroModuleCompiles) {
   const hldb::Module *const module =
-      hldb::findByName<hldb::Module>("work@test_comment_in_macro", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("test_comment_in_macro", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test_comment_in_macro' must compile";
 }
 

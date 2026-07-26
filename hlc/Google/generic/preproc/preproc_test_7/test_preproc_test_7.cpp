@@ -35,7 +35,7 @@ class PreprocFuncMacroLineContinuationTest : public Test {
 // definition. `define INCEPTION(a, b, c) \ (newline) (a*b-c) must produce
 // the same macro as the single-line form; the module must compile cleanly.
 TEST_F(PreprocFuncMacroLineContinuationTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
 }
 

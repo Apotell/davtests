@@ -52,23 +52,23 @@ class Instantiations : public Test {
 // 1. Top-level definitions are present with correct types
 // ---------------------------------------------------------------------------
 TEST_F(Instantiations, ModuleDefinitions) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@passthru", m_design->getAllModules()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@adder", m_design->getAllModules()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@gen_top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("passthru", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("adder", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("gen_top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Instantiations, InterfaceDefinitions) {
-  ASSERT_NE(hldb::findByName<hldb::Interface>("work@simple_if", m_design->getAllInterfaces()), nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Interface>("work@bus_if", m_design->getAllInterfaces()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Interface>("simple_if", m_design->getAllInterfaces()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Interface>("bus_if", m_design->getAllInterfaces()), nullptr);
 }
 
 TEST_F(Instantiations, ProgramDefinition) {
-  ASSERT_NE(hldb::findByName<hldb::Program>("work@my_prog", m_design->getAllPrograms()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Program>("my_prog", m_design->getAllPrograms()), nullptr);
 }
 
 TEST_F(Instantiations, UdpDefinition) {
-  ASSERT_NE(hldb::findByName<hldb::UdpDefn>("work@my_udp", m_design->getAllUdps()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::UdpDefn>("my_udp", m_design->getAllUdps()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
@@ -82,7 +82,7 @@ static const hldb::RefInstance *findRefInst(std::string_view instName, const hld
 // 2. RefInstances inside 'top' carry the right typespec type
 // ---------------------------------------------------------------------------
 TEST_F(Instantiations, InterfaceInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Plain interface instantiation  — isInterfaceElem("simple_if")
@@ -101,7 +101,7 @@ TEST_F(Instantiations, InterfaceInstantiation) {
 }
 
 TEST_F(Instantiations, ModuleInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Plain module instantiation — isModuleElem("passthru")
@@ -118,7 +118,7 @@ TEST_F(Instantiations, ModuleInstantiation) {
 }
 
 TEST_F(Instantiations, ProgramInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Program instantiation — isProgramElem("my_prog")
@@ -130,7 +130,7 @@ TEST_F(Instantiations, ProgramInstantiation) {
 }
 
 TEST_F(Instantiations, UnsupportedInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   // Unsupported / black-box — isUnsupportedElem("black_box")
@@ -148,7 +148,7 @@ TEST_F(Instantiations, UnsupportedInstantiation) {
 // return true so the instantiation gets ModuleTypespec (not UnsupportedTypespec).
 // ---------------------------------------------------------------------------
 TEST_F(Instantiations, MacroDefinedModuleInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::RefInstance *const u_macro_mod = findRefInst("u_macro_mod", top);
@@ -163,7 +163,7 @@ TEST_F(Instantiations, MacroDefinedModuleInstantiation) {
 // 3. UDP instantiation — Udp (extends Primitive) in top's primitives
 // ---------------------------------------------------------------------------
 TEST_F(Instantiations, UdpInstantiation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPrimitives(), nullptr) << "top has no primitives";
 
@@ -177,14 +177,14 @@ TEST_F(Instantiations, UdpInstantiation) {
     }
   }
   ASSERT_NE(u_udp, nullptr) << "u_udp Udp primitive not found in top";
-  EXPECT_EQ(u_udp->getDefName(), "work@my_udp");
+  EXPECT_EQ(u_udp->getDefName(), "my_udp");
 }
 
 // ---------------------------------------------------------------------------
 // 4. Gate primitives are present (keyword-driven, no predicate)
 // ---------------------------------------------------------------------------
 TEST_F(Instantiations, GatePrimitives) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPrimitives(), nullptr) << "top has no primitives";
 
@@ -206,7 +206,7 @@ TEST_F(Instantiations, GatePrimitives) {
 //                           -> getStmt<Begin>() -> getStmts() -> RefInstances
 // ---------------------------------------------------------------------------
 TEST_F(Instantiations, GenerateBlockInstantiations) {
-  const hldb::Module *const gen_top = hldb::findByName<hldb::Module>("work@gen_top", m_design->getAllModules());
+  const hldb::Module *const gen_top = hldb::findByName<hldb::Module>("gen_top", m_design->getAllModules());
   ASSERT_NE(gen_top, nullptr);
   ASSERT_NE(gen_top->getGenStmts(), nullptr) << "gen_top has no gen statements";
 

@@ -90,7 +90,7 @@ class Sequence22Test : public Test {
 
  protected:
   static const hldb::Module *getTb(const hldb::Design *d) {
-    return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
+    return hldb::findByName<hldb::Module>("tb", d->getAllModules());
   }
 
   static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *mod, std::string_view name) {
@@ -114,7 +114,7 @@ class Sequence22Test : public Test {
 // Module
 // ===========================================================================
 
-TEST_F(Sequence22Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
+TEST_F(Sequence22Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'tb' not found"; }
 
 // ===========================================================================
 // Nets

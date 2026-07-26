@@ -50,7 +50,7 @@ class NonescapedAccess : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@identifiers", d->getAllModules());
+  return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
 }
 
 static const hldb::ContAssign *getContAssign(const hldb::Design *d) {
@@ -63,7 +63,7 @@ static const hldb::ContAssign *getContAssign(const hldb::Design *d) {
 // Module and nets
 // ---------------------------------------------------------------------------
 TEST_F(NonescapedAccess, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@identifiers' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'identifiers' not found";
 }
 
 TEST_F(NonescapedAccess, TwoNetsExist) {

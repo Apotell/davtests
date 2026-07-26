@@ -44,7 +44,7 @@
 // with no static AST field to query (see the skipped test below for why).
 //
 // Checked (static/structural corners, all confirmed against the AST dump):
-//   - module work@top has exactly 4 nets: a, b, c (each LogicTypespec, with
+//   - module top has exactly 4 nets: a, b, c (each LogicTypespec, with
 //     a getValue<Constant>() decl-assignment of "1", "1", "0" respectively)
 //     and d (LogicTypespec, no decl-assignment)
 //   - module has exactly 1 task/function: "fun" --
@@ -114,7 +114,7 @@ class ExprShortCircuitTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets -----------------------------------------------------

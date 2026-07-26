@@ -20,13 +20,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'a'
 //   - 'a' typespec → ShortRealTypespec (NOT RealTypespec — distinct 32-bit type)
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
 //     (shortreal stores constant using same vpiRealConst as real)
-//   - work@top has no continuous assignments
-//   - work@top has no processes
+//   - top has no continuous assignments
+//   - top has no processes
 //   - the 32-bit vs 64-bit precision difference between shortreal and real is
 //     not observable statically: the initial value Constant reports vpiSize=64
 //     regardless of the shortreal typespec (storage width is a simulation-time
@@ -55,18 +55,18 @@ class Shortreal : public Test {
 };
 
 TEST_F(Shortreal, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Shortreal, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Shortreal, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
 }
@@ -75,7 +75,7 @@ TEST_F(Shortreal, ANetExists) {
 // Typespec — net 'a' must resolve to ShortRealTypespec, NOT RealTypespec
 // ---------------------------------------------------------------------------
 TEST_F(Shortreal, ANetTypespecIsShortReal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -87,7 +87,7 @@ TEST_F(Shortreal, ANetTypespecIsShortReal) {
 }
 
 TEST_F(Shortreal, ANetTypespecIsNotPlainReal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -100,7 +100,7 @@ TEST_F(Shortreal, ANetTypespecIsNotPlainReal) {
 // Initial value — recorded as a real constant "0.5"
 // ---------------------------------------------------------------------------
 TEST_F(Shortreal, ANetInitialValueConstType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -110,7 +110,7 @@ TEST_F(Shortreal, ANetInitialValueConstType) {
 }
 
 TEST_F(Shortreal, ANetInitialValueIsHalf) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -120,13 +120,13 @@ TEST_F(Shortreal, ANetInitialValueIsHalf) {
 }
 
 TEST_F(Shortreal, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Shortreal, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
@@ -137,7 +137,7 @@ TEST_F(Shortreal, NoProcesses) {
 // simulating an assignment that overflows shortreal precision.
 // ---------------------------------------------------------------------------
 TEST_F(Shortreal, StorageWidthNotObservableStatically) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
