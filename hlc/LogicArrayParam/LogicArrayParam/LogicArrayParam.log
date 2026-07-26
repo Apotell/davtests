@@ -220,15 +220,15 @@ n<$Source01/dut.sv> u<207> t<Top_level_rule> c<1> l<1:1> el<108:3>
         n<> u<202> t<ENDMODULE> p<203> l<32:1> el<32:10>
   n</*\n\n\nmodule rggen_or_reducer #(\n  parameter int WIDTH = 2,\n  parameter int N     = 4\n)(\n // input   logic [N-1:0][WIDTH-1:0]  i_data,\n//  output  logic [WIDTH-1:0]         o_result\n);\n\n  function automatic bit [N-1:0][15:0] get_sub_n_list(int n);\n    bit [N-1:0][15:0] list;\n    int               list_index;\n    bit [15:0]        current_n;\n    bit [15:0]        half_n;\n\n    list        = '0;\n    list_index  = 0;\n    current_n   = 16'(n);\n    while (current_n > 0) begin\n      half_n  = current_n / 2;\n      if ((current_n > 4) && (half_n <= 4)) begin\n        list[list_index]  = half_n;\n      end\n      else if (current_n >= 4) begin\n        list[list_index]  = 4;\n      end\n      else begin\n        list[list_index]  = current_n;\n      end\n\n      current_n   -= list[list_index];\n      list_index  += 1;\n    end\n\n    return list;\n  endfunction\n\n\n  function automatic bit [N-1:0][15:0] get_offset_list(bit [N-1:0][15:0] sub_n_list);\n    bit [N-1:0][15:0] list;\n\n    for (int i = 0;i < N;++i) begin\n      if (i == 0) begin\n        list[i] = 0;\n      end\n      else begin\n        list[i] = sub_n_list[i-1] + list[i-1];\n      end\n    end\n\n    return list;\n  endfunction\n\n  function automatic int get_next_n(bit [N-1:0][15:0] sub_n_list);\n    int next_n;\n\n    next_n  = 0;\n    for (int i = 0;i < N;++i) begin\n      next_n  += ((sub_n_list[i] != 0) ? 1 : 0);\n    end\n\n    return next_n;\n  endfunction\n\n  localparam  bit [N-1:0][15:0] SUB_N_LIST_P  = get_sub_n_list(N);\n  localparam  bit [N-1:0][15:0] OFFSET_LIST = get_offset_list(SUB_N_LIST_P);\n  localparam  int               NEXT_N      = get_next_n(OFFSET_LIST);\n\n  logic [NEXT_N-1:0][WIDTH-1:0] next_data;\n\nendmodule\n*/> u<206> t<BLOCK_COMMENT> p<207> l<1:1> el<32:10>
 AST_DEBUG_END
-[INF:CP0301] $Source01/dut.sv:1:1: Compile package "work@alert_handler_reg_pkg".
-[INF:CP0301] $Source01/dut.sv:9:1: Compile package "work@alert_pkg".
-[INF:CP0303] $Source01/dut.sv:17:1: Compile module "work@M".
-[INF:CP0303] $Source01/dut.sv:20:1: Compile module "work@alert_handler".
+[INF:CP0301] $Source01/dut.sv:1:1: Compile package "alert_handler_reg_pkg".
+[INF:CP0301] $Source01/dut.sv:9:1: Compile package "alert_pkg".
+[INF:CP0303] $Source01/dut.sv:17:1: Compile module "M".
+[INF:CP0303] $Source01/dut.sv:20:1: Compile module "alert_handler".
 [INF:CP0335] $Source01/dut.sv:25:50: Compile generate block "gen_alerts".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@alert_handler_reg_pkg".
-[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "work@alert_pkg".
-[WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "work@M".
-[WRN:PA0205] $Source01/dut.sv:20:1: No timescale set for "work@alert_handler".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "alert_handler_reg_pkg".
+[WRN:PA0205] $Source01/dut.sv:9:1: No timescale set for "alert_pkg".
+[WRN:PA0205] $Source01/dut.sv:17:1: No timescale set for "M".
+[WRN:PA0205] $Source01/dut.sv:20:1: No timescale set for "alert_handler".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -239,59 +239,59 @@ Design name:unnamed:
       vpiPreprocFile: "$Output/lib/work/dut.sv"
       vpiDefNetType: none (12)
   vpiAllPackages (2 items):
-    Package name:work@alert_handler_reg_pkg file:$Source01/dut.sv start:1:1 end:6:11:
+    Package name:alert_handler_reg_pkg file:$Source01/dut.sv start:1:1 end:6:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@alert_handler_reg_pkg start:1:9 end:1:30:
-        vpiParent: Package name:work@alert_handler_reg_pkg
-        vpiName: work@alert_handler_reg_pkg
-      vpiFullName: work@alert_handler_reg_pkg
+      vpiName Identifier name:alert_handler_reg_pkg start:1:9 end:1:30:
+        vpiParent: Package name:alert_handler_reg_pkg
+        vpiName: alert_handler_reg_pkg
+      vpiFullName: alert_handler_reg_pkg
       vpiParameter (2 items):
         Parameter name:NAlerts start:4:17 end:4:24:
-          vpiParent: Package name:work@alert_handler_reg_pkg
+          vpiParent: Package name:alert_handler_reg_pkg
           vpiTypespec RefTypespec start:4:13 end:4:16:
             vpiParent: Parameter name:NAlerts
-            vpiFullName: work@alert_handler_reg_pkg::NAlerts
+            vpiFullName: alert_handler_reg_pkg::NAlerts
             vpiActual: IntTypespec
           vpiName: NAlerts
-          vpiFullName: work@alert_handler_reg_pkg::NAlerts
+          vpiFullName: alert_handler_reg_pkg::NAlerts
         Parameter name:AsyncOn start:5:33 end:5:40:
-          vpiParent: Package name:work@alert_handler_reg_pkg
+          vpiParent: Package name:alert_handler_reg_pkg
           vpiTypespec RefTypespec start:5:13 end:5:32:
             vpiParent: Parameter name:AsyncOn
-            vpiFullName: work@alert_handler_reg_pkg::AsyncOn
+            vpiFullName: alert_handler_reg_pkg::AsyncOn
             vpiActual: LogicTypespec
           vpiName: AsyncOn
-          vpiFullName: work@alert_handler_reg_pkg::AsyncOn
+          vpiFullName: alert_handler_reg_pkg::AsyncOn
       vpiParamAssign (2 items):
         ParamAssign start:4:17 end:4:29:
-          vpiParent: Package name:work@alert_handler_reg_pkg
+          vpiParent: Package name:alert_handler_reg_pkg
           vpiLhs RefObj name:NAlerts start:4:17 end:4:24:
             vpiParent: ParamAssign
             vpiName: NAlerts
-            vpiFullName: work@alert_handler_reg_pkg::NAlerts
+            vpiFullName: alert_handler_reg_pkg::NAlerts
             vpiActual: Parameter name:NAlerts
           vpiRhs Constant start:4:27 end:4:29:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@alert_handler_reg_pkg
+              vpiFullName: alert_handler_reg_pkg
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "20"
             vpiValue: 20
         ParamAssign start:5:33 end:5:67:
-          vpiParent: Package name:work@alert_handler_reg_pkg
+          vpiParent: Package name:alert_handler_reg_pkg
           vpiLhs RefObj name:AsyncOn start:5:33 end:5:40:
             vpiParent: ParamAssign
             vpiName: AsyncOn
-            vpiFullName: work@alert_handler_reg_pkg::AsyncOn
+            vpiFullName: alert_handler_reg_pkg::AsyncOn
             vpiActual: Parameter name:AsyncOn
           vpiRhs Constant start:5:43 end:5:67:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@alert_handler_reg_pkg
+              vpiFullName: alert_handler_reg_pkg
               vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 20
@@ -299,7 +299,7 @@ Design name:unnamed:
             vpiValue: "01100001100000001111"
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Package name:work@alert_handler_reg_pkg
+          vpiParent: Package name:alert_handler_reg_pkg
           vpiRange (1 items):
             Range start:5:19 end:5:32:
               vpiParent: LogicTypespec
@@ -310,13 +310,13 @@ Design name:unnamed:
                   RefObj name:NAlerts start:5:20 end:5:27:
                     vpiParent: Operation
                     vpiName: NAlerts
-                    vpiFullName: work@alert_handler_reg_pkg::NAlerts
+                    vpiFullName: alert_handler_reg_pkg::NAlerts
                     vpiActual: Parameter name:NAlerts
                   Constant start:5:28 end:5:29:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@alert_handler_reg_pkg
+                      vpiFullName: alert_handler_reg_pkg
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -326,93 +326,93 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@alert_handler_reg_pkg
+                  vpiFullName: alert_handler_reg_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@alert_handler_reg_pkg
+      vpiDefName: alert_handler_reg_pkg
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@alert_handler_reg_pkg
+        vpiParent: Package name:alert_handler_reg_pkg
         vpiName: work
-        vpiFullName: work@alert_handler_reg_pkg::work
+        vpiFullName: alert_handler_reg_pkg::work
       vpiCell: alert_handler_reg_pkg
-    Package name:work@alert_pkg file:$Source01/dut.sv start:9:1 end:15:11:
+    Package name:alert_pkg file:$Source01/dut.sv start:9:1 end:15:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@alert_pkg start:9:9 end:9:18:
-        vpiParent: Package name:work@alert_pkg
-        vpiName: work@alert_pkg
-      vpiFullName: work@alert_pkg
+      vpiName Identifier name:alert_pkg start:9:9 end:9:18:
+        vpiParent: Package name:alert_pkg
+        vpiName: alert_pkg
+      vpiFullName: alert_pkg
       vpiParameter (2 items):
         Parameter name:NAlerts start:12:32 end:12:39:
-          vpiParent: Package name:work@alert_pkg
+          vpiParent: Package name:alert_pkg
           vpiTypespec RefTypespec start:12:14 end:12:26:
             vpiParent: Parameter name:NAlerts
-            vpiFullName: work@alert_pkg::NAlerts
+            vpiFullName: alert_pkg::NAlerts
             vpiActual: IntTypespec
           vpiName: NAlerts
-          vpiFullName: work@alert_pkg::NAlerts
+          vpiFullName: alert_pkg::NAlerts
           vpiLocalParam: true
         Parameter name:AsyncOn start:13:32 end:13:39:
-          vpiParent: Package name:work@alert_pkg
+          vpiParent: Package name:alert_pkg
           vpiTypespec RefTypespec start:13:14 end:13:31:
             vpiParent: Parameter name:AsyncOn
-            vpiFullName: work@alert_pkg::AsyncOn
+            vpiFullName: alert_pkg::AsyncOn
             vpiActual: BitTypespec
           vpiName: AsyncOn
-          vpiFullName: work@alert_pkg::AsyncOn
+          vpiFullName: alert_pkg::AsyncOn
           vpiLocalParam: true
       vpiParamAssign (2 items):
         ParamAssign start:12:32 end:12:74:
-          vpiParent: Package name:work@alert_pkg
+          vpiParent: Package name:alert_pkg
           vpiLhs RefObj name:NAlerts start:12:32 end:12:39:
             vpiParent: ParamAssign
             vpiName: NAlerts
-            vpiFullName: work@alert_pkg::NAlerts
+            vpiFullName: alert_pkg::NAlerts
             vpiActual: Parameter name:NAlerts
           vpiRhs HierPath name:alert_handler_reg_pkg::NAlerts start:12:44 end:12:74:
             vpiParent: ParamAssign
             vpiName: alert_handler_reg_pkg::NAlerts
-            vpiFullName: work@alert_pkg::alert_handler_reg_pkg::NAlerts
+            vpiFullName: alert_pkg::alert_handler_reg_pkg::NAlerts
             vpiPathElem (2 items):
               RefObj name:alert_handler_reg_pkg start:12:44 end:12:67:
                 vpiParent: HierPath name:alert_handler_reg_pkg::NAlerts
                 vpiName: alert_handler_reg_pkg
-                vpiFullName: work@alert_pkg::alert_handler_reg_pkg
-                vpiActual: Package name:work@alert_handler_reg_pkg
+                vpiFullName: alert_pkg::alert_handler_reg_pkg
+                vpiActual: Package name:alert_handler_reg_pkg
               RefObj name:NAlerts start:12:67 end:12:74:
                 vpiParent: HierPath name:alert_handler_reg_pkg::NAlerts
                 vpiName: NAlerts
-                vpiFullName: work@alert_pkg::NAlerts
+                vpiFullName: alert_pkg::NAlerts
                 vpiActual: Parameter name:NAlerts
         ParamAssign start:13:32 end:13:74:
-          vpiParent: Package name:work@alert_pkg
+          vpiParent: Package name:alert_pkg
           vpiLhs RefObj name:AsyncOn start:13:32 end:13:39:
             vpiParent: ParamAssign
             vpiName: AsyncOn
-            vpiFullName: work@alert_pkg::AsyncOn
+            vpiFullName: alert_pkg::AsyncOn
             vpiActual: Parameter name:AsyncOn
           vpiRhs HierPath name:alert_handler_reg_pkg::AsyncOn start:13:44 end:13:74:
             vpiParent: ParamAssign
             vpiName: alert_handler_reg_pkg::AsyncOn
-            vpiFullName: work@alert_pkg::alert_handler_reg_pkg::AsyncOn
+            vpiFullName: alert_pkg::alert_handler_reg_pkg::AsyncOn
             vpiPathElem (2 items):
               RefObj name:alert_handler_reg_pkg start:13:44 end:13:67:
                 vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn
                 vpiName: alert_handler_reg_pkg
-                vpiFullName: work@alert_pkg::alert_handler_reg_pkg
-                vpiActual: Package name:work@alert_handler_reg_pkg
+                vpiFullName: alert_pkg::alert_handler_reg_pkg
+                vpiActual: Package name:alert_handler_reg_pkg
               RefObj name:AsyncOn start:13:67 end:13:74:
                 vpiParent: HierPath name:alert_handler_reg_pkg::AsyncOn
                 vpiName: AsyncOn
-                vpiFullName: work@alert_pkg::AsyncOn
+                vpiFullName: alert_pkg::AsyncOn
                 vpiActual: Parameter name:AsyncOn
       vpiTypespec (1 items):
         BitTypespec:
-          vpiParent: Package name:work@alert_pkg
+          vpiParent: Package name:alert_pkg
           vpiRange (1 items):
             Range start:13:18 end:13:31:
               vpiParent: BitTypespec
@@ -423,13 +423,13 @@ Design name:unnamed:
                   RefObj name:NAlerts start:13:19 end:13:26:
                     vpiParent: Operation
                     vpiName: NAlerts
-                    vpiFullName: work@alert_pkg::NAlerts
+                    vpiFullName: alert_pkg::NAlerts
                     vpiActual: Parameter name:NAlerts
                   Constant start:13:27 end:13:28:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@alert_pkg
+                      vpiFullName: alert_pkg
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -439,62 +439,62 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@alert_pkg
+                  vpiFullName: alert_pkg
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@alert_pkg
+      vpiDefName: alert_pkg
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@alert_pkg
+        vpiParent: Package name:alert_pkg
         vpiName: work
-        vpiFullName: work@alert_pkg::work
+        vpiFullName: alert_pkg::work
       vpiCell: alert_pkg
   vpiAllModules (2 items):
-    Module name:work@M file:$Source01/dut.sv start:17:1 end:18:10:
+    Module name:M file:$Source01/dut.sv start:17:1 end:18:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@M start:17:8 end:17:9:
-        vpiParent: Module name:work@M
-        vpiName: work@M
-      vpiFullName: work@M
-      vpiDefName: work@M
+      vpiName Identifier name:M start:17:8 end:17:9:
+        vpiParent: Module name:M
+        vpiName: M
+      vpiFullName: M
+      vpiDefName: M
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@M
+        vpiParent: Module name:M
         vpiName: work
-        vpiFullName: work@M.work
+        vpiFullName: M.work
       vpiCell: M
-    Module name:work@alert_handler file:$Source01/dut.sv start:20:1 end:32:10:
+    Module name:alert_handler file:$Source01/dut.sv start:20:1 end:32:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@alert_handler start:20:8 end:20:21:
-        vpiParent: Module name:work@alert_handler
-        vpiName: work@alert_handler
-      vpiFullName: work@alert_handler
+      vpiName Identifier name:alert_handler start:20:8 end:20:21:
+        vpiParent: Module name:alert_handler
+        vpiName: alert_handler
+      vpiFullName: alert_handler
       vpiTypespec (1 items):
         ImportTypespec name:alert_pkg start:21:10 end:21:22:
-          vpiParent: Module name:work@alert_handler
+          vpiParent: Module name:alert_handler
           vpiName Identifier name:alert_pkg start:21:10 end:21:19:
             vpiParent: ImportTypespec name:alert_pkg
             vpiName: alert_pkg
-      vpiDefName: work@alert_handler
+      vpiDefName: alert_handler
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@alert_handler
+        vpiParent: Module name:alert_handler
         vpiName: work
-        vpiFullName: work@alert_handler.work
+        vpiFullName: alert_handler.work
       vpiCell: alert_handler
       vpiGenStmt (1 items):
         GenFor start:25:3 end:30:6:
-          vpiParent: Module name:work@alert_handler
-          vpiFullName: work@alert_handler
+          vpiParent: Module name:alert_handler
+          vpiFullName: alert_handler
           vpiVariable (1 items):
             Variable name:k start:25:15 end:25:16:
               vpiParent: GenFor
               vpiName: k
-              vpiFullName: work@alert_handler.k
+              vpiFullName: alert_handler.k
           vpiForInitStmt (1 items):
             Assignment start:25:15 end:25:20:
               vpiParent: GenFor
@@ -503,7 +503,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@alert_handler
+                  vpiFullName: alert_handler
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -517,7 +517,7 @@ Design name:unnamed:
                 RefObj name:k start:25:37 end:25:38:
                   vpiParent: Operation
                   vpiName: k
-                  vpiFullName: work@alert_handler.k
+                  vpiFullName: alert_handler.k
                   vpiActual: Variable name:k
           vpiCondition Operation start:25:23 end:25:34:
             vpiParent: GenFor
@@ -526,28 +526,28 @@ Design name:unnamed:
               RefObj name:k start:25:23 end:25:24:
                 vpiParent: Operation
                 vpiName: k
-                vpiFullName: work@alert_handler.k
+                vpiFullName: alert_handler.k
                 vpiActual: Variable name:k
               RefObj name:NAlerts start:25:27 end:25:34:
                 vpiParent: Operation
                 vpiName: NAlerts
-                vpiFullName: work@alert_handler.NAlerts
+                vpiFullName: alert_handler.NAlerts
                 vpiActual: Parameter name:NAlerts
           vpiStmt Begin name:gen_alerts start:25:42 end:30:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_alerts start:25:50 end:25:60:
               vpiParent: Begin name:gen_alerts
               vpiName: gen_alerts
-            vpiFullName: work@alert_handler.gen_alerts
+            vpiFullName: alert_handler.gen_alerts
             vpiParameter (1 items):
               Parameter name:debug start:26:16 end:26:21:
                 vpiParent: Begin name:gen_alerts
                 vpiTypespec RefTypespec start:26:16 end:26:16:
                   vpiParent: Parameter name:debug
-                  vpiFullName: work@alert_handler.gen_alerts.debug
+                  vpiFullName: alert_handler.gen_alerts.debug
                   vpiActual: LogicTypespec
                 vpiName: debug
-                vpiFullName: work@alert_handler.gen_alerts.debug
+                vpiFullName: alert_handler.gen_alerts.debug
                 vpiLocalParam: true
             vpiParamAssign (1 items):
               ParamAssign start:26:16 end:26:34:
@@ -555,21 +555,21 @@ Design name:unnamed:
                 vpiLhs RefObj name:debug start:26:16 end:26:21:
                   vpiParent: ParamAssign
                   vpiName: debug
-                  vpiFullName: work@alert_handler.gen_alerts.debug
+                  vpiFullName: alert_handler.gen_alerts.debug
                   vpiActual: Parameter name:debug
                 vpiRhs BitSelect name:AsyncOn[k] start:26:24 end:26:33:
                   vpiParent: ParamAssign
                   vpiName: AsyncOn[k]
-                  vpiFullName: work@alert_handler.gen_alerts.AsyncOn[k]
+                  vpiFullName: alert_handler.gen_alerts.AsyncOn[k]
                   vpiPrefix RefObj name:AsyncOn start:26:24 end:26:31:
                     vpiParent: BitSelect name:AsyncOn[k]
                     vpiName: AsyncOn
-                    vpiFullName: work@alert_handler.gen_alerts.AsyncOn
+                    vpiFullName: alert_handler.gen_alerts.AsyncOn
                     vpiActual: Parameter name:AsyncOn
                   vpiIndex RefObj name:k start:26:32 end:26:33:
                     vpiParent: BitSelect name:AsyncOn[k]
                     vpiName: k
-                    vpiFullName: work@alert_handler.gen_alerts.k
+                    vpiFullName: alert_handler.gen_alerts.k
                     vpiActual: Variable name:k
             vpiTypespec (1 items):
               LogicTypespec:
@@ -582,26 +582,26 @@ Design name:unnamed:
                 vpiCondition RefObj name:debug start:27:9 end:27:14:
                   vpiParent: GenIf
                   vpiName: debug
-                  vpiFullName: work@alert_handler.gen_alerts.debug
+                  vpiFullName: alert_handler.gen_alerts.debug
                   vpiActual: Parameter name:debug
                 vpiStmt Begin start:27:16 end:29:8:
                   vpiParent: GenIf
-                  vpiFullName: work@alert_handler.gen_alerts
+                  vpiFullName: alert_handler.gen_alerts
                   vpiTypespec (1 items):
-                    ModuleTypespec name:work@M start:28:7 end:28:8:
+                    ModuleTypespec name:M start:28:7 end:28:8:
                       vpiParent: Begin
-                      vpiName Identifier name:work@M start:28:7 end:28:8:
-                        vpiParent: ModuleTypespec name:work@M
-                        vpiName: work@M
+                      vpiName Identifier name:M start:28:7 end:28:8:
+                        vpiParent: ModuleTypespec name:M
+                        vpiName: M
                   vpiStmt (1 items):
                     RefInstance name:u start:28:9 end:28:10:
                       vpiParent: Begin
                       vpiName: u
-                      vpiTypespec RefTypespec name:work@M start:28:7 end:28:8:
+                      vpiTypespec RefTypespec name:M start:28:7 end:28:8:
                         vpiParent: RefInstance name:u
-                        vpiName: work@M
-                        vpiFullName: work@alert_handler.gen_alerts.u.work@M
-                        vpiActual: ModuleTypespec name:work@M
+                        vpiName: M
+                        vpiFullName: alert_handler.gen_alerts.u.M
+                        vpiActual: ModuleTypespec name:M
   vpiTypespec (5 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -610,18 +610,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@M:
+    ModuleTypespec name:M:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@M start:17:8 end:17:9:
-        vpiParent: ModuleTypespec name:work@M
-        vpiName: work@M
-      vpiModule: Module name:work@M
-    ModuleTypespec name:work@alert_handler:
+      vpiName Identifier name:M start:17:8 end:17:9:
+        vpiParent: ModuleTypespec name:M
+        vpiName: M
+      vpiModule: Module name:M
+    ModuleTypespec name:alert_handler:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@alert_handler start:20:8 end:20:21:
-        vpiParent: ModuleTypespec name:work@alert_handler
-        vpiName: work@alert_handler
-      vpiModule: Module name:work@alert_handler
+      vpiName Identifier name:alert_handler start:20:8 end:20:21:
+        vpiParent: ModuleTypespec name:alert_handler
+        vpiName: alert_handler
+      vpiModule: Module name:alert_handler
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
