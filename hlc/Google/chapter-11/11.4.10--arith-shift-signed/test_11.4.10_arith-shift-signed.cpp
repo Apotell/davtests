@@ -41,7 +41,7 @@
 //     range [7:0], vpiVector true, and critically vpiSigned true --
 //     contrasting with the unsigned sibling file, whose LogicTypespec has
 //     no vpiSigned flag set
-//   - module work@top has exactly 3 nets, "a", "b", "c", each resolving
+//   - module top has exactly 3 nets, "a", "b", "c", each resolving
 //     to that same signed [7:0] LogicTypespec
 //   - the initial block is a Begin with exactly 5 statements:
 //       [0] blocking Assignment: lhs RefObj "a", rhs an Operation
@@ -97,7 +97,7 @@ class ArithShiftSignedTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;

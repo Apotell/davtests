@@ -48,7 +48,7 @@
 // mixing up which pair goes with which comparison.
 //
 // Checked:
-//   - module work@top has exactly 6 nets: a, b, c, d, e, f, all [7:0]
+//   - module top has exactly 6 nets: a, b, c, d, e, f, all [7:0]
 //     LogicTypespec, and since all six were declared on a single
 //     "reg [7:0] a, b, c, d, e, f;" line, module getTypespecs() has
 //     exactly 1 shared LogicTypespec entry (contrast with
@@ -115,7 +115,7 @@ class EqualityOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;

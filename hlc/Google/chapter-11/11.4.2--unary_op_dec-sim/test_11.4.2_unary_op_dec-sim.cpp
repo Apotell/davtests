@@ -31,7 +31,7 @@
 // decremented in place and read back directly.
 //
 // Checked:
-//   - module work@top has exactly 1 net, "a", int (RefTypespec ->
+//   - module top has exactly 1 net, "a", int (RefTypespec ->
 //     IntTypespec), with a declaration-time getValue<Constant>() of "12"
 //   - module getTypespecs() is null/absent, same as the non-sim sibling
 //   - the initial block is a Begin with exactly 2 statements:
@@ -79,7 +79,7 @@ class UnaryOpDecSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;

@@ -41,7 +41,7 @@
 // Checked:
 //   - module getTypespecs() has exactly 1 entry: a LogicTypespec with
 //     range [7:0], vpiVector true, vpiSigned true
-//   - module work@top has exactly 3 nets, "a", "b", "c", all signed [7:0]
+//   - module top has exactly 3 nets, "a", "b", "c", all signed [7:0]
 //   - the initial block is a Begin with exactly 7 statements:
 //       [0] blocking Assignment: lhs RefObj "a", rhs Operation
 //           (vpiMinusOp, [Constant "120"]) -- same "-120" shape as the
@@ -102,7 +102,7 @@ class ArithShiftAssignmentSignedTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;

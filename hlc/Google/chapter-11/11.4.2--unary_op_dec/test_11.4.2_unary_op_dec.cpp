@@ -29,7 +29,7 @@
 // the sibling 11.4.2--unary_op_inc.sv file).
 //
 // Checked:
-//   - module work@top has exactly 1 net, "a", int (RefTypespec ->
+//   - module top has exactly 1 net, "a", int (RefTypespec ->
 //     IntTypespec), with a declaration-time getValue<Constant>() of "12"
 //   - module getTypespecs() is null/absent: "int" carries no separate
 //     packed-range typespec the way "reg [N:0]" does elsewhere in this
@@ -76,7 +76,7 @@ class UnaryOpDecTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / net --------------------------------------------------------

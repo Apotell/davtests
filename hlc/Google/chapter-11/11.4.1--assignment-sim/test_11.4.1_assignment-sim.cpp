@@ -35,7 +35,7 @@
 // targeting the same net, not one merged/duplicated node).
 //
 // Checked:
-//   - module work@top has exactly 2 nets, "a" and "b", both [3:0]
+//   - module top has exactly 2 nets, "a" and "b", both [3:0]
 //     LogicTypespec ("reg" maps to LogicTypespec, matching the analogous
 //     finding elsewhere in this codebase), each declared on its own line
 //     and therefore each with its own distinct module-level LogicTypespec
@@ -92,7 +92,7 @@ class AssignmentSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
