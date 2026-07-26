@@ -27,7 +27,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "un"
+//   - design has module top with exactly 1 net: "un"
 //   - net "un": RefTypespec -> UnionTypespec, vpiTagged true, vpiPacked
 //     false, exactly 2 TypespecMember "invalid"/"valid"
 //   - member "invalid": typespec is a RefTypespec named "void" with NO
@@ -93,7 +93,7 @@ class UnionsTaggedBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -213,7 +213,7 @@ TEST_F(UnionsTaggedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnionsTaggedBasicTest, DesignHasStringTypespec) {

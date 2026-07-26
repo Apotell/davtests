@@ -27,7 +27,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "s"
+//   - design has module top with exactly 1 net: "s"
 //   - net "s": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
 //     -> StringTypespec; initial value stored directly on the Net as an
 //     Operation (vpiOpType=concatenation(33)) with 3 string Constant
@@ -91,19 +91,19 @@ class UnpackedReverseTest : public Test {
 // --- module / net --------------------------------------------------------------
 
 TEST_F(UnpackedReverseTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedReverseTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(UnpackedReverseTest, NetSIsDynamicArrayOfString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
@@ -114,7 +114,7 @@ TEST_F(UnpackedReverseTest, NetSIsDynamicArrayOfString) {
 }
 
 TEST_F(UnpackedReverseTest, NetSInitialValueIsConcatenationOfThreeStrings) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
@@ -132,7 +132,7 @@ TEST_F(UnpackedReverseTest, NetSInitialValueIsConcatenationOfThreeStrings) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedReverseTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -145,7 +145,7 @@ TEST_F(UnpackedReverseTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedReverseTest, FirstStmtDisplaysHelloSadWorld) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -165,7 +165,7 @@ TEST_F(UnpackedReverseTest, FirstStmtDisplaysHelloSadWorld) {
 }
 
 TEST_F(UnpackedReverseTest, SecondStmtIsReverseHierPathWithNoErrorDespiteNoParens) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -183,7 +183,7 @@ TEST_F(UnpackedReverseTest, SecondStmtIsReverseHierPathWithNoErrorDespiteNoParen
 }
 
 TEST_F(UnpackedReverseTest, ThirdStmtDisplaysWorldSadHello) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -205,7 +205,7 @@ TEST_F(UnpackedReverseTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedReverseTest, DesignHasStringTypespecBeforeIntTypespec) {
@@ -227,7 +227,7 @@ TEST_F(UnpackedReverseTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedReverseTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -239,7 +239,7 @@ TEST_F(UnpackedReverseTest, RuntimeReverseResultRequiresSimulation) {
                   "so the actual runtime contents of s after s.reverse cannot be observed here. "
                   "reverse.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

@@ -64,7 +64,7 @@ class BuiltinMethodsArrays : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Net *getNetArray(const hldb::Design *d) {

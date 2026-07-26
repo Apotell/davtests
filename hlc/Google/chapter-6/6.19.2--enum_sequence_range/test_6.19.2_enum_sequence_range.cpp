@@ -21,12 +21,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with 1 net ('e')
+//   - design has module top with 1 net ('e')
 //   - net 'e' RefTypespec vpiActual resolves to EnumTypespec
 //   - EnumTypespec has 2 consts: "start" and "stop"
 //   - "start" value is stored as vpiUIntConst = "10"
 //   - second const name is "stop" (not "step" — distinguishes from enum_sequence)
-//   - work@top has no processes
+//   - top has no processes
 //   - "stop" const has no explicit value stored (HLC normalizes stop[11:13] to
 //     a single "stop" EnumConst with no explicit value for the range base)
 
@@ -53,11 +53,11 @@ class EnumSequenceRange : public Test {
 };
 
 TEST_F(EnumSequenceRange, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumSequenceRange, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
@@ -67,7 +67,7 @@ TEST_F(EnumSequenceRange, OneNetExists) {
 // Net 'e' — typespec RefTypespec → EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequenceRange, ENetTypespecIsEnum) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
@@ -79,7 +79,7 @@ TEST_F(EnumSequenceRange, ENetTypespecIsEnum) {
 // EnumTypespec — 2 consts: "start" (value=10) and "stop" (range base)
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequenceRange, EnumHasTwoConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
@@ -90,7 +90,7 @@ TEST_F(EnumSequenceRange, EnumHasTwoConsts) {
 }
 
 TEST_F(EnumSequenceRange, FirstConstIsStart) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
@@ -102,7 +102,7 @@ TEST_F(EnumSequenceRange, FirstConstIsStart) {
 }
 
 TEST_F(EnumSequenceRange, StartConstValueIs10) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
@@ -117,7 +117,7 @@ TEST_F(EnumSequenceRange, StartConstValueIs10) {
 }
 
 TEST_F(EnumSequenceRange, SecondConstIsStop) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);
@@ -129,13 +129,13 @@ TEST_F(EnumSequenceRange, SecondConstIsStop) {
 }
 
 TEST_F(EnumSequenceRange, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(EnumSequenceRange, StopConstHasNoExplicitValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const e = hldb::findByName<hldb::Net>("e", top->getNets());
   ASSERT_NE(e, nullptr);

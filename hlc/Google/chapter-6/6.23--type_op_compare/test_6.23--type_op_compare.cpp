@@ -57,7 +57,7 @@
 //
 // -- Expected HLDB tree (if compiler is correct) --------------------------------
 //
-//   Module name:work@top
+//   Module name:top
 //   +-- getParamAssigns() (1 item)
 //   |   +-- ParamAssign name:"T"
 //   |           lhs: RefTypespec -> TypeParameter name:"T"
@@ -90,7 +90,7 @@ class TypeOpCompareTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
@@ -124,16 +124,16 @@ TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
 // ===========================================================================
 
 // ss.6.23: 'module top ... endmodule' must produce exactly one module named
-// 'work@top' in the design's module collection.
+// 'top' in the design's module collection.
 TEST_F(TypeOpCompareTest, ModuleCount_IsOne) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_EQ(m_design->getAllModules()->size(), 1u) << "ss.6.23: exactly one module 'top' is declared -- "
                                                       "getAllModules() must contain exactly one entry";
 }
 
-// ss.6.23: the module must be named 'work@top'.
+// ss.6.23: the module must be named 'top'.
 TEST_F(TypeOpCompareTest, Module_Top_Exists) {
-  EXPECT_NE(getTop(m_design), nullptr) << "ss.6.23: 'module top' must produce a module named 'work@top' -- "
+  EXPECT_NE(getTop(m_design), nullptr) << "ss.6.23: 'module top' must produce a module named 'top' -- "
                                           "if this fails, the module was not fully parsed";
 }
 
@@ -144,7 +144,7 @@ TEST_F(TypeOpCompareTest, Module_Top_Exists) {
 // ss.6.23: the type parameter assignment for T must be present in the module.
 TEST_F(TypeOpCompareTest, TypeParam_T_ParamAssign_Exists) {
   const hldb::Module *m = getTop(m_design);
-  ASSERT_NE(m, nullptr) << "module 'work@top' not found";
+  ASSERT_NE(m, nullptr) << "module 'top' not found";
   ASSERT_NE(m->getParamAssigns(), nullptr);
   EXPECT_NE(getParamAssign(m_design, "T"), nullptr)
       << "ss.6.23: 'parameter type T' must produce a ParamAssign named 'T'";

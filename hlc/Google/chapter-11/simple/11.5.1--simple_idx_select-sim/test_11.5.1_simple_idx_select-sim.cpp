@@ -20,7 +20,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "a" [3:0] (input),
+//   - design has module top with exactly 2 nets: "a" [3:0] (input),
 //     "b" (output, scalar), both vpiNetType wire
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     BitSelect "a[2]": vpiPrefix RefObj "a" resolving Net "a", vpiIndex
@@ -61,7 +61,7 @@ class SimpleIdxSelectSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets ---------------------------------------------------------

@@ -36,7 +36,7 @@
 // push_back() appends one element to the end of a queue.
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "q"
+//   - design has module top with exactly 1 net: "q"
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound is Constant "$"
 //     (vpiConstType=unbounded), right bound is Constant "2"
@@ -111,7 +111,7 @@ class QueuesBoundedTest : public Test {
 
  protected:
   static const hldb::Net *getNetQ() {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+    const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
     if (top == nullptr) return nullptr;
     return hldb::findByName<hldb::Net>("q", top->getNets());
   }
@@ -123,7 +123,7 @@ class QueuesBoundedTest : public Test {
   }
 
   static const hldb::Begin *getInitialBegin() {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+    const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
     const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
     if (init == nullptr) return nullptr;
@@ -134,11 +134,11 @@ class QueuesBoundedTest : public Test {
 // --- module / net --------------------------------------------------------
 
 TEST_F(QueuesBoundedTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(QueuesBoundedTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
@@ -202,7 +202,7 @@ TEST_F(QueuesBoundedTest, NetQHasNoInitialValue) {
 // --- initial process structure --------------------------------------------
 
 TEST_F(QueuesBoundedTest, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -387,7 +387,7 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
 // --- structural completeness / design-level typespecs ----------------------
 
 TEST_F(QueuesBoundedTest, ModuleHasNoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -401,7 +401,7 @@ TEST_F(QueuesBoundedTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesBoundedTest, DesignHasIntTypespecSigned) {

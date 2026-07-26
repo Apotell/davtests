@@ -34,7 +34,7 @@ class Sky130MacroSparecellFunctionalTest : public Test {
 // LRM 22.5.1: the sky130 sparecell module must compile cleanly.
 TEST_F(Sky130MacroSparecellFunctionalTest, ModuleCompiles) {
   const hldb::Module *const module =
-      hldb::findByName<hldb::Module>("work@sky130_fd_sc_hd__macro_sparecell", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("sky130_fd_sc_hd__macro_sparecell", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "sky130_fd_sc_hd__macro_sparecell module must compile";
 }
 

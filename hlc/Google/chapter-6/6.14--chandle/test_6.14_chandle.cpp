@@ -20,12 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with 1 net ('a')
+//   - design has module top with 1 net ('a')
 //   - net 'a' has a RefTypespec node (typespec is present)
 //   - net 'a' RefTypespec vpiActual is null — HLC does not resolve chandle
 //     to a ChandleTypespec in the global type pool
 //   - net 'a' has no initial value
-//   - no ContAssigns and no processes in work@top
+//   - no ContAssigns and no processes in top
 //
 // Also checked:
 //   - RefTypespec getName() for chandle -- the name string is preserved even
@@ -53,18 +53,18 @@ class Chandle : public Test {
 };
 
 TEST_F(Chandle, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Chandle, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Chandle, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
 }
@@ -73,7 +73,7 @@ TEST_F(Chandle, ANetExists) {
 // Typespec — RefTypespec node present but vpiActual is unresolved
 // ---------------------------------------------------------------------------
 TEST_F(Chandle, ANetHasTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -81,7 +81,7 @@ TEST_F(Chandle, ANetHasTypespec) {
 }
 
 TEST_F(Chandle, ANetTypespecActualIsNull) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -92,7 +92,7 @@ TEST_F(Chandle, ANetTypespecActualIsNull) {
 
 TEST_F(Chandle, ANetTypespecNameIsChandle) {
   GTEST_SKIP() << "Compiler doesn't support CHandleTypesoec yet";
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -106,7 +106,7 @@ TEST_F(Chandle, ANetTypespecNameIsChandle) {
 // No initial value, no continuous assignments, no processes
 // ---------------------------------------------------------------------------
 TEST_F(Chandle, ANetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -114,13 +114,13 @@ TEST_F(Chandle, ANetHasNoInitialValue) {
 }
 
 TEST_F(Chandle, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Chandle, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

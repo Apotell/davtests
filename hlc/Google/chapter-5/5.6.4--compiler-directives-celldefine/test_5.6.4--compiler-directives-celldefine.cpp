@@ -28,8 +28,8 @@
 //
 // UHDM structure:
 //   vpiAllModules (2 items):
-//     Module name:work@cd   — the celldefine-wrapped module
-//     Module name:work@ncd  — the plain module
+//     Module name:cd   — the celldefine-wrapped module
+//     Module name:ncd  — the plain module
 //
 // Note: `celldefine is a compiler hint for SDF timing tools; Surelog accepts
 // it without error but the cell-flag distinction is not surfaced in UHDM.
@@ -60,38 +60,38 @@ TEST_F(CompilerDirectivesCelldefine, TwoModulesExist) {
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules()), nullptr)
-      << "module 'work@cd' (inside `celldefine) not found";
+  EXPECT_NE(hldb::findByName<hldb::Module>("cd", m_design->getAllModules()), nullptr)
+      << "module 'cd' (inside `celldefine) not found";
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules()), nullptr)
-      << "module 'work@ncd' (outside `celldefine) not found";
+  EXPECT_NE(hldb::findByName<hldb::Module>("ncd", m_design->getAllModules()), nullptr)
+      << "module 'ncd' (outside `celldefine) not found";
 }
 
 // ---------------------------------------------------------------------------
 // Both modules are empty — no nets, no processes
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoNets) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoNets) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoProcesses) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@cd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoProcesses) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("work@ncd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByName<hldb::Module>("ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }

@@ -27,7 +27,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "map" (associative
+//   - design has module top with exactly 3 nets: "map" (associative
 //     array), "ix" (byte), "rc" (int)
 //   - module has exactly 2 typespecs: ByteTypespec (signed) and ArrayTypespec
 //   - net "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
@@ -87,18 +87,18 @@ class AssociativeArrayTraversalTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(AssociativeArrayTraversalTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayTraversalTest, ModuleHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 }
 
 TEST_F(AssociativeArrayTraversalTest, ModuleHasTwoTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 2u);
@@ -107,7 +107,7 @@ TEST_F(AssociativeArrayTraversalTest, ModuleHasTwoTypespecs) {
 }
 
 TEST_F(AssociativeArrayTraversalTest, NetMapIsAssociativeArrayOfStringByByte) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const map = hldb::findByName<hldb::Net>("map", top->getNets());
   ASSERT_NE(map, nullptr);
@@ -121,7 +121,7 @@ TEST_F(AssociativeArrayTraversalTest, NetMapIsAssociativeArrayOfStringByByte) {
 }
 
 TEST_F(AssociativeArrayTraversalTest, NetIxIsByteTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const ix = hldb::findByName<hldb::Net>("ix", top->getNets());
   ASSERT_NE(ix, nullptr);
@@ -129,7 +129,7 @@ TEST_F(AssociativeArrayTraversalTest, NetIxIsByteTypespec) {
 }
 
 TEST_F(AssociativeArrayTraversalTest, NetRcIsIntTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const rc = hldb::findByName<hldb::Net>("rc", top->getNets());
   ASSERT_NE(rc, nullptr);
@@ -139,7 +139,7 @@ TEST_F(AssociativeArrayTraversalTest, NetRcIsIntTypespec) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(AssociativeArrayTraversalTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -154,7 +154,7 @@ TEST_F(AssociativeArrayTraversalTest, InitialBeginHasThreeStmts) {
 // --- map[1000]="a" ------------------------------------------------------------
 
 TEST_F(AssociativeArrayTraversalTest, FirstAssignmentSetsMap1000ToA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -186,7 +186,7 @@ TEST_F(AssociativeArrayTraversalTest, FirstAssignmentSetsMap1000ToA) {
 // --- rc = map.first(ix) --------------------------------------------------------
 
 TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -221,7 +221,7 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
 // --- $display(":assert: ( ('%0d' == '1') and ('%b' == '11101000') )", rc, ix) -
 
 TEST_F(AssociativeArrayTraversalTest, DisplayAssertsRcAndIxFormatted) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -250,7 +250,7 @@ TEST_F(AssociativeArrayTraversalTest, RuntimeValuesOfRcAndIxRequireSimulation) {
                   "so the actual runtime values written into rc/ix by first() cannot be observed "
                   "here. traversal.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -273,7 +273,7 @@ TEST_F(AssociativeArrayTraversalTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(AssociativeArrayTraversalTest, CompilerReportsZeroErrors) {

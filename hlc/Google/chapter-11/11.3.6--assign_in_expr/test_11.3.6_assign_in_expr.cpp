@@ -35,7 +35,7 @@
 // Assignment chain rather than only handling a single level correctly.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", all int
+//   - module top has exactly 3 nets, "a", "b", "c", all int
 //     (RefTypespec -> IntTypespec)
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment chain nested 3 deep --
@@ -82,7 +82,7 @@ class AssignInExprTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets -----------------------------------------------------

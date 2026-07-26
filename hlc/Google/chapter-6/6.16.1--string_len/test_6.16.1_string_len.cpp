@@ -21,7 +21,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with 2 nets (a: string, b: int)
+//   - design has module top with 2 nets (a: string, b: int)
 //   - net 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
 //   - net 'b' typespec resolves to IntTypespec
 //   - net 'b' has a non-null initial value (vpiValue is set)
@@ -58,21 +58,21 @@ class StringLen : public Test {
 };
 
 TEST_F(StringLen, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net declarations — string 'a' and int 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringLen, TwoNetsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(StringLen, ANetTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -82,7 +82,7 @@ TEST_F(StringLen, ANetTypespecIsString) {
 }
 
 TEST_F(StringLen, ANetInitialValueIsTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -93,7 +93,7 @@ TEST_F(StringLen, ANetInitialValueIsTest) {
 }
 
 TEST_F(StringLen, BNetTypespecIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -106,7 +106,7 @@ TEST_F(StringLen, BNetTypespecIsInt) {
 // HierPath — b's initial value is the method call a.len()
 // ---------------------------------------------------------------------------
 TEST_F(StringLen, BNetHasValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -114,7 +114,7 @@ TEST_F(StringLen, BNetHasValue) {
 }
 
 TEST_F(StringLen, BNetValueIsNotPreEvaluatedConstant) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -123,7 +123,7 @@ TEST_F(StringLen, BNetValueIsNotPreEvaluatedConstant) {
 }
 
 TEST_F(StringLen, BNetValueIsHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -133,7 +133,7 @@ TEST_F(StringLen, BNetValueIsHierPath) {
 }
 
 TEST_F(StringLen, HierPathReceiverIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -149,7 +149,7 @@ TEST_F(StringLen, HierPathReceiverIsA) {
 }
 
 TEST_F(StringLen, HierPathMethodIsLen) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -164,7 +164,7 @@ TEST_F(StringLen, HierPathMethodIsLen) {
 }
 
 TEST_F(StringLen, LenCallHasNoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -180,7 +180,7 @@ TEST_F(StringLen, LenCallHasNoArguments) {
 // compile-time evaluation of string methods
 // ---------------------------------------------------------------------------
 TEST_F(StringLen, LenResultIsPreEvaluated) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);

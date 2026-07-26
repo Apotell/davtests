@@ -49,7 +49,7 @@ class SequenceExprTest : public Test {
 
  protected:
   const hldb::Module *getModule() const {
-    return getByName<hldb::Module>("work@sequence_expr_coverage", m_design->getAllModules());
+    return getByName<hldb::Module>("sequence_expr_coverage", m_design->getAllModules());
   }
 
   // Find a named sequence_decl inside the module.

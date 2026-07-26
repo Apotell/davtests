@@ -20,12 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'arr' (assoc ArrayTypespec, idx=wildcard, elem=IntTypespec)
 //   - wildcard index [*]: IndexTypespec RefTypespec resolves to no concrete type (nullptr)
 //   - net has no initial value (plain declaration, no initializer)
-//   - work@top has no processes
-//   - work@top has no continuous assignments
+//   - top has no processes
+//   - top has no continuous assignments
 //
 // Also checked:
 //   - HLC reports no compile errors for a wildcard-indexed associative array
@@ -59,28 +59,28 @@ class WildcardTest : public Test {
 // --- module ---------------------------------------------------------------
 
 TEST_F(WildcardTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- net "arr" : int[*] ---------------------------------------------------
 
 TEST_F(WildcardTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(WildcardTest, NetNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(WildcardTest, NetHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -95,7 +95,7 @@ TEST_F(WildcardTest, AssocArrayKeyIsWildcard) {
   // int arr[*] -- the wildcard index [*] is stored as a RefTypespec with no
   // resolved actual type (getActual() returns nullptr for any concrete type).
   // This distinguishes it from string.sv where getActual<StringTypespec>() != nullptr.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -107,7 +107,7 @@ TEST_F(WildcardTest, AssocArrayKeyIsWildcard) {
 
 TEST_F(WildcardTest, AssocArrayValueTypeIsInt) {
   // element type is IntTypespec (from `int arr[*]`)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -118,20 +118,20 @@ TEST_F(WildcardTest, AssocArrayValueTypeIsInt) {
 
 TEST_F(WildcardTest, NetHasNoInitialValue) {
   // int arr[*] -- plain declaration with no initializer
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr);
 }
 
 TEST_F(WildcardTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(WildcardTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
@@ -140,7 +140,7 @@ TEST_F(WildcardTest, IndexTypespecActualIsNull) {
   // Positive confirmation that the wildcard index resolves to no actual type
   // at all: RefTypespec::getActual() (untemplated) returns the raw Typespec*
   // and must be null, independent of what concrete type was probed for.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();

@@ -49,14 +49,14 @@ class StructureReplication : public Test {
 };
 
 TEST_F(StructureReplication, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net XYZ — anonymous struct with replication init '{3{1}}
 // ---------------------------------------------------------------------------
 TEST_F(StructureReplication, NetXYZExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
 
@@ -71,7 +71,7 @@ TEST_F(StructureReplication, NetXYZExists) {
 }
 
 TEST_F(StructureReplication, XYZTypespecHasThreeMembers) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -92,7 +92,7 @@ TEST_F(StructureReplication, XYZTypespecHasThreeMembers) {
 }
 
 TEST_F(StructureReplication, XYZMemberNames) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -115,7 +115,7 @@ TEST_F(StructureReplication, XYZMemberNames) {
 }
 
 TEST_F(StructureReplication, XYZInitializerIsAssignPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -135,7 +135,7 @@ TEST_F(StructureReplication, XYZInitializerIsAssignPattern) {
 }
 
 TEST_F(StructureReplication, XYZInitializerHasReplicationCountAndValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -159,7 +159,7 @@ TEST_F(StructureReplication, XYZInitializerHasReplicationCountAndValue) {
 // Typedef ab_t — struct with members a (int) and b (int array)
 // ---------------------------------------------------------------------------
 TEST_F(StructureReplication, TypedefAbTExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -176,7 +176,7 @@ TEST_F(StructureReplication, TypedefAbTExists) {
 }
 
 TEST_F(StructureReplication, AbTStructHasTwoMembers) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -201,7 +201,7 @@ TEST_F(StructureReplication, AbTStructHasTwoMembers) {
 // Initial block — v1 variable and nested replication assignment
 // ---------------------------------------------------------------------------
 TEST_F(StructureReplication, InitialBlockExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr) << "module has no processes";
 
@@ -216,7 +216,7 @@ TEST_F(StructureReplication, InitialBlockExists) {
 }
 
 TEST_F(StructureReplication, V1VariableExistsInInitialBlock) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
@@ -244,7 +244,7 @@ TEST_F(StructureReplication, V1VariableExistsInInitialBlock) {
 }
 
 TEST_F(StructureReplication, V1TypespecIsArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
@@ -276,7 +276,7 @@ TEST_F(StructureReplication, V1TypespecIsArray) {
 }
 
 TEST_F(StructureReplication, V1AssignmentExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
@@ -304,7 +304,7 @@ TEST_F(StructureReplication, V1AssignmentExists) {
 }
 
 TEST_F(StructureReplication, AssignmentRhsIsOuterReplicationPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
@@ -339,7 +339,7 @@ TEST_F(StructureReplication, AssignmentRhsIsOuterReplicationPattern) {
 }
 
 TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 

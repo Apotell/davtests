@@ -30,7 +30,7 @@
 //   endmodule
 //
 // UHDM:
-//   Module work@top
+//   Module top
 //     Net a → RefTypespec → RealTypespec
 //   RealTypespec has no packed dimension ranges (real is a scalar type).
 
@@ -55,7 +55,7 @@ class RealToken : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Net *getNetA(const hldb::Design *d) {
@@ -67,7 +67,7 @@ static const hldb::Net *getNetA(const hldb::Design *d) {
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(RealToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(RealToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 TEST_F(RealToken, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);

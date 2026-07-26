@@ -47,7 +47,7 @@
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:work@top
+//   Module name:top
 //   +-- getNets() (NetCollection, 3 items)
 //       +-- [0] Net name:"a"
 //       |       typespec: RefTypespec -> RealTypespec
@@ -95,7 +95,7 @@ class TypeOpTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
@@ -108,7 +108,7 @@ static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
 // Module
 // ===========================================================================
 
-TEST_F(TypeOpTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(TypeOpTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // Net collection  (a, b, c are all stored as Net nodes)

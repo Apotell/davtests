@@ -86,7 +86,7 @@
 //
 // -- Expected HLDB tree (if compiler is correct) --------------------------------
 //
-//   Module name:work@tb
+//   Module name:tb
 //   +-- getSequenceDecls() (1 item)
 //   |   +-- SequenceDecl name:"seq14"
 //   |         vpiExpr: Operation opType:list (vpiListOp = 37)
@@ -139,7 +139,7 @@ class Sequence14Test : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTb(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
+  return hldb::findByName<hldb::Module>("tb", d->getAllModules());
 }
 
 static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
@@ -275,7 +275,7 @@ TEST_F(Sequence14Test, Compiler_NoSyntaxErrors) {
 // Module
 // ===========================================================================
 
-TEST_F(Sequence14Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
+TEST_F(Sequence14Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration (ss.16.8 / ss.16.10)

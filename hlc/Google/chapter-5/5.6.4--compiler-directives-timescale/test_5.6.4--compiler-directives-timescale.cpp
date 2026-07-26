@@ -46,7 +46,7 @@ class CompilerDirectivesTimescale : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
+  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
 }
 
 static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
@@ -58,7 +58,7 @@ static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesTimescale, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found";
 }
 
 TEST_F(CompilerDirectivesTimescale, ModuleIsEmpty) {

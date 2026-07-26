@@ -51,7 +51,7 @@ class AttributesVariable : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------

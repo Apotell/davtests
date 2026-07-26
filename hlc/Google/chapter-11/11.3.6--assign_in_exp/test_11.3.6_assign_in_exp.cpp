@@ -37,7 +37,7 @@
 // of evaluating the RHS of "b = ...".
 //
 // Checked:
-//   - module work@top has exactly 2 nets, "a" and "b", both int
+//   - module top has exactly 2 nets, "a" and "b", both int
 //     (RefTypespec -> IntTypespec)
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment with lhs RefObj "b" whose rhs is itself a blocking
@@ -85,7 +85,7 @@ class AssignInExpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets -----------------------------------------------------

@@ -32,7 +32,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "map" (associative
+//   - design has module top with exactly 3 nets: "map" (associative
 //     array), "s" (string), "rc" (int)
 //   - net "map": ArrayTypespec vpiArrayType=associative(3), index -> String,
 //     elem -> Int
@@ -86,18 +86,18 @@ class AssociativeArrayLastTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(AssociativeArrayLastTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayLastTest, ModuleHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 }
 
 TEST_F(AssociativeArrayLastTest, NetMapIsAssociativeArrayOfIntByString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const map = hldb::findByName<hldb::Net>("map", top->getNets());
   ASSERT_NE(map, nullptr);
@@ -111,7 +111,7 @@ TEST_F(AssociativeArrayLastTest, NetMapIsAssociativeArrayOfIntByString) {
 }
 
 TEST_F(AssociativeArrayLastTest, NetSIsStringTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const s = hldb::findByName<hldb::Net>("s", top->getNets());
   ASSERT_NE(s, nullptr);
@@ -119,7 +119,7 @@ TEST_F(AssociativeArrayLastTest, NetSIsStringTypespec) {
 }
 
 TEST_F(AssociativeArrayLastTest, NetRcIsIntTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const rc = hldb::findByName<hldb::Net>("rc", top->getNets());
   ASSERT_NE(rc, nullptr);
@@ -129,7 +129,7 @@ TEST_F(AssociativeArrayLastTest, NetRcIsIntTypespec) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(AssociativeArrayLastTest, InitialBeginHasSevenStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -144,7 +144,7 @@ TEST_F(AssociativeArrayLastTest, InitialBeginHasSevenStmts) {
 // --- rc = map.last(s); on the empty map --------------------------------------
 
 TEST_F(AssociativeArrayLastTest, FirstCallAssignsRcFromMapLastS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -177,7 +177,7 @@ TEST_F(AssociativeArrayLastTest, FirstCallAssignsRcFromMapLastS) {
 }
 
 TEST_F(AssociativeArrayLastTest, FirstDisplayAssertsRcEqualsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -198,7 +198,7 @@ TEST_F(AssociativeArrayLastTest, FirstDisplayAssertsRcEqualsZero) {
 // --- map["hello"]=1, map["sad"]=2, map["world"]=3 ----------------------------
 
 TEST_F(AssociativeArrayLastTest, PopulatesMapHelloSadWorld) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -224,7 +224,7 @@ TEST_F(AssociativeArrayLastTest, PopulatesMapHelloSadWorld) {
 // --- rc = map.last(s); on the populated map ----------------------------------
 
 TEST_F(AssociativeArrayLastTest, SecondCallAssignsRcFromMapLastS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -241,7 +241,7 @@ TEST_F(AssociativeArrayLastTest, SecondCallAssignsRcFromMapLastS) {
 }
 
 TEST_F(AssociativeArrayLastTest, SecondDisplayAssertsRcOneAndSWorld) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -268,7 +268,7 @@ TEST_F(AssociativeArrayLastTest, RuntimeValuesOfRcAndSRequireSimulation) {
                   "the actual runtime values written into rc/s by last() cannot be observed here. "
                   "last.sv's own $display format strings document the expected values instead.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

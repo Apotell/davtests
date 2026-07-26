@@ -35,7 +35,7 @@ class PreprocStringTest : public Test {
 // LRM 22.5.1: the module must compile despite errors from an undefined
 // macro reference inside MAKE_MEM_PATH.
 TEST_F(PreprocStringTest, TestModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
 }
 

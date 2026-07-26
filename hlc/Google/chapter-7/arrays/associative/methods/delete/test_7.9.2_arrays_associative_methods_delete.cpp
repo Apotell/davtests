@@ -30,7 +30,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net "map"
+//   - design has module top with exactly 1 net "map"
 //   - net "map": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     StringTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 8 stmts (3 Assignment + 3 SysFuncCall +
@@ -107,18 +107,18 @@ class AssociativeArrayDeleteTest : public Test {
 // --- module / net -----------------------------------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayDeleteTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(AssociativeArrayDeleteTest, NetMapIsAssociativeArrayOfIntByString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const map = hldb::findByName<hldb::Net>("map", top->getNets());
   ASSERT_NE(map, nullptr);
@@ -134,7 +134,7 @@ TEST_F(AssociativeArrayDeleteTest, NetMapIsAssociativeArrayOfIntByString) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -142,7 +142,7 @@ TEST_F(AssociativeArrayDeleteTest, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(AssociativeArrayDeleteTest, InitialBeginHasEightStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -155,7 +155,7 @@ TEST_F(AssociativeArrayDeleteTest, InitialBeginHasEightStmts) {
 // --- map["hello"]=1, map["sad"]=2, map["world"]=3 ----------------------------
 
 TEST_F(AssociativeArrayDeleteTest, FirstAssignmentSetsMapHelloToOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -180,7 +180,7 @@ TEST_F(AssociativeArrayDeleteTest, FirstAssignmentSetsMapHelloToOne) {
 }
 
 TEST_F(AssociativeArrayDeleteTest, SecondAssignmentSetsMapSadToTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -198,7 +198,7 @@ TEST_F(AssociativeArrayDeleteTest, SecondAssignmentSetsMapSadToTwo) {
 }
 
 TEST_F(AssociativeArrayDeleteTest, ThirdAssignmentSetsMapWorldToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -218,7 +218,7 @@ TEST_F(AssociativeArrayDeleteTest, ThirdAssignmentSetsMapWorldToThree) {
 // --- $display(":assert: (%d == 3)", map.size) --------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -248,7 +248,7 @@ TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
 // --- map.delete("sad") --------------------------------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsHierPathWithMethodFuncCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -275,7 +275,7 @@ TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsHierPathWithMethodFuncCal
 // --- $display(":assert: (%d == 2)", map.size) --------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -292,7 +292,7 @@ TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
 // --- map.delete (no parens) ---------------------------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRefObj) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -315,7 +315,7 @@ TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsHierPathWithUnresolvedRe
 // --- $display(":assert: (%d == 0)", map.size) --------------------------------
 
 TEST_F(AssociativeArrayDeleteTest, ThirdDisplayAssertsSizeEqualsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -340,7 +340,7 @@ TEST_F(AssociativeArrayDeleteTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(AssociativeArrayDeleteTest, DesignHasSignedIntTypespec) {
@@ -368,7 +368,7 @@ TEST_F(AssociativeArrayDeleteTest, SizeAndDeleteRefObjsShouldResolveOnceImplicit
                   "the no-parens '.size' RefObj or the no-parens '.delete' RefObj to a declared "
                   "object. Re-enable this test once that limitation is fixed.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -397,7 +397,7 @@ TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulatio
 
   // Closest static proxy: the two $display calls following each delete() encode the expected
   // post-delete size via their own format strings (see delete.sv lines 26 and 28).
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

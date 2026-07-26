@@ -23,7 +23,7 @@
 //   - 4 syntax errors emitted (SNT:PA0207)
 //   - The module declaration fails to parse cleanly; UHDM contains 2 nameless
 //     stub Module nodes (fragments from the broken parse), neither with nets.
-//   - 'work@identifiers' does NOT appear — the module name was never captured.
+//   - 'identifiers' does NOT appear — the module name was never captured.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -45,8 +45,8 @@ class WrongIdentifiers : public Test {
 // The module name 'identifiers' was never captured due to parse failure.
 // ---------------------------------------------------------------------------
 TEST_F(WrongIdentifiers, NoModuleNamedIdentifiers) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("work@identifiers", m_design->getAllModules()), nullptr)
-      << "'work@identifiers' should not exist — parse failure swallowed the name";
+  EXPECT_EQ(hldb::findByName<hldb::Module>("identifiers", m_design->getAllModules()), nullptr)
+      << "'identifiers' should not exist — parse failure swallowed the name";
 }
 
 // ---------------------------------------------------------------------------

@@ -23,19 +23,19 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has 1 ClassDefn: getName()="C", getFullName()="" (not stored — see below)
 //   - ClassDefn has 1 Variable "x" (IntTypespec)
 //   - module has 1 net 'arr' → ArrayTypespec (static=1 — error recovery, NOT associative=3)
 //   - ArrayTypespec elem type is IntTypespec
-//   - work@top has no processes
-//   - work@top has no continuous assignments
+//   - top has no processes
+//   - top has no continuous assignments
 //
 // Also checked:
 //   - HLC emits EL0535 (ELAB_ILLEGAL_IMPLICIT_NET) -- class C is unresolved as
 //     an associative-array index type
 //   - index typespec is absent (null) in the error-recovery ArrayTypespec
-//   - ClassDefn::getFullName() is non-empty and stored ("work@top::work@C"),
+//   - ClassDefn::getFullName() is non-empty and stored ("top::C"),
 //     confirmed by ClassDefnStoredFullNameIsNonEmpty below
 
 #include <hlc/Common/Session.h>
@@ -64,14 +64,14 @@ class Class : public Test {
 // --- module ---------------------------------------------------------------
 
 TEST_F(Class, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- class C definition ---------------------------------------------------
 
 TEST_F(Class, ModuleHasOneClassDefn) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   EXPECT_EQ(top->getClassDefns()->size(), 1u);
@@ -79,26 +79,26 @@ TEST_F(Class, ModuleHasOneClassDefn) {
 
 TEST_F(Class, ClassDefnNameIsC) {
   // getName() returns the simple identifier stored by HLC.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
-  EXPECT_EQ(cls->getName(), "work@C");
+  EXPECT_EQ(cls->getName(), "C");
 }
 
 TEST_F(Class, ClassDefnStoredFullNameIsNonEmpty) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
   EXPECT_FALSE(cls->getFullName().empty());
-  EXPECT_EQ(cls->getFullName(), std::string_view("work@top::work@C"));
+  EXPECT_EQ(cls->getFullName(), std::string_view("top::C"));
 }
 
 TEST_F(Class, ClassDefnHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -107,7 +107,7 @@ TEST_F(Class, ClassDefnHasOneVariable) {
 }
 
 TEST_F(Class, ClassVariableNameIsX) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -116,7 +116,7 @@ TEST_F(Class, ClassVariableNameIsX) {
 }
 
 TEST_F(Class, ClassVariableXHasIntTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -130,21 +130,21 @@ TEST_F(Class, ClassVariableXHasIntTypespec) {
 // --- net arr (error-recovery: static array, not associative) -------------
 
 TEST_F(Class, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Class, NetNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
 }
 
 TEST_F(Class, NetHasArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -156,7 +156,7 @@ TEST_F(Class, NetHasArrayTypespec) {
 TEST_F(Class, ArrayTypespecIsStaticDueToErrorRecovery) {
   // int arr[C] — HLC could not resolve C as an index type (EL0535),
   // so the ArrayTypespec falls back to static(1) instead of associative(3)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -165,7 +165,7 @@ TEST_F(Class, ArrayTypespecIsStaticDueToErrorRecovery) {
 }
 
 TEST_F(Class, ArrayTypespecElemTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -177,7 +177,7 @@ TEST_F(Class, ArrayTypespecElemTypeIsInt) {
 TEST_F(Class, ArrayTypespecIndexTypespecIsNull) {
   // int arr[C] -- C could not be resolved as an index type, so the
   // error-recovery ArrayTypespec has no index typespec at all.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -186,13 +186,13 @@ TEST_F(Class, ArrayTypespecIndexTypespecIsNull) {
 }
 
 TEST_F(Class, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(Class, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

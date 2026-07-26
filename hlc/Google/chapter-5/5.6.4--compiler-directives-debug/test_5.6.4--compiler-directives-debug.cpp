@@ -21,7 +21,7 @@
 //   initial $display("At %s @ %d\n", `__FILE__, `__LINE__);
 //
 // UHDM structure:
-//   Module name:work@directives
+//   Module name:directives
 //     Initial
 //       vpiStmt: SysTaskCall "$display"
 //         vpiArgument[0]: Constant (string, 6)  — format string "At %s @ %d\n"
@@ -52,7 +52,7 @@ class CompilerDirectivesDebug : public Test {
 };
 
 static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@directives", d->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("directives", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysTaskCall>();
@@ -70,8 +70,8 @@ static const hldb::Constant *getArg(const hldb::Design *d, std::size_t idx) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesDebug, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@directives", m_design->getAllModules()), nullptr)
-      << "module 'work@directives' not found";
+  ASSERT_NE(hldb::findByName<hldb::Module>("directives", m_design->getAllModules()), nullptr)
+      << "module 'directives' not found";
 }
 
 // ---------------------------------------------------------------------------

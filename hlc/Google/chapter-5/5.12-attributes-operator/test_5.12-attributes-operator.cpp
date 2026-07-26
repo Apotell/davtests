@@ -57,7 +57,7 @@ class AttributesOperator : public Test {
 };
 
 static const hldb::Assignment *getAssignment(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
@@ -81,11 +81,11 @@ static const hldb::Operation *getAddOp(const hldb::Design *design) {
 // Module and nets
 // ---------------------------------------------------------------------------
 TEST_F(AttributesOperator, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesOperator, ThreeNetsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);

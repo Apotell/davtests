@@ -30,7 +30,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "arr_a", "arr_b"
+//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
 //   - both nets: RefTypespec -> ArrayTypespec static(1) range [7:0], elem
 //     -> BitTypespec -- the SAME (shared) BitTypespec instance for both
 //     nets
@@ -105,19 +105,19 @@ class UnpackedVariableSliceTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(UnpackedVariableSliceTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedVariableSliceTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 2u);
 }
 
 TEST_F(UnpackedVariableSliceTest, BothNetsAreArraysOfSharedBitTypespecRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arrA = hldb::findByName<hldb::Net>("arr_a", top->getNets());
   const hldb::Net *const arrB = hldb::findByName<hldb::Net>("arr_b", top->getNets());
@@ -140,7 +140,7 @@ TEST_F(UnpackedVariableSliceTest, BothNetsAreArraysOfSharedBitTypespecRangeSeven
 // --- parameter c = 3 -----------------------------------------------------------
 
 TEST_F(UnpackedVariableSliceTest, ModuleHasOneParameterNamedC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParameters(), nullptr);
   ASSERT_EQ(top->getParameters()->size(), 1u);
@@ -151,7 +151,7 @@ TEST_F(UnpackedVariableSliceTest, ModuleHasOneParameterNamedC) {
 }
 
 TEST_F(UnpackedVariableSliceTest, ParamAssignSetsCToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParamAssigns(), nullptr);
   ASSERT_EQ(top->getParamAssigns()->size(), 1u);
@@ -169,7 +169,7 @@ TEST_F(UnpackedVariableSliceTest, ParamAssignSetsCToThree) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(UnpackedVariableSliceTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -182,7 +182,7 @@ TEST_F(UnpackedVariableSliceTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedVariableSliceTest, FirstTwoStmtsAssignPatternAllOnesAndAllZeros) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -203,7 +203,7 @@ TEST_F(UnpackedVariableSliceTest, FirstTwoStmtsAssignPatternAllOnesAndAllZeros) 
 }
 
 TEST_F(UnpackedVariableSliceTest, FifthStmtWritesIndexedPartSelectArrBFromArrA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -235,7 +235,7 @@ TEST_F(UnpackedVariableSliceTest, FifthStmtWritesIndexedPartSelectArrBFromArrA) 
 }
 
 TEST_F(UnpackedVariableSliceTest, SixthStmtDisplaysArrBBitsAfterVariableSliceWrite) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -264,7 +264,7 @@ TEST_F(UnpackedVariableSliceTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedVariableSliceTest, DesignHasStringTypespec) {
@@ -282,7 +282,7 @@ TEST_F(UnpackedVariableSliceTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedVariableSliceTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -295,7 +295,7 @@ TEST_F(UnpackedVariableSliceTest, RuntimeArrBBitPatternRequiresSimulation) {
                   "'arr_b[4+:c] = arr_a[1+:c]' cannot be observed here. variable-slice.sv's own "
                   "$display format string documents the expected pattern.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

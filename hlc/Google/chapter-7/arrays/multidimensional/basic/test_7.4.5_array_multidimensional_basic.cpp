@@ -25,7 +25,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "arr", "mem", "arr2"
+//   - design has module top with exactly 3 nets: "arr", "mem", "arr2"
 //   - net "arr": ArrayTypespec vpiArrayType=static(1), range [1:10], elem ->
 //     BitTypespec with 2 packed ranges [3:0][7:0] (vector=true)
 //   - net "mem": ArrayTypespec static(1), range [0:255], elem -> BitTypespec
@@ -78,19 +78,19 @@ class MultiDimBasicTest : public Test {
 // --- module -------------------------------------------------------------------
 
 TEST_F(MultiDimBasicTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(MultiDimBasicTest, ModuleHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u);
 }
 
 TEST_F(MultiDimBasicTest, ModuleHasSevenTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 7u);
@@ -99,15 +99,15 @@ TEST_F(MultiDimBasicTest, ModuleHasSevenTypespecs) {
 // --- net arr: bit [3:0][7:0] arr [1:10] ---------------------------------------
 
 TEST_F(MultiDimBasicTest, NetArrNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
-  EXPECT_EQ(arr->getFullName(), "work@top.arr");
+  EXPECT_EQ(arr->getFullName(), "top.arr");
 }
 
 TEST_F(MultiDimBasicTest, NetArrIsStaticArrayRangeOneToTen) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -124,7 +124,7 @@ TEST_F(MultiDimBasicTest, NetArrIsStaticArrayRangeOneToTen) {
 }
 
 TEST_F(MultiDimBasicTest, NetArrElemIsBitTypespecWithTwoPackedRanges) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -145,7 +145,7 @@ TEST_F(MultiDimBasicTest, NetArrElemIsBitTypespecWithTwoPackedRanges) {
 // --- net mem: bit [7:0] mem [0:255] -------------------------------------------
 
 TEST_F(MultiDimBasicTest, NetMemIsStaticArrayRangeZeroToTwoFiveFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
   ASSERT_NE(mem, nullptr);
@@ -158,7 +158,7 @@ TEST_F(MultiDimBasicTest, NetMemIsStaticArrayRangeZeroToTwoFiveFive) {
 }
 
 TEST_F(MultiDimBasicTest, NetMemElemIsBitTypespecWithOnePackedRange) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
   ASSERT_NE(mem, nullptr);
@@ -175,7 +175,7 @@ TEST_F(MultiDimBasicTest, NetMemElemIsBitTypespecWithOnePackedRange) {
 // --- net arr2: bit [1:5][1:6] arr2 [1:7][1:8] ---------------------------------
 
 TEST_F(MultiDimBasicTest, NetArr2OuterDimIsOneToSeven) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr2 = hldb::findByName<hldb::Net>("arr2", top->getNets());
   ASSERT_NE(arr2, nullptr);
@@ -190,7 +190,7 @@ TEST_F(MultiDimBasicTest, NetArr2OuterDimIsOneToSeven) {
 TEST_F(MultiDimBasicTest, NetArr2InnerDimIsOneToEight) {
   // arr2 [1:7] [1:8] -- [1:8] is the dimension closest to the name, i.e. the
   // element type of the outer [1:7] ArrayTypespec is itself an ArrayTypespec.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr2 = hldb::findByName<hldb::Net>("arr2", top->getNets());
   ASSERT_NE(arr2, nullptr);
@@ -206,7 +206,7 @@ TEST_F(MultiDimBasicTest, NetArr2InnerDimIsOneToEight) {
 }
 
 TEST_F(MultiDimBasicTest, NetArr2ElemIsBitTypespecWithTwoPackedRanges) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr2 = hldb::findByName<hldb::Net>("arr2", top->getNets());
   ASSERT_NE(arr2, nullptr);
@@ -236,7 +236,7 @@ TEST_F(MultiDimBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MultiDimBasicTest, DesignHasSignedIntTypespec) {
@@ -247,13 +247,13 @@ TEST_F(MultiDimBasicTest, DesignHasSignedIntTypespec) {
 }
 
 TEST_F(MultiDimBasicTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(MultiDimBasicTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

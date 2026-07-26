@@ -53,7 +53,7 @@
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:work@top
+//   Module name:top
 //   +-- getParameters() (AnyCollection, 6 items)
 //   |   +-- [0] Parameter name:"p1"  localParam: false  (no typespec)
 //   |   +-- [1] Parameter name:"p2"  localParam: false  (no typespec)
@@ -117,7 +117,7 @@ class ParameterDepTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
@@ -137,7 +137,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::strin
 // Module
 // ===========================================================================
 
-TEST_F(ParameterDepTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(ParameterDepTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // Parameters -- collection

@@ -23,7 +23,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "arr"
+//   - design has module top with exactly 1 net: "arr"
 //   - net "arr": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with exactly 1 stmt (SysFuncCall $display)
 //   - $display has 2 arguments: Constant string ":assert: (%d == 0)"
@@ -71,27 +71,27 @@ class PackedQueryUnpackedDimensionsTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(PackedQueryUnpackedDimensionsTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, NetArrNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
-  EXPECT_EQ(arr->getFullName(), "work@top.arr");
+  EXPECT_EQ(arr->getFullName(), "top.arr");
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, NetArrTypespecIsBitWithRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -107,7 +107,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, NetArrTypespecIsBitWithRangeSevenToZer
 // --- initial process ---------------------------------------------------------
 
 TEST_F(PackedQueryUnpackedDimensionsTest, InitialBeginHasOneStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -120,7 +120,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, InitialBeginHasOneStmt) {
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, DisplayCallHasTwoArgumentsFirstIsAssertString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -137,7 +137,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, DisplayCallHasTwoArgumentsFirstIsAsser
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, NestedUnpackedDimensionsCallHasArrArgument) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -151,7 +151,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, NestedUnpackedDimensionsCallHasArrArgu
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(uDims->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arr");
-  EXPECT_EQ(arg->getFullName(), "work@top.arr");
+  EXPECT_EQ(arg->getFullName(), "top.arr");
   EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
 }
 
@@ -166,7 +166,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, DesignHasSignedIntTypespec) {
@@ -191,7 +191,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedQueryUnpackedDimensionsTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -204,7 +204,7 @@ TEST_F(PackedQueryUnpackedDimensionsTest, RuntimeUnpackedDimensionsValueRequires
   //                 "cannot be observed here. unpacked-dimensions.sv's own $display format string "
   //                 "documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

@@ -20,7 +20,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 4 nets: "a"/"b"/"c" [1:0]
+//   - design has module top with exactly 4 nets: "a"/"b"/"c" [1:0]
 //     (input), "d" [5:0] (output), all vpiNetType wire, each RefTypespec ->
 //     LogicTypespec with its own Range
 //   - module has exactly 1 continuous assignment: lhs RefObj "d", rhs
@@ -65,7 +65,7 @@ class SimpleUnpackStreamSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets ---------------------------------------------------------

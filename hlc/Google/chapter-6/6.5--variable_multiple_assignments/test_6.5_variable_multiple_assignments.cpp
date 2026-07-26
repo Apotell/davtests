@@ -23,10 +23,10 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'v' (int, no initial value)
 //   - 2 ContAssigns, both LHS RefObj "v": first RHS "12", second RHS "13"
-//   - work@top has no processes
+//   - top has no processes
 //   - HLC doesn't flag the multiple continuous assignments error
 //   - RHS constant types are vpiUIntConst (unsized integers)
 
@@ -53,14 +53,14 @@ class VariableMultipleAssignments : public Test {
 };
 
 TEST_F(VariableMultipleAssignments, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net declaration — int v
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, NetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
 
@@ -72,7 +72,7 @@ TEST_F(VariableMultipleAssignments, NetExists) {
 // Two continuous assignments — assign v = 12; assign v = 13;
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "module has no continuous assignments";
   EXPECT_EQ(top->getContAssigns()->size(), 2u)
@@ -80,7 +80,7 @@ TEST_F(VariableMultipleAssignments, TwoContAssignsExist) {
 }
 
 TEST_F(VariableMultipleAssignments, BothContAssignsTargetV) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);
@@ -93,7 +93,7 @@ TEST_F(VariableMultipleAssignments, BothContAssignsTargetV) {
 }
 
 TEST_F(VariableMultipleAssignments, FirstContAssignRhsIsConstant12) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_GE(top->getContAssigns()->size(), 1u);
@@ -104,7 +104,7 @@ TEST_F(VariableMultipleAssignments, FirstContAssignRhsIsConstant12) {
 }
 
 TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_GE(top->getContAssigns()->size(), 2u);
@@ -118,14 +118,14 @@ TEST_F(VariableMultipleAssignments, SecondContAssignRhsIsConstant13) {
 // Structural completeness
 // ---------------------------------------------------------------------------
 TEST_F(VariableMultipleAssignments, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly 1 net: 'v'";
 }
 
 TEST_F(VariableMultipleAssignments, NetVHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const v = hldb::findByName<hldb::Net>("v", top->getNets());
   ASSERT_NE(v, nullptr);
@@ -133,13 +133,13 @@ TEST_F(VariableMultipleAssignments, NetVHasNoInitialValue) {
 }
 
 TEST_F(VariableMultipleAssignments, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(VariableMultipleAssignments, RhsConstantsAreUIntConst) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);

@@ -45,9 +45,9 @@ class ArraysKeyIndex : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// Helper: return Variable "b" from work@top.
+// Helper: return Variable "b" from top.
 static const hldb::Variable *getVarB(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getVariables()) return nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "b") return v;
@@ -59,14 +59,14 @@ static const hldb::Variable *getVarB(const hldb::Design *design) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Typedef triple = int [1:3]
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, TypedefTripleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -83,7 +83,7 @@ TEST_F(ArraysKeyIndex, TypedefTripleExists) {
 }
 
 TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -103,7 +103,7 @@ TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
 }
 
 TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -133,7 +133,7 @@ TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
 // Variable b
 // ---------------------------------------------------------------------------
 TEST_F(ArraysKeyIndex, VariableBExists) {
-  ASSERT_NE(getVarB(m_design), nullptr) << "variable 'b' not found in work@top";
+  ASSERT_NE(getVarB(m_design), nullptr) << "variable 'b' not found in top";
 }
 
 TEST_F(ArraysKeyIndex, VariableBTypespecIsTriple) {

@@ -20,12 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'a'
 //   - 'a' typespec → RealTypespec
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
-//   - work@top has no continuous assignments
-//   - work@top has no processes
+//   - top has no continuous assignments
+//   - top has no processes
 //   - net type of 'a' is vpiRealVar (the SV real keyword maps to a special net type)
 
 #include <hlc/Common/Session.h>
@@ -50,18 +50,18 @@ class Real : public Test {
 };
 
 TEST_F(Real, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Real, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "expected exactly one net 'a'";
 }
 
 TEST_F(Real, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
 }
@@ -70,7 +70,7 @@ TEST_F(Real, ANetExists) {
 // Typespec — net 'a' must resolve to RealTypespec
 // ---------------------------------------------------------------------------
 TEST_F(Real, ANetTypespecIsReal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -85,7 +85,7 @@ TEST_F(Real, ANetTypespecIsReal) {
 // ---------------------------------------------------------------------------
 TEST_F(Real, ANetTypeIsRealVar) {
   GTEST_SKIP() << "Net types aren't being set correctly yet";
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -96,7 +96,7 @@ TEST_F(Real, ANetTypeIsRealVar) {
 // Initial value — vpiConstType=vpiRealConst, decompile "0.5"
 // ---------------------------------------------------------------------------
 TEST_F(Real, ANetInitialValueConstType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -107,7 +107,7 @@ TEST_F(Real, ANetInitialValueConstType) {
 }
 
 TEST_F(Real, ANetInitialValueIsHalf) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -118,14 +118,14 @@ TEST_F(Real, ANetInitialValueIsHalf) {
 }
 
 TEST_F(Real, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "module should have no continuous assignments";
 }
 
 TEST_F(Real, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

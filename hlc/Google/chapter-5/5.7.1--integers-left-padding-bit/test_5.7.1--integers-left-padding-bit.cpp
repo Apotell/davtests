@@ -58,7 +58,7 @@ class IntegersLeftPaddingBit : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getBegin(const hldb::Design *d) {
@@ -79,7 +79,7 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t 
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(IntegersLeftPaddingBit, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(IntegersLeftPaddingBit, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 TEST_F(IntegersLeftPaddingBit, FourNetsExist) {
   const hldb::Module *const m = getTop(m_design);

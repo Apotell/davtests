@@ -37,7 +37,7 @@
 // not an error, and the queue silently stays at its bound size.
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "q" (bounded queue of
+//   - design has module top with exactly 1 net: "q" (bounded queue of
 //     int, bound 5)
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
@@ -108,7 +108,7 @@ class QueuesMaxSizeTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Net *getNetQ() {
     const hldb::Module *const top = getTop();
@@ -325,7 +325,7 @@ TEST_F(QueuesMaxSizeTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesMaxSizeTest, DesignHasIntTypespecSigned) {

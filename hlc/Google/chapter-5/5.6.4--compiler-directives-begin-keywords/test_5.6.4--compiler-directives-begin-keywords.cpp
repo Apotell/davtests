@@ -25,7 +25,7 @@
 //   `end_keywords
 //
 // UHDM structure:
-//   Module name:work@b_kw
+//   Module name:b_kw
 //     vpiNet (1 item): Net "logic"  ← legal identifier under 1364-2001 rules
 //
 // Key assertion: the compiler accepted "logic" as a plain identifier name
@@ -49,14 +49,14 @@ class CompilerDirectivesBeginKeywords : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@b_kw", d->getAllModules());
+  return hldb::findByName<hldb::Module>("b_kw", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(CompilerDirectivesBeginKeywords, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@b_kw' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'b_kw' not found";
 }
 
 // ---------------------------------------------------------------------------

@@ -21,7 +21,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a", "b", "w", all
+//   - design has module top with exactly 3 nets: "a", "b", "w", all
 //     vpiNetType wire, each RefTypespec -> LogicTypespec
 //   - module has exactly 2 ports: "a" (input), "b" (input)
 //   - module has exactly 1 continuous assignment: getDelay() -> Constant
@@ -61,7 +61,7 @@ class ContAssignmentDelayTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets / ports -----------------------------------------------

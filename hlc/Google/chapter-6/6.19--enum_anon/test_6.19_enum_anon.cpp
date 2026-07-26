@@ -20,10 +20,10 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has 1 typespec: anonymous EnumTypespec (no TypedefTypespec wrapper)
 //   - anonymous EnumTypespec has 3 consts: a, b, c
-//   - work@top has no processes
+//   - top has no processes
 //   - net "val" exists
 //   - net "val" RefTypespec vpiActual resolves directly to EnumTypespec
 //     (not through a TypedefTypespec)
@@ -54,28 +54,28 @@ class EnumAnon : public Test {
 };
 
 TEST_F(EnumAnon, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Module has 1 typespec: anonymous EnumTypespec (no TypedefTypespec wrapper)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, ModuleHasOneTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 1u);
 }
 
 TEST_F(EnumAnon, TypespecIsAnonymousEnum) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr) << "anonymous enum has EnumTypespec directly, no TypedefTypespec";
 }
 
 TEST_F(EnumAnon, EnumHasThreeConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);
@@ -90,7 +90,7 @@ TEST_F(EnumAnon, EnumHasThreeConsts) {
 // No processes (no initial/always block)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
@@ -99,7 +99,7 @@ TEST_F(EnumAnon, NoProcesses) {
 // Module-level Net "val" → EnumTypespec directly (not via TypedefTypespec)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, NetValExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -107,7 +107,7 @@ TEST_F(EnumAnon, NetValExists) {
 }
 
 TEST_F(EnumAnon, NetValTypespecIsEnumDirectly) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -118,7 +118,7 @@ TEST_F(EnumAnon, NetValTypespecIsEnumDirectly) {
 }
 
 TEST_F(EnumAnon, NetValHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const val = hldb::findByName<hldb::Net>("val", top->getNets());
   ASSERT_NE(val, nullptr);
@@ -129,7 +129,7 @@ TEST_F(EnumAnon, NetValHasNoInitialValue) {
 // Anonymous EnumTypespec has no explicit base typespec (default type)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, EnumHasNoExplicitBaseTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);
@@ -141,7 +141,7 @@ TEST_F(EnumAnon, EnumHasNoExplicitBaseTypespec) {
 // Enum consts a, b, c have no stored implicit default value (0, 1, 2)
 // ---------------------------------------------------------------------------
 TEST_F(EnumAnon, EnumConstsHaveNoImplicitDefaultValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *const enumTs = any_cast<hldb::EnumTypespec>(top->getTypespecs()->at(0));
   ASSERT_NE(enumTs, nullptr);

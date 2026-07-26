@@ -26,7 +26,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "a", "b", each
+//   - design has module top with exactly 2 nets: "a", "b", each
 //     RefTypespec -> LogicTypespec, each with its own initializer Constant
 //     ("3" for a, "2" for b)
 //   - Initial process: 1 Begin with 3 stmts (2 Assignment + 1 SysFuncCall)
@@ -77,7 +77,7 @@ class BlockingAssignmentTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();

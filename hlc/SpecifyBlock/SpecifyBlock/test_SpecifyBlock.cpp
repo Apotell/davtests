@@ -56,7 +56,7 @@ class SpecifyBlockTest : public Test {
 
  protected:
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("work@specify_complete", m_design->getAllModules());
+    return hldb::findByName<hldb::Module>("specify_complete", m_design->getAllModules());
   }
 
   static const hldb::SpecifyBlock *getSpecifyBlock() {

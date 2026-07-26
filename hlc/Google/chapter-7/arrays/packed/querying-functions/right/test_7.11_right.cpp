@@ -23,7 +23,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "arr"
+//   - design has module top with exactly 1 net: "arr"
 //   - net "arr": RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - Initial process: 1 Begin with exactly 1 stmt (SysFuncCall $display)
 //   - $display has 2 arguments: Constant string ":assert: (%d == 0)"
@@ -70,27 +70,27 @@ class PackedQueryRightTest : public Test {
 // --- module / nets ------------------------------------------------------------
 
 TEST_F(PackedQueryRightTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedQueryRightTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(PackedQueryRightTest, NetArrNameAndFullName) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
-  EXPECT_EQ(arr->getFullName(), "work@top.arr");
+  EXPECT_EQ(arr->getFullName(), "top.arr");
 }
 
 TEST_F(PackedQueryRightTest, NetArrTypespecIsBitWithRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arr = hldb::findByName<hldb::Net>("arr", top->getNets());
   ASSERT_NE(arr, nullptr);
@@ -106,7 +106,7 @@ TEST_F(PackedQueryRightTest, NetArrTypespecIsBitWithRangeSevenToZero) {
 // --- initial process ---------------------------------------------------------
 
 TEST_F(PackedQueryRightTest, InitialBeginHasOneStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -119,7 +119,7 @@ TEST_F(PackedQueryRightTest, InitialBeginHasOneStmt) {
 }
 
 TEST_F(PackedQueryRightTest, DisplayCallHasTwoArgumentsFirstIsAssertString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -136,7 +136,7 @@ TEST_F(PackedQueryRightTest, DisplayCallHasTwoArgumentsFirstIsAssertString) {
 }
 
 TEST_F(PackedQueryRightTest, NestedRightCallHasArrArgument) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -150,7 +150,7 @@ TEST_F(PackedQueryRightTest, NestedRightCallHasArrArgument) {
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(right->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arr");
-  EXPECT_EQ(arg->getFullName(), "work@top.arr");
+  EXPECT_EQ(arg->getFullName(), "top.arr");
   EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
 }
 
@@ -165,7 +165,7 @@ TEST_F(PackedQueryRightTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedQueryRightTest, DesignHasSignedIntTypespec) {
@@ -190,7 +190,7 @@ TEST_F(PackedQueryRightTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedQueryRightTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -202,7 +202,7 @@ TEST_F(PackedQueryRightTest, RuntimeRightValueRequiresSimulation) {
   //                 "the actual runtime value returned by $right(arr) cannot be observed here. right.sv's "
   //                 "own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

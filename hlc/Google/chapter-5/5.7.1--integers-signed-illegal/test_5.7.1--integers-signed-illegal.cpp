@@ -32,7 +32,7 @@
 //
 // UHDM:
 //   vpiAllModules: 2 nameless stub modules (no name, no nets, no processes)
-//   No module named "work@top"
+//   No module named "top"
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -55,8 +55,8 @@ class IntegersSignedIllegal : public Test {
 // reaches UHDM.
 // ---------------------------------------------------------------------------
 TEST_F(IntegersSignedIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr)
-      << "'work@top' should not exist — syntax error broke the parse";
+  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
+      << "'top' should not exist — syntax error broke the parse";
 }
 
 // ---------------------------------------------------------------------------

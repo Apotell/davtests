@@ -97,7 +97,7 @@ class Sequence15Test : public Test {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(Sequence15Test, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("tb", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
@@ -105,7 +105,7 @@ TEST_F(Sequence15Test, ModuleExists) {
 // ---------------------------------------------------------------------------
 TEST_F(Sequence15Test, Seq15DeclarationExists) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getSequenceDecls(), nullptr) << "tb has no sequence declarations";
 
@@ -115,7 +115,7 @@ TEST_F(Sequence15Test, Seq15DeclarationExists) {
 
 TEST_F(Sequence15Test, Seq15HasExpression) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -131,7 +131,7 @@ TEST_F(Sequence15Test, Seq15HasExpression) {
 // ---------------------------------------------------------------------------
 TEST_F(Sequence15Test, Seq15_Dist_IsDistribution) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -145,7 +145,7 @@ TEST_F(Sequence15Test, Seq15_Dist_IsDistribution) {
 
 TEST_F(Sequence15Test, Seq15_Dist_IsNotSoft) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -156,7 +156,7 @@ TEST_F(Sequence15Test, Seq15_Dist_IsNotSoft) {
 
 TEST_F(Sequence15Test, Seq15_Dist_ExprIsRefToA) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -170,7 +170,7 @@ TEST_F(Sequence15Test, Seq15_Dist_ExprIsRefToA) {
 
 TEST_F(Sequence15Test, Seq15_Dist_HasTwoItems) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -185,7 +185,7 @@ TEST_F(Sequence15Test, Seq15_Dist_HasTwoItems) {
 // DistItem[0]: 1 := 3
 TEST_F(Sequence15Test, Seq15_Dist_Item0_TypeIsEqualDist) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -202,7 +202,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item0_TypeIsEqualDist) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item0_ValueRangeIsOne) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -222,7 +222,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item0_ValueRangeIsOne) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item0_WeightIsThree) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -243,7 +243,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item0_WeightIsThree) {
 // DistItem[1]: 2 := 1
 TEST_F(Sequence15Test, Seq15_Dist_Item1_TypeIsEqualDist) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -260,7 +260,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item1_TypeIsEqualDist) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item1_ValueRangeIsTwo) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -280,7 +280,7 @@ TEST_F(Sequence15Test, Seq15_Dist_Item1_ValueRangeIsTwo) {
 
 TEST_F(Sequence15Test, Seq15_Dist_Item1_WeightIsOne) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::Distribution *const dist = getDistribution(tb);
@@ -309,7 +309,7 @@ TEST_F(Sequence15Test, Seq15_Expr_IsInsideOp) {
                   "dist->inside conversion (ss.16.7) is an elaboration-stage "
                   "transform.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -330,7 +330,7 @@ TEST_F(Sequence15Test, Seq15_Expr_IsNotDistribution) {
                   "at compile stage Distribution is the correct raw node; "
                   "conversion to InsideOp happens during elaboration.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -346,7 +346,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_HasOperands) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -369,7 +369,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_FirstOperandIsRefToA) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -394,7 +394,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_ValueSetContainsOne) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -420,7 +420,7 @@ TEST_F(Sequence15Test, Seq15_InsideOp_ValueSetContainsTwo) {
   GTEST_SKIP() << "Elaboration not yet implemented; "
                   "InsideOp structure checks require dist->inside conversion.";
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
 
   const hldb::SequenceDecl *seq15 = getSeqDecl(tb, "seq15");
@@ -460,7 +460,7 @@ TEST_F(Sequence15Test, Compiler_NoErrors) {
 // ---------------------------------------------------------------------------
 TEST_F(Sequence15Test, Assert_ConcurrentAssertionExists) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr)
       << "tb has no concurrent assertions";
@@ -480,7 +480,7 @@ TEST_F(Sequence15Test, Assert_ConcurrentAssertionExists) {
 
 TEST_F(Sequence15Test, Assert_HasInlineClockingEvent) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 
@@ -506,7 +506,7 @@ TEST_F(Sequence15Test, Assert_HasInlineClockingEvent) {
 // This test FAILS with the current compiler and PASSES when fixed.
 TEST_F(Sequence15Test, Assert_PropertyExpr_ResolvedToSeq15Decl) {
   const hldb::Module *const tb =
-      hldb::findByName<hldb::Module>("work@tb", m_design->getAllModules());
+      hldb::findByName<hldb::Module>("tb", m_design->getAllModules());
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
 

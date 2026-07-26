@@ -34,7 +34,7 @@ class PreprocConditionalTest : public Test {
 // LRM 22.6: `ifdef INSANITY is false (INSANITY is not defined), so the `else
 // branch fires and `define SANITY 1 executes. The module must compile.
 TEST_F(PreprocConditionalTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile after conditional preprocessing";
 }
 

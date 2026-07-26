@@ -92,7 +92,7 @@ TEST_F(BindTest, DesignLevelCount) {
 }
 
 TEST_F(BindTest, ModuleLevelCount) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top_module_binds not found";
   const auto *bds = mod->getBindDirectives();
   ASSERT_NE(bds, nullptr);
@@ -100,7 +100,7 @@ TEST_F(BindTest, ModuleLevelCount) {
 }
 
 TEST_F(BindTest, GenerateLevelCount) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top_generate_binds not found";
   const auto bds = genScopeBinds(mod);
   EXPECT_EQ(bds.size(), 3u) << "Expected G1-G3 across generate blocks";
@@ -359,7 +359,7 @@ TEST_F(BindTest, T16_HierarchicalForm2) {
 // ─── M1–M5: module-level bind directives ─────────────────────────────────────
 
 TEST_F(BindTest, M1_FormOneAllInstances) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m1");
   ASSERT_NE(bd, nullptr);
@@ -372,7 +372,7 @@ TEST_F(BindTest, M1_FormOneAllInstances) {
 }
 
 TEST_F(BindTest, M2_TwoNamedInstances) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m2");
   ASSERT_NE(bd, nullptr);
@@ -391,7 +391,7 @@ TEST_F(BindTest, M2_TwoNamedInstances) {
 }
 
 TEST_F(BindTest, M3_BitSelectInstance) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m3");
   ASSERT_NE(bd, nullptr);
@@ -408,7 +408,7 @@ TEST_F(BindTest, M3_BitSelectInstance) {
 }
 
 TEST_F(BindTest, M4_CheckerBind) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m4");
   ASSERT_NE(bd, nullptr);
@@ -421,7 +421,7 @@ TEST_F(BindTest, M4_CheckerBind) {
 }
 
 TEST_F(BindTest, M5_ParamOverride) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_module_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *bd = findBD(mod->getBindDirectives(), "bd_m5");
   ASSERT_NE(bd, nullptr);
@@ -436,7 +436,7 @@ TEST_F(BindTest, M5_ParamOverride) {
 // ─── G1–G3: bind directives inside generate blocks ───────────────────────────
 
 TEST_F(BindTest, G1_FormOneInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
@@ -451,7 +451,7 @@ TEST_F(BindTest, G1_FormOneInGenerateIf) {
 }
 
 TEST_F(BindTest, G2_InstanceListInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
@@ -474,7 +474,7 @@ TEST_F(BindTest, G2_InstanceListInGenerateIf) {
 }
 
 TEST_F(BindTest, G3_CheckerInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("work@top_generate_binds", m_design->getAllModules());
+  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {

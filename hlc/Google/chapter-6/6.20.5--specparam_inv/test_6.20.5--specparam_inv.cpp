@@ -47,7 +47,7 @@
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:work@top  [ERROR: EL0535 on line 19]
+//   Module name:top  [ERROR: EL0535 on line 19]
 //   +-- getParameters() (AnyCollection, 1 item)
 //   |   +-- [0] Parameter name:"p"  localParam: false
 //   |           typespec: RefTypespec -> LogicTypespec  (implicit, no keyword)
@@ -96,7 +96,7 @@ class SpecparamInvTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::SpecParam *getSpecParam(const hldb::Design *d, std::string_view name) {
@@ -121,7 +121,7 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::strin
 // Module
 // ===========================================================================
 
-TEST_F(SpecparamInvTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(SpecparamInvTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // specparam delay = 50  (valid on its own)

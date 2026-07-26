@@ -24,7 +24,7 @@
 //   reg sensitive;       — lowercase
 //   reg Sensitive;       — uppercase start (case-distinct from 'sensitive')
 //
-// UHDM: Module name:work@identifiers with 8 Net nodes, all LogicTypespec.
+// UHDM: Module name:identifiers with 8 Net nodes, all LogicTypespec.
 // Case sensitivity: 'sensitive' and 'Sensitive' are distinct nets.
 
 #include <hlc/Common/Session.h>
@@ -45,7 +45,7 @@ class Identifiers : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@identifiers", d->getAllModules());
+  return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
 }
 
 static bool hasNet(const hldb::Module *m, std::string_view name) {
@@ -58,7 +58,7 @@ static bool hasNet(const hldb::Module *m, std::string_view name) {
 // ---------------------------------------------------------------------------
 // Module
 // ---------------------------------------------------------------------------
-TEST_F(Identifiers, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@identifiers' not found"; }
+TEST_F(Identifiers, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'identifiers' not found"; }
 
 TEST_F(Identifiers, EightNetsExist) {
   const hldb::Module *const m = getTop(m_design);

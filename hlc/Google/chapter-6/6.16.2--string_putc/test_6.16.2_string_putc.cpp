@@ -25,9 +25,9 @@
 // Constant "B".
 //
 // Checked:
-//   - design has module work@top with 1 net (a: string)
+//   - design has module top with 1 net (a: string)
 //   - net 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
-//   - work@top has 1 Initial process whose stmt is a HierPath named "a.putc(2, \"B\")"
+//   - top has 1 Initial process whose stmt is a HierPath named "a.putc(2, \"B\")"
 //   - HierPath element[0] is RefObj "a"; element[1] is FuncCall "putc" with 2 arguments
 //   - putc arguments are Constant "2" and Constant "B" (vpiStringConst)
 //   - the in-place mutation of 'a' performed by putc (index 2 set to 'B') --
@@ -60,21 +60,21 @@ class StringPutc : public Test {
 };
 
 TEST_F(StringPutc, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net — only 'a' (string); putc is void so no result net 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u) << "only net 'a'; putc is void";
 }
 
 TEST_F(StringPutc, ANetTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -84,7 +84,7 @@ TEST_F(StringPutc, ANetTypespecIsString) {
 }
 
 TEST_F(StringPutc, ANetInitialValueIsTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -98,14 +98,14 @@ TEST_F(StringPutc, ANetInitialValueIsTest) {
 // Initial process — initial a.putc(2, "B")
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, InitialProcessExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringPutc, InitialStmtIsHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -118,7 +118,7 @@ TEST_F(StringPutc, InitialStmtIsHierPath) {
 // HierPath — receiver 'a' and FuncCall 'putc' with 2 arguments
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, HierPathReceiverIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -133,7 +133,7 @@ TEST_F(StringPutc, HierPathReceiverIsA) {
 }
 
 TEST_F(StringPutc, HierPathMethodIsPutc) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -148,7 +148,7 @@ TEST_F(StringPutc, HierPathMethodIsPutc) {
 }
 
 TEST_F(StringPutc, PutcFirstArgumentIsTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -165,7 +165,7 @@ TEST_F(StringPutc, PutcFirstArgumentIsTwo) {
 }
 
 TEST_F(StringPutc, PutcSecondArgumentIsB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -186,7 +186,7 @@ TEST_F(StringPutc, PutcSecondArgumentIsB) {
 // a.putc(2, "B") runtime mutation
 // ---------------------------------------------------------------------------
 TEST_F(StringPutc, PutcMutationIsPreEvaluated) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);

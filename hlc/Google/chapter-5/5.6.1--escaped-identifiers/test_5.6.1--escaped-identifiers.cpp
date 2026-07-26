@@ -26,7 +26,7 @@
 //   \{a,b}              → "{a,b}"
 //   \a*(b+c)            → "a*(b+c)"
 //
-// UHDM: Module name:work@identifiers with 6 Net nodes, all LogicTypespec.
+// UHDM: Module name:identifiers with 6 Net nodes, all LogicTypespec.
 // No syntax errors — escaped identifiers may contain any printable character.
 
 #include <hlc/Common/Session.h>
@@ -47,7 +47,7 @@ class EscapedIdentifiers : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@identifiers", d->getAllModules());
+  return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
 }
 
 static bool hasNet(const hldb::Module *m, std::string_view name) {
@@ -61,7 +61,7 @@ static bool hasNet(const hldb::Module *m, std::string_view name) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(EscapedIdentifiers, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@identifiers' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'identifiers' not found";
 }
 
 TEST_F(EscapedIdentifiers, SixNetsExist) {

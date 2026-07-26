@@ -43,7 +43,7 @@
 // correctly at the same time.
 //
 // Checked:
-//   - module work@top has exactly 5 nets: a, b, c, d, e, all int
+//   - module top has exactly 5 nets: a, b, c, d, e, all int
 //     (RefTypespec -> IntTypespec)
 //   - the initial block is a Begin with exactly 3 statements:
 //       [0] blocking Assignment: lhs RefObj "c", rhs RefObj "a" (plain
@@ -102,7 +102,7 @@ class TwoAssignInExprTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets -----------------------------------------------------

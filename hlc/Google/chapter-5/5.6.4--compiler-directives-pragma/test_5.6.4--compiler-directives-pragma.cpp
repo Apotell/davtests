@@ -25,7 +25,7 @@
 //   endmodule
 //
 // UHDM structure:
-//   Module name:work@ts
+//   Module name:ts
 //     vpiNet (1 item): Net "protected_wire"  vpiNetType: wire (1)
 //
 // Key assertion: `pragma protect / `pragma protect end produce no UHDM nodes
@@ -49,13 +49,13 @@ class CompilerDirectivesPragma : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
+  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
 }
 
 // ---------------------------------------------------------------------------
 // Module
 // ---------------------------------------------------------------------------
-TEST_F(CompilerDirectivesPragma, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found"; }
+TEST_F(CompilerDirectivesPragma, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found"; }
 
 // ---------------------------------------------------------------------------
 // Net inside the `pragma protect region compiles normally

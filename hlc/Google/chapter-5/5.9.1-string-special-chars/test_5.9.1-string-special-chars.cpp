@@ -80,7 +80,7 @@ class StringSpecialChars : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getBegin(const hldb::Design *d) {
@@ -106,7 +106,7 @@ static const hldb::Constant *getStringArg(const hldb::SysTaskCall *call) {
 // ---------------------------------------------------------------------------
 // Module structure
 // ---------------------------------------------------------------------------
-TEST_F(StringSpecialChars, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(StringSpecialChars, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 TEST_F(StringSpecialChars, NoNetsInModule) {
   const hldb::Module *const m = getTop(m_design);

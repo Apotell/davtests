@@ -26,7 +26,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 Parameter "c" (typespec ->
+//   - design has module top with exactly 1 Parameter "c" (typespec ->
 //     LogicTypespec) and exactly 1 ParamAssign: lhs RefObj "c" resolving the
 //     Parameter, rhs Constant hexadecimal "4'h5" (value "5")
 //   - module has exactly 1 net: "p1"
@@ -82,7 +82,7 @@ class PackedStructDefaultValueTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::StructTypespec *getP1StructTypespec() {
     const hldb::Module *const top = getTop();
@@ -183,7 +183,7 @@ TEST_F(PackedStructDefaultValueTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(PackedStructDefaultValueTest, DesignHasSignedIntTypespec) {

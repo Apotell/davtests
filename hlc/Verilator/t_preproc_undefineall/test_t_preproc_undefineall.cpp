@@ -33,7 +33,7 @@ class PreprocUndefineallTest : public Test {
 
 // LRM 22.5.2: `undefineall must not prevent the module from compiling.
 TEST_F(PreprocUndefineallTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@t", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("t", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 't' must compile despite `undefineall";
 }
 

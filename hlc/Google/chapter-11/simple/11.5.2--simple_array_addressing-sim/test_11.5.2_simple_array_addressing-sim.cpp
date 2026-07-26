@@ -21,7 +21,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a" [7:0] (input),
+//   - design has module top with exactly 3 nets: "a" [7:0] (input),
 //     "b" [7:0] (output), "mem" (memory array)
 //   - net "mem": RefTypespec -> ArrayTypespec static(1), unpacked range
 //     [0:255], elem -> LogicTypespec [7:0] -- "reg" maps to LogicTypespec
@@ -69,7 +69,7 @@ class SimpleArrayAddressingSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets ---------------------------------------------------------

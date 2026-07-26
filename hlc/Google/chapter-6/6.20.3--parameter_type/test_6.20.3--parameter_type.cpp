@@ -42,7 +42,7 @@
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:work@top
+//   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
 //   |   +-- [0] TypeParameter name:"T"  localParam: false
 //   +-- getParamAssigns() (ParamAssignCollection, 1 item)
@@ -96,7 +96,7 @@ class ParameterTypeTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 // Type parameters share the AnyCollection returned by getParameters().
@@ -126,7 +126,7 @@ static const hldb::Variable *getVar(const hldb::Design *d, std::string_view name
 // Module
 // ===========================================================================
 
-TEST_F(ParameterTypeTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+TEST_F(ParameterTypeTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
 // Parameter collection

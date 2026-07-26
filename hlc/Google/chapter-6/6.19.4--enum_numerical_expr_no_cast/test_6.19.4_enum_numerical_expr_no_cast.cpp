@@ -26,7 +26,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has TypedefTypespec "e" → EnumTypespec with 4 consts (a, b, c, d)
 //   - Begin block has 1 variable "val"
 //   - 2 statements; 2nd stmt rhs is Operation(vpiAddOp) — NO vpiCastOp wrapper
@@ -67,11 +67,11 @@ class EnumNumericalExprNoCast : public Test {
 };
 
 TEST_F(EnumNumericalExprNoCast, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumNumericalExprNoCast, TypedefEExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -79,7 +79,7 @@ TEST_F(EnumNumericalExprNoCast, TypedefEExists) {
 }
 
 TEST_F(EnumNumericalExprNoCast, EnumHasFourConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -97,7 +97,7 @@ TEST_F(EnumNumericalExprNoCast, EnumHasFourConsts) {
 // Begin → 1 variable "val"
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprNoCast, BeginHasVariableVal) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -113,7 +113,7 @@ TEST_F(EnumNumericalExprNoCast, BeginHasVariableVal) {
 // NO cast wrapper — this is the key difference from enum_numerical_expr_cast
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprNoCast, SecondAssignmentRhsIsAddOpNoCast) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -129,7 +129,7 @@ TEST_F(EnumNumericalExprNoCast, SecondAssignmentRhsIsAddOpNoCast) {
 }
 
 TEST_F(EnumNumericalExprNoCast, NoCastWrapperPresent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -143,7 +143,7 @@ TEST_F(EnumNumericalExprNoCast, NoCastWrapperPresent) {
 }
 
 TEST_F(EnumNumericalExprNoCast, AddOperandsAreValAnd1) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -167,7 +167,7 @@ TEST_F(EnumNumericalExprNoCast, AddOperandsAreValAnd1) {
 // 1st assignment: val = a — rhs is RefObj → EnumConst "a"
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprNoCast, FirstAssignmentRhsIsEnumConstA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -182,7 +182,7 @@ TEST_F(EnumNumericalExprNoCast, FirstAssignmentRhsIsEnumConstA) {
 }
 
 TEST_F(EnumNumericalExprNoCast, AddConstant1IsUIntConst) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

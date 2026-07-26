@@ -23,7 +23,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a", "b", "w", all
+//   - design has module top with exactly 3 nets: "a", "b", "w", all
 //     vpiNetType wire, each RefTypespec -> LogicTypespec
 //   - module has exactly 2 ports: "a" (input), "b" (input), each
 //     vpiLowConn -> the matching Net
@@ -77,7 +77,7 @@ class ProcAssignmentBadTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets / ports -----------------------------------------------
@@ -164,7 +164,7 @@ TEST_F(ProcAssignmentBadTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(ProcAssignmentBadTest, NoContAssigns) {

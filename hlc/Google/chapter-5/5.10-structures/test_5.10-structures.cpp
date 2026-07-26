@@ -73,11 +73,11 @@ static const hldb::Assignment *getNthAssignment(const hldb::Begin *blk, size_t n
 // Module and typedef
 // ---------------------------------------------------------------------------
 TEST_F(Structure, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Structure, TypedefMsTExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -94,7 +94,7 @@ TEST_F(Structure, TypedefMsTExists) {
 }
 
 TEST_F(Structure, StructHasTwoMembers) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -121,7 +121,7 @@ TEST_F(Structure, StructHasTwoMembers) {
 // Net ms
 // ---------------------------------------------------------------------------
 TEST_F(Structure, NetMsExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
 
@@ -139,7 +139,7 @@ TEST_F(Structure, NetMsExists) {
 // Initial block — three assignments
 // ---------------------------------------------------------------------------
 TEST_F(Structure, InitialBlockHasThreeAssignments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -156,7 +156,7 @@ TEST_F(Structure, InitialBlockHasThreeAssignments) {
 // Assignment 1: ms = '{0, 1} — positional pattern, 2 Constants
 // ---------------------------------------------------------------------------
 TEST_F(Structure, FirstAssignmentIsPositionalPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -171,7 +171,7 @@ TEST_F(Structure, FirstAssignmentIsPositionalPattern) {
 }
 
 TEST_F(Structure, FirstAssignmentOperandsAreConstants) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -193,7 +193,7 @@ TEST_F(Structure, FirstAssignmentOperandsAreConstants) {
 // Assignment 2: ms = '{default:1, int:1} — keyed with default and type tags
 // ---------------------------------------------------------------------------
 TEST_F(Structure, SecondAssignmentIsKeyedPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -208,7 +208,7 @@ TEST_F(Structure, SecondAssignmentIsKeyedPattern) {
 }
 
 TEST_F(Structure, SecondAssignmentOperandsAreTaggedPatterns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -226,7 +226,7 @@ TEST_F(Structure, SecondAssignmentOperandsAreTaggedPatterns) {
 }
 
 TEST_F(Structure, SecondAssignmentFirstTagIsDefault) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -246,7 +246,7 @@ TEST_F(Structure, SecondAssignmentFirstTagIsDefault) {
 }
 
 TEST_F(Structure, SecondAssignmentSecondTagIsTypeRef) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -267,7 +267,7 @@ TEST_F(Structure, SecondAssignmentSecondTagIsTypeRef) {
 // Assignment 3: ms = '{int:0, int:1} — both operands keyed by type
 // ---------------------------------------------------------------------------
 TEST_F(Structure, ThirdAssignmentBothTagsAreTypeRefs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);

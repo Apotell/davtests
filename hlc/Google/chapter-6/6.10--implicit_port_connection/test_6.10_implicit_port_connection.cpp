@@ -21,16 +21,16 @@
 // HLC reports EL0535 twice (implicit net 'c') but still produces UHDM.
 //
 // Checked:
-//   - design has exactly 2 modules (work@top, work@test)
-//   - work@top has 3 explicit nets (a=1, b=0, d); 'c' is implicit and absent from vpiNet
-//   - work@top has 1 ContAssign: lhs=d, rhs=c (RefObj with no vpiActual — implicit)
-//   - work@top has 1 RefInstance named "mod" with 3 port connections
-//   - RefInstance "mod" typespec is a ModuleTypespec pointing to work@test (via getName())
+//   - design has exactly 2 modules (top, test)
+//   - top has 3 explicit nets (a=1, b=0, d); 'c' is implicit and absent from vpiNet
+//   - top has 1 ContAssign: lhs=d, rhs=c (RefObj with no vpiActual — implicit)
+//   - top has 1 RefInstance named "mod" with 3 port connections
+//   - RefInstance "mod" typespec is a ModuleTypespec pointing to test (via getName())
 //   - port connection for 'c' on the RefInstance has no vpiActual (implicit net)
-//   - work@test has 3 nets (a, b, c) and 3 ports (a:input, b:input, c:output)
-//   - work@test ContAssign RHS is a vpiBitOrOp with operands a and b
+//   - test has 3 nets (a, b, c) and 3 ports (a:input, b:input, c:output)
+//   - test ContAssign RHS is a vpiBitOrOp with operands a and b
 //   - ModuleTypespec::getModule() is null for this pattern (pinned known limitation;
-//     getName() == "work@test" is used instead to verify the submodule reference)
+//     getName() == "test" is used instead to verify the submodule reference)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -62,62 +62,62 @@ class ImplicitPortConnection : public Test {
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnection, TwoModulesExist) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "expected work@top and work@test";
+  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "expected top and test";
 }
 
 // ---------------------------------------------------------------------------
-// work@top — net declarations (a, b, d explicit; c implicit)
+// top — net declarations (a, b, d explicit; c implicit)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnection, TopModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(ImplicitPortConnection, TopHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u) << "expected nets a, b, d — 'c' is implicit and absent from vpiNet";
 }
 
 TEST_F(ImplicitPortConnection, TopANetHasInitialValueOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  ASSERT_NE(a, nullptr) << "net 'a' not found in work@top";
+  ASSERT_NE(a, nullptr) << "net 'a' not found in top";
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "net 'a' has no initial value";
   EXPECT_EQ(init->getDecompile(), "1");
 }
 
 TEST_F(ImplicitPortConnection, TopBNetHasInitialValueZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  ASSERT_NE(b, nullptr) << "net 'b' not found in work@top";
+  ASSERT_NE(b, nullptr) << "net 'b' not found in top";
   const hldb::Constant *const init = b->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "net 'b' has no initial value";
   EXPECT_EQ(init->getDecompile(), "0");
 }
 
 TEST_F(ImplicitPortConnection, TopDNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("d", top->getNets()), nullptr) << "net 'd' not found in work@top";
+  ASSERT_NE(hldb::findByName<hldb::Net>("d", top->getNets()), nullptr) << "net 'd' not found in top";
 }
 
 TEST_F(ImplicitPortConnection, TopCNetNotDeclared) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
-      << "'c' should not appear in vpiNet of work@top — it is implicit (EL0535)";
+      << "'c' should not appear in vpiNet of top — it is implicit (EL0535)";
 }
 
 // ---------------------------------------------------------------------------
-// work@top — assign d = c (RHS 'c' has no vpiActual)
+// top — assign d = c (RHS 'c' has no vpiActual)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnection, TopContAssignLhsIsD) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 1u);
@@ -128,7 +128,7 @@ TEST_F(ImplicitPortConnection, TopContAssignLhsIsD) {
 }
 
 TEST_F(ImplicitPortConnection, TopContAssignRhsIsCWithNoActual) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -139,17 +139,17 @@ TEST_F(ImplicitPortConnection, TopContAssignRhsIsCWithNoActual) {
 }
 
 // ---------------------------------------------------------------------------
-// work@top — module instantiation: test mod(a, b, c)
+// top — module instantiation: test mod(a, b, c)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnection, TopHasOneRefInstance) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getRefInstances(), nullptr) << "work@top has no ref instances";
+  ASSERT_NE(top->getRefInstances(), nullptr) << "top has no ref instances";
   EXPECT_EQ(top->getRefInstances()->size(), 1u);
 }
 
 TEST_F(ImplicitPortConnection, TopRefInstanceIsNamedMod) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -159,7 +159,7 @@ TEST_F(ImplicitPortConnection, TopRefInstanceIsNamedMod) {
 }
 
 TEST_F(ImplicitPortConnection, TopRefInstanceHasThreePorts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -170,7 +170,7 @@ TEST_F(ImplicitPortConnection, TopRefInstanceHasThreePorts) {
 }
 
 TEST_F(ImplicitPortConnection, TopPortCConnectionHasNoActual) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -189,7 +189,7 @@ TEST_F(ImplicitPortConnection, TopPortCConnectionHasNoActual) {
 }
 
 TEST_F(ImplicitPortConnection, TopRefInstanceModPointsToWorkAtTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -200,11 +200,11 @@ TEST_F(ImplicitPortConnection, TopRefInstanceModPointsToWorkAtTest) {
   const hldb::ModuleTypespec *const ts = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(ts, nullptr) << "RefInstance 'mod' typespec is not a ModuleTypespec";
 
-  EXPECT_EQ(ts->getName(), "work@test") << "RefInstance 'mod' in work@top should point to work@test";
+  EXPECT_EQ(ts->getName(), "test") << "RefInstance 'mod' in top should point to test";
 }
 
 TEST_F(ImplicitPortConnection, TopRefInstanceModTypespecGetModuleIsNull) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -221,69 +221,69 @@ TEST_F(ImplicitPortConnection, TopRefInstanceModTypespecGetModuleIsNull) {
 }
 
 // ---------------------------------------------------------------------------
-// work@test — module definition with ports and assign c = a | b
+// test — module definition with ports and assign c = a | b
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnection, TestModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@test", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("test", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(ImplicitPortConnection, TestHasThreeNets) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getNets(), nullptr);
-  EXPECT_EQ(test->getNets()->size(), 3u) << "expected nets a, b, c in work@test";
+  EXPECT_EQ(test->getNets()->size(), 3u) << "expected nets a, b, c in test";
 }
 
 TEST_F(ImplicitPortConnection, TestHasThreePorts) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
   EXPECT_EQ(test->getPorts()->size(), 3u);
 }
 
 TEST_F(ImplicitPortConnection, TestPortAIsInput) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
 
   const hldb::Port *const pa = hldb::findByName<hldb::Port>("a", test->getPorts());
-  ASSERT_NE(pa, nullptr) << "port 'a' not found in work@test";
+  ASSERT_NE(pa, nullptr) << "port 'a' not found in test";
   EXPECT_EQ(pa->getDirection(), vpiInput);
 }
 
 TEST_F(ImplicitPortConnection, TestPortBIsInput) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
 
   const hldb::Port *const pb = hldb::findByName<hldb::Port>("b", test->getPorts());
-  ASSERT_NE(pb, nullptr) << "port 'b' not found in work@test";
+  ASSERT_NE(pb, nullptr) << "port 'b' not found in test";
   EXPECT_EQ(pb->getDirection(), vpiInput);
 }
 
 TEST_F(ImplicitPortConnection, TestPortCIsOutput) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
 
   const hldb::Port *const pc = hldb::findByName<hldb::Port>("c", test->getPorts());
-  ASSERT_NE(pc, nullptr) << "port 'c' not found in work@test";
+  ASSERT_NE(pc, nullptr) << "port 'c' not found in test";
   EXPECT_EQ(pc->getDirection(), vpiOutput);
 }
 
 TEST_F(ImplicitPortConnection, TestContAssignRhsIsBitOr) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getContAssigns(), nullptr);
   ASSERT_EQ(test->getContAssigns()->size(), 1u);
 
   const hldb::Operation *const rhs = test->getContAssigns()->at(0)->getRhs<hldb::Operation>();
-  ASSERT_NE(rhs, nullptr) << "work@test ContAssign RHS is not an Operation";
+  ASSERT_NE(rhs, nullptr) << "test ContAssign RHS is not an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiBitOrOp) << "expected vpiBitOrOp (29)";
 }
 
 TEST_F(ImplicitPortConnection, TestBitOrOperandsAreAAndB) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getContAssigns(), nullptr);
 

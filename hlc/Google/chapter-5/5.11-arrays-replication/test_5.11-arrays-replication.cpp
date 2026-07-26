@@ -54,7 +54,7 @@ class ArraysReplication : public Test {
 };
 
 static const hldb::Net *getNetN(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getNets()) return nullptr;
   for (const hldb::Net *const net : *top->getNets()) {
     if (net->getName() == "n") return net;
@@ -66,10 +66,10 @@ static const hldb::Net *getNetN(const hldb::Design *design) {
 // Module and net
 // ---------------------------------------------------------------------------
 TEST_F(ArraysReplication, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(ArraysReplication, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in work@top"; }
+TEST_F(ArraysReplication, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in top"; }
 
 // ---------------------------------------------------------------------------
 // Typespec chain: ArrayTypespec[1:2] → ArrayTypespec[1:6] → IntTypespec

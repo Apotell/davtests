@@ -34,7 +34,7 @@ class PreprocFuncMacroBodiedTest : public Test {
 // LRM 22.5.1: `define INCEPTION(a, b, c) (a*b-c) is a valid single-line
 // function-like macro. The module must compile cleanly.
 TEST_F(PreprocFuncMacroBodiedTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
 }
 

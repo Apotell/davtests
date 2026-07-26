@@ -47,9 +47,9 @@ class Arrays : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// Helper: return Net "n" from work@top.
+// Helper: return Net "n" from top.
 static const hldb::Net *getNetN(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getNets()) return nullptr;
   for (const hldb::Net *const net : *top->getNets()) {
     if (net->getName() == "n") return net;
@@ -61,13 +61,13 @@ static const hldb::Net *getNetN(const hldb::Design *design) {
 // Module
 // ---------------------------------------------------------------------------
 TEST_F(Arrays, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Net n
 // ---------------------------------------------------------------------------
-TEST_F(Arrays, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in work@top"; }
+TEST_F(Arrays, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in top"; }
 
 // ---------------------------------------------------------------------------
 // Typespec chain: ArrayTypespec[1:2] → ArrayTypespec[1:3] → IntTypespec

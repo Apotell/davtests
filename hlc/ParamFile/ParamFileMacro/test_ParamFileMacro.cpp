@@ -34,12 +34,12 @@ class ParamFileMacroTest : public Test {
 
 // LRM 22.5.1: both modules that rely on the PARAM_FILE macro must compile.
 TEST_F(ParamFileMacroTest, DutModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@dut", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'dut' must compile";
 }
 
 TEST_F(ParamFileMacroTest, Ram1pModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@ram_1p", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("ram_1p", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'ram_1p' must compile";
 }
 

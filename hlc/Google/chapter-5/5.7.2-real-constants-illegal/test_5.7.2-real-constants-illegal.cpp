@@ -32,7 +32,7 @@
 //
 // Surelog's UHDM output after the broken parse:
 //   - 2 nameless stub module fragments (no name, no nets, no processes)
-//   - No module named "work@top"
+//   - No module named "top"
 //   - No initial block and no assignments — confirming the illegal literal
 //     forms prevented any of the assignments from reaching UHDM
 
@@ -54,13 +54,13 @@ class RealConstantsIllegal : public Test {
 
 // ---------------------------------------------------------------------------
 // §5.7.2: the four illegal forms must be rejected. No valid named module
-// should reach UHDM — if 'work@top' exists, Surelog silently accepted input
+// should reach UHDM — if 'top' exists, Surelog silently accepted input
 // that the spec forbids.
 // ---------------------------------------------------------------------------
 TEST_F(RealConstantsIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr)
+  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
       << "§5.7.2: forms without a digit on both sides of the decimal point "
-         "must be rejected — 'work@top' must not exist";
+         "must be rejected — 'top' must not exist";
 }
 
 // ---------------------------------------------------------------------------

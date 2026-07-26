@@ -32,7 +32,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with zero nets (no module-level variable
+//   - design has module top with zero nets (no module-level variable
 //     declarations; "b" is a process-local Variable, "a" is a task IODecl)
 //   - module has exactly 1 task "fun" with 1 IODecl "a": direction=input,
 //     typespec -> ArrayTypespec static(1) range [2:0], elem -> IntTypespec
@@ -108,7 +108,7 @@ class UnpackedSubroutinesTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Task *getTaskFun() {
     const hldb::Module *const top = getTop();
@@ -289,7 +289,7 @@ TEST_F(UnpackedSubroutinesTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedSubroutinesTest, DesignHasStringTypespec) {

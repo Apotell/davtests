@@ -33,7 +33,7 @@
 // / chapter-7/unions/tagged for the "packed" / "tagged" variants.
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "un"
+//   - design has module top with exactly 1 net: "un"
 //   - net "un": RefTypespec -> UnionTypespec, vpiPacked false, vpiTagged
 //     false, exactly 2 TypespecMember "v1"/"v2"
 //   - member "v1": typespec -> BitTypespec [7:0] vector
@@ -95,7 +95,7 @@ class UnionsBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -225,7 +225,7 @@ TEST_F(UnionsBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnionsBasicTest, DesignHasStringTypespec) {

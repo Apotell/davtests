@@ -30,7 +30,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - module has exactly 1 net: 'arraya' (assoc ArrayTypespec, idx=IntTypespec, elem=StringTypespec)
 //   - module has 1 task 'fun' with 1 IODecl 'arrayb' (input, assoc ArrayTypespec)
 //   - task body: Begin with 2 stmts (arrayb[1]="d", $display 4 args)
@@ -39,7 +39,7 @@
 //   - stmt[3]: $display(4 args) with arraya[0,1,2]
 //   - stmt[4]: FuncCall "fun" with 1 arg RefObj "arraya"
 //   - stmt[5]: $display(4 args) with arraya[0,1,2] (same format as stmt[3])
-//   - work@top has no continuous assignments
+//   - top has no continuous assignments
 //
 // Also checked:
 //   - 'arraya' net has no initial value
@@ -82,26 +82,26 @@ class Arguments : public Test {
 // --- module and net (string arraya[int]) ----------------------------------
 
 TEST_F(Arguments, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Arguments, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 1u);
 }
 
 TEST_F(Arguments, NetNameIsArraya) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getName(), "arraya");
 }
 
 TEST_F(Arguments, NetHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const net = top->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -113,7 +113,7 @@ TEST_F(Arguments, NetHasAssociativeArrayTypespec) {
 }
 
 TEST_F(Arguments, AssocArrayKeyTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -123,7 +123,7 @@ TEST_F(Arguments, AssocArrayKeyTypeIsInt) {
 }
 
 TEST_F(Arguments, AssocArrayValueTypeIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -135,14 +135,14 @@ TEST_F(Arguments, AssocArrayValueTypeIsString) {
 // --- task fun (string arrayb[int]) ----------------------------------------
 
 TEST_F(Arguments, ModuleHasOneTaskFunc) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
   EXPECT_EQ(top->getTaskFuncs()->size(), 1u);
 }
 
 TEST_F(Arguments, TaskIsFunNamed) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
@@ -151,7 +151,7 @@ TEST_F(Arguments, TaskIsFunNamed) {
 }
 
 TEST_F(Arguments, TaskHasOneIODecl) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -160,7 +160,7 @@ TEST_F(Arguments, TaskHasOneIODecl) {
 }
 
 TEST_F(Arguments, IODeclNameIsArrayb) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -169,7 +169,7 @@ TEST_F(Arguments, IODeclNameIsArrayb) {
 }
 
 TEST_F(Arguments, IODeclDirectionIsInput) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -178,7 +178,7 @@ TEST_F(Arguments, IODeclDirectionIsInput) {
 }
 
 TEST_F(Arguments, IODeclTypespecIsAssocArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -194,7 +194,7 @@ TEST_F(Arguments, IODeclTypespecIsAssocArray) {
 
 TEST_F(Arguments, IODeclKeyTypeIsInt) {
   // string arrayb[int] -- the IODecl's associative array index type is IntTypespec
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -208,7 +208,7 @@ TEST_F(Arguments, IODeclKeyTypeIsInt) {
 
 TEST_F(Arguments, IODeclValueTypeIsString) {
   // string arrayb[int] -- the IODecl's associative array element type is StringTypespec
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -221,7 +221,7 @@ TEST_F(Arguments, IODeclValueTypeIsString) {
 }
 
 TEST_F(Arguments, TaskBodyIsBeginWith2Stmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -232,7 +232,7 @@ TEST_F(Arguments, TaskBodyIsBeginWith2Stmts) {
 }
 
 TEST_F(Arguments, TaskFirstStmtIsArraybAt1EqualD) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -249,7 +249,7 @@ TEST_F(Arguments, TaskFirstStmtIsArraybAt1EqualD) {
 }
 
 TEST_F(Arguments, TaskSecondStmtIsDisplayWithAssertADC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const task = any_cast<hldb::Task>(top->getTaskFuncs()->at(0));
   ASSERT_NE(task, nullptr);
@@ -268,7 +268,7 @@ TEST_F(Arguments, TaskSecondStmtIsDisplayWithAssertADC) {
 // --- initial begin (6 statements) ----------------------------------------
 
 TEST_F(Arguments, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
@@ -276,7 +276,7 @@ TEST_F(Arguments, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(Arguments, InitialBodyIsBeginWith6Stmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -287,7 +287,7 @@ TEST_F(Arguments, InitialBodyIsBeginWith6Stmts) {
 }
 
 TEST_F(Arguments, InitialArraya0EqualsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -304,7 +304,7 @@ TEST_F(Arguments, InitialArraya0EqualsA) {
 }
 
 TEST_F(Arguments, InitialArraya1EqualsB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -321,7 +321,7 @@ TEST_F(Arguments, InitialArraya1EqualsB) {
 }
 
 TEST_F(Arguments, InitialArraya2EqualsC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -338,7 +338,7 @@ TEST_F(Arguments, InitialArraya2EqualsC) {
 }
 
 TEST_F(Arguments, InitialFourthStmtIsDisplayABC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -355,7 +355,7 @@ TEST_F(Arguments, InitialFourthStmtIsDisplayABC) {
 }
 
 TEST_F(Arguments, InitialFifthStmtIsTFCallWithArraya) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -374,7 +374,7 @@ TEST_F(Arguments, InitialFifthStmtIsTFCallWithArraya) {
 TEST_F(Arguments, TFCallArgResolvesToArrayaNet) {
   // fun(arraya) -- the RefObj argument's getActual() must resolve to the
   // same Net node as the top-level 'arraya' declaration.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const arraya = top->getNets()->at(0);
   ASSERT_NE(arraya, nullptr);
@@ -390,7 +390,7 @@ TEST_F(Arguments, TFCallArgResolvesToArrayaNet) {
 }
 
 TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -409,7 +409,7 @@ TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {
 // --- structural completeness -----------------------------------------------
 
 TEST_F(Arguments, ArrayaNetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr)
@@ -417,7 +417,7 @@ TEST_F(Arguments, ArrayaNetHasNoInitialValue) {
 }
 
 TEST_F(Arguments, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
