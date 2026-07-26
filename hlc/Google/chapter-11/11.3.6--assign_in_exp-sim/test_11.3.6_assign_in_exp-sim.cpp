@@ -202,6 +202,18 @@ TEST_F(AssignInExpSimTest, BEndsUpEqualToCMinusOne) {
                   "This is a genuine simulation-only gap. If simulation/co-sim support is ever "
                   "added, replace this with a real check of the printed ':assert: (%d == %d)' "
                   "output.";
+  // If the GTEST_SKIP() above is ever removed, this must still compile and
+  // exercise a real, currently-failing check -- not silently pass.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  ASSERT_NE(b, nullptr);
+  // Net::getValue<T>() only ever exposes a declaration-time initializer;
+  // 'b' has none (it is assigned inside the initial block), so this is
+  // null today -- there is no field anywhere that captures what '-='
+  // actually produced at runtime.
+  const hldb::Constant *const finalValue = b->getValue<hldb::Constant>();
+  ASSERT_NE(finalValue, nullptr) << "no field captures b's post-assignment runtime value";
 }
 
 }  // namespace hlc

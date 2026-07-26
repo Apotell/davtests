@@ -303,6 +303,19 @@ TEST_F(ExprShortCircuitTest, FunMustNeverExecuteBecauseAAndBAreBothTrue) {
                   "support is ever added, replace this with a real check "
                   "that \":assert: (False)\" never printed and that the "
                   "final value of d is 1.";
+  // If the GTEST_SKIP() above is ever removed, this must still compile and
+  // exercise a real, currently-failing check -- not silently pass.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const d = hldb::findByName<hldb::Net>("d", top->getNets());
+  ASSERT_NE(d, nullptr);
+  // Net::getValue<T>() only ever exposes a declaration-time initializer.
+  // 'd' has none (it is assigned inside the initial block, not at
+  // declaration), so this is null today -- there is no field anywhere
+  // that captures the value the "&&"/"||" expression actually produced.
+  const hldb::Constant *const finalValue = d->getValue<hldb::Constant>();
+  ASSERT_NE(finalValue, nullptr) << "no field captures d's post-assignment runtime value";
+  EXPECT_EQ(finalValue->getDecompile(), "1");
 }
 
 }  // namespace hlc
