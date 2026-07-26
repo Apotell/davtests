@@ -259,6 +259,21 @@ TEST_F(TwoAssignInExprSimTest, BAndDBothEndUpEqualToEPlusCPlusTwo) {
                   "'c = a; e = b; d = (b += (a += 1) + 1);' runs. HLC is a static "
                   "compiler/elaborator with no post-execution value for a Net. Genuine "
                   "simulation-only gap; the static shape of both assertions is checked above.";
+  // If the GTEST_SKIP() above is ever removed, this must still compile and
+  // exercise a real, currently-failing check -- not silently pass.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const char *const names[2] = {"b", "d"};
+  for (uint32_t i = 0; i < 2u; ++i) {
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
+    ASSERT_NE(net, nullptr) << "net " << names[i];
+    // Net::getValue<T>() only ever exposes a declaration-time initializer;
+    // neither b nor d has one (both are assigned inside the initial
+    // block), so this is null today -- there is no field anywhere that
+    // captures what the nested compound-assignment expression produced.
+    const hldb::Constant *const finalValue = net->getValue<hldb::Constant>();
+    ASSERT_NE(finalValue, nullptr) << names[i] << "'s post-assignment runtime value is not captured anywhere";
+  }
 }
 
 }  // namespace hlc

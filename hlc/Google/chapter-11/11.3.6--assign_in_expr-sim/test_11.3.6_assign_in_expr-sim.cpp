@@ -191,6 +191,22 @@ TEST_F(AssignInExprSimTest, AllThreeVariablesEndUpEqualToFive) {
                   "the three ':assert: (5 == %d)' $display calls print true is a genuine "
                   "simulation-only gap. If simulation/co-sim support is ever added, replace "
                   "this with a real check of the printed output.";
+  // If the GTEST_SKIP() above is ever removed, this must still compile and
+  // exercise a real, currently-failing check -- not silently pass.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const char *const names[3] = {"a", "b", "c"};
+  for (uint32_t i = 0; i < 3u; ++i) {
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
+    ASSERT_NE(net, nullptr) << "net " << names[i];
+    // Net::getValue<T>() only ever exposes a declaration-time initializer;
+    // none of a/b/c has one (all are assigned inside the initial block),
+    // so this is null today -- there is no field anywhere that captures
+    // what the assignment chain actually produced at runtime.
+    const hldb::Constant *const finalValue = net->getValue<hldb::Constant>();
+    ASSERT_NE(finalValue, nullptr) << names[i] << "'s post-assignment runtime value is not captured anywhere";
+    EXPECT_EQ(finalValue->getDecompile(), "5");
+  }
 }
 
 }  // namespace hlc
