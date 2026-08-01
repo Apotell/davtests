@@ -34,7 +34,10 @@
 // Checked:
 //   - module getTypespecs() has exactly 4 entries: BitTypespec [15:0]
 //     ("a"), [1:0] ("b"), [1:0] ("c"), [3:0] ("d")
-//   - nets "b", "c", "d" each have the expected declaration-time
+//   - "a", "b", "c", "d" are declared with bare "bit" (no net-type keyword
+//     such as wire/tri/...), so per IEEE 1800-2023 Sec 6.7/6.8 they are
+//     hldb::Variable, not hldb::Net
+//   - variables "b", "c", "d" each have the expected declaration-time
 //     initializer
 //   - the initial block is a Begin with exactly 2 statements:
 //       [0] blocking Assignment: lhs RefObj "a", rhs the same nested
@@ -49,7 +52,7 @@
 //
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether a actually evaluates to the expected 16-bit pattern at
-//     runtime. HLC is a static compiler/elaborator: Net "a" has no
+//     runtime. HLC is a static compiler/elaborator: Variable "a" has no
 //     declaration-time initializer, and an Operation has no computed-
 //     value field. Genuine simulation-only gap, not a shortcut.
 
@@ -69,13 +72,13 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -86,7 +89,7 @@ class NestedReplOpSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -106,23 +109,23 @@ TEST_F(NestedReplOpSimTest, ModuleHasFourDistinctBitTypespecs) {
   ASSERT_EQ(top->getTypespecs()->size(), 4u);
 }
 
-TEST_F(NestedReplOpSimTest, NetAHasNoDeclarationTimeInitializer) {
+TEST_F(NestedReplOpSimTest, VariableAHasNoDeclarationTimeInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr) << "'a' is declared without an initializer";
 }
 
-TEST_F(NestedReplOpSimTest, NetsBCDHaveExpectedInitializers) {
+TEST_F(NestedReplOpSimTest, VariablesBCDHaveExpectedInitializers) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const char *const names[3] = {"b", "c", "d"};
   const char *const decompiles[3] = {"2'b10", "2'b01", "4'b1111"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    const hldb::Constant *const init = net->getValue<hldb::Constant>();
+    const hldb::Variable *const variable = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(variable, nullptr) << "variable " << names[i];
+    const hldb::Constant *const init = variable->getValue<hldb::Constant>();
     ASSERT_NE(init, nullptr);
     EXPECT_EQ(init->getDecompile(), decompiles[i]);
   }
@@ -142,6 +145,7 @@ TEST_F(NestedReplOpSimTest, AssignmentRhsIsOuterConcatOfReplicatedGroupAndD) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
+  EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "a");
 
   const hldb::Operation *const outerConcat = assign->getRhs<hldb::Operation>();
@@ -201,13 +205,13 @@ TEST_F(NestedReplOpSimTest, CompilerReportsZeroErrors) {
 TEST_F(NestedReplOpSimTest, AEndsUpEqualToExpectedSixteenBitPattern) {
   GTEST_SKIP() << "The source asserts a == 0b1001100110011111 after 'a = {{3{b, c}}, d};' runs "
                   "with b == 2'b10, c == 2'b01, d == 4'b1111. HLC is a static compiler/"
-                  "elaborator: Net 'a' has no declaration-time initializer, and an Operation has "
-                  "no computed-value field. Genuine simulation-only gap, not a shortcut.";
+                  "elaborator: Variable 'a' has no declaration-time initializer, and an Operation "
+                  "has no computed-value field. Genuine simulation-only gap, not a shortcut.";
   // If the GTEST_SKIP() above is ever removed, this must still compile and
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(a->getValue<hldb::Constant>(), nullptr) << "a's post-assignment runtime value is "
                                                         "not captured anywhere in the object model";

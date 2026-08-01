@@ -36,8 +36,11 @@
 // Checked:
 //   - module getTypespecs() has exactly 2 entries: BitTypespec [15:0]
 //     (for "a"), BitTypespec [1:0] (for "b")
-//   - net "b" has a declaration-time getValue<Constant>() of "2'b10"
-//     (constType binary(3), value "10"), whose own typespec resolves to
+//   - "a" and "b" are declared with bare "bit" (no net-type keyword) and
+//     there is no port list, so per IEEE 1800-2023 Sec 6.7/6.8 both are
+//     Variables, not Nets; module has no nets (getNets() is null)
+//   - variable "b" has a declaration-time getValue<Constant>() of "2'b10"
+//     (constType vpiBinaryConst, value "10"), whose own typespec resolves to
 //     LogicTypespec (matching the analogous finding in
 //     11.4.12--concat_op.sv: a binary literal's typespec is
 //     LogicTypespec even when it initializes a "bit" variable)
@@ -74,11 +77,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -89,10 +92,10 @@ class ReplOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module-level typespecs / nets -----------------------------------------
+// --- module-level typespecs / variables -------------------------------------
 
 TEST_F(ReplOpTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -103,25 +106,32 @@ TEST_F(ReplOpTest, ModuleHasTwoDistinctBitTypespecs) {
   ASSERT_EQ(top->getTypespecs()->size(), 2u);
 }
 
-TEST_F(ReplOpTest, NetAHasNoDeclarationTimeInitializer) {
+TEST_F(ReplOpTest, ModuleHasNoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "'bit' carries no net-type keyword; per IEEE 1800-2023 "
+                                         "Sec 6.7/6.8 both declarations are Variables";
+}
+
+TEST_F(ReplOpTest, VariableAHasNoDeclarationTimeInitializer) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   // "a" is declared bare ("bit [15:0] a;"), with no decl-assignment --
   // its entire value must come from the "a = {8{b}};" assignment below.
-  EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr) << "'a' is declared without an initializer";
+  EXPECT_EQ(a->getValue(), nullptr) << "'a' is declared without an initializer";
 }
 
-TEST_F(ReplOpTest, NetBHasBinaryInitializer) {
+TEST_F(ReplOpTest, VariableBHasBinaryInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_NE(b->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
   const hldb::Constant *const init = b->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
-  EXPECT_EQ(init->getConstType(), 3 /* vpiBinaryConst */);
+  EXPECT_EQ(init->getConstType(), vpiBinaryConst);
   EXPECT_EQ(init->getDecompile(), "2'b10");
   EXPECT_EQ(init->getValue(), "10");
   EXPECT_NE(init->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);

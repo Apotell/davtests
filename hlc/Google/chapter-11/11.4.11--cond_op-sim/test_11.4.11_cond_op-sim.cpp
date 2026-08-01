@@ -34,8 +34,10 @@
 // than just counting 3 operands.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a" (int, decl value 12), "b"
-//     (int, decl value 5), "c" (int, no decl value)
+//   - module top has exactly 3 variables (bare "int" has no net-type
+//     keyword, so these are hldb::Variable, not hldb::Net -- IEEE 1800-2023
+//     Sec 6.7/6.8), "a" (int, decl value 12), "b" (int, decl value 5), "c"
+//     (int, no decl value)
 //   - the initial block is a Begin with exactly 2 statements:
 //       [0] blocking Assignment: lhs RefObj "c", rhs an Operation
 //           (vpiConditionOp, 3 operands): operand 0 = Operation
@@ -52,7 +54,7 @@
 //     correctly selects its true-branch when the condition holds). HLC is
 //     a static compiler/elaborator: an Operation's opcode/operands
 //     describe what was written, not a computed selection result, and
-//     Net "c" has no declaration-time initializer to inspect either.
+//     Variable "c" has no declaration-time initializer to inspect either.
 //     Genuine simulation-only gap, not a shortcut.
 
 #include <hlc/Common/Session.h>
@@ -69,11 +71,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -84,7 +86,7 @@ class CondOpSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -97,14 +99,14 @@ class CondOpSimTest : public Test {
 
 TEST_F(CondOpSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(CondOpSimTest, NetsAAndBHaveDeclaredValuesCHasNone) {
+TEST_F(CondOpSimTest, VariablesAAndBHaveDeclaredValuesCHasNone) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(c, nullptr);
@@ -182,16 +184,16 @@ TEST_F(CondOpSimTest, CompilerReportsZeroErrors) {
 TEST_F(CondOpSimTest, CEndsUpEqualToEleven) {
   GTEST_SKIP() << "The source asserts c == 11 after 'c = (a > b) ? 11 : 13;' runs with a=12, "
                   "b=5. HLC is a static compiler/elaborator: an Operation's opcode/operands "
-                  "describe what was written, not a computed selection result, and Net 'c' has "
+                  "describe what was written, not a computed selection result, and Variable 'c' has "
                   "no declaration-time initializer to inspect. Genuine simulation-only gap, not "
                   "a shortcut.";
   // If the GTEST_SKIP() above is ever removed, this must still compile and
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  // Net::getValue<T>() only ever exposes a declaration-time initializer;
+  // Variable::getValue<T>() only ever exposes a declaration-time initializer;
   // 'c' has none (it is assigned inside the initial block), so this is
   // null today -- there is no field anywhere that captures which branch
   // of the ternary was actually selected at runtime.

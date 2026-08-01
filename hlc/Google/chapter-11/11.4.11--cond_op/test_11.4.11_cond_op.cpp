@@ -31,8 +31,10 @@
 // (a > b), not a bare boolean variable.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a" (int, decl value 12), "b"
-//     (int, decl value 5), "c" (int, no decl value)
+//   - module top has exactly 3 variables (bare "int" has no net-type
+//     keyword, so these are hldb::Variable, not hldb::Net -- IEEE 1800-2023
+//     Sec 6.7/6.8), "a" (int, decl value 12), "b" (int, decl value 5), "c"
+//     (int, no decl value)
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment, lhs RefObj "c", rhs an Operation (vpiConditionOp,
 //     3 operands):
@@ -64,10 +66,10 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -78,22 +80,22 @@ class CondOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / nets -----------------------------------------------------
 
 TEST_F(CondOpTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(CondOpTest, NetsAAndBHaveDeclaredValuesCHasNone) {
+TEST_F(CondOpTest, VariablesAAndBHaveDeclaredValuesCHasNone) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(c, nullptr);

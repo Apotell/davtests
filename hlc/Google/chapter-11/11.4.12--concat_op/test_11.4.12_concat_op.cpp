@@ -38,10 +38,12 @@
 //     (for "a"), BitTypespec [7:0] (for "b"), BitTypespec [7:0] (for
 //     "c") -- three distinct entries since each variable was declared on
 //     its own line, even though b and c share the same range
-//   - module work@top has exactly 3 nets, "a", "b", "c", each resolving
-//     to its own BitTypespec above
-//   - net "b"'s and net "c"'s declaration-time getValue<Constant>() are
-//     present, with the exact binary decompile text ("8'b10101100",
+//   - module top has exactly 3 variables (bare "bit" has no net-type
+//     keyword, so these are hldb::Variable, not hldb::Net -- IEEE 1800-2023
+//     Sec 6.7/6.8), "a", "b", "c", each resolving to its own BitTypespec
+//     above
+//   - variable "b"'s and variable "c"'s declaration-time getValue<Constant>()
+//     are present, with the exact binary decompile text ("8'b10101100",
 //     "8'b01010011") and constType binary(3), and -- the corner noted
 //     above -- each Constant's own typespec resolves to LogicTypespec,
 //     not BitTypespec
@@ -74,11 +76,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -89,7 +91,7 @@ class ConcatOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module-level typespecs / nets -----------------------------------------
@@ -108,10 +110,10 @@ TEST_F(ConcatOpTest, ModuleHasThreeDistinctBitTypespecs) {
   EXPECT_EQ(bitTypespecCount, 3u);
 }
 
-TEST_F(ConcatOpTest, NetAIsSixteenBitBitTypespec) {
+TEST_F(ConcatOpTest, VariableAIsSixteenBitBitTypespec) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::BitTypespec *const bt = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
@@ -125,19 +127,19 @@ TEST_F(ConcatOpTest, NetAIsSixteenBitBitTypespec) {
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr) << "'a' is declared without an initializer";
 }
 
-TEST_F(ConcatOpTest, NetsBAndCAreEightBitWithBinaryInitializers) {
+TEST_F(ConcatOpTest, VariablesBAndCAreEightBitWithBinaryInitializers) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const char *const names[2] = {"b", "c"};
   const char *const decompiles[2] = {"8'b10101100", "8'b01010011"};
   const char *const values[2] = {"10101100", "01010011"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
-    const hldb::Constant *const init = net->getValue<hldb::Constant>();
+    const hldb::Variable *const variable = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(variable, nullptr) << "variable " << names[i];
+    EXPECT_NE(variable->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
+    const hldb::Constant *const init = variable->getValue<hldb::Constant>();
     ASSERT_NE(init, nullptr);
-    EXPECT_EQ(init->getConstType(), 3 /* vpiBinaryConst */);
+    EXPECT_EQ(init->getConstType(), vpiBinaryConst);
     EXPECT_EQ(init->getDecompile(), decompiles[i]);
     EXPECT_EQ(init->getValue(), values[i]);
     // Corner: the initializer Constant's own typespec is LogicTypespec,

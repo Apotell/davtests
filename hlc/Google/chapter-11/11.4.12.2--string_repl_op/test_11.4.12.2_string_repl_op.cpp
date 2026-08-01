@@ -31,16 +31,20 @@
 // replicating a string Constant instead of a bit-vector RefObj.
 //
 // Checked:
-//   - module work@top has exactly 1 net, "str", resolving to
-//     StringTypespec (module getTypespecs() is null/absent, same
-//     reasoning as 11.4.12.2--string_concat_op.sv)
+//   - "str" is declared with bare "string" (no net-type keyword) and
+//     there is no port list, so per IEEE 1800-2023 Sec 6.7/6.8/6.16 it is
+//     a Variable, not a Net; module top has exactly 1 variable,
+//     "str", resolving to StringTypespec (module getTypespecs() is
+//     null/absent, same reasoning as 11.4.12.2--string_concat_op.sv;
+//     module has no nets -- getNets() is null)
 //   - the initial block is a Begin with exactly 2 statements:
 //       [0] blocking Assignment: lhs RefObj "str", rhs an Operation
 //           (vpiMultiConcatOp, 2 operands): operand 0 = Constant "4"
 //           (the replication count, constType unsigned int), operand 1 =
 //           Operation (vpiConcatOp, 1 operand: Constant "test", constType
-//           string) -- the replicated unit is a string literal Constant,
-//           not a variable reference, wrapped in its own concatenation
+//           vpiStringConst) -- the replicated unit is a string literal
+//           Constant, not a variable reference, wrapped in its own
+//           concatenation
 //       [1] SysTaskCall "$display" asserting
 //           ("'%s' == 'testtesttesttest'", str)
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec,
@@ -49,8 +53,8 @@
 //
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether str actually evaluates to "testtesttesttest" once the
-//     replication runs. HLC is a static compiler/elaborator: Net "str"
-//     has no declaration-time initializer, and an Operation has no
+//     replication runs. HLC is a static compiler/elaborator: Variable
+//     "str" has no declaration-time initializer, and an Operation has no
 //     computed-value field. Genuine simulation-only gap, not a shortcut.
 
 #include <hlc/Common/Session.h>
@@ -67,12 +71,12 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -83,7 +87,7 @@ class StringReplOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -92,21 +96,28 @@ class StringReplOpTest : public Test {
   }
 };
 
-// --- module / net --------------------------------------------------------
+// --- module / variable ----------------------------------------------------
 
 TEST_F(StringReplOpTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(StringReplOpTest, NetStrIsStringTyped) {
+TEST_F(StringReplOpTest, ModuleHasNoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
-  const hldb::Net *const str = hldb::findByName<hldb::Net>("str", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "'string' carries no net-type keyword; per IEEE "
+                                         "1800-2023 Sec 6.7/6.8 the declaration is a Variable";
+}
+
+TEST_F(StringReplOpTest, VariableStrIsStringTyped) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const str = hldb::findByName<hldb::Variable>("str", top->getVariables());
   ASSERT_NE(str, nullptr);
   EXPECT_NE(str->getTypespec<hldb::RefTypespec>()->getActual<hldb::StringTypespec>(), nullptr);
   // "str" is declared bare ("string str;"), with no decl-assignment --
   // its entire value must come from the "str = {4{...}}" assignment below.
-  EXPECT_EQ(str->getValue<hldb::Constant>(), nullptr) << "'str' is declared without an initializer";
+  EXPECT_EQ(str->getValue(), nullptr) << "'str' is declared without an initializer";
 }
 
 TEST_F(StringReplOpTest, ModuleHasNoPackedRangeTypespec) {
@@ -149,7 +160,7 @@ TEST_F(StringReplOpTest, AssignmentRhsIsMultiConcatOfFourCopiesOfTestLiteral) {
   ASSERT_EQ(innerConcat->getOperands()->size(), 1u);
   const hldb::Constant *const testLit = any_cast<hldb::Constant>(innerConcat->getOperands()->at(0));
   ASSERT_NE(testLit, nullptr) << "the replicated unit is a string literal, not a RefObj";
-  EXPECT_EQ(testLit->getConstType(), 6 /* vpiStringConst */);
+  EXPECT_EQ(testLit->getConstType(), vpiStringConst);
   EXPECT_EQ(testLit->getValue(), "test");
 }
 
@@ -186,18 +197,19 @@ TEST_F(StringReplOpTest, CompilerReportsZeroErrors) {
 
 TEST_F(StringReplOpTest, StrEndsUpEqualToFourTimesTest) {
   GTEST_SKIP() << "The source asserts str == 'testtesttesttest' after '{4{\"test\"}}' runs. "
-                  "HLC is a static compiler/elaborator: Net 'str' has no declaration-time "
+                  "HLC is a static compiler/elaborator: Variable 'str' has no declaration-time "
                   "initializer, and an Operation has no computed-value field. Genuine "
                   "simulation-only gap, not a shortcut.";
   // If the GTEST_SKIP() above is ever removed, this must still compile and
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const str = hldb::findByName<hldb::Net>("str", top->getNets());
+  const hldb::Variable *const str = hldb::findByName<hldb::Variable>("str", top->getVariables());
   ASSERT_NE(str, nullptr);
-  ASSERT_NE(str->getValue<hldb::Constant>(), nullptr) << "str's post-assignment runtime value "
-                                                          "is not captured anywhere in the "
-                                                          "object model";
+  ASSERT_NE(str->getValue(), nullptr) << "str's post-assignment runtime value "
+                                          "is not captured anywhere in the "
+                                          "object model";
+  EXPECT_EQ(str->getValue()->getAnyType(), hldb::AnyType::Constant);
 }
 
 }  // namespace hlc

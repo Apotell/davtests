@@ -38,8 +38,13 @@
 //   - module getTypespecs() has exactly 4 entries: BitTypespec [15:0]
 //     ("a"), [1:0] ("b"), [1:0] ("c"), [3:0] ("d") -- four distinct
 //     entries, one per separately-declared variable
-//   - nets "b", "c", "d" each have a declaration-time getValue<Constant>()
-//     matching their literal ("2'b10", "2'b01", "4'b1111")
+//   - "a", "b", "c", "d" are all declared with bare "bit" (no net-type
+//     keyword) and there is no port list, so per IEEE 1800-2023 Sec
+//     6.7/6.8 all four are Variables, not Nets; module has no nets
+//     (getNets() is null)
+//   - variables "b", "c", "d" each have a declaration-time
+//     getValue<Constant>() matching their literal ("2'b10", "2'b01",
+//     "4'b1111")
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment, lhs RefObj "a", rhs an Operation (vpiConcatOp,
 //     2 operands):
@@ -75,11 +80,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -90,10 +95,10 @@ class NestedReplOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module-level typespecs / nets -----------------------------------------
+// --- module-level typespecs / variables -------------------------------------
 
 TEST_F(NestedReplOpTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -104,27 +109,34 @@ TEST_F(NestedReplOpTest, ModuleHasFourDistinctBitTypespecs) {
   ASSERT_EQ(top->getTypespecs()->size(), 4u);
 }
 
-TEST_F(NestedReplOpTest, NetAHasNoDeclarationTimeInitializer) {
+TEST_F(NestedReplOpTest, ModuleHasNoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "'bit' carries no net-type keyword; per IEEE 1800-2023 "
+                                         "Sec 6.7/6.8 all four declarations are Variables";
+}
+
+TEST_F(NestedReplOpTest, VariableAHasNoDeclarationTimeInitializer) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   // "a" is declared bare ("bit [15:0] a;"), with no decl-assignment --
   // its entire value must come from the "a = {{3{b, c}}, d};" assignment.
-  EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr) << "'a' is declared without an initializer";
+  EXPECT_EQ(a->getValue(), nullptr) << "'a' is declared without an initializer";
 }
 
-TEST_F(NestedReplOpTest, NetsBCDHaveExpectedInitializers) {
+TEST_F(NestedReplOpTest, VariablesBCDHaveExpectedInitializers) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const char *const names[3] = {"b", "c", "d"};
   const char *const decompiles[3] = {"2'b10", "2'b01", "4'b1111"};
   const char *const values[3] = {"10", "01", "1111"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
-    const hldb::Constant *const init = net->getValue<hldb::Constant>();
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
+    const hldb::Constant *const init = var->getValue<hldb::Constant>();
     ASSERT_NE(init, nullptr);
     EXPECT_EQ(init->getDecompile(), decompiles[i]);
     EXPECT_EQ(init->getValue(), values[i]);

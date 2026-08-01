@@ -38,8 +38,11 @@
 //   - module getTypespecs() has exactly 3 entries: BitTypespec [15:0]
 //     (for "a"), BitTypespec [7:0] (for "b"), BitTypespec [7:0] (for
 //     "c")
-//   - net "b"'s and net "c"'s declaration-time getValue<Constant>() are
-//     present with hexadecimal decompile text ("8'h89", "8'h12"),
+//   - "a", "b", "c" are declared with bare "bit" (no net-type keyword such
+//     as wire/tri/...), so per IEEE 1800-2023 Sec 6.7/6.8 they are
+//     hldb::Variable, not hldb::Net
+//   - variable "b"'s and variable "c"'s declaration-time getValue<Constant>()
+//     are present with hexadecimal decompile text ("8'h89", "8'h12"),
 //     constType hexadecimal(5), and each Constant's own typespec
 //     resolves to IntTypespec (not LogicTypespec, unlike the binary-
 //     literal non-sim sibling file)
@@ -57,7 +60,7 @@
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether a actually evaluates to 0x8912 (i.e. that concatenation
 //     places operands in the documented high-to-low bit order at
-//     runtime). HLC is a static compiler/elaborator: Net "a" has no
+//     runtime). HLC is a static compiler/elaborator: Variable "a" has no
 //     declaration-time initializer (it is assigned inside the initial
 //     block) and an Operation has no computed-value field. Genuine
 //     simulation-only gap, not a shortcut.
@@ -77,13 +80,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -94,7 +97,7 @@ class ConcatOpSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -119,29 +122,29 @@ TEST_F(ConcatOpSimTest, ModuleHasThreeDistinctBitTypespecs) {
   EXPECT_EQ(bitTypespecCount, 3u);
 }
 
-TEST_F(ConcatOpSimTest, NetAHasNoDeclarationTimeInitializer) {
+TEST_F(ConcatOpSimTest, VariableAHasNoDeclarationTimeInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   // "a" is declared bare ("bit [15:0] a;"), with no decl-assignment --
   // its entire value must come from the "a = {b, c};" assignment below.
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr) << "'a' is declared without an initializer";
 }
 
-TEST_F(ConcatOpSimTest, NetsBAndCAreEightBitWithHexInitializers) {
+TEST_F(ConcatOpSimTest, VariablesBAndCAreEightBitWithHexInitializers) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const char *const names[2] = {"b", "c"};
   const char *const decompiles[2] = {"8'h89", "8'h12"};
   const char *const values[2] = {"89", "12"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
-    const hldb::Constant *const initVal = net->getValue<hldb::Constant>();
+    const hldb::Variable *const variable = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(variable, nullptr) << "variable " << names[i];
+    EXPECT_NE(variable->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>(), nullptr);
+    const hldb::Constant *const initVal = variable->getValue<hldb::Constant>();
     ASSERT_NE(initVal, nullptr);
-    EXPECT_EQ(initVal->getConstType(), 5 /* vpiHexConst */);
+    EXPECT_EQ(initVal->getConstType(), vpiHexConst);
     EXPECT_EQ(initVal->getDecompile(), decompiles[i]);
     EXPECT_EQ(initVal->getValue(), values[i]);
     EXPECT_NE(initVal->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr)
@@ -222,14 +225,14 @@ TEST_F(ConcatOpSimTest, CompilerReportsZeroErrors) {
 
 TEST_F(ConcatOpSimTest, AEndsUpEqualToHex8912) {
   GTEST_SKIP() << "The source asserts a == 0x8912 after 'a = {b, c};' runs with b == 0x89, "
-                  "c == 0x12. HLC is a static compiler/elaborator: Net 'a' has no declaration-"
+                  "c == 0x12. HLC is a static compiler/elaborator: Variable 'a' has no declaration-"
                   "time initializer (it is assigned inside the initial block), and an Operation "
                   "has no computed-value field. Genuine simulation-only gap, not a shortcut.";
   // If the GTEST_SKIP() above is ever removed, this must still compile and
   // exercise a real, currently-failing check -- not silently pass.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(a->getValue<hldb::Constant>(), nullptr) << "a's post-assignment runtime value is "
                                                         "not captured anywhere in the object model";
