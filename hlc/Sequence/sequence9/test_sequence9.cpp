@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,7 @@
 //     end
 //   endmodule
 //
-// -- ss.16.9.8 rules under test ------------------------------------------------
+// -- ss.16.9.8 rules under test ----
 //
 // first_match(seq_expr) (ss.16.9.8):
 //   * first_match evaluates seq_expr and retains only the first matching
@@ -48,26 +48,24 @@
 //       operand[0]: RefObj name:"a" (the start expression)
 //       operand[1]: Range (the [1:3] bounds: left=1, right=3)
 //       operand[2]: RefObj name:"b" (the end expression)
-//   * Both RefObj nodes must resolve to their Net declarations at compile time:
-//       RefObj("a") -> Net("a"), RefObj("b") -> Net("b").
+//   * Both RefObj nodes must resolve to their Variable declarations at compile time:
+//       RefObj("a") -> Variable("a"), RefObj("b") -> Variable("b").
 //
 // Concurrent assert property (ss.16.14):
 //   * 'assert property(@(posedge clk) seq9)' uses seq9 as the property body.
 //   * The property expression 'seq9' must resolve (vpiActual) to the
 //     SequenceDecl for seq9 -- not be treated as an implicit net.
-//   * Surelog emits EL0535 ("Illegal implicit net") for 'seq9' here -- the
-//     same compile-time name resolution bug confirmed in sequence4 through 8.
 //
-// -- Expected HLDB tree (if compiler is correct) --------------------------------
+// -- Expected HLDB tree (if compiler is correct) ----
 //
-//   Module name:work@tb
+//   Module name:tb
 //   +-- getSequenceDecls() (1 item)
 //   |   +-- SequenceDecl name:"seq9"
 //   |         vpiExpr: Operation opType:first_match (vpiFirstMatchOp = 73)
 //   |           operand[0]: Operation opType:cycle_delay (vpiCycleDelayOp = 71)
-//   |             operand[0]: RefObj name:"a" -> Net name:"a"
+//   |             operand[0]: RefObj name:"a" -> Variable name:"a"
 //   |             operand[1]: Range leftExpr:Constant("1") rightExpr:Constant("3")
-//   |             operand[2]: RefObj name:"b" -> Net name:"b"
+//   |             operand[2]: RefObj name:"b" -> Variable name:"b"
 //   +-- getConcurrentAssertions() (1 item)
 //       +-- Assert
 //             PropertySpec
@@ -85,7 +83,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/range.h>
@@ -102,12 +100,12 @@ class Sequence9Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTb(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
+  return hldb::findByName<hldb::Module>("tb", d->getAllModules());
 }
 
 static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {
@@ -141,15 +139,14 @@ static const hldb::Operation *getCycleDelayOp(const hldb::Module *m) {
 // ===========================================================================
 
 // ss.16.9.8 + ss.16.14: the SV file is syntactically and semantically valid
-// -- no errors expected.  If this test fails, Surelog emits EL0535 ("Illegal
-// implicit net") for 'seq9' in the assert property statement, meaning it
-// misidentifies the sequence name as an undeclared net instead of resolving
-// it to the SequenceDecl node.
+// -- no errors expected.  A compiler that fails to resolve the sequence name
+// 'seq9' to its SequenceDecl might misidentify it as an undeclared implicit
+// net instead, which would surface as a spurious error here.
 TEST_F(Sequence9Test, Compiler_NoErrors) {
   ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(@(posedge clk) seq9) must not produce "
-                                 "errors -- EL0535 'Illegal implicit net' means Surelog does not "
-                                 "resolve sequence names to SequenceDecl nodes";
+                                 "errors -- 'seq9' must resolve to its SequenceDecl, not be treated "
+                                 "as an implicit net";
 }
 
 TEST_F(Sequence9Test, Compiler_NoSyntaxErrors) {
@@ -161,7 +158,7 @@ TEST_F(Sequence9Test, Compiler_NoSyntaxErrors) {
 // Module
 // ===========================================================================
 
-TEST_F(Sequence9Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found"; }
+TEST_F(Sequence9Test, ModuleExists) { ASSERT_NE(getTb(m_design), nullptr) << "module 'tb' not found"; }
 
 // ===========================================================================
 // Sequence declaration (ss.16.8 / ss.16.9.8)
@@ -262,7 +259,7 @@ TEST_F(Sequence9Test, Seq9_CycleDelay_Operand0_IsRefToA) {
   EXPECT_EQ(op0->getName(), "a") << "ss.16.9.2: first operand of 'a ##[1:3] b' must reference signal 'a'";
 }
 
-// ss.16.9.2: RefObj for 'a' must resolve to Net name:'a' at compile time.
+// ss.16.9.2: RefObj for 'a' must resolve to Variable name:'a' at compile time.
 // Name binding happens at compile time -- no elaboration guard needed.
 TEST_F(Sequence9Test, Seq9_CycleDelay_Operand0_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -274,7 +271,7 @@ TEST_F(Sequence9Test, Seq9_CycleDelay_Operand0_ResolvesToNet) {
 
   const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*cd->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
-  EXPECT_NE(op0->getActual<hldb::Net>(), nullptr) << "ss.16.9.2: RefObj for 'a' must resolve to Net name:'a' at "
+  EXPECT_NE(op0->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'a' must resolve to Variable name:'a' at "
                                                      "compile time";
 }
 
@@ -341,7 +338,7 @@ TEST_F(Sequence9Test, Seq9_CycleDelay_Operand2_IsRefToB) {
   EXPECT_EQ(op2->getName(), "b") << "ss.16.9.2: last operand of 'a ##[1:3] b' must reference signal 'b'";
 }
 
-// ss.16.9.2: RefObj for 'b' must resolve to Net name:'b' at compile time.
+// ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at compile time.
 // Name binding happens at compile time -- no elaboration guard needed.
 TEST_F(Sequence9Test, Seq9_CycleDelay_Operand2_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -353,7 +350,7 @@ TEST_F(Sequence9Test, Seq9_CycleDelay_Operand2_ResolvesToNet) {
 
   const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*cd->getOperands())[2]);
   ASSERT_NE(op2, nullptr);
-  EXPECT_NE(op2->getActual<hldb::Net>(), nullptr) << "ss.16.9.2: RefObj for 'b' must resolve to Net name:'b' at "
+  EXPECT_NE(op2->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at "
                                                      "compile time";
 }
 
@@ -406,9 +403,8 @@ TEST_F(Sequence9Test, Assert_PropertyExpr_ReferencesSeq9) {
 }
 
 // ss.16.14: the RefObj for 'seq9' in the concurrent assertion must resolve
-// (vpiActual) to the SequenceDecl node.  Surelog emits EL0535 for this
-// reference, treating 'seq9' as an implicit net instead of resolving it to
-// the SequenceDecl.  Same compile-time name resolution bug as sequence4-8.
+// (vpiActual) to the SequenceDecl node, not be treated as an implicit net --
+// the same compile-time resolution confirmed in sequence4-8.
 TEST_F(Sequence9Test, Assert_PropertyExpr_ResolvedToSeq9Decl) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -419,8 +415,8 @@ TEST_F(Sequence9Test, Assert_PropertyExpr_ResolvedToSeq9Decl) {
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "ss.16.14: 'seq9' in assert property must resolve to SequenceDecl -- "
-         "Surelog emits EL0535 treating it as an implicit net instead";
+      << "ss.16.14: 'seq9' in assert property must resolve to SequenceDecl, not be "
+         "treated as an implicit net";
 }
 
 }  // namespace hlc

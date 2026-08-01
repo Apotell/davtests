@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@
 // (line number + filename) used for diagnostics.  It produces no UHDM nodes.
 //
 // UHDM structure:
-//   Module name:work@directives  — one empty module, no nets, no processes
+//   Module name:directives  -- one empty module, no nets, no processes
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -45,14 +45,14 @@ class CompilerDirectivesDebugLine : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@directives", d->getAllModules());
+  return hldb::findByName<hldb::Module>("directives", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // The `line directive is consumed without error; the module compiles cleanly.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesDebugLine, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@directives' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'directives' not found";
 }
 
 TEST_F(CompilerDirectivesDebugLine, NoNets) {

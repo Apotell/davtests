@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,9 +26,9 @@
 //   end
 //
 // UHDM representation and size semantics:
-//   659      → constType: unsigned int (9), size: 64  (default integer width)
-//   'h 837FF → constType: hexadecimal (5),  size: -1  (truly unsized)
-//   'o7460   → constType: octal (4),         size: -1  (truly unsized)
+//   659      -> constType: unsigned int (9), size: 64  (default integer width)
+//   'h 837FF -> constType: hexadecimal (5),  size: -1  (truly unsized)
+//   'o7460   -> constType: octal (4),         size: -1  (truly unsized)
 //
 // The asymmetry: bare decimal constants are assigned size 64 (Surelog's default
 // integer width), while base-prefixed unsized constants ('h, 'o, 'b) use -1.
@@ -46,9 +46,9 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -59,7 +59,7 @@ class IntegersUnsized : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getBegin(const hldb::Design *d) {
@@ -77,21 +77,29 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t 
   return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
-TEST_F(IntegersUnsized, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+// ----
+TEST_F(IntegersUnsized, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(IntegersUnsized, OneNetExists) {
+TEST_F(IntegersUnsized, OneVariableExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 1u) << "expected 1 net: a [31:0]";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 1u) << "expected 1 variable: a [31:0]";
 }
 
-// ---------------------------------------------------------------------------
-// Initial block — Begin with 3 statements all assigning to net 'a'
-// ---------------------------------------------------------------------------
+// `logic` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 'a'
+// must not appear in the module's net collection.
+TEST_F(IntegersUnsized, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "'logic [31:0] a' must not appear as a Net";
+}
+
+// ----
+// Initial block -- Begin with 3 statements all assigning to variable 'a'
+// ----
 TEST_F(IntegersUnsized, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersUnsized, BeginHasThreeStatements) {
@@ -112,17 +120,17 @@ TEST_F(IntegersUnsized, AllAssignmentsAreBlocking) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// a = 659  — bare unsized decimal constant
+// ----
+// a = 659  -- bare unsized decimal constant
 // Stored as unsigned int (9) with size 64 (Surelog's default integer width).
 // This differs from base-prefixed unsized constants which use size -1.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnsized, DecimalConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), 9) << "659: bare decimal → constType unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), 9) << "659: bare decimal -> constType unsigned int (9)";
 }
 
 TEST_F(IntegersUnsized, DecimalSizeIs64) {
@@ -150,10 +158,10 @@ TEST_F(IntegersUnsized, DecimalGetDecompile) {
   EXPECT_EQ(c->getDecompile(), "659");
 }
 
-// ---------------------------------------------------------------------------
-// a = 'h 837FF  — unsized hexadecimal (space between 'h and value stripped)
+// ----
+// a = 'h 837FF  -- unsized hexadecimal (space between 'h and value stripped)
 // Base-prefixed unsized constant: size -1, space removed from output.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnsized, HexConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
@@ -163,7 +171,7 @@ TEST_F(IntegersUnsized, HexConstType) {
 }
 
 TEST_F(IntegersUnsized, HexSizeIsMinusOne) {
-  // Base-prefixed unsized → size -1 (contrast with bare decimal → size 64)
+  // Base-prefixed unsized -> size -1 (contrast with bare decimal -> size 64)
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
@@ -188,10 +196,10 @@ TEST_F(IntegersUnsized, HexGetDecompile) {
   EXPECT_EQ(c->getDecompile(), "'h837FF");
 }
 
-// ---------------------------------------------------------------------------
-// a = 'o7460  — unsized octal constant
+// ----
+// a = 'o7460  -- unsized octal constant
 // vpiOctConst == 4; size -1 like other base-prefixed unsized constants.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersUnsized, OctalConstType) {
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,14 +19,16 @@
 //     string a = "Test";
 //     string b = a.tolower();
 //   endmodule
+// Per IEEE 1800-2023 6.8/6.16: 'string' has no explicit net-type keyword, so
+// both 'a' and 'b' are variable_declarations.
 //
 // Checked:
-//   - design has module work@top with 2 nets (a: string, b: string)
-//   - net 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
-//   - net 'b' typespec resolves to StringTypespec
-//   - net 'b' has a non-null initial value (vpiValue is set)
-//   - net 'b' initial value is a HierPath named "a.tolower()"
-//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Net 'a'
+//   - design has module top with 2 variables (a: string, b: string)
+//   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
+//   - variable 'b' typespec resolves to StringTypespec
+//   - variable 'b' has a non-null initial value (vpiValue is set)
+//   - variable 'b' initial value is a HierPath named "a.tolower()"
+//   - HierPath element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
 //   - HierPath element[1] is FuncCall "tolower" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. "test") -- HLC
 //     stores the unevaluated HierPath expression only
@@ -42,11 +44,13 @@
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/hier_path.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -58,33 +62,41 @@ class StringTolower : public Test {
 };
 
 TEST_F(StringTolower, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net declarations — string 'a' and string 'b'
-// ---------------------------------------------------------------------------
-TEST_F(StringTolower, TwoNetsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+// Variable declarations -- string 'a' and string 'b'
+// ----
+TEST_F(StringTolower, TwoVariablesExist) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(StringTolower, ANetTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(StringTolower, NoNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'string' has no net-type keyword, so
+  // neither 'a' nor 'b' should be materialized as Nets.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
+}
+
+TEST_F(StringTolower, AVariableTypespecIsString) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
   EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-TEST_F(StringTolower, ANetInitialValueIsTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(StringTolower, AVariableInitialValueIsTest) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
@@ -92,50 +104,51 @@ TEST_F(StringTolower, ANetInitialValueIsTest) {
   EXPECT_EQ(init->getDecompile(), "\"Test\"");
 }
 
-TEST_F(StringTolower, BNetTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(StringTolower, BVariableTypespecIsString) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::RefTypespec *const rts = b->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr) << "net 'b' (result of tolower) should be StringTypespec";
+  EXPECT_NE(rts->getActual<hldb::StringTypespec>(), nullptr)
+      << "variable 'b' (result of tolower) should be StringTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// HierPath — b's initial value is the method call a.tolower()
-// ---------------------------------------------------------------------------
-TEST_F(StringTolower, BNetHasValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+// HierPath -- b's initial value is the method call a.tolower()
+// ----
+TEST_F(StringTolower, BVariableHasValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  EXPECT_NE(b->getValue(), nullptr) << "net 'b' should have a vpiValue set from string b = a.tolower()";
+  EXPECT_NE(b->getValue(), nullptr) << "variable 'b' should have a vpiValue set from string b = a.tolower()";
 }
 
-TEST_F(StringTolower, BNetValueIsNotPreEvaluatedConstant) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(StringTolower, BVariableValueIsNotPreEvaluatedConstant) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
       << "HLC does not pre-evaluate a.tolower() to a constant; b holds only the HierPath expression";
 }
 
-TEST_F(StringTolower, BNetValueIsHierPath) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(StringTolower, BVariableValueIsHierPath) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
-  ASSERT_NE(hp, nullptr) << "net 'b' initial value is not a HierPath";
+  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a HierPath";
   EXPECT_EQ(hp->getName(), "a.tolower");
 }
 
 TEST_F(StringTolower, HierPathReceiverIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -145,13 +158,13 @@ TEST_F(StringTolower, HierPathReceiverIsA) {
   const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
-  EXPECT_NE(receiver->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(StringTolower, HierPathMethodIsTolower) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -163,9 +176,9 @@ TEST_F(StringTolower, HierPathMethodIsTolower) {
 }
 
 TEST_F(StringTolower, TolowerHasNoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::HierPath *const hp = b->getValue<hldb::HierPath>();
   ASSERT_NE(hp, nullptr);
@@ -174,19 +187,22 @@ TEST_F(StringTolower, TolowerHasNoArguments) {
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "tolower() takes no arguments";
 }
 
-// ---------------------------------------------------------------------------
-// a.tolower() runtime result
-// ---------------------------------------------------------------------------
+// ----
+// a.tolower() runtime result -- known gap: HLC never sets
+// Design::m_elaborated (no caller invokes setElaborated(true) anywhere in
+// src/), so a guard on getElaborated() is permanently-false dead code. Use
+// GTEST_SKIP() explicitly instead.
+// ----
 TEST_F(StringTolower, TolowerResultIsPreEvaluated) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  GTEST_SKIP() << "known gap: HLC does not perform compile-time evaluation of string methods; "
+                  "a.tolower() should evaluate to a Constant \"test\" once elaboration is implemented";
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const value = b->getValue<hldb::Constant>();
-  if (m_design->getElaborated()) {
-    ASSERT_NE(value, nullptr) << "net 'b' should hold a pre-evaluated Constant";
-    EXPECT_EQ(value->getDecompile(), "\"test\"") << "a.tolower() should evaluate to \"test\"";
-  }
+  ASSERT_NE(value, nullptr) << "variable 'b' should hold a pre-evaluated Constant";
+  EXPECT_EQ(value->getDecompile(), "\"test\"") << "a.tolower() should evaluate to \"test\"";
 }
 
 }  // namespace hlc

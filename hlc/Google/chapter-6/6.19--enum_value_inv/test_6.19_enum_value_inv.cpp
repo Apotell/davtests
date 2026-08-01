@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,12 +24,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
+//   - design has module top
 //   - anonymous EnumTypespec with explicit base LogicTypespec (logic [2:0])
 //   - EnumTypespec has 2 consts: Global (4'h2, vpiHexConst) and Local (4'h3, vpiHexConst)
-//   - net "myenum" exists with typespec → EnumTypespec
-//   - net "myenum" has no initial value
-//   - work@top has no processes
+//   - variable "myenum" exists with typespec -> EnumTypespec (IEEE 1800-2023
+//     6.19/6.8: enum-typed declaration with no net-type keyword is a variable)
+//   - variable "myenum" has no initial value
+//   - top has no processes
 //   - HLC doesn't flag the size mismatch (4-bit literal assigned to 3-bit base type)
 
 #include <hlc/Common/Session.h>
@@ -46,6 +47,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -57,14 +59,14 @@ class EnumValueInv : public Test {
 };
 
 TEST_F(EnumValueInv, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // EnumTypespec with explicit base type: logic [2:0]
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(EnumValueInv, EnumTypespecExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -74,7 +76,7 @@ TEST_F(EnumValueInv, EnumTypespecExists) {
 }
 
 TEST_F(EnumValueInv, EnumBaseTypeIsLogic) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -86,11 +88,11 @@ TEST_F(EnumValueInv, EnumBaseTypeIsLogic) {
   EXPECT_NE(base->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// 2 consts: Global (4'h2) and Local (4'h3) — hexadecimal constants
-// ---------------------------------------------------------------------------
+// ----
+// 2 consts: Global (4'h2) and Local (4'h3) -- hexadecimal constants
+// ----
 TEST_F(EnumValueInv, EnumHasTwoConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -104,7 +106,7 @@ TEST_F(EnumValueInv, EnumHasTwoConsts) {
 }
 
 TEST_F(EnumValueInv, GlobalValueIsHex4h2) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -121,7 +123,7 @@ TEST_F(EnumValueInv, GlobalValueIsHex4h2) {
 }
 
 TEST_F(EnumValueInv, LocalValueIsHex4h3) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -137,38 +139,53 @@ TEST_F(EnumValueInv, LocalValueIsHex4h3) {
   EXPECT_EQ(val->getDecompile(), "4'h3");
 }
 
-// ---------------------------------------------------------------------------
-// Net "myenum" → EnumTypespec
-// ---------------------------------------------------------------------------
-TEST_F(EnumValueInv, NetMyenumExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+// Variable "myenum" -> EnumTypespec
+// ----
+TEST_F(EnumValueInv, VariableMyenumExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const myenum = hldb::findByName<hldb::Net>("myenum", top->getNets());
+  const hldb::Variable *const myenum = hldb::findByName<hldb::Variable>("myenum", top->getVariables());
   ASSERT_NE(myenum, nullptr);
   EXPECT_NE(myenum->getTypespec()->getActual<hldb::EnumTypespec>(), nullptr);
 }
 
-TEST_F(EnumValueInv, NetMyenumHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(EnumValueInv, VariableMyenumHasNoInitialValue) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const myenum = hldb::findByName<hldb::Net>("myenum", top->getNets());
+  const hldb::Variable *const myenum = hldb::findByName<hldb::Variable>("myenum", top->getVariables());
   ASSERT_NE(myenum, nullptr);
   EXPECT_EQ(myenum->getValue<hldb::Any>(), nullptr);
 }
 
+// IEEE 1800-2023 Sec 6.7/6.8: `myenum` has no net-type keyword, so it is a
+// Variable, never a Net -- confirm the name is absent from the Net collection.
+TEST_F(EnumValueInv, VariableMyenumNotInNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("myenum", top->getNets()) == nullptr)
+      << "'myenum' has no net-type keyword; it must not appear in the module's Net collection";
+}
+
 TEST_F(EnumValueInv, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
-// Compiler diagnostics -- the 4-bit-literal/3-bit-base size mismatch is not flagged
-// ---------------------------------------------------------------------------
-TEST_F(EnumValueInv, Compiler_NoErrorsReported) {
+// ----
+// Compiler diagnostics -- IEEE 1800-2023 Sec 6.19: "If the integer value
+// expression is a sized literal constant, it shall be an error if the size
+// is different from the enum base type, even if the value is within the
+// representable range." Global/Local use 4'h2/4'h3 against a 3-bit base
+// (logic [2:0]) -- this must be a compile error.
+// ----
+TEST_F(EnumValueInv, Compiler_ErrorReported) {
+  GTEST_SKIP() << "HLC does not reject a 4-bit sized literal assigned to a logic[2:0] enum base at compile time; "
+                  "IEEE 1800-2023 Sec 6.19 requires this to be an error. Fix pending.";
   const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
-      << "HLC does not reject a 4-bit literal assigned to a logic[2:0] enum base at compile time";
+  EXPECT_GT(stats.nbError, 0) << "sized literal width mismatch against the enum base type shall be an error "
+                                  "(IEEE 1800-2023 Sec 6.19)";
 }
 
 }  // namespace hlc

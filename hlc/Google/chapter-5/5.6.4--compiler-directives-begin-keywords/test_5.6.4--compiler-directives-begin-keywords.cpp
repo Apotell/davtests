@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +25,8 @@
 //   `end_keywords
 //
 // UHDM structure:
-//   Module name:work@b_kw
-//     vpiNet (1 item): Net "logic"  ← legal identifier under 1364-2001 rules
+//   Module name:b_kw
+//     vpiVariable (1 item): Variable "logic"  <- legal identifier under 1364-2001 rules
 //
 // Key assertion: the compiler accepted "logic" as a plain identifier name
 // (not a type keyword), confirming that `begin_keywords switched the ruleset.
@@ -39,6 +39,7 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -49,42 +50,54 @@ class CompilerDirectivesBeginKeywords : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@b_kw", d->getAllModules());
+  return hldb::findByName<hldb::Module>("b_kw", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesBeginKeywords, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@b_kw' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'b_kw' not found";
 }
 
-// ---------------------------------------------------------------------------
-// Net named "logic"
+// ----
+// Variable named "logic"
 // Under `begin_keywords "1364-2001", "logic" is not a reserved keyword, so
-// it is accepted as an ordinary identifier and becomes a net name.
-// ---------------------------------------------------------------------------
-TEST_F(CompilerDirectivesBeginKeywords, OneNetExists) {
+// it is accepted as an ordinary identifier and becomes a variable name.
+// ----
+TEST_F(CompilerDirectivesBeginKeywords, OneVariableExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 1u);
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 1u);
 }
 
-TEST_F(CompilerDirectivesBeginKeywords, NetIsNamedLogic) {
+TEST_F(CompilerDirectivesBeginKeywords, VariableIsNamedLogic) {
   // "logic" would be a type keyword under SystemVerilog rules, but the
   // `begin_keywords "1364-2001" directive reverts to Verilog-2001 keywords
   // where "logic" has no special meaning.
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  ASSERT_EQ(m->getNets()->size(), 1u);
-  EXPECT_EQ((*m->getNets())[0]->getName(), "logic");
+  ASSERT_NE(m->getVariables(), nullptr);
+  ASSERT_EQ(m->getVariables()->size(), 1u);
+  EXPECT_EQ((*m->getVariables())[0]->getName(), "logic");
 }
 
-// ---------------------------------------------------------------------------
-// No processes — the module body contains only the one net declaration
-// ---------------------------------------------------------------------------
+// `reg` is a variable keyword, not one of the net-type keywords listed in
+// IEEE 1800-2023 Sec 6.7/6.8, so 'logic' (the reg's name) must not also
+// appear in the module's net collection.
+TEST_F(CompilerDirectivesBeginKeywords, VariableLogicIsNotDuplicatedAsNet) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  if (m->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("logic", m->getNets()), nullptr)
+        << "'logic' is a reg (variable) and must not also appear as a Net";
+  }
+}
+
+// ----
+// No processes -- the module body contains only the one variable declaration
+// ----
 TEST_F(CompilerDirectivesBeginKeywords, NoProcesses) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);

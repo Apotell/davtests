@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a", "b", "w", all
+//   - design has module top with exactly 3 nets: "a", "b", "w", all
 //     vpiNetType wire, each RefTypespec -> LogicTypespec
 //   - module has exactly 2 ports: "a" (input), "b" (input)
 //   - module has exactly 1 continuous assignment: getDelay() -> Constant
@@ -61,10 +61,10 @@ class ContAssignmentDelayTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(ContAssignmentDelayTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -82,7 +82,15 @@ TEST_F(ContAssignmentDelayTest, ModuleHasThreeNetsAllWire) {
   }
 }
 
-// --- continuous assignment with delay ---------------------------------------
+TEST_F(ContAssignmentDelayTest, ModuleHasNoVariables) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8: "a", "b" are ports defaulting to net,
+  // "w" is an explicit "wire" -- none should be a Variable.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr);
+}
+
+// --- continuous assignment with delay ----
 
 TEST_F(ContAssignmentDelayTest, HasOneContAssignWithTenDelay) {
   const hldb::Module *const top = getTop();
@@ -107,7 +115,7 @@ TEST_F(ContAssignmentDelayTest, HasOneContAssignWithTenDelay) {
   EXPECT_EQ(any_cast<hldb::RefObj>(op->getOperands()->at(1))->getName(), "b");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(ContAssignmentDelayTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

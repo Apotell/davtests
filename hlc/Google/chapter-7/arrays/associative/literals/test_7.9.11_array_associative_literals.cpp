@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,15 +25,15 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top
-//   - module has exactly 1 net: 'words' (assoc ArrayTypespec, idx=IntTypespec, elem=StringTypespec)
-//   - net vpiValue = assign-pattern Operation (vpiAssignmentPatternOp=87) with 1 TaggedPattern
+//   - design has module top
+//   - module has exactly 1 variable: 'words' (assoc ArrayTypespec, idx=IntTypespec, elem=StringTypespec)
+//   - variable vpiValue = assign-pattern Operation (vpiAssignmentPatternOp=87) with 1 TaggedPattern
 //   - TaggedPattern tag = RefObj "default"; pattern = Constant value "hello"
 //   - 1 Initial process; Begin with 3 stmts
-//   - stmt[0]: $display(2 args) — BitSelect words[1] as second arg
+//   - stmt[0]: $display(2 args) ? BitSelect words[1] as second arg
 //   - stmt[1]: blocking Assignment words[1]="world" (BitSelect lhs, Constant rhs)
-//   - stmt[2]: $display(3 args) — words[0] and words[1] BitSelects verified
-//   - work@top has no continuous assignments
+//   - stmt[2]: $display(3 args) ? words[0] and words[1] BitSelects verified
+//   - top has no continuous assignments
 //
 // Also checked:
 //   - HLC reports no compile errors for the '{default: "hello"} assignment
@@ -56,7 +56,7 @@
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -72,35 +72,35 @@ class Literals : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module ---------------------------------------------------------------
+// --- module ----
 
 TEST_F(Literals, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-// --- net "words" : string[int] with default value -------------------------
+// --- variable "words" : string[int] with default value ----
 
-TEST_F(Literals, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Literals, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Literals, NetNameIsWords) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Literals, VariableNameIsWords) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getName(), "words");
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), "words");
 }
 
-TEST_F(Literals, NetHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Literals, VariableHasAssociativeArrayTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::RefTypespec *const rt = variable->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
   const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -109,10 +109,10 @@ TEST_F(Literals, NetHasAssociativeArrayTypespec) {
 
 TEST_F(Literals, AssocArrayKeyTypeIsInt) {
   // `int` (2-state) is the index type for string words[int]
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -120,33 +120,33 @@ TEST_F(Literals, AssocArrayKeyTypeIsInt) {
 
 TEST_F(Literals, AssocArrayValueTypeIsString) {
   // element type is StringTypespec because `string words[int]`
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-// --- default value: '{default: "hello"} -----------------------------------
+// --- default value: '{default: "hello"} ----
 
-TEST_F(Literals, NetHasAssignPatternValue) {
+TEST_F(Literals, VariableHasAssignPatternValue) {
   // The initializer `= '{default: "hello"}` is stored as an Operation
-  // with vpiAssignmentPatternOp (87) attached to the net as vpiValue.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  // with vpiAssignmentPatternOp (87) attached to the variable as vpiValue.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::Operation *const op = net->getValue<hldb::Operation>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::Operation *const op = variable->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp);
 }
 
 TEST_F(Literals, DefaultPatternHasOneOperand) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Operation *const op = top->getNets()->at(0)->getValue<hldb::Operation>();
+  const hldb::Operation *const op = top->getVariables()->at(0)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 1u);
@@ -154,9 +154,9 @@ TEST_F(Literals, DefaultPatternHasOneOperand) {
 
 TEST_F(Literals, DefaultPatternTagIsDefault) {
   // Tag is a RefObj with name "default", representing the `default:` key
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Operation *const op = top->getNets()->at(0)->getValue<hldb::Operation>();
+  const hldb::Operation *const op = top->getVariables()->at(0)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   const hldb::TaggedPattern *const tp = any_cast<hldb::TaggedPattern>(op->getOperands()->at(0));
@@ -168,9 +168,9 @@ TEST_F(Literals, DefaultPatternTagIsDefault) {
 
 TEST_F(Literals, DefaultPatternValueIsHello) {
   // Pattern is a Constant with vpiValue="hello" (the literal string "hello")
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Operation *const op = top->getNets()->at(0)->getValue<hldb::Operation>();
+  const hldb::Operation *const op = top->getVariables()->at(0)->getValue<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   const hldb::TaggedPattern *const tp = any_cast<hldb::TaggedPattern>(op->getOperands()->at(0));
@@ -180,10 +180,10 @@ TEST_F(Literals, DefaultPatternValueIsHello) {
   EXPECT_EQ(pattern->getValue(), "hello");
 }
 
-// --- initial block --------------------------------------------------------
+// --- initial block ----
 
 TEST_F(Literals, InitialBodyIsBeginWith3Stmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -197,7 +197,7 @@ TEST_F(Literals, InitialBodyIsBeginWith3Stmts) {
 TEST_F(Literals, FirstStmtIsDisplayWithDefaultHello) {
   // $display(":assert: ('%s' == 'hello')", words[1])
   // words[1] reads the default value before any assignment
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -214,7 +214,7 @@ TEST_F(Literals, FirstStmtIsDisplayWithDefaultHello) {
 
 TEST_F(Literals, SecondStmtAssignsWords1ToWorld) {
   // words[1] = "world"
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -230,8 +230,8 @@ TEST_F(Literals, SecondStmtAssignsWords1ToWorld) {
 }
 
 TEST_F(Literals, ThirdStmtIsDisplayWithBothValues) {
-  // $display(":assert: ...", words[0], words[1]) — 3 arguments
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  // $display(":assert: ...", words[0], words[1]) ? 3 arguments
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -249,7 +249,7 @@ TEST_F(Literals, ThirdStmtIsDisplayWithBothValues) {
 }
 
 TEST_F(Literals, ThirdStmtFormatStringIsHelloWorldAssert) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -261,13 +261,13 @@ TEST_F(Literals, ThirdStmtFormatStringIsHelloWorldAssert) {
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'world'))\"");
 }
 
-// --- structural completeness -----------------------------------------------
+// --- structural completeness ----
 
 TEST_F(Literals, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
-      << "'{default: \"hello\"} is stored as net vpiValue, not a ContAssign";
+      << "'{default: \"hello\"} is stored as variable vpiValue, not a ContAssign";
 }
 
 TEST_F(Literals, CompilerHasNoErrors) {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +25,13 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "ia"
-//   - net "ia": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
-//     -> IntTypespec; initial value stored directly on the Net as an
-//     Operation (vpiOpType=concatenation(33)) with 5 unsigned Constant
+//   - design has module top with exactly 1 variable: "ia" (IEEE 1800-2023
+//     6.7/6.8: 'int ia[] = {...}' has no net-type keyword, so it is a
+//     variable_declaration, not a net_declaration); it does not appear in
+//     getNets()
+//   - variable "ia": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2),
+//     elem -> IntTypespec; initial value stored directly on the Variable as
+//     an Operation (vpiOpType=concatenation(33)) with 5 unsigned Constant
 //     operands 1, 2, 3, 4, 5
 //   - Initial process: 1 Begin with 3 stmts (SysFuncCall + HierPath +
 //     SysFuncCall)
@@ -37,7 +40,7 @@
 //     rather than ":assert:", since a shuffled order has no single
 //     deterministic expected result
 //   - Stmt[1]: ia.shuffle (no parens) -- HierPath "ia.shuffle()" with 2
-//     path elems: RefObj "ia" (resolving Net "ia") and MethodFuncCall
+//     path elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall
 //     "shuffle" with no arguments -- correctly resolves, zero errors
 //   - Stmt[2]: $display with 6 args (":info:" format + BitSelect ia[0..4],
 //     printing the post-shuffle order)
@@ -72,12 +75,12 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,24 +91,31 @@ class UnpackedShuffleTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net --------------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(UnpackedShuffleTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedShuffleTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedShuffleTest, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u)
+      << "6.7/6.8: 'int ia[] = {...}' declared with no net-type keyword is a variable";
 }
 
-TEST_F(UnpackedShuffleTest, NetIaIsDynamicArrayOfInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedShuffleTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const ia = hldb::findByName<hldb::Net>("ia", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in shuffle.sv";
+}
+
+TEST_F(UnpackedShuffleTest, VarIaIsDynamicArrayOfInt) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const ia = hldb::findByName<hldb::Variable>("ia", top->getVariables());
   ASSERT_NE(ia, nullptr);
   const hldb::ArrayTypespec *const at = ia->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -113,10 +123,10 @@ TEST_F(UnpackedShuffleTest, NetIaIsDynamicArrayOfInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(UnpackedShuffleTest, NetIaInitialValueIsConcatenationOfOneThroughFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedShuffleTest, VarIaInitialValueIsConcatenationOfOneThroughFive) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const ia = hldb::findByName<hldb::Net>("ia", top->getNets());
+  const hldb::Variable *const ia = hldb::findByName<hldb::Variable>("ia", top->getVariables());
   ASSERT_NE(ia, nullptr);
   const hldb::Operation *const init = ia->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
@@ -129,10 +139,10 @@ TEST_F(UnpackedShuffleTest, NetIaInitialValueIsConcatenationOfOneThroughFive) {
   }
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedShuffleTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -145,7 +155,7 @@ TEST_F(UnpackedShuffleTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedShuffleTest, FirstStmtDisplaysInfoFormatWithFiveElements) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -165,7 +175,7 @@ TEST_F(UnpackedShuffleTest, FirstStmtDisplaysInfoFormatWithFiveElements) {
 }
 
 TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleHierPathWithNoParens) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -173,7 +183,7 @@ TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleHierPathWithNoParens) {
   ASSERT_NE(hp, nullptr) << "'ia.shuffle' should be a HierPath";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "shuffle");
@@ -181,7 +191,7 @@ TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleHierPathWithNoParens) {
 }
 
 TEST_F(UnpackedShuffleTest, ThirdStmtDisplaysInfoFormatAgain) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -199,7 +209,7 @@ TEST_F(UnpackedShuffleTest, ThirdStmtDisplaysInfoFormatAgain) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedShuffleTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -210,7 +220,7 @@ TEST_F(UnpackedShuffleTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedShuffleTest, DesignHasSignedIntTypespec) {
@@ -235,7 +245,7 @@ TEST_F(UnpackedShuffleTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedShuffleTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -250,7 +260,7 @@ TEST_F(UnpackedShuffleTest, RuntimeShuffleResultIsNonDeterministicRequiresSimula
                   "there is no single correct post-shuffle arrangement to assert, only that ia "
                   "remains a permutation of {1,2,3,4,5} with 5 elements.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

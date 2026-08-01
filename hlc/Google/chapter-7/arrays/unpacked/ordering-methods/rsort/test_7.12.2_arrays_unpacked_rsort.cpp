@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,17 +27,20 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 1 net: "ia"
-//   - net "ia": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2), elem
-//     -> IntTypespec; initial value stored directly on the Net as an
-//     Operation (vpiOpType=concatenation(33)) with 4 unsigned Constant
+//   - design has module top with exactly 1 variable: "ia" (IEEE 1800-2023
+//     6.7/6.8: 'int ia[] = {...}' has no net-type keyword, so it is a
+//     variable_declaration, not a net_declaration); it does not appear in
+//     getNets()
+//   - variable "ia": RefTypespec -> ArrayTypespec vpiArrayType=dynamic(2),
+//     elem -> IntTypespec; initial value stored directly on the Variable as
+//     an Operation (vpiOpType=concatenation(33)) with 4 unsigned Constant
 //     operands 4, 5, 3, 1
 //   - Initial process: 1 Begin with 3 stmts (SysFuncCall + HierPath +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect ia[0..3])
 //   - Stmt[1]: ia.rsort (no parens) -- HierPath "ia.rsort()" with 2 path
-//     elems: RefObj "ia" (resolving Net "ia") and MethodFuncCall "rsort"
-//     with no arguments -- correctly resolves, zero errors
+//     elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall
+//     "rsort" with no arguments -- correctly resolves, zero errors
 //   - Stmt[2]: $display with 5 args (format + BitSelect ia[0..3],
 //     documenting the post-rsort descending order)
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
@@ -66,12 +69,12 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -82,24 +85,31 @@ class UnpackedRsortTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / net --------------------------------------------------------------
+// --- module / variable ----
 
 TEST_F(UnpackedRsortTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedRsortTest, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedRsortTest, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u)
+      << "6.7/6.8: 'int ia[] = {...}' declared with no net-type keyword is a variable";
 }
 
-TEST_F(UnpackedRsortTest, NetIaIsDynamicArrayOfInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedRsortTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const ia = hldb::findByName<hldb::Net>("ia", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in rsort.sv";
+}
+
+TEST_F(UnpackedRsortTest, VarIaIsDynamicArrayOfInt) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const ia = hldb::findByName<hldb::Variable>("ia", top->getVariables());
   ASSERT_NE(ia, nullptr);
   const hldb::ArrayTypespec *const at = ia->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -107,10 +117,10 @@ TEST_F(UnpackedRsortTest, NetIaIsDynamicArrayOfInt) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(UnpackedRsortTest, NetIaInitialValueIsConcatenationOfFourFiveThreeOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedRsortTest, VarIaInitialValueIsConcatenationOfFourFiveThreeOne) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const ia = hldb::findByName<hldb::Net>("ia", top->getNets());
+  const hldb::Variable *const ia = hldb::findByName<hldb::Variable>("ia", top->getVariables());
   ASSERT_NE(ia, nullptr);
   const hldb::Operation *const init = ia->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
@@ -123,10 +133,10 @@ TEST_F(UnpackedRsortTest, NetIaInitialValueIsConcatenationOfFourFiveThreeOne) {
   }
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedRsortTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -139,7 +149,7 @@ TEST_F(UnpackedRsortTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(UnpackedRsortTest, FirstStmtDisplaysFourFiveThreeOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -159,7 +169,7 @@ TEST_F(UnpackedRsortTest, FirstStmtDisplaysFourFiveThreeOne) {
 }
 
 TEST_F(UnpackedRsortTest, SecondStmtIsRsortHierPathWithNoParens) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -167,7 +177,7 @@ TEST_F(UnpackedRsortTest, SecondStmtIsRsortHierPathWithNoParens) {
   ASSERT_NE(hp, nullptr) << "'ia.rsort' should be a HierPath";
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "rsort");
@@ -175,7 +185,7 @@ TEST_F(UnpackedRsortTest, SecondStmtIsRsortHierPathWithNoParens) {
 }
 
 TEST_F(UnpackedRsortTest, ThirdStmtDisplaysFiveFourThreeOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -186,7 +196,7 @@ TEST_F(UnpackedRsortTest, ThirdStmtDisplaysFiveFourThreeOne) {
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 5) and (%d == 4) and (%d == 3) and (%d == 1))");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedRsortTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -197,7 +207,7 @@ TEST_F(UnpackedRsortTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedRsortTest, DesignHasSignedIntTypespec) {
@@ -222,19 +232,19 @@ TEST_F(UnpackedRsortTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedRsortTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime rsort result requires simulation ---------------------
+// --- known gap: runtime rsort result requires simulation ----
 
 TEST_F(UnpackedRsortTest, RuntimeRsortResultRequiresSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates rsort.sv; it does not run a simulator, so "
                   "the actual runtime contents of ia after ia.rsort cannot be observed here. "
                   "rsort.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

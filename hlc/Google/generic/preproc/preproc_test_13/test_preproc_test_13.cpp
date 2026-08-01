@@ -20,6 +20,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/identifier.h>
 #include <hldb/module.h>
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/source_file.h>
@@ -69,6 +70,36 @@ TEST_F(PreprocArgStringDefaultsTest, LongMacroHasReplacementText) {
       << "LONG_MACRO arg list was not parsed -- nested parens in defaults may have broken matching";
   EXPECT_FALSE(macro->getArguments()->empty()) << "LONG_MACRO arg list must not be empty";
   EXPECT_NE(macro->getTokens(), nullptr) << "LONG_MACRO replacement text 'a + b /c +345' was not captured";
+}
+
+// LONG_MACRO(a, b="(3,2)", c=(3,2)) has exactly three formal arguments:
+// a, b, c. Nested parentheses in the default text must not be miscounted
+// as extra formal arguments.
+TEST_F(PreprocArgStringDefaultsTest, LongMacroFormalArgNames) {
+  ASSERT_NE(m_design->getSourceFiles(), nullptr);
+  const hldb::SourceFile *const sf =
+      hldb::findByName<hldb::SourceFile>("preproc_test_13.sv", m_design->getSourceFiles());
+  ASSERT_NE(sf, nullptr);
+  const hldb::PreprocMacroDefinition *const macro =
+      hldb::findByName<hldb::PreprocMacroDefinition>("LONG_MACRO", sf->getPreprocMacroDefinitions());
+  ASSERT_NE(macro, nullptr);
+  ASSERT_NE(macro->getArguments(), nullptr);
+  ASSERT_EQ(macro->getArguments()->size(), 3u)
+      << "LONG_MACRO must have exactly 3 formal arguments: a, b, c -- nested parens in defaults must not "
+         "be miscounted";
+  EXPECT_EQ((*macro->getArguments())[0]->getName(), "a") << "first formal argument must be 'a'";
+  EXPECT_EQ((*macro->getArguments())[1]->getName(), "b") << "second formal argument must be 'b'";
+  EXPECT_EQ((*macro->getArguments())[2]->getName(), "c") << "third formal argument must be 'c'";
+}
+
+// sec. 22.5.1: formal argument defaults may be string literals (b="(3,2)")
+// or parenthesized expressions (c=(3,2)). As noted in preproc_test_12, the
+// HLDB 'argument' field is modeled as a plain 'identifier' with no
+// default-text field, so these default values cannot be retrieved.
+TEST_F(PreprocArgStringDefaultsTest, LongMacroArgumentDefaultsAreModeled) {
+  GTEST_SKIP() << "HLDB's preproc_macro_definition.argument is typed as a plain 'identifier' with no default-text "
+                  "field, so 'b=\"(3,2)\"' and 'c=(3,2)' formal-argument defaults (IEEE 1800-2023 sec. 22.5.1) "
+                  "cannot be represented or queried. Fix pending: add a default-text field to the argument model.";
 }
 
 }  // namespace hlc

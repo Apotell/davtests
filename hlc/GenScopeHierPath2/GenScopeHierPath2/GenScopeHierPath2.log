@@ -339,20 +339,16 @@ n<$Source01/dut.sv> u<326> t<Top_level_rule> c<1> l<1:1> el<26:1>
                                                                   n<> u<286> t<Bit_select> p<287> l<24:34> el<24:34>
         n<> u<322> t<ENDMODULE> p<323> l<25:1> el<25:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@mod".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "mod".
 [INF:CP0335] $Source01/dut.sv:11:30: Compile generate block "blk3".
 [INF:CP0335] $Source01/dut.sv:14:18: Compile generate block "blk4".
 [INF:CP0335] $Source01/dut.sv:8:30: Compile generate block "blk2".
 [INF:CP0335] $Source01/dut.sv:5:25: Compile generate block "blk1".
-[ERR:EL0535] $Source01/dut.sv:18:28: Illegal implicit net "id:101, name:blk1".
-[ERR:EL0535] $Source01/dut.sv:18:33: Illegal implicit net "id:102, name:w".
-[ERR:EL0535] $Source01/dut.sv:20:28: Illegal implicit net "id:111, name:blk2".
-[ERR:EL0535] $Source01/dut.sv:20:33: Illegal implicit net "id:112, name:x".
-[ERR:EL0535] $Source01/dut.sv:22:28: Illegal implicit net "id:121, name:blk3".
-[ERR:EL0535] $Source01/dut.sv:22:33: Illegal implicit net "id:122, name:y".
-[ERR:EL0535] $Source01/dut.sv:24:28: Illegal implicit net "id:129, name:blk4".
-[ERR:EL0535] $Source01/dut.sv:24:33: Illegal implicit net "id:130, name:z".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@mod".
+[WRN:CP0350] $Source01/dut.sv:18:28: Failed to bind "id:101, name:blk1".
+[WRN:CP0350] $Source01/dut.sv:20:28: Failed to bind "id:111, name:blk2".
+[WRN:CP0350] $Source01/dut.sv:22:28: Failed to bind "id:121, name:blk3".
+[WRN:CP0350] $Source01/dut.sv:24:28: Failed to bind "id:129, name:blk4".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "mod".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -361,36 +357,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@mod file:$Source01/dut.sv start:1:1 end:25:10:
+    Module name:mod file:$Source01/dut.sv start:1:1 end:25:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@mod start:1:8 end:1:11:
-        vpiParent: Module name:work@mod
-        vpiName: work@mod
-      vpiFullName: work@mod
+      vpiName Identifier name:mod start:1:8 end:1:11:
+        vpiParent: Module name:mod
+        vpiName: mod
+      vpiFullName: mod
       vpiParameter (1 items):
         Parameter name:P start:4:15 end:4:16:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiTypespec RefTypespec start:4:15 end:4:15:
             vpiParent: Parameter name:P
-            vpiFullName: work@mod.P
+            vpiFullName: mod.P
             vpiActual: LogicTypespec
           vpiName: P
-          vpiFullName: work@mod.P
+          vpiFullName: mod.P
       vpiParamAssign (1 items):
         ParamAssign start:4:15 end:4:20:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiLhs RefObj name:P start:4:15 end:4:16:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: work@mod.P
+            vpiFullName: mod.P
             vpiActual: Parameter name:P
           vpiRhs Constant start:4:19 end:4:20:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@mod
+              vpiFullName: mod
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -398,7 +393,7 @@ Design name:unnamed:
             vpiValue: 0
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiRange (1 items):
             Range start:2:17 end:2:23:
               vpiParent: LogicTypespec
@@ -406,7 +401,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -416,7 +411,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -424,40 +419,77 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@mod
-      vpiDefName: work@mod
-      vpiDefNetType: none (12)
+          vpiParent: Module name:mod
+      vpiDefName: mod
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@mod
+        vpiParent: Module name:mod
         vpiName: work
-        vpiFullName: work@mod.work
+        vpiFullName: mod.work
       vpiCell: mod
-      vpiNet (1 items):
+      vpiNet (5 items):
         Net name:out start:2:24 end:2:27:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiTypespec RefTypespec start:2:5 end:2:23:
             vpiParent: Net name:out
-            vpiFullName: work@mod.out
+            vpiFullName: mod.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: work@mod.out
+          vpiFullName: mod.out
+          vpiNetType: wire (1)
+        Net name:y start:12:14 end:12:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:y
+            vpiFullName: mod.y
+            vpiActual: ArrayTypespec
+          vpiName: y
+          vpiFullName: mod.y
+          vpiNetType: wire (1)
+        Net name:z start:15:14 end:15:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:z
+            vpiFullName: mod.z
+            vpiActual: ArrayTypespec
+          vpiName: z
+          vpiFullName: mod.z
+          vpiNetType: wire (1)
+        Net name:x start:9:14 end:9:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:x
+            vpiFullName: mod.x
+            vpiActual: ArrayTypespec
+          vpiName: x
+          vpiFullName: mod.x
+          vpiNetType: wire (1)
+        Net name:w start:6:14 end:6:15:
+          vpiParent: Module name:mod
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:w
+            vpiFullName: mod.w
+            vpiActual: ArrayTypespec
+          vpiName: w
+          vpiFullName: mod.w
           vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:out start:2:24 end:2:27:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:24 end:2:27:
+          vpiLowConn RefObj name:out start:2:24 end:2:27:
             vpiParent: Port name:out
-            vpiFullName: work@mod.out
+            vpiName: out
+            vpiFullName: mod.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:2:5 end:2:23:
             vpiParent: Port name:out
-            vpiFullName: work@mod.out
+            vpiFullName: mod.out
             vpiActual: LogicTypespec
       vpiGenStmt (2 items):
         GenIfElse start:5:5 end:16:8:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiCondition Operation start:5:9 end:5:15:
             vpiParent: GenIfElse
             vpiOpType: equal (14)
@@ -465,13 +497,13 @@ Design name:unnamed:
               RefObj name:P start:5:9 end:5:10:
                 vpiParent: Operation
                 vpiName: P
-                vpiFullName: work@mod.P
+                vpiFullName: mod.P
                 vpiActual: Parameter name:P
               Constant start:5:14 end:5:15:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -482,17 +514,7 @@ Design name:unnamed:
             vpiName Identifier name:blk1 start:5:25 end:5:29:
               vpiParent: Begin name:blk1
               vpiName: blk1
-            vpiFullName: work@mod.blk1
-            vpiVariable (1 items):
-              Variable name:w start:6:14 end:6:15:
-                vpiParent: Begin name:blk1
-                vpiTypespec RefTypespec:
-                  vpiParent: Variable name:w
-                  vpiFullName: work@mod.blk1.w
-                  vpiActual: ArrayTypespec
-                vpiName: w
-                vpiFullName: work@mod.blk1.w
-                vpiNetType: wire (1)
+            vpiFullName: mod.blk1
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin name:blk1
@@ -509,7 +531,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@mod.blk1
+                          vpiFullName: mod.blk1
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -517,11 +539,11 @@ Design name:unnamed:
                         vpiValue: 2
                 vpiElemTypespec RefTypespec start:6:14 end:6:14:
                   vpiParent: ArrayTypespec
-                  vpiFullName: work@mod.blk1
+                  vpiFullName: mod.blk1
                   vpiActual: LogicTypespec
           vpiElseStmt Begin:
             vpiParent: GenIfElse
-            vpiFullName: work@mod
+            vpiFullName: mod
             vpiStmt (1 items):
               GenIfElse start:8:10 end:16:8:
                 vpiParent: Begin
@@ -532,13 +554,13 @@ Design name:unnamed:
                     RefObj name:P start:8:14 end:8:15:
                       vpiParent: Operation
                       vpiName: P
-                      vpiFullName: work@mod.P
+                      vpiFullName: mod.P
                       vpiActual: Parameter name:P
                     Constant start:8:19 end:8:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@mod
+                        vpiFullName: mod
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -549,17 +571,7 @@ Design name:unnamed:
                   vpiName Identifier name:blk2 start:8:30 end:8:34:
                     vpiParent: Begin name:blk2
                     vpiName: blk2
-                  vpiFullName: work@mod.blk2
-                  vpiVariable (1 items):
-                    Variable name:x start:9:14 end:9:15:
-                      vpiParent: Begin name:blk2
-                      vpiTypespec RefTypespec:
-                        vpiParent: Variable name:x
-                        vpiFullName: work@mod.blk2.x
-                        vpiActual: ArrayTypespec
-                      vpiName: x
-                      vpiFullName: work@mod.blk2.x
-                      vpiNetType: wire (1)
+                  vpiFullName: mod.blk2
                   vpiTypespec (2 items):
                     LogicTypespec:
                       vpiParent: Begin name:blk2
@@ -576,7 +588,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@mod.blk2
+                                vpiFullName: mod.blk2
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -584,11 +596,11 @@ Design name:unnamed:
                               vpiValue: 3
                       vpiElemTypespec RefTypespec start:9:14 end:9:14:
                         vpiParent: ArrayTypespec
-                        vpiFullName: work@mod.blk2
+                        vpiFullName: mod.blk2
                         vpiActual: LogicTypespec
                 vpiElseStmt Begin:
                   vpiParent: GenIfElse
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiStmt (1 items):
                     GenIfElse start:11:10 end:16:8:
                       vpiParent: Begin
@@ -599,13 +611,13 @@ Design name:unnamed:
                           RefObj name:P start:11:14 end:11:15:
                             vpiParent: Operation
                             vpiName: P
-                            vpiFullName: work@mod.P
+                            vpiFullName: mod.P
                             vpiActual: Parameter name:P
                           Constant start:11:19 end:11:20:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@mod
+                              vpiFullName: mod
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -616,17 +628,7 @@ Design name:unnamed:
                         vpiName Identifier name:blk3 start:11:30 end:11:34:
                           vpiParent: Begin name:blk3
                           vpiName: blk3
-                        vpiFullName: work@mod.blk3
-                        vpiVariable (1 items):
-                          Variable name:y start:12:14 end:12:15:
-                            vpiParent: Begin name:blk3
-                            vpiTypespec RefTypespec:
-                              vpiParent: Variable name:y
-                              vpiFullName: work@mod.blk3.y
-                              vpiActual: ArrayTypespec
-                            vpiName: y
-                            vpiFullName: work@mod.blk3.y
-                            vpiNetType: wire (1)
+                        vpiFullName: mod.blk3
                         vpiTypespec (2 items):
                           LogicTypespec:
                             vpiParent: Begin name:blk3
@@ -643,7 +645,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@mod.blk3
+                                      vpiFullName: mod.blk3
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -651,24 +653,14 @@ Design name:unnamed:
                                     vpiValue: 5
                             vpiElemTypespec RefTypespec start:12:14 end:12:14:
                               vpiParent: ArrayTypespec
-                              vpiFullName: work@mod.blk3
+                              vpiFullName: mod.blk3
                               vpiActual: LogicTypespec
                       vpiElseStmt Begin name:blk4 start:14:10 end:16:8:
                         vpiParent: GenIfElse
                         vpiName Identifier name:blk4 start:14:18 end:14:22:
                           vpiParent: Begin name:blk4
                           vpiName: blk4
-                        vpiFullName: work@mod.blk4
-                        vpiVariable (1 items):
-                          Variable name:z start:15:14 end:15:15:
-                            vpiParent: Begin name:blk4
-                            vpiTypespec RefTypespec:
-                              vpiParent: Variable name:z
-                              vpiFullName: work@mod.blk4.z
-                              vpiActual: ArrayTypespec
-                            vpiName: z
-                            vpiFullName: work@mod.blk4.z
-                            vpiNetType: wire (1)
+                        vpiFullName: mod.blk4
                         vpiTypespec (2 items):
                           LogicTypespec:
                             vpiParent: Begin name:blk4
@@ -685,7 +677,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@mod.blk4
+                                      vpiFullName: mod.blk4
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -693,10 +685,10 @@ Design name:unnamed:
                                     vpiValue: 7
                             vpiElemTypespec RefTypespec start:15:14 end:15:14:
                               vpiParent: ArrayTypespec
-                              vpiFullName: work@mod.blk4
+                              vpiFullName: mod.blk4
                               vpiActual: LogicTypespec
         GenIfElse start:17:5 end:24:36:
-          vpiParent: Module name:work@mod
+          vpiParent: Module name:mod
           vpiCondition Operation start:17:9 end:17:15:
             vpiParent: GenIfElse
             vpiOpType: equal (14)
@@ -704,13 +696,13 @@ Design name:unnamed:
               RefObj name:P start:17:9 end:17:10:
                 vpiParent: Operation
                 vpiName: P
-                vpiFullName: work@mod.P
+                vpiFullName: mod.P
                 vpiActual: Parameter name:P
               Constant start:17:14 end:17:15:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -718,14 +710,14 @@ Design name:unnamed:
                 vpiValue: 1
           vpiStmt Begin:
             vpiParent: GenIfElse
-            vpiFullName: work@mod
+            vpiFullName: mod
             vpiStmt (1 items):
               ContAssign start:18:16 end:18:35:
                 vpiParent: Begin
                 vpiLhs RefObj name:out start:18:16 end:18:19:
                   vpiParent: ContAssign
                   vpiName: out
-                  vpiFullName: work@mod.out
+                  vpiFullName: mod.out
                   vpiActual: Net name:out
                 vpiRhs SysFuncCall name:$bits start:18:22 end:18:35:
                   vpiParent: ContAssign
@@ -736,19 +728,20 @@ Design name:unnamed:
                     HierPath name:blk1.w start:18:28 end:18:34:
                       vpiParent: SysFuncCall name:$bits
                       vpiName: blk1.w
-                      vpiFullName: work@mod.blk1.w
+                      vpiFullName: mod.blk1.w
                       vpiPathElem (2 items):
                         RefObj name:blk1 start:18:28 end:18:32:
                           vpiParent: HierPath name:blk1.w
                           vpiName: blk1
-                          vpiFullName: work@mod.blk1
+                          vpiFullName: mod.blk1
                         RefObj name:w start:18:33 end:18:34:
                           vpiParent: HierPath name:blk1.w
                           vpiName: w
-                          vpiFullName: work@mod.w
+                          vpiFullName: mod.w
+                          vpiActual: Net name:w
           vpiElseStmt Begin:
             vpiParent: GenIfElse
-            vpiFullName: work@mod
+            vpiFullName: mod
             vpiStmt (1 items):
               GenIfElse start:19:10 end:24:36:
                 vpiParent: Begin
@@ -759,13 +752,13 @@ Design name:unnamed:
                     RefObj name:P start:19:14 end:19:15:
                       vpiParent: Operation
                       vpiName: P
-                      vpiFullName: work@mod.P
+                      vpiFullName: mod.P
                       vpiActual: Parameter name:P
                     Constant start:19:19 end:19:20:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@mod
+                        vpiFullName: mod
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -773,14 +766,14 @@ Design name:unnamed:
                       vpiValue: 2
                 vpiStmt Begin:
                   vpiParent: GenIfElse
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiStmt (1 items):
                     ContAssign start:20:16 end:20:35:
                       vpiParent: Begin
                       vpiLhs RefObj name:out start:20:16 end:20:19:
                         vpiParent: ContAssign
                         vpiName: out
-                        vpiFullName: work@mod.out
+                        vpiFullName: mod.out
                         vpiActual: Net name:out
                       vpiRhs SysFuncCall name:$bits start:20:22 end:20:35:
                         vpiParent: ContAssign
@@ -791,19 +784,20 @@ Design name:unnamed:
                           HierPath name:blk2.x start:20:28 end:20:34:
                             vpiParent: SysFuncCall name:$bits
                             vpiName: blk2.x
-                            vpiFullName: work@mod.blk2.x
+                            vpiFullName: mod.blk2.x
                             vpiPathElem (2 items):
                               RefObj name:blk2 start:20:28 end:20:32:
                                 vpiParent: HierPath name:blk2.x
                                 vpiName: blk2
-                                vpiFullName: work@mod.blk2
+                                vpiFullName: mod.blk2
                               RefObj name:x start:20:33 end:20:34:
                                 vpiParent: HierPath name:blk2.x
                                 vpiName: x
-                                vpiFullName: work@mod.x
+                                vpiFullName: mod.x
+                                vpiActual: Net name:x
                 vpiElseStmt Begin:
                   vpiParent: GenIfElse
-                  vpiFullName: work@mod
+                  vpiFullName: mod
                   vpiStmt (1 items):
                     GenIfElse start:21:10 end:24:36:
                       vpiParent: Begin
@@ -814,13 +808,13 @@ Design name:unnamed:
                           RefObj name:P start:21:14 end:21:15:
                             vpiParent: Operation
                             vpiName: P
-                            vpiFullName: work@mod.P
+                            vpiFullName: mod.P
                             vpiActual: Parameter name:P
                           Constant start:21:19 end:21:20:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@mod
+                              vpiFullName: mod
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -828,14 +822,14 @@ Design name:unnamed:
                             vpiValue: 3
                       vpiStmt Begin:
                         vpiParent: GenIfElse
-                        vpiFullName: work@mod
+                        vpiFullName: mod
                         vpiStmt (1 items):
                           ContAssign start:22:16 end:22:35:
                             vpiParent: Begin
                             vpiLhs RefObj name:out start:22:16 end:22:19:
                               vpiParent: ContAssign
                               vpiName: out
-                              vpiFullName: work@mod.out
+                              vpiFullName: mod.out
                               vpiActual: Net name:out
                             vpiRhs SysFuncCall name:$bits start:22:22 end:22:35:
                               vpiParent: ContAssign
@@ -846,26 +840,27 @@ Design name:unnamed:
                                 HierPath name:blk3.y start:22:28 end:22:34:
                                   vpiParent: SysFuncCall name:$bits
                                   vpiName: blk3.y
-                                  vpiFullName: work@mod.blk3.y
+                                  vpiFullName: mod.blk3.y
                                   vpiPathElem (2 items):
                                     RefObj name:blk3 start:22:28 end:22:32:
                                       vpiParent: HierPath name:blk3.y
                                       vpiName: blk3
-                                      vpiFullName: work@mod.blk3
+                                      vpiFullName: mod.blk3
                                     RefObj name:y start:22:33 end:22:34:
                                       vpiParent: HierPath name:blk3.y
                                       vpiName: y
-                                      vpiFullName: work@mod.y
+                                      vpiFullName: mod.y
+                                      vpiActual: Net name:y
                       vpiElseStmt Begin:
                         vpiParent: GenIfElse
-                        vpiFullName: work@mod
+                        vpiFullName: mod
                         vpiStmt (1 items):
                           ContAssign start:24:16 end:24:35:
                             vpiParent: Begin
                             vpiLhs RefObj name:out start:24:16 end:24:19:
                               vpiParent: ContAssign
                               vpiName: out
-                              vpiFullName: work@mod.out
+                              vpiFullName: mod.out
                               vpiActual: Net name:out
                             vpiRhs SysFuncCall name:$bits start:24:22 end:24:35:
                               vpiParent: ContAssign
@@ -876,31 +871,32 @@ Design name:unnamed:
                                 HierPath name:blk4.z start:24:28 end:24:34:
                                   vpiParent: SysFuncCall name:$bits
                                   vpiName: blk4.z
-                                  vpiFullName: work@mod.blk4.z
+                                  vpiFullName: mod.blk4.z
                                   vpiPathElem (2 items):
                                     RefObj name:blk4 start:24:28 end:24:32:
                                       vpiParent: HierPath name:blk4.z
                                       vpiName: blk4
-                                      vpiFullName: work@mod.blk4
+                                      vpiFullName: mod.blk4
                                     RefObj name:z start:24:33 end:24:34:
                                       vpiParent: HierPath name:blk4.z
                                       vpiName: z
-                                      vpiFullName: work@mod.z
+                                      vpiFullName: mod.z
+                                      vpiActual: Net name:z
   vpiTypespec (2 items):
-    ModuleTypespec name:work@mod:
+    ModuleTypespec name:mod:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@mod start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@mod
-        vpiName: work@mod
-      vpiModule: Module name:work@mod
+      vpiName Identifier name:mod start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:mod
+        vpiName: mod
+      vpiModule: Module name:mod
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

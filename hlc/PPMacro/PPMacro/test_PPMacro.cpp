@@ -34,12 +34,12 @@ class PPMacroTest : public Test {
 
 // LRM 22.5.1: both modules that use FOO1 and FOO2 must compile cleanly.
 TEST_F(PPMacroTest, Top1ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top1", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top1", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top1' must compile";
 }
 
 TEST_F(PPMacroTest, Top2ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top2", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top2", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top2' must compile";
 }
 

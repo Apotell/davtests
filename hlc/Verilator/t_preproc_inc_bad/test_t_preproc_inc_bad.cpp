@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -33,14 +34,14 @@ class PreprocIncBadTest : public Test {
 // LRM 22.4: a syntax error inside an included file must not prevent the
 // compiler from completing compilation of the including file's modules.
 TEST_F(PreprocIncBadTest, MainModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@t", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("t", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "main module 't' must compile despite syntax error in included file";
 }
 
 // The included file defines module 'xx'; it must be recorded even with a
 // syntax error, because the error is in the module body, not the declaration.
 TEST_F(PreprocIncBadTest, IncludedModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@xx", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("xx", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'xx' from included file must be compiled";
 }
 
@@ -53,6 +54,15 @@ TEST_F(PreprocIncBadTest, IncludedFileRecorded) {
   ASSERT_NE(sf->getIncludes(), nullptr);
   const hldb::SourceFile *const inc = hldb::findByName<hldb::SourceFile>("t_preproc_inc_inc_bad.vh", sf->getIncludes());
   EXPECT_NE(inc, nullptr) << "t_preproc_inc_inc_bad.vh must be recorded as an include";
+}
+
+// The intentional syntax error inside t_preproc_inc_inc_bad.vh (an
+// unterminated module body) must still be diagnosed, even though it does
+// not prevent module 't' or module 'xx' from being recorded.
+TEST_F(PreprocIncBadTest, SyntaxErrorInIncludedFileIsReported) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GE(stats.nbSyntax, 1) << "the intentional syntax error in t_preproc_inc_inc_bad.vh must be diagnosed";
 }
 
 }  // namespace hlc

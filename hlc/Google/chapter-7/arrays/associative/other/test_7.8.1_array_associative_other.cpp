@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,16 +20,16 @@
 //     int arr[Unpkt];
 //   endmodule
 //
-// HLC emits EL0535 ("Illegal implicit net Unpkt") — typedef unresolved
+// HLC emits EL0535 ("Illegal implicit variable Unpkt") ? typedef unresolved
 // as associative-array index type; ArrayTypespec falls back to static(1).
 //
 // Checked:
-//   - design has module work@top
-//   - module has exactly 1 net: 'arr' (ArrayTypespec static=1 — error recovery)
+//   - design has module top
+//   - module has exactly 1 variable: 'arr' (ArrayTypespec static=1 ? error recovery)
 //   - ArrayTypespec elem type is IntTypespec
 //   - module has TypedefTypespec "Unpkt" (from typedef struct definition)
-//   - work@top has no processes
-//   - work@top has no continuous assignments
+//   - top has no processes
+//   - top has no continuous assignments
 //
 // Also checked:
 //   - StructTypespec internals of Unpkt: member "B" resolves to ByteTypespec,
@@ -46,7 +46,7 @@
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/struct_typespec.h>
 #include <hldb/typedef_typespec.h>
@@ -60,55 +60,55 @@ class Other : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module ---------------------------------------------------------------
+// --- module ----
 
 TEST_F(Other, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-// --- net arr (error-recovery: static array, not associative) --------------
+// --- variable arr (error-recovery: static array, not associative) ----
 
-TEST_F(Other, ModuleHasOneNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Other, ModuleHasOneVariable) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Other, NetNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Other, VariableNameIsArr) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getName(), "arr");
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
-TEST_F(Other, NetHasArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Other, VariableHasArrayTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::RefTypespec *const rt = variable->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
   EXPECT_NE(rt->getActual<hldb::ArrayTypespec>(), nullptr);
 }
 
 TEST_F(Other, ArrayTypespecIsStaticDueToErrorRecovery) {
-  // int arr[Unpkt] — HLC could not resolve Unpkt as an index type (EL0535),
+  // int arr[Unpkt] ? HLC could not resolve Unpkt as an index type (EL0535),
   // so the ArrayTypespec falls back to static(1) instead of associative(3)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getArrayType(), 1);  // static = 1 (error recovery)
 }
 
 TEST_F(Other, ArrayTypespecElemTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -117,26 +117,26 @@ TEST_F(Other, ArrayTypespecElemTypeIsInt) {
 TEST_F(Other, ArrayTypespecIndexTypespecIsNull) {
   // int arr[Unpkt] -- Unpkt could not be resolved as an index type, so the
   // error-recovery ArrayTypespec has no index typespec at all.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   EXPECT_EQ(at->getIndexTypespec(), nullptr);
 }
 
 TEST_F(Other, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
-// --- typedef Unpkt -----------------------------------------------------------
+// --- typedef Unpkt ----
 
 TEST_F(Other, ModuleHasTypedefUnpkt) {
   // typedef struct { ... } Unpkt creates a TypedefTypespec named "Unpkt"
-  // accessible via module typespecs (not through the net)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  // accessible via module typespecs (not through the variable)
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
@@ -146,7 +146,7 @@ TEST_F(Other, ModuleHasTypedefUnpkt) {
 TEST_F(Other, UnpktStructHasTwoMembers) {
   // typedef struct { byte B; int I[*]; } Unpkt -- the underlying StructTypespec
   // should have exactly 2 members: B and I.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -158,7 +158,7 @@ TEST_F(Other, UnpktStructHasTwoMembers) {
 }
 
 TEST_F(Other, UnpktMemberBIsByteTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -173,7 +173,7 @@ TEST_F(Other, UnpktMemberBIsByteTypespec) {
 }
 
 TEST_F(Other, UnpktMemberIIsWildcardArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(td, nullptr);
@@ -190,10 +190,10 @@ TEST_F(Other, UnpktMemberIIsWildcardArrayTypespec) {
   EXPECT_EQ(at->getArrayType(), 3);  // associative = 3 (I[*] is wildcard-indexed)
 }
 
-// --- structural completeness -------------------------------------------------
+// --- structural completeness ----
 
 TEST_F(Other, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

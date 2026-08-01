@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "a" [7:0] (input),
-//     "b" [1:0] (output), both vpiNetType wire
+//   - design has module top with exactly 2 nets: "a" [7:0] (input),
+//     "b" [1:0] (output), both vpiNetType wire. Per IEEE 1800-2023 Sec
+//     6.7/23.2.2.3: an input port always defaults to a net, and an
+//     output port with no explicit data type also defaults to a net, so
+//     both being nets here is correct; module has no variables
+//     (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     PartSelect "a[7:6]": vpiPrefix RefObj "a" resolving Net "a", vpiRange
 //     left Constant "7" right Constant "6"
@@ -62,10 +66,10 @@ class SimpleNonIdxPartSelectSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleNonIdxPartSelectSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -83,7 +87,15 @@ TEST_F(SimpleNonIdxPartSelectSimTest, ModuleHasTwoNetsAllWire) {
   }
 }
 
-// --- continuous assignment: non-indexed (constant-range) part-select -------
+TEST_F(SimpleNonIdxPartSelectSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "both ports default to nets per IEEE 1800-2023 "
+                                              "Sec 6.7/23.2.2.3, so the module should have no "
+                                              "variables";
+}
+
+// --- continuous assignment: non-indexed (constant-range) part-select ----
 
 TEST_F(SimpleNonIdxPartSelectSimTest, ContAssignIsASevenToSixPartSelect) {
   const hldb::Module *const top = getTop();
@@ -102,7 +114,7 @@ TEST_F(SimpleNonIdxPartSelectSimTest, ContAssignIsASevenToSixPartSelect) {
   EXPECT_EQ(sel->getRange()->getRightExpr<hldb::Constant>()->getDecompile(), "6");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleNonIdxPartSelectSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

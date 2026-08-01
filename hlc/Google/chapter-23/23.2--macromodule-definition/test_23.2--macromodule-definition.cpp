@@ -33,7 +33,7 @@ class MacromoduleDefinitionTest : public Test {
 // LRM 23.2: `macromodule' is a syntactic shorthand for `module'; it must
 // compile to a module in the design database.
 TEST_F(MacromoduleDefinitionTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "macromodule 'top' must compile as a regular module";
 }
 

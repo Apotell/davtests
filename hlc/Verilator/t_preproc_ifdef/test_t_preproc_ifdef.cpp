@@ -34,7 +34,7 @@ class PreprocIfdefTest : public Test {
 // LRM 22.6: `ifdef / `ifndef / `elsif / `else / `endif correctly select code
 // branches; the module must compile cleanly.
 TEST_F(PreprocIfdefTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@t", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("t", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 't' must compile with conditional compilation directives";
 }
 

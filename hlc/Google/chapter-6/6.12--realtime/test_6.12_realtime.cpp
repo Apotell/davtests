@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,14 +19,17 @@
 //     realtime a = 0.5;
 //   endmodule
 //
+// Per IEEE 1800-2023 6.8/6.12: 'realtime' has no explicit net-type keyword
+// (wire, tri, etc.), so 'a' is a variable_declaration, not a net_declaration.
+//
 // Checked:
-//   - design has module work@top
-//   - module has exactly 1 net: 'a'
+//   - design has module top
+//   - module has exactly 1 variable: 'a'
 //   - 'a' has a RefTypespec node whose vpiActual is null
-//     (realtime has no dedicated typespec class — contrast: real → RealTypespec)
+//     (realtime has no dedicated typespec class -- contrast: real -> RealTypespec)
 //   - 'a' initial value: Constant vpiRealConst, decompile "0.5"
-//   - work@top has no continuous assignments
-//   - work@top has no processes
+//   - top has no continuous assignments
+//   - top has no processes
 //   - RefTypespec getName() for realtime
 
 #include <hlc/Common/Session.h>
@@ -39,6 +42,8 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/time_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -50,49 +55,58 @@ class Realtime : public Test {
 };
 
 TEST_F(Realtime, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(Realtime, OneNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Realtime, OneVariableExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Realtime, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Realtime, AVariableExists) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
+  ASSERT_NE(hldb::findByName<hldb::Variable>("a", top->getVariables()), nullptr) << "variable 'a' not found";
 }
 
-// ---------------------------------------------------------------------------
-// Typespec — RefTypespec present but vpiActual is null for realtime
+TEST_F(Realtime, ANotInNets) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8, 'realtime' has no net-type keyword, so
+  // 'a' must not also be materialized as a Net.
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  EXPECT_TRUE(top->getNets() == nullptr || hldb::findByName<hldb::Net>("a", top->getNets()) == nullptr)
+      << "'realtime a' must not appear in vpiNet";
+}
+
+// ----
+// Typespec -- RefTypespec present but vpiActual is null for realtime
 // (contrast with 'real' which explicitly resolves to RealTypespec)
-// ---------------------------------------------------------------------------
-TEST_F(Realtime, ANetHasTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+TEST_F(Realtime, AVariableHasTypespec) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  EXPECT_NE(a->getTypespec(), nullptr) << "net 'a' should have a RefTypespec node";
+  EXPECT_NE(a->getTypespec(), nullptr) << "variable 'a' should have a RefTypespec node";
 }
 
-TEST_F(Realtime, ANetTypespecActualIsNull) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Realtime, AVariableTypespecActualIsNull) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
-  EXPECT_EQ(rts->getActual(), nullptr) << "realtime net typespec vpiActual is unset (unlike 'real')";
+  EXPECT_EQ(rts->getActual(), nullptr) << "realtime variable typespec vpiActual is unset (unlike 'real')";
 }
 
-TEST_F(Realtime, ANetTypespecNameIsRealtime) {
+TEST_F(Realtime, AVariableTypespecNameIsRealtime) {
   GTEST_SKIP() << "Compiler doesn't support TimeTypesoec yet";
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::RefTypespec *const rts = a->getTypespec();
   ASSERT_NE(rts, nullptr);
@@ -100,23 +114,23 @@ TEST_F(Realtime, ANetTypespecNameIsRealtime) {
   EXPECT_NE(rts->getActual<hldb::TimeTypespec>(), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Initial value — still recorded as a real constant "0.5"
-// ---------------------------------------------------------------------------
-TEST_F(Realtime, ANetInitialValueConstType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+// ----
+// Initial value -- still recorded as a real constant "0.5"
+// ----
+TEST_F(Realtime, AVariableInitialValueConstType) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
-  ASSERT_NE(init, nullptr) << "net 'a' has no initial value Constant";
+  ASSERT_NE(init, nullptr) << "variable 'a' has no initial value Constant";
   EXPECT_EQ(init->getConstType(), vpiRealConst);
 }
 
-TEST_F(Realtime, ANetInitialValueIsHalf) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(Realtime, AVariableInitialValueIsHalf) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
@@ -124,13 +138,13 @@ TEST_F(Realtime, ANetInitialValueIsHalf) {
 }
 
 TEST_F(Realtime, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
 TEST_F(Realtime, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

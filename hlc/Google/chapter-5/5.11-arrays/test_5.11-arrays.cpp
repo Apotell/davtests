@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +16,15 @@
 
 // Validates a 2D int array with a mixed initializer in UHDM:
 //   int n[1:2][1:3] = '{'{0,1,2}, '{3{4}}};
+// `n` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it is a
+// variable_declaration, not a net_declaration.
 // UHDM structure:
-//   Net n → outer ArrayTypespec[1:2]
-//               └─ elemTypespec → inner ArrayTypespec[1:3]
-//                                      └─ elemTypespec → IntTypespec
+//   Variable n -> outer ArrayTypespec[1:2]
+//               `- elemTypespec -> inner ArrayTypespec[1:3]
+//                                      `- elemTypespec -> IntTypespec
 //   Value = AssignPatternOp(2 items):
-//             [0] AssignPatternOp(3 Constants: 0,1,2)   ← '{0,1,2}
-//             [1] AssignPatternOp(2 operands: Constant 3, Constant 4) ← '{3{4}}
+//             [0] AssignPatternOp(3 Constants: 0,1,2)   <- '{0,1,2}
+//             [1] AssignPatternOp(2 operands: Constant 3, Constant 4) <- '{3{4}}
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -38,6 +40,7 @@
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -47,41 +50,53 @@ class Arrays : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// Helper: return Net "n" from work@top.
-static const hldb::Net *getNetN(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", design->getAllModules());
-  if (!top || !top->getNets()) return nullptr;
-  for (const hldb::Net *const net : *top->getNets()) {
-    if (net->getName() == "n") return net;
+// Helper: return Variable "n" from top.
+static const hldb::Variable *getVarN(const hldb::Design *design) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
+  if (!top || !top->getVariables()) return nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
+    if (v->getName() == "n") return v;
   }
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Arrays, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net n
-// ---------------------------------------------------------------------------
-TEST_F(Arrays, NetNExists) { ASSERT_NE(getNetN(m_design), nullptr) << "net 'n' not found in work@top"; }
+// ----
+// Variable n
+// ----
+TEST_F(Arrays, VariableNExists) { ASSERT_NE(getVarN(m_design), nullptr) << "variable 'n' not found in top"; }
 
-// ---------------------------------------------------------------------------
-// Typespec chain: ArrayTypespec[1:2] → ArrayTypespec[1:3] → IntTypespec
-// ---------------------------------------------------------------------------
+// `n` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must not
+// also appear in the module's net collection.
+TEST_F(Arrays, VariableNIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("n", top->getNets()), nullptr)
+        << "'n' has no net-type keyword and must not also appear as a Net";
+  }
+}
+
+// ----
+// Typespec chain: ArrayTypespec[1:2] -> ArrayTypespec[1:3] -> IntTypespec
+// ----
 TEST_F(Arrays, NetNTypespecIsArrayTypespec) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
-  ASSERT_NE(n->getTypespec(), nullptr) << "net 'n' has no typespec";
+  ASSERT_NE(n->getTypespec(), nullptr) << "variable 'n' has no typespec";
   EXPECT_NE(any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual()), nullptr)
-      << "net 'n' typespec does not resolve to an ArrayTypespec";
+      << "variable 'n' typespec does not resolve to an ArrayTypespec";
 }
 
 TEST_F(Arrays, OuterArrayHasRange) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -89,7 +104,7 @@ TEST_F(Arrays, OuterArrayHasRange) {
 }
 
 TEST_F(Arrays, OuterArrayRangeBoundsAreOneAndTwo) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -105,7 +120,7 @@ TEST_F(Arrays, OuterArrayRangeBoundsAreOneAndTwo) {
 }
 
 TEST_F(Arrays, OuterArrayElemTypespecIsArrayTypespec) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -115,7 +130,7 @@ TEST_F(Arrays, OuterArrayElemTypespecIsArrayTypespec) {
 }
 
 TEST_F(Arrays, InnerArrayHasRange) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -125,7 +140,7 @@ TEST_F(Arrays, InnerArrayHasRange) {
 }
 
 TEST_F(Arrays, InnerArrayRangeBoundsAreOneAndThree) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -143,7 +158,7 @@ TEST_F(Arrays, InnerArrayRangeBoundsAreOneAndThree) {
 }
 
 TEST_F(Arrays, InnerArrayElemTypespecIsIntTypespec) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const outer = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(outer, nullptr);
@@ -154,22 +169,22 @@ TEST_F(Arrays, InnerArrayElemTypespecIsIntTypespec) {
       << "inner ArrayTypespec elem should be IntTypespec";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Initializer: '{'{0,1,2}, '{3{4}}}
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Arrays, InitializerIsAssignPatternOpWithTwoRows) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
-  ASSERT_NE(val, nullptr) << "net 'n' value is not an Operation";
+  ASSERT_NE(val, nullptr) << "variable 'n' value is not an Operation";
   EXPECT_EQ(val->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(val->getOperands(), nullptr);
   EXPECT_EQ(val->getOperands()->size(), 2u) << "expected 2 row elements in outer pattern";
 }
 
 TEST_F(Arrays, FirstRowIsAssignPatternWithThreeConstants) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
@@ -190,14 +205,14 @@ TEST_F(Arrays, FirstRowIsAssignPatternWithThreeConstants) {
 }
 
 TEST_F(Arrays, SecondRowIsAssignPatternWithTwoOperands) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr);
   ASSERT_EQ(val->getOperands()->size(), 2u);
 
-  // '{3{4}} → AssignPatternOp with count=3 and value=4 as separate operands
+  // '{3{4}} -> AssignPatternOp with count=3 and value=4 as separate operands
   const hldb::Operation *const row1 = any_cast<hldb::Operation>((*val->getOperands())[1]);
   ASSERT_NE(row1, nullptr) << "second row is not an Operation";
   EXPECT_EQ(row1->getOpType(), vpiAssignmentPatternOp);
@@ -206,7 +221,7 @@ TEST_F(Arrays, SecondRowIsAssignPatternWithTwoOperands) {
 }
 
 TEST_F(Arrays, SecondRowOperandsAreConstants) {
-  const hldb::Net *const n = getNetN(m_design);
+  const hldb::Variable *const n = getVarN(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();

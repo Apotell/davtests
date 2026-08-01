@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,8 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
+#include <hlc/ErrorReporting/ErrorContainer.h>
+
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/identifier.h>
@@ -32,15 +34,21 @@ class MacroArgMismatchTest : public Test {
 };
 
 // LRM 22.5.1: dut.sv defines the object-like macro D; the source file must
-// be recorded in the design even when a PP0111 argument-mismatch error occurs.
+// be recorded in the design regardless of any preprocessor diagnostics.
 TEST_F(MacroArgMismatchTest, SourceFileRecorded) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
   EXPECT_NE(sf, nullptr) << "dut.sv must be recorded as a source file";
 }
 
-// LRM 22.5.1: `define D #1 -- D is an object-like macro and must be recorded
-// as a macro definition in dut.sv.
+// IEEE 1800-2023 Sec 22.5.1: "For a macro without arguments, the text shall
+// be substituted as is for every occurrence of `text_macro_identifier."
+// dut.sv's usage `D (~d)` -- where D is object-like (`define D #1`) -- is
+// therefore NOT an argument-mismatch: the trailing "(~d)" is ordinary text
+// following the substitution, not an actual-argument list, so no PP0111
+// (or any other) diagnostic is raised. See the dedicated
+// NoArgumentMismatchErrorForObjectLikeMacro test below, which confirms this
+// directly against the error container.
 TEST_F(MacroArgMismatchTest, DMacroDefined) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
@@ -50,9 +58,9 @@ TEST_F(MacroArgMismatchTest, DMacroDefined) {
   EXPECT_NE(macro, nullptr) << "macro 'D' must be defined in dut.sv";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 1. Macro arguments and body tokens
-// ---------------------------------------------------------------------------
+// ----
 
 // LRM 22.5.1: D is object-like; it must have no formal argument list.
 TEST_F(MacroArgMismatchTest, DMacroHasNoArguments) {
@@ -87,6 +95,23 @@ TEST_F(MacroArgMismatchTest, DMacroNameColumn) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getNameObj(), nullptr);
   EXPECT_EQ(macro->getNameObj()->getStartColumn(), 9u) << "D name starts at column 9 in `define D #1";
+}
+
+// ----
+// 2. Argument-mismatch diagnostic (or lack thereof)
+// ----
+
+// IEEE 1800-2023 Sec 22.5.1: an object-like macro (no formal argument list)
+// never has an actual-argument list; text immediately following its use,
+// including a leading "(", is ordinary replacement-adjacent text, not an
+// actual-argument list to validate. `D (~d)` must therefore compile with no
+// preprocessor argument-count diagnostic at all.
+TEST_F(MacroArgMismatchTest, NoArgumentMismatchErrorForObjectLikeMacro) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "'`D (~d)' must not raise an argument-mismatch error; D is object-like";
 }
 
 }  // namespace hlc

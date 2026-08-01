@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,12 +30,15 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "A", "B"
-//   - net "A": RefTypespec -> ArrayTypespec static(1) range [3:0], elem
+//   - design has module top with exactly 2 variables: "A", "B" (IEEE
+//     1800-2023 6.7/6.8: 'int A [3:0]' has no net-type keyword, so it is a
+//     variable_declaration, not a net_declaration); neither appears in
+//     getNets()
+//   - variable "A": RefTypespec -> ArrayTypespec static(1) range [3:0], elem
 //     IntTypespec (signed)
-//   - net "B": RefTypespec -> ArrayTypespec static(1) range [0:3] (reversed
-//     bounds vs "A"), elem IntTypespec (signed) -- a DISTINCT ArrayTypespec
-//     instance from A's, not shared/deduplicated
+//   - variable "B": RefTypespec -> ArrayTypespec static(1) range [0:3]
+//     (reversed bounds vs "A"), elem IntTypespec (signed) -- a DISTINCT
+//     ArrayTypespec instance from A's, not shared/deduplicated
 //   - Initial process: 1 Begin with 6 stmts (4 BitSelect Assignment + 1
 //     whole-array Assignment + 1 SysTaskCall)
 //   - Stmt[0..3]: blocking Assignment, lhs BitSelect "A[N]" (prefix RefObj
@@ -77,6 +80,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -87,24 +91,30 @@ class UnpackedAssignmentsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(UnpackedAssignmentsTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(UnpackedAssignmentsTest, ModuleHasTwoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedAssignmentsTest, ModuleHasTwoVariables) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-TEST_F(UnpackedAssignmentsTest, NetAIsArrayThreeDownToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedAssignmentsTest, ModuleHasNoNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("A", top->getNets());
+  EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in assignments.sv";
+}
+
+TEST_F(UnpackedAssignmentsTest, VarAIsArrayThreeDownToZero) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("A", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::ArrayTypespec *const at = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -115,11 +125,11 @@ TEST_F(UnpackedAssignmentsTest, NetAIsArrayThreeDownToZero) {
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
 
-TEST_F(UnpackedAssignmentsTest, NetBIsArrayZeroUpToThreeAndDistinctFromA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+TEST_F(UnpackedAssignmentsTest, VarBIsArrayZeroUpToThreeAndDistinctFromA) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("A", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("B", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("A", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("B", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   const hldb::ArrayTypespec *const atA = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -133,10 +143,10 @@ TEST_F(UnpackedAssignmentsTest, NetBIsArrayZeroUpToThreeAndDistinctFromA) {
   EXPECT_EQ(atB->getRange()->getRightExpr<hldb::Constant>()->getDecompile(), "3");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnpackedAssignmentsTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -149,7 +159,7 @@ TEST_F(UnpackedAssignmentsTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedAssignmentsTest, FirstFourStmtsAssignAIndicesToMatchingConstants) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -160,7 +170,7 @@ TEST_F(UnpackedAssignmentsTest, FirstFourStmtsAssignAIndicesToMatchingConstants)
     const hldb::BitSelect *const lhs = assign->getLhs<hldb::BitSelect>();
     ASSERT_NE(lhs, nullptr);
     EXPECT_EQ(lhs->getName(), "A[" + std::to_string(i) + "]");
-    EXPECT_NE(lhs->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+    EXPECT_NE(lhs->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
     EXPECT_EQ(lhs->getIndex<hldb::Constant>()->getDecompile(), std::to_string(i));
     const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
     ASSERT_NE(rhs, nullptr);
@@ -169,7 +179,7 @@ TEST_F(UnpackedAssignmentsTest, FirstFourStmtsAssignAIndicesToMatchingConstants)
 }
 
 TEST_F(UnpackedAssignmentsTest, FifthStmtIsWholeArrayCopyBEqualsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -179,15 +189,15 @@ TEST_F(UnpackedAssignmentsTest, FifthStmtIsWholeArrayCopyBEqualsA) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "B");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "A");
-  EXPECT_NE(rhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(rhs->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedAssignmentsTest, SixthStmtDisplaysBIndicesInReverseOrder) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -208,7 +218,7 @@ TEST_F(UnpackedAssignmentsTest, SixthStmtDisplaysBIndicesInReverseOrder) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedAssignmentsTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -219,7 +229,7 @@ TEST_F(UnpackedAssignmentsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), "work@top");
+  EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedAssignmentsTest, DesignHasStringTypespec) {
@@ -237,19 +247,19 @@ TEST_F(UnpackedAssignmentsTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedAssignmentsTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime array-copy contents require simulation --------------
+// --- known gap: runtime array-copy contents require simulation ----
 
 TEST_F(UnpackedAssignmentsTest, RuntimeArrayCopyContentsRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates assignments.sv; it does not run a simulator, "
                   "so the actual runtime contents of B after 'B = A' cannot be observed here. "
                   "assignments.sv's own $display format string documents the expected values.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

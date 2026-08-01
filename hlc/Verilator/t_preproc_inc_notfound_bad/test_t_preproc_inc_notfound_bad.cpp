@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -47,6 +48,14 @@ TEST_F(PreprocIncNotfoundBadTest, MissingFileRecorded) {
   const hldb::SourceFile *const inc =
       hldb::findByName<hldb::SourceFile>("this_file_is_not_found.vh", sf->getIncludes());
   EXPECT_NE(inc, nullptr) << "this_file_is_not_found.vh must appear in the include list";
+}
+
+// LRM 22.4: an `include directive naming a file that cannot be located must
+// be reported as a compile error.
+TEST_F(PreprocIncNotfoundBadTest, MissingIncludeIsReportedAsError) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_GE(stats.nbError, 1) << "the unresolvable `include of this_file_is_not_found.vh must be an error";
 }
 
 }  // namespace hlc

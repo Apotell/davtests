@@ -21,7 +21,10 @@
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
 #include <hldb/source_file.h>
+#include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 namespace hlc {
 class YoysysTestsMacroTest : public Test {
@@ -32,7 +35,7 @@ class YoysysTestsMacroTest : public Test {
 
 // LRM 22.5.1: the top module that exercises macro expansions must compile.
 TEST_F(YoysysTestsMacroTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 
@@ -43,6 +46,42 @@ TEST_F(YoysysTestsMacroTest, NoMacroDefinitionsInTopV) {
   const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("top.v", m_design->getSourceFiles());
   ASSERT_NE(sf, nullptr);
   EXPECT_EQ(sf->getPreprocMacroDefinitions(), nullptr) << "top.v uses but does not define any macros";
+}
+
+// top.v: `timescale 1ns/10ps -> time unit 1ns (-9), time precision 10ps (-11).
+TEST_F(YoysysTestsMacroTest, TimescaleIsSetOnModule) {
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(module, nullptr);
+  EXPECT_EQ(module->getTimeUnit(), -9);
+  EXPECT_EQ(module->getTimePrecision(), -11);
+}
+
+// input clk/rst and input [1:0] a have no net-type keyword and no explicit
+// data type; per IEEE 1800-2023 Sec 23.2.2.3, input ports always default to
+// a net of the default net type (wire), regardless of data type.
+TEST_F(YoysysTestsMacroTest, InputPortsAreWireNets) {
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(module, nullptr);
+  for (const char *const name : {"clk", "rst", "a"}) {
+    const hldb::Net *const n = hldb::findByName<hldb::Net>(name, module->getNets());
+    EXPECT_NE(n, nullptr) << "port '" << name << "' must be modeled as a Net (input port, Sec 23.2.2.3)";
+    if (n != nullptr) EXPECT_EQ(n->getNetType(), vpiWire);
+    EXPECT_EQ(hldb::findByName<hldb::Variable>(name, module->getVariables()), nullptr)
+        << "'" << name << "' must not also appear in getVariables()";
+  }
+}
+
+// output x; reg x; -- the output port's data type is declared separately
+// with the explicit data_type syntax "reg". Per IEEE 1800-2023 Sec 23.2.2.3,
+// an output port whose data type is declared with the explicit data_type
+// syntax defaults to a variable, not a net.
+TEST_F(YoysysTestsMacroTest, OutputPortWithExplicitRegIsVariable) {
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(module, nullptr);
+  const hldb::Variable *const v = hldb::findByName<hldb::Variable>("x", module->getVariables());
+  EXPECT_NE(v, nullptr) << "output port 'x' has an explicit 'reg' data type and must be a Variable (Sec 23.2.2.3)";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("x", module->getNets()), nullptr)
+      << "'x' must not also appear in getNets()";
 }
 
 }  // namespace hlc

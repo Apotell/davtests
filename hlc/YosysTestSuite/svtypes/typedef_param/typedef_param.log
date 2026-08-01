@@ -8,7 +8,7 @@ COMMAND: -wd ../../../../tests/YosysTestSuite/svtypes -writepp -nobuiltin -times
 [INF:CM0023] Creating log file "$Output/hlc.log".
 [INF:PP0122] Preprocessing source file "$Source01/typedef_param.sv".
 [INF:PA0201] Parsing source file "$Source01/typedef_param.sv".
-[SNT:PA0207] $Source01/typedef_param.sv:9:9: Syntax error: extraneous input '(' expecting {'interface', 'virtual', 'class', 'type', 'enum', 'struct', 'union', 'string', 'chandle', 'event', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', DOLLAR_UNIT, 'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+[SNT:PA0207] $Source01/typedef_param.sv:9:9: Syntax error: extraneous input '(' expecting {'interface', 'virtual', 'class', 'type', 'enum', 'struct', 'union', 'string', 'chandle', 'event', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', DOLLAR_UNIT, 'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
 	typedef (int8_t) char_t;
          ^-- $Source01/typedef_param.sv:9:9:.
 [SNT:PA0207] $Source01/typedef_param.sv:9:16: Syntax error: no viable alternative at input 'int8_t)',
@@ -403,12 +403,8 @@ n<$Source01/typedef_param.sv> u<360> t<Top_level_rule> c<1> l<4:1> el<23:1>
                                         n<"ch   == 8'b11111111"> u<337> t<QUOTED_STRING> p<338> l<1:22> el<1:43>
         n<> u<356> t<ENDMODULE> p<357> l<22:1> el<22:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/typedef_param.sv:4:1: Compile module "work@top".
+[INF:CP0303] $Source01/typedef_param.sv:4:1: Compile module "top".
 [ERR:LN0813] $Source01/typedef_param.sv:1:1: Found 2 orphan node(s).
-[ERR:EL0535] $Source01/typedef_param.sv:2:31: Illegal implicit net "id:118, name:int2".
-[ERR:EL0535] $Source01/typedef_param.sv:2:31: Illegal implicit net "id:135, name:int4".
-[ERR:EL0535] $Source01/typedef_param.sv:2:31: Illegal implicit net "id:152, name:int8".
-[ERR:EL0535] $Source01/typedef_param.sv:2:31: Illegal implicit net "id:169, name:ch".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -424,6 +420,7 @@ Design name:unnamed:
           vpiName Identifier name:STRINGIFY start:1:9 end:1:18:
             vpiParent: PreprocMacroDefinition name:STRINGIFY
             vpiName: STRINGIFY
+          vpiPMDType: define (1)
           vpiArgument (1 items):
             Identifier name:x start:1:19 end:1:20:
               vpiParent: PreprocMacroDefinition name:STRINGIFY
@@ -443,6 +440,7 @@ Design name:unnamed:
           vpiName Identifier name:STATIC_ASSERT start:2:9 end:2:22:
             vpiParent: PreprocMacroDefinition name:STATIC_ASSERT
             vpiName: STATIC_ASSERT
+          vpiPMDType: define (1)
           vpiArgument (1 items):
             Identifier name:x start:2:23 end:2:24:
               vpiParent: PreprocMacroDefinition name:STATIC_ASSERT
@@ -620,17 +618,16 @@ Design name:unnamed:
               "vpiPMIBody Identifier name:\"ch   == 8'b11111111\" start:1:22 end:1:43":
                 vpiParent: PreprocMacroInstance name:STRINGIFY
                 vpiName: "\"ch   == 8'b11111111\""
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@top file:$Source01/typedef_param.sv start:4:1 end:22:10:
+    Module name:top file:$Source01/typedef_param.sv start:4:1 end:22:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:4:8 end:4:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:4:8 end:4:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (7 items):
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:6:16 end:6:21:
               vpiParent: LogicTypespec
@@ -638,7 +635,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -648,7 +645,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -656,16 +653,16 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         TypedefTypespec name:uint2_t start:6:2 end:6:30:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:uint2_t start:6:22 end:6:29:
             vpiParent: TypedefTypespec name:uint2_t
             vpiName: uint2_t
           vpiTypedefAlias RefTypespec start:6:10 end:6:21:
             vpiParent: TypedefTypespec name:uint2_t
-            vpiFullName: work@top.uint2_t
+            vpiFullName: top.uint2_t
             vpiActual: LogicTypespec
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:7:23 end:7:28:
               vpiParent: LogicTypespec
@@ -673,7 +670,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -683,7 +680,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -692,16 +689,16 @@ Design name:unnamed:
           vpiSigned: true
           vpiVector: true
         TypedefTypespec name:int4_t start:7:2 end:7:36:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:int4_t start:7:29 end:7:35:
             vpiParent: TypedefTypespec name:int4_t
             vpiName: int4_t
           vpiTypedefAlias RefTypespec start:7:10 end:7:28:
             vpiParent: TypedefTypespec name:int4_t
-            vpiFullName: work@top.int4_t
+            vpiFullName: top.int4_t
             vpiActual: LogicTypespec
         LogicTypespec:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:8:23 end:8:28:
               vpiParent: LogicTypespec
@@ -709,7 +706,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -719,7 +716,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -728,29 +725,29 @@ Design name:unnamed:
           vpiSigned: true
           vpiVector: true
         TypedefTypespec name:int8_t start:8:2 end:8:36:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName Identifier name:int8_t start:8:29 end:8:35:
             vpiParent: TypedefTypespec name:int8_t
             vpiName: int8_t
           vpiTypedefAlias RefTypespec start:8:10 end:8:28:
             vpiParent: TypedefTypespec name:int8_t
-            vpiFullName: work@top.int8_t
+            vpiFullName: top.int8_t
             vpiActual: LogicTypespec
         TypedefTypespec start:9:2 end:9:11:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiTypedefAlias RefTypespec:
             vpiParent: TypedefTypespec
-            vpiFullName: work@top
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+            vpiFullName: top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiGenStmt (4 items):
         GenIf start:17:2 end:17:32:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiCondition Operation start:2:29 end:2:45:
             vpiParent: GenIf
             vpiOpType: not (3)
@@ -762,12 +759,12 @@ Design name:unnamed:
                   RefObj name:int2 start:2:31 end:2:35:
                     vpiParent: Operation
                     vpiName: int2
-                    vpiFullName: work@top.int2
+                    vpiFullName: top.int2
                   Constant start:2:39 end:2:44:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 2
@@ -775,7 +772,7 @@ Design name:unnamed:
                     vpiValue: "10"
           vpiStmt Begin:
             vpiParent: GenIf
-            vpiFullName: work@top
+            vpiFullName: top
             vpiStmt (1 items):
               SysTaskCall name:error start:17:23 end:17:32:
                 vpiParent: Begin
@@ -791,7 +788,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -801,14 +798,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 104
                         vpiDecompile: "\"int2 == 2'b10\""
                         vpiValue: "int2 == 2'b10"
         GenIf start:18:2 end:18:34:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiCondition Operation start:2:29 end:2:47:
             vpiParent: GenIf
             vpiOpType: not (3)
@@ -820,12 +817,12 @@ Design name:unnamed:
                   RefObj name:int4 start:2:31 end:2:35:
                     vpiParent: Operation
                     vpiName: int4
-                    vpiFullName: work@top.int4
+                    vpiFullName: top.int4
                   Constant start:2:39 end:2:46:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 4
@@ -833,7 +830,7 @@ Design name:unnamed:
                     vpiValue: "1111"
           vpiStmt Begin:
             vpiParent: GenIf
-            vpiFullName: work@top
+            vpiFullName: top
             vpiStmt (1 items):
               SysTaskCall name:error start:18:25 end:18:34:
                 vpiParent: Begin
@@ -849,7 +846,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -859,14 +856,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
                         vpiDecompile: "\"int4 == 4'b1111\""
                         vpiValue: "int4 == 4'b1111"
         GenIf start:19:2 end:19:38:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiCondition Operation start:2:29 end:2:51:
             vpiParent: GenIf
             vpiOpType: not (3)
@@ -878,12 +875,12 @@ Design name:unnamed:
                   RefObj name:int8 start:2:31 end:2:35:
                     vpiParent: Operation
                     vpiName: int8
-                    vpiFullName: work@top.int8
+                    vpiFullName: top.int8
                   Constant start:2:39 end:2:50:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 8
@@ -891,7 +888,7 @@ Design name:unnamed:
                     vpiValue: "11111111"
           vpiStmt Begin:
             vpiParent: GenIf
-            vpiFullName: work@top
+            vpiFullName: top
             vpiStmt (1 items):
               SysTaskCall name:error start:19:29 end:19:38:
                 vpiParent: Begin
@@ -907,7 +904,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -917,14 +914,14 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 152
                         vpiDecompile: "\"int8 == 8'b11111111\""
                         vpiValue: "int8 == 8'b11111111"
         GenIf start:20:2 end:20:38:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiCondition Operation start:2:29 end:2:51:
             vpiParent: GenIf
             vpiOpType: not (3)
@@ -936,12 +933,12 @@ Design name:unnamed:
                   RefObj name:ch start:2:31 end:2:33:
                     vpiParent: Operation
                     vpiName: ch
-                    vpiFullName: work@top.ch
+                    vpiFullName: top.ch
                   Constant start:2:39 end:2:50:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@top
+                      vpiFullName: top
                       vpiActual: LogicTypespec
                     vpiConstType: binary (3)
                     vpiSize: 8
@@ -949,7 +946,7 @@ Design name:unnamed:
                     vpiValue: "11111111"
           vpiStmt Begin:
             vpiParent: GenIf
-            vpiFullName: work@top
+            vpiFullName: top
             vpiStmt (1 items):
               SysTaskCall name:error start:20:29 end:20:38:
                 vpiParent: Begin
@@ -965,7 +962,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 120
@@ -975,19 +972,19 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@top
+                          vpiFullName: top
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 152
                         vpiDecompile: "\"ch   == 8'b11111111\""
                         vpiValue: "ch   == 8'b11111111"
   vpiTypespec (4 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:4:8 end:4:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:4:8 end:4:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -998,7 +995,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 10
-[  ERROR] : 5
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

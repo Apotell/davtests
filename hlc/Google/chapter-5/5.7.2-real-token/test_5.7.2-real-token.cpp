@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +14,14 @@
  limitations under the License.
 */
 
-// Spec-based validation of the 'real' keyword per IEEE 1800-2017 §5.7.2.
+// Spec-based validation of the 'real' keyword per IEEE 1800-2017 Sec 5.7.2.
 //
-// §5.7.2 rule under test:
+// Sec 5.7.2 rule under test:
 //   "The default type for fixed-point format (e.g., 1.2) and exponent format
 //    (e.g., 2.0e10) shall be real."
 //
 // The 'real' keyword declares an IEEE 754 double-precision scalar variable.
-// In UHDM, net 'a' must carry a RealTypespec — not a LogicTypespec (used for
+// In UHDM, variable 'a' must carry a RealTypespec -- not a LogicTypespec (used for
 // 'logic') or IntegerTypespec (used for the 'integer' keyword).
 //
 // SV source:
@@ -30,8 +30,8 @@
 //   endmodule
 //
 // UHDM:
-//   Module work@top
-//     Net a → RefTypespec → RealTypespec
+//   Module top
+//     Variable a -> RefTypespec -> RealTypespec
 //   RealTypespec has no packed dimension ranges (real is a scalar type).
 
 #include <hlc/Common/Session.h>
@@ -42,9 +42,9 @@
 #include <hldb/design.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -55,56 +55,64 @@ class RealToken : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@top", d->getAllModules());
+  return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Net *getNetA(const hldb::Design *d) {
+static const hldb::Variable *getVariableA(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getNets()) return nullptr;
-  return hldb::findByName<hldb::Net>("a", m->getNets());
+  if (!m || !m->getVariables()) return nullptr;
+  return hldb::findByName<hldb::Variable>("a", m->getVariables());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
-TEST_F(RealToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@top' not found"; }
+// ----
+TEST_F(RealToken, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(RealToken, OneNetExists) {
+TEST_F(RealToken, OneVariableExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 1u) << "expected 1 net: a";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 1u) << "expected 1 variable: a";
 }
 
-// ---------------------------------------------------------------------------
-// §5.7.2: the 'real' keyword must produce a RealTypespec in UHDM.
+// `real` is a variable keyword, not one of the net-type keywords in IEEE
+// 1800-2023 Sec 6.7/6.8, so 'a' must not appear as a Net.
+TEST_F(RealToken, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "'real a' must not appear as a Net";
+}
+
+// ----
+// Sec 5.7.2: the 'real' keyword must produce a RealTypespec in UHDM.
 // A LogicTypespec or IntegerTypespec would indicate Surelog misidentified
 // the type.
-// ---------------------------------------------------------------------------
-TEST_F(RealToken, NetA_HasRealTypespec) {
-  const hldb::Net *const net = getNetA(m_design);
-  ASSERT_NE(net, nullptr);
-  ASSERT_NE(net->getTypespec(), nullptr) << "net 'a' has no typespec";
-  EXPECT_NE(net->getTypespec()->getActual<hldb::RealTypespec>(), nullptr)
-      << "§5.7.2: 'real a' must produce a RealTypespec, not LogicTypespec "
+// ----
+TEST_F(RealToken, VariableA_HasRealTypespec) {
+  const hldb::Variable *const var = getVariableA(m_design);
+  ASSERT_NE(var, nullptr);
+  ASSERT_NE(var->getTypespec(), nullptr) << "variable 'a' has no typespec";
+  EXPECT_NE(var->getTypespec()->getActual<hldb::RealTypespec>(), nullptr)
+      << "Sec 5.7.2: 'real a' must produce a RealTypespec, not LogicTypespec "
          "or IntegerTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// §5.7.2: 'real' is IEEE 754 double-precision — a scalar type with no packed
+// ----
+// Sec 5.7.2: 'real' is IEEE 754 double-precision -- a scalar type with no packed
 // dimension. Surelog must not attach any typespec other than RealTypespec.
-// ---------------------------------------------------------------------------
-TEST_F(RealToken, NetA_TypespecIsNotLogic) {
-  const hldb::Net *const net = getNetA(m_design);
-  ASSERT_NE(net, nullptr);
-  ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_EQ(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
-      << "§5.7.2: 'real' must not be represented as LogicTypespec";
+// ----
+TEST_F(RealToken, VariableA_TypespecIsNotLogic) {
+  const hldb::Variable *const var = getVariableA(m_design);
+  ASSERT_NE(var, nullptr);
+  ASSERT_NE(var->getTypespec(), nullptr);
+  EXPECT_EQ(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
+      << "Sec 5.7.2: 'real' must not be represented as LogicTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// No initial block — the module only declares 'real a' with no assignments.
-// ---------------------------------------------------------------------------
+// ----
+// No initial block -- the module only declares 'real a' with no assignments.
+// ----
 TEST_F(RealToken, NoProcesses) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);

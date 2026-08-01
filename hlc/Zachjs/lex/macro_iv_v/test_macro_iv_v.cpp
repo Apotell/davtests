@@ -34,7 +34,7 @@ class MacroIvVTest : public Test {
 // macro_iv.v is a thin wrapper that includes macro_iv.sv. The module declared
 // in the included file must compile.
 TEST_F(MacroIvVTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile via the .v include wrapper";
 }
 

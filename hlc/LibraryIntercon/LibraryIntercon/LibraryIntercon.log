@@ -32,19 +32,18 @@ LIB: logicLib
 [INF:PA0201] Parsing source file "$Source01/cmp.sv".
 [INF:PA0201] Parsing source file "$Source01/driver.sv".
 [INF:PA0201] Parsing source file "$Source01/top.sv".
-[INF:CP0301] $Source01/nets.pkg:1:1: Compile package "work@NetsPkg".
-[INF:CP0303] $Source01/cmp.svr:2:1: Compile module "realLib@cmp".
-[INF:CP0303] $Source01/driver.svr:1:1: Compile module "realLib@driver".
-[INF:CP0303] $Source01/cmp.sv:2:1: Compile module "logicLib@cmp".
-[INF:CP0303] $Source01/driver.sv:2:1: Compile module "logicLib@driver".
-[INF:CP0303] $Source01/top.sv:1:1: Compile module "logicLib@top".
-[ERR:EL0535] $Source01/top.sv:5:25: Illegal implicit net "id:1203, name:aBus".
-[ERR:EL0535] $Source01/top.sv:7:19: Illegal implicit net "id:1219, name:aBus".
-[ERR:EL0535] $Source01/top.sv:7:24: Illegal implicit net "id:1222, name:rst".
+[INF:CP0301] $Source01/nets.pkg:1:1: Compile package "NetsPkg".
+[INF:CP0303] $Source01/cmp.svr:2:1: Compile module "cmp".
+[INF:CP0303] $Source01/driver.svr:1:1: Compile module "driver".
+[INF:CP0303] $Source01/cmp.sv:2:1: Compile module "cmp".
+[INF:CP0303] $Source01/driver.sv:2:1: Compile module "driver".
+[INF:CP0303] $Source01/top.sv:1:1: Compile module "top".
+[WRN:CP0334] Colliding compilation unit name: "cmp".
+[WRN:CP0334] Colliding compilation unit name: "driver".
 [WRN:PA0205] No timescale set for "builtin".
-[WRN:PA0205] $Source01/nets.pkg:1:1: No timescale set for "work@NetsPkg".
-[WRN:PA0205] $Source01/cmp.sv:2:1: No timescale set for "logicLib@cmp".
-[WRN:PA0205] $Source01/top.sv:1:1: No timescale set for "logicLib@top".
+[WRN:PA0205] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
+[WRN:PA0205] $Source01/cmp.sv:2:1: No timescale set for "cmp".
+[WRN:PA0205] $Source01/top.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -53,32 +52,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: nets.pkg
       vpiPreprocFile: "$Output/lib/work/nets.pkg"
-      vpiDefNetType: none (12)
     SourceFile name:cmp.svr file:$Source01/cmp.svr:
       vpiParent: Design name:unnamed
       vpiName: cmp.svr
       vpiPreprocFile: "$Output/lib/realLib/cmp.svr"
-      vpiDefNetType: none (12)
     SourceFile name:driver.svr file:$Source01/driver.svr:
       vpiParent: Design name:unnamed
       vpiName: driver.svr
       vpiPreprocFile: "$Output/lib/realLib/driver.svr"
-      vpiDefNetType: none (12)
     SourceFile name:cmp.sv file:$Source01/cmp.sv:
       vpiParent: Design name:unnamed
       vpiName: cmp.sv
       vpiPreprocFile: "$Output/lib/logicLib/cmp.sv"
-      vpiDefNetType: none (12)
     SourceFile name:driver.sv file:$Source01/driver.sv:
       vpiParent: Design name:unnamed
       vpiName: driver.sv
       vpiPreprocFile: "$Output/lib/logicLib/driver.sv"
-      vpiDefNetType: none (12)
     SourceFile name:top.sv file:$Source01/top.sv:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/logicLib/top.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1632,31 +1625,32 @@ Design name:unnamed:
                 vpiParent: Function name:rand_mode
                 vpiFullName: builtin::any_sverilog_class::rand_mode
                 vpiActual: VoidTypespec
-    Package name:work@NetsPkg file:$Source01/nets.pkg start:1:1 end:5:21:
+    Package name:NetsPkg file:$Source01/nets.pkg start:1:1 end:5:21:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@NetsPkg start:1:9 end:1:16:
-        vpiParent: Package name:work@NetsPkg
-        vpiName: work@NetsPkg
-      vpiFullName: work@NetsPkg
+      vpiName Identifier name:NetsPkg start:1:9 end:1:16:
+        vpiParent: Package name:NetsPkg
+        vpiName: NetsPkg
+      vpiFullName: NetsPkg
       vpiTypespec (1 items):
         TypedefTypespec name:realNet start:3:1 end:3:22:
-          vpiParent: Package name:work@NetsPkg
+          vpiParent: Package name:NetsPkg
           vpiName Identifier name:realNet start:3:14 end:3:21:
             vpiParent: TypedefTypespec name:realNet
             vpiName: realNet
           vpiTypedefAlias RefTypespec start:3:9 end:3:13:
             vpiParent: TypedefTypespec name:realNet
-            vpiFullName: work@NetsPkg::realNet
+            vpiFullName: NetsPkg::realNet
             vpiActual: RealTypespec
-      vpiDefName: work@NetsPkg
-      vpiDefNetType: none (12)
+          vpiIsNettype: true
+      vpiDefName: NetsPkg
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Package name:work@NetsPkg
+        vpiParent: Package name:NetsPkg
         vpiName: work
-        vpiFullName: work@NetsPkg::work
+        vpiFullName: NetsPkg::work
       vpiCell: NetsPkg
       vpiEndLabel Identifier name:NetsPkg start:5:14 end:5:21:
-        vpiParent: Package name:work@NetsPkg
+        vpiParent: Package name:NetsPkg
         vpiName: NetsPkg
   vpiAllClasses (3 items):
     ClassDefn name:mailbox file:$Source00/builtin.sv start:1:1 end:27:9:
@@ -2087,45 +2081,62 @@ Design name:unnamed:
             vpiFullName: semaphore::try_get
             vpiActual: IntTypespec
   vpiAllModules (5 items):
-    Module name:realLib@cmp file:$Source01/cmp.svr start:2:1 end:36:7:
+    Module name:cmp file:$Source01/cmp.svr start:2:1 end:36:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:realLib@cmp start:3:2 end:3:5:
-        vpiParent: Module name:realLib@cmp
-        vpiName: realLib@cmp
-      vpiFullName: realLib@cmp
-      vpiVariable (1 items):
+      vpiName Identifier name:cmp start:3:2 end:3:5:
+        vpiParent: Module name:cmp
+        vpiName: cmp
+      vpiFullName: cmp
+      vpiVariable (2 items):
         Variable name:out start:17:2 end:17:5:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec name:logic start:16:1 end:16:6:
             vpiParent: Variable name:out
             vpiName: logic
-            vpiFullName: realLib@cmp.out.logic
+            vpiFullName: cmp.out.logic
             vpiActual: UnsupportedTypespec name:logic
           vpiName: out
-          vpiFullName: realLib@cmp.out
-          vpiNetType: none (12)
+          vpiFullName: cmp.out
+        Variable name:updatePeriod start:20:2 end:20:14:
+          vpiParent: Module name:cmp
+          vpiTypespec RefTypespec start:19:1 end:19:5:
+            vpiParent: Variable name:updatePeriod
+            vpiFullName: cmp.updatePeriod
+            vpiActual: RealTypespec
+          vpiName: updatePeriod
+          vpiFullName: cmp.updatePeriod
+          vpiValue Constant start:20:17 end:20:22:
+            vpiParent: Variable name:updatePeriod
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: cmp.updatePeriod
+              vpiActual: RealTypespec
+            vpiConstType: real (2)
+            vpiSize: 64
+            vpiDecompile: "100.0"
+            vpiValue: 100
       vpiParameter (1 items):
         Parameter name:hyst start:9:2 end:9:6:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec start:8:1 end:8:5:
             vpiParent: Parameter name:hyst
-            vpiFullName: realLib@cmp.hyst
+            vpiFullName: cmp.hyst
             vpiActual: RealTypespec
           vpiName: hyst
-          vpiFullName: realLib@cmp.hyst
+          vpiFullName: cmp.hyst
       vpiParamAssign (1 items):
         ParamAssign start:9:2 end:9:13:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiLhs RefObj name:hyst start:9:2 end:9:6:
             vpiParent: ParamAssign
             vpiName: hyst
-            vpiFullName: realLib@cmp.hyst
+            vpiFullName: cmp.hyst
             vpiActual: Parameter name:hyst
           vpiRhs Constant start:9:9 end:9:13:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: realLib@cmp
+              vpiFullName: cmp
               vpiActual: RealTypespec
             vpiConstType: real (2)
             vpiSize: 64
@@ -2133,12 +2144,12 @@ Design name:unnamed:
             vpiValue: 0.65
       vpiTypespec (5 items):
         ImportTypespec name:NetsPkg start:5:2 end:5:12:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiName Identifier name:NetsPkg start:5:2 end:5:9:
             vpiParent: ImportTypespec name:NetsPkg
             vpiName: NetsPkg
         ArrayTypespec:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:12:10 end:12:15:
@@ -2147,7 +2158,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@cmp
+                vpiFullName: cmp
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2157,7 +2168,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@cmp
+                vpiFullName: cmp
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2166,136 +2177,121 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:realNet:
             vpiParent: ArrayTypespec
             vpiName: realNet
-            vpiFullName: realLib@cmp.realNet
+            vpiFullName: cmp.realNet
             vpiActual: TypedefTypespec name:realNet
         UnsupportedTypespec name:logic start:13:8 end:13:13:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiName Identifier name:logic start:13:8 end:13:13:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         UnsupportedTypespec name:logic start:16:1 end:16:6:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiName Identifier name:logic start:16:1 end:16:6:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
         BitTypespec:
-          vpiParent: Module name:realLib@cmp
-      vpiDefName: realLib@cmp
-      vpiDefNetType: none (12)
+          vpiParent: Module name:cmp
+      vpiDefName: cmp
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
       vpiLibrary RefObj name:realLib:
-        vpiParent: Module name:realLib@cmp
+        vpiParent: Module name:cmp
         vpiName: realLib
-        vpiFullName: realLib@cmp.realLib
+        vpiFullName: cmp.realLib
       vpiCell: cmp
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:inA start:12:16 end:12:19:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec name:realNet start:12:2 end:12:9:
             vpiParent: Net name:inA
             vpiName: realNet
-            vpiFullName: realLib@cmp.inA.realNet
+            vpiFullName: cmp.inA.realNet
             vpiActual: ArrayTypespec
           vpiName: inA
-          vpiFullName: realLib@cmp.inA
+          vpiFullName: cmp.inA
           vpiNetType: wire (1)
         Net name:rst start:14:2 end:14:5:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec name:logic start:13:8 end:13:13:
             vpiParent: Net name:rst
             vpiName: logic
-            vpiFullName: realLib@cmp.rst.logic
+            vpiFullName: cmp.rst.logic
             vpiActual: UnsupportedTypespec name:logic
           vpiName: rst
-          vpiFullName: realLib@cmp.rst
+          vpiFullName: cmp.rst
           vpiNetType: wire (1)
-        Net name:updatePeriod start:20:2 end:20:14:
-          vpiParent: Module name:realLib@cmp
-          vpiTypespec RefTypespec start:19:1 end:19:5:
-            vpiParent: Net name:updatePeriod
-            vpiFullName: realLib@cmp.updatePeriod
-            vpiActual: RealTypespec
-          vpiName: updatePeriod
-          vpiFullName: realLib@cmp.updatePeriod
-          vpiValue Constant start:20:17 end:20:22:
-            vpiParent: Net name:updatePeriod
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: realLib@cmp.updatePeriod
-              vpiActual: RealTypespec
-            vpiConstType: real (2)
-            vpiSize: 64
-            vpiDecompile: "100.0"
-            vpiValue: 100
       vpiPort (3 items):
         Port name:inA start:12:16 end:12:19:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiName: inA
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:16 end:12:19:
+          vpiLowConn RefObj name:inA start:12:16 end:12:19:
             vpiParent: Port name:inA
-            vpiFullName: realLib@cmp.inA
+            vpiName: inA
+            vpiFullName: cmp.inA.inA
             vpiActual: Net name:inA
           vpiTypespec RefTypespec name:realNet start:12:2 end:12:9:
             vpiParent: Port name:inA
             vpiName: realNet
-            vpiFullName: realLib@cmp.inA.realNet
+            vpiFullName: cmp.inA.realNet
             vpiActual: ArrayTypespec
         Port name:rst start:14:2 end:14:5:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:2 end:14:5:
+          vpiLowConn RefObj name:rst start:14:2 end:14:5:
             vpiParent: Port name:rst
-            vpiFullName: realLib@cmp.rst
+            vpiName: rst
+            vpiFullName: cmp.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec name:logic start:13:8 end:13:13:
             vpiParent: Port name:rst
             vpiName: logic
-            vpiFullName: realLib@cmp.rst.logic
+            vpiFullName: cmp.rst.logic
             vpiActual: UnsupportedTypespec name:logic
         Port name:out start:17:2 end:17:5:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:17:2 end:17:5:
+          vpiLowConn RefObj name:out start:17:2 end:17:5:
             vpiParent: Port name:out
-            vpiFullName: realLib@cmp.out
+            vpiName: out
+            vpiFullName: cmp.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec name:logic start:16:1 end:16:6:
             vpiParent: Port name:out
             vpiName: logic
-            vpiFullName: realLib@cmp.out.logic
+            vpiFullName: cmp.out.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiProcess (2 items):
         Initial start:21:1 end:22:13:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiStmt Assignment start:22:2 end:22:12:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:out start:22:2 end:22:5:
               vpiParent: Assignment
               vpiName: out
-              vpiFullName: realLib@cmp.out
+              vpiFullName: cmp.out
               vpiActual: Variable name:out
             vpiRhs Constant start:22:8 end:22:12:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@cmp
+                vpiFullName: cmp
                 vpiActual: BitTypespec
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b0"
               vpiValue: "0"
         Always start:23:1 end:34:4:
-          vpiParent: Module name:realLib@cmp
+          vpiParent: Module name:cmp
           vpiStmt DelayControl start:24:2 end:34:4:
             vpiParent: Always
             vpiStmt Begin start:25:1 end:34:4:
               vpiParent: DelayControl
-              vpiFullName: realLib@cmp
+              vpiFullName: cmp
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
@@ -2305,20 +2301,20 @@ Design name:unnamed:
                   vpiCondition RefObj name:rst start:27:3 end:27:6:
                     vpiParent: IfElse
                     vpiName: rst
-                    vpiFullName: realLib@cmp.rst
+                    vpiFullName: cmp.rst
                     vpiActual: Net name:rst
                   vpiStmt Assignment start:27:8 end:27:19:
                     vpiParent: IfElse
                     vpiLhs RefObj name:out start:27:8 end:27:11:
                       vpiParent: Assignment
                       vpiName: out
-                      vpiFullName: realLib@cmp.out
+                      vpiFullName: cmp.out
                       vpiActual: Variable name:out
                     vpiRhs Constant start:27:15 end:27:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: realLib@cmp
+                        vpiFullName: cmp
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -2333,17 +2329,17 @@ Design name:unnamed:
                         BitSelect name:inA[0] start:30:3 end:30:9:
                           vpiParent: Operation
                           vpiName: inA[0]
-                          vpiFullName: realLib@cmp.inA[0]
+                          vpiFullName: cmp.inA[0]
                           vpiPrefix RefObj name:inA start:30:3 end:30:6:
                             vpiParent: BitSelect name:inA[0]
                             vpiName: inA
-                            vpiFullName: realLib@cmp.inA
+                            vpiFullName: cmp.inA
                             vpiActual: Net name:inA
                           vpiIndex Constant start:30:7 end:30:8:
                             vpiParent: BitSelect name:inA[0]
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: realLib@cmp.inA[0]
+                              vpiFullName: cmp.inA[0]
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -2352,17 +2348,17 @@ Design name:unnamed:
                         BitSelect name:inA[1] start:30:12 end:30:18:
                           vpiParent: Operation
                           vpiName: inA[1]
-                          vpiFullName: realLib@cmp.inA[1]
+                          vpiFullName: cmp.inA[1]
                           vpiPrefix RefObj name:inA start:30:12 end:30:15:
                             vpiParent: BitSelect name:inA[1]
                             vpiName: inA
-                            vpiFullName: realLib@cmp.inA
+                            vpiFullName: cmp.inA
                             vpiActual: Net name:inA
                           vpiIndex Constant start:30:16 end:30:17:
                             vpiParent: BitSelect name:inA[1]
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: realLib@cmp.inA[1]
+                              vpiFullName: cmp.inA[1]
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -2373,13 +2369,13 @@ Design name:unnamed:
                       vpiLhs RefObj name:out start:30:20 end:30:23:
                         vpiParent: Assignment
                         vpiName: out
-                        vpiFullName: realLib@cmp.out
+                        vpiFullName: cmp.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:30:27 end:30:31:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: realLib@cmp
+                          vpiFullName: cmp
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -2394,17 +2390,17 @@ Design name:unnamed:
                           BitSelect name:inA[0] start:33:3 end:33:9:
                             vpiParent: Operation
                             vpiName: inA[0]
-                            vpiFullName: realLib@cmp.inA[0]
+                            vpiFullName: cmp.inA[0]
                             vpiPrefix RefObj name:inA start:33:3 end:33:6:
                               vpiParent: BitSelect name:inA[0]
                               vpiName: inA
-                              vpiFullName: realLib@cmp.inA
+                              vpiFullName: cmp.inA
                               vpiActual: Net name:inA
                             vpiIndex Constant start:33:7 end:33:8:
                               vpiParent: BitSelect name:inA[0]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: realLib@cmp.inA[0]
+                                vpiFullName: cmp.inA[0]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -2417,17 +2413,17 @@ Design name:unnamed:
                               BitSelect name:inA[1] start:33:12 end:33:18:
                                 vpiParent: Operation
                                 vpiName: inA[1]
-                                vpiFullName: realLib@cmp.inA[1]
+                                vpiFullName: cmp.inA[1]
                                 vpiPrefix RefObj name:inA start:33:12 end:33:15:
                                   vpiParent: BitSelect name:inA[1]
                                   vpiName: inA
-                                  vpiFullName: realLib@cmp.inA
+                                  vpiFullName: cmp.inA
                                   vpiActual: Net name:inA
                                 vpiIndex Constant start:33:16 end:33:17:
                                   vpiParent: BitSelect name:inA[1]
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: realLib@cmp.inA[1]
+                                    vpiFullName: cmp.inA[1]
                                     vpiActual: IntTypespec
                                   vpiConstType: unsigned int (9)
                                   vpiSize: 64
@@ -2436,20 +2432,20 @@ Design name:unnamed:
                               RefObj name:hyst start:33:21 end:33:25:
                                 vpiParent: Operation
                                 vpiName: hyst
-                                vpiFullName: realLib@cmp.hyst
+                                vpiFullName: cmp.hyst
                                 vpiActual: Parameter name:hyst
                       vpiStmt Assignment start:33:27 end:33:38:
                         vpiParent: IfStmt
                         vpiLhs RefObj name:out start:33:27 end:33:30:
                           vpiParent: Assignment
                           vpiName: out
-                          vpiFullName: realLib@cmp.out
+                          vpiFullName: cmp.out
                           vpiActual: Variable name:out
                         vpiRhs Constant start:33:34 end:33:38:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: realLib@cmp
+                            vpiFullName: cmp
                             vpiActual: BitTypespec
                           vpiConstType: binary (3)
                           vpiSize: 1
@@ -2458,76 +2454,83 @@ Design name:unnamed:
             vpiDelay RefObj name:updatePeriod start:24:2 end:24:15:
               vpiParent: DelayControl
               vpiName: updatePeriod
-              vpiFullName: realLib@cmp.updatePeriod
-              vpiActual: Net name:updatePeriod
+              vpiFullName: cmp.updatePeriod
+              vpiActual: Variable name:updatePeriod
           vpiAlwaysType: always (1)
       vpiEndLabel Identifier name:cmp start:36:4 end:36:7:
-        vpiParent: Module name:realLib@cmp
+        vpiParent: Module name:cmp
         vpiName: cmp
-    Module name:realLib@driver file:$Source01/driver.svr start:1:1 end:21:19:
+    Module name:driver file:$Source01/driver.svr start:1:1 end:21:19:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:realLib@driver start:1:8 end:1:14:
-        vpiParent: Module name:realLib@driver
-        vpiName: realLib@driver
-      vpiFullName: realLib@driver
-      vpiVariable (1 items):
+      vpiName Identifier name:driver start:1:8 end:1:14:
+        vpiParent: Module name:driver
+        vpiName: driver
+      vpiFullName: driver
+      vpiVariable (2 items):
         Variable name:out start:5:30 end:5:33:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiTypespec RefTypespec name:realNet start:5:16 end:5:23:
             vpiParent: Variable name:out
             vpiName: realNet
-            vpiFullName: realLib@driver.out.realNet
+            vpiFullName: driver.out.realNet
             vpiActual: ArrayTypespec
           vpiName: out
-          vpiFullName: realLib@driver.out
-          vpiNetType: none (12)
+          vpiFullName: driver.out
+        Variable name:outR start:7:6 end:7:10:
+          vpiParent: Module name:driver
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:outR
+            vpiFullName: driver.outR
+            vpiActual: ArrayTypespec
+          vpiName: outR
+          vpiFullName: driver.outR
       vpiParameter (2 items):
         Parameter name:delay start:3:17 end:3:22:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiTypespec RefTypespec start:3:13 end:3:16:
             vpiParent: Parameter name:delay
-            vpiFullName: realLib@driver.delay
+            vpiFullName: driver.delay
             vpiActual: IntTypespec
           vpiName: delay
-          vpiFullName: realLib@driver.delay
+          vpiFullName: driver.delay
         Parameter name:iterations start:4:17 end:4:27:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiTypespec RefTypespec start:4:13 end:4:16:
             vpiParent: Parameter name:iterations
-            vpiFullName: realLib@driver.iterations
+            vpiFullName: driver.iterations
             vpiActual: IntTypespec
           vpiName: iterations
-          vpiFullName: realLib@driver.iterations
+          vpiFullName: driver.iterations
       vpiParamAssign (2 items):
         ParamAssign start:3:17 end:3:27:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiLhs RefObj name:delay start:3:17 end:3:22:
             vpiParent: ParamAssign
             vpiName: delay
-            vpiFullName: realLib@driver.delay
+            vpiFullName: driver.delay
             vpiActual: Parameter name:delay
           vpiRhs Constant start:3:25 end:3:27:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: realLib@driver
+              vpiFullName: driver
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "30"
             vpiValue: 30
         ParamAssign start:4:17 end:4:33:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiLhs RefObj name:iterations start:4:17 end:4:27:
             vpiParent: ParamAssign
             vpiName: iterations
-            vpiFullName: realLib@driver.iterations
+            vpiFullName: driver.iterations
             vpiActual: Parameter name:iterations
           vpiRhs Constant start:4:30 end:4:33:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: realLib@driver
+              vpiFullName: driver
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -2535,12 +2538,12 @@ Design name:unnamed:
             vpiValue: 256
       vpiTypespec (3 items):
         ImportTypespec name:NetsPkg start:2:8 end:2:18:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiName Identifier name:NetsPkg start:2:8 end:2:15:
             vpiParent: ImportTypespec name:NetsPkg
             vpiName: NetsPkg
         ArrayTypespec:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiArrayType: static (1)
           vpiPacked: true
           vpiRange Range start:5:24 end:5:29:
@@ -2549,7 +2552,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@driver
+                vpiFullName: driver
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2559,7 +2562,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@driver
+                vpiFullName: driver
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2568,10 +2571,10 @@ Design name:unnamed:
           vpiElemTypespec RefTypespec name:realNet:
             vpiParent: ArrayTypespec
             vpiName: realNet
-            vpiFullName: realLib@driver.realNet
+            vpiFullName: driver.realNet
             vpiActual: TypedefTypespec name:realNet
         ArrayTypespec:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiArrayType: static (1)
           vpiRange Range start:7:10 end:7:15:
             vpiParent: ArrayTypespec
@@ -2579,7 +2582,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@driver
+                vpiFullName: driver
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2589,7 +2592,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: realLib@driver
+                vpiFullName: driver
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -2597,46 +2600,38 @@ Design name:unnamed:
               vpiValue: 0
           vpiElemTypespec RefTypespec start:7:1 end:7:5:
             vpiParent: ArrayTypespec
-            vpiFullName: realLib@driver
+            vpiFullName: driver
             vpiActual: RealTypespec
-      vpiDefName: realLib@driver
-      vpiDefNetType: none (12)
+      vpiDefName: driver
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -9
       vpiTimeUnit: -9
       vpiLibrary RefObj name:realLib:
-        vpiParent: Module name:realLib@driver
+        vpiParent: Module name:driver
         vpiName: realLib
-        vpiFullName: realLib@driver.realLib
+        vpiFullName: driver.realLib
       vpiCell: driver
-      vpiNet (1 items):
-        Net name:outR start:7:6 end:7:10:
-          vpiParent: Module name:realLib@driver
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:outR
-            vpiFullName: realLib@driver.outR
-            vpiActual: ArrayTypespec
-          vpiName: outR
-          vpiFullName: realLib@driver.outR
       vpiPort (1 items):
         Port name:out start:5:30 end:5:33:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:30 end:5:33:
+          vpiLowConn RefObj name:out start:5:30 end:5:33:
             vpiParent: Port name:out
-            vpiFullName: realLib@driver.out
+            vpiName: out
+            vpiFullName: driver.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec name:realNet start:5:16 end:5:23:
             vpiParent: Port name:out
             vpiName: realNet
-            vpiFullName: realLib@driver.out.realNet
+            vpiFullName: driver.out.realNet
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Initial start:10:1 end:19:4:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiStmt Begin start:11:1 end:19:4:
             vpiParent: Initial
-            vpiFullName: realLib@driver
+            vpiFullName: driver
             vpiStmt (3 items):
               Assignment start:12:3 end:12:16:
                 vpiParent: Begin
@@ -2644,17 +2639,17 @@ Design name:unnamed:
                 vpiLhs BitSelect name:outR[0] start:12:3 end:12:10:
                   vpiParent: Assignment
                   vpiName: outR[0]
-                  vpiFullName: realLib@driver.outR[0]
+                  vpiFullName: driver.outR[0]
                   vpiPrefix RefObj name:outR start:12:3 end:12:7:
                     vpiParent: BitSelect name:outR[0]
                     vpiName: outR
-                    vpiFullName: realLib@driver.outR
-                    vpiActual: Net name:outR
+                    vpiFullName: driver.outR
+                    vpiActual: Variable name:outR
                   vpiIndex Constant start:12:8 end:12:9:
                     vpiParent: BitSelect name:outR[0]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: realLib@driver.outR[0]
+                      vpiFullName: driver.outR[0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2664,7 +2659,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: realLib@driver
+                    vpiFullName: driver
                     vpiActual: RealTypespec
                   vpiConstType: real (2)
                   vpiSize: 64
@@ -2676,17 +2671,17 @@ Design name:unnamed:
                 vpiLhs BitSelect name:outR[1] start:13:3 end:13:10:
                   vpiParent: Assignment
                   vpiName: outR[1]
-                  vpiFullName: realLib@driver.outR[1]
+                  vpiFullName: driver.outR[1]
                   vpiPrefix RefObj name:outR start:13:3 end:13:7:
                     vpiParent: BitSelect name:outR[1]
                     vpiName: outR
-                    vpiFullName: realLib@driver.outR
-                    vpiActual: Net name:outR
+                    vpiFullName: driver.outR
+                    vpiActual: Variable name:outR
                   vpiIndex Constant start:13:8 end:13:9:
                     vpiParent: BitSelect name:outR[1]
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: realLib@driver.outR[1]
+                      vpiFullName: driver.outR[1]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -2696,7 +2691,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: realLib@driver
+                    vpiFullName: driver
                     vpiActual: RealTypespec
                   vpiConstType: real (2)
                   vpiSize: 64
@@ -2704,16 +2699,16 @@ Design name:unnamed:
                   vpiValue: 3.3
               ForStmt start:14:3 end:18:8:
                 vpiParent: Begin
-                vpiFullName: realLib@driver
+                vpiFullName: driver
                 vpiVariable (1 items):
                   Variable name:i start:14:12 end:14:13:
                     vpiParent: ForStmt
                     vpiTypespec RefTypespec start:14:8 end:14:11:
                       vpiParent: Variable name:i
-                      vpiFullName: realLib@driver.i
+                      vpiFullName: driver.i
                       vpiActual: IntTypespec
                     vpiName: i
-                    vpiFullName: realLib@driver.i
+                    vpiFullName: driver.i
                 vpiForInitStmt (1 items):
                   Assignment start:14:12 end:14:17:
                     vpiParent: ForStmt
@@ -2722,7 +2717,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: realLib@driver
+                        vpiFullName: driver
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -2736,7 +2731,7 @@ Design name:unnamed:
                       RefObj name:i start:14:35 end:14:36:
                         vpiParent: Operation
                         vpiName: i
-                        vpiFullName: realLib@driver.i
+                        vpiFullName: driver.i
                         vpiActual: Variable name:i
                 vpiCondition Operation start:14:19 end:14:33:
                   vpiParent: ForStmt
@@ -2745,16 +2740,16 @@ Design name:unnamed:
                     RefObj name:i start:14:19 end:14:20:
                       vpiParent: Operation
                       vpiName: i
-                      vpiFullName: realLib@driver.i
+                      vpiFullName: driver.i
                       vpiActual: Variable name:i
                     RefObj name:iterations start:14:23 end:14:33:
                       vpiParent: Operation
                       vpiName: iterations
-                      vpiFullName: realLib@driver.iterations
+                      vpiFullName: driver.iterations
                       vpiActual: Parameter name:iterations
                 vpiStmt Begin start:15:5 end:18:8:
                   vpiParent: ForStmt
-                  vpiFullName: realLib@driver
+                  vpiFullName: driver
                   vpiStmt (2 items):
                     DelayControl start:16:7 end:16:29:
                       vpiParent: Begin
@@ -2764,17 +2759,17 @@ Design name:unnamed:
                         vpiLhs BitSelect name:outR[0] start:16:14 end:16:21:
                           vpiParent: Assignment
                           vpiName: outR[0]
-                          vpiFullName: realLib@driver.outR[0]
+                          vpiFullName: driver.outR[0]
                           vpiPrefix RefObj name:outR start:16:14 end:16:18:
                             vpiParent: BitSelect name:outR[0]
                             vpiName: outR
-                            vpiFullName: realLib@driver.outR
-                            vpiActual: Net name:outR
+                            vpiFullName: driver.outR
+                            vpiActual: Variable name:outR
                           vpiIndex Constant start:16:19 end:16:20:
                             vpiParent: BitSelect name:outR[0]
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: realLib@driver.outR[0]
+                              vpiFullName: driver.outR[0]
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -2787,17 +2782,17 @@ Design name:unnamed:
                             BitSelect name:outR[0] start:16:14 end:16:21:
                               vpiParent: Operation
                               vpiName: outR[0]
-                              vpiFullName: realLib@driver.outR[0]
+                              vpiFullName: driver.outR[0]
                               vpiPrefix RefObj name:outR start:16:14 end:16:18:
                                 vpiParent: BitSelect name:outR[0]
                                 vpiName: outR
-                                vpiFullName: realLib@driver.outR
-                                vpiActual: Net name:outR
+                                vpiFullName: driver.outR
+                                vpiActual: Variable name:outR
                               vpiIndex Constant start:16:19 end:16:20:
                                 vpiParent: BitSelect name:outR[0]
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: realLib@driver.outR[0]
+                                  vpiFullName: driver.outR[0]
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -2807,7 +2802,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: realLib@driver
+                                vpiFullName: driver
                                 vpiActual: RealTypespec
                               vpiConstType: real (2)
                               vpiSize: 64
@@ -2816,7 +2811,7 @@ Design name:unnamed:
                       vpiDelay RefObj name:delay start:16:7 end:16:13:
                         vpiParent: DelayControl
                         vpiName: delay
-                        vpiFullName: realLib@driver.delay
+                        vpiFullName: driver.delay
                         vpiActual: Parameter name:delay
                     Assignment start:17:7 end:17:21:
                       vpiParent: Begin
@@ -2824,17 +2819,17 @@ Design name:unnamed:
                       vpiLhs BitSelect name:outR[1] start:17:7 end:17:14:
                         vpiParent: Assignment
                         vpiName: outR[1]
-                        vpiFullName: realLib@driver.outR[1]
+                        vpiFullName: driver.outR[1]
                         vpiPrefix RefObj name:outR start:17:7 end:17:11:
                           vpiParent: BitSelect name:outR[1]
                           vpiName: outR
-                          vpiFullName: realLib@driver.outR
-                          vpiActual: Net name:outR
+                          vpiFullName: driver.outR
+                          vpiActual: Variable name:outR
                         vpiIndex Constant start:17:12 end:17:13:
                           vpiParent: BitSelect name:outR[1]
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: realLib@driver.outR[1]
+                            vpiFullName: driver.outR[1]
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -2847,17 +2842,17 @@ Design name:unnamed:
                           BitSelect name:outR[1] start:17:7 end:17:14:
                             vpiParent: Operation
                             vpiName: outR[1]
-                            vpiFullName: realLib@driver.outR[1]
+                            vpiFullName: driver.outR[1]
                             vpiPrefix RefObj name:outR start:17:7 end:17:11:
                               vpiParent: BitSelect name:outR[1]
                               vpiName: outR
-                              vpiFullName: realLib@driver.outR
-                              vpiActual: Net name:outR
+                              vpiFullName: driver.outR
+                              vpiActual: Variable name:outR
                             vpiIndex Constant start:17:12 end:17:13:
                               vpiParent: BitSelect name:outR[1]
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: realLib@driver.outR[1]
+                                vpiFullName: driver.outR[1]
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -2867,7 +2862,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: realLib@driver
+                              vpiFullName: driver
                               vpiActual: RealTypespec
                             vpiConstType: real (2)
                             vpiSize: 64
@@ -2875,58 +2870,57 @@ Design name:unnamed:
                             vpiValue: 0.2
       vpiContAssign (1 items):
         ContAssign start:8:8 end:8:18:
-          vpiParent: Module name:realLib@driver
+          vpiParent: Module name:driver
           vpiLhs RefObj name:out start:8:8 end:8:11:
             vpiParent: ContAssign
             vpiName: out
-            vpiFullName: realLib@driver.out
+            vpiFullName: driver.out
             vpiActual: Variable name:out
           vpiRhs RefObj name:outR start:8:14 end:8:18:
             vpiParent: ContAssign
             vpiName: outR
-            vpiFullName: realLib@driver.outR
-            vpiActual: Net name:outR
+            vpiFullName: driver.outR
+            vpiActual: Variable name:outR
       vpiEndLabel Identifier name:driver start:21:13 end:21:19:
-        vpiParent: Module name:realLib@driver
+        vpiParent: Module name:driver
         vpiName: driver
-    Module name:logicLib@cmp file:$Source01/cmp.sv start:2:1 end:24:7:
+    Module name:cmp file:$Source01/cmp.sv start:2:1 end:24:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:logicLib@cmp start:2:8 end:2:11:
-        vpiParent: Module name:logicLib@cmp
-        vpiName: logicLib@cmp
-      vpiFullName: logicLib@cmp
+      vpiName Identifier name:cmp start:2:8 end:2:11:
+        vpiParent: Module name:cmp
+        vpiName: cmp
+      vpiFullName: cmp
       vpiVariable (1 items):
         Variable name:out start:8:2 end:8:5:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec start:6:1 end:7:6:
             vpiParent: Variable name:out
-            vpiFullName: logicLib@cmp.out
+            vpiFullName: cmp.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: logicLib@cmp.out
-          vpiNetType: none (12)
+          vpiFullName: cmp.out
       vpiParameter (1 items):
         Parameter name:hyst start:2:29 end:2:33:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec start:2:24 end:2:28:
             vpiParent: Parameter name:hyst
-            vpiFullName: logicLib@cmp.hyst
+            vpiFullName: cmp.hyst
             vpiActual: RealTypespec
           vpiName: hyst
-          vpiFullName: logicLib@cmp.hyst
+          vpiFullName: cmp.hyst
       vpiParamAssign (1 items):
         ParamAssign start:2:29 end:2:40:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiLhs RefObj name:hyst start:2:29 end:2:33:
             vpiParent: ParamAssign
             vpiName: hyst
-            vpiFullName: logicLib@cmp.hyst
+            vpiFullName: cmp.hyst
             vpiActual: Parameter name:hyst
           vpiRhs Constant start:2:36 end:2:40:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: logicLib@cmp
+              vpiFullName: cmp
               vpiActual: RealTypespec
             vpiConstType: real (2)
             vpiSize: 64
@@ -2934,7 +2928,7 @@ Design name:unnamed:
             vpiValue: 0.65
       vpiTypespec (3 items):
         LogicTypespec:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiRange (1 items):
             Range start:4:19 end:4:24:
               vpiParent: LogicTypespec
@@ -2942,7 +2936,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@cmp
+                  vpiFullName: cmp
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2952,7 +2946,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@cmp
+                  vpiFullName: cmp
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -2960,95 +2954,98 @@ Design name:unnamed:
                 vpiValue: 1
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
         BitTypespec:
-          vpiParent: Module name:logicLib@cmp
-      vpiDefName: logicLib@cmp
-      vpiDefNetType: none (12)
+          vpiParent: Module name:cmp
+      vpiDefName: cmp
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:logicLib:
-        vpiParent: Module name:logicLib@cmp
+        vpiParent: Module name:cmp
         vpiName: logicLib
-        vpiFullName: logicLib@cmp.logicLib
+        vpiFullName: cmp.logicLib
       vpiCell: cmp
       vpiNet (2 items):
         Net name:inA start:4:25 end:4:28:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec start:4:2 end:4:24:
             vpiParent: Net name:inA
-            vpiFullName: logicLib@cmp.inA
+            vpiFullName: cmp.inA
             vpiActual: LogicTypespec
           vpiName: inA
-          vpiFullName: logicLib@cmp.inA
+          vpiFullName: cmp.inA
           vpiNetType: wire (1)
         Net name:rst start:5:13 end:5:16:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiTypespec RefTypespec start:5:1 end:5:12:
             vpiParent: Net name:rst
-            vpiFullName: logicLib@cmp.rst
+            vpiFullName: cmp.rst
             vpiActual: LogicTypespec
           vpiName: rst
-          vpiFullName: logicLib@cmp.rst
+          vpiFullName: cmp.rst
           vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:inA start:4:25 end:4:28:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiName: inA
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:25 end:4:28:
+          vpiLowConn RefObj name:inA start:4:25 end:4:28:
             vpiParent: Port name:inA
-            vpiFullName: logicLib@cmp.inA
+            vpiName: inA
+            vpiFullName: cmp.inA.inA
             vpiActual: Net name:inA
           vpiTypespec RefTypespec start:4:2 end:4:24:
             vpiParent: Port name:inA
-            vpiFullName: logicLib@cmp.inA
+            vpiFullName: cmp.inA
             vpiActual: LogicTypespec
         Port name:rst start:5:13 end:5:16:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:13 end:5:16:
+          vpiLowConn RefObj name:rst start:5:13 end:5:16:
             vpiParent: Port name:rst
-            vpiFullName: logicLib@cmp.rst
+            vpiName: rst
+            vpiFullName: cmp.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:5:1 end:5:12:
             vpiParent: Port name:rst
-            vpiFullName: logicLib@cmp.rst
+            vpiFullName: cmp.rst
             vpiActual: LogicTypespec
         Port name:out start:8:2 end:8:5:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:8:2 end:8:5:
+          vpiLowConn RefObj name:out start:8:2 end:8:5:
             vpiParent: Port name:out
-            vpiFullName: logicLib@cmp.out
+            vpiName: out
+            vpiFullName: cmp.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:6:1 end:7:6:
             vpiParent: Port name:out
-            vpiFullName: logicLib@cmp.out
+            vpiFullName: cmp.out
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Initial start:9:1 end:10:13:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiStmt Assignment start:10:2 end:10:12:
             vpiParent: Initial
             vpiBlocking: true
             vpiLhs RefObj name:out start:10:2 end:10:5:
               vpiParent: Assignment
               vpiName: out
-              vpiFullName: logicLib@cmp.out
+              vpiFullName: cmp.out
               vpiActual: Variable name:out
             vpiRhs Constant start:10:8 end:10:12:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: logicLib@cmp
+                vpiFullName: cmp
                 vpiActual: BitTypespec
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b0"
               vpiValue: "0"
         Always start:11:1 end:22:4:
-          vpiParent: Module name:logicLib@cmp
+          vpiParent: Module name:cmp
           vpiStmt EventControl start:12:2 end:22:4:
             vpiParent: Always
             vpiCondition Operation start:12:4 end:12:12:
@@ -3058,16 +3055,16 @@ Design name:unnamed:
                 RefObj name:inA start:12:4 end:12:7:
                   vpiParent: Operation
                   vpiName: inA
-                  vpiFullName: logicLib@cmp.inA
+                  vpiFullName: cmp.inA
                   vpiActual: Net name:inA
                 RefObj name:rst start:12:9 end:12:12:
                   vpiParent: Operation
                   vpiName: rst
-                  vpiFullName: logicLib@cmp.rst
+                  vpiFullName: cmp.rst
                   vpiActual: Net name:rst
             vpiStmt Begin start:13:1 end:22:4:
               vpiParent: EventControl
-              vpiFullName: logicLib@cmp
+              vpiFullName: cmp
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
@@ -3077,20 +3074,20 @@ Design name:unnamed:
                   vpiCondition RefObj name:rst start:15:3 end:15:6:
                     vpiParent: IfElse
                     vpiName: rst
-                    vpiFullName: logicLib@cmp.rst
+                    vpiFullName: cmp.rst
                     vpiActual: Net name:rst
                   vpiStmt Assignment start:15:8 end:15:19:
                     vpiParent: IfElse
                     vpiLhs RefObj name:out start:15:8 end:15:11:
                       vpiParent: Assignment
                       vpiName: out
-                      vpiFullName: logicLib@cmp.out
+                      vpiFullName: cmp.out
                       vpiActual: Variable name:out
                     vpiRhs Constant start:15:15 end:15:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: logicLib@cmp
+                        vpiFullName: cmp
                         vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
@@ -3105,17 +3102,17 @@ Design name:unnamed:
                         BitSelect name:inA[0] start:18:3 end:18:9:
                           vpiParent: Operation
                           vpiName: inA[0]
-                          vpiFullName: logicLib@cmp.inA[0]
+                          vpiFullName: cmp.inA[0]
                           vpiPrefix RefObj name:inA start:18:3 end:18:6:
                             vpiParent: BitSelect name:inA[0]
                             vpiName: inA
-                            vpiFullName: logicLib@cmp.inA
+                            vpiFullName: cmp.inA
                             vpiActual: Net name:inA
                           vpiIndex Constant start:18:7 end:18:8:
                             vpiParent: BitSelect name:inA[0]
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: logicLib@cmp.inA[0]
+                              vpiFullName: cmp.inA[0]
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -3128,17 +3125,17 @@ Design name:unnamed:
                             BitSelect name:inA[1] start:18:13 end:18:19:
                               vpiParent: Operation
                               vpiName: inA[1]
-                              vpiFullName: logicLib@cmp.inA[1]
+                              vpiFullName: cmp.inA[1]
                               vpiPrefix RefObj name:inA start:18:13 end:18:16:
                                 vpiParent: BitSelect name:inA[1]
                                 vpiName: inA
-                                vpiFullName: logicLib@cmp.inA
+                                vpiFullName: cmp.inA
                                 vpiActual: Net name:inA
                               vpiIndex Constant start:18:17 end:18:18:
                                 vpiParent: BitSelect name:inA[1]
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: logicLib@cmp.inA[1]
+                                  vpiFullName: cmp.inA[1]
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -3149,13 +3146,13 @@ Design name:unnamed:
                       vpiLhs RefObj name:out start:18:21 end:18:24:
                         vpiParent: Assignment
                         vpiName: out
-                        vpiFullName: logicLib@cmp.out
+                        vpiFullName: cmp.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:18:28 end:18:32:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: logicLib@cmp
+                          vpiFullName: cmp
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -3166,13 +3163,13 @@ Design name:unnamed:
                       vpiLhs RefObj name:out start:20:1 end:20:4:
                         vpiParent: Assignment
                         vpiName: out
-                        vpiFullName: logicLib@cmp.out
+                        vpiFullName: cmp.out
                         vpiActual: Variable name:out
                       vpiRhs Constant start:21:5 end:21:9:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: logicLib@cmp
+                          vpiFullName: cmp
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
@@ -3180,71 +3177,79 @@ Design name:unnamed:
                         vpiValue: "0"
           vpiAlwaysType: always (1)
       vpiEndLabel Identifier name:cmp start:24:4 end:24:7:
-        vpiParent: Module name:logicLib@cmp
+        vpiParent: Module name:cmp
         vpiName: cmp
-    Module name:logicLib@driver file:$Source01/driver.sv start:2:1 end:29:10:
+    Module name:driver file:$Source01/driver.sv start:2:1 end:29:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:logicLib@driver start:3:2 end:3:8:
-        vpiParent: Module name:logicLib@driver
-        vpiName: logicLib@driver
-      vpiFullName: logicLib@driver
-      vpiVariable (1 items):
+      vpiName Identifier name:driver start:3:2 end:3:8:
+        vpiParent: Module name:driver
+        vpiName: driver
+      vpiFullName: driver
+      vpiVariable (2 items):
         Variable name:out start:13:8 end:13:11:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiTypespec RefTypespec start:10:1 end:13:7:
             vpiParent: Variable name:out
-            vpiFullName: logicLib@driver.out
+            vpiFullName: driver.out
             vpiActual: LogicTypespec
           vpiName: out
-          vpiFullName: logicLib@driver.out
-          vpiNetType: none (12)
+          vpiFullName: driver.out
+        Variable name:outvar start:16:8 end:16:14:
+          vpiParent: Module name:driver
+          vpiTypespec RefTypespec start:15:1 end:16:7:
+            vpiParent: Variable name:outvar
+            vpiFullName: driver.outvar
+            vpiActual: LogicTypespec
+          vpiName: outvar
+          vpiFullName: driver.outvar
+          vpiVector: true
       vpiParameter (2 items):
         Parameter name:delay start:6:2 end:6:7:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiTypespec RefTypespec start:5:1 end:5:4:
             vpiParent: Parameter name:delay
-            vpiFullName: logicLib@driver.delay
+            vpiFullName: driver.delay
             vpiActual: IntTypespec
           vpiName: delay
-          vpiFullName: logicLib@driver.delay
+          vpiFullName: driver.delay
         Parameter name:iterations start:8:2 end:8:12:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiTypespec RefTypespec start:7:1 end:7:4:
             vpiParent: Parameter name:iterations
-            vpiFullName: logicLib@driver.iterations
+            vpiFullName: driver.iterations
             vpiActual: IntTypespec
           vpiName: iterations
-          vpiFullName: logicLib@driver.iterations
+          vpiFullName: driver.iterations
       vpiParamAssign (2 items):
         ParamAssign start:6:2 end:6:12:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiLhs RefObj name:delay start:6:2 end:6:7:
             vpiParent: ParamAssign
             vpiName: delay
-            vpiFullName: logicLib@driver.delay
+            vpiFullName: driver.delay
             vpiActual: Parameter name:delay
           vpiRhs Constant start:6:10 end:6:12:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: logicLib@driver
+              vpiFullName: driver
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "30"
             vpiValue: 30
         ParamAssign start:8:2 end:8:18:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiLhs RefObj name:iterations start:8:2 end:8:12:
             vpiParent: ParamAssign
             vpiName: iterations
-            vpiFullName: logicLib@driver.iterations
+            vpiFullName: driver.iterations
             vpiActual: Parameter name:iterations
           vpiRhs Constant start:8:15 end:8:18:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: logicLib@driver
+              vpiFullName: driver
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -3252,7 +3257,7 @@ Design name:unnamed:
             vpiValue: 256
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiRange (1 items):
             Range start:13:2 end:13:7:
               vpiParent: LogicTypespec
@@ -3260,7 +3265,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@driver
+                  vpiFullName: driver
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3270,7 +3275,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@driver
+                  vpiFullName: driver
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3278,7 +3283,7 @@ Design name:unnamed:
                 vpiValue: 1
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiRange (1 items):
             Range start:16:2 end:16:7:
               vpiParent: LogicTypespec
@@ -3286,7 +3291,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@driver
+                  vpiFullName: driver
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3296,50 +3301,42 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@driver
+                  vpiFullName: driver
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
           vpiVector: true
-      vpiDefName: logicLib@driver
-      vpiDefNetType: none (12)
+      vpiDefName: driver
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
       vpiLibrary RefObj name:logicLib:
-        vpiParent: Module name:logicLib@driver
+        vpiParent: Module name:driver
         vpiName: logicLib
-        vpiFullName: logicLib@driver.logicLib
+        vpiFullName: driver.logicLib
       vpiCell: driver
-      vpiNet (1 items):
-        Net name:outvar start:16:8 end:16:14:
-          vpiParent: Module name:logicLib@driver
-          vpiTypespec RefTypespec start:15:1 end:16:7:
-            vpiParent: Net name:outvar
-            vpiFullName: logicLib@driver.outvar
-            vpiActual: LogicTypespec
-          vpiName: outvar
-          vpiFullName: logicLib@driver.outvar
       vpiPort (1 items):
         Port name:out start:13:8 end:13:11:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:13:8 end:13:11:
+          vpiLowConn RefObj name:out start:13:8 end:13:11:
             vpiParent: Port name:out
-            vpiFullName: logicLib@driver.out
+            vpiName: out
+            vpiFullName: driver.out.out
             vpiActual: Variable name:out
           vpiTypespec RefTypespec start:10:1 end:13:7:
             vpiParent: Port name:out
-            vpiFullName: logicLib@driver.out
+            vpiFullName: driver.out
             vpiActual: LogicTypespec
       vpiProcess (1 items):
         Initial start:19:1 end:27:4:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiStmt Begin start:20:1 end:27:4:
             vpiParent: Initial
-            vpiFullName: logicLib@driver
+            vpiFullName: driver
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
@@ -3350,13 +3347,13 @@ Design name:unnamed:
                 vpiLhs RefObj name:outvar start:21:1 end:21:7:
                   vpiParent: Assignment
                   vpiName: outvar
-                  vpiFullName: logicLib@driver.outvar
-                  vpiActual: Net name:outvar
+                  vpiFullName: driver.outvar
+                  vpiActual: Variable name:outvar
                 vpiRhs Constant start:21:10 end:21:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: logicLib@driver
+                    vpiFullName: driver
                     vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
@@ -3364,16 +3361,16 @@ Design name:unnamed:
                   vpiValue: "0"
               ForStmt start:22:1 end:26:17:
                 vpiParent: Begin
-                vpiFullName: logicLib@driver
+                vpiFullName: driver
                 vpiVariable (1 items):
                   Variable name:i start:25:2 end:25:3:
                     vpiParent: ForStmt
                     vpiTypespec RefTypespec start:24:1 end:24:4:
                       vpiParent: Variable name:i
-                      vpiFullName: logicLib@driver.i
+                      vpiFullName: driver.i
                       vpiActual: IntTypespec
                     vpiName: i
-                    vpiFullName: logicLib@driver.i
+                    vpiFullName: driver.i
                 vpiForInitStmt (1 items):
                   Assignment start:25:2 end:25:7:
                     vpiParent: ForStmt
@@ -3382,7 +3379,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: logicLib@driver
+                        vpiFullName: driver
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -3396,7 +3393,7 @@ Design name:unnamed:
                       RefObj name:i start:25:25 end:25:26:
                         vpiParent: Operation
                         vpiName: i
-                        vpiFullName: logicLib@driver.i
+                        vpiFullName: driver.i
                         vpiActual: Variable name:i
                 vpiCondition Operation start:25:9 end:25:23:
                   vpiParent: ForStmt
@@ -3405,12 +3402,12 @@ Design name:unnamed:
                     RefObj name:i start:25:9 end:25:10:
                       vpiParent: Operation
                       vpiName: i
-                      vpiFullName: logicLib@driver.i
+                      vpiFullName: driver.i
                       vpiActual: Variable name:i
                     RefObj name:iterations start:25:13 end:25:23:
                       vpiParent: Operation
                       vpiName: iterations
-                      vpiFullName: logicLib@driver.iterations
+                      vpiFullName: driver.iterations
                       vpiActual: Parameter name:iterations
                 vpiStmt DelayControl start:26:1 end:26:17:
                   vpiParent: ForStmt
@@ -3421,38 +3418,48 @@ Design name:unnamed:
                       RefObj name:outvar start:26:8 end:26:14:
                         vpiParent: Operation
                         vpiName: outvar
-                        vpiFullName: logicLib@driver.outvar
-                        vpiActual: Net name:outvar
+                        vpiFullName: driver.outvar
+                        vpiActual: Variable name:outvar
                   vpiDelay RefObj name:delay start:26:1 end:26:7:
                     vpiParent: DelayControl
                     vpiName: delay
-                    vpiFullName: logicLib@driver.delay
+                    vpiFullName: driver.delay
                     vpiActual: Parameter name:delay
       vpiContAssign (1 items):
         ContAssign start:18:2 end:18:14:
-          vpiParent: Module name:logicLib@driver
+          vpiParent: Module name:driver
           vpiLhs RefObj name:out start:18:2 end:18:5:
             vpiParent: ContAssign
             vpiName: out
-            vpiFullName: logicLib@driver.out
+            vpiFullName: driver.out
             vpiActual: Variable name:out
           vpiRhs RefObj name:outvar start:18:8 end:18:14:
             vpiParent: ContAssign
             vpiName: outvar
-            vpiFullName: logicLib@driver.outvar
-            vpiActual: Net name:outvar
+            vpiFullName: driver.outvar
+            vpiActual: Variable name:outvar
       vpiEndLabel Identifier name:driver start:29:4 end:29:10:
-        vpiParent: Module name:logicLib@driver
+        vpiParent: Module name:driver
         vpiName: driver
-    Module name:logicLib@top file:$Source01/top.sv start:1:1 end:9:16:
+    Module name:top file:$Source01/top.sv start:1:1 end:9:16:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:logicLib@top start:1:8 end:1:11:
-        vpiParent: Module name:logicLib@top
-        vpiName: logicLib@top
-      vpiFullName: logicLib@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:dBus start:3:13 end:3:17:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:3:1 end:3:12:
+            vpiParent: Variable name:dBus
+            vpiFullName: top.dBus
+            vpiActual: LogicTypespec
+          vpiName: dBus
+          vpiFullName: top.dBus
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
-          vpiParent: Module name:logicLib@top
+          vpiParent: Module name:top
           vpiRange (2 items):
             Range start:2:14 end:2:19:
               vpiParent: LogicTypespec
@@ -3460,7 +3467,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3470,7 +3477,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3482,7 +3489,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3492,7 +3499,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3500,7 +3507,7 @@ Design name:unnamed:
                 vpiValue: 1
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:logicLib@top
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:3:7 end:3:12:
               vpiParent: LogicTypespec
@@ -3508,7 +3515,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3518,7 +3525,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: logicLib@top
+                  vpiFullName: top
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3526,7 +3533,7 @@ Design name:unnamed:
                 vpiValue: 3
           vpiVector: true
         ArrayTypespec:
-          vpiParent: Module name:logicLib@top
+          vpiParent: Module name:top
           vpiArrayType: static (1)
           vpiRange Range start:5:19 end:5:24:
             vpiParent: ArrayTypespec
@@ -3534,7 +3541,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: logicLib@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -3544,19 +3551,19 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: logicLib@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "3"
               vpiValue: 3
-          vpiElemTypespec RefTypespec name:work@driver start:5:1 end:5:7:
+          vpiElemTypespec RefTypespec name:driver start:5:1 end:5:7:
             vpiParent: ArrayTypespec
-            vpiName: work@driver
-            vpiFullName: logicLib@top.work@driver
-            vpiActual: ModuleTypespec name:realLib@driver
+            vpiName: driver
+            vpiFullName: top.driver
+            vpiActual: ModuleTypespec name:driver
         ArrayTypespec:
-          vpiParent: Module name:logicLib@top
+          vpiParent: Module name:top
           vpiArrayType: static (1)
           vpiRange Range start:7:13 end:7:18:
             vpiParent: ArrayTypespec
@@ -3564,7 +3571,7 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: logicLib@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
@@ -3574,99 +3581,94 @@ Design name:unnamed:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: logicLib@top
+                vpiFullName: top
                 vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "3"
               vpiValue: 3
-          vpiElemTypespec RefTypespec name:work@cmp start:7:1 end:7:4:
+          vpiElemTypespec RefTypespec name:cmp start:7:1 end:7:4:
             vpiParent: ArrayTypespec
-            vpiName: work@cmp
-            vpiFullName: logicLib@top.work@cmp
-            vpiActual: ModuleTypespec name:realLib@cmp
-      vpiDefName: logicLib@top
-      vpiDefNetType: none (12)
+            vpiName: cmp
+            vpiFullName: top.cmp
+            vpiActual: ModuleTypespec name:cmp
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:logicLib:
-        vpiParent: Module name:logicLib@top
+        vpiParent: Module name:top
         vpiName: logicLib
-        vpiFullName: logicLib@top.logicLib
+        vpiFullName: top.logicLib
       vpiCell: top
-      vpiNet (2 items):
-        Net start:2:26 end:2:30:
-          vpiParent: Module name:logicLib@top
+      vpiNet (1 items):
+        Net name:aBus start:2:26 end:2:30:
+          vpiParent: Module name:top
           vpiTypespec RefTypespec:
-            vpiParent: Net
-            vpiFullName: logicLib@top
+            vpiParent: Net name:aBus
+            vpiFullName: top.aBus
             vpiActual: LogicTypespec
-          vpiFullName: logicLib@top
-          vpiNetType: net (36)
-        Net name:dBus start:3:13 end:3:17:
-          vpiParent: Module name:logicLib@top
-          vpiTypespec RefTypespec start:3:1 end:3:12:
-            vpiParent: Net name:dBus
-            vpiFullName: logicLib@top.dBus
-            vpiActual: LogicTypespec
-          vpiName: dBus
-          vpiFullName: logicLib@top.dBus
+          vpiName: aBus
+          vpiFullName: top.aBus
+          vpiNetType: <<invalid>> (16)
       vpiRefInstance (2 items):
         RefInstance name:driverArray start:5:8 end:5:19:
-          vpiParent: Module name:logicLib@top
+          vpiParent: Module name:top
           vpiName: driverArray
-          vpiTypespec RefTypespec name:work@driver start:5:1 end:5:7:
+          vpiTypespec RefTypespec name:driver start:5:1 end:5:7:
             vpiParent: RefInstance name:driverArray
-            vpiName: work@driver
-            vpiFullName: logicLib@top.driverArray.work@driver
+            vpiName: driver
+            vpiFullName: top.driverArray.driver
             vpiActual: ArrayTypespec
           vpiPort (1 items):
             Port start:5:25 end:5:29:
               vpiParent: RefInstance name:driverArray
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: logicLib@top.driverArray
+                vpiFullName: top.driverArray
               vpiHighConn RefObj name:aBus start:5:25 end:5:29:
                 vpiParent: Port
                 vpiName: aBus
-                vpiFullName: logicLib@top.driverArray.aBus
+                vpiFullName: top.driverArray.aBus
+                vpiActual: Net name:aBus
         RefInstance name:cmpArray start:7:5 end:7:13:
-          vpiParent: Module name:logicLib@top
+          vpiParent: Module name:top
           vpiName: cmpArray
-          vpiTypespec RefTypespec name:work@cmp start:7:1 end:7:4:
+          vpiTypespec RefTypespec name:cmp start:7:1 end:7:4:
             vpiParent: RefInstance name:cmpArray
-            vpiName: work@cmp
-            vpiFullName: logicLib@top.cmpArray.work@cmp
+            vpiName: cmp
+            vpiFullName: top.cmpArray.cmp
             vpiActual: ArrayTypespec
           vpiPort (3 items):
             Port start:7:19 end:7:23:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: logicLib@top.cmpArray
+                vpiFullName: top.cmpArray
               vpiHighConn RefObj name:aBus start:7:19 end:7:23:
                 vpiParent: Port
                 vpiName: aBus
-                vpiFullName: logicLib@top.cmpArray.aBus
+                vpiFullName: top.cmpArray.aBus
+                vpiActual: Net name:aBus
             Port start:7:24 end:7:27:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: logicLib@top.cmpArray
+                vpiFullName: top.cmpArray
               vpiHighConn RefObj name:rst start:7:24 end:7:27:
                 vpiParent: Port
                 vpiName: rst
-                vpiFullName: logicLib@top.cmpArray.rst
+                vpiFullName: top.cmpArray.rst
             Port start:7:28 end:7:32:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
                 vpiParent: Port
-                vpiFullName: logicLib@top.cmpArray
+                vpiFullName: top.cmpArray
               vpiHighConn RefObj name:dBus start:7:28 end:7:32:
                 vpiParent: Port
                 vpiName: dBus
-                vpiFullName: logicLib@top.cmpArray.dBus
-                vpiActual: Net name:dBus
+                vpiFullName: top.cmpArray.dBus
+                vpiActual: Variable name:dBus
       vpiEndLabel Identifier name:top start:9:13 end:9:16:
-        vpiParent: Module name:logicLib@top
+        vpiParent: Module name:top
         vpiName: top
   vpiTypespec (12 items):
     IntTypespec:
@@ -3696,36 +3698,36 @@ Design name:unnamed:
         vpiParent: ClassTypespec name:semaphore
         vpiName: semaphore
       vpiClassDefn: ClassDefn name:semaphore
-    ModuleTypespec name:realLib@cmp:
+    ModuleTypespec name:cmp:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:realLib@cmp start:3:2 end:3:5:
-        vpiParent: ModuleTypespec name:realLib@cmp
-        vpiName: realLib@cmp
-      vpiModule: Module name:realLib@cmp
-    ModuleTypespec name:realLib@driver:
+      vpiName Identifier name:cmp start:3:2 end:3:5:
+        vpiParent: ModuleTypespec name:cmp
+        vpiName: cmp
+      vpiModule: Module name:cmp
+    ModuleTypespec name:driver:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:realLib@driver start:1:8 end:1:14:
-        vpiParent: ModuleTypespec name:realLib@driver
-        vpiName: realLib@driver
-      vpiModule: Module name:realLib@driver
-    ModuleTypespec name:logicLib@cmp:
+      vpiName Identifier name:driver start:1:8 end:1:14:
+        vpiParent: ModuleTypespec name:driver
+        vpiName: driver
+      vpiModule: Module name:driver
+    ModuleTypespec name:cmp:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:logicLib@cmp start:2:8 end:2:11:
-        vpiParent: ModuleTypespec name:logicLib@cmp
-        vpiName: logicLib@cmp
-      vpiModule: Module name:logicLib@cmp
-    ModuleTypespec name:logicLib@driver:
+      vpiName Identifier name:cmp start:2:8 end:2:11:
+        vpiParent: ModuleTypespec name:cmp
+        vpiName: cmp
+      vpiModule: Module name:cmp
+    ModuleTypespec name:driver:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:logicLib@driver start:3:2 end:3:8:
-        vpiParent: ModuleTypespec name:logicLib@driver
-        vpiName: logicLib@driver
-      vpiModule: Module name:logicLib@driver
-    ModuleTypespec name:logicLib@top:
+      vpiName Identifier name:driver start:3:2 end:3:8:
+        vpiParent: ModuleTypespec name:driver
+        vpiName: driver
+      vpiModule: Module name:driver
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:logicLib@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:logicLib@top
-        vpiName: logicLib@top
-      vpiModule: Module name:logicLib@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
   vpiLibrary (3 items):
     Library name:realLib:
       vpiParent: Design name:unnamed
@@ -3806,8 +3808,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 4
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

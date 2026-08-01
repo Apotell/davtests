@@ -35,7 +35,7 @@ class PreprocIncludeTest : public Test {
 // translation unit. If it failed, the `ifndef SUCCESS branch would introduce
 // invalid SV text and prevent module compilation.
 TEST_F(PreprocIncludeTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile; include must have succeeded";
 }
 

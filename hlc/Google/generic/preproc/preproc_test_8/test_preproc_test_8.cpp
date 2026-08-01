@@ -34,7 +34,7 @@ class PreprocNestedDefineTest : public Test {
 // LRM 22.5.1: the replacement text of a macro may contain a `define directive
 // that is not evaluated until the macro is invoked. The module must compile.
 TEST_F(PreprocNestedDefineTest, ModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("work@test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
 }
 

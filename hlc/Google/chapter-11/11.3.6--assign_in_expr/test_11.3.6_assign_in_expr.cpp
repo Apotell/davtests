@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,8 +35,10 @@
 // Assignment chain rather than only handling a single level correctly.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", all int
-//     (RefTypespec -> IntTypespec)
+//   - module top has exactly 3 variables, "a", "b", "c", all int
+//     (RefTypespec -> IntTypespec). Per IEEE 1800-2023 Sec 6.7/6.8: "int"
+//     has no net-type keyword and there is no port list, so all three are
+//     Variables, not Nets; module has no nets (getNets() is null).
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment chain nested 3 deep --
 //       Assignment(lhs a) -> rhs Assignment(lhs b) -> rhs Assignment(lhs c)
@@ -70,9 +72,9 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -82,27 +84,33 @@ class AssignInExprTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(AssignInExprTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignInExprTest, ModuleHasThreeIntNets) {
+TEST_F(AssignInExprTest, ModuleHasThreeIntVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
 }
 
-// --- the point of the file: a 3-deep parenthesized assignment chain -------
+TEST_F(AssignInExprTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- the point of the file: a 3-deep parenthesized assignment chain ----
 
 TEST_F(AssignInExprTest, InitialBlockHasOneStatement) {
   const hldb::Module *const top = getTop();
@@ -145,7 +153,7 @@ TEST_F(AssignInExprTest, AssignmentChainIsThreeLevelsDeepAToBToCToConstant) {
   EXPECT_EQ(five->getDecompile(), "5");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignInExprTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

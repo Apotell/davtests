@@ -2751,8 +2751,8 @@ n<$Source01/t_enum_type_methods.v> u<2738> t<Top_level_rule> c<1> l<9:1> el<97:1
                                 n<> u<2721> t<END> p<2722> l<94:4> el<94:7>
         n<> u<2734> t<ENDMODULE> p<2735> l<96:1> el<96:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_enum_type_methods.v:9:1: Compile module "work@t".
-[ERR:EL0535] $Source01/t_enum_type_methods.v:24:21: Illegal implicit net "id:298, name:num".
+[INF:CP0303] $Source01/t_enum_type_methods.v:9:1: Compile module "t".
+[WRN:CP0350] $Source01/t_enum_type_methods.v:24:21: Failed to bind "id:298, name:num".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2768,6 +2768,7 @@ Design name:unnamed:
           vpiName Identifier name:checkh start:6:9 end:6:15:
             vpiParent: PreprocMacroDefinition name:checkh
             vpiName: checkh
+          vpiPMDType: define (1)
           vpiArgument (2 items):
             Identifier name:gotv start:6:16 end:6:20:
               vpiParent: PreprocMacroDefinition name:checkh
@@ -2940,6 +2941,7 @@ Design name:unnamed:
           vpiName Identifier name:checks start:7:9 end:7:15:
             vpiParent: PreprocMacroDefinition name:checks
             vpiName: checks
+          vpiPMDType: define (1)
           vpiArgument (2 items):
             Identifier name:gotv start:7:16 end:7:20:
               vpiParent: PreprocMacroDefinition name:checks
@@ -3524,19 +3526,63 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:do if ((e.prev(1)) !== (E03)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_enum_type_methods.v\",0, (e.prev(1)), (E03)); $stop; end while(0); start:6:27 end:6:189":
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: "do if ((e.prev(1)) !== (E03)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_enum_type_methods.v\",0, (e.prev(1)), (E03)); $stop; end while(0);"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
-    Module name:work@t file:$Source01/t_enum_type_methods.v start:9:1 end:96:10:
+    Module name:t file:$Source01/t_enum_type_methods.v start:9:1 end:96:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
+      vpiVariable (4 items):
+        Variable name:cyc start:21:13 end:21:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:21:4 end:21:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:21:17 end:21:18:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:e start:22:9 end:22:10:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:my_t start:22:4 end:22:8:
+            vpiParent: Variable name:e
+            vpiName: my_t
+            vpiFullName: t.e.my_t
+            vpiActual: TypedefTypespec name:my_t
+          vpiName: e
+          vpiFullName: t.e
+        Variable name:arrayfits start:24:8 end:24:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:arrayfits
+            vpiFullName: t.arrayfits
+            vpiActual: ArrayTypespec
+          vpiName: arrayfits
+          vpiFullName: t.arrayfits
+        Variable name:all start:26:11 end:26:14:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:string start:26:4 end:26:10:
+            vpiParent: Variable name:all
+            vpiName: string
+            vpiFullName: t.all.string
+            vpiActual: StringTypespec
+          vpiName: all
+          vpiFullName: t.all
       vpiTypespec (6 items):
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
         LogicTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiRange (1 items):
             Range start:15:17 end:15:22:
               vpiParent: LogicTypespec
@@ -3544,7 +3590,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3554,7 +3600,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3562,10 +3608,10 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         EnumTypespec start:15:12 end:19:11:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiBaseTypespec RefTypespec start:15:17 end:15:22:
             vpiParent: EnumTypespec
-            vpiFullName: work@t
+            vpiFullName: t
             vpiActual: LogicTypespec
           vpiEnumConst (3 items):
             EnumConst name:E01 start:16:10 end:16:17:
@@ -3577,7 +3623,7 @@ Design name:unnamed:
                 vpiParent: EnumConst name:E01
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.E01
+                  vpiFullName: t.E01
                   vpiActual: LogicTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3592,7 +3638,7 @@ Design name:unnamed:
                 vpiParent: EnumConst name:E03
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.E03
+                  vpiFullName: t.E03
                   vpiActual: LogicTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -3607,26 +3653,26 @@ Design name:unnamed:
                 vpiParent: EnumConst name:E04
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.E04
+                  vpiFullName: t.E04
                   vpiActual: LogicTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "4"
                 vpiValue: 4
         TypedefTypespec name:my_t start:15:4 end:19:17:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName Identifier name:my_t start:19:12 end:19:16:
             vpiParent: TypedefTypespec name:my_t
             vpiName: my_t
           vpiTypedefAlias RefTypespec start:15:12 end:19:11:
             vpiParent: TypedefTypespec name:my_t
-            vpiFullName: work@t.my_t
+            vpiFullName: t.my_t
             vpiActual: EnumTypespec
         IntegerTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiSigned: true
         ArrayTypespec:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiArrayType: static (1)
           vpiRange Range start:24:18 end:24:25:
             vpiParent: ArrayTypespec
@@ -3637,101 +3683,58 @@ Design name:unnamed:
                 HierPath name:e.num start:24:19 end:24:24:
                   vpiParent: Operation
                   vpiName: e.num
-                  vpiFullName: work@t.e.num
+                  vpiFullName: t.e.num
                   vpiPathElem (2 items):
                     RefObj name:e start:24:19 end:24:20:
                       vpiParent: HierPath name:e.num
                       vpiName: e
-                      vpiFullName: work@t.e
-                      vpiActual: Net name:e
+                      vpiFullName: t.e
+                      vpiActual: Variable name:e
                     RefObj name:num start:24:21 end:24:24:
                       vpiParent: HierPath name:e.num
                       vpiName: num
-                      vpiFullName: work@t.num
+                      vpiFullName: t.num
           vpiElemTypespec RefTypespec start:24:4 end:24:7:
             vpiParent: ArrayTypespec
-            vpiFullName: work@t
+            vpiFullName: t
             vpiActual: IntTypespec
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:clk start:13:10 end:13:13:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:10 end:13:10:
             vpiParent: Net name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
           vpiName: clk
-          vpiFullName: work@t.clk
-        Net name:cyc start:21:13 end:21:16:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec start:21:4 end:21:11:
-            vpiParent: Net name:cyc
-            vpiFullName: work@t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: work@t.cyc
-          vpiValue Constant start:21:17 end:21:18:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: work@t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:e start:22:9 end:22:10:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:my_t start:22:4 end:22:8:
-            vpiParent: Net name:e
-            vpiName: my_t
-            vpiFullName: work@t.e.my_t
-            vpiActual: TypedefTypespec name:my_t
-          vpiName: e
-          vpiFullName: work@t.e
-        Net name:arrayfits start:24:8 end:24:17:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:arrayfits
-            vpiFullName: work@t.arrayfits
-            vpiActual: ArrayTypespec
-          vpiName: arrayfits
-          vpiFullName: work@t.arrayfits
-        Net name:all start:26:11 end:26:14:
-          vpiParent: Module name:work@t
-          vpiTypespec RefTypespec name:string start:26:4 end:26:10:
-            vpiParent: Net name:all
-            vpiName: string
-            vpiFullName: work@t.all.string
-            vpiActual: StringTypespec
-          vpiName: all
-          vpiFullName: work@t.all
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:11:4 end:11:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:11:4 end:11:7:
+          vpiLowConn RefObj name:clk start:13:10 end:13:13:
             vpiParent: Port name:clk
             vpiName: clk
-            vpiFullName: work@t.clk.clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:13:10 end:13:10:
             vpiParent: Port name:clk
-            vpiFullName: work@t.clk
+            vpiFullName: t.clk
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Initial start:29:4 end:51:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt Begin start:29:12 end:51:7:
             vpiParent: Initial
-            vpiFullName: work@t
+            vpiFullName: t
             vpiStmt (16 items):
               Assignment start:30:7 end:30:14:
                 vpiParent: Begin
@@ -3739,12 +3742,12 @@ Design name:unnamed:
                 vpiLhs RefObj name:e start:30:7 end:30:8:
                   vpiParent: Assignment
                   vpiName: e
-                  vpiFullName: work@t.e
-                  vpiActual: Net name:e
+                  vpiFullName: t.e
+                  vpiActual: Variable name:e
                 vpiRhs RefObj name:E03 start:30:11 end:30:14:
                   vpiParent: Assignment
                   vpiName: E03
-                  vpiFullName: work@t.E03
+                  vpiFullName: t.E03
                   vpiActual: EnumConst name:E03
               DoWhile start:6:27 end:6:185:
                 vpiParent: Begin
@@ -3752,7 +3755,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3767,13 +3770,13 @@ Design name:unnamed:
                       HierPath name:e.first start:6:35 end:6:42:
                         vpiParent: Operation
                         vpiName: e.first
-                        vpiFullName: work@t.e.first
+                        vpiFullName: t.e.first
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.first
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:first start:6:37 end:6:42:
                             vpiParent: HierPath name:e.first
                             vpiName Identifier name:first start:6:37 end:6:42:
@@ -3782,11 +3785,11 @@ Design name:unnamed:
                       RefObj name:E01 start:6:49 end:6:52:
                         vpiParent: Operation
                         vpiName: E01
-                        vpiFullName: work@t.E01
+                        vpiFullName: t.E01
                         vpiActual: EnumConst name:E01
                   vpiStmt Begin start:6:55 end:6:175:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:61 end:6:163:
                         vpiParent: Begin
@@ -3798,7 +3801,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -3808,7 +3811,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -3818,7 +3821,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -3827,13 +3830,13 @@ Design name:unnamed:
                           HierPath name:e.first start:6:147 end:6:154:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.first
-                            vpiFullName: work@t.e.first
+                            vpiFullName: t.e.first
                             vpiPathElem (2 items):
                               RefObj name:e start:6:147 end:6:148:
                                 vpiParent: HierPath name:e.first
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:first start:6:149 end:6:154:
                                 vpiParent: HierPath name:e.first
                                 vpiName Identifier name:first start:6:149 end:6:154:
@@ -3842,7 +3845,7 @@ Design name:unnamed:
                           RefObj name:E01 start:6:158 end:6:161:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E01
-                            vpiFullName: work@t.E01
+                            vpiFullName: t.E01
                             vpiActual: EnumConst name:E01
                       SysTaskCall name:$stop start:6:165 end:6:170:
                         vpiParent: Begin
@@ -3855,7 +3858,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3870,13 +3873,13 @@ Design name:unnamed:
                       HierPath name:e.last start:6:35 end:6:41:
                         vpiParent: Operation
                         vpiName: e.last
-                        vpiFullName: work@t.e.last
+                        vpiFullName: t.e.last
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.last
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:last start:6:37 end:6:41:
                             vpiParent: HierPath name:e.last
                             vpiName Identifier name:last start:6:37 end:6:41:
@@ -3885,11 +3888,11 @@ Design name:unnamed:
                       RefObj name:E04 start:6:48 end:6:51:
                         vpiParent: Operation
                         vpiName: E04
-                        vpiFullName: work@t.E04
+                        vpiFullName: t.E04
                         vpiActual: EnumConst name:E04
                   vpiStmt Begin start:6:54 end:6:173:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:60 end:6:161:
                         vpiParent: Begin
@@ -3901,7 +3904,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -3911,7 +3914,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -3921,7 +3924,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -3930,13 +3933,13 @@ Design name:unnamed:
                           HierPath name:e.last start:6:146 end:6:152:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.last
-                            vpiFullName: work@t.e.last
+                            vpiFullName: t.e.last
                             vpiPathElem (2 items):
                               RefObj name:e start:6:146 end:6:147:
                                 vpiParent: HierPath name:e.last
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:last start:6:148 end:6:152:
                                 vpiParent: HierPath name:e.last
                                 vpiName Identifier name:last start:6:148 end:6:152:
@@ -3945,7 +3948,7 @@ Design name:unnamed:
                           RefObj name:E04 start:6:156 end:6:159:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E04
-                            vpiFullName: work@t.E04
+                            vpiFullName: t.E04
                             vpiActual: EnumConst name:E04
                       SysTaskCall name:$stop start:6:163 end:6:168:
                         vpiParent: Begin
@@ -3958,7 +3961,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -3973,13 +3976,13 @@ Design name:unnamed:
                       HierPath name:e.last start:6:35 end:6:42:
                         vpiParent: Operation
                         vpiName: e.last
-                        vpiFullName: work@t.e.last
+                        vpiFullName: t.e.last
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.last
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:last start:6:37 end:6:43:
                             vpiParent: HierPath name:e.last
                             vpiName Identifier name:last start:6:37 end:6:41:
@@ -3988,11 +3991,11 @@ Design name:unnamed:
                       RefObj name:E04 start:6:50 end:6:53:
                         vpiParent: Operation
                         vpiName: E04
-                        vpiFullName: work@t.E04
+                        vpiFullName: t.E04
                         vpiActual: EnumConst name:E04
                   vpiStmt Begin start:6:56 end:6:177:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:62 end:6:165:
                         vpiParent: Begin
@@ -4004,7 +4007,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4014,7 +4017,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4024,7 +4027,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4033,13 +4036,13 @@ Design name:unnamed:
                           HierPath name:e.last start:6:148 end:6:155:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.last
-                            vpiFullName: work@t.e.last
+                            vpiFullName: t.e.last
                             vpiPathElem (2 items):
                               RefObj name:e start:6:148 end:6:149:
                                 vpiParent: HierPath name:e.last
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:last start:6:150 end:6:156:
                                 vpiParent: HierPath name:e.last
                                 vpiName Identifier name:last start:6:150 end:6:154:
@@ -4048,7 +4051,7 @@ Design name:unnamed:
                           RefObj name:E04 start:6:160 end:6:163:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E04
-                            vpiFullName: work@t.E04
+                            vpiFullName: t.E04
                             vpiActual: EnumConst name:E04
                       SysTaskCall name:$stop start:6:167 end:6:172:
                         vpiParent: Begin
@@ -4061,7 +4064,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4076,13 +4079,13 @@ Design name:unnamed:
                       HierPath name:e.next start:6:35 end:6:41:
                         vpiParent: Operation
                         vpiName: e.next
-                        vpiFullName: work@t.e.next
+                        vpiFullName: t.e.next
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.next
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:next start:6:37 end:6:41:
                             vpiParent: HierPath name:e.next
                             vpiName Identifier name:next start:6:37 end:6:41:
@@ -4091,11 +4094,11 @@ Design name:unnamed:
                       RefObj name:E04 start:6:48 end:6:51:
                         vpiParent: Operation
                         vpiName: E04
-                        vpiFullName: work@t.E04
+                        vpiFullName: t.E04
                         vpiActual: EnumConst name:E04
                   vpiStmt Begin start:6:54 end:6:173:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:60 end:6:161:
                         vpiParent: Begin
@@ -4107,7 +4110,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4117,7 +4120,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4127,7 +4130,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4136,13 +4139,13 @@ Design name:unnamed:
                           HierPath name:e.next start:6:146 end:6:152:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.next
-                            vpiFullName: work@t.e.next
+                            vpiFullName: t.e.next
                             vpiPathElem (2 items):
                               RefObj name:e start:6:146 end:6:147:
                                 vpiParent: HierPath name:e.next
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:next start:6:148 end:6:152:
                                 vpiParent: HierPath name:e.next
                                 vpiName Identifier name:next start:6:148 end:6:152:
@@ -4151,7 +4154,7 @@ Design name:unnamed:
                           RefObj name:E04 start:6:156 end:6:159:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E04
-                            vpiFullName: work@t.E04
+                            vpiFullName: t.E04
                             vpiActual: EnumConst name:E04
                       SysTaskCall name:$stop start:6:163 end:6:168:
                         vpiParent: Begin
@@ -4164,7 +4167,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4179,13 +4182,13 @@ Design name:unnamed:
                       HierPath name:e.next start:6:35 end:6:42:
                         vpiParent: Operation
                         vpiName: e.next
-                        vpiFullName: work@t.e.next
+                        vpiFullName: t.e.next
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.next
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:next start:6:37 end:6:43:
                             vpiParent: HierPath name:e.next
                             vpiName Identifier name:next start:6:37 end:6:41:
@@ -4194,11 +4197,11 @@ Design name:unnamed:
                       RefObj name:E04 start:6:50 end:6:53:
                         vpiParent: Operation
                         vpiName: E04
-                        vpiFullName: work@t.E04
+                        vpiFullName: t.E04
                         vpiActual: EnumConst name:E04
                   vpiStmt Begin start:6:56 end:6:177:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:62 end:6:165:
                         vpiParent: Begin
@@ -4210,7 +4213,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4220,7 +4223,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4230,7 +4233,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4239,13 +4242,13 @@ Design name:unnamed:
                           HierPath name:e.next start:6:148 end:6:155:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.next
-                            vpiFullName: work@t.e.next
+                            vpiFullName: t.e.next
                             vpiPathElem (2 items):
                               RefObj name:e start:6:148 end:6:149:
                                 vpiParent: HierPath name:e.next
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:next start:6:150 end:6:156:
                                 vpiParent: HierPath name:e.next
                                 vpiName Identifier name:next start:6:150 end:6:154:
@@ -4254,7 +4257,7 @@ Design name:unnamed:
                           RefObj name:E04 start:6:160 end:6:163:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E04
-                            vpiFullName: work@t.E04
+                            vpiFullName: t.E04
                             vpiActual: EnumConst name:E04
                       SysTaskCall name:$stop start:6:167 end:6:172:
                         vpiParent: Begin
@@ -4267,7 +4270,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4282,13 +4285,13 @@ Design name:unnamed:
                       HierPath name:e.next(1) start:6:35 end:6:43:
                         vpiParent: Operation
                         vpiName: e.next(1)
-                        vpiFullName: work@t.e.next(1)
+                        vpiFullName: t.e.next(1)
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.next(1)
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:next start:6:37 end:6:44:
                             vpiParent: HierPath name:e.next(1)
                             vpiName Identifier name:next start:6:37 end:6:41:
@@ -4299,7 +4302,7 @@ Design name:unnamed:
                                 vpiParent: MethodFuncCall name:next
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t.e.next(1)
+                                  vpiFullName: t.e.next(1)
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -4308,11 +4311,11 @@ Design name:unnamed:
                       RefObj name:E04 start:6:51 end:6:54:
                         vpiParent: Operation
                         vpiName: E04
-                        vpiFullName: work@t.E04
+                        vpiFullName: t.E04
                         vpiActual: EnumConst name:E04
                   vpiStmt Begin start:6:57 end:6:179:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:63 end:6:167:
                         vpiParent: Begin
@@ -4324,7 +4327,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4334,7 +4337,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4344,7 +4347,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4353,13 +4356,13 @@ Design name:unnamed:
                           HierPath name:e.next(1) start:6:149 end:6:157:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.next(1)
-                            vpiFullName: work@t.e.next(1)
+                            vpiFullName: t.e.next(1)
                             vpiPathElem (2 items):
                               RefObj name:e start:6:149 end:6:150:
                                 vpiParent: HierPath name:e.next(1)
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:next start:6:151 end:6:158:
                                 vpiParent: HierPath name:e.next(1)
                                 vpiName Identifier name:next start:6:151 end:6:155:
@@ -4370,7 +4373,7 @@ Design name:unnamed:
                                     vpiParent: MethodFuncCall name:next
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t.e.next(1)
+                                      vpiFullName: t.e.next(1)
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -4379,7 +4382,7 @@ Design name:unnamed:
                           RefObj name:E04 start:6:162 end:6:165:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E04
-                            vpiFullName: work@t.E04
+                            vpiFullName: t.E04
                             vpiActual: EnumConst name:E04
                       SysTaskCall name:$stop start:6:169 end:6:174:
                         vpiParent: Begin
@@ -4392,7 +4395,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4407,13 +4410,13 @@ Design name:unnamed:
                       HierPath name:e.prev start:6:35 end:6:41:
                         vpiParent: Operation
                         vpiName: e.prev
-                        vpiFullName: work@t.e.prev
+                        vpiFullName: t.e.prev
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.prev
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:prev start:6:37 end:6:41:
                             vpiParent: HierPath name:e.prev
                             vpiName Identifier name:prev start:6:37 end:6:41:
@@ -4422,11 +4425,11 @@ Design name:unnamed:
                       RefObj name:E01 start:6:48 end:6:51:
                         vpiParent: Operation
                         vpiName: E01
-                        vpiFullName: work@t.E01
+                        vpiFullName: t.E01
                         vpiActual: EnumConst name:E01
                   vpiStmt Begin start:6:54 end:6:173:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:60 end:6:161:
                         vpiParent: Begin
@@ -4438,7 +4441,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4448,7 +4451,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4458,7 +4461,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4467,13 +4470,13 @@ Design name:unnamed:
                           HierPath name:e.prev start:6:146 end:6:152:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.prev
-                            vpiFullName: work@t.e.prev
+                            vpiFullName: t.e.prev
                             vpiPathElem (2 items):
                               RefObj name:e start:6:146 end:6:147:
                                 vpiParent: HierPath name:e.prev
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:prev start:6:148 end:6:152:
                                 vpiParent: HierPath name:e.prev
                                 vpiName Identifier name:prev start:6:148 end:6:152:
@@ -4482,7 +4485,7 @@ Design name:unnamed:
                           RefObj name:E01 start:6:156 end:6:159:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E01
-                            vpiFullName: work@t.E01
+                            vpiFullName: t.E01
                             vpiActual: EnumConst name:E01
                       SysTaskCall name:$stop start:6:163 end:6:168:
                         vpiParent: Begin
@@ -4495,7 +4498,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4510,13 +4513,13 @@ Design name:unnamed:
                       HierPath name:e.prev(1) start:6:35 end:6:43:
                         vpiParent: Operation
                         vpiName: e.prev(1)
-                        vpiFullName: work@t.e.prev(1)
+                        vpiFullName: t.e.prev(1)
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.prev(1)
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:prev start:6:37 end:6:44:
                             vpiParent: HierPath name:e.prev(1)
                             vpiName Identifier name:prev start:6:37 end:6:41:
@@ -4527,7 +4530,7 @@ Design name:unnamed:
                                 vpiParent: MethodFuncCall name:prev
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t.e.prev(1)
+                                  vpiFullName: t.e.prev(1)
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -4536,11 +4539,11 @@ Design name:unnamed:
                       RefObj name:E01 start:6:51 end:6:54:
                         vpiParent: Operation
                         vpiName: E01
-                        vpiFullName: work@t.E01
+                        vpiFullName: t.E01
                         vpiActual: EnumConst name:E01
                   vpiStmt Begin start:6:57 end:6:179:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:63 end:6:167:
                         vpiParent: Begin
@@ -4552,7 +4555,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4562,7 +4565,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4572,7 +4575,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4581,13 +4584,13 @@ Design name:unnamed:
                           HierPath name:e.prev(1) start:6:149 end:6:157:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.prev(1)
-                            vpiFullName: work@t.e.prev(1)
+                            vpiFullName: t.e.prev(1)
                             vpiPathElem (2 items):
                               RefObj name:e start:6:149 end:6:150:
                                 vpiParent: HierPath name:e.prev(1)
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:prev start:6:151 end:6:158:
                                 vpiParent: HierPath name:e.prev(1)
                                 vpiName Identifier name:prev start:6:151 end:6:155:
@@ -4598,7 +4601,7 @@ Design name:unnamed:
                                     vpiParent: MethodFuncCall name:prev
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t.e.prev(1)
+                                      vpiFullName: t.e.prev(1)
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -4607,7 +4610,7 @@ Design name:unnamed:
                           RefObj name:E01 start:6:162 end:6:165:
                             vpiParent: SysTaskCall name:$write
                             vpiName: E01
-                            vpiFullName: work@t.E01
+                            vpiFullName: t.E01
                             vpiActual: EnumConst name:E01
                       SysTaskCall name:$stop start:6:169 end:6:174:
                         vpiParent: Begin
@@ -4620,7 +4623,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4635,13 +4638,13 @@ Design name:unnamed:
                       HierPath name:e.num start:6:35 end:6:40:
                         vpiParent: Operation
                         vpiName: e.num
-                        vpiFullName: work@t.e.num
+                        vpiFullName: t.e.num
                         vpiPathElem (2 items):
                           RefObj name:e start:6:35 end:6:36:
                             vpiParent: HierPath name:e.num
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:num start:6:37 end:6:40:
                             vpiParent: HierPath name:e.num
                             vpiName Identifier name:num start:6:37 end:6:40:
@@ -4651,7 +4654,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -4659,7 +4662,7 @@ Design name:unnamed:
                         vpiValue: 3
                   vpiStmt Begin start:6:51 end:6:167:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:6:57 end:6:155:
                         vpiParent: Begin
@@ -4671,7 +4674,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4681,7 +4684,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4691,7 +4694,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4700,13 +4703,13 @@ Design name:unnamed:
                           HierPath name:e.num start:6:143 end:6:148:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.num
-                            vpiFullName: work@t.e.num
+                            vpiFullName: t.e.num
                             vpiPathElem (2 items):
                               RefObj name:e start:6:143 end:6:144:
                                 vpiParent: HierPath name:e.num
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:num start:6:145 end:6:148:
                                 vpiParent: HierPath name:e.num
                                 vpiName Identifier name:num start:6:145 end:6:148:
@@ -4716,7 +4719,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4733,7 +4736,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -4748,13 +4751,13 @@ Design name:unnamed:
                       HierPath name:e.name start:7:35 end:7:41:
                         vpiParent: Operation
                         vpiName: e.name
-                        vpiFullName: work@t.e.name
+                        vpiFullName: t.e.name
                         vpiPathElem (2 items):
                           RefObj name:e start:7:35 end:7:36:
                             vpiParent: HierPath name:e.name
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           MethodFuncCall name:name start:7:37 end:7:41:
                             vpiParent: HierPath name:e.name
                             vpiName Identifier name:name start:7:37 end:7:41:
@@ -4764,7 +4767,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 24
@@ -4772,7 +4775,7 @@ Design name:unnamed:
                         vpiValue: E03
                   vpiStmt Begin start:7:56 end:7:177:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:7:62 end:7:165:
                         vpiParent: Begin
@@ -4784,7 +4787,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -4794,7 +4797,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -4804,7 +4807,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -4813,13 +4816,13 @@ Design name:unnamed:
                           HierPath name:e.name start:7:148 end:7:154:
                             vpiParent: SysTaskCall name:$write
                             vpiName: e.name
-                            vpiFullName: work@t.e.name
+                            vpiFullName: t.e.name
                             vpiPathElem (2 items):
                               RefObj name:e start:7:148 end:7:149:
                                 vpiParent: HierPath name:e.name
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               MethodFuncCall name:name start:7:150 end:7:154:
                                 vpiParent: HierPath name:e.name
                                 vpiName Identifier name:name start:7:150 end:7:154:
@@ -4829,7 +4832,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 24
@@ -4846,29 +4849,29 @@ Design name:unnamed:
                 vpiLhs RefObj name:all start:44:7 end:44:10:
                   vpiParent: Assignment
                   vpiName: all
-                  vpiFullName: work@t.all
-                  vpiActual: Net name:all
+                  vpiFullName: t.all
+                  vpiActual: Variable name:all
                 vpiRhs Constant start:44:13 end:44:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiDecompile: "\"\""
                   vpiValue: ""
               ForStmt start:45:7 end:47:10:
                 vpiParent: Begin
-                vpiFullName: work@t
+                vpiFullName: t
                 vpiVariable (1 items):
                   Variable name:e start:45:17 end:45:18:
                     vpiParent: ForStmt
                     vpiTypespec RefTypespec start:45:12 end:45:16:
                       vpiParent: Variable name:e
-                      vpiFullName: work@t.e
+                      vpiFullName: t.e
                       vpiActual: UnsupportedTypespec name:my_t
                     vpiName: e
-                    vpiFullName: work@t.e
+                    vpiFullName: t.e
                 vpiTypespec (1 items):
                   UnsupportedTypespec name:my_t start:45:12 end:45:16:
                     vpiParent: ForStmt
@@ -4882,12 +4885,12 @@ Design name:unnamed:
                     vpiRhs HierPath name:e.first start:45:21 end:45:28:
                       vpiParent: Assignment
                       vpiName: e.first
-                      vpiFullName: work@t.e.first
+                      vpiFullName: t.e.first
                       vpiPathElem (2 items):
                         RefObj name:e start:45:21 end:45:22:
                           vpiParent: HierPath name:e.first
                           vpiName: e
-                          vpiFullName: work@t.e
+                          vpiFullName: t.e
                           vpiActual: Variable name:e
                         MethodFuncCall name:first start:45:23 end:45:28:
                           vpiParent: HierPath name:e.first
@@ -4901,17 +4904,17 @@ Design name:unnamed:
                     vpiLhs RefObj name:e start:45:43 end:45:44:
                       vpiParent: Assignment
                       vpiName: e
-                      vpiFullName: work@t.e
+                      vpiFullName: t.e
                       vpiActual: Variable name:e
                     vpiRhs HierPath name:e.next start:45:47 end:45:53:
                       vpiParent: Assignment
                       vpiName: e.next
-                      vpiFullName: work@t.e.next
+                      vpiFullName: t.e.next
                       vpiPathElem (2 items):
                         RefObj name:e start:45:47 end:45:48:
                           vpiParent: HierPath name:e.next
                           vpiName: e
-                          vpiFullName: work@t.e
+                          vpiFullName: t.e
                           vpiActual: Variable name:e
                         MethodFuncCall name:next start:45:49 end:45:53:
                           vpiParent: HierPath name:e.next
@@ -4925,17 +4928,17 @@ Design name:unnamed:
                     RefObj name:e start:45:30 end:45:31:
                       vpiParent: Operation
                       vpiName: e
-                      vpiFullName: work@t.e
+                      vpiFullName: t.e
                       vpiActual: Variable name:e
                     HierPath name:e.last start:45:35 end:45:41:
                       vpiParent: Operation
                       vpiName: e.last
-                      vpiFullName: work@t.e.last
+                      vpiFullName: t.e.last
                       vpiPathElem (2 items):
                         RefObj name:e start:45:35 end:45:36:
                           vpiParent: HierPath name:e.last
                           vpiName: e
-                          vpiFullName: work@t.e
+                          vpiFullName: t.e
                           vpiActual: Variable name:e
                         MethodFuncCall name:last start:45:37 end:45:41:
                           vpiParent: HierPath name:e.last
@@ -4944,7 +4947,7 @@ Design name:unnamed:
                             vpiName: last
                 vpiStmt Begin start:45:55 end:47:10:
                   vpiParent: ForStmt
-                  vpiFullName: work@t
+                  vpiFullName: t
                   vpiStmt (1 items):
                     Assignment start:46:3 end:46:22:
                       vpiParent: Begin
@@ -4952,8 +4955,8 @@ Design name:unnamed:
                       vpiLhs RefObj name:all start:46:3 end:46:6:
                         vpiParent: Assignment
                         vpiName: all
-                        vpiFullName: work@t.all
-                        vpiActual: Net name:all
+                        vpiFullName: t.all
+                        vpiActual: Variable name:all
                       vpiRhs Operation start:46:9 end:46:22:
                         vpiParent: Assignment
                         vpiOpType: concatenation (33)
@@ -4961,17 +4964,17 @@ Design name:unnamed:
                           RefObj name:all start:46:10 end:46:13:
                             vpiParent: Operation
                             vpiName: all
-                            vpiFullName: work@t.all
-                            vpiActual: Net name:all
+                            vpiFullName: t.all
+                            vpiActual: Variable name:all
                           HierPath name:e.name start:46:15 end:46:21:
                             vpiParent: Operation
                             vpiName: e.name
-                            vpiFullName: work@t.e.name
+                            vpiFullName: t.e.name
                             vpiPathElem (2 items):
                               RefObj name:e start:46:15 end:46:16:
                                 vpiParent: HierPath name:e.name
                                 vpiName: e
-                                vpiFullName: work@t.e
+                                vpiFullName: t.e
                                 vpiActual: Variable name:e
                               MethodFuncCall name:name start:46:17 end:46:21:
                                 vpiParent: HierPath name:e.name
@@ -4984,18 +4987,18 @@ Design name:unnamed:
                 vpiLhs RefObj name:e start:48:7 end:48:8:
                   vpiParent: Assignment
                   vpiName: e
-                  vpiFullName: work@t.e
-                  vpiActual: Net name:e
+                  vpiFullName: t.e
+                  vpiActual: Variable name:e
                 vpiRhs HierPath name:e.last start:48:11 end:48:17:
                   vpiParent: Assignment
                   vpiName: e.last
-                  vpiFullName: work@t.e.last
+                  vpiFullName: t.e.last
                   vpiPathElem (2 items):
                     RefObj name:e start:48:11 end:48:12:
                       vpiParent: HierPath name:e.last
                       vpiName: e
-                      vpiFullName: work@t.e
-                      vpiActual: Net name:e
+                      vpiFullName: t.e
+                      vpiActual: Variable name:e
                     MethodFuncCall name:last start:48:13 end:48:17:
                       vpiParent: HierPath name:e.last
                       vpiName Identifier name:last start:48:13 end:48:17:
@@ -5007,8 +5010,8 @@ Design name:unnamed:
                 vpiLhs RefObj name:all start:49:7 end:49:10:
                   vpiParent: Assignment
                   vpiName: all
-                  vpiFullName: work@t.all
-                  vpiActual: Net name:all
+                  vpiFullName: t.all
+                  vpiActual: Variable name:all
                 vpiRhs Operation start:49:13 end:49:26:
                   vpiParent: Assignment
                   vpiOpType: concatenation (33)
@@ -5016,18 +5019,18 @@ Design name:unnamed:
                     RefObj name:all start:49:14 end:49:17:
                       vpiParent: Operation
                       vpiName: all
-                      vpiFullName: work@t.all
-                      vpiActual: Net name:all
+                      vpiFullName: t.all
+                      vpiActual: Variable name:all
                     HierPath name:e.name start:49:19 end:49:25:
                       vpiParent: Operation
                       vpiName: e.name
-                      vpiFullName: work@t.e.name
+                      vpiFullName: t.e.name
                       vpiPathElem (2 items):
                         RefObj name:e start:49:19 end:49:20:
                           vpiParent: HierPath name:e.name
                           vpiName: e
-                          vpiFullName: work@t.e
-                          vpiActual: Net name:e
+                          vpiFullName: t.e
+                          vpiActual: Variable name:e
                         MethodFuncCall name:name start:49:21 end:49:25:
                           vpiParent: HierPath name:e.name
                           vpiName Identifier name:name start:49:21 end:49:25:
@@ -5039,7 +5042,7 @@ Design name:unnamed:
                   vpiParent: DoWhile
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
@@ -5054,13 +5057,13 @@ Design name:unnamed:
                       RefObj name:all start:7:35 end:7:38:
                         vpiParent: Operation
                         vpiName: all
-                        vpiFullName: work@t.all
-                        vpiActual: Net name:all
+                        vpiFullName: t.all
+                        vpiActual: Variable name:all
                       Constant start:7:45 end:7:56:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 72
@@ -5068,7 +5071,7 @@ Design name:unnamed:
                         vpiValue: E01E03E04
                   vpiStmt Begin start:7:59 end:7:183:
                     vpiParent: IfStmt
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (2 items):
                       SysTaskCall name:$write start:7:65 end:7:171:
                         vpiParent: Begin
@@ -5080,7 +5083,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 288
@@ -5090,7 +5093,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 248
@@ -5100,7 +5103,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5109,13 +5112,13 @@ Design name:unnamed:
                           RefObj name:all start:7:151 end:7:154:
                             vpiParent: SysTaskCall name:$write
                             vpiName: all
-                            vpiFullName: work@t.all
-                            vpiActual: Net name:all
+                            vpiFullName: t.all
+                            vpiActual: Variable name:all
                           Constant start:7:158 end:7:169:
                             vpiParent: SysTaskCall name:$write
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 72
@@ -5127,7 +5130,7 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$stop
                           vpiName: "$stop"
         Always start:54:4 end:94:7:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiStmt EventControl start:54:11 end:94:7:
             vpiParent: Always
             vpiCondition Operation start:54:14 end:54:25:
@@ -5137,19 +5140,19 @@ Design name:unnamed:
                 RefObj name:clk start:54:22 end:54:25:
                   vpiParent: Operation
                   vpiName: clk
-                  vpiFullName: work@t.clk
+                  vpiFullName: t.clk
                   vpiActual: Net name:clk
             vpiStmt Begin start:54:27 end:94:7:
               vpiParent: EventControl
-              vpiFullName: work@t
+              vpiFullName: t
               vpiStmt (2 items):
                 Assignment start:55:7 end:55:21:
                   vpiParent: Begin
                   vpiLhs RefObj name:cyc start:55:7 end:55:10:
                     vpiParent: Assignment
                     vpiName: cyc
-                    vpiFullName: work@t.cyc
-                    vpiActual: Net name:cyc
+                    vpiFullName: t.cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:55:14 end:55:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -5157,13 +5160,13 @@ Design name:unnamed:
                       RefObj name:cyc start:55:14 end:55:17:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:55:20 end:55:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -5178,13 +5181,13 @@ Design name:unnamed:
                       RefObj name:cyc start:56:11 end:56:14:
                         vpiParent: Operation
                         vpiName: cyc
-                        vpiFullName: work@t.cyc
-                        vpiActual: Net name:cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                       Constant start:56:16 end:56:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -5192,19 +5195,19 @@ Design name:unnamed:
                         vpiValue: 0
                   vpiStmt Begin start:56:19 end:59:10:
                     vpiParent: IfElse
-                    vpiFullName: work@t
+                    vpiFullName: t
                     vpiStmt (1 items):
                       Assignment start:58:3 end:58:11:
                         vpiParent: Begin
                         vpiLhs RefObj name:e start:58:3 end:58:4:
                           vpiParent: Assignment
                           vpiName: e
-                          vpiFullName: work@t.e
-                          vpiActual: Net name:e
+                          vpiFullName: t.e
+                          vpiActual: Variable name:e
                         vpiRhs RefObj name:E01 start:58:8 end:58:11:
                           vpiParent: Assignment
                           vpiName: E01
-                          vpiFullName: work@t.E01
+                          vpiFullName: t.E01
                           vpiActual: EnumConst name:E01
                   vpiElseStmt IfElse start:60:12 end:93:10:
                     vpiParent: IfElse
@@ -5215,13 +5218,13 @@ Design name:unnamed:
                         RefObj name:cyc start:60:16 end:60:19:
                           vpiParent: Operation
                           vpiName: cyc
-                          vpiFullName: work@t.cyc
-                          vpiActual: Net name:cyc
+                          vpiFullName: t.cyc
+                          vpiActual: Variable name:cyc
                         Constant start:60:21 end:60:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
@@ -5229,7 +5232,7 @@ Design name:unnamed:
                           vpiValue: 1
                     vpiStmt Begin start:60:24 end:69:10:
                       vpiParent: IfElse
-                      vpiFullName: work@t
+                      vpiFullName: t
                       vpiStmt (6 items):
                         DoWhile start:7:27 end:7:187:
                           vpiParent: Begin
@@ -5237,7 +5240,7 @@ Design name:unnamed:
                             vpiParent: DoWhile
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5252,13 +5255,13 @@ Design name:unnamed:
                                 HierPath name:e.name start:7:35 end:7:41:
                                   vpiParent: Operation
                                   vpiName: e.name
-                                  vpiFullName: work@t.e.name
+                                  vpiFullName: t.e.name
                                   vpiPathElem (2 items):
                                     RefObj name:e start:7:35 end:7:36:
                                       vpiParent: HierPath name:e.name
                                       vpiName: e
-                                      vpiFullName: work@t.e
-                                      vpiActual: Net name:e
+                                      vpiFullName: t.e
+                                      vpiActual: Variable name:e
                                     MethodFuncCall name:name start:7:37 end:7:41:
                                       vpiParent: HierPath name:e.name
                                       vpiName Identifier name:name start:7:37 end:7:41:
@@ -5268,7 +5271,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
-                                    vpiFullName: work@t
+                                    vpiFullName: t
                                     vpiActual: StringTypespec
                                   vpiConstType: string (6)
                                   vpiSize: 24
@@ -5276,7 +5279,7 @@ Design name:unnamed:
                                   vpiValue: E01
                             vpiStmt Begin start:7:56 end:7:177:
                               vpiParent: IfStmt
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiStmt (2 items):
                                 SysTaskCall name:$write start:7:62 end:7:165:
                                   vpiParent: Begin
@@ -5288,7 +5291,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 288
@@ -5298,7 +5301,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 248
@@ -5308,7 +5311,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -5317,13 +5320,13 @@ Design name:unnamed:
                                     HierPath name:e.name start:7:148 end:7:154:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: e.name
-                                      vpiFullName: work@t.e.name
+                                      vpiFullName: t.e.name
                                       vpiPathElem (2 items):
                                         RefObj name:e start:7:148 end:7:149:
                                           vpiParent: HierPath name:e.name
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:name start:7:150 end:7:154:
                                           vpiParent: HierPath name:e.name
                                           vpiName Identifier name:name start:7:150 end:7:154:
@@ -5333,7 +5336,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 24
@@ -5350,7 +5353,7 @@ Design name:unnamed:
                             vpiParent: DoWhile
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5365,13 +5368,13 @@ Design name:unnamed:
                                 HierPath name:e.next start:6:35 end:6:41:
                                   vpiParent: Operation
                                   vpiName: e.next
-                                  vpiFullName: work@t.e.next
+                                  vpiFullName: t.e.next
                                   vpiPathElem (2 items):
                                     RefObj name:e start:6:35 end:6:36:
                                       vpiParent: HierPath name:e.next
                                       vpiName: e
-                                      vpiFullName: work@t.e
-                                      vpiActual: Net name:e
+                                      vpiFullName: t.e
+                                      vpiActual: Variable name:e
                                     MethodFuncCall name:next start:6:37 end:6:41:
                                       vpiParent: HierPath name:e.next
                                       vpiName Identifier name:next start:6:37 end:6:41:
@@ -5380,11 +5383,11 @@ Design name:unnamed:
                                 RefObj name:E03 start:6:48 end:6:51:
                                   vpiParent: Operation
                                   vpiName: E03
-                                  vpiFullName: work@t.E03
+                                  vpiFullName: t.E03
                                   vpiActual: EnumConst name:E03
                             vpiStmt Begin start:6:54 end:6:173:
                               vpiParent: IfStmt
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiStmt (2 items):
                                 SysTaskCall name:$write start:6:60 end:6:161:
                                   vpiParent: Begin
@@ -5396,7 +5399,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 288
@@ -5406,7 +5409,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 248
@@ -5416,7 +5419,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -5425,13 +5428,13 @@ Design name:unnamed:
                                     HierPath name:e.next start:6:146 end:6:152:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: e.next
-                                      vpiFullName: work@t.e.next
+                                      vpiFullName: t.e.next
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:146 end:6:147:
                                           vpiParent: HierPath name:e.next
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:next start:6:148 end:6:152:
                                           vpiParent: HierPath name:e.next
                                           vpiName Identifier name:next start:6:148 end:6:152:
@@ -5440,7 +5443,7 @@ Design name:unnamed:
                                     RefObj name:E03 start:6:156 end:6:159:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: E03
-                                      vpiFullName: work@t.E03
+                                      vpiFullName: t.E03
                                       vpiActual: EnumConst name:E03
                                 SysTaskCall name:$stop start:6:163 end:6:168:
                                   vpiParent: Begin
@@ -5453,7 +5456,7 @@ Design name:unnamed:
                             vpiParent: DoWhile
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5468,13 +5471,13 @@ Design name:unnamed:
                                 HierPath name:e.next(1) start:6:35 end:6:43:
                                   vpiParent: Operation
                                   vpiName: e.next(1)
-                                  vpiFullName: work@t.e.next(1)
+                                  vpiFullName: t.e.next(1)
                                   vpiPathElem (2 items):
                                     RefObj name:e start:6:35 end:6:36:
                                       vpiParent: HierPath name:e.next(1)
                                       vpiName: e
-                                      vpiFullName: work@t.e
-                                      vpiActual: Net name:e
+                                      vpiFullName: t.e
+                                      vpiActual: Variable name:e
                                     MethodFuncCall name:next start:6:37 end:6:44:
                                       vpiParent: HierPath name:e.next(1)
                                       vpiName Identifier name:next start:6:37 end:6:41:
@@ -5485,7 +5488,7 @@ Design name:unnamed:
                                           vpiParent: MethodFuncCall name:next
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t.e.next(1)
+                                            vpiFullName: t.e.next(1)
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -5494,11 +5497,11 @@ Design name:unnamed:
                                 RefObj name:E03 start:6:51 end:6:54:
                                   vpiParent: Operation
                                   vpiName: E03
-                                  vpiFullName: work@t.E03
+                                  vpiFullName: t.E03
                                   vpiActual: EnumConst name:E03
                             vpiStmt Begin start:6:57 end:6:179:
                               vpiParent: IfStmt
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiStmt (2 items):
                                 SysTaskCall name:$write start:6:63 end:6:167:
                                   vpiParent: Begin
@@ -5510,7 +5513,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 288
@@ -5520,7 +5523,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 248
@@ -5530,7 +5533,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -5539,13 +5542,13 @@ Design name:unnamed:
                                     HierPath name:e.next(1) start:6:149 end:6:157:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: e.next(1)
-                                      vpiFullName: work@t.e.next(1)
+                                      vpiFullName: t.e.next(1)
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:149 end:6:150:
                                           vpiParent: HierPath name:e.next(1)
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:next start:6:151 end:6:158:
                                           vpiParent: HierPath name:e.next(1)
                                           vpiName Identifier name:next start:6:151 end:6:155:
@@ -5556,7 +5559,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:next
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: work@t.e.next(1)
+                                                vpiFullName: t.e.next(1)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
@@ -5565,7 +5568,7 @@ Design name:unnamed:
                                     RefObj name:E03 start:6:162 end:6:165:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: E03
-                                      vpiFullName: work@t.E03
+                                      vpiFullName: t.E03
                                       vpiActual: EnumConst name:E03
                                 SysTaskCall name:$stop start:6:169 end:6:174:
                                   vpiParent: Begin
@@ -5578,7 +5581,7 @@ Design name:unnamed:
                             vpiParent: DoWhile
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5593,13 +5596,13 @@ Design name:unnamed:
                                 HierPath name:e.prev start:6:35 end:6:41:
                                   vpiParent: Operation
                                   vpiName: e.prev
-                                  vpiFullName: work@t.e.prev
+                                  vpiFullName: t.e.prev
                                   vpiPathElem (2 items):
                                     RefObj name:e start:6:35 end:6:36:
                                       vpiParent: HierPath name:e.prev
                                       vpiName: e
-                                      vpiFullName: work@t.e
-                                      vpiActual: Net name:e
+                                      vpiFullName: t.e
+                                      vpiActual: Variable name:e
                                     MethodFuncCall name:prev start:6:37 end:6:41:
                                       vpiParent: HierPath name:e.prev
                                       vpiName Identifier name:prev start:6:37 end:6:41:
@@ -5608,11 +5611,11 @@ Design name:unnamed:
                                 RefObj name:E04 start:6:48 end:6:51:
                                   vpiParent: Operation
                                   vpiName: E04
-                                  vpiFullName: work@t.E04
+                                  vpiFullName: t.E04
                                   vpiActual: EnumConst name:E04
                             vpiStmt Begin start:6:54 end:6:173:
                               vpiParent: IfStmt
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiStmt (2 items):
                                 SysTaskCall name:$write start:6:60 end:6:161:
                                   vpiParent: Begin
@@ -5624,7 +5627,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 288
@@ -5634,7 +5637,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 248
@@ -5644,7 +5647,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -5653,13 +5656,13 @@ Design name:unnamed:
                                     HierPath name:e.prev start:6:146 end:6:152:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: e.prev
-                                      vpiFullName: work@t.e.prev
+                                      vpiFullName: t.e.prev
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:146 end:6:147:
                                           vpiParent: HierPath name:e.prev
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:prev start:6:148 end:6:152:
                                           vpiParent: HierPath name:e.prev
                                           vpiName Identifier name:prev start:6:148 end:6:152:
@@ -5668,7 +5671,7 @@ Design name:unnamed:
                                     RefObj name:E04 start:6:156 end:6:159:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: E04
-                                      vpiFullName: work@t.E04
+                                      vpiFullName: t.E04
                                       vpiActual: EnumConst name:E04
                                 SysTaskCall name:$stop start:6:163 end:6:168:
                                   vpiParent: Begin
@@ -5681,7 +5684,7 @@ Design name:unnamed:
                             vpiParent: DoWhile
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5696,13 +5699,13 @@ Design name:unnamed:
                                 HierPath name:e.prev(1) start:6:35 end:6:43:
                                   vpiParent: Operation
                                   vpiName: e.prev(1)
-                                  vpiFullName: work@t.e.prev(1)
+                                  vpiFullName: t.e.prev(1)
                                   vpiPathElem (2 items):
                                     RefObj name:e start:6:35 end:6:36:
                                       vpiParent: HierPath name:e.prev(1)
                                       vpiName: e
-                                      vpiFullName: work@t.e
-                                      vpiActual: Net name:e
+                                      vpiFullName: t.e
+                                      vpiActual: Variable name:e
                                     MethodFuncCall name:prev start:6:37 end:6:44:
                                       vpiParent: HierPath name:e.prev(1)
                                       vpiName Identifier name:prev start:6:37 end:6:41:
@@ -5713,7 +5716,7 @@ Design name:unnamed:
                                           vpiParent: MethodFuncCall name:prev
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t.e.prev(1)
+                                            vpiFullName: t.e.prev(1)
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -5722,11 +5725,11 @@ Design name:unnamed:
                                 RefObj name:E04 start:6:51 end:6:54:
                                   vpiParent: Operation
                                   vpiName: E04
-                                  vpiFullName: work@t.E04
+                                  vpiFullName: t.E04
                                   vpiActual: EnumConst name:E04
                             vpiStmt Begin start:6:57 end:6:179:
                               vpiParent: IfStmt
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiStmt (2 items):
                                 SysTaskCall name:$write start:6:63 end:6:167:
                                   vpiParent: Begin
@@ -5738,7 +5741,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 288
@@ -5748,7 +5751,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 248
@@ -5758,7 +5761,7 @@ Design name:unnamed:
                                       vpiParent: SysTaskCall name:$write
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: IntTypespec
                                       vpiConstType: unsigned int (9)
                                       vpiSize: 64
@@ -5767,13 +5770,13 @@ Design name:unnamed:
                                     HierPath name:e.prev(1) start:6:149 end:6:157:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: e.prev(1)
-                                      vpiFullName: work@t.e.prev(1)
+                                      vpiFullName: t.e.prev(1)
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:149 end:6:150:
                                           vpiParent: HierPath name:e.prev(1)
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:prev start:6:151 end:6:158:
                                           vpiParent: HierPath name:e.prev(1)
                                           vpiName Identifier name:prev start:6:151 end:6:155:
@@ -5784,7 +5787,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:prev
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: work@t.e.prev(1)
+                                                vpiFullName: t.e.prev(1)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
@@ -5793,7 +5796,7 @@ Design name:unnamed:
                                     RefObj name:E04 start:6:162 end:6:165:
                                       vpiParent: SysTaskCall name:$write
                                       vpiName: E04
-                                      vpiFullName: work@t.E04
+                                      vpiFullName: t.E04
                                       vpiActual: EnumConst name:E04
                                 SysTaskCall name:$stop start:6:169 end:6:174:
                                   vpiParent: Begin
@@ -5805,12 +5808,12 @@ Design name:unnamed:
                           vpiLhs RefObj name:e start:68:3 end:68:4:
                             vpiParent: Assignment
                             vpiName: e
-                            vpiFullName: work@t.e
-                            vpiActual: Net name:e
+                            vpiFullName: t.e
+                            vpiActual: Variable name:e
                           vpiRhs RefObj name:E03 start:68:8 end:68:11:
                             vpiParent: Assignment
                             vpiName: E03
-                            vpiFullName: work@t.E03
+                            vpiFullName: t.E03
                             vpiActual: EnumConst name:E03
                     vpiElseStmt IfElse start:70:12 end:93:10:
                       vpiParent: IfElse
@@ -5821,13 +5824,13 @@ Design name:unnamed:
                           RefObj name:cyc start:70:16 end:70:19:
                             vpiParent: Operation
                             vpiName: cyc
-                            vpiFullName: work@t.cyc
-                            vpiActual: Net name:cyc
+                            vpiFullName: t.cyc
+                            vpiActual: Variable name:cyc
                           Constant start:70:21 end:70:22:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: work@t
+                              vpiFullName: t
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -5835,7 +5838,7 @@ Design name:unnamed:
                             vpiValue: 2
                       vpiStmt Begin start:70:24 end:79:10:
                         vpiParent: IfElse
-                        vpiFullName: work@t
+                        vpiFullName: t
                         vpiStmt (6 items):
                           DoWhile start:7:27 end:7:187:
                             vpiParent: Begin
@@ -5843,7 +5846,7 @@ Design name:unnamed:
                               vpiParent: DoWhile
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -5858,13 +5861,13 @@ Design name:unnamed:
                                   HierPath name:e.name start:7:35 end:7:41:
                                     vpiParent: Operation
                                     vpiName: e.name
-                                    vpiFullName: work@t.e.name
+                                    vpiFullName: t.e.name
                                     vpiPathElem (2 items):
                                       RefObj name:e start:7:35 end:7:36:
                                         vpiParent: HierPath name:e.name
                                         vpiName: e
-                                        vpiFullName: work@t.e
-                                        vpiActual: Net name:e
+                                        vpiFullName: t.e
+                                        vpiActual: Variable name:e
                                       MethodFuncCall name:name start:7:37 end:7:41:
                                         vpiParent: HierPath name:e.name
                                         vpiName Identifier name:name start:7:37 end:7:41:
@@ -5874,7 +5877,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: StringTypespec
                                     vpiConstType: string (6)
                                     vpiSize: 24
@@ -5882,7 +5885,7 @@ Design name:unnamed:
                                     vpiValue: E03
                               vpiStmt Begin start:7:56 end:7:177:
                                 vpiParent: IfStmt
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiStmt (2 items):
                                   SysTaskCall name:$write start:7:62 end:7:165:
                                     vpiParent: Begin
@@ -5894,7 +5897,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 288
@@ -5904,7 +5907,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 248
@@ -5914,7 +5917,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: IntTypespec
                                         vpiConstType: unsigned int (9)
                                         vpiSize: 64
@@ -5923,13 +5926,13 @@ Design name:unnamed:
                                       HierPath name:e.name start:7:148 end:7:154:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: e.name
-                                        vpiFullName: work@t.e.name
+                                        vpiFullName: t.e.name
                                         vpiPathElem (2 items):
                                           RefObj name:e start:7:148 end:7:149:
                                             vpiParent: HierPath name:e.name
                                             vpiName: e
-                                            vpiFullName: work@t.e
-                                            vpiActual: Net name:e
+                                            vpiFullName: t.e
+                                            vpiActual: Variable name:e
                                           MethodFuncCall name:name start:7:150 end:7:154:
                                             vpiParent: HierPath name:e.name
                                             vpiName Identifier name:name start:7:150 end:7:154:
@@ -5939,7 +5942,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 24
@@ -5956,7 +5959,7 @@ Design name:unnamed:
                               vpiParent: DoWhile
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -5971,13 +5974,13 @@ Design name:unnamed:
                                   HierPath name:e.next start:6:35 end:6:41:
                                     vpiParent: Operation
                                     vpiName: e.next
-                                    vpiFullName: work@t.e.next
+                                    vpiFullName: t.e.next
                                     vpiPathElem (2 items):
                                       RefObj name:e start:6:35 end:6:36:
                                         vpiParent: HierPath name:e.next
                                         vpiName: e
-                                        vpiFullName: work@t.e
-                                        vpiActual: Net name:e
+                                        vpiFullName: t.e
+                                        vpiActual: Variable name:e
                                       MethodFuncCall name:next start:6:37 end:6:41:
                                         vpiParent: HierPath name:e.next
                                         vpiName Identifier name:next start:6:37 end:6:41:
@@ -5986,11 +5989,11 @@ Design name:unnamed:
                                   RefObj name:E04 start:6:48 end:6:51:
                                     vpiParent: Operation
                                     vpiName: E04
-                                    vpiFullName: work@t.E04
+                                    vpiFullName: t.E04
                                     vpiActual: EnumConst name:E04
                               vpiStmt Begin start:6:54 end:6:173:
                                 vpiParent: IfStmt
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiStmt (2 items):
                                   SysTaskCall name:$write start:6:60 end:6:161:
                                     vpiParent: Begin
@@ -6002,7 +6005,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 288
@@ -6012,7 +6015,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 248
@@ -6022,7 +6025,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: IntTypespec
                                         vpiConstType: unsigned int (9)
                                         vpiSize: 64
@@ -6031,13 +6034,13 @@ Design name:unnamed:
                                       HierPath name:e.next start:6:146 end:6:152:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: e.next
-                                        vpiFullName: work@t.e.next
+                                        vpiFullName: t.e.next
                                         vpiPathElem (2 items):
                                           RefObj name:e start:6:146 end:6:147:
                                             vpiParent: HierPath name:e.next
                                             vpiName: e
-                                            vpiFullName: work@t.e
-                                            vpiActual: Net name:e
+                                            vpiFullName: t.e
+                                            vpiActual: Variable name:e
                                           MethodFuncCall name:next start:6:148 end:6:152:
                                             vpiParent: HierPath name:e.next
                                             vpiName Identifier name:next start:6:148 end:6:152:
@@ -6046,7 +6049,7 @@ Design name:unnamed:
                                       RefObj name:E04 start:6:156 end:6:159:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: E04
-                                        vpiFullName: work@t.E04
+                                        vpiFullName: t.E04
                                         vpiActual: EnumConst name:E04
                                   SysTaskCall name:$stop start:6:163 end:6:168:
                                     vpiParent: Begin
@@ -6059,7 +6062,7 @@ Design name:unnamed:
                               vpiParent: DoWhile
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -6074,13 +6077,13 @@ Design name:unnamed:
                                   HierPath name:e.next(1) start:6:35 end:6:43:
                                     vpiParent: Operation
                                     vpiName: e.next(1)
-                                    vpiFullName: work@t.e.next(1)
+                                    vpiFullName: t.e.next(1)
                                     vpiPathElem (2 items):
                                       RefObj name:e start:6:35 end:6:36:
                                         vpiParent: HierPath name:e.next(1)
                                         vpiName: e
-                                        vpiFullName: work@t.e
-                                        vpiActual: Net name:e
+                                        vpiFullName: t.e
+                                        vpiActual: Variable name:e
                                       MethodFuncCall name:next start:6:37 end:6:44:
                                         vpiParent: HierPath name:e.next(1)
                                         vpiName Identifier name:next start:6:37 end:6:41:
@@ -6091,7 +6094,7 @@ Design name:unnamed:
                                             vpiParent: MethodFuncCall name:next
                                             vpiTypespec RefTypespec:
                                               vpiParent: Constant
-                                              vpiFullName: work@t.e.next(1)
+                                              vpiFullName: t.e.next(1)
                                               vpiActual: IntTypespec
                                             vpiConstType: unsigned int (9)
                                             vpiSize: 64
@@ -6100,11 +6103,11 @@ Design name:unnamed:
                                   RefObj name:E04 start:6:51 end:6:54:
                                     vpiParent: Operation
                                     vpiName: E04
-                                    vpiFullName: work@t.E04
+                                    vpiFullName: t.E04
                                     vpiActual: EnumConst name:E04
                               vpiStmt Begin start:6:57 end:6:179:
                                 vpiParent: IfStmt
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiStmt (2 items):
                                   SysTaskCall name:$write start:6:63 end:6:167:
                                     vpiParent: Begin
@@ -6116,7 +6119,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 288
@@ -6126,7 +6129,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 248
@@ -6136,7 +6139,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: IntTypespec
                                         vpiConstType: unsigned int (9)
                                         vpiSize: 64
@@ -6145,13 +6148,13 @@ Design name:unnamed:
                                       HierPath name:e.next(1) start:6:149 end:6:157:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: e.next(1)
-                                        vpiFullName: work@t.e.next(1)
+                                        vpiFullName: t.e.next(1)
                                         vpiPathElem (2 items):
                                           RefObj name:e start:6:149 end:6:150:
                                             vpiParent: HierPath name:e.next(1)
                                             vpiName: e
-                                            vpiFullName: work@t.e
-                                            vpiActual: Net name:e
+                                            vpiFullName: t.e
+                                            vpiActual: Variable name:e
                                           MethodFuncCall name:next start:6:151 end:6:158:
                                             vpiParent: HierPath name:e.next(1)
                                             vpiName Identifier name:next start:6:151 end:6:155:
@@ -6162,7 +6165,7 @@ Design name:unnamed:
                                                 vpiParent: MethodFuncCall name:next
                                                 vpiTypespec RefTypespec:
                                                   vpiParent: Constant
-                                                  vpiFullName: work@t.e.next(1)
+                                                  vpiFullName: t.e.next(1)
                                                   vpiActual: IntTypespec
                                                 vpiConstType: unsigned int (9)
                                                 vpiSize: 64
@@ -6171,7 +6174,7 @@ Design name:unnamed:
                                       RefObj name:E04 start:6:162 end:6:165:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: E04
-                                        vpiFullName: work@t.E04
+                                        vpiFullName: t.E04
                                         vpiActual: EnumConst name:E04
                                   SysTaskCall name:$stop start:6:169 end:6:174:
                                     vpiParent: Begin
@@ -6184,7 +6187,7 @@ Design name:unnamed:
                               vpiParent: DoWhile
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -6199,13 +6202,13 @@ Design name:unnamed:
                                   HierPath name:e.prev start:6:35 end:6:41:
                                     vpiParent: Operation
                                     vpiName: e.prev
-                                    vpiFullName: work@t.e.prev
+                                    vpiFullName: t.e.prev
                                     vpiPathElem (2 items):
                                       RefObj name:e start:6:35 end:6:36:
                                         vpiParent: HierPath name:e.prev
                                         vpiName: e
-                                        vpiFullName: work@t.e
-                                        vpiActual: Net name:e
+                                        vpiFullName: t.e
+                                        vpiActual: Variable name:e
                                       MethodFuncCall name:prev start:6:37 end:6:41:
                                         vpiParent: HierPath name:e.prev
                                         vpiName Identifier name:prev start:6:37 end:6:41:
@@ -6214,11 +6217,11 @@ Design name:unnamed:
                                   RefObj name:E01 start:6:48 end:6:51:
                                     vpiParent: Operation
                                     vpiName: E01
-                                    vpiFullName: work@t.E01
+                                    vpiFullName: t.E01
                                     vpiActual: EnumConst name:E01
                               vpiStmt Begin start:6:54 end:6:173:
                                 vpiParent: IfStmt
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiStmt (2 items):
                                   SysTaskCall name:$write start:6:60 end:6:161:
                                     vpiParent: Begin
@@ -6230,7 +6233,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 288
@@ -6240,7 +6243,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 248
@@ -6250,7 +6253,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: IntTypespec
                                         vpiConstType: unsigned int (9)
                                         vpiSize: 64
@@ -6259,13 +6262,13 @@ Design name:unnamed:
                                       HierPath name:e.prev start:6:146 end:6:152:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: e.prev
-                                        vpiFullName: work@t.e.prev
+                                        vpiFullName: t.e.prev
                                         vpiPathElem (2 items):
                                           RefObj name:e start:6:146 end:6:147:
                                             vpiParent: HierPath name:e.prev
                                             vpiName: e
-                                            vpiFullName: work@t.e
-                                            vpiActual: Net name:e
+                                            vpiFullName: t.e
+                                            vpiActual: Variable name:e
                                           MethodFuncCall name:prev start:6:148 end:6:152:
                                             vpiParent: HierPath name:e.prev
                                             vpiName Identifier name:prev start:6:148 end:6:152:
@@ -6274,7 +6277,7 @@ Design name:unnamed:
                                       RefObj name:E01 start:6:156 end:6:159:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: E01
-                                        vpiFullName: work@t.E01
+                                        vpiFullName: t.E01
                                         vpiActual: EnumConst name:E01
                                   SysTaskCall name:$stop start:6:163 end:6:168:
                                     vpiParent: Begin
@@ -6287,7 +6290,7 @@ Design name:unnamed:
                               vpiParent: DoWhile
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -6302,13 +6305,13 @@ Design name:unnamed:
                                   HierPath name:e.prev(1) start:6:35 end:6:43:
                                     vpiParent: Operation
                                     vpiName: e.prev(1)
-                                    vpiFullName: work@t.e.prev(1)
+                                    vpiFullName: t.e.prev(1)
                                     vpiPathElem (2 items):
                                       RefObj name:e start:6:35 end:6:36:
                                         vpiParent: HierPath name:e.prev(1)
                                         vpiName: e
-                                        vpiFullName: work@t.e
-                                        vpiActual: Net name:e
+                                        vpiFullName: t.e
+                                        vpiActual: Variable name:e
                                       MethodFuncCall name:prev start:6:37 end:6:44:
                                         vpiParent: HierPath name:e.prev(1)
                                         vpiName Identifier name:prev start:6:37 end:6:41:
@@ -6319,7 +6322,7 @@ Design name:unnamed:
                                             vpiParent: MethodFuncCall name:prev
                                             vpiTypespec RefTypespec:
                                               vpiParent: Constant
-                                              vpiFullName: work@t.e.prev(1)
+                                              vpiFullName: t.e.prev(1)
                                               vpiActual: IntTypespec
                                             vpiConstType: unsigned int (9)
                                             vpiSize: 64
@@ -6328,11 +6331,11 @@ Design name:unnamed:
                                   RefObj name:E01 start:6:51 end:6:54:
                                     vpiParent: Operation
                                     vpiName: E01
-                                    vpiFullName: work@t.E01
+                                    vpiFullName: t.E01
                                     vpiActual: EnumConst name:E01
                               vpiStmt Begin start:6:57 end:6:179:
                                 vpiParent: IfStmt
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiStmt (2 items):
                                   SysTaskCall name:$write start:6:63 end:6:167:
                                     vpiParent: Begin
@@ -6344,7 +6347,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 288
@@ -6354,7 +6357,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: StringTypespec
                                         vpiConstType: string (6)
                                         vpiSize: 248
@@ -6364,7 +6367,7 @@ Design name:unnamed:
                                         vpiParent: SysTaskCall name:$write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
-                                          vpiFullName: work@t
+                                          vpiFullName: t
                                           vpiActual: IntTypespec
                                         vpiConstType: unsigned int (9)
                                         vpiSize: 64
@@ -6373,13 +6376,13 @@ Design name:unnamed:
                                       HierPath name:e.prev(1) start:6:149 end:6:157:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: e.prev(1)
-                                        vpiFullName: work@t.e.prev(1)
+                                        vpiFullName: t.e.prev(1)
                                         vpiPathElem (2 items):
                                           RefObj name:e start:6:149 end:6:150:
                                             vpiParent: HierPath name:e.prev(1)
                                             vpiName: e
-                                            vpiFullName: work@t.e
-                                            vpiActual: Net name:e
+                                            vpiFullName: t.e
+                                            vpiActual: Variable name:e
                                           MethodFuncCall name:prev start:6:151 end:6:158:
                                             vpiParent: HierPath name:e.prev(1)
                                             vpiName Identifier name:prev start:6:151 end:6:155:
@@ -6390,7 +6393,7 @@ Design name:unnamed:
                                                 vpiParent: MethodFuncCall name:prev
                                                 vpiTypespec RefTypespec:
                                                   vpiParent: Constant
-                                                  vpiFullName: work@t.e.prev(1)
+                                                  vpiFullName: t.e.prev(1)
                                                   vpiActual: IntTypespec
                                                 vpiConstType: unsigned int (9)
                                                 vpiSize: 64
@@ -6399,7 +6402,7 @@ Design name:unnamed:
                                       RefObj name:E01 start:6:162 end:6:165:
                                         vpiParent: SysTaskCall name:$write
                                         vpiName: E01
-                                        vpiFullName: work@t.E01
+                                        vpiFullName: t.E01
                                         vpiActual: EnumConst name:E01
                                   SysTaskCall name:$stop start:6:169 end:6:174:
                                     vpiParent: Begin
@@ -6411,12 +6414,12 @@ Design name:unnamed:
                             vpiLhs RefObj name:e start:78:3 end:78:4:
                               vpiParent: Assignment
                               vpiName: e
-                              vpiFullName: work@t.e
-                              vpiActual: Net name:e
+                              vpiFullName: t.e
+                              vpiActual: Variable name:e
                             vpiRhs RefObj name:E04 start:78:8 end:78:11:
                               vpiParent: Assignment
                               vpiName: E04
-                              vpiFullName: work@t.E04
+                              vpiFullName: t.E04
                               vpiActual: EnumConst name:E04
                       vpiElseStmt IfElse start:80:12 end:93:10:
                         vpiParent: IfElse
@@ -6427,13 +6430,13 @@ Design name:unnamed:
                             RefObj name:cyc start:80:16 end:80:19:
                               vpiParent: Operation
                               vpiName: cyc
-                              vpiFullName: work@t.cyc
-                              vpiActual: Net name:cyc
+                              vpiFullName: t.cyc
+                              vpiActual: Variable name:cyc
                             Constant start:80:21 end:80:22:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: work@t
+                                vpiFullName: t
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -6441,7 +6444,7 @@ Design name:unnamed:
                               vpiValue: 3
                         vpiStmt Begin start:80:24 end:89:10:
                           vpiParent: IfElse
-                          vpiFullName: work@t
+                          vpiFullName: t
                           vpiStmt (6 items):
                             DoWhile start:7:27 end:7:187:
                               vpiParent: Begin
@@ -6449,7 +6452,7 @@ Design name:unnamed:
                                 vpiParent: DoWhile
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -6464,13 +6467,13 @@ Design name:unnamed:
                                     HierPath name:e.name start:7:35 end:7:41:
                                       vpiParent: Operation
                                       vpiName: e.name
-                                      vpiFullName: work@t.e.name
+                                      vpiFullName: t.e.name
                                       vpiPathElem (2 items):
                                         RefObj name:e start:7:35 end:7:36:
                                           vpiParent: HierPath name:e.name
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:name start:7:37 end:7:41:
                                           vpiParent: HierPath name:e.name
                                           vpiName Identifier name:name start:7:37 end:7:41:
@@ -6480,7 +6483,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
-                                        vpiFullName: work@t
+                                        vpiFullName: t
                                         vpiActual: StringTypespec
                                       vpiConstType: string (6)
                                       vpiSize: 24
@@ -6488,7 +6491,7 @@ Design name:unnamed:
                                       vpiValue: E04
                                 vpiStmt Begin start:7:56 end:7:177:
                                   vpiParent: IfStmt
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiStmt (2 items):
                                     SysTaskCall name:$write start:7:62 end:7:165:
                                       vpiParent: Begin
@@ -6500,7 +6503,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 288
@@ -6510,7 +6513,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 248
@@ -6520,7 +6523,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -6529,13 +6532,13 @@ Design name:unnamed:
                                         HierPath name:e.name start:7:148 end:7:154:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: e.name
-                                          vpiFullName: work@t.e.name
+                                          vpiFullName: t.e.name
                                           vpiPathElem (2 items):
                                             RefObj name:e start:7:148 end:7:149:
                                               vpiParent: HierPath name:e.name
                                               vpiName: e
-                                              vpiFullName: work@t.e
-                                              vpiActual: Net name:e
+                                              vpiFullName: t.e
+                                              vpiActual: Variable name:e
                                             MethodFuncCall name:name start:7:150 end:7:154:
                                               vpiParent: HierPath name:e.name
                                               vpiName Identifier name:name start:7:150 end:7:154:
@@ -6545,7 +6548,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 24
@@ -6562,7 +6565,7 @@ Design name:unnamed:
                                 vpiParent: DoWhile
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -6577,13 +6580,13 @@ Design name:unnamed:
                                     HierPath name:e.next start:6:35 end:6:41:
                                       vpiParent: Operation
                                       vpiName: e.next
-                                      vpiFullName: work@t.e.next
+                                      vpiFullName: t.e.next
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:35 end:6:36:
                                           vpiParent: HierPath name:e.next
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:next start:6:37 end:6:41:
                                           vpiParent: HierPath name:e.next
                                           vpiName Identifier name:next start:6:37 end:6:41:
@@ -6592,11 +6595,11 @@ Design name:unnamed:
                                     RefObj name:E01 start:6:48 end:6:51:
                                       vpiParent: Operation
                                       vpiName: E01
-                                      vpiFullName: work@t.E01
+                                      vpiFullName: t.E01
                                       vpiActual: EnumConst name:E01
                                 vpiStmt Begin start:6:54 end:6:173:
                                   vpiParent: IfStmt
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiStmt (2 items):
                                     SysTaskCall name:$write start:6:60 end:6:161:
                                       vpiParent: Begin
@@ -6608,7 +6611,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 288
@@ -6618,7 +6621,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 248
@@ -6628,7 +6631,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -6637,13 +6640,13 @@ Design name:unnamed:
                                         HierPath name:e.next start:6:146 end:6:152:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: e.next
-                                          vpiFullName: work@t.e.next
+                                          vpiFullName: t.e.next
                                           vpiPathElem (2 items):
                                             RefObj name:e start:6:146 end:6:147:
                                               vpiParent: HierPath name:e.next
                                               vpiName: e
-                                              vpiFullName: work@t.e
-                                              vpiActual: Net name:e
+                                              vpiFullName: t.e
+                                              vpiActual: Variable name:e
                                             MethodFuncCall name:next start:6:148 end:6:152:
                                               vpiParent: HierPath name:e.next
                                               vpiName Identifier name:next start:6:148 end:6:152:
@@ -6652,7 +6655,7 @@ Design name:unnamed:
                                         RefObj name:E01 start:6:156 end:6:159:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: E01
-                                          vpiFullName: work@t.E01
+                                          vpiFullName: t.E01
                                           vpiActual: EnumConst name:E01
                                     SysTaskCall name:$stop start:6:163 end:6:168:
                                       vpiParent: Begin
@@ -6665,7 +6668,7 @@ Design name:unnamed:
                                 vpiParent: DoWhile
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -6680,13 +6683,13 @@ Design name:unnamed:
                                     HierPath name:e.next(1) start:6:35 end:6:43:
                                       vpiParent: Operation
                                       vpiName: e.next(1)
-                                      vpiFullName: work@t.e.next(1)
+                                      vpiFullName: t.e.next(1)
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:35 end:6:36:
                                           vpiParent: HierPath name:e.next(1)
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:next start:6:37 end:6:44:
                                           vpiParent: HierPath name:e.next(1)
                                           vpiName Identifier name:next start:6:37 end:6:41:
@@ -6697,7 +6700,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:next
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: work@t.e.next(1)
+                                                vpiFullName: t.e.next(1)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
@@ -6706,11 +6709,11 @@ Design name:unnamed:
                                     RefObj name:E01 start:6:51 end:6:54:
                                       vpiParent: Operation
                                       vpiName: E01
-                                      vpiFullName: work@t.E01
+                                      vpiFullName: t.E01
                                       vpiActual: EnumConst name:E01
                                 vpiStmt Begin start:6:57 end:6:179:
                                   vpiParent: IfStmt
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiStmt (2 items):
                                     SysTaskCall name:$write start:6:63 end:6:167:
                                       vpiParent: Begin
@@ -6722,7 +6725,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 288
@@ -6732,7 +6735,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 248
@@ -6742,7 +6745,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -6751,13 +6754,13 @@ Design name:unnamed:
                                         HierPath name:e.next(1) start:6:149 end:6:157:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: e.next(1)
-                                          vpiFullName: work@t.e.next(1)
+                                          vpiFullName: t.e.next(1)
                                           vpiPathElem (2 items):
                                             RefObj name:e start:6:149 end:6:150:
                                               vpiParent: HierPath name:e.next(1)
                                               vpiName: e
-                                              vpiFullName: work@t.e
-                                              vpiActual: Net name:e
+                                              vpiFullName: t.e
+                                              vpiActual: Variable name:e
                                             MethodFuncCall name:next start:6:151 end:6:158:
                                               vpiParent: HierPath name:e.next(1)
                                               vpiName Identifier name:next start:6:151 end:6:155:
@@ -6768,7 +6771,7 @@ Design name:unnamed:
                                                   vpiParent: MethodFuncCall name:next
                                                   vpiTypespec RefTypespec:
                                                     vpiParent: Constant
-                                                    vpiFullName: work@t.e.next(1)
+                                                    vpiFullName: t.e.next(1)
                                                     vpiActual: IntTypespec
                                                   vpiConstType: unsigned int (9)
                                                   vpiSize: 64
@@ -6777,7 +6780,7 @@ Design name:unnamed:
                                         RefObj name:E01 start:6:162 end:6:165:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: E01
-                                          vpiFullName: work@t.E01
+                                          vpiFullName: t.E01
                                           vpiActual: EnumConst name:E01
                                     SysTaskCall name:$stop start:6:169 end:6:174:
                                       vpiParent: Begin
@@ -6790,7 +6793,7 @@ Design name:unnamed:
                                 vpiParent: DoWhile
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -6805,13 +6808,13 @@ Design name:unnamed:
                                     HierPath name:e.prev start:6:35 end:6:41:
                                       vpiParent: Operation
                                       vpiName: e.prev
-                                      vpiFullName: work@t.e.prev
+                                      vpiFullName: t.e.prev
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:35 end:6:36:
                                           vpiParent: HierPath name:e.prev
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:prev start:6:37 end:6:41:
                                           vpiParent: HierPath name:e.prev
                                           vpiName Identifier name:prev start:6:37 end:6:41:
@@ -6820,11 +6823,11 @@ Design name:unnamed:
                                     RefObj name:E03 start:6:48 end:6:51:
                                       vpiParent: Operation
                                       vpiName: E03
-                                      vpiFullName: work@t.E03
+                                      vpiFullName: t.E03
                                       vpiActual: EnumConst name:E03
                                 vpiStmt Begin start:6:54 end:6:173:
                                   vpiParent: IfStmt
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiStmt (2 items):
                                     SysTaskCall name:$write start:6:60 end:6:161:
                                       vpiParent: Begin
@@ -6836,7 +6839,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 288
@@ -6846,7 +6849,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 248
@@ -6856,7 +6859,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -6865,13 +6868,13 @@ Design name:unnamed:
                                         HierPath name:e.prev start:6:146 end:6:152:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: e.prev
-                                          vpiFullName: work@t.e.prev
+                                          vpiFullName: t.e.prev
                                           vpiPathElem (2 items):
                                             RefObj name:e start:6:146 end:6:147:
                                               vpiParent: HierPath name:e.prev
                                               vpiName: e
-                                              vpiFullName: work@t.e
-                                              vpiActual: Net name:e
+                                              vpiFullName: t.e
+                                              vpiActual: Variable name:e
                                             MethodFuncCall name:prev start:6:148 end:6:152:
                                               vpiParent: HierPath name:e.prev
                                               vpiName Identifier name:prev start:6:148 end:6:152:
@@ -6880,7 +6883,7 @@ Design name:unnamed:
                                         RefObj name:E03 start:6:156 end:6:159:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: E03
-                                          vpiFullName: work@t.E03
+                                          vpiFullName: t.E03
                                           vpiActual: EnumConst name:E03
                                     SysTaskCall name:$stop start:6:163 end:6:168:
                                       vpiParent: Begin
@@ -6893,7 +6896,7 @@ Design name:unnamed:
                                 vpiParent: DoWhile
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -6908,13 +6911,13 @@ Design name:unnamed:
                                     HierPath name:e.prev(1) start:6:35 end:6:43:
                                       vpiParent: Operation
                                       vpiName: e.prev(1)
-                                      vpiFullName: work@t.e.prev(1)
+                                      vpiFullName: t.e.prev(1)
                                       vpiPathElem (2 items):
                                         RefObj name:e start:6:35 end:6:36:
                                           vpiParent: HierPath name:e.prev(1)
                                           vpiName: e
-                                          vpiFullName: work@t.e
-                                          vpiActual: Net name:e
+                                          vpiFullName: t.e
+                                          vpiActual: Variable name:e
                                         MethodFuncCall name:prev start:6:37 end:6:44:
                                           vpiParent: HierPath name:e.prev(1)
                                           vpiName Identifier name:prev start:6:37 end:6:41:
@@ -6925,7 +6928,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:prev
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: work@t.e.prev(1)
+                                                vpiFullName: t.e.prev(1)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
@@ -6934,11 +6937,11 @@ Design name:unnamed:
                                     RefObj name:E03 start:6:51 end:6:54:
                                       vpiParent: Operation
                                       vpiName: E03
-                                      vpiFullName: work@t.E03
+                                      vpiFullName: t.E03
                                       vpiActual: EnumConst name:E03
                                 vpiStmt Begin start:6:57 end:6:179:
                                   vpiParent: IfStmt
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiStmt (2 items):
                                     SysTaskCall name:$write start:6:63 end:6:167:
                                       vpiParent: Begin
@@ -6950,7 +6953,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 288
@@ -6960,7 +6963,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: StringTypespec
                                           vpiConstType: string (6)
                                           vpiSize: 248
@@ -6970,7 +6973,7 @@ Design name:unnamed:
                                           vpiParent: SysTaskCall name:$write
                                           vpiTypespec RefTypespec:
                                             vpiParent: Constant
-                                            vpiFullName: work@t
+                                            vpiFullName: t
                                             vpiActual: IntTypespec
                                           vpiConstType: unsigned int (9)
                                           vpiSize: 64
@@ -6979,13 +6982,13 @@ Design name:unnamed:
                                         HierPath name:e.prev(1) start:6:149 end:6:157:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: e.prev(1)
-                                          vpiFullName: work@t.e.prev(1)
+                                          vpiFullName: t.e.prev(1)
                                           vpiPathElem (2 items):
                                             RefObj name:e start:6:149 end:6:150:
                                               vpiParent: HierPath name:e.prev(1)
                                               vpiName: e
-                                              vpiFullName: work@t.e
-                                              vpiActual: Net name:e
+                                              vpiFullName: t.e
+                                              vpiActual: Variable name:e
                                             MethodFuncCall name:prev start:6:151 end:6:158:
                                               vpiParent: HierPath name:e.prev(1)
                                               vpiName Identifier name:prev start:6:151 end:6:155:
@@ -6996,7 +6999,7 @@ Design name:unnamed:
                                                   vpiParent: MethodFuncCall name:prev
                                                   vpiTypespec RefTypespec:
                                                     vpiParent: Constant
-                                                    vpiFullName: work@t.e.prev(1)
+                                                    vpiFullName: t.e.prev(1)
                                                     vpiActual: IntTypespec
                                                   vpiConstType: unsigned int (9)
                                                   vpiSize: 64
@@ -7005,7 +7008,7 @@ Design name:unnamed:
                                         RefObj name:E03 start:6:162 end:6:165:
                                           vpiParent: SysTaskCall name:$write
                                           vpiName: E03
-                                          vpiFullName: work@t.E03
+                                          vpiFullName: t.E03
                                           vpiActual: EnumConst name:E03
                                     SysTaskCall name:$stop start:6:169 end:6:174:
                                       vpiParent: Begin
@@ -7017,12 +7020,12 @@ Design name:unnamed:
                               vpiLhs RefObj name:e start:88:3 end:88:4:
                                 vpiParent: Assignment
                                 vpiName: e
-                                vpiFullName: work@t.e
-                                vpiActual: Net name:e
+                                vpiFullName: t.e
+                                vpiActual: Variable name:e
                               vpiRhs RefObj name:E01 start:88:8 end:88:11:
                                 vpiParent: Assignment
                                 vpiName: E01
-                                vpiFullName: work@t.E01
+                                vpiFullName: t.E01
                                 vpiActual: EnumConst name:E01
                         vpiElseStmt IfStmt start:90:12 end:93:10:
                           vpiParent: IfElse
@@ -7033,13 +7036,13 @@ Design name:unnamed:
                               RefObj name:cyc start:90:16 end:90:19:
                                 vpiParent: Operation
                                 vpiName: cyc
-                                vpiFullName: work@t.cyc
-                                vpiActual: Net name:cyc
+                                vpiFullName: t.cyc
+                                vpiActual: Variable name:cyc
                               Constant start:90:21 end:90:23:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: work@t
+                                  vpiFullName: t
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
@@ -7047,7 +7050,7 @@ Design name:unnamed:
                                 vpiValue: 99
                           vpiStmt Begin start:90:25 end:93:10:
                             vpiParent: IfStmt
-                            vpiFullName: work@t
+                            vpiFullName: t
                             vpiStmt (2 items):
                               SysTaskCall name:$write start:91:3 end:91:35:
                                 vpiParent: Begin
@@ -7059,7 +7062,7 @@ Design name:unnamed:
                                     vpiParent: SysTaskCall name:$write
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: work@t
+                                      vpiFullName: t
                                       vpiActual: StringTypespec
                                     vpiConstType: string (6)
                                     vpiSize: 168
@@ -7072,12 +7075,12 @@ Design name:unnamed:
                                   vpiName: "$finish"
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:9:8 end:9:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:9:8 end:9:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -7086,8 +7089,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

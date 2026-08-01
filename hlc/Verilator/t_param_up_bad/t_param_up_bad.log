@@ -140,11 +140,11 @@ n<$Source01/t_param_up_bad.v> u<127> t<Top_level_rule> c<1> l<8:1> el<32:1>
                     n<> u<116> t<Ordered_port_connection> p<117> l<30:21> el<30:21>
         n<> u<123> t<ENDMODULE> p<124> l<31:1> el<31:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/t_param_up_bad.v:12:1: Compile module "work@child".
-[INF:CP0303] $Source01/t_param_up_bad.v:18:1: Compile module "work@parent".
-[INF:CP0303] $Source01/t_param_up_bad.v:28:1: Compile module "work@t".
-[ERR:EL0535] $Source01/t_param_up_bad.v:15:19: Illegal implicit net "id:28, name:bar".
-[ERR:EL0535] $Source01/t_param_up_bad.v:15:23: Illegal implicit net "id:29, name:foo".
+[INF:CP0303] $Source01/t_param_up_bad.v:12:1: Compile module "child".
+[INF:CP0303] $Source01/t_param_up_bad.v:18:1: Compile module "parent".
+[INF:CP0303] $Source01/t_param_up_bad.v:28:1: Compile module "t".
+[WRN:CP0350] $Source01/t_param_up_bad.v:15:19: Failed to bind "id:28, name:bar".
+[WRN:CP0350] $Source01/t_param_up_bad.v:15:23: Failed to bind "id:29, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -154,86 +154,95 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_up_bad.v
       vpiPreprocFile: "$Output/lib/work/t_param_up_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
-    Module name:work@child file:$Source01/t_param_up_bad.v start:12:1 end:16:10:
+    Module name:child file:$Source01/t_param_up_bad.v start:12:1 end:16:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@child start:12:8 end:12:13:
-        vpiParent: Module name:work@child
-        vpiName: work@child
-      vpiFullName: work@child
+      vpiName Identifier name:child start:12:8 end:12:13:
+        vpiParent: Module name:child
+        vpiName: child
+      vpiFullName: child
+      vpiVariable (1 items):
+        Variable name:a_bad start:13:10 end:13:15:
+          vpiParent: Module name:child
+          vpiTypespec RefTypespec name:logic start:13:4 end:13:9:
+            vpiParent: Variable name:a_bad
+            vpiName: logic
+            vpiFullName: child.a_bad.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: a_bad
+          vpiFullName: child.a_bad
       vpiTypespec (1 items):
         UnsupportedTypespec name:logic start:13:4 end:13:9:
-          vpiParent: Module name:work@child
+          vpiParent: Module name:child
           vpiName Identifier name:logic start:13:4 end:13:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-      vpiDefName: work@child
-      vpiDefNetType: none (12)
+      vpiDefName: child
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@child
+        vpiParent: Module name:child
         vpiName: work
-        vpiFullName: work@child.work
+        vpiFullName: child.work
       vpiCell: child
-      vpiNet (1 items):
-        Net name:a_bad start:13:10 end:13:15:
-          vpiParent: Module name:work@child
-          vpiTypespec RefTypespec name:logic start:13:4 end:13:9:
-            vpiParent: Net name:a_bad
-            vpiName: logic
-            vpiFullName: work@child.a_bad.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: a_bad
-          vpiFullName: work@child.a_bad
       vpiContAssign (1 items):
         ContAssign start:15:11 end:15:26:
-          vpiParent: Module name:work@child
+          vpiParent: Module name:child
           vpiLhs RefObj name:a_bad start:15:11 end:15:16:
             vpiParent: ContAssign
             vpiName: a_bad
-            vpiFullName: work@child.a_bad
-            vpiActual: Net name:a_bad
+            vpiFullName: child.a_bad
+            vpiActual: Variable name:a_bad
           vpiRhs HierPath name:bar.foo start:15:19 end:15:26:
             vpiParent: ContAssign
             vpiName: bar.foo
-            vpiFullName: work@child.bar.foo
+            vpiFullName: child.bar.foo
             vpiPathElem (2 items):
               RefObj name:bar start:15:19 end:15:22:
                 vpiParent: HierPath name:bar.foo
                 vpiName: bar
-                vpiFullName: work@child.bar
+                vpiFullName: child.bar
               RefObj name:foo start:15:23 end:15:26:
                 vpiParent: HierPath name:bar.foo
                 vpiName: foo
-                vpiFullName: work@child.foo
-    Module name:work@parent file:$Source01/t_param_up_bad.v start:18:1 end:26:10:
+                vpiFullName: child.foo
+    Module name:parent file:$Source01/t_param_up_bad.v start:18:1 end:26:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@parent start:18:8 end:18:14:
-        vpiParent: Module name:work@parent
-        vpiName: work@parent
-      vpiFullName: work@parent
+      vpiName Identifier name:parent start:18:8 end:18:14:
+        vpiParent: Module name:parent
+        vpiName: parent
+      vpiFullName: parent
+      vpiVariable (1 items):
+        Variable name:bar start:24:18 end:24:21:
+          vpiParent: Module name:parent
+          vpiTypespec RefTypespec name:some_struct_t start:24:4 end:24:17:
+            vpiParent: Variable name:bar
+            vpiName: some_struct_t
+            vpiFullName: parent.bar.some_struct_t
+            vpiActual: TypedefTypespec name:some_struct_t
+          vpiName: bar
+          vpiFullName: parent.bar
       vpiParameter (1 items):
         Parameter name:PARAM start:20:15 end:20:20:
-          vpiParent: Module name:work@parent
+          vpiParent: Module name:parent
           vpiTypespec RefTypespec start:20:15 end:20:15:
             vpiParent: Parameter name:PARAM
-            vpiFullName: work@parent.PARAM
+            vpiFullName: parent.PARAM
             vpiActual: LogicTypespec
           vpiName: PARAM
-          vpiFullName: work@parent.PARAM
+          vpiFullName: parent.PARAM
       vpiParamAssign (1 items):
         ParamAssign start:20:15 end:20:24:
-          vpiParent: Module name:work@parent
+          vpiParent: Module name:parent
           vpiLhs RefObj name:PARAM start:20:15 end:20:20:
             vpiParent: ParamAssign
             vpiName: PARAM
-            vpiFullName: work@parent.PARAM
+            vpiFullName: parent.PARAM
             vpiActual: Parameter name:PARAM
           vpiRhs Constant start:20:23 end:20:24:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@parent
+              vpiFullName: parent
               vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
@@ -241,66 +250,56 @@ Design name:unnamed:
             vpiValue: 0
       vpiTypespec (2 items):
         LogicTypespec:
-          vpiParent: Module name:work@parent
-        ModuleTypespec name:work@child start:25:4 end:25:9:
-          vpiParent: Module name:work@parent
-          vpiName Identifier name:work@child start:25:4 end:25:9:
-            vpiParent: ModuleTypespec name:work@child
-            vpiName: work@child
-      vpiDefName: work@parent
-      vpiDefNetType: none (12)
+          vpiParent: Module name:parent
+        ModuleTypespec name:child start:25:4 end:25:9:
+          vpiParent: Module name:parent
+          vpiName Identifier name:child start:25:4 end:25:9:
+            vpiParent: ModuleTypespec name:child
+            vpiName: child
+      vpiDefName: parent
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@parent
+        vpiParent: Module name:parent
         vpiName: work
-        vpiFullName: work@parent.work
+        vpiFullName: parent.work
       vpiCell: parent
-      vpiNet (1 items):
-        Net name:bar start:24:18 end:24:21:
-          vpiParent: Module name:work@parent
-          vpiTypespec RefTypespec name:some_struct_t start:24:4 end:24:17:
-            vpiParent: Net name:bar
-            vpiName: some_struct_t
-            vpiFullName: work@parent.bar.some_struct_t
-            vpiActual: TypedefTypespec name:some_struct_t
-          vpiName: bar
-          vpiFullName: work@parent.bar
       vpiRefInstance (1 items):
         RefInstance name:c start:25:10 end:25:11:
-          vpiParent: Module name:work@parent
+          vpiParent: Module name:parent
           vpiName: c
-          vpiTypespec RefTypespec name:work@child start:25:4 end:25:9:
+          vpiTypespec RefTypespec name:child start:25:4 end:25:9:
             vpiParent: RefInstance name:c
-            vpiName: work@child
-            vpiFullName: work@parent.c.work@child
-            vpiActual: ModuleTypespec name:work@child
-    Module name:work@t file:$Source01/t_param_up_bad.v start:28:1 end:31:10:
+            vpiName: child
+            vpiFullName: parent.c.child
+            vpiActual: ModuleTypespec name:child
+    Module name:t file:$Source01/t_param_up_bad.v start:28:1 end:31:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:28:8 end:28:9:
-        vpiParent: Module name:work@t
-        vpiName: work@t
-      vpiFullName: work@t
+      vpiName Identifier name:t start:28:8 end:28:9:
+        vpiParent: Module name:t
+        vpiName: t
+      vpiFullName: t
       vpiTypespec (1 items):
-        ModuleTypespec name:work@parent start:30:4 end:30:10:
-          vpiParent: Module name:work@t
-          vpiName Identifier name:work@parent start:30:4 end:30:10:
-            vpiParent: ModuleTypespec name:work@parent
-            vpiName: work@parent
-      vpiDefName: work@t
-      vpiDefNetType: none (12)
+        ModuleTypespec name:parent start:30:4 end:30:10:
+          vpiParent: Module name:t
+          vpiName Identifier name:parent start:30:4 end:30:10:
+            vpiParent: ModuleTypespec name:parent
+            vpiName: parent
+      vpiDefName: t
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@t
+        vpiParent: Module name:t
         vpiName: work
-        vpiFullName: work@t.work
+        vpiFullName: t.work
       vpiCell: t
       vpiRefInstance (1 items):
         RefInstance name:p start:30:18 end:30:19:
-          vpiParent: Module name:work@t
+          vpiParent: Module name:t
           vpiName: p
-          vpiTypespec RefTypespec name:work@parent start:30:4 end:30:10:
+          vpiTypespec RefTypespec name:parent start:30:4 end:30:10:
             vpiParent: RefInstance name:p
-            vpiName: work@parent
-            vpiFullName: work@t.p.work@parent
-            vpiActual: ModuleTypespec name:work@parent
+            vpiName: parent
+            vpiFullName: t.p.parent
+            vpiActual: ModuleTypespec name:parent
           vpiParamAssign (1 items):
             ParamAssign start:30:14 end:30:15:
               vpiParent: RefInstance name:p
@@ -308,7 +307,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@t.p
+                  vpiFullName: t.p
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -341,32 +340,32 @@ Design name:unnamed:
         vpiParent: TypedefTypespec name:some_struct_t
         vpiFullName: some_struct_t
         vpiActual: StructTypespec
-    ModuleTypespec name:work@child:
+    ModuleTypespec name:child:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@child start:12:8 end:12:13:
-        vpiParent: ModuleTypespec name:work@child
-        vpiName: work@child
-      vpiModule: Module name:work@child
-    ModuleTypespec name:work@parent:
+      vpiName Identifier name:child start:12:8 end:12:13:
+        vpiParent: ModuleTypespec name:child
+        vpiName: child
+      vpiModule: Module name:child
+    ModuleTypespec name:parent:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@parent start:18:8 end:18:14:
-        vpiParent: ModuleTypespec name:work@parent
-        vpiName: work@parent
-      vpiModule: Module name:work@parent
+      vpiName Identifier name:parent start:18:8 end:18:14:
+        vpiParent: ModuleTypespec name:parent
+        vpiName: parent
+      vpiModule: Module name:parent
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@t:
+    ModuleTypespec name:t:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@t start:28:8 end:28:9:
-        vpiParent: ModuleTypespec name:work@t
-        vpiName: work@t
-      vpiModule: Module name:work@t
+      vpiName Identifier name:t start:28:8 end:28:9:
+        vpiParent: ModuleTypespec name:t
+        vpiName: t
+      vpiModule: Module name:t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

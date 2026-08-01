@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,8 +35,10 @@
 // or silently produce the wrong vpiOpType.
 //
 // Checked:
-//   - module work@top has exactly 2 nets, "a" and "b", both int
-//     (RefTypespec -> IntTypespec)
+//   - module top has exactly 2 variables, "a" and "b", both int
+//     (RefTypespec -> IntTypespec). Per IEEE 1800-2023 Sec 6.7/6.8: "int"
+//     has no net-type keyword and there is no port list, so both are
+//     Variables, not Nets; module has no nets (getNets() is null).
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment with lhs RefObj "b" whose rhs is itself a blocking
 //     Assignment with lhs RefObj "a" and rhs an Operation (vpiAddOp,
@@ -69,10 +71,10 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -83,27 +85,33 @@ class AssignmentInExpressionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(AssignmentInExpressionTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignmentInExpressionTest, ModuleHasTwoIntNets) {
+TEST_F(AssignmentInExpressionTest, ModuleHasTwoIntVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
   const char *const names[2] = {"a", "b"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
 }
 
-// --- the point of the file: "+=" is its own distinct opcode, not "-=" -----
+TEST_F(AssignmentInExpressionTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- the point of the file: "+=" is its own distinct opcode, not "-=" ----
 
 TEST_F(AssignmentInExpressionTest, InitialBlockHasOneStatement) {
   const hldb::Module *const top = getTop();
@@ -145,7 +153,7 @@ TEST_F(AssignmentInExpressionTest, OuterAssignmentToBNestsInnerAddAssignToA) {
   EXPECT_EQ(any_cast<hldb::Constant>(add->getOperands()->at(1))->getDecompile(), "1");
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignmentInExpressionTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

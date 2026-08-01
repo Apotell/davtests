@@ -117,12 +117,11 @@ n<$Source01/dut.sv> u<104> t<Top_level_rule> c<1> l<1:1> el<15:1>
         n<> u<99> t<ENDMODULE> p<100> l<14:1> el<14:10>
   n<// ibex_counter> u<103> t<LINE_COMMENT> p<104> l<14:11> el<14:26>
 AST_DEBUG_END
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@dut".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
 [INF:CP0335] $Source01/dut.sv:4:42: Compile generate block "gen_modules".
-[INF:CP0303] $Source01/dut.sv:12:1: Compile module "work@ibex_counter".
-[ERR:EL0535] $Source01/dut.sv:5:40: Illegal implicit net "id:40, name:b".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@dut".
-[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "work@ibex_counter".
+[INF:CP0303] $Source01/dut.sv:12:1: Compile module "ibex_counter".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
+[WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "ibex_counter".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -131,17 +130,26 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@dut file:$Source01/dut.sv start:1:1 end:10:10:
+    Module name:dut file:$Source01/dut.sv start:1:1 end:10:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: Module name:work@dut
-        vpiName: work@dut
-      vpiFullName: work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: Module name:dut
+        vpiName: dut
+      vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:a start:2:16 end:2:17:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:2:4 end:2:15:
+            vpiParent: Variable name:a
+            vpiFullName: dut.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: dut.a
+          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@dut
+          vpiParent: Module name:dut
           vpiRange (1 items):
             Range start:2:10 end:2:15:
               vpiParent: LogicTypespec
@@ -149,7 +157,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -159,38 +167,29 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@dut
-      vpiDefNetType: none (12)
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@dut
+        vpiParent: Module name:dut
         vpiName: work
-        vpiFullName: work@dut.work
+        vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:a start:2:16 end:2:17:
-          vpiParent: Module name:work@dut
-          vpiTypespec RefTypespec start:2:4 end:2:15:
-            vpiParent: Net name:a
-            vpiFullName: work@dut.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: work@dut.a
       vpiGenStmt (1 items):
         GenFor start:4:4 end:8:7:
-          vpiParent: Module name:work@dut
-          vpiFullName: work@dut
+          vpiParent: Module name:dut
+          vpiFullName: dut
           vpiVariable (1 items):
             Variable name:i start:4:15 end:4:16:
               vpiParent: GenFor
               vpiName: i
-              vpiFullName: work@dut.i
+              vpiFullName: dut.i
           vpiForInitStmt (1 items):
             Assignment start:4:15 end:4:20:
               vpiParent: GenFor
@@ -199,7 +198,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -213,7 +212,7 @@ Design name:unnamed:
                 RefObj name:i start:4:29 end:4:30:
                   vpiParent: Operation
                   vpiName: i
-                  vpiFullName: work@dut.i
+                  vpiFullName: dut.i
                   vpiActual: Variable name:i
           vpiCondition Operation start:4:22 end:4:27:
             vpiParent: GenFor
@@ -222,13 +221,13 @@ Design name:unnamed:
               RefObj name:i start:4:22 end:4:23:
                 vpiParent: Operation
                 vpiName: i
-                vpiFullName: work@dut.i
+                vpiFullName: dut.i
                 vpiActual: Variable name:i
               Constant start:4:26 end:4:27:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@dut
+                  vpiFullName: dut
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -239,102 +238,103 @@ Design name:unnamed:
             vpiName Identifier name:gen_modules start:4:42 end:4:53:
               vpiParent: Begin name:gen_modules
               vpiName: gen_modules
-            vpiFullName: work@dut.gen_modules
+            vpiFullName: dut.gen_modules
             vpiTypespec (1 items):
-              ModuleTypespec name:work@ibex_counter start:5:7 end:5:19:
+              ModuleTypespec name:ibex_counter start:5:7 end:5:19:
                 vpiParent: Begin name:gen_modules
-                vpiName Identifier name:work@ibex_counter start:5:7 end:5:19:
-                  vpiParent: ModuleTypespec name:work@ibex_counter
-                  vpiName: work@ibex_counter
+                vpiName Identifier name:ibex_counter start:5:7 end:5:19:
+                  vpiParent: ModuleTypespec name:ibex_counter
+                  vpiName: ibex_counter
             vpiStmt (1 items):
               RefInstance name:module_in_genscope start:5:20 end:5:38:
                 vpiParent: Begin name:gen_modules
                 vpiName: module_in_genscope
-                vpiTypespec RefTypespec name:work@ibex_counter start:5:7 end:5:19:
+                vpiTypespec RefTypespec name:ibex_counter start:5:7 end:5:19:
                   vpiParent: RefInstance name:module_in_genscope
-                  vpiName: work@ibex_counter
-                  vpiFullName: work@dut.gen_modules.module_in_genscope.work@ibex_counter
-                  vpiActual: ModuleTypespec name:work@ibex_counter
+                  vpiName: ibex_counter
+                  vpiFullName: dut.gen_modules.module_in_genscope.ibex_counter
+                  vpiActual: ModuleTypespec name:ibex_counter
                 vpiPort (1 items):
                   Port start:5:39 end:5:47:
                     vpiParent: RefInstance name:module_in_genscope
                     vpiLowConn RefObj name:b start:5:40 end:5:41:
                       vpiParent: Port
                       vpiName: b
-                      vpiFullName: work@dut.gen_modules.module_in_genscope.b
+                      vpiFullName: dut.gen_modules.module_in_genscope.b
                     vpiHighConn BitSelect name:a[i] start:5:42 end:5:46:
                       vpiParent: Port
                       vpiName: a[i]
-                      vpiFullName: work@dut.gen_modules.module_in_genscope.a[i]
+                      vpiFullName: dut.gen_modules.module_in_genscope.a[i]
                       vpiPrefix RefObj name:a start:5:42 end:5:43:
                         vpiParent: BitSelect name:a[i]
                         vpiName: a
-                        vpiFullName: work@dut.gen_modules.module_in_genscope.a
-                        vpiActual: Net name:a
+                        vpiFullName: dut.gen_modules.module_in_genscope.a
+                        vpiActual: Variable name:a
                       vpiIndex RefObj name:i start:5:44 end:5:45:
                         vpiParent: BitSelect name:a[i]
                         vpiName: i
-                        vpiFullName: work@dut.gen_modules.module_in_genscope.i
+                        vpiFullName: dut.gen_modules.module_in_genscope.i
                         vpiActual: Variable name:i
-    Module name:work@ibex_counter file:$Source01/dut.sv start:12:1 end:14:10:
+    Module name:ibex_counter file:$Source01/dut.sv start:12:1 end:14:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ibex_counter start:12:8 end:12:20:
-        vpiParent: Module name:work@ibex_counter
-        vpiName: work@ibex_counter
-      vpiFullName: work@ibex_counter
+      vpiName Identifier name:ibex_counter start:12:8 end:12:20:
+        vpiParent: Module name:ibex_counter
+        vpiName: ibex_counter
+      vpiFullName: ibex_counter
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@ibex_counter
-      vpiDefName: work@ibex_counter
-      vpiDefNetType: none (12)
+          vpiParent: Module name:ibex_counter
+      vpiDefName: ibex_counter
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@ibex_counter
+        vpiParent: Module name:ibex_counter
         vpiName: work
-        vpiFullName: work@ibex_counter.work
+        vpiFullName: ibex_counter.work
       vpiCell: ibex_counter
       vpiNet (1 items):
         Net name:b start:12:33 end:12:34:
-          vpiParent: Module name:work@ibex_counter
+          vpiParent: Module name:ibex_counter
           vpiTypespec RefTypespec start:12:21 end:12:32:
             vpiParent: Net name:b
-            vpiFullName: work@ibex_counter.b
+            vpiFullName: ibex_counter.b
             vpiActual: LogicTypespec
           vpiName: b
-          vpiFullName: work@ibex_counter.b
+          vpiFullName: ibex_counter.b
           vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:b start:12:33 end:12:34:
-          vpiParent: Module name:work@ibex_counter
+          vpiParent: Module name:ibex_counter
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:33 end:12:34:
+          vpiLowConn RefObj name:b start:12:33 end:12:34:
             vpiParent: Port name:b
-            vpiFullName: work@ibex_counter.b
+            vpiName: b
+            vpiFullName: ibex_counter.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:12:21 end:12:32:
             vpiParent: Port name:b
-            vpiFullName: work@ibex_counter.b
+            vpiFullName: ibex_counter.b
             vpiActual: LogicTypespec
   vpiTypespec (3 items):
-    ModuleTypespec name:work@dut:
+    ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@dut start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@dut
-        vpiName: work@dut
-      vpiModule: Module name:work@dut
+      vpiName Identifier name:dut start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:dut
+        vpiName: dut
+      vpiModule: Module name:dut
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:work@ibex_counter:
+    ModuleTypespec name:ibex_counter:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@ibex_counter start:12:8 end:12:20:
-        vpiParent: ModuleTypespec name:work@ibex_counter
-        vpiName: work@ibex_counter
-      vpiModule: Module name:work@ibex_counter
+      vpiName Identifier name:ibex_counter start:12:8 end:12:20:
+        vpiParent: ModuleTypespec name:ibex_counter
+        vpiName: ibex_counter
+      vpiModule: Module name:ibex_counter
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,12 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 2 nets: "a" [15:0] (input),
-//     "b" [3:0] (output), both vpiNetType wire
+//   - design has module top with exactly 2 nets: "a" [15:0] (input),
+//     "b" [3:0] (output), both vpiNetType wire. Per IEEE 1800-2023 Sec
+//     6.7/23.2.2.3: an input port always defaults to a net, and an
+//     output port with no explicit data type also defaults to a net, so
+//     both being nets here is correct; module has no variables
+//     (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     IndexedPartSelect "a[0+:4]": vpiPrefix RefObj "a" resolving Net "a",
 //     vpiIndexedPartSelectType=pos indexed, vpiBaseExpr Constant "0",
@@ -62,10 +66,10 @@ class SimpleIdxPosPartSelectSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleIdxPosPartSelectSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -83,7 +87,15 @@ TEST_F(SimpleIdxPosPartSelectSimTest, ModuleHasTwoNetsAllWire) {
   }
 }
 
-// --- continuous assignment: indexed positive part-select --------------------
+TEST_F(SimpleIdxPosPartSelectSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "both ports default to nets per IEEE 1800-2023 "
+                                              "Sec 6.7/23.2.2.3, so the module should have no "
+                                              "variables";
+}
+
+// --- continuous assignment: indexed positive part-select ----
 
 TEST_F(SimpleIdxPosPartSelectSimTest, ContAssignIsAPosIndexedZeroPlusFour) {
   const hldb::Module *const top = getTop();
@@ -102,7 +114,7 @@ TEST_F(SimpleIdxPosPartSelectSimTest, ContAssignIsAPosIndexedZeroPlusFour) {
   EXPECT_EQ(sel->getWidthExpr<hldb::Constant>()->getDecompile(), "4");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleIdxPosPartSelectSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

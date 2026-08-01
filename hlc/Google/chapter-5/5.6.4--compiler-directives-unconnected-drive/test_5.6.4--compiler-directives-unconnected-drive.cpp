@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@
 //
 // `unconnected_drive specifies the pull strength applied to unconnected
 // input port nets.  `nounconnected_drive cancels it.  Both are compiler
-// hints with no structural UHDM representation — they produce no nodes
+// hints with no structural UHDM representation -- they produce no nodes
 // beyond the clean empty module.
 
 #include <hlc/Common/Session.h>
@@ -45,14 +45,14 @@ class CompilerDirectivesUnconnectedDrive : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
+  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Both directives are consumed without error; the module compiles cleanly.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesUnconnectedDrive, ModuleExists) {
-  ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found";
+  ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found";
 }
 
 TEST_F(CompilerDirectivesUnconnectedDrive, ModuleIsEmpty) {
@@ -62,9 +62,9 @@ TEST_F(CompilerDirectivesUnconnectedDrive, ModuleIsEmpty) {
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // The directives produce no attributes on the module.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesUnconnectedDrive, ModuleHasNoAttributes) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);

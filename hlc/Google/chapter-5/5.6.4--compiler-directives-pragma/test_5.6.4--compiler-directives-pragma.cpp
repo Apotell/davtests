@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@
 //   endmodule
 //
 // UHDM structure:
-//   Module name:work@ts
+//   Module name:ts
 //     vpiNet (1 item): Net "protected_wire"  vpiNetType: wire (1)
 //
 // Key assertion: `pragma protect / `pragma protect end produce no UHDM nodes
@@ -39,6 +39,7 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -49,17 +50,17 @@ class CompilerDirectivesPragma : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("work@ts", d->getAllModules());
+  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module
-// ---------------------------------------------------------------------------
-TEST_F(CompilerDirectivesPragma, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'work@ts' not found"; }
+// ----
+TEST_F(CompilerDirectivesPragma, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'ts' not found"; }
 
-// ---------------------------------------------------------------------------
+// ----
 // Net inside the `pragma protect region compiles normally
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesPragma, OneNetExists) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
@@ -78,13 +79,23 @@ TEST_F(CompilerDirectivesPragma, ProtectedWireIsWireType) {
   ASSERT_NE(m, nullptr);
   const hldb::Net *const net = hldb::findByName<hldb::Net>("protected_wire", m->getNets());
   ASSERT_NE(net, nullptr);
-  // vpiWire = 1
-  EXPECT_EQ(net->getNetType(), 1) << "protected_wire should have net type wire (1)";
+  EXPECT_EQ(net->getNetType(), vpiWire) << "protected_wire should have net type wire";
 }
 
-// ---------------------------------------------------------------------------
+// `wire protected_wire;` is a net-type declaration, so per IEEE 1800-2023 Sec
+// 6.7/6.8 it must not also appear in the module's variable collection.
+TEST_F(CompilerDirectivesPragma, ProtectedWireIsNotDuplicatedAsVariable) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  if (m->getVariables() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Variable>("protected_wire", m->getVariables()), nullptr)
+        << "'protected_wire' is a wire (net) and must not also appear as a Variable";
+  }
+}
+
+// ----
 // `pragma produces no processes
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(CompilerDirectivesPragma, NoProcesses) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,8 +39,10 @@
 // variable, rather than only asserting the AST shape of the assignment.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", all int
-//     (RefTypespec -> IntTypespec)
+//   - module top has exactly 3 variables, "a", "b", "c", all int
+//     (RefTypespec -> IntTypespec). Per IEEE 1800-2023 Sec 6.7/6.8: "int"
+//     has no net-type keyword and there is no port list, so all three are
+//     Variables, not Nets; module has no nets (getNets() is null).
 //   - the initial block is a Begin with exactly 4 statements:
 //       [0] the same 3-deep chain as the non-sim file: Assignment(lhs a)
 //           -> rhs Assignment(lhs b) -> rhs Assignment(lhs c) -> rhs
@@ -83,10 +85,10 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -96,7 +98,7 @@ class AssignInExprSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -105,21 +107,27 @@ class AssignInExprSimTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(AssignInExprSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(AssignInExprSimTest, ModuleHasThreeIntNets) {
+TEST_F(AssignInExprSimTest, ModuleHasThreeIntVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
+}
+
+TEST_F(AssignInExprSimTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
 }
 
 // --- the 3-deep chain, terminating in the literal every assert expects ----
@@ -164,7 +172,7 @@ TEST_F(AssignInExprSimTest, EachVariableGetsItsOwnFiveEqualsAssertion) {
   }
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssignInExprSimTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -180,17 +188,34 @@ TEST_F(AssignInExprSimTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: runtime values of a, b, c -------------
+// --- the actual point of the file: runtime values of a, b, c ----
 
 TEST_F(AssignInExprSimTest, AllThreeVariablesEndUpEqualToFive) {
   GTEST_SKIP() << "The source asserts a == 5, b == 5, and c == 5 after 'a = (b = (c = 5))' "
-                  "runs. HLC is a static compiler/elaborator: Net exposes getValue<T>() only "
-                  "for a declaration-time initializer (none of a/b/c have one here), not a "
+                  "runs. HLC is a static compiler/elaborator: Variable exposes getValue<T>() "
+                  "only for a declaration-time initializer (none of a/b/c have one here), not a "
                   "post-execution value -- there is no field anywhere in the object model that "
                   "records what a blocking assignment actually produced at runtime. Confirming "
                   "the three ':assert: (5 == %d)' $display calls print true is a genuine "
                   "simulation-only gap. If simulation/co-sim support is ever added, replace "
                   "this with a real check of the printed output.";
+  // If the GTEST_SKIP() above is ever removed, this must still compile and
+  // exercise a real, currently-failing check -- not silently pass.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const char *const names[3] = {"a", "b", "c"};
+  for (uint32_t i = 0; i < 3u; ++i) {
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    // Variable::getValue<T>() only ever exposes a declaration-time
+    // initializer; none of a/b/c has one (all are assigned inside the
+    // initial block), so this is null today -- there is no field anywhere
+    // that captures what the assignment chain actually produced at
+    // runtime.
+    const hldb::Constant *const finalValue = var->getValue<hldb::Constant>();
+    ASSERT_NE(finalValue, nullptr) << names[i] << "'s post-assignment runtime value is not captured anywhere";
+    EXPECT_EQ(finalValue->getDecompile(), "5");
+  }
 }
 
 }  // namespace hlc

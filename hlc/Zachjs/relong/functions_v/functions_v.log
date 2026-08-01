@@ -18,7 +18,7 @@ n<$Source01/relong/functions.v> u<742> t<Top_level_rule> c<1> l<1:1> el<80:10>
     n<> u<5> t<Description> p<741> c<4> s<6> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<// Enum's default to 32-bit, but this is a tool specific implementation detail> u<6> t<LINE_COMMENT> p<741> s<7> l<3:1> el<3:79>
     n<// As an alternative to the macro based structs, they could also simply be computed> u<7> t<LINE_COMMENT> p<741> s<8> l<7:1> el<7:84>
     n<// typedef struct packed {> u<8> t<LINE_COMMENT> p<741> s<9> l<8:1> el<8:27>
@@ -755,7 +755,8 @@ n<$Source01/relong/functions.v> u<742> t<Top_level_rule> c<1> l<1:1> el<80:10>
         n<// *.data> u<737> t<LINE_COMMENT> p<739> s<738> l<76:59> el<76:68>
         n<> u<738> t<ENDMODULE> p<739> l<80:1> el<80:10>
 AST_DEBUG_END
-[INF:CP0303] $Source01/relong/functions.v:13:1: Compile module "work@Example".
+[INF:CP0303] $Source01/relong/functions.v:13:1: Compile module "Example".
+[ERR:LN0813] $Source01/relong/functions.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -771,6 +772,7 @@ Design name:unnamed:
           vpiName Identifier name:STATE_T start:4:9 end:4:16:
             vpiParent: PreprocMacroDefinition name:STATE_T
             vpiName: STATE_T
+          vpiPMDType: define (1)
           vpiPMDToken (16 items):
             "Identifier name:\\\n start:4:16 end:4:18":
               vpiParent: PreprocMacroDefinition name:STATE_T
@@ -830,71 +832,114 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\nparameter FOO = 32'd0, BAR = 32'd1; start:4:16 end:5:36":
             vpiParent: PreprocMacroInstance name:STATE_T
             vpiName: "\nparameter FOO = 32'd0, BAR = 32'd1;"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:functions.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: functions.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
-    Module name:work@Example file:$Source01/relong/functions.v start:13:1 end:80:10:
+    Module name:Example file:$Source01/relong/functions.v start:13:1 end:80:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@Example start:13:8 end:13:15:
-        vpiParent: Module name:work@Example
-        vpiName: work@Example
-      vpiFullName: work@Example
-      vpiVariable (1 items):
+      vpiName Identifier name:Example start:13:8 end:13:15:
+        vpiParent: Module name:Example
+        vpiName: Example
+      vpiFullName: Example
+      vpiVariable (5 items):
+        Variable name:check1 start:16:17 end:16:23:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:16:5 end:16:16:
+            vpiParent: Variable name:check1
+            vpiFullName: Example.check1
+            vpiActual: LogicTypespec
+          vpiName: check1
+          vpiFullName: Example.check1
         Variable name:check2 start:17:16 end:17:22:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:17:5 end:17:15:
             vpiParent: Variable name:check2
-            vpiFullName: work@Example.check2
+            vpiFullName: Example.check2
             vpiActual: LogicTypespec
           vpiName: check2
-          vpiFullName: work@Example.check2
-          vpiNetType: none (12)
+          vpiFullName: Example.check2
+        Variable name:checkData start:18:24 end:18:33:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:18:5 end:18:23:
+            vpiParent: Variable name:checkData
+            vpiFullName: Example.checkData
+            vpiActual: LogicTypespec
+          vpiName: checkData
+          vpiFullName: Example.checkData
+        Variable name:state start:37:16 end:37:21:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:37:5 end:37:15:
+            vpiParent: Variable name:state
+            vpiFullName: Example.state
+            vpiActual: LogicTypespec
+          vpiName: state
+          vpiFullName: Example.state
+          vpiVector: true
+        Variable name:myStruct2 start:70:16 end:70:25:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:70:5 end:70:15:
+            vpiParent: Variable name:myStruct2
+            vpiFullName: Example.myStruct2
+            vpiActual: LogicTypespec
+          vpiName: myStruct2
+          vpiFullName: Example.myStruct2
+          vpiVector: true
       vpiParameter (2 items):
         Parameter name:FOO start:5:11 end:5:14:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:5:11 end:5:11:
             vpiParent: Parameter name:FOO
-            vpiFullName: work@Example.FOO
+            vpiFullName: Example.FOO
             vpiActual: LogicTypespec
           vpiName: FOO
-          vpiFullName: work@Example.FOO
+          vpiFullName: Example.FOO
         Parameter name:BAR start:5:24 end:5:27:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:5:11 end:5:11:
             vpiParent: Parameter name:BAR
-            vpiFullName: work@Example.BAR
+            vpiFullName: Example.BAR
             vpiActual: LogicTypespec
           vpiName: BAR
-          vpiFullName: work@Example.BAR
+          vpiFullName: Example.BAR
       vpiParamAssign (2 items):
         ParamAssign start:5:11 end:5:22:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:FOO start:5:11 end:5:14:
             vpiParent: ParamAssign
             vpiName: FOO
-            vpiFullName: work@Example.FOO
+            vpiFullName: Example.FOO
             vpiActual: Parameter name:FOO
           vpiRhs Constant start:5:17 end:5:22:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@Example
+              vpiFullName: Example
               vpiActual: IntTypespec
             vpiConstType: decimal (1)
             vpiSize: 32
             vpiDecompile: "32'd0"
             vpiValue: "0"
         ParamAssign start:5:24 end:5:35:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:BAR start:5:24 end:5:27:
             vpiParent: ParamAssign
             vpiName: BAR
-            vpiFullName: work@Example.BAR
+            vpiFullName: Example.BAR
             vpiActual: Parameter name:BAR
           vpiRhs Constant start:5:30 end:5:35:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@Example
+              vpiFullName: Example
               vpiActual: IntTypespec
             vpiConstType: decimal (1)
             vpiSize: 32
@@ -902,9 +947,9 @@ Design name:unnamed:
             vpiValue: "1"
       vpiTypespec (7 items):
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiRange (1 items):
             Range start:15:16 end:15:21:
               vpiParent: LogicTypespec
@@ -912,7 +957,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -922,7 +967,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -930,7 +975,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiRange (1 items):
             Range start:18:17 end:18:23:
               vpiParent: LogicTypespec
@@ -938,7 +983,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -948,7 +993,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -956,7 +1001,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiRange (1 items):
             Range start:37:9 end:37:15:
               vpiParent: LogicTypespec
@@ -964,7 +1009,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -974,7 +1019,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -982,7 +1027,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiRange (1 items):
             Range start:45:10 end:45:16:
               vpiParent: LogicTypespec
@@ -990,7 +1035,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1000,7 +1045,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1008,7 +1053,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiRange (1 items):
             Range start:61:10 end:61:16:
               vpiParent: LogicTypespec
@@ -1016,7 +1061,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1026,7 +1071,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1034,7 +1079,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
         LogicTypespec:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiRange (1 items):
             Range start:70:9 end:70:15:
               vpiParent: LogicTypespec
@@ -1042,7 +1087,7 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1052,27 +1097,27 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@Example
+                  vpiFullName: Example
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefName: work@Example
+      vpiDefName: Example
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@Example
+        vpiParent: Module name:Example
         vpiName: work
-        vpiFullName: work@Example.work
+        vpiFullName: Example.work
       vpiCell: Example
       vpiTaskFunc (3 items):
         Function name:swapState start:26:5 end:35:16:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName Identifier name:swapState start:26:21 end:26:30:
             vpiParent: Function name:swapState
             vpiName: swapState
-          vpiFullName: work@Example.swapState
+          vpiFullName: Example.swapState
           vpiTypespec (2 items):
             LogicTypespec start:26:14 end:26:20:
               vpiParent: Function name:swapState
@@ -1083,7 +1128,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.swapState
+                      vpiFullName: Example.swapState
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1093,7 +1138,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.swapState
+                      vpiFullName: Example.swapState
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1109,7 +1154,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.swapState
+                      vpiFullName: Example.swapState
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1119,7 +1164,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.swapState
+                      vpiFullName: Example.swapState
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1134,7 +1179,7 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:26:37 end:26:43:
                 vpiParent: IODecl name:state
-                vpiFullName: work@Example.swapState.state
+                vpiFullName: Example.swapState.state
                 vpiActual: LogicTypespec
           vpiStmt CaseStmt start:27:9 end:31:16:
             vpiParent: Function name:swapState
@@ -1142,7 +1187,7 @@ Design name:unnamed:
             vpiCondition RefObj name:state start:27:14 end:27:19:
               vpiParent: CaseStmt
               vpiName: state
-              vpiFullName: work@Example.swapState.state
+              vpiFullName: Example.swapState.state
               vpiActual: IODecl name:state
             vpiCaseItem (2 items):
               CaseItem start:29:13 end:29:35:
@@ -1151,7 +1196,7 @@ Design name:unnamed:
                   RefObj name:FOO start:29:13 end:29:16:
                     vpiParent: CaseItem
                     vpiName: FOO
-                    vpiFullName: work@Example.swapState.FOO
+                    vpiFullName: Example.swapState.FOO
                     vpiActual: Parameter name:FOO
                 vpiStmt Assignment start:29:18 end:29:34:
                   vpiParent: CaseItem
@@ -1159,12 +1204,12 @@ Design name:unnamed:
                   vpiLhs RefObj name:swapState start:29:18 end:29:27:
                     vpiParent: Assignment
                     vpiName: swapState
-                    vpiFullName: work@Example.swapState.swapState
+                    vpiFullName: Example.swapState.swapState
                     vpiActual: Function name:swapState
                   vpiRhs RefObj name:BAR start:29:31 end:29:34:
                     vpiParent: Assignment
                     vpiName: BAR
-                    vpiFullName: work@Example.swapState.BAR
+                    vpiFullName: Example.swapState.BAR
                     vpiActual: Parameter name:BAR
               CaseItem start:30:13 end:30:34:
                 vpiParent: CaseStmt
@@ -1172,7 +1217,7 @@ Design name:unnamed:
                   RefObj name:BAR start:30:13 end:30:16:
                     vpiParent: CaseItem
                     vpiName: BAR
-                    vpiFullName: work@Example.swapState.BAR
+                    vpiFullName: Example.swapState.BAR
                     vpiActual: Parameter name:BAR
                 vpiStmt Assignment start:30:18 end:30:33:
                   vpiParent: CaseItem
@@ -1180,23 +1225,23 @@ Design name:unnamed:
                   vpiLhs RefObj name:swapState start:30:18 end:30:27:
                     vpiParent: Assignment
                     vpiName: swapState
-                    vpiFullName: work@Example.swapState.swapState
+                    vpiFullName: Example.swapState.swapState
                     vpiActual: Function name:swapState
                   vpiRhs RefObj name:FOO start:30:30 end:30:33:
                     vpiParent: Assignment
                     vpiName: FOO
-                    vpiFullName: work@Example.swapState.FOO
+                    vpiFullName: Example.swapState.FOO
                     vpiActual: Parameter name:FOO
           vpiReturn RefTypespec start:26:14 end:26:20:
             vpiParent: Function name:swapState
-            vpiFullName: work@Example.swapState
+            vpiFullName: Example.swapState
             vpiActual: LogicTypespec
         Function name:packStruct start:48:5 end:59:16:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName Identifier name:packStruct start:48:21 end:48:31:
             vpiParent: Function name:packStruct
             vpiName: packStruct
-          vpiFullName: work@Example.packStruct
+          vpiFullName: Example.packStruct
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:state start:48:45 end:48:50:
@@ -1205,7 +1250,7 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:48:38 end:48:44:
                 vpiParent: IODecl name:state
-                vpiFullName: work@Example.packStruct.state
+                vpiFullName: Example.packStruct.state
                 vpiActual: LogicTypespec
             IODecl name:data start:48:64 end:48:68:
               vpiParent: Function name:packStruct
@@ -1213,28 +1258,30 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:48:58 end:48:63:
                 vpiParent: IODecl name:data
-                vpiFullName: work@Example.packStruct.data
+                vpiFullName: Example.packStruct.data
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Function name:packStruct
-            vpiFullName: work@Example.packStruct
+            vpiFullName: Example.packStruct
             vpiVariable (2 items):
               Variable name:fullData start:52:20 end:52:28:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:52:9 end:52:19:
                   vpiParent: Variable name:fullData
-                  vpiFullName: work@Example.packStruct.fullData
+                  vpiFullName: Example.packStruct.fullData
                   vpiActual: LogicTypespec
                 vpiName: fullData
-                vpiFullName: work@Example.packStruct.fullData
+                vpiFullName: Example.packStruct.fullData
+                vpiVector: true
               Variable name:nextState start:53:20 end:53:29:
                 vpiParent: Begin
                 vpiTypespec RefTypespec start:53:9 end:53:19:
                   vpiParent: Variable name:nextState
-                  vpiFullName: work@Example.packStruct.nextState
+                  vpiFullName: Example.packStruct.nextState
                   vpiActual: LogicTypespec
                 vpiName: nextState
-                vpiFullName: work@Example.packStruct.nextState
+                vpiFullName: Example.packStruct.nextState
+                vpiVector: true
             vpiTypespec (5 items):
               LogicTypespec start:48:14 end:48:20:
                 vpiParent: Begin
@@ -1245,7 +1292,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1255,7 +1302,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1271,7 +1318,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1281,7 +1328,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1297,7 +1344,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1307,7 +1354,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1323,7 +1370,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1333,7 +1380,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1349,7 +1396,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1359,7 +1406,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.packStruct
+                        vpiFullName: Example.packStruct
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1369,7 +1416,7 @@ Design name:unnamed:
             vpiStmt (1 items):
               Begin start:54:5 end:58:8:
                 vpiParent: Begin
-                vpiFullName: work@Example.packStruct
+                vpiFullName: Example.packStruct
                 vpiStmt (3 items):
                   Assignment start:55:9 end:55:45:
                     vpiParent: Begin
@@ -1377,7 +1424,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:fullData start:55:9 end:55:17:
                       vpiParent: Assignment
                       vpiName: fullData
-                      vpiFullName: work@Example.packStruct.fullData
+                      vpiFullName: Example.packStruct.fullData
                       vpiActual: Variable name:fullData
                     vpiRhs Operation start:55:20 end:55:45:
                       vpiParent: Assignment
@@ -1390,17 +1437,17 @@ Design name:unnamed:
                             RefObj name:data start:55:22 end:55:26:
                               vpiParent: Operation
                               vpiName: data
-                              vpiFullName: work@Example.packStruct.data
+                              vpiFullName: Example.packStruct.data
                               vpiActual: IODecl name:data
                         RefObj name:data start:55:28 end:55:32:
                           vpiParent: Operation
                           vpiName: data
-                          vpiFullName: work@Example.packStruct.data
+                          vpiFullName: Example.packStruct.data
                           vpiActual: IODecl name:data
                         RefObj name:magicToken start:55:34 end:55:44:
                           vpiParent: Operation
                           vpiName: magicToken
-                          vpiFullName: work@Example.packStruct.magicToken
+                          vpiFullName: Example.packStruct.magicToken
                           vpiActual: Net name:magicToken
                   Assignment start:56:9 end:56:37:
                     vpiParent: Begin
@@ -1408,7 +1455,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:nextState start:56:9 end:56:18:
                       vpiParent: Assignment
                       vpiName: nextState
-                      vpiFullName: work@Example.packStruct.nextState
+                      vpiFullName: Example.packStruct.nextState
                       vpiActual: Variable name:nextState
                     vpiRhs FuncCall name:swapState start:56:21 end:56:37:
                       vpiParent: Assignment
@@ -1420,7 +1467,7 @@ Design name:unnamed:
                         RefObj name:state start:56:31 end:56:36:
                           vpiParent: FuncCall name:swapState
                           vpiName: state
-                          vpiFullName: work@Example.packStruct.state
+                          vpiFullName: Example.packStruct.state
                           vpiActual: IODecl name:state
                   Assignment start:57:9 end:57:43:
                     vpiParent: Begin
@@ -1428,7 +1475,7 @@ Design name:unnamed:
                     vpiLhs RefObj name:packStruct start:57:9 end:57:19:
                       vpiParent: Assignment
                       vpiName: packStruct
-                      vpiFullName: work@Example.packStruct.packStruct
+                      vpiFullName: Example.packStruct.packStruct
                       vpiActual: Function name:packStruct
                     vpiRhs Operation start:57:22 end:57:43:
                       vpiParent: Assignment
@@ -1437,23 +1484,23 @@ Design name:unnamed:
                         RefObj name:nextState start:57:23 end:57:32:
                           vpiParent: Operation
                           vpiName: nextState
-                          vpiFullName: work@Example.packStruct.nextState
+                          vpiFullName: Example.packStruct.nextState
                           vpiActual: Variable name:nextState
                         RefObj name:fullData start:57:34 end:57:42:
                           vpiParent: Operation
                           vpiName: fullData
-                          vpiFullName: work@Example.packStruct.fullData
+                          vpiFullName: Example.packStruct.fullData
                           vpiActual: Variable name:fullData
           vpiReturn RefTypespec start:48:14 end:48:20:
             vpiParent: Function name:packStruct
-            vpiFullName: work@Example.packStruct
+            vpiFullName: Example.packStruct
             vpiActual: LogicTypespec
         Function name:doCheck start:64:5 end:66:16:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName Identifier name:doCheck start:64:20 end:64:27:
             vpiParent: Function name:doCheck
             vpiName: doCheck
-          vpiFullName: work@Example.doCheck
+          vpiFullName: Example.doCheck
           vpiTypespec (2 items):
             LogicTypespec start:64:14 end:64:19:
               vpiParent: Function name:doCheck
@@ -1464,7 +1511,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.doCheck
+                      vpiFullName: Example.doCheck
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1474,7 +1521,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.doCheck
+                      vpiFullName: Example.doCheck
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1490,7 +1537,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.doCheck
+                      vpiFullName: Example.doCheck
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1500,7 +1547,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.doCheck
+                      vpiFullName: Example.doCheck
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1515,7 +1562,7 @@ Design name:unnamed:
               vpiDirection: input (1)
               vpiTypespec RefTypespec start:64:34 end:64:40:
                 vpiParent: IODecl name:inputStruct
-                vpiFullName: work@Example.doCheck.inputStruct
+                vpiFullName: Example.doCheck.inputStruct
                 vpiActual: LogicTypespec
           vpiStmt Assignment start:65:9 end:65:44:
             vpiParent: Function name:doCheck
@@ -1523,7 +1570,7 @@ Design name:unnamed:
             vpiLhs RefObj name:doCheck start:65:9 end:65:16:
               vpiParent: Assignment
               vpiName: doCheck
-              vpiFullName: work@Example.doCheck.doCheck
+              vpiFullName: Example.doCheck.doCheck
               vpiActual: Function name:doCheck
             vpiRhs Operation start:65:19 end:65:44:
               vpiParent: Assignment
@@ -1532,11 +1579,11 @@ Design name:unnamed:
                 PartSelect name:inputStruct[63:32] start:65:19 end:65:37:
                   vpiParent: Operation
                   vpiName: inputStruct[63:32]
-                  vpiFullName: work@Example.doCheck.inputStruct[63:32]
+                  vpiFullName: Example.doCheck.inputStruct[63:32]
                   vpiPrefix RefObj name:inputStruct start:65:19 end:65:30:
                     vpiParent: PartSelect name:inputStruct[63:32]
                     vpiName: inputStruct
-                    vpiFullName: work@Example.doCheck.inputStruct[63:32].inputStruct
+                    vpiFullName: Example.doCheck.inputStruct[63:32].inputStruct
                     vpiActual: IODecl name:inputStruct
                   vpiRange Range start:65:31 end:65:36:
                     vpiParent: PartSelect name:inputStruct[63:32]
@@ -1544,7 +1591,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.doCheck.inputStruct[63:32]
+                        vpiFullName: Example.doCheck.inputStruct[63:32]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1554,7 +1601,7 @@ Design name:unnamed:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: work@Example.doCheck.inputStruct[63:32]
+                        vpiFullName: Example.doCheck.inputStruct[63:32]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
@@ -1563,168 +1610,122 @@ Design name:unnamed:
                 RefObj name:FOO start:65:41 end:65:44:
                   vpiParent: Operation
                   vpiName: FOO
-                  vpiFullName: work@Example.doCheck.FOO
+                  vpiFullName: Example.doCheck.FOO
                   vpiActual: Parameter name:FOO
           vpiReturn RefTypespec start:64:14 end:64:19:
             vpiParent: Function name:doCheck
-            vpiFullName: work@Example.doCheck
+            vpiFullName: Example.doCheck
             vpiActual: LogicTypespec
-      vpiNet (9 items):
+      vpiNet (4 items):
         Net name:clock start:14:16 end:14:21:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:14:5 end:14:15:
             vpiParent: Net name:clock
-            vpiFullName: work@Example.clock
+            vpiFullName: Example.clock
             vpiActual: LogicTypespec
           vpiName: clock
-          vpiFullName: work@Example.clock
-          vpiNetType: wire (1)
-        Net name:clear start:14:23 end:14:28:
-          vpiParent: Module name:work@Example
-          vpiTypespec RefTypespec start:14:23 end:14:23:
-            vpiParent: Net name:clear
-            vpiFullName: work@Example.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: work@Example.clear
+          vpiFullName: Example.clock
           vpiNetType: wire (1)
         Net name:dataIn start:15:22 end:15:28:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:15:5 end:15:21:
             vpiParent: Net name:dataIn
-            vpiFullName: work@Example.dataIn
+            vpiFullName: Example.dataIn
             vpiActual: LogicTypespec
           vpiName: dataIn
-          vpiFullName: work@Example.dataIn
+          vpiFullName: Example.dataIn
           vpiNetType: wire (1)
-        Net name:check1 start:16:17 end:16:23:
-          vpiParent: Module name:work@Example
-          vpiTypespec RefTypespec start:16:5 end:16:16:
-            vpiParent: Net name:check1
-            vpiFullName: work@Example.check1
-            vpiActual: LogicTypespec
-          vpiName: check1
-          vpiFullName: work@Example.check1
-          vpiNetType: wire (1)
-        Net name:checkData start:18:24 end:18:33:
-          vpiParent: Module name:work@Example
-          vpiTypespec RefTypespec start:18:5 end:18:23:
-            vpiParent: Net name:checkData
-            vpiFullName: work@Example.checkData
-            vpiActual: LogicTypespec
-          vpiName: checkData
-          vpiFullName: work@Example.checkData
-          vpiNetType: wire (1)
-        Net name:state start:37:16 end:37:21:
-          vpiParent: Module name:work@Example
-          vpiTypespec RefTypespec start:37:5 end:37:15:
-            vpiParent: Net name:state
-            vpiFullName: work@Example.state
-            vpiActual: LogicTypespec
-          vpiName: state
-          vpiFullName: work@Example.state
         Net name:magicToken start:45:17 end:45:27:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:45:10 end:45:16:
             vpiParent: Net name:magicToken
-            vpiFullName: work@Example.magicToken
+            vpiFullName: Example.magicToken
             vpiActual: LogicTypespec
           vpiName: magicToken
-          vpiFullName: work@Example.magicToken
+          vpiFullName: Example.magicToken
           vpiNetType: wire (1)
         Net name:myStruct start:61:17 end:61:25:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiTypespec RefTypespec start:61:10 end:61:16:
             vpiParent: Net name:myStruct
-            vpiFullName: work@Example.myStruct
+            vpiFullName: Example.myStruct
             vpiActual: LogicTypespec
           vpiName: myStruct
-          vpiFullName: work@Example.myStruct
+          vpiFullName: Example.myStruct
           vpiNetType: wire (1)
-        Net name:myStruct2 start:70:16 end:70:25:
-          vpiParent: Module name:work@Example
-          vpiTypespec RefTypespec start:70:5 end:70:15:
-            vpiParent: Net name:myStruct2
-            vpiFullName: work@Example.myStruct2
-            vpiActual: LogicTypespec
-          vpiName: myStruct2
-          vpiFullName: work@Example.myStruct2
       vpiPort (6 items):
         Port name:clock start:14:16 end:14:21:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:16 end:14:21:
+          vpiLowConn RefObj name:clock start:14:16 end:14:21:
             vpiParent: Port name:clock
-            vpiFullName: work@Example.clock
+            vpiName: clock
+            vpiFullName: Example.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:14:5 end:14:15:
             vpiParent: Port name:clock
-            vpiFullName: work@Example.clock
+            vpiFullName: Example.clock
             vpiActual: LogicTypespec
         Port name:clear start:14:23 end:14:28:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:14:23 end:14:28:
-            vpiParent: Port name:clear
-            vpiFullName: work@Example.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:14:23 end:14:23:
-            vpiParent: Port name:clear
-            vpiFullName: work@Example.clear
-            vpiActual: LogicTypespec
         Port name:dataIn start:15:22 end:15:28:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: dataIn
           vpiDirection: input (1)
-          vpiLowConn RefObj start:15:22 end:15:28:
+          vpiLowConn RefObj name:dataIn start:15:22 end:15:28:
             vpiParent: Port name:dataIn
-            vpiFullName: work@Example.dataIn
+            vpiName: dataIn
+            vpiFullName: Example.dataIn.dataIn
             vpiActual: Net name:dataIn
           vpiTypespec RefTypespec start:15:5 end:15:21:
             vpiParent: Port name:dataIn
-            vpiFullName: work@Example.dataIn
+            vpiFullName: Example.dataIn
             vpiActual: LogicTypespec
         Port name:check1 start:16:17 end:16:23:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: check1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:16:17 end:16:23:
+          vpiLowConn RefObj name:check1 start:16:17 end:16:23:
             vpiParent: Port name:check1
-            vpiFullName: work@Example.check1
-            vpiActual: Net name:check1
+            vpiName: check1
+            vpiFullName: Example.check1.check1
+            vpiActual: Variable name:check1
           vpiTypespec RefTypespec start:16:5 end:16:16:
             vpiParent: Port name:check1
-            vpiFullName: work@Example.check1
+            vpiFullName: Example.check1
             vpiActual: LogicTypespec
         Port name:check2 start:17:16 end:17:22:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: check2
           vpiDirection: output (2)
-          vpiLowConn RefObj start:17:16 end:17:22:
+          vpiLowConn RefObj name:check2 start:17:16 end:17:22:
             vpiParent: Port name:check2
-            vpiFullName: work@Example.check2
+            vpiName: check2
+            vpiFullName: Example.check2.check2
             vpiActual: Variable name:check2
           vpiTypespec RefTypespec start:17:5 end:17:15:
             vpiParent: Port name:check2
-            vpiFullName: work@Example.check2
+            vpiFullName: Example.check2
             vpiActual: LogicTypespec
         Port name:checkData start:18:24 end:18:33:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiName: checkData
           vpiDirection: output (2)
-          vpiLowConn RefObj start:18:24 end:18:33:
+          vpiLowConn RefObj name:checkData start:18:24 end:18:33:
             vpiParent: Port name:checkData
-            vpiFullName: work@Example.checkData
-            vpiActual: Net name:checkData
+            vpiName: checkData
+            vpiFullName: Example.checkData.checkData
+            vpiActual: Variable name:checkData
           vpiTypespec RefTypespec start:18:5 end:18:23:
             vpiParent: Port name:checkData
-            vpiFullName: work@Example.checkData
+            vpiFullName: Example.checkData
             vpiActual: LogicTypespec
       vpiProcess (2 items):
         Always start:39:5 end:43:39:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiStmt EventControl start:39:12 end:43:39:
             vpiParent: Always
             vpiCondition Operation start:39:14 end:39:27:
@@ -1734,34 +1735,34 @@ Design name:unnamed:
                 RefObj name:clock start:39:22 end:39:27:
                   vpiParent: Operation
                   vpiName: clock
-                  vpiFullName: work@Example.clock
+                  vpiFullName: Example.clock
                   vpiActual: Net name:clock
             vpiStmt IfElse start:40:9 end:43:39:
               vpiParent: EventControl
               vpiCondition RefObj name:clear start:40:12 end:40:17:
                 vpiParent: IfElse
                 vpiName: clear
-                vpiFullName: work@Example.clear
-                vpiActual: Net name:clear
+                vpiFullName: Example.clear
+                vpiActual: Port name:clear
               vpiStmt Assignment start:41:13 end:41:25:
                 vpiParent: IfElse
                 vpiLhs RefObj name:state start:41:13 end:41:18:
                   vpiParent: Assignment
                   vpiName: state
-                  vpiFullName: work@Example.state
-                  vpiActual: Net name:state
+                  vpiFullName: Example.state
+                  vpiActual: Variable name:state
                 vpiRhs RefObj name:FOO start:41:22 end:41:25:
                   vpiParent: Assignment
                   vpiName: FOO
-                  vpiFullName: work@Example.FOO
+                  vpiFullName: Example.FOO
                   vpiActual: Parameter name:FOO
               vpiElseStmt Assignment start:43:13 end:43:38:
                 vpiParent: IfElse
                 vpiLhs RefObj name:state start:43:13 end:43:18:
                   vpiParent: Assignment
                   vpiName: state
-                  vpiFullName: work@Example.state
-                  vpiActual: Net name:state
+                  vpiFullName: Example.state
+                  vpiActual: Variable name:state
                 vpiRhs FuncCall name:swapState start:43:22 end:43:38:
                   vpiParent: Assignment
                   vpiName Identifier name:swapState start:43:22 end:43:31:
@@ -1772,16 +1773,16 @@ Design name:unnamed:
                     RefObj name:state start:43:32 end:43:37:
                       vpiParent: FuncCall name:swapState
                       vpiName: state
-                      vpiFullName: work@Example.state
-                      vpiActual: Net name:state
+                      vpiFullName: Example.state
+                      vpiActual: Variable name:state
           vpiAlwaysType: always (1)
         Always start:71:5 end:74:8:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiStmt EventControl start:71:12 end:74:8:
             vpiParent: Always
             vpiStmt Begin start:71:15 end:74:8:
               vpiParent: EventControl
-              vpiFullName: work@Example
+              vpiFullName: Example
               vpiStmt (2 items):
                 Assignment start:72:9 end:72:58:
                   vpiParent: Begin
@@ -1789,8 +1790,8 @@ Design name:unnamed:
                   vpiLhs RefObj name:myStruct2 start:72:9 end:72:18:
                     vpiParent: Assignment
                     vpiName: myStruct2
-                    vpiFullName: work@Example.myStruct2
-                    vpiActual: Net name:myStruct2
+                    vpiFullName: Example.myStruct2
+                    vpiActual: Variable name:myStruct2
                   vpiRhs FuncCall name:packStruct start:72:21 end:72:58:
                     vpiParent: Assignment
                     vpiName Identifier name:packStruct start:72:21 end:72:31:
@@ -1808,8 +1809,8 @@ Design name:unnamed:
                           RefObj name:state start:72:42 end:72:47:
                             vpiParent: FuncCall name:swapState
                             vpiName: state
-                            vpiFullName: work@Example.state
-                            vpiActual: Net name:state
+                            vpiFullName: Example.state
+                            vpiActual: Variable name:state
                       Operation start:72:50 end:72:57:
                         vpiParent: FuncCall name:packStruct
                         vpiOpType: bitwise negation (4)
@@ -1817,7 +1818,7 @@ Design name:unnamed:
                           RefObj name:dataIn start:72:51 end:72:57:
                             vpiParent: Operation
                             vpiName: dataIn
-                            vpiFullName: work@Example.dataIn
+                            vpiFullName: Example.dataIn
                             vpiActual: Net name:dataIn
                 Assignment start:73:9 end:73:36:
                   vpiParent: Begin
@@ -1825,7 +1826,7 @@ Design name:unnamed:
                   vpiLhs RefObj name:check2 start:73:9 end:73:15:
                     vpiParent: Assignment
                     vpiName: check2
-                    vpiFullName: work@Example.check2
+                    vpiFullName: Example.check2
                     vpiActual: Variable name:check2
                   vpiRhs FuncCall name:doCheck start:73:18 end:73:36:
                     vpiParent: Assignment
@@ -1837,33 +1838,33 @@ Design name:unnamed:
                       RefObj name:myStruct2 start:73:26 end:73:35:
                         vpiParent: FuncCall name:doCheck
                         vpiName: myStruct2
-                        vpiFullName: work@Example.myStruct2
-                        vpiActual: Net name:myStruct2
+                        vpiFullName: Example.myStruct2
+                        vpiActual: Variable name:myStruct2
           vpiAlwaysType: always (1)
       vpiContAssign (4 items):
         ContAssign start:46:12 end:46:33:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:magicToken start:46:12 end:46:22:
             vpiParent: ContAssign
             vpiName: magicToken
-            vpiFullName: work@Example.magicToken
+            vpiFullName: Example.magicToken
             vpiActual: Net name:magicToken
           vpiRhs Constant start:46:25 end:46:33:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@Example
+              vpiFullName: Example
               vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 16
             vpiDecompile: "16'habcd"
             vpiValue: abcd
         ContAssign start:62:12 end:62:48:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:myStruct start:62:12 end:62:20:
             vpiParent: ContAssign
             vpiName: myStruct
-            vpiFullName: work@Example.myStruct
+            vpiFullName: Example.myStruct
             vpiActual: Net name:myStruct
           vpiRhs FuncCall name:packStruct start:62:23 end:62:48:
             vpiParent: ContAssign
@@ -1875,20 +1876,20 @@ Design name:unnamed:
               RefObj name:state start:62:34 end:62:39:
                 vpiParent: FuncCall name:packStruct
                 vpiName: state
-                vpiFullName: work@Example.state
-                vpiActual: Net name:state
+                vpiFullName: Example.state
+                vpiActual: Variable name:state
               RefObj name:dataIn start:62:41 end:62:47:
                 vpiParent: FuncCall name:packStruct
                 vpiName: dataIn
-                vpiFullName: work@Example.dataIn
+                vpiFullName: Example.dataIn
                 vpiActual: Net name:dataIn
         ContAssign start:68:12 end:68:38:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:check1 start:68:12 end:68:18:
             vpiParent: ContAssign
             vpiName: check1
-            vpiFullName: work@Example.check1
-            vpiActual: Net name:check1
+            vpiFullName: Example.check1
+            vpiActual: Variable name:check1
           vpiRhs FuncCall name:doCheck start:68:21 end:68:38:
             vpiParent: ContAssign
             vpiName Identifier name:doCheck start:68:21 end:68:28:
@@ -1899,15 +1900,15 @@ Design name:unnamed:
               RefObj name:myStruct start:68:29 end:68:37:
                 vpiParent: FuncCall name:doCheck
                 vpiName: myStruct
-                vpiFullName: work@Example.myStruct
+                vpiFullName: Example.myStruct
                 vpiActual: Net name:myStruct
         ContAssign start:76:12 end:76:57:
-          vpiParent: Module name:work@Example
+          vpiParent: Module name:Example
           vpiLhs RefObj name:checkData start:76:12 end:76:21:
             vpiParent: ContAssign
             vpiName: checkData
-            vpiFullName: work@Example.checkData
-            vpiActual: Net name:checkData
+            vpiFullName: Example.checkData
+            vpiActual: Variable name:checkData
           vpiRhs Operation start:76:24 end:76:57:
             vpiParent: ContAssign
             vpiOpType: concatenation (33)
@@ -1915,11 +1916,11 @@ Design name:unnamed:
               PartSelect name:myStruct[31:0] start:76:25 end:76:39:
                 vpiParent: Operation
                 vpiName: myStruct[31:0]
-                vpiFullName: work@Example.myStruct[31:0]
+                vpiFullName: Example.myStruct[31:0]
                 vpiPrefix RefObj name:myStruct start:76:25 end:76:33:
                   vpiParent: PartSelect name:myStruct[31:0]
                   vpiName: myStruct
-                  vpiFullName: work@Example.myStruct[31:0].myStruct
+                  vpiFullName: Example.myStruct[31:0].myStruct
                   vpiActual: Net name:myStruct
                 vpiRange Range start:76:34 end:76:38:
                   vpiParent: PartSelect name:myStruct[31:0]
@@ -1927,7 +1928,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.myStruct[31:0]
+                      vpiFullName: Example.myStruct[31:0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1937,7 +1938,7 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.myStruct[31:0]
+                      vpiFullName: Example.myStruct[31:0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1946,19 +1947,19 @@ Design name:unnamed:
               PartSelect name:myStruct2[31:0] start:76:41 end:76:56:
                 vpiParent: Operation
                 vpiName: myStruct2[31:0]
-                vpiFullName: work@Example.myStruct2[31:0]
+                vpiFullName: Example.myStruct2[31:0]
                 vpiPrefix RefObj name:myStruct2 start:76:41 end:76:50:
                   vpiParent: PartSelect name:myStruct2[31:0]
                   vpiName: myStruct2
-                  vpiFullName: work@Example.myStruct2[31:0].myStruct2
-                  vpiActual: Net name:myStruct2
+                  vpiFullName: Example.myStruct2[31:0].myStruct2
+                  vpiActual: Variable name:myStruct2
                 vpiRange Range start:76:51 end:76:55:
                   vpiParent: PartSelect name:myStruct2[31:0]
                   vpiLeftRange Constant start:76:51 end:76:53:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.myStruct2[31:0]
+                      vpiFullName: Example.myStruct2[31:0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
@@ -1968,28 +1969,28 @@ Design name:unnamed:
                     vpiParent: Range
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: work@Example.myStruct2[31:0]
+                      vpiFullName: Example.myStruct2[31:0]
                       vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
   vpiTypespec (3 items):
-    ModuleTypespec name:work@Example:
+    IntTypespec:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@Example start:13:8 end:13:15:
-        vpiParent: ModuleTypespec name:work@Example
-        vpiName: work@Example
-      vpiModule: Module name:work@Example
+    ModuleTypespec name:Example:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Example start:13:8 end:13:15:
+        vpiParent: ModuleTypespec name:Example
+        vpiName: Example
+      vpiModule: Module name:Example
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    IntTypespec:
-      vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -2005,25 +2006,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/functions_v/mounts.json
 
 
-{'result': {'coverage': 98.0,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/functions.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/functions.v': {'post_len': 0,
                                                               'pre_len': 1048}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 1048,
             'test_name': 'Zachjs/relong/functions_v'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/relong/functions.v |     1048 |        21 |
+| $Output/lib/work/relong/functions.v |     1048 |         0 |
 +=====================================+==========+===========+
-|                                     |     1048 |        21 |
+|                                     |     1048 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.0
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2033,9 +2034,9 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/functions_v/design.hldb ${HLC_DIR}/
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-RefObj                              48      46       0         2
+RefObj                              47      45       0         2
 ----------------------------------------------------------------
 Others                             249     249       0         0
 ----------------------------------------------------------------
-                                   297     295       0         2
+                                   296     294       0         2
 ===================== END REDUCTION RESULT =====================

@@ -9,12 +9,10 @@ COMMAND: -wd ../../../tests/StringParameter -fileunit -writepp -d db -sv dut.sv 
 [INF:CM0020] Separate compilation-unit mode is on.
 [INF:PP0122] Preprocessing source file "$Source01/dut.sv".
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
-[INF:CP0303] $Source01/dut.sv:1:1: Compile module "work@top".
-[INF:CP0303] $Source01/dut.sv:8:1: Compile module "work@parameter_module".
-[ERR:EL0535] $Source01/dut.sv:3:18: Illegal implicit net "id:15, name:FIRSTPARAMETER".
-[ERR:EL0535] $Source01/dut.sv:4:18: Illegal implicit net "id:20, name:SECONDPARAMETER".
-[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "work@top".
-[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "work@parameter_module".
+[INF:CP0303] $Source01/dut.sv:1:1: Compile module "top".
+[INF:CP0303] $Source01/dut.sv:8:1: Compile module "parameter_module".
+[WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "top".
+[WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "parameter_module".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -23,36 +21,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
-    Module name:work@top file:$Source01/dut.sv start:1:1 end:6:10:
+    Module name:top file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: Module name:work@top
-        vpiName: work@top
-      vpiFullName: work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: Module name:top
+        vpiName: top
+      vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:work@parameter_module start:2:9 end:2:25:
-          vpiParent: Module name:work@top
-          vpiName Identifier name:work@parameter_module start:2:9 end:2:25:
-            vpiParent: ModuleTypespec name:work@parameter_module
-            vpiName: work@parameter_module
-      vpiDefName: work@top
-      vpiDefNetType: none (12)
+        ModuleTypespec name:parameter_module start:2:9 end:2:25:
+          vpiParent: Module name:top
+          vpiName Identifier name:parameter_module start:2:9 end:2:25:
+            vpiParent: ModuleTypespec name:parameter_module
+            vpiName: parameter_module
+      vpiDefName: top
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@top
+        vpiParent: Module name:top
         vpiName: work
-        vpiFullName: work@top.work
+        vpiFullName: top.work
       vpiCell: top
       vpiRefInstance (1 items):
         RefInstance name:test_module start:5:11 end:5:22:
-          vpiParent: Module name:work@top
+          vpiParent: Module name:top
           vpiName: test_module
-          vpiTypespec RefTypespec name:work@parameter_module start:2:9 end:2:25:
+          vpiTypespec RefTypespec name:parameter_module start:2:9 end:2:25:
             vpiParent: RefInstance name:test_module
-            vpiName: work@parameter_module
-            vpiFullName: work@top.test_module.work@parameter_module
-            vpiActual: ModuleTypespec name:work@parameter_module
+            vpiName: parameter_module
+            vpiFullName: top.test_module.parameter_module
+            vpiActual: ModuleTypespec name:parameter_module
           vpiParamAssign (2 items):
             ParamAssign start:3:17 end:3:49:
               vpiParent: RefInstance name:test_module
@@ -60,12 +57,12 @@ Design name:unnamed:
               vpiLhs RefObj name:FIRSTPARAMETER start:3:18 end:3:32:
                 vpiParent: ParamAssign
                 vpiName: FIRSTPARAMETER
-                vpiFullName: work@top.test_module.FIRSTPARAMETER
+                vpiFullName: top.test_module.FIRSTPARAMETER
               vpiRhs Constant start:3:33 end:3:48:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.test_module
+                  vpiFullName: top.test_module
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 104
@@ -77,70 +74,70 @@ Design name:unnamed:
               vpiLhs RefObj name:SECONDPARAMETER start:4:18 end:4:33:
                 vpiParent: ParamAssign
                 vpiName: SECONDPARAMETER
-                vpiFullName: work@top.test_module.SECONDPARAMETER
+                vpiFullName: top.test_module.SECONDPARAMETER
               vpiRhs Constant start:4:34 end:4:50:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: work@top.test_module
+                  vpiFullName: top.test_module
                   vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 112
                 vpiDecompile: "\"TOPSECONDVALUE\""
                 vpiValue: TOPSECONDVALUE
-    Module name:work@parameter_module file:$Source01/dut.sv start:8:1 end:11:10:
+    Module name:parameter_module file:$Source01/dut.sv start:8:1 end:11:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@parameter_module start:8:8 end:8:24:
-        vpiParent: Module name:work@parameter_module
-        vpiName: work@parameter_module
-      vpiFullName: work@parameter_module
+      vpiName Identifier name:parameter_module start:8:8 end:8:24:
+        vpiParent: Module name:parameter_module
+        vpiName: parameter_module
+      vpiFullName: parameter_module
       vpiParameter (2 items):
         Parameter name:FIRSTPARAMETER start:9:11 end:9:25:
-          vpiParent: Module name:work@parameter_module
+          vpiParent: Module name:parameter_module
           vpiTypespec RefTypespec start:9:11 end:9:11:
             vpiParent: Parameter name:FIRSTPARAMETER
-            vpiFullName: work@parameter_module.FIRSTPARAMETER
+            vpiFullName: parameter_module.FIRSTPARAMETER
             vpiActual: LogicTypespec
           vpiName: FIRSTPARAMETER
-          vpiFullName: work@parameter_module.FIRSTPARAMETER
+          vpiFullName: parameter_module.FIRSTPARAMETER
         Parameter name:SECONDPARAMETER start:10:11 end:10:26:
-          vpiParent: Module name:work@parameter_module
+          vpiParent: Module name:parameter_module
           vpiTypespec RefTypespec start:10:11 end:10:11:
             vpiParent: Parameter name:SECONDPARAMETER
-            vpiFullName: work@parameter_module.SECONDPARAMETER
+            vpiFullName: parameter_module.SECONDPARAMETER
             vpiActual: LogicTypespec
           vpiName: SECONDPARAMETER
-          vpiFullName: work@parameter_module.SECONDPARAMETER
+          vpiFullName: parameter_module.SECONDPARAMETER
       vpiParamAssign (2 items):
         ParamAssign start:9:11 end:9:40:
-          vpiParent: Module name:work@parameter_module
+          vpiParent: Module name:parameter_module
           vpiLhs RefObj name:FIRSTPARAMETER start:9:11 end:9:25:
             vpiParent: ParamAssign
             vpiName: FIRSTPARAMETER
-            vpiFullName: work@parameter_module.FIRSTPARAMETER
+            vpiFullName: parameter_module.FIRSTPARAMETER
             vpiActual: Parameter name:FIRSTPARAMETER
           vpiRhs Constant start:9:28 end:9:40:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@parameter_module
+              vpiFullName: parameter_module
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 80
             vpiDecompile: "\"FIRSTVALUE\""
             vpiValue: FIRSTVALUE
         ParamAssign start:10:11 end:10:42:
-          vpiParent: Module name:work@parameter_module
+          vpiParent: Module name:parameter_module
           vpiLhs RefObj name:SECONDPARAMETER start:10:11 end:10:26:
             vpiParent: ParamAssign
             vpiName: SECONDPARAMETER
-            vpiFullName: work@parameter_module.SECONDPARAMETER
+            vpiFullName: parameter_module.SECONDPARAMETER
             vpiActual: Parameter name:SECONDPARAMETER
           vpiRhs Constant start:10:29 end:10:42:
             vpiParent: ParamAssign
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: work@parameter_module
+              vpiFullName: parameter_module
               vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 88
@@ -148,33 +145,33 @@ Design name:unnamed:
             vpiValue: SECONDVALUE
       vpiTypespec (1 items):
         LogicTypespec:
-          vpiParent: Module name:work@parameter_module
-      vpiDefName: work@parameter_module
-      vpiDefNetType: none (12)
+          vpiParent: Module name:parameter_module
+      vpiDefName: parameter_module
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
-        vpiParent: Module name:work@parameter_module
+        vpiParent: Module name:parameter_module
         vpiName: work
-        vpiFullName: work@parameter_module.work
+        vpiFullName: parameter_module.work
       vpiCell: parameter_module
   vpiTypespec (3 items):
-    ModuleTypespec name:work@top:
+    ModuleTypespec name:top:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@top start:1:8 end:1:11:
-        vpiParent: ModuleTypespec name:work@top
-        vpiName: work@top
-      vpiModule: Module name:work@top
+      vpiName Identifier name:top start:1:8 end:1:11:
+        vpiParent: ModuleTypespec name:top
+        vpiName: top
+      vpiModule: Module name:top
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:work@parameter_module:
+    ModuleTypespec name:parameter_module:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:work@parameter_module start:8:8 end:8:24:
-        vpiParent: ModuleTypespec name:work@parameter_module
-        vpiName: work@parameter_module
-      vpiModule: Module name:work@parameter_module
+      vpiName Identifier name:parameter_module start:8:8 end:8:24:
+        vpiParent: ModuleTypespec name:parameter_module
+        vpiName: parameter_module
+      vpiModule: Module name:parameter_module
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

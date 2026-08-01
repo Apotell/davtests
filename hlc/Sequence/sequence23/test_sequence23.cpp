@@ -30,12 +30,8 @@
 //   Range node whose left bound is m and right bound is n. Both bounds are
 //   finite unsigned integer constants (vpiUIntConst=9).
 //
-// Compiler bug exposed:
-//
-//   EL0535 (seq_range in assert): 'seq_range' in 'assert property(...)'
-//     is treated as an illegal implicit net instead of resolving to
-//     SequenceDecl seq_range. Test
-//     Assert_PropertyExpr_ResolvedToSeqRangeDecl FAILS.
+// Compile-stage: 'seq_range' in 'assert property(...)' resolves correctly
+// to SequenceDecl seq_range.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -48,6 +44,7 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/range.h>
@@ -67,7 +64,7 @@ class Sequence23Test : public Test {
 
  protected:
   static const hldb::Module *getTb(const hldb::Design *d) {
-    return hldb::findByName<hldb::Module>("work@tb", d->getAllModules());
+    return hldb::findByName<hldb::Module>("tb", d->getAllModules());
   }
 
   static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *mod,
@@ -85,34 +82,39 @@ class Sequence23Test : public Test {
 // ===========================================================================
 
 TEST_F(Sequence23Test, ModuleExists) {
-  ASSERT_NE(getTb(m_design), nullptr) << "module 'work@tb' not found";
+  ASSERT_NE(getTb(m_design), nullptr) << "module 'tb' not found";
 }
 
 // ===========================================================================
-// Nets
+// Variables (IEEE 1800-2023 Sec 6.7/6.8: no net-type keyword means
+// Variable, not Net, regardless of default_nettype)
 // ===========================================================================
 
-TEST_F(Sequence23Test, Net_clk_HasBitTypespec) {
+TEST_F(Sequence23Test, Variable_clk_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const clk =
-      hldb::findByName<hldb::Net>("clk", tb->getNets());
-  ASSERT_NE(clk, nullptr) << "net 'clk' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const clk =
+      hldb::findByName<hldb::Variable>("clk", tb->getVariables());
+  ASSERT_NE(clk, nullptr) << "variable 'clk' not found";
   ASSERT_NE(clk->getTypespec(), nullptr);
   EXPECT_NE(clk->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "'bit clk' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("clk", tb->getNets()), nullptr)
+      << "'bit clk' has no net-type keyword -- must not also appear in vpiNet";
 }
 
-TEST_F(Sequence23Test, Net_a_HasBitTypespec) {
+TEST_F(Sequence23Test, Variable_a_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", tb->getNets());
-  ASSERT_NE(a, nullptr) << "net 'a' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", tb->getVariables());
+  ASSERT_NE(a, nullptr) << "variable 'a' not found";
   ASSERT_NE(a->getTypespec(), nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "'bit a' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("a", tb->getNets()), nullptr)
+      << "'bit a' has no net-type keyword -- must not also appear in vpiNet";
 }
 
 // ===========================================================================
@@ -187,7 +189,8 @@ TEST_F(Sequence23Test, SeqRange_Op_Operand0_IsRefObjA) {
 }
 
 TEST_F(Sequence23Test, SeqRange_Op_Operand0_ResolvesToNetA) {
-  // ss.16.9.1: 'a' is a module-level net; it must resolve to Net 'a'.
+  // ss.16.9.1: 'a' is a module-level variable ('bit a', no net-type
+  // keyword); it must resolve to Variable 'a'.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -199,8 +202,8 @@ TEST_F(Sequence23Test, SeqRange_Op_Operand0_ResolvesToNetA) {
   const hldb::RefObj *const ref =
       any_cast<const hldb::RefObj *>((*op->getOperands())[0]);
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr)
-      << "ss.16.9.1: 'a' in 'a[*2:4]' must resolve to Net 'a'";
+  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr)
+      << "ss.16.9.1: 'a' in 'a[*2:4]' must resolve to Variable 'a'";
 }
 
 TEST_F(Sequence23Test, SeqRange_Op_Operand1_IsRange) {
@@ -420,8 +423,7 @@ TEST_F(Sequence23Test, Assert_PropertyExpr_NameIsSeqRange) {
 
 TEST_F(Sequence23Test, Assert_PropertyExpr_ResolvedToSeqRangeDecl) {
   // ss.16.9.1: 'seq_range' in 'assert property(...)' must resolve to
-  // SequenceDecl seq_range. EL0535 bug: compiler treats it as implicit net.
-  // This test FAILS intentionally to document the bug.
+  // SequenceDecl seq_range.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   ASSERT_NE(tb->getConcurrentAssertions(), nullptr);
@@ -434,8 +436,7 @@ TEST_F(Sequence23Test, Assert_PropertyExpr_ResolvedToSeqRangeDecl) {
   const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(expr, nullptr);
   EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "EL0535: 'seq_range' in assert property must resolve to SequenceDecl; "
-         "compiler treats it as an illegal implicit net instead";
+      << "ss.16.9.1: 'seq_range' in assert property must resolve to SequenceDecl";
 }
 
 }  // namespace hlc

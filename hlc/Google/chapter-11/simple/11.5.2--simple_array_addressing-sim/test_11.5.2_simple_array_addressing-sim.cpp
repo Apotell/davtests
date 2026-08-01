@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,14 +21,24 @@
 //   endmodule
 //
 // Checked:
-//   - design has module work@top with exactly 3 nets: "a" [7:0] (input),
-//     "b" [7:0] (output), "mem" (memory array)
-//   - net "mem": RefTypespec -> ArrayTypespec static(1), unpacked range
-//     [0:255], elem -> LogicTypespec [7:0] -- "reg" maps to LogicTypespec
-//     (reg is not a distinct typespec kind), matching the analogous
-//     finding in chapter-7/structures and chapter-7/arrays/packed/basic
+//   - design has module top with exactly 2 nets: "a" [7:0] (input), "b"
+//     [7:0] (output) -- both default to nets per IEEE 1800-2023 Sec
+//     6.7/23.2.2.3 (input always a net; output with no explicit data
+//     type also a net)
+//   - "mem" is declared with "reg [7:0] mem [0:255];" INSIDE the module
+//     body, not in the port list. "reg" is a variable data-type keyword
+//     (Sec 6.8), not one of the net-type keywords in Sec 6.7 (wire, tri,
+//     triand, trior, trireg, tri0, tri1, uwire, wand, wor, supply0,
+//     supply1); it is not `interconnect` or a user-defined nettype
+//     either. So "mem" must be modeled as a Variable, not a Net, and must
+//     NOT also appear in getNets()
+//   - variable "mem": RefTypespec -> ArrayTypespec static(1), unpacked
+//     range [0:255], elem -> LogicTypespec [7:0] -- "reg" maps to
+//     LogicTypespec (reg is not a distinct typespec kind), matching the
+//     analogous finding in chapter-7/structures and
+//     chapter-7/arrays/packed/basic
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
-//     BitSelect "mem[a]": vpiPrefix RefObj "mem" resolving Net "mem",
+//     BitSelect "mem[a]": vpiPrefix RefObj "mem" resolving Variable "mem",
 //     vpiIndex RefObj "a" resolving Net "a" -- a VARIABLE index (not a
 //     Constant), since "a" is the runtime address into the memory
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
@@ -59,6 +69,7 @@
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -69,24 +80,36 @@ class SimpleArrayAddressingSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleArrayAddressingSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(SimpleArrayAddressingSimTest, ModuleHasThreeNets) {
+TEST_F(SimpleArrayAddressingSimTest, ModuleHasTwoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_EQ(top->getNets()->size(), 2u) << "only the ports 'a' and 'b' should be nets; 'mem' is "
+                                            "declared with 'reg' (no net-type keyword) so it "
+                                            "must be a Variable, not a Net";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("mem", top->getNets()), nullptr)
+      << "'mem' must not appear in getNets()";
 }
 
-TEST_F(SimpleArrayAddressingSimTest, NetMemIsArrayZeroToTwoFiveFiveOfEightBitLogic) {
+TEST_F(SimpleArrayAddressingSimTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const mem = hldb::findByName<hldb::Net>("mem", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("mem", top->getVariables()), nullptr);
+}
+
+TEST_F(SimpleArrayAddressingSimTest, VariableMemIsArrayZeroToTwoFiveFiveOfEightBitLogic) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Variable *const mem = hldb::findByName<hldb::Variable>("mem", top->getVariables());
   ASSERT_NE(mem, nullptr);
   const hldb::ArrayTypespec *const at = mem->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -102,7 +125,7 @@ TEST_F(SimpleArrayAddressingSimTest, NetMemIsArrayZeroToTwoFiveFiveOfEightBitLog
   EXPECT_EQ(elem->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- continuous assignment: array addressing with a variable index ---------
+// --- continuous assignment: array addressing with a variable index ----
 
 TEST_F(SimpleArrayAddressingSimTest, ContAssignIsMemIndexedByVariableA) {
   const hldb::Module *const top = getTop();
@@ -116,14 +139,15 @@ TEST_F(SimpleArrayAddressingSimTest, ContAssignIsMemIndexedByVariableA) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "mem[a]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "mem");
-  EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr)
+      << "'mem' resolves to a Variable, not a Net";
   const hldb::RefObj *const index = sel->getIndex<hldb::RefObj>();
   ASSERT_NE(index, nullptr) << "'mem[a]' should have a RefObj index (variable 'a'), not a Constant";
   EXPECT_EQ(index->getName(), "a");
   EXPECT_NE(index->getActual<hldb::Net>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleArrayAddressingSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
