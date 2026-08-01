@@ -1755,31 +1755,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_order_multidriven.v:92:1: Compile module "FooRd".
 [INF:CP0303] $Source01/t_order_multidriven.v:134:1: Compile module "FooMem".
 [INF:CP0303] $Source01/t_order_multidriven.v:160:1: Compile module "FooMemImpl".
-[ERR:EL0535] $Source01/t_order_multidriven.v:38:10: Illegal implicit net "id:114, name:i_clk".
-[ERR:EL0535] $Source01/t_order_multidriven.v:40:10: Illegal implicit net "id:117, name:o_wen".
-[ERR:EL0535] $Source01/t_order_multidriven.v:41:10: Illegal implicit net "id:120, name:o_addr".
-[ERR:EL0535] $Source01/t_order_multidriven.v:42:10: Illegal implicit net "id:123, name:o_wdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:43:10: Illegal implicit net "id:126, name:i_rdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:47:10: Illegal implicit net "id:133, name:i_clk".
-[ERR:EL0535] $Source01/t_order_multidriven.v:49:10: Illegal implicit net "id:136, name:o_wen".
-[ERR:EL0535] $Source01/t_order_multidriven.v:50:10: Illegal implicit net "id:139, name:o_addr".
-[ERR:EL0535] $Source01/t_order_multidriven.v:51:10: Illegal implicit net "id:142, name:o_wdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:52:10: Illegal implicit net "id:145, name:i_rdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:56:10: Illegal implicit net "id:154, name:iv_clk".
-[ERR:EL0535] $Source01/t_order_multidriven.v:57:10: Illegal implicit net "id:159, name:iv_wen".
-[ERR:EL0535] $Source01/t_order_multidriven.v:58:10: Illegal implicit net "id:164, name:iv_addr".
-[ERR:EL0535] $Source01/t_order_multidriven.v:59:10: Illegal implicit net "id:169, name:iv_wdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:60:10: Illegal implicit net "id:174, name:ov_rdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:143:10: Illegal implicit net "id:555, name:a_clk".
-[ERR:EL0535] $Source01/t_order_multidriven.v:144:10: Illegal implicit net "id:569, name:a_wen".
-[ERR:EL0535] $Source01/t_order_multidriven.v:145:10: Illegal implicit net "id:583, name:a_addr".
-[ERR:EL0535] $Source01/t_order_multidriven.v:146:10: Illegal implicit net "id:597, name:a_wdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:147:10: Illegal implicit net "id:611, name:a_rdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:149:10: Illegal implicit net "id:625, name:b_clk".
-[ERR:EL0535] $Source01/t_order_multidriven.v:150:10: Illegal implicit net "id:639, name:b_wen".
-[ERR:EL0535] $Source01/t_order_multidriven.v:151:10: Illegal implicit net "id:653, name:b_addr".
-[ERR:EL0535] $Source01/t_order_multidriven.v:152:10: Illegal implicit net "id:667, name:b_wdata".
-[ERR:EL0535] $Source01/t_order_multidriven.v:153:10: Illegal implicit net "id:681, name:b_rdata".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1796,7 +1771,6 @@ Design name:unnamed:
             vpiParent: PreprocMacroDefinition name:MULTI_CLK
             vpiName: MULTI_CLK
           vpiPMDType: define (1)
-      vpiDefNetType: none (12)
   vpiAllModules (5 items):
     Module name:t file:$Source01/t_order_multidriven.v start:11:1 end:63:10:
       vpiParent: Design name:unnamed
@@ -1979,7 +1953,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:FooMem
             vpiName: FooMem
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -2099,9 +2073,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: i_clk_wr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:12:29 end:12:37:
+          vpiLowConn RefObj name:i_clk_wr start:12:29 end:12:37:
             vpiParent: Port name:i_clk_wr
-            vpiFullName: t.i_clk_wr
+            vpiName: i_clk_wr
+            vpiFullName: t.i_clk_wr.i_clk_wr
             vpiActual: Net name:i_clk_wr
           vpiTypespec RefTypespec start:12:5 end:12:10:
             vpiParent: Port name:i_clk_wr
@@ -2111,9 +2086,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: i_clk_rd
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:29 end:13:37:
+          vpiLowConn RefObj name:i_clk_rd start:13:29 end:13:37:
             vpiParent: Port name:i_clk_rd
-            vpiFullName: t.i_clk_rd
+            vpiName: i_clk_rd
+            vpiFullName: t.i_clk_rd.i_clk_rd
             vpiActual: Net name:i_clk_rd
           vpiTypespec RefTypespec start:13:5 end:13:10:
             vpiParent: Port name:i_clk_rd
@@ -2388,6 +2364,26 @@ Design name:unnamed:
         vpiParent: Module name:FooWr
         vpiName: FooWr
       vpiFullName: FooWr
+      vpiVariable (1 items):
+        Variable name:cnt start:76:29 end:76:32:
+          vpiParent: Module name:FooWr
+          vpiTypespec RefTypespec start:76:5 end:76:18:
+            vpiParent: Variable name:cnt
+            vpiFullName: FooWr.cnt
+            vpiActual: LogicTypespec
+          vpiName: cnt
+          vpiFullName: FooWr.cnt
+          vpiVector: true
+          vpiValue Constant start:76:35 end:76:36:
+            vpiParent: Variable name:cnt
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: FooWr.cnt
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:FooWr
@@ -2498,13 +2494,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:FooWr
       vpiDefName: FooWr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:FooWr
         vpiName: work
         vpiFullName: FooWr.work
       vpiCell: FooWr
-      vpiNet (6 items):
+      vpiNet (5 items):
         Net name:i_clk start:68:29 end:68:34:
           vpiParent: Module name:FooWr
           vpiTypespec RefTypespec start:68:5 end:68:10:
@@ -2550,32 +2546,15 @@ Design name:unnamed:
           vpiName: i_rdata
           vpiFullName: FooWr.i_rdata
           vpiNetType: wire (1)
-        Net name:cnt start:76:29 end:76:32:
-          vpiParent: Module name:FooWr
-          vpiTypespec RefTypespec start:76:5 end:76:18:
-            vpiParent: Net name:cnt
-            vpiFullName: FooWr.cnt
-            vpiActual: LogicTypespec
-          vpiName: cnt
-          vpiFullName: FooWr.cnt
-          vpiValue Constant start:76:35 end:76:36:
-            vpiParent: Net name:cnt
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: FooWr.cnt
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiPort (5 items):
         Port name:i_clk start:68:29 end:68:34:
           vpiParent: Module name:FooWr
           vpiName: i_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:68:29 end:68:34:
+          vpiLowConn RefObj name:i_clk start:68:29 end:68:34:
             vpiParent: Port name:i_clk
-            vpiFullName: FooWr.i_clk
+            vpiName: i_clk
+            vpiFullName: FooWr.i_clk.i_clk
             vpiActual: Net name:i_clk
           vpiTypespec RefTypespec start:68:5 end:68:10:
             vpiParent: Port name:i_clk
@@ -2585,9 +2564,10 @@ Design name:unnamed:
           vpiParent: Module name:FooWr
           vpiName: o_wen
           vpiDirection: output (2)
-          vpiLowConn RefObj start:70:29 end:70:34:
+          vpiLowConn RefObj name:o_wen start:70:29 end:70:34:
             vpiParent: Port name:o_wen
-            vpiFullName: FooWr.o_wen
+            vpiName: o_wen
+            vpiFullName: FooWr.o_wen.o_wen
             vpiActual: Net name:o_wen
           vpiTypespec RefTypespec start:70:5 end:70:11:
             vpiParent: Port name:o_wen
@@ -2597,9 +2577,10 @@ Design name:unnamed:
           vpiParent: Module name:FooWr
           vpiName: o_addr
           vpiDirection: output (2)
-          vpiLowConn RefObj start:71:29 end:71:35:
+          vpiLowConn RefObj name:o_addr start:71:29 end:71:35:
             vpiParent: Port name:o_addr
-            vpiFullName: FooWr.o_addr
+            vpiName: o_addr
+            vpiFullName: FooWr.o_addr.o_addr
             vpiActual: Net name:o_addr
           vpiTypespec RefTypespec start:71:5 end:71:18:
             vpiParent: Port name:o_addr
@@ -2609,9 +2590,10 @@ Design name:unnamed:
           vpiParent: Module name:FooWr
           vpiName: o_wdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:72:29 end:72:36:
+          vpiLowConn RefObj name:o_wdata start:72:29 end:72:36:
             vpiParent: Port name:o_wdata
-            vpiFullName: FooWr.o_wdata
+            vpiName: o_wdata
+            vpiFullName: FooWr.o_wdata.o_wdata
             vpiActual: Net name:o_wdata
           vpiTypespec RefTypespec start:72:5 end:72:18:
             vpiParent: Port name:o_wdata
@@ -2621,9 +2603,10 @@ Design name:unnamed:
           vpiParent: Module name:FooWr
           vpiName: i_rdata
           vpiDirection: input (1)
-          vpiLowConn RefObj start:73:29 end:73:36:
+          vpiLowConn RefObj name:i_rdata start:73:29 end:73:36:
             vpiParent: Port name:i_rdata
-            vpiFullName: FooWr.i_rdata
+            vpiName: i_rdata
+            vpiFullName: FooWr.i_rdata.i_rdata
             vpiActual: Net name:i_rdata
           vpiTypespec RefTypespec start:73:5 end:73:18:
             vpiParent: Port name:i_rdata
@@ -2653,7 +2636,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: cnt
                     vpiFullName: FooWr.cnt
-                    vpiActual: Net name:cnt
+                    vpiActual: Variable name:cnt
                   Constant start:80:20 end:80:25:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -2670,7 +2653,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: FooWr.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation start:81:24 end:81:34:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -2679,7 +2662,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: FooWr.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:81:30 end:81:34:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -2715,7 +2698,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cnt
                         vpiFullName: FooWr.cnt
-                        vpiActual: Net name:cnt
+                        vpiActual: Variable name:cnt
                       Constant start:84:31 end:84:36:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2734,7 +2717,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cnt
                         vpiFullName: FooWr.cnt
-                        vpiActual: Net name:cnt
+                        vpiActual: Variable name:cnt
                       Constant start:84:50 end:84:55:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2757,7 +2740,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:cnt[0]
                       vpiName: cnt
                       vpiFullName: FooWr.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     vpiIndex Constant start:84:67 end:84:68:
                       vpiParent: BitSelect name:cnt[0]
                       vpiTypespec RefTypespec:
@@ -2789,7 +2772,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: cnt
             vpiFullName: FooWr.cnt
-            vpiActual: Net name:cnt
+            vpiActual: Variable name:cnt
         ContAssign start:86:12 end:86:26:
           vpiParent: Module name:FooWr
           vpiLhs RefObj name:o_wdata start:86:12 end:86:19:
@@ -2801,13 +2784,51 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: cnt
             vpiFullName: FooWr.cnt
-            vpiActual: Net name:cnt
+            vpiActual: Variable name:cnt
     Module name:FooRd file:$Source01/t_order_multidriven.v start:92:1 end:130:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:FooRd start:92:8 end:92:13:
         vpiParent: Module name:FooRd
         vpiName: FooRd
       vpiFullName: FooRd
+      vpiVariable (3 items):
+        Variable name:cnt start:101:29 end:101:32:
+          vpiParent: Module name:FooRd
+          vpiTypespec RefTypespec start:101:5 end:101:18:
+            vpiParent: Variable name:cnt
+            vpiFullName: FooRd.cnt
+            vpiActual: LogicTypespec
+          vpiName: cnt
+          vpiFullName: FooRd.cnt
+          vpiVector: true
+          vpiValue Constant start:101:35 end:101:36:
+            vpiParent: Variable name:cnt
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: FooRd.cnt
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:addr_r start:102:29 end:102:35:
+          vpiParent: Module name:FooRd
+          vpiTypespec RefTypespec start:102:5 end:102:18:
+            vpiParent: Variable name:addr_r
+            vpiFullName: FooRd.addr_r
+            vpiActual: LogicTypespec
+          vpiName: addr_r
+          vpiFullName: FooRd.addr_r
+          vpiVector: true
+        Variable name:en_r start:103:29 end:103:33:
+          vpiParent: Module name:FooRd
+          vpiTypespec RefTypespec start:103:5 end:103:8:
+            vpiParent: Variable name:en_r
+            vpiFullName: FooRd.en_r
+            vpiActual: LogicTypespec
+          vpiName: en_r
+          vpiFullName: FooRd.en_r
+          vpiScalar: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:FooRd
@@ -2942,13 +2963,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: FooRd
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:FooRd
         vpiName: work
         vpiFullName: FooRd.work
       vpiCell: FooRd
-      vpiNet (8 items):
+      vpiNet (5 items):
         Net name:i_clk start:93:29 end:93:34:
           vpiParent: Module name:FooRd
           vpiTypespec RefTypespec start:93:5 end:93:10:
@@ -2994,48 +3015,15 @@ Design name:unnamed:
           vpiName: i_rdata
           vpiFullName: FooRd.i_rdata
           vpiNetType: wire (1)
-        Net name:cnt start:101:29 end:101:32:
-          vpiParent: Module name:FooRd
-          vpiTypespec RefTypespec start:101:5 end:101:18:
-            vpiParent: Net name:cnt
-            vpiFullName: FooRd.cnt
-            vpiActual: LogicTypespec
-          vpiName: cnt
-          vpiFullName: FooRd.cnt
-          vpiValue Constant start:101:35 end:101:36:
-            vpiParent: Net name:cnt
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: FooRd.cnt
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:addr_r start:102:29 end:102:35:
-          vpiParent: Module name:FooRd
-          vpiTypespec RefTypespec start:102:5 end:102:18:
-            vpiParent: Net name:addr_r
-            vpiFullName: FooRd.addr_r
-            vpiActual: LogicTypespec
-          vpiName: addr_r
-          vpiFullName: FooRd.addr_r
-        Net name:en_r start:103:29 end:103:33:
-          vpiParent: Module name:FooRd
-          vpiTypespec RefTypespec start:103:5 end:103:8:
-            vpiParent: Net name:en_r
-            vpiFullName: FooRd.en_r
-            vpiActual: LogicTypespec
-          vpiName: en_r
-          vpiFullName: FooRd.en_r
       vpiPort (5 items):
         Port name:i_clk start:93:29 end:93:34:
           vpiParent: Module name:FooRd
           vpiName: i_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:93:29 end:93:34:
+          vpiLowConn RefObj name:i_clk start:93:29 end:93:34:
             vpiParent: Port name:i_clk
-            vpiFullName: FooRd.i_clk
+            vpiName: i_clk
+            vpiFullName: FooRd.i_clk.i_clk
             vpiActual: Net name:i_clk
           vpiTypespec RefTypespec start:93:5 end:93:10:
             vpiParent: Port name:i_clk
@@ -3045,9 +3033,10 @@ Design name:unnamed:
           vpiParent: Module name:FooRd
           vpiName: o_wen
           vpiDirection: output (2)
-          vpiLowConn RefObj start:95:29 end:95:34:
+          vpiLowConn RefObj name:o_wen start:95:29 end:95:34:
             vpiParent: Port name:o_wen
-            vpiFullName: FooRd.o_wen
+            vpiName: o_wen
+            vpiFullName: FooRd.o_wen.o_wen
             vpiActual: Net name:o_wen
           vpiTypespec RefTypespec start:95:5 end:95:11:
             vpiParent: Port name:o_wen
@@ -3057,9 +3046,10 @@ Design name:unnamed:
           vpiParent: Module name:FooRd
           vpiName: o_addr
           vpiDirection: output (2)
-          vpiLowConn RefObj start:96:29 end:96:35:
+          vpiLowConn RefObj name:o_addr start:96:29 end:96:35:
             vpiParent: Port name:o_addr
-            vpiFullName: FooRd.o_addr
+            vpiName: o_addr
+            vpiFullName: FooRd.o_addr.o_addr
             vpiActual: Net name:o_addr
           vpiTypespec RefTypespec start:96:5 end:96:18:
             vpiParent: Port name:o_addr
@@ -3069,9 +3059,10 @@ Design name:unnamed:
           vpiParent: Module name:FooRd
           vpiName: o_wdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:97:29 end:97:36:
+          vpiLowConn RefObj name:o_wdata start:97:29 end:97:36:
             vpiParent: Port name:o_wdata
-            vpiFullName: FooRd.o_wdata
+            vpiName: o_wdata
+            vpiFullName: FooRd.o_wdata.o_wdata
             vpiActual: Net name:o_wdata
           vpiTypespec RefTypespec start:97:5 end:97:18:
             vpiParent: Port name:o_wdata
@@ -3081,9 +3072,10 @@ Design name:unnamed:
           vpiParent: Module name:FooRd
           vpiName: i_rdata
           vpiDirection: input (1)
-          vpiLowConn RefObj start:98:29 end:98:36:
+          vpiLowConn RefObj name:i_rdata start:98:29 end:98:36:
             vpiParent: Port name:i_rdata
-            vpiFullName: FooRd.i_rdata
+            vpiName: i_rdata
+            vpiFullName: FooRd.i_rdata.i_rdata
             vpiActual: Net name:i_rdata
           vpiTypespec RefTypespec start:98:5 end:98:18:
             vpiParent: Port name:i_rdata
@@ -3113,7 +3105,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: cnt
                     vpiFullName: FooRd.cnt
-                    vpiActual: Net name:cnt
+                    vpiActual: Variable name:cnt
                   Constant start:107:20 end:107:26:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -3130,7 +3122,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cnt
                   vpiFullName: FooRd.cnt
-                  vpiActual: Net name:cnt
+                  vpiActual: Variable name:cnt
                 vpiRhs Operation start:108:24 end:108:34:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -3139,7 +3131,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cnt
                       vpiFullName: FooRd.cnt
-                      vpiActual: Net name:cnt
+                      vpiActual: Variable name:cnt
                     Constant start:108:30 end:108:34:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -3177,7 +3169,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: addr_r
                     vpiFullName: FooRd.addr_r
-                    vpiActual: Net name:addr_r
+                    vpiActual: Variable name:addr_r
                   vpiRhs RefObj name:o_addr start:117:19 end:117:25:
                     vpiParent: Assignment
                     vpiName: o_addr
@@ -3189,7 +3181,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: en_r
                     vpiFullName: FooRd.en_r
-                    vpiActual: Net name:en_r
+                    vpiActual: Variable name:en_r
                   vpiRhs Operation start:118:19 end:118:77:
                     vpiParent: Assignment
                     vpiOpType: logical and (26)
@@ -3206,7 +3198,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: cnt
                                 vpiFullName: FooRd.cnt
-                                vpiActual: Net name:cnt
+                                vpiActual: Variable name:cnt
                               Constant start:118:27 end:118:33:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -3225,7 +3217,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: cnt
                                 vpiFullName: FooRd.cnt
-                                vpiActual: Net name:cnt
+                                vpiActual: Variable name:cnt
                               Constant start:118:47 end:118:53:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -3248,7 +3240,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:cnt[0]
                               vpiName: cnt
                               vpiFullName: FooRd.cnt
-                              vpiActual: Net name:cnt
+                              vpiActual: Variable name:cnt
                             vpiIndex Constant start:118:65 end:118:66:
                               vpiParent: BitSelect name:cnt[0]
                               vpiTypespec RefTypespec:
@@ -3289,7 +3281,7 @@ Design name:unnamed:
                 vpiParent: IfStmt
                 vpiName: en_r
                 vpiFullName: FooRd.en_r
-                vpiActual: Net name:en_r
+                vpiActual: Variable name:en_r
               vpiStmt Begin start:123:21 end:128:5:
                 vpiParent: IfStmt
                 vpiFullName: FooRd
@@ -3304,7 +3296,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: addr_r
                           vpiFullName: FooRd.addr_r
-                          vpiActual: Net name:addr_r
+                          vpiActual: Variable name:addr_r
                         RefObj name:i_rdata start:127:19 end:127:26:
                           vpiParent: Operation
                           vpiName: i_rdata
@@ -3349,7 +3341,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: cnt
                 vpiFullName: FooRd.cnt
-                vpiActual: Net name:cnt
+                vpiActual: Variable name:cnt
               Constant start:112:29 end:112:35:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -3615,7 +3607,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:FooMemImpl
             vpiName: FooMemImpl
       vpiDefName: FooMem
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:FooMem
         vpiName: work
@@ -3672,9 +3664,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMem
           vpiName: iv_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:135:29 end:135:35:
+          vpiLowConn RefObj name:iv_clk start:135:29 end:135:35:
             vpiParent: Port name:iv_clk
-            vpiFullName: FooMem.iv_clk
+            vpiName: iv_clk
+            vpiFullName: FooMem.iv_clk.iv_clk
             vpiActual: Net name:iv_clk
           vpiTypespec RefTypespec start:135:5 end:135:22:
             vpiParent: Port name:iv_clk
@@ -3684,9 +3677,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMem
           vpiName: iv_wen
           vpiDirection: input (1)
-          vpiLowConn RefObj start:136:29 end:136:35:
+          vpiLowConn RefObj name:iv_wen start:136:29 end:136:35:
             vpiParent: Port name:iv_wen
-            vpiFullName: FooMem.iv_wen
+            vpiName: iv_wen
+            vpiFullName: FooMem.iv_wen.iv_wen
             vpiActual: Net name:iv_wen
           vpiTypespec RefTypespec start:136:5 end:136:22:
             vpiParent: Port name:iv_wen
@@ -3696,9 +3690,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMem
           vpiName: iv_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:137:29 end:137:36:
+          vpiLowConn RefObj name:iv_addr start:137:29 end:137:36:
             vpiParent: Port name:iv_addr
-            vpiFullName: FooMem.iv_addr
+            vpiName: iv_addr
+            vpiFullName: FooMem.iv_addr.iv_addr
             vpiActual: Net name:iv_addr
           vpiTypespec RefTypespec start:137:5 end:137:22:
             vpiParent: Port name:iv_addr
@@ -3708,9 +3703,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMem
           vpiName: iv_wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj start:138:29 end:138:37:
+          vpiLowConn RefObj name:iv_wdata start:138:29 end:138:37:
             vpiParent: Port name:iv_wdata
-            vpiFullName: FooMem.iv_wdata
+            vpiName: iv_wdata
+            vpiFullName: FooMem.iv_wdata.iv_wdata
             vpiActual: Net name:iv_wdata
           vpiTypespec RefTypespec start:138:5 end:138:22:
             vpiParent: Port name:iv_wdata
@@ -3720,9 +3716,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMem
           vpiName: ov_rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:139:29 end:139:37:
+          vpiLowConn RefObj name:ov_rdata start:139:29 end:139:37:
             vpiParent: Port name:ov_rdata
-            vpiFullName: FooMem.ov_rdata
+            vpiName: ov_rdata
+            vpiFullName: FooMem.ov_rdata.ov_rdata
             vpiActual: Net name:ov_rdata
           vpiTypespec RefTypespec start:139:5 end:139:22:
             vpiParent: Port name:ov_rdata
@@ -4244,6 +4241,16 @@ Design name:unnamed:
         vpiParent: Module name:FooMemImpl
         vpiName: FooMemImpl
       vpiFullName: FooMemImpl
+      vpiVariable (1 items):
+        Variable name:mem start:175:29 end:175:32:
+          vpiParent: Module name:FooMemImpl
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: FooMemImpl.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: FooMemImpl.mem
+          vpiVector: true
       vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:FooMemImpl
@@ -4459,13 +4466,13 @@ Design name:unnamed:
             vpiFullName: FooMemImpl
             vpiActual: LogicTypespec
       vpiDefName: FooMemImpl
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:FooMemImpl
         vpiName: work
         vpiFullName: FooMemImpl.work
       vpiCell: FooMemImpl
-      vpiNet (11 items):
+      vpiNet (10 items):
         Net name:a_clk start:161:29 end:161:34:
           vpiParent: Module name:FooMemImpl
           vpiTypespec RefTypespec start:161:5 end:161:10:
@@ -4556,22 +4563,15 @@ Design name:unnamed:
           vpiName: b_rdata
           vpiFullName: FooMemImpl.b_rdata
           vpiNetType: wire (1)
-        Net name:mem start:175:29 end:175:32:
-          vpiParent: Module name:FooMemImpl
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: FooMemImpl.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: FooMemImpl.mem
       vpiPort (10 items):
         Port name:a_clk start:161:29 end:161:34:
           vpiParent: Module name:FooMemImpl
           vpiName: a_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:161:29 end:161:34:
+          vpiLowConn RefObj name:a_clk start:161:29 end:161:34:
             vpiParent: Port name:a_clk
-            vpiFullName: FooMemImpl.a_clk
+            vpiName: a_clk
+            vpiFullName: FooMemImpl.a_clk.a_clk
             vpiActual: Net name:a_clk
           vpiTypespec RefTypespec start:161:5 end:161:10:
             vpiParent: Port name:a_clk
@@ -4581,9 +4581,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: a_wen
           vpiDirection: input (1)
-          vpiLowConn RefObj start:162:29 end:162:34:
+          vpiLowConn RefObj name:a_wen start:162:29 end:162:34:
             vpiParent: Port name:a_wen
-            vpiFullName: FooMemImpl.a_wen
+            vpiName: a_wen
+            vpiFullName: FooMemImpl.a_wen.a_wen
             vpiActual: Net name:a_wen
           vpiTypespec RefTypespec start:162:5 end:162:10:
             vpiParent: Port name:a_wen
@@ -4593,9 +4594,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: a_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:163:29 end:163:35:
+          vpiLowConn RefObj name:a_addr start:163:29 end:163:35:
             vpiParent: Port name:a_addr
-            vpiFullName: FooMemImpl.a_addr
+            vpiName: a_addr
+            vpiFullName: FooMemImpl.a_addr.a_addr
             vpiActual: Net name:a_addr
           vpiTypespec RefTypespec start:163:5 end:163:18:
             vpiParent: Port name:a_addr
@@ -4605,9 +4607,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: a_wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj start:164:29 end:164:36:
+          vpiLowConn RefObj name:a_wdata start:164:29 end:164:36:
             vpiParent: Port name:a_wdata
-            vpiFullName: FooMemImpl.a_wdata
+            vpiName: a_wdata
+            vpiFullName: FooMemImpl.a_wdata.a_wdata
             vpiActual: Net name:a_wdata
           vpiTypespec RefTypespec start:164:5 end:164:18:
             vpiParent: Port name:a_wdata
@@ -4617,9 +4620,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: a_rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:165:29 end:165:36:
+          vpiLowConn RefObj name:a_rdata start:165:29 end:165:36:
             vpiParent: Port name:a_rdata
-            vpiFullName: FooMemImpl.a_rdata
+            vpiName: a_rdata
+            vpiFullName: FooMemImpl.a_rdata.a_rdata
             vpiActual: Net name:a_rdata
           vpiTypespec RefTypespec start:165:5 end:165:18:
             vpiParent: Port name:a_rdata
@@ -4629,9 +4633,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: b_clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:167:29 end:167:34:
+          vpiLowConn RefObj name:b_clk start:167:29 end:167:34:
             vpiParent: Port name:b_clk
-            vpiFullName: FooMemImpl.b_clk
+            vpiName: b_clk
+            vpiFullName: FooMemImpl.b_clk.b_clk
             vpiActual: Net name:b_clk
           vpiTypespec RefTypespec start:167:5 end:167:10:
             vpiParent: Port name:b_clk
@@ -4641,9 +4646,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: b_wen
           vpiDirection: input (1)
-          vpiLowConn RefObj start:168:29 end:168:34:
+          vpiLowConn RefObj name:b_wen start:168:29 end:168:34:
             vpiParent: Port name:b_wen
-            vpiFullName: FooMemImpl.b_wen
+            vpiName: b_wen
+            vpiFullName: FooMemImpl.b_wen.b_wen
             vpiActual: Net name:b_wen
           vpiTypespec RefTypespec start:168:5 end:168:10:
             vpiParent: Port name:b_wen
@@ -4653,9 +4659,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: b_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:169:29 end:169:35:
+          vpiLowConn RefObj name:b_addr start:169:29 end:169:35:
             vpiParent: Port name:b_addr
-            vpiFullName: FooMemImpl.b_addr
+            vpiName: b_addr
+            vpiFullName: FooMemImpl.b_addr.b_addr
             vpiActual: Net name:b_addr
           vpiTypespec RefTypespec start:169:5 end:169:18:
             vpiParent: Port name:b_addr
@@ -4665,9 +4672,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: b_wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj start:170:29 end:170:36:
+          vpiLowConn RefObj name:b_wdata start:170:29 end:170:36:
             vpiParent: Port name:b_wdata
-            vpiFullName: FooMemImpl.b_wdata
+            vpiName: b_wdata
+            vpiFullName: FooMemImpl.b_wdata.b_wdata
             vpiActual: Net name:b_wdata
           vpiTypespec RefTypespec start:170:5 end:170:18:
             vpiParent: Port name:b_wdata
@@ -4677,9 +4685,10 @@ Design name:unnamed:
           vpiParent: Module name:FooMemImpl
           vpiName: b_rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj start:171:29 end:171:36:
+          vpiLowConn RefObj name:b_rdata start:171:29 end:171:36:
             vpiParent: Port name:b_rdata
-            vpiFullName: FooMemImpl.b_rdata
+            vpiName: b_rdata
+            vpiFullName: FooMemImpl.b_rdata.b_rdata
             vpiActual: Net name:b_rdata
           vpiTypespec RefTypespec start:171:5 end:171:18:
             vpiParent: Port name:b_rdata
@@ -4716,7 +4725,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:mem[a_addr]
                     vpiName: mem
                     vpiFullName: FooMemImpl.mem
-                    vpiActual: Net name:mem
+                    vpiActual: Variable name:mem
                   vpiIndex RefObj name:a_addr start:180:17 end:180:23:
                     vpiParent: BitSelect name:mem[a_addr]
                     vpiName: a_addr
@@ -4758,7 +4767,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:mem[b_addr]
                     vpiName: mem
                     vpiFullName: FooMemImpl.mem
-                    vpiActual: Net name:mem
+                    vpiActual: Variable name:mem
                   vpiIndex RefObj name:b_addr start:184:17 end:184:23:
                     vpiParent: BitSelect name:mem[b_addr]
                     vpiName: b_addr
@@ -4798,7 +4807,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:mem[a_addr]
                   vpiName: mem
                   vpiFullName: FooMemImpl.mem
-                  vpiActual: Net name:mem
+                  vpiActual: Variable name:mem
                 vpiIndex RefObj name:a_addr start:187:24 end:187:30:
                   vpiParent: BitSelect name:mem[a_addr]
                   vpiName: a_addr
@@ -4833,7 +4842,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:mem[b_addr]
                   vpiName: mem
                   vpiFullName: FooMemImpl.mem
-                  vpiActual: Net name:mem
+                  vpiActual: Variable name:mem
                 vpiIndex RefObj name:b_addr start:190:24 end:190:30:
                   vpiParent: BitSelect name:mem[b_addr]
                   vpiName: b_addr
@@ -4877,7 +4886,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 25
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

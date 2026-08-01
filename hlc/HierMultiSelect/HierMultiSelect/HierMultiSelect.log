@@ -226,22 +226,14 @@ n<$Source01/dut.sv> u<212> t<Top_level_rule> c<1> l<1:1> el<9:1>
         n<> u<208> t<ENDMODULE> p<209> l<8:1> el<8:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dm_csrs".
-[ERR:EL0535] $Source01/dut.sv:2:10: Illegal implicit net "id:8, name:dmi_req_i".
-[ERR:EL0535] $Source01/dut.sv:2:20: Illegal implicit net "id:10, name:addr1".
-[ERR:EL0535] $Source01/dut.sv:2:28: Illegal implicit net "id:12, name:dmi_req_i".
-[ERR:EL0535] $Source01/dut.sv:2:38: Illegal implicit net "id:13, name:addr2".
-[ERR:EL0535] $Source01/dut.sv:3:10: Illegal implicit net "id:15, name:kmac_mask_o".
-[ERR:EL0535] $Source01/dut.sv:3:24: Illegal implicit net "id:19, name:i".
-[ERR:EL0535] $Source01/dut.sv:3:54: Illegal implicit net "id:28, name:i".
-[ERR:EL0535] $Source01/dut.sv:3:35: Illegal implicit net "id:31, name:keymgr_data_i".
-[ERR:EL0535] $Source01/dut.sv:3:49: Illegal implicit net "id:32, name:strb".
-[ERR:EL0535] $Source01/dut.sv:4:14: Illegal implicit net "id:53, name:keymgr_key_i".
-[ERR:EL0535] $Source01/dut.sv:4:27: Illegal implicit net "id:54, name:key".
-[ERR:EL0535] $Source01/dut.sv:5:10: Illegal implicit net "id:65, name:sram_otp_key_o".
-[ERR:EL0535] $Source01/dut.sv:5:30: Illegal implicit net "id:66, name:nonce".
-[ERR:EL0535] $Source01/dut.sv:6:13: Illegal implicit net "id:84, name:a".
-[ERR:EL0535] $Source01/dut.sv:6:18: Illegal implicit net "id:85, name:source".
-[ERR:EL0535] $Source01/dut.sv:7:12: Illegal implicit net "id:91, name:b".
+[WRN:CP0350] $Source01/dut.sv:2:10: Failed to bind "id:8, name:dmi_req_i".
+[WRN:CP0350] $Source01/dut.sv:2:20: Failed to bind "id:10, name:addr1".
+[WRN:CP0350] $Source01/dut.sv:2:28: Failed to bind "id:12, name:dmi_req_i".
+[WRN:CP0350] $Source01/dut.sv:2:38: Failed to bind "id:13, name:addr2".
+[WRN:CP0350] $Source01/dut.sv:3:35: Failed to bind "id:31, name:keymgr_data_i".
+[WRN:CP0350] $Source01/dut.sv:4:14: Failed to bind "id:53, name:keymgr_key_i".
+[WRN:CP0350] $Source01/dut.sv:5:30: Failed to bind "id:66, name:nonce".
+[WRN:CP0350] $Source01/dut.sv:7:12: Failed to bind "id:91, name:b".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dm_csrs".
 ====== HLDB =======
 Design name:unnamed:
@@ -251,7 +243,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:dm_csrs file:$Source01/dut.sv start:1:1 end:8:10:
       vpiParent: Design name:unnamed
@@ -259,30 +250,18 @@ Design name:unnamed:
         vpiParent: Module name:dm_csrs
         vpiName: dm_csrs
       vpiFullName: dm_csrs
-      vpiTypespec (2 items):
-        LogicTypespec:
-          vpiParent: Module name:dm_csrs
-        ByteTypespec:
-          vpiParent: Module name:dm_csrs
-          vpiSigned: true
-      vpiDefName: dm_csrs
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:dm_csrs
-        vpiName: work
-        vpiFullName: dm_csrs.work
-      vpiCell: dm_csrs
-      vpiNet (2 items):
-        Net name:c start:6:9 end:6:10:
+      vpiVariable (2 items):
+        Variable name:c start:6:9 end:6:10:
           vpiParent: Module name:dm_csrs
           vpiTypespec RefTypespec start:6:3 end:6:8:
-            vpiParent: Net name:c
+            vpiParent: Variable name:c
             vpiFullName: dm_csrs.c
             vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: dm_csrs.c
+          vpiScalar: true
           vpiValue HierPath name:a[0].source[6-:2] start:6:13 end:6:32:
-            vpiParent: Net name:c
+            vpiParent: Variable name:c
             vpiName: a[0].source[6-:2]
             vpiFullName: dm_csrs.c.a[0].source[6-:2]
             vpiPathElem (2 items):
@@ -333,16 +312,16 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
-        Net name:o start:7:8 end:7:9:
+        Variable name:o start:7:8 end:7:9:
           vpiParent: Module name:dm_csrs
           vpiTypespec RefTypespec start:7:3 end:7:7:
-            vpiParent: Net name:o
+            vpiParent: Variable name:o
             vpiFullName: dm_csrs.o
             vpiActual: ByteTypespec
           vpiName: o
           vpiFullName: dm_csrs.o
           vpiValue HierPath name:b.and start:7:12 end:7:17:
-            vpiParent: Net name:o
+            vpiParent: Variable name:o
             vpiName: b.and
             vpiFullName: dm_csrs.o.b.and
             vpiPathElem (2 items):
@@ -355,6 +334,19 @@ Design name:unnamed:
                 vpiName Identifier name:and start:7:14 end:7:17:
                   vpiParent: MethodFuncCall name:and
                   vpiName: and
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:dm_csrs
+        ByteTypespec:
+          vpiParent: Module name:dm_csrs
+          vpiSigned: true
+      vpiDefName: dm_csrs
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:dm_csrs
+        vpiName: work
+        vpiFullName: dm_csrs.work
+      vpiCell: dm_csrs
       vpiContAssign (4 items):
         ContAssign start:2:10 end:2:43:
           vpiParent: Module name:dm_csrs
@@ -468,7 +460,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: o
             vpiFullName: dm_csrs.o
-            vpiActual: Net name:o
+            vpiActual: Variable name:o
           vpiRhs HierPath name:keymgr_key_i.key[0][1*32+:32] start:4:14 end:4:47:
             vpiParent: ContAssign
             vpiName: keymgr_key_i.key[0][1*32+:32]
@@ -601,8 +593,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 16
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

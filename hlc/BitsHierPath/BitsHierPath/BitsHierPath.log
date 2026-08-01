@@ -260,13 +260,9 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/dut.sv:11:1: Multiply defined typedef "dut".
 [WRN:CP0323] $Source01/dut.sv:11:1: Multiply defined typedef "dut".
 [WRN:CP0323] $Source01/dut.sv:11:1: Multiply defined typedef "dut".
-[ERR:EL0535] $Source01/dut.sv:12:44: Illegal implicit net "id:56, name:x".
-[ERR:EL0535] $Source01/dut.sv:13:27: Illegal implicit net "id:66, name:x".
-[ERR:EL0535] $Source01/dut.sv:13:11: Illegal implicit net "id:71, name:Width".
-[ERR:EL0535] $Source01/dut.sv:14:11: Illegal implicit net "id:81, name:Width".
-[ERR:EL0535] $Source01/dut.sv:15:11: Illegal implicit net "id:90, name:Width".
-[ERR:EL0535] $Source01/dut.sv:16:30: Illegal implicit net "id:98, name:x".
-[ERR:EL0535] $Source01/dut.sv:16:11: Illegal implicit net "id:103, name:Width".
+[WRN:CP0350] $Source01/dut.sv:12:44: Failed to bind "id:56, name:x".
+[WRN:CP0350] $Source01/dut.sv:13:27: Failed to bind "id:66, name:x".
+[WRN:CP0350] $Source01/dut.sv:16:30: Failed to bind "id:98, name:x".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.sv:11:1: No timescale set for "top".
@@ -278,7 +274,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:pkg file:$Source01/dut.sv start:1:1 end:6:17:
       vpiParent: Design name:unnamed
@@ -343,7 +338,7 @@ Design name:unnamed:
             vpiFullName: pkg::struct_t
             vpiActual: StructTypespec
       vpiDefName: pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:pkg
         vpiName: work
@@ -387,7 +382,7 @@ Design name:unnamed:
             vpiDecompile: "1"
             vpiValue: 1
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -484,7 +479,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:dut
             vpiName: dut
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -506,9 +501,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:33 end:11:35:
+          vpiLowConn RefObj name:in start:11:33 end:11:35:
             vpiParent: Port name:in
-            vpiFullName: top.in
+            vpiName: in
+            vpiFullName: top.in.in
             vpiActual: Net name:in
           vpiTypespec RefTypespec name:struct_t start:11:24 end:11:32:
             vpiParent: Port name:in
@@ -678,8 +674,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 6
+[  ERROR] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

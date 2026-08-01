@@ -571,10 +571,6 @@ n<$Source01/t_math_signed6.v> u<557> t<Top_level_rule> c<1> l<8:3> el<37:1>
         n<> u<553> t<ENDMODULE> p<554> l<36:1> el<36:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_math_signed6.v:8:3: Compile module "t".
-[ERR:EL0535] $Source01/t_math_signed6.v:23:15: Illegal implicit net "id:137, name:s".
-[ERR:EL0535] $Source01/t_math_signed6.v:23:23: Illegal implicit net "id:139, name:u".
-[ERR:EL0535] $Source01/t_math_signed6.v:28:15: Illegal implicit net "id:215, name:s".
-[ERR:EL0535] $Source01/t_math_signed6.v:28:23: Illegal implicit net "id:217, name:u".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -820,7 +816,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:do if ((dst.u) !== (16'hfff5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_signed6.v\",0, (dst.u), (16'hfff5)); $stop; end while(0) start:6:27 end:6:185":
             vpiParent: PreprocMacroInstance name:checkh
             vpiName: "do if ((dst.u) !== (16'hfff5)) begin $write(\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\", \"$Source01/t_math_signed6.v\",0, (dst.u), (16'hfff5)); $stop; end while(0)"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_math_signed6.v start:8:3 end:36:10:
       vpiParent: Design name:unnamed
@@ -828,6 +823,24 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:src start:11:28 end:11:31:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:11:4 end:11:27:
+            vpiParent: Variable name:src
+            vpiFullName: t.src
+            vpiActual: LogicTypespec
+          vpiName: src
+          vpiFullName: t.src
+          vpiVector: true
+        Variable name:dst start:17:6 end:17:9:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:14:4 end:17:5:
+            vpiParent: Variable name:dst
+            vpiFullName: t.dst
+            vpiActual: StructTypespec
+          vpiName: dst
+          vpiFullName: t.dst
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -970,29 +983,12 @@ Design name:unnamed:
                 vpiFullName: t.u
                 vpiActual: LogicTypespec
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
-        Net name:src start:11:28 end:11:31:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:11:4 end:11:27:
-            vpiParent: Net name:src
-            vpiFullName: t.src
-            vpiActual: LogicTypespec
-          vpiName: src
-          vpiFullName: t.src
-        Net name:dst start:17:6 end:17:9:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:4 end:17:5:
-            vpiParent: Net name:dst
-            vpiFullName: t.dst
-            vpiActual: StructTypespec
-          vpiName: dst
-          vpiFullName: t.dst
       vpiProcess (1 items):
         Initial start:19:4 end:35:7:
           vpiParent: Module name:t
@@ -1007,7 +1003,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: src
                   vpiFullName: t.src
-                  vpiActual: Net name:src
+                  vpiActual: Variable name:src
                 vpiRhs Constant start:22:13 end:22:19:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1025,7 +1021,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: dst
                   vpiFullName: t.dst
-                  vpiActual: Net name:dst
+                  vpiActual: Variable name:dst
                 vpiRhs Operation start:23:13 end:23:30:
                   vpiParent: Assignment
                   vpiOpType: assign pattern (87)
@@ -1040,7 +1036,7 @@ Design name:unnamed:
                         vpiParent: TaggedPattern
                         vpiName: src
                         vpiFullName: t.src
-                        vpiActual: Net name:src
+                        vpiActual: Variable name:src
                     TaggedPattern start:23:23 end:23:29:
                       vpiParent: Operation
                       vpiTag RefObj name:u start:23:23 end:23:24:
@@ -1051,7 +1047,7 @@ Design name:unnamed:
                         vpiParent: TaggedPattern
                         vpiName: src
                         vpiFullName: t.src
-                        vpiActual: Net name:src
+                        vpiActual: Variable name:src
               DoWhile start:24:7 end:24:33:
                 vpiParent: Begin
                 vpiCondition Constant start:6:183 end:6:184:
@@ -1079,7 +1075,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:dst.s
                             vpiName: dst
                             vpiFullName: t.dst
-                            vpiActual: Net name:dst
+                            vpiActual: Variable name:dst
                           RefObj name:s start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.s
                             vpiName: s
@@ -1144,7 +1140,7 @@ Design name:unnamed:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: dst
                                 vpiFullName: t.dst
-                                vpiActual: Net name:dst
+                                vpiActual: Variable name:dst
                               RefObj name:s start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: s
@@ -1192,7 +1188,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:dst.u
                             vpiName: dst
                             vpiFullName: t.dst
-                            vpiActual: Net name:dst
+                            vpiActual: Variable name:dst
                           RefObj name:u start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.u
                             vpiName: u
@@ -1257,7 +1253,7 @@ Design name:unnamed:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: dst
                                 vpiFullName: t.dst
-                                vpiActual: Net name:dst
+                                vpiActual: Variable name:dst
                               RefObj name:u start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: u
@@ -1285,7 +1281,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: src
                   vpiFullName: t.src
-                  vpiActual: Net name:src
+                  vpiActual: Variable name:src
                 vpiRhs Constant start:27:13 end:27:19:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1303,7 +1299,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: dst
                   vpiFullName: t.dst
-                  vpiActual: Net name:dst
+                  vpiActual: Variable name:dst
                 vpiRhs Operation start:28:13 end:28:30:
                   vpiParent: Assignment
                   vpiOpType: assign pattern (87)
@@ -1318,7 +1314,7 @@ Design name:unnamed:
                         vpiParent: TaggedPattern
                         vpiName: src
                         vpiFullName: t.src
-                        vpiActual: Net name:src
+                        vpiActual: Variable name:src
                     TaggedPattern start:28:23 end:28:29:
                       vpiParent: Operation
                       vpiTag RefObj name:u start:28:23 end:28:24:
@@ -1329,7 +1325,7 @@ Design name:unnamed:
                         vpiParent: TaggedPattern
                         vpiName: src
                         vpiFullName: t.src
-                        vpiActual: Net name:src
+                        vpiActual: Variable name:src
               DoWhile start:29:7 end:29:33:
                 vpiParent: Begin
                 vpiCondition Constant start:6:183 end:6:184:
@@ -1357,7 +1353,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:dst.s
                             vpiName: dst
                             vpiFullName: t.dst
-                            vpiActual: Net name:dst
+                            vpiActual: Variable name:dst
                           RefObj name:s start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.s
                             vpiName: s
@@ -1422,7 +1418,7 @@ Design name:unnamed:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: dst
                                 vpiFullName: t.dst
-                                vpiActual: Net name:dst
+                                vpiActual: Variable name:dst
                               RefObj name:s start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.s
                                 vpiName: s
@@ -1470,7 +1466,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:dst.u
                             vpiName: dst
                             vpiFullName: t.dst
-                            vpiActual: Net name:dst
+                            vpiActual: Variable name:dst
                           RefObj name:u start:6:39 end:6:40:
                             vpiParent: HierPath name:dst.u
                             vpiName: u
@@ -1535,7 +1531,7 @@ Design name:unnamed:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: dst
                                 vpiFullName: t.dst
-                                vpiActual: Net name:dst
+                                vpiActual: Variable name:dst
                               RefObj name:u start:6:149 end:6:150:
                                 vpiParent: HierPath name:dst.u
                                 vpiName: u
@@ -1596,7 +1592,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

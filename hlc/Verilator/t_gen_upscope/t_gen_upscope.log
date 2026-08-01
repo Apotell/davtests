@@ -624,7 +624,7 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/t_gen_upscope.v:60:35: Compile generate block "gen".
 [INF:CP0303] $Source01/t_gen_upscope.v:71:1: Compile module "c".
 [INF:CP0303] $Source01/t_gen_upscope.v:78:1: Compile module "tag".
-[ERR:EL0535] $Source01/t_gen_upscope.v:45:61: Illegal implicit net "id:67, name:scope".
+[WRN:CP0350] $Source01/t_gen_upscope.v:45:61: Failed to bind "id:67, name:scope".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -634,7 +634,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_gen_upscope.v
       vpiPreprocFile: "$Output/lib/work/t_gen_upscope.v"
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:t file:$Source01/t_gen_upscope.v start:33:1 end:55:10:
       vpiParent: Design name:unnamed
@@ -642,6 +641,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:38:17 end:38:20:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:38:4 end:38:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:38:21 end:38:22:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -659,13 +677,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:b
             vpiName: b
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:37:10 end:37:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:37:10 end:37:10:
@@ -674,30 +692,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:38:17 end:38:20:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:38:4 end:38:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:38:21 end:38:22:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:35:4 end:35:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:35:4 end:35:7:
+          vpiLowConn RefObj name:clk start:37:10 end:37:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -725,7 +726,7 @@ Design name:unnamed:
                   vpiParent: HierPath name:t.cyc
                   vpiName: cyc
                   vpiFullName: t.cyc
-                  vpiActual: Net name:cyc
+                  vpiActual: Variable name:cyc
             vpiStmt Begin start:43:21 end:46:7:
               vpiParent: EventControl
               vpiFullName: t
@@ -750,7 +751,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:t.cyc
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                       Constant start:44:20 end:44:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -797,7 +798,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:t.cyc
                             vpiName: cyc
                             vpiFullName: t.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                       Constant start:45:20 end:45:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -862,7 +863,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:49:14 end:49:21:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -871,7 +872,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:49:20 end:49:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -892,7 +893,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:50:16 end:50:18:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -952,21 +953,21 @@ Design name:unnamed:
         vpiParent: Module name:b
         vpiName: b
       vpiFullName: b
+      vpiVariable (1 items):
+        Variable name:g start:58:11 end:58:12:
+          vpiParent: Module name:b
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:g
+            vpiFullName: b.g
+          vpiName: g
+          vpiFullName: b.g
       vpiDefName: b
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:b
         vpiName: work
         vpiFullName: b.work
       vpiCell: b
-      vpiNet (1 items):
-        Net name:g start:58:11 end:58:12:
-          vpiParent: Module name:b
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:g
-            vpiFullName: b.g
-          vpiName: g
-          vpiFullName: b.g
       vpiProcess (1 items):
         Always start:65:4 end:68:7:
           vpiParent: Module name:b
@@ -986,7 +987,7 @@ Design name:unnamed:
                   vpiParent: HierPath name:t.cyc
                   vpiName: cyc
                   vpiFullName: b.cyc
-                  vpiActual: Net name:cyc
+                  vpiActual: Variable name:cyc
             vpiStmt Begin start:65:21 end:68:7:
               vpiParent: EventControl
               vpiFullName: b
@@ -1011,7 +1012,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:t.cyc
                             vpiName: cyc
                             vpiFullName: b.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                       Constant start:66:20 end:66:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1058,7 +1059,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:t.cyc
                             vpiName: cyc
                             vpiFullName: b.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                       Constant start:67:20 end:67:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1099,7 +1100,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:tag.scope
                             vpiName: scope
                             vpiFullName: b.scope
-                            vpiActual: Net name:scope
+                            vpiActual: Variable name:scope
           vpiAlwaysType: always (1)
       vpiGenStmt (1 items):
         GenRegion start:59:4 end:64:15:
@@ -1197,7 +1198,7 @@ Design name:unnamed:
         vpiName: c
       vpiFullName: c
       vpiDefName: c
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:c
         vpiName: work
@@ -1222,7 +1223,7 @@ Design name:unnamed:
                   vpiParent: HierPath name:t.cyc
                   vpiName: cyc
                   vpiFullName: c.cyc
-                  vpiActual: Net name:cyc
+                  vpiActual: Variable name:cyc
             vpiStmt Begin start:72:21 end:75:7:
               vpiParent: EventControl
               vpiFullName: c
@@ -1247,7 +1248,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:t.cyc
                             vpiName: cyc
                             vpiFullName: c.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                       Constant start:73:20 end:73:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1294,7 +1295,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:t.cyc
                             vpiName: cyc
                             vpiFullName: c.cyc
-                            vpiActual: Net name:cyc
+                            vpiActual: Variable name:cyc
                       Constant start:74:20 end:74:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1335,7 +1336,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:tag.scope
                             vpiName: scope
                             vpiFullName: c.scope
-                            vpiActual: Net name:scope
+                            vpiActual: Variable name:scope
           vpiAlwaysType: always (1)
     Module name:tag file:$Source01/t_gen_upscope.v start:78:1 end:84:10:
       vpiParent: Design name:unnamed
@@ -1343,6 +1344,16 @@ Design name:unnamed:
         vpiParent: Module name:tag
         vpiName: tag
       vpiFullName: tag
+      vpiVariable (1 items):
+        Variable name:scope start:79:20 end:79:25:
+          vpiParent: Module name:tag
+          vpiTypespec RefTypespec name:bit start:79:4 end:79:19:
+            vpiParent: Variable name:scope
+            vpiName: bit
+            vpiFullName: tag.scope.bit
+            vpiActual: ArrayTypespec
+          vpiName: scope
+          vpiFullName: tag.scope
       vpiTypespec (2 items):
         UnsupportedTypespec name:bit start:79:4 end:79:19:
           vpiParent: Module name:tag
@@ -1409,22 +1420,12 @@ Design name:unnamed:
             vpiFullName: tag.bit
             vpiActual: UnsupportedTypespec name:bit
       vpiDefName: tag
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tag
         vpiName: work
         vpiFullName: tag.work
       vpiCell: tag
-      vpiNet (1 items):
-        Net name:scope start:79:20 end:79:25:
-          vpiParent: Module name:tag
-          vpiTypespec RefTypespec name:bit start:79:4 end:79:19:
-            vpiParent: Net name:scope
-            vpiName: bit
-            vpiFullName: tag.scope.bit
-            vpiActual: ArrayTypespec
-          vpiName: scope
-          vpiFullName: tag.scope
       vpiProcess (1 items):
         Initial start:80:4 end:83:7:
           vpiParent: Module name:tag
@@ -1442,7 +1443,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$sformat
                     vpiName: scope
                     vpiFullName: tag.scope
-                    vpiActual: Net name:scope
+                    vpiActual: Variable name:scope
                   Constant start:81:22 end:81:26:
                     vpiParent: SysFuncCall name:$sformat
                     vpiTypespec RefTypespec:
@@ -1473,7 +1474,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: scope
                     vpiFullName: tag.scope
-                    vpiActual: Net name:scope
+                    vpiActual: Variable name:scope
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1507,8 +1508,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

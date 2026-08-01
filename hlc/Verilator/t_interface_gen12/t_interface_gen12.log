@@ -193,12 +193,10 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/t_interface_gen12.v:10:52: Compile generate block "my_gen_block".
 [INF:CP0303] $Source01/t_interface_gen12.v:16:1: Compile module "bar_module".
 [INF:CP0303] $Source01/t_interface_gen12.v:20:1: Compile module "t".
-[ERR:EL0535] $Source01/t_interface_gen12.v:23:11: Illegal implicit net "id:57, name:foo".
-[ERR:EL0535] $Source01/t_interface_gen12.v:23:15: Illegal implicit net "id:58, name:my_gen_block".
-[ERR:EL0535] $Source01/t_interface_gen12.v:23:31: Illegal implicit net "id:59, name:baz".
-[ERR:EL0535] $Source01/t_interface_gen12.v:24:15: Illegal implicit net "id:70, name:foo".
-[ERR:EL0535] $Source01/t_interface_gen12.v:24:19: Illegal implicit net "id:71, name:my_gen_block".
-[ERR:EL0535] $Source01/t_interface_gen12.v:24:35: Illegal implicit net "id:72, name:baz".
+[WRN:CP0350] $Source01/t_interface_gen12.v:23:11: Failed to bind "id:57, name:foo".
+[WRN:CP0350] $Source01/t_interface_gen12.v:23:31: Failed to bind "id:59, name:baz".
+[WRN:CP0350] $Source01/t_interface_gen12.v:24:15: Failed to bind "id:70, name:foo".
+[WRN:CP0350] $Source01/t_interface_gen12.v:24:35: Failed to bind "id:72, name:baz".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -208,7 +206,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_gen12.v
       vpiPreprocFile: "$Output/lib/work/t_interface_gen12.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:foo_module file:$Source01/t_interface_gen12.v start:8:1 end:14:10:
       vpiParent: Design name:unnamed
@@ -217,7 +214,7 @@ Design name:unnamed:
         vpiName: foo_module
       vpiFullName: foo_module
       vpiDefName: foo_module
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo_module
         vpiName: work
@@ -311,7 +308,6 @@ Design name:unnamed:
                     vpiFullName: foo_module.my_gen_block.baz.logic
                   vpiName: baz
                   vpiFullName: foo_module.my_gen_block.baz
-                  vpiNetType: none (12)
     Module name:bar_module file:$Source01/t_interface_gen12.v start:16:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar_module start:16:8 end:16:18:
@@ -325,7 +321,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:foo_module
             vpiName: foo_module
       vpiDefName: bar_module
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bar_module
         vpiName: work
@@ -353,7 +349,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bar_module
             vpiName: bar_module
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -514,8 +510,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

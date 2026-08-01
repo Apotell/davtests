@@ -633,6 +633,7 @@ n<$Source01/forloops.v> u<618> t<Top_level_rule> c<1> l<1:1> el<26:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/forloops.v:1:1: Compile module "forloops01".
 [INF:CP0303] $Source01/forloops.v:15:1: Compile module "forloops02".
+[ERR:LN0813] $Source01/forloops.v:1:1: Found 8 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -642,7 +643,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: forloops.v
       vpiPreprocFile: "$Output/lib/work/forloops.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:forloops01 file:$Source01/forloops.v start:1:1 end:13:10:
       vpiParent: Design name:unnamed
@@ -650,7 +650,7 @@ Design name:unnamed:
         vpiParent: Module name:forloops01
         vpiName: forloops01
       vpiFullName: forloops01
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:p start:1:54 end:1:55:
           vpiParent: Module name:forloops01
           vpiTypespec RefTypespec start:1:37 end:1:53:
@@ -659,7 +659,14 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: p
           vpiFullName: forloops01.p
-          vpiNetType: none (12)
+        Variable name:k start:2:10 end:2:11:
+          vpiParent: Module name:forloops01
+          vpiTypespec RefTypespec start:2:2 end:2:9:
+            vpiParent: Variable name:k
+            vpiFullName: forloops01.k
+            vpiActual: IntegerTypespec
+          vpiName: k
+          vpiFullName: forloops01.k
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:forloops01
@@ -693,13 +700,13 @@ Design name:unnamed:
           vpiParent: Module name:forloops01
           vpiSigned: true
       vpiDefName: forloops01
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:forloops01
         vpiName: work
         vpiFullName: forloops01.work
       vpiCell: forloops01
-      vpiNet (7 items):
+      vpiNet (1 items):
         Net name:clk start:1:26 end:1:29:
           vpiParent: Module name:forloops01
           vpiTypespec RefTypespec start:1:20 end:1:25:
@@ -709,67 +716,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: forloops01.clk
           vpiNetType: wire (1)
-        Net name:a start:1:31 end:1:32:
-          vpiParent: Module name:forloops01
-          vpiTypespec RefTypespec start:1:31 end:1:31:
-            vpiParent: Net name:a
-            vpiFullName: forloops01.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: forloops01.a
-          vpiNetType: wire (1)
-        Net name:b start:1:34 end:1:35:
-          vpiParent: Module name:forloops01
-          vpiTypespec RefTypespec start:1:34 end:1:34:
-            vpiParent: Net name:b
-            vpiFullName: forloops01.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: forloops01.b
-          vpiNetType: wire (1)
-        Net name:q start:1:57 end:1:58:
-          vpiParent: Module name:forloops01
-          vpiTypespec RefTypespec start:1:57 end:1:57:
-            vpiParent: Net name:q
-            vpiFullName: forloops01.q
-            vpiActual: LogicTypespec
-          vpiName: q
-          vpiFullName: forloops01.q
-          vpiNetType: wire (1)
-        Net name:x start:1:60 end:1:61:
-          vpiParent: Module name:forloops01
-          vpiTypespec RefTypespec start:1:60 end:1:60:
-            vpiParent: Net name:x
-            vpiFullName: forloops01.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: forloops01.x
-          vpiNetType: wire (1)
-        Net name:y start:1:63 end:1:64:
-          vpiParent: Module name:forloops01
-          vpiTypespec RefTypespec start:1:63 end:1:63:
-            vpiParent: Net name:y
-            vpiFullName: forloops01.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: forloops01.y
-          vpiNetType: wire (1)
-        Net name:k start:2:10 end:2:11:
-          vpiParent: Module name:forloops01
-          vpiTypespec RefTypespec start:2:2 end:2:9:
-            vpiParent: Net name:k
-            vpiFullName: forloops01.k
-            vpiActual: IntegerTypespec
-          vpiName: k
-          vpiFullName: forloops01.k
       vpiPort (7 items):
         Port name:clk start:1:26 end:1:29:
           vpiParent: Module name:forloops01
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:26 end:1:29:
+          vpiLowConn RefObj name:clk start:1:26 end:1:29:
             vpiParent: Port name:clk
-            vpiFullName: forloops01.clk
+            vpiName: clk
+            vpiFullName: forloops01.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:20 end:1:25:
             vpiParent: Port name:clk
@@ -779,33 +734,18 @@ Design name:unnamed:
           vpiParent: Module name:forloops01
           vpiName: a
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:31 end:1:32:
-            vpiParent: Port name:a
-            vpiFullName: forloops01.a
-            vpiActual: Net name:a
-          vpiTypespec RefTypespec start:1:31 end:1:31:
-            vpiParent: Port name:a
-            vpiFullName: forloops01.a
-            vpiActual: LogicTypespec
         Port name:b start:1:34 end:1:35:
           vpiParent: Module name:forloops01
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:34 end:1:35:
-            vpiParent: Port name:b
-            vpiFullName: forloops01.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:1:34 end:1:34:
-            vpiParent: Port name:b
-            vpiFullName: forloops01.b
-            vpiActual: LogicTypespec
         Port name:p start:1:54 end:1:55:
           vpiParent: Module name:forloops01
           vpiName: p
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:54 end:1:55:
+          vpiLowConn RefObj name:p start:1:54 end:1:55:
             vpiParent: Port name:p
-            vpiFullName: forloops01.p
+            vpiName: p
+            vpiFullName: forloops01.p.p
             vpiActual: Variable name:p
           vpiTypespec RefTypespec start:1:37 end:1:53:
             vpiParent: Port name:p
@@ -815,38 +755,14 @@ Design name:unnamed:
           vpiParent: Module name:forloops01
           vpiName: q
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:57 end:1:58:
-            vpiParent: Port name:q
-            vpiFullName: forloops01.q
-            vpiActual: Net name:q
-          vpiTypespec RefTypespec start:1:57 end:1:57:
-            vpiParent: Port name:q
-            vpiFullName: forloops01.q
-            vpiActual: LogicTypespec
         Port name:x start:1:60 end:1:61:
           vpiParent: Module name:forloops01
           vpiName: x
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:60 end:1:61:
-            vpiParent: Port name:x
-            vpiFullName: forloops01.x
-            vpiActual: Net name:x
-          vpiTypespec RefTypespec start:1:60 end:1:60:
-            vpiParent: Port name:x
-            vpiFullName: forloops01.x
-            vpiActual: LogicTypespec
         Port name:y start:1:63 end:1:64:
           vpiParent: Module name:forloops01
           vpiName: y
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:63 end:1:64:
-            vpiParent: Port name:y
-            vpiFullName: forloops01.y
-            vpiActual: Net name:y
-          vpiTypespec RefTypespec start:1:63 end:1:63:
-            vpiParent: Port name:y
-            vpiFullName: forloops01.y
-            vpiActual: LogicTypespec
       vpiProcess (2 items):
         Always start:3:2 end:7:5:
           vpiParent: Module name:forloops01
@@ -876,7 +792,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       vpiRhs Constant start:4:10 end:4:11:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -895,7 +811,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       vpiRhs Operation start:4:20 end:4:23:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -904,7 +820,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: k
                             vpiFullName: forloops01.k
-                            vpiActual: Net name:k
+                            vpiActual: Variable name:k
                           Constant start:4:22 end:4:23:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -923,7 +839,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       Constant start:4:15 end:4:16:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -965,7 +881,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: k
                             vpiFullName: forloops01.p[2*k+:2].k
-                            vpiActual: Net name:k
+                            vpiActual: Variable name:k
                       vpiWidthExpr Constant start:5:13 end:5:14:
                         vpiParent: IndexedPartSelect name:p[2*k+:2]
                         vpiTypespec RefTypespec:
@@ -988,12 +904,12 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: a
                               vpiFullName: forloops01.a
-                              vpiActual: Net name:a
+                              vpiActual: Port name:a
                             RefObj name:b start:5:22 end:5:23:
                               vpiParent: Operation
                               vpiName: b
                               vpiFullName: forloops01.b
-                              vpiActual: Net name:b
+                              vpiActual: Port name:b
                         Operation start:5:27 end:5:33:
                           vpiParent: Operation
                           vpiOpType: multi-concatenation (34)
@@ -1016,14 +932,14 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: k
                                   vpiFullName: forloops01.k
-                                  vpiActual: Net name:k
+                                  vpiActual: Variable name:k
                 Assignment start:6:3 end:6:18:
                   vpiParent: Begin
                   vpiLhs RefObj name:x start:6:3 end:6:4:
                     vpiParent: Assignment
                     vpiName: x
                     vpiFullName: forloops01.x
-                    vpiActual: Net name:x
+                    vpiActual: Port name:x
                   vpiRhs Operation start:6:8 end:6:18:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1032,7 +948,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       Operation start:6:12 end:6:18:
                         vpiParent: Operation
                         vpiOpType: concatenation (33)
@@ -1041,12 +957,12 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: a
                             vpiFullName: forloops01.a
-                            vpiActual: Net name:a
+                            vpiActual: Port name:a
                           RefObj name:b start:6:16 end:6:17:
                             vpiParent: Operation
                             vpiName: b
                             vpiFullName: forloops01.b
-                            vpiActual: Net name:b
+                            vpiActual: Port name:b
           vpiAlwaysType: always (1)
         Always start:8:2 end:12:5:
           vpiParent: Module name:forloops01
@@ -1067,7 +983,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       vpiRhs Constant start:9:10 end:9:11:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1086,7 +1002,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       vpiRhs Operation start:9:20 end:9:23:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -1095,7 +1011,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: k
                             vpiFullName: forloops01.k
-                            vpiActual: Net name:k
+                            vpiActual: Variable name:k
                           Constant start:9:22 end:9:23:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -1114,7 +1030,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       Constant start:9:15 end:9:16:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1136,12 +1052,12 @@ Design name:unnamed:
                         vpiParent: BitSelect name:q[k]
                         vpiName: q
                         vpiFullName: forloops01.q
-                        vpiActual: Net name:q
+                        vpiActual: Port name:q
                       vpiIndex RefObj name:k start:10:6 end:10:7:
                         vpiParent: BitSelect name:q[k]
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                     vpiRhs Operation start:10:11 end:10:35:
                       vpiParent: Assignment
                       vpiOpType: logical shift right (23)
@@ -1158,7 +1074,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: a
                                   vpiFullName: forloops01.a
-                                  vpiActual: Net name:a
+                                  vpiActual: Port name:a
                             Operation start:10:16 end:10:18:
                               vpiParent: Operation
                               vpiOpType: bitwise negation (4)
@@ -1167,17 +1083,17 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: b
                                   vpiFullName: forloops01.b
-                                  vpiActual: Net name:b
+                                  vpiActual: Port name:b
                             RefObj name:a start:10:20 end:10:21:
                               vpiParent: Operation
                               vpiName: a
                               vpiFullName: forloops01.a
-                              vpiActual: Net name:a
+                              vpiActual: Port name:a
                             RefObj name:b start:10:23 end:10:24:
                               vpiParent: Operation
                               vpiName: b
                               vpiFullName: forloops01.b
-                              vpiActual: Net name:b
+                              vpiActual: Port name:b
                         PartSelect name:k[1:0] start:10:29 end:10:35:
                           vpiParent: Operation
                           vpiName: k[1:0]
@@ -1186,7 +1102,7 @@ Design name:unnamed:
                             vpiParent: PartSelect name:k[1:0]
                             vpiName: k
                             vpiFullName: forloops01.k[1:0].k
-                            vpiActual: Net name:k
+                            vpiActual: Variable name:k
                           vpiRange Range start:10:31 end:10:34:
                             vpiParent: PartSelect name:k[1:0]
                             vpiLeftRange Constant start:10:31 end:10:32:
@@ -1216,7 +1132,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y
                     vpiFullName: forloops01.y
-                    vpiActual: Net name:y
+                    vpiActual: Port name:y
                   vpiRhs Operation start:11:7 end:11:17:
                     vpiParent: Assignment
                     vpiOpType: subtract (11)
@@ -1225,7 +1141,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: k
                         vpiFullName: forloops01.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       Operation start:11:11 end:11:17:
                         vpiParent: Operation
                         vpiOpType: concatenation (33)
@@ -1234,12 +1150,12 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: a
                             vpiFullName: forloops01.a
-                            vpiActual: Net name:a
+                            vpiActual: Port name:a
                           RefObj name:b start:11:15 end:11:16:
                             vpiParent: Operation
                             vpiName: b
                             vpiFullName: forloops01.b
-                            vpiActual: Net name:b
+                            vpiActual: Port name:b
           vpiAlwaysType: always (1)
     Module name:forloops02 file:$Source01/forloops.v start:15:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -1247,7 +1163,7 @@ Design name:unnamed:
         vpiParent: Module name:forloops02
         vpiName: forloops02
       vpiFullName: forloops02
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:q start:15:54 end:15:55:
           vpiParent: Module name:forloops02
           vpiTypespec RefTypespec start:15:37 end:15:53:
@@ -1256,7 +1172,14 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: forloops02.q
-          vpiNetType: none (12)
+        Variable name:k start:16:10 end:16:11:
+          vpiParent: Module name:forloops02
+          vpiTypespec RefTypespec start:16:2 end:16:9:
+            vpiParent: Variable name:k
+            vpiFullName: forloops02.k
+            vpiActual: IntegerTypespec
+          vpiName: k
+          vpiFullName: forloops02.k
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:forloops02
@@ -1316,13 +1239,13 @@ Design name:unnamed:
           vpiParent: Module name:forloops02
           vpiSigned: true
       vpiDefName: forloops02
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:forloops02
         vpiName: work
         vpiFullName: forloops02.work
       vpiCell: forloops02
-      vpiNet (6 items):
+      vpiNet (2 items):
         Net name:clk start:15:26 end:15:29:
           vpiParent: Module name:forloops02
           vpiTypespec RefTypespec start:15:20 end:15:25:
@@ -1331,33 +1254,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: forloops02.clk
-          vpiNetType: wire (1)
-        Net name:a start:15:31 end:15:32:
-          vpiParent: Module name:forloops02
-          vpiTypespec RefTypespec start:15:31 end:15:31:
-            vpiParent: Net name:a
-            vpiFullName: forloops02.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: forloops02.a
-          vpiNetType: wire (1)
-        Net name:b start:15:34 end:15:35:
-          vpiParent: Module name:forloops02
-          vpiTypespec RefTypespec start:15:34 end:15:34:
-            vpiParent: Net name:b
-            vpiFullName: forloops02.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: forloops02.b
-          vpiNetType: wire (1)
-        Net name:x start:15:57 end:15:58:
-          vpiParent: Module name:forloops02
-          vpiTypespec RefTypespec start:15:57 end:15:57:
-            vpiParent: Net name:x
-            vpiFullName: forloops02.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: forloops02.x
           vpiNetType: wire (1)
         Net name:y start:15:73 end:15:74:
           vpiParent: Module name:forloops02
@@ -1368,22 +1264,15 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: forloops02.y
           vpiNetType: wire (1)
-        Net name:k start:16:10 end:16:11:
-          vpiParent: Module name:forloops02
-          vpiTypespec RefTypespec start:16:2 end:16:9:
-            vpiParent: Net name:k
-            vpiFullName: forloops02.k
-            vpiActual: IntegerTypespec
-          vpiName: k
-          vpiFullName: forloops02.k
       vpiPort (6 items):
         Port name:clk start:15:26 end:15:29:
           vpiParent: Module name:forloops02
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:15:26 end:15:29:
+          vpiLowConn RefObj name:clk start:15:26 end:15:29:
             vpiParent: Port name:clk
-            vpiFullName: forloops02.clk
+            vpiName: clk
+            vpiFullName: forloops02.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:15:20 end:15:25:
             vpiParent: Port name:clk
@@ -1393,33 +1282,18 @@ Design name:unnamed:
           vpiParent: Module name:forloops02
           vpiName: a
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:31 end:15:32:
-            vpiParent: Port name:a
-            vpiFullName: forloops02.a
-            vpiActual: Net name:a
-          vpiTypespec RefTypespec start:15:31 end:15:31:
-            vpiParent: Port name:a
-            vpiFullName: forloops02.a
-            vpiActual: LogicTypespec
         Port name:b start:15:34 end:15:35:
           vpiParent: Module name:forloops02
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:34 end:15:35:
-            vpiParent: Port name:b
-            vpiFullName: forloops02.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:15:34 end:15:34:
-            vpiParent: Port name:b
-            vpiFullName: forloops02.b
-            vpiActual: LogicTypespec
         Port name:q start:15:54 end:15:55:
           vpiParent: Module name:forloops02
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:54 end:15:55:
+          vpiLowConn RefObj name:q start:15:54 end:15:55:
             vpiParent: Port name:q
-            vpiFullName: forloops02.q
+            vpiName: q
+            vpiFullName: forloops02.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:15:37 end:15:53:
             vpiParent: Port name:q
@@ -1429,21 +1303,14 @@ Design name:unnamed:
           vpiParent: Module name:forloops02
           vpiName: x
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:57 end:15:58:
-            vpiParent: Port name:x
-            vpiFullName: forloops02.x
-            vpiActual: Net name:x
-          vpiTypespec RefTypespec start:15:57 end:15:57:
-            vpiParent: Port name:x
-            vpiFullName: forloops02.x
-            vpiActual: LogicTypespec
         Port name:y start:15:73 end:15:74:
           vpiParent: Module name:forloops02
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:15:73 end:15:74:
+          vpiLowConn RefObj name:y start:15:73 end:15:74:
             vpiParent: Port name:y
-            vpiFullName: forloops02.y
+            vpiName: y
+            vpiFullName: forloops02.y.y
             vpiActual: Net name:y
           vpiTypespec RefTypespec start:15:60 end:15:72:
             vpiParent: Port name:y
@@ -1469,7 +1336,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: k
                         vpiFullName: forloops02.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       vpiRhs Constant start:18:10 end:18:11:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -1488,7 +1355,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: k
                         vpiFullName: forloops02.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       vpiRhs Operation start:18:20 end:18:23:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -1497,7 +1364,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: k
                             vpiFullName: forloops02.k
-                            vpiActual: Net name:k
+                            vpiActual: Variable name:k
                           Constant start:18:22 end:18:23:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -1516,7 +1383,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: k
                         vpiFullName: forloops02.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       Constant start:18:15 end:18:16:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1543,7 +1410,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:q[k]
                         vpiName: k
                         vpiFullName: forloops02.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                     vpiRhs Operation start:19:11 end:19:35:
                       vpiParent: Assignment
                       vpiOpType: logical shift right (23)
@@ -1560,7 +1427,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: a
                                   vpiFullName: forloops02.a
-                                  vpiActual: Net name:a
+                                  vpiActual: Port name:a
                             Operation start:19:16 end:19:18:
                               vpiParent: Operation
                               vpiOpType: bitwise negation (4)
@@ -1569,17 +1436,17 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: b
                                   vpiFullName: forloops02.b
-                                  vpiActual: Net name:b
+                                  vpiActual: Port name:b
                             RefObj name:a start:19:20 end:19:21:
                               vpiParent: Operation
                               vpiName: a
                               vpiFullName: forloops02.a
-                              vpiActual: Net name:a
+                              vpiActual: Port name:a
                             RefObj name:b start:19:23 end:19:24:
                               vpiParent: Operation
                               vpiName: b
                               vpiFullName: forloops02.b
-                              vpiActual: Net name:b
+                              vpiActual: Port name:b
                         PartSelect name:k[1:0] start:19:29 end:19:35:
                           vpiParent: Operation
                           vpiName: k[1:0]
@@ -1588,7 +1455,7 @@ Design name:unnamed:
                             vpiParent: PartSelect name:k[1:0]
                             vpiName: k
                             vpiFullName: forloops02.k[1:0].k
-                            vpiActual: Net name:k
+                            vpiActual: Variable name:k
                           vpiRange Range start:19:31 end:19:34:
                             vpiParent: PartSelect name:k[1:0]
                             vpiLeftRange Constant start:19:31 end:19:32:
@@ -1627,7 +1494,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: x
                     vpiFullName: forloops02.x
-                    vpiActual: Net name:x
+                    vpiActual: Port name:x
                   vpiRhs Operation start:22:7 end:22:17:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1636,7 +1503,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: k
                         vpiFullName: forloops02.k
-                        vpiActual: Net name:k
+                        vpiActual: Variable name:k
                       Operation start:22:11 end:22:17:
                         vpiParent: Operation
                         vpiOpType: concatenation (33)
@@ -1645,12 +1512,12 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: a
                             vpiFullName: forloops02.a
-                            vpiActual: Net name:a
+                            vpiActual: Port name:a
                           RefObj name:b start:22:15 end:22:16:
                             vpiParent: Operation
                             vpiName: b
                             vpiFullName: forloops02.b
-                            vpiActual: Net name:b
+                            vpiActual: Port name:b
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:24:9 end:24:23:
@@ -1668,7 +1535,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: k
                 vpiFullName: forloops02.k
-                vpiActual: Net name:k
+                vpiActual: Variable name:k
               Operation start:24:17 end:24:23:
                 vpiParent: Operation
                 vpiOpType: concatenation (33)
@@ -1677,12 +1544,12 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: a
                     vpiFullName: forloops02.a
-                    vpiActual: Net name:a
+                    vpiActual: Port name:a
                   RefObj name:b start:24:21 end:24:22:
                     vpiParent: Operation
                     vpiName: b
                     vpiFullName: forloops02.b
-                    vpiActual: Net name:b
+                    vpiActual: Port name:b
   vpiTypespec (3 items):
     ModuleTypespec name:forloops01:
       vpiParent: Design name:unnamed
@@ -1702,7 +1569,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1747,7 +1614,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/forloops/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             247     247       0         0
+Others                             215     215       0         0
 ----------------------------------------------------------------
-                                   247     247       0         0
+                                   215     215       0         0
 ===================== END REDUCTION RESULT =====================

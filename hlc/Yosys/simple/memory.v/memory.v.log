@@ -4302,6 +4302,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/simple/memory.v:249:1: Compile module "memtest11".
 [INF:CP0303] $Source01/simple/memory.v:269:1: Compile module "memtest12".
 [INF:CP0303] $Source01/simple/memory.v:282:1: Compile module "memtest13".
+[ERR:LN0813] $Source01/simple/memory.v:1:1: Found 16 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -4311,7 +4312,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: memory.v
       vpiPreprocFile: "$Output/lib/work/simple/memory.v"
-      vpiDefNetType: none (12)
   vpiAllModules (15 items):
     Module name:memtest00 file:$Source01/simple/memory.v start:2:1 end:15:10:
       vpiParent: Design name:unnamed
@@ -4319,6 +4319,16 @@ Design name:unnamed:
         vpiParent: Module name:memtest00
         vpiName: memtest00
       vpiFullName: memtest00
+      vpiVariable (1 items):
+        Variable name:mem start:6:5 end:6:8:
+          vpiParent: Module name:memtest00
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memtest00.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memtest00.mem
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:memtest00
@@ -4352,13 +4362,13 @@ Design name:unnamed:
             vpiFullName: memtest00
             vpiActual: LogicTypespec
       vpiDefName: memtest00
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest00
         vpiName: work
         vpiFullName: memtest00.work
       vpiCell: memtest00
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:clk start:4:7 end:4:10:
           vpiParent: Module name:memtest00
           vpiTypespec RefTypespec start:4:7 end:4:7:
@@ -4367,6 +4377,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest00.clk
+          vpiNetType: wire (1)
         Net name:setA start:4:12 end:4:16:
           vpiParent: Module name:memtest00
           vpiTypespec RefTypespec start:4:7 end:4:7:
@@ -4375,6 +4386,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: setA
           vpiFullName: memtest00.setA
+          vpiNetType: wire (1)
         Net name:setB start:4:18 end:4:22:
           vpiParent: Module name:memtest00
           vpiTypespec RefTypespec start:4:7 end:4:7:
@@ -4383,6 +4395,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: setB
           vpiFullName: memtest00.setB
+          vpiNetType: wire (1)
         Net name:y start:5:8 end:5:9:
           vpiParent: Module name:memtest00
           vpiTypespec RefTypespec start:5:8 end:5:8:
@@ -4391,20 +4404,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: memtest00.y
-        Net name:mem start:6:5 end:6:8:
-          vpiParent: Module name:memtest00
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memtest00.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memtest00.mem
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clk start:2:18 end:2:21:
           vpiParent: Module name:memtest00
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:2:18 end:2:21:
+          vpiLowConn RefObj name:clk start:4:7 end:4:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest00.clk.clk
@@ -4417,7 +4423,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest00
           vpiName: setA
           vpiDirection: input (1)
-          vpiLowConn RefObj name:setA start:2:23 end:2:27:
+          vpiLowConn RefObj name:setA start:4:12 end:4:16:
             vpiParent: Port name:setA
             vpiName: setA
             vpiFullName: memtest00.setA.setA
@@ -4430,7 +4436,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest00
           vpiName: setB
           vpiDirection: input (1)
-          vpiLowConn RefObj name:setB start:2:29 end:2:33:
+          vpiLowConn RefObj name:setB start:4:18 end:4:22:
             vpiParent: Port name:setB
             vpiName: setB
             vpiFullName: memtest00.setB.setB
@@ -4443,7 +4449,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest00
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y start:2:35 end:2:36:
+          vpiLowConn RefObj name:y start:5:8 end:5:9:
             vpiParent: Port name:y
             vpiName: y
             vpiFullName: memtest00.y.y
@@ -4487,7 +4493,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[0]
                         vpiName: mem
                         vpiFullName: memtest00.mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex Constant start:9:16 end:9:17:
                         vpiParent: BitSelect name:mem[0]
                         vpiTypespec RefTypespec:
@@ -4525,7 +4531,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[0]
                         vpiName: mem
                         vpiFullName: memtest00.mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex Constant start:10:16 end:10:17:
                         vpiParent: BitSelect name:mem[0]
                         vpiTypespec RefTypespec:
@@ -4563,7 +4569,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:mem[0]
               vpiName: mem
               vpiFullName: memtest00.mem
-              vpiActual: Net name:mem
+              vpiActual: Variable name:mem
             vpiIndex Constant start:13:16 end:13:17:
               vpiParent: BitSelect name:mem[0]
               vpiTypespec RefTypespec:
@@ -4580,6 +4586,24 @@ Design name:unnamed:
         vpiParent: Module name:memtest01
         vpiName: memtest01
       vpiFullName: memtest01
+      vpiVariable (2 items):
+        Variable name:rd_value start:24:18 end:24:26:
+          vpiParent: Module name:memtest01
+          vpiTypespec RefTypespec start:24:8 end:24:17:
+            vpiParent: Variable name:rd_value
+            vpiFullName: memtest01.rd_value
+            vpiActual: LogicTypespec
+          vpiName: rd_value
+          vpiFullName: memtest01.rd_value
+        Variable name:data start:26:11 end:26:15:
+          vpiParent: Module name:memtest01
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:data
+            vpiFullName: memtest01.data
+            vpiActual: ArrayTypespec
+          vpiName: data
+          vpiFullName: memtest01.data
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:memtest01
@@ -4717,13 +4741,13 @@ Design name:unnamed:
             vpiFullName: memtest01
             vpiActual: LogicTypespec
       vpiDefName: memtest01
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest01
         vpiName: work
         vpiFullName: memtest01.work
       vpiCell: memtest01
-      vpiNet (7 items):
+      vpiNet (5 items):
         Net name:clk start:21:7 end:21:10:
           vpiParent: Module name:memtest01
           vpiTypespec RefTypespec start:21:7 end:21:7:
@@ -4732,6 +4756,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest01.clk
+          vpiNetType: wire (1)
         Net name:wr_en start:21:12 end:21:17:
           vpiParent: Module name:memtest01
           vpiTypespec RefTypespec start:21:7 end:21:7:
@@ -4740,6 +4765,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_en
           vpiFullName: memtest01.wr_en
+          vpiNetType: wire (1)
         Net name:wr_addr start:22:13 end:22:20:
           vpiParent: Module name:memtest01
           vpiTypespec RefTypespec start:22:7 end:22:12:
@@ -4748,14 +4774,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_addr
           vpiFullName: memtest01.wr_addr
-        Net name:wr_value start:23:13 end:23:21:
-          vpiParent: Module name:memtest01
-          vpiTypespec RefTypespec start:23:7 end:23:12:
-            vpiParent: Net name:wr_value
-            vpiFullName: memtest01.wr_value
-            vpiActual: LogicTypespec
-          vpiName: wr_value
-          vpiFullName: memtest01.wr_value
+          vpiNetType: wire (1)
         Net name:rd_addr start:22:22 end:22:29:
           vpiParent: Module name:memtest01
           vpiTypespec RefTypespec start:22:7 end:22:12:
@@ -4764,29 +4783,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_addr
           vpiFullName: memtest01.rd_addr
-        Net name:rd_value start:24:18 end:24:26:
+          vpiNetType: wire (1)
+        Net name:wr_value start:23:13 end:23:21:
           vpiParent: Module name:memtest01
-          vpiTypespec RefTypespec start:24:8 end:24:17:
-            vpiParent: Net name:rd_value
-            vpiFullName: memtest01.rd_value
+          vpiTypespec RefTypespec start:23:7 end:23:12:
+            vpiParent: Net name:wr_value
+            vpiFullName: memtest01.wr_value
             vpiActual: LogicTypespec
-          vpiName: rd_value
-          vpiFullName: memtest01.rd_value
-          vpiNetType: reg (48)
-        Net name:data start:26:11 end:26:15:
-          vpiParent: Module name:memtest01
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:data
-            vpiFullName: memtest01.data
-            vpiActual: ArrayTypespec
-          vpiName: data
-          vpiFullName: memtest01.data
+          vpiName: wr_value
+          vpiFullName: memtest01.wr_value
+          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:clk start:19:18 end:19:21:
           vpiParent: Module name:memtest01
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:19:18 end:19:21:
+          vpiLowConn RefObj name:clk start:21:7 end:21:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest01.clk.clk
@@ -4799,7 +4811,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest01
           vpiName: wr_en
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_en start:19:23 end:19:28:
+          vpiLowConn RefObj name:wr_en start:21:12 end:21:17:
             vpiParent: Port name:wr_en
             vpiName: wr_en
             vpiFullName: memtest01.wr_en.wr_en
@@ -4812,7 +4824,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest01
           vpiName: wr_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_addr start:19:30 end:19:37:
+          vpiLowConn RefObj name:wr_addr start:22:13 end:22:20:
             vpiParent: Port name:wr_addr
             vpiName: wr_addr
             vpiFullName: memtest01.wr_addr.wr_addr
@@ -4825,7 +4837,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest01
           vpiName: wr_value
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_value start:19:39 end:19:47:
+          vpiLowConn RefObj name:wr_value start:23:13 end:23:21:
             vpiParent: Port name:wr_value
             vpiName: wr_value
             vpiFullName: memtest01.wr_value.wr_value
@@ -4838,7 +4850,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest01
           vpiName: rd_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rd_addr start:19:49 end:19:56:
+          vpiLowConn RefObj name:rd_addr start:22:22 end:22:29:
             vpiParent: Port name:rd_addr
             vpiName: rd_addr
             vpiFullName: memtest01.rd_addr.rd_addr
@@ -4851,11 +4863,11 @@ Design name:unnamed:
           vpiParent: Module name:memtest01
           vpiName: rd_value
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rd_value start:19:58 end:19:66:
+          vpiLowConn RefObj name:rd_value start:24:18 end:24:26:
             vpiParent: Port name:rd_value
             vpiName: rd_value
             vpiFullName: memtest01.rd_value.rd_value
-            vpiActual: Net name:rd_value
+            vpiActual: Variable name:rd_value
           vpiTypespec RefTypespec start:24:8 end:24:17:
             vpiParent: Port name:rd_value
             vpiFullName: memtest01.rd_value
@@ -4891,7 +4903,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:data[wr_addr]
                     vpiName: data
                     vpiFullName: memtest01.data
-                    vpiActual: Net name:data
+                    vpiActual: Variable name:data
                   vpiIndex RefObj name:wr_addr start:30:8 end:30:15:
                     vpiParent: BitSelect name:data[wr_addr]
                     vpiName: wr_addr
@@ -4922,7 +4934,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: rd_value
                 vpiFullName: memtest01.rd_value
-                vpiActual: Net name:rd_value
+                vpiActual: Variable name:rd_value
               vpiRhs BitSelect name:data[rd_addr] start:33:14 end:33:27:
                 vpiParent: Assignment
                 vpiName: data[rd_addr]
@@ -4931,7 +4943,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:data[rd_addr]
                   vpiName: data
                   vpiFullName: memtest01.data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiIndex RefObj name:rd_addr start:33:19 end:33:26:
                   vpiParent: BitSelect name:data[rd_addr]
                   vpiName: rd_addr
@@ -4944,6 +4956,41 @@ Design name:unnamed:
         vpiParent: Module name:memtest02
         vpiName: memtest02
       vpiFullName: memtest02
+      vpiVariable (4 items):
+        Variable name:y1 start:44:12 end:44:14:
+          vpiParent: Module name:memtest02
+          vpiTypespec RefTypespec start:44:8 end:44:11:
+            vpiParent: Variable name:y1
+            vpiFullName: memtest02.y1
+            vpiActual: LogicTypespec
+          vpiName: y1
+          vpiFullName: memtest02.y1
+        Variable name:y2 start:44:16 end:44:18:
+          vpiParent: Module name:memtest02
+          vpiTypespec RefTypespec start:44:8 end:44:11:
+            vpiParent: Variable name:y2
+            vpiFullName: memtest02.y2
+            vpiActual: LogicTypespec
+          vpiName: y2
+          vpiFullName: memtest02.y2
+        Variable name:mem1 start:47:11 end:47:15:
+          vpiParent: Module name:memtest02
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem1
+            vpiFullName: memtest02.mem1
+            vpiActual: ArrayTypespec
+          vpiName: mem1
+          vpiFullName: memtest02.mem1
+          vpiVector: true
+        Variable name:mem2 start:50:11 end:50:15:
+          vpiParent: Module name:memtest02
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem2
+            vpiFullName: memtest02.mem2
+            vpiActual: ArrayTypespec
+          vpiName: mem2
+          vpiFullName: memtest02.mem2
+          vpiVector: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:memtest02
@@ -5114,13 +5161,13 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: mem2reg
       vpiDefName: memtest02
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest02
         vpiName: work
         vpiFullName: memtest02.work
       vpiCell: memtest02
-      vpiNet (11 items):
+      vpiNet (7 items):
         Net name:clk start:41:7 end:41:10:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:41:7 end:41:7:
@@ -5129,6 +5176,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest02.clk
+          vpiNetType: wire (1)
         Net name:setA start:41:12 end:41:16:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:41:7 end:41:7:
@@ -5137,6 +5185,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: setA
           vpiFullName: memtest02.setA
+          vpiNetType: wire (1)
         Net name:setB start:41:18 end:41:22:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:41:7 end:41:7:
@@ -5145,6 +5194,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: setB
           vpiFullName: memtest02.setB
+          vpiNetType: wire (1)
         Net name:addr start:42:13 end:42:17:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:42:7 end:42:12:
@@ -5153,6 +5203,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr
           vpiFullName: memtest02.addr
+          vpiNetType: wire (1)
         Net name:bit start:43:13 end:43:16:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:43:7 end:43:12:
@@ -5161,24 +5212,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: bit
           vpiFullName: memtest02.bit
-        Net name:y1 start:44:12 end:44:14:
-          vpiParent: Module name:memtest02
-          vpiTypespec RefTypespec start:44:8 end:44:11:
-            vpiParent: Net name:y1
-            vpiFullName: memtest02.y1
-            vpiActual: LogicTypespec
-          vpiName: y1
-          vpiFullName: memtest02.y1
-          vpiNetType: reg (48)
-        Net name:y2 start:44:16 end:44:18:
-          vpiParent: Module name:memtest02
-          vpiTypespec RefTypespec start:44:8 end:44:11:
-            vpiParent: Net name:y2
-            vpiFullName: memtest02.y2
-            vpiActual: LogicTypespec
-          vpiName: y2
-          vpiFullName: memtest02.y2
-          vpiNetType: reg (48)
+          vpiNetType: wire (1)
         Net name:y3 start:45:8 end:45:10:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:45:8 end:45:8:
@@ -5187,6 +5221,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y3
           vpiFullName: memtest02.y3
+          vpiNetType: wire (1)
         Net name:y4 start:45:12 end:45:14:
           vpiParent: Module name:memtest02
           vpiTypespec RefTypespec start:45:8 end:45:8:
@@ -5195,28 +5230,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y4
           vpiFullName: memtest02.y4
-        Net name:mem1 start:47:11 end:47:15:
-          vpiParent: Module name:memtest02
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem1
-            vpiFullName: memtest02.mem1
-            vpiActual: ArrayTypespec
-          vpiName: mem1
-          vpiFullName: memtest02.mem1
-        Net name:mem2 start:50:11 end:50:15:
-          vpiParent: Module name:memtest02
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem2
-            vpiFullName: memtest02.mem2
-            vpiActual: ArrayTypespec
-          vpiName: mem2
-          vpiFullName: memtest02.mem2
+          vpiNetType: wire (1)
       vpiPort (9 items):
         Port name:clk start:39:18 end:39:21:
           vpiParent: Module name:memtest02
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:39:18 end:39:21:
+          vpiLowConn RefObj name:clk start:41:7 end:41:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest02.clk.clk
@@ -5229,7 +5249,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: setA
           vpiDirection: input (1)
-          vpiLowConn RefObj name:setA start:39:23 end:39:27:
+          vpiLowConn RefObj name:setA start:41:12 end:41:16:
             vpiParent: Port name:setA
             vpiName: setA
             vpiFullName: memtest02.setA.setA
@@ -5242,7 +5262,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: setB
           vpiDirection: input (1)
-          vpiLowConn RefObj name:setB start:39:29 end:39:33:
+          vpiLowConn RefObj name:setB start:41:18 end:41:22:
             vpiParent: Port name:setB
             vpiName: setB
             vpiFullName: memtest02.setB.setB
@@ -5255,7 +5275,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:addr start:39:35 end:39:39:
+          vpiLowConn RefObj name:addr start:42:13 end:42:17:
             vpiParent: Port name:addr
             vpiName: addr
             vpiFullName: memtest02.addr.addr
@@ -5268,7 +5288,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: bit
           vpiDirection: input (1)
-          vpiLowConn RefObj name:bit start:39:41 end:39:44:
+          vpiLowConn RefObj name:bit start:43:13 end:43:16:
             vpiParent: Port name:bit
             vpiName: bit
             vpiFullName: memtest02.bit.bit
@@ -5281,11 +5301,11 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: y1
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y1 start:39:46 end:39:48:
+          vpiLowConn RefObj name:y1 start:44:12 end:44:14:
             vpiParent: Port name:y1
             vpiName: y1
             vpiFullName: memtest02.y1.y1
-            vpiActual: Net name:y1
+            vpiActual: Variable name:y1
           vpiTypespec RefTypespec start:44:8 end:44:11:
             vpiParent: Port name:y1
             vpiFullName: memtest02.y1
@@ -5294,11 +5314,11 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: y2
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y2 start:39:50 end:39:52:
+          vpiLowConn RefObj name:y2 start:44:16 end:44:18:
             vpiParent: Port name:y2
             vpiName: y2
             vpiFullName: memtest02.y2.y2
-            vpiActual: Net name:y2
+            vpiActual: Variable name:y2
           vpiTypespec RefTypespec start:44:8 end:44:11:
             vpiParent: Port name:y2
             vpiFullName: memtest02.y2
@@ -5307,7 +5327,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: y3
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y3 start:39:54 end:39:56:
+          vpiLowConn RefObj name:y3 start:45:8 end:45:10:
             vpiParent: Port name:y3
             vpiName: y3
             vpiFullName: memtest02.y3.y3
@@ -5320,7 +5340,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest02
           vpiName: y4
           vpiDirection: output (2)
-          vpiLowConn RefObj name:y4 start:39:58 end:39:60:
+          vpiLowConn RefObj name:y4 start:45:12 end:45:14:
             vpiParent: Port name:y4
             vpiName: y4
             vpiFullName: memtest02.y4.y4
@@ -5368,7 +5388,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem1[0]
                             vpiName: mem1
                             vpiFullName: memtest02.mem1
-                            vpiActual: Net name:mem1
+                            vpiActual: Variable name:mem1
                           vpiIndex Constant start:54:8 end:54:9:
                             vpiParent: BitSelect name:mem1[0]
                             vpiTypespec RefTypespec:
@@ -5399,7 +5419,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem1[1]
                             vpiName: mem1
                             vpiFullName: memtest02.mem1
-                            vpiActual: Net name:mem1
+                            vpiActual: Variable name:mem1
                           vpiIndex Constant start:55:8 end:55:9:
                             vpiParent: BitSelect name:mem1[1]
                             vpiTypespec RefTypespec:
@@ -5430,7 +5450,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem1[2]
                             vpiName: mem1
                             vpiFullName: memtest02.mem1
-                            vpiActual: Net name:mem1
+                            vpiActual: Variable name:mem1
                           vpiIndex Constant start:56:8 end:56:9:
                             vpiParent: BitSelect name:mem1[2]
                             vpiTypespec RefTypespec:
@@ -5461,7 +5481,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem2[0]
                             vpiName: mem2
                             vpiFullName: memtest02.mem2
-                            vpiActual: Net name:mem2
+                            vpiActual: Variable name:mem2
                           vpiIndex Constant start:57:8 end:57:9:
                             vpiParent: BitSelect name:mem2[0]
                             vpiTypespec RefTypespec:
@@ -5492,7 +5512,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem2[1]
                             vpiName: mem2
                             vpiFullName: memtest02.mem2
-                            vpiActual: Net name:mem2
+                            vpiActual: Variable name:mem2
                           vpiIndex Constant start:58:8 end:58:9:
                             vpiParent: BitSelect name:mem2[1]
                             vpiTypespec RefTypespec:
@@ -5523,7 +5543,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem2[2]
                             vpiName: mem2
                             vpiFullName: memtest02.mem2
-                            vpiActual: Net name:mem2
+                            vpiActual: Variable name:mem2
                           vpiIndex Constant start:59:8 end:59:9:
                             vpiParent: BitSelect name:mem2[2]
                             vpiTypespec RefTypespec:
@@ -5565,7 +5585,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem1[0]
                             vpiName: mem1
                             vpiFullName: memtest02.mem1
-                            vpiActual: Net name:mem1
+                            vpiActual: Variable name:mem1
                           vpiIndex Constant start:62:8 end:62:9:
                             vpiParent: BitSelect name:mem1[0]
                             vpiTypespec RefTypespec:
@@ -5596,7 +5616,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem1[1]
                             vpiName: mem1
                             vpiFullName: memtest02.mem1
-                            vpiActual: Net name:mem1
+                            vpiActual: Variable name:mem1
                           vpiIndex Constant start:63:8 end:63:9:
                             vpiParent: BitSelect name:mem1[1]
                             vpiTypespec RefTypespec:
@@ -5627,7 +5647,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem1[2]
                             vpiName: mem1
                             vpiFullName: memtest02.mem1
-                            vpiActual: Net name:mem1
+                            vpiActual: Variable name:mem1
                           vpiIndex Constant start:64:8 end:64:9:
                             vpiParent: BitSelect name:mem1[2]
                             vpiTypespec RefTypespec:
@@ -5658,7 +5678,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem2[0]
                             vpiName: mem2
                             vpiFullName: memtest02.mem2
-                            vpiActual: Net name:mem2
+                            vpiActual: Variable name:mem2
                           vpiIndex Constant start:65:8 end:65:9:
                             vpiParent: BitSelect name:mem2[0]
                             vpiTypespec RefTypespec:
@@ -5689,7 +5709,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem2[1]
                             vpiName: mem2
                             vpiFullName: memtest02.mem2
-                            vpiActual: Net name:mem2
+                            vpiActual: Variable name:mem2
                           vpiIndex Constant start:66:8 end:66:9:
                             vpiParent: BitSelect name:mem2[1]
                             vpiTypespec RefTypespec:
@@ -5720,7 +5740,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem2[2]
                             vpiName: mem2
                             vpiFullName: memtest02.mem2
-                            vpiActual: Net name:mem2
+                            vpiActual: Variable name:mem2
                           vpiIndex Constant start:67:8 end:67:9:
                             vpiParent: BitSelect name:mem2[2]
                             vpiTypespec RefTypespec:
@@ -5747,7 +5767,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y1
                     vpiFullName: memtest02.y1
-                    vpiActual: Net name:y1
+                    vpiActual: Variable name:y1
                   vpiRhs BitSelect name:mem1[addr][bit] start:69:8 end:69:23:
                     vpiParent: Assignment
                     vpiName: mem1[addr][bit]
@@ -5760,7 +5780,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem1[addr]
                         vpiName: mem1
                         vpiFullName: memtest02.mem1[addr][bit].mem1
-                        vpiActual: Net name:mem1
+                        vpiActual: Variable name:mem1
                       vpiIndex RefObj name:addr start:69:13 end:69:17:
                         vpiParent: BitSelect name:mem1[addr]
                         vpiName: addr
@@ -5777,7 +5797,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: y2
                     vpiFullName: memtest02.y2
-                    vpiActual: Net name:y2
+                    vpiActual: Variable name:y2
                   vpiRhs BitSelect name:mem2[addr][bit] start:70:8 end:70:23:
                     vpiParent: Assignment
                     vpiName: mem2[addr][bit]
@@ -5790,7 +5810,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem2[addr]
                         vpiName: mem2
                         vpiFullName: memtest02.mem2[addr][bit].mem2
-                        vpiActual: Net name:mem2
+                        vpiActual: Variable name:mem2
                       vpiIndex RefObj name:addr start:70:13 end:70:17:
                         vpiParent: BitSelect name:mem2[addr]
                         vpiName: addr
@@ -5822,7 +5842,7 @@ Design name:unnamed:
                 vpiParent: BitSelect name:mem1[addr]
                 vpiName: mem1
                 vpiFullName: memtest02.mem1[addr][bit].mem1
-                vpiActual: Net name:mem1
+                vpiActual: Variable name:mem1
               vpiIndex RefObj name:addr start:73:18 end:73:22:
                 vpiParent: BitSelect name:mem1[addr]
                 vpiName: addr
@@ -5852,7 +5872,7 @@ Design name:unnamed:
                 vpiParent: BitSelect name:mem2[addr]
                 vpiName: mem2
                 vpiFullName: memtest02.mem2[addr][bit].mem2
-                vpiActual: Net name:mem2
+                vpiActual: Variable name:mem2
               vpiIndex RefObj name:addr start:74:18 end:74:22:
                 vpiParent: BitSelect name:mem2[addr]
                 vpiName: addr
@@ -5869,6 +5889,24 @@ Design name:unnamed:
         vpiParent: Module name:memtest03
         vpiName: memtest03
       vpiFullName: memtest03
+      vpiVariable (2 items):
+        Variable name:rd_data start:84:18 end:84:25:
+          vpiParent: Module name:memtest03
+          vpiTypespec RefTypespec start:84:8 end:84:17:
+            vpiParent: Variable name:rd_data
+            vpiFullName: memtest03.rd_data
+            vpiActual: LogicTypespec
+          vpiName: rd_data
+          vpiFullName: memtest03.rd_data
+        Variable name:memory start:86:11 end:86:17:
+          vpiParent: Module name:memtest03
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:memory
+            vpiFullName: memtest03.memory
+            vpiActual: ArrayTypespec
+          vpiName: memory
+          vpiFullName: memtest03.memory
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:memtest03
@@ -5980,13 +6018,13 @@ Design name:unnamed:
             vpiFullName: memtest03
             vpiActual: LogicTypespec
       vpiDefName: memtest03
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest03
         vpiName: work
         vpiFullName: memtest03.work
       vpiCell: memtest03
-      vpiNet (7 items):
+      vpiNet (5 items):
         Net name:clk start:82:7 end:82:10:
           vpiParent: Module name:memtest03
           vpiTypespec RefTypespec start:82:7 end:82:7:
@@ -5995,22 +6033,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest03.clk
-        Net name:wr_addr start:83:13 end:83:20:
-          vpiParent: Module name:memtest03
-          vpiTypespec RefTypespec start:83:7 end:83:12:
-            vpiParent: Net name:wr_addr
-            vpiFullName: memtest03.wr_addr
-            vpiActual: LogicTypespec
-          vpiName: wr_addr
-          vpiFullName: memtest03.wr_addr
-        Net name:wr_data start:83:22 end:83:29:
-          vpiParent: Module name:memtest03
-          vpiTypespec RefTypespec start:83:7 end:83:12:
-            vpiParent: Net name:wr_data
-            vpiFullName: memtest03.wr_data
-            vpiActual: LogicTypespec
-          vpiName: wr_data
-          vpiFullName: memtest03.wr_data
+          vpiNetType: wire (1)
         Net name:wr_enable start:82:12 end:82:21:
           vpiParent: Module name:memtest03
           vpiTypespec RefTypespec start:82:7 end:82:7:
@@ -6019,6 +6042,25 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_enable
           vpiFullName: memtest03.wr_enable
+          vpiNetType: wire (1)
+        Net name:wr_addr start:83:13 end:83:20:
+          vpiParent: Module name:memtest03
+          vpiTypespec RefTypespec start:83:7 end:83:12:
+            vpiParent: Net name:wr_addr
+            vpiFullName: memtest03.wr_addr
+            vpiActual: LogicTypespec
+          vpiName: wr_addr
+          vpiFullName: memtest03.wr_addr
+          vpiNetType: wire (1)
+        Net name:wr_data start:83:22 end:83:29:
+          vpiParent: Module name:memtest03
+          vpiTypespec RefTypespec start:83:7 end:83:12:
+            vpiParent: Net name:wr_data
+            vpiFullName: memtest03.wr_data
+            vpiActual: LogicTypespec
+          vpiName: wr_data
+          vpiFullName: memtest03.wr_data
+          vpiNetType: wire (1)
         Net name:rd_addr start:83:31 end:83:38:
           vpiParent: Module name:memtest03
           vpiTypespec RefTypespec start:83:7 end:83:12:
@@ -6027,29 +6069,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_addr
           vpiFullName: memtest03.rd_addr
-        Net name:rd_data start:84:18 end:84:25:
-          vpiParent: Module name:memtest03
-          vpiTypespec RefTypespec start:84:8 end:84:17:
-            vpiParent: Net name:rd_data
-            vpiFullName: memtest03.rd_data
-            vpiActual: LogicTypespec
-          vpiName: rd_data
-          vpiFullName: memtest03.rd_data
-          vpiNetType: reg (48)
-        Net name:memory start:86:11 end:86:17:
-          vpiParent: Module name:memtest03
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:memory
-            vpiFullName: memtest03.memory
-            vpiActual: ArrayTypespec
-          vpiName: memory
-          vpiFullName: memtest03.memory
+          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:clk start:80:18 end:80:21:
           vpiParent: Module name:memtest03
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:80:18 end:80:21:
+          vpiLowConn RefObj name:clk start:82:7 end:82:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest03.clk.clk
@@ -6062,7 +6088,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest03
           vpiName: wr_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_addr start:80:23 end:80:30:
+          vpiLowConn RefObj name:wr_addr start:83:13 end:83:20:
             vpiParent: Port name:wr_addr
             vpiName: wr_addr
             vpiFullName: memtest03.wr_addr.wr_addr
@@ -6075,7 +6101,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest03
           vpiName: wr_data
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_data start:80:32 end:80:39:
+          vpiLowConn RefObj name:wr_data start:83:22 end:83:29:
             vpiParent: Port name:wr_data
             vpiName: wr_data
             vpiFullName: memtest03.wr_data.wr_data
@@ -6088,7 +6114,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest03
           vpiName: wr_enable
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_enable start:80:41 end:80:50:
+          vpiLowConn RefObj name:wr_enable start:82:12 end:82:21:
             vpiParent: Port name:wr_enable
             vpiName: wr_enable
             vpiFullName: memtest03.wr_enable.wr_enable
@@ -6101,7 +6127,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest03
           vpiName: rd_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rd_addr start:80:52 end:80:59:
+          vpiLowConn RefObj name:rd_addr start:83:31 end:83:38:
             vpiParent: Port name:rd_addr
             vpiName: rd_addr
             vpiFullName: memtest03.rd_addr.rd_addr
@@ -6114,11 +6140,11 @@ Design name:unnamed:
           vpiParent: Module name:memtest03
           vpiName: rd_data
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rd_data start:80:61 end:80:68:
+          vpiLowConn RefObj name:rd_data start:84:18 end:84:25:
             vpiParent: Port name:rd_data
             vpiName: rd_data
             vpiFullName: memtest03.rd_data.rd_data
-            vpiActual: Net name:rd_data
+            vpiActual: Variable name:rd_data
           vpiTypespec RefTypespec start:84:8 end:84:17:
             vpiParent: Port name:rd_data
             vpiFullName: memtest03.rd_data
@@ -6158,7 +6184,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[wr_addr]
                         vpiName: memory
                         vpiFullName: memtest03.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex RefObj name:wr_addr start:90:10 end:90:17:
                         vpiParent: BitSelect name:memory[wr_addr]
                         vpiName: wr_addr
@@ -6175,7 +6201,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: rd_data
                     vpiFullName: memtest03.rd_data
-                    vpiActual: Net name:rd_data
+                    vpiActual: Variable name:rd_data
                   vpiRhs BitSelect name:memory[rd_addr] start:91:13 end:91:28:
                     vpiParent: Assignment
                     vpiName: memory[rd_addr]
@@ -6184,7 +6210,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:memory[rd_addr]
                       vpiName: memory
                       vpiFullName: memtest03.memory
-                      vpiActual: Net name:memory
+                      vpiActual: Variable name:memory
                     vpiIndex RefObj name:rd_addr start:91:20 end:91:27:
                       vpiParent: BitSelect name:memory[rd_addr]
                       vpiName: rd_addr
@@ -6197,6 +6223,25 @@ Design name:unnamed:
         vpiParent: Module name:memtest04
         vpiName: memtest04
       vpiFullName: memtest04
+      vpiVariable (2 items):
+        Variable name:rd_addr_buf start:104:5 end:104:16:
+          vpiParent: Module name:memtest04
+          vpiTypespec RefTypespec start:104:1 end:104:4:
+            vpiParent: Variable name:rd_addr_buf
+            vpiFullName: memtest04.rd_addr_buf
+            vpiActual: LogicTypespec
+          vpiName: rd_addr_buf
+          vpiFullName: memtest04.rd_addr_buf
+          vpiScalar: true
+        Variable name:memory start:105:11 end:105:17:
+          vpiParent: Module name:memtest04
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:memory
+            vpiFullName: memtest04.memory
+            vpiActual: ArrayTypespec
+          vpiName: memory
+          vpiFullName: memtest04.memory
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:memtest04
@@ -6308,13 +6353,13 @@ Design name:unnamed:
             vpiFullName: memtest04
             vpiActual: LogicTypespec
       vpiDefName: memtest04
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest04
         vpiName: work
         vpiFullName: memtest04.work
       vpiCell: memtest04
-      vpiNet (8 items):
+      vpiNet (6 items):
         Net name:clk start:100:7 end:100:10:
           vpiParent: Module name:memtest04
           vpiTypespec RefTypespec start:100:7 end:100:7:
@@ -6323,22 +6368,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest04.clk
-        Net name:wr_addr start:101:13 end:101:20:
-          vpiParent: Module name:memtest04
-          vpiTypespec RefTypespec start:101:7 end:101:12:
-            vpiParent: Net name:wr_addr
-            vpiFullName: memtest04.wr_addr
-            vpiActual: LogicTypespec
-          vpiName: wr_addr
-          vpiFullName: memtest04.wr_addr
-        Net name:wr_data start:101:22 end:101:29:
-          vpiParent: Module name:memtest04
-          vpiTypespec RefTypespec start:101:7 end:101:12:
-            vpiParent: Net name:wr_data
-            vpiFullName: memtest04.wr_data
-            vpiActual: LogicTypespec
-          vpiName: wr_data
-          vpiFullName: memtest04.wr_data
+          vpiNetType: wire (1)
         Net name:wr_enable start:100:12 end:100:21:
           vpiParent: Module name:memtest04
           vpiTypespec RefTypespec start:100:7 end:100:7:
@@ -6347,6 +6377,25 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_enable
           vpiFullName: memtest04.wr_enable
+          vpiNetType: wire (1)
+        Net name:wr_addr start:101:13 end:101:20:
+          vpiParent: Module name:memtest04
+          vpiTypespec RefTypespec start:101:7 end:101:12:
+            vpiParent: Net name:wr_addr
+            vpiFullName: memtest04.wr_addr
+            vpiActual: LogicTypespec
+          vpiName: wr_addr
+          vpiFullName: memtest04.wr_addr
+          vpiNetType: wire (1)
+        Net name:wr_data start:101:22 end:101:29:
+          vpiParent: Module name:memtest04
+          vpiTypespec RefTypespec start:101:7 end:101:12:
+            vpiParent: Net name:wr_data
+            vpiFullName: memtest04.wr_data
+            vpiActual: LogicTypespec
+          vpiName: wr_data
+          vpiFullName: memtest04.wr_data
+          vpiNetType: wire (1)
         Net name:rd_addr start:101:31 end:101:38:
           vpiParent: Module name:memtest04
           vpiTypespec RefTypespec start:101:7 end:101:12:
@@ -6355,6 +6404,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_addr
           vpiFullName: memtest04.rd_addr
+          vpiNetType: wire (1)
         Net name:rd_data start:102:14 end:102:21:
           vpiParent: Module name:memtest04
           vpiTypespec RefTypespec start:102:8 end:102:13:
@@ -6363,28 +6413,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_data
           vpiFullName: memtest04.rd_data
-        Net name:rd_addr_buf start:104:5 end:104:16:
-          vpiParent: Module name:memtest04
-          vpiTypespec RefTypespec start:104:1 end:104:4:
-            vpiParent: Net name:rd_addr_buf
-            vpiFullName: memtest04.rd_addr_buf
-            vpiActual: LogicTypespec
-          vpiName: rd_addr_buf
-          vpiFullName: memtest04.rd_addr_buf
-        Net name:memory start:105:11 end:105:17:
-          vpiParent: Module name:memtest04
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:memory
-            vpiFullName: memtest04.memory
-            vpiActual: ArrayTypespec
-          vpiName: memory
-          vpiFullName: memtest04.memory
+          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:clk start:98:18 end:98:21:
           vpiParent: Module name:memtest04
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:98:18 end:98:21:
+          vpiLowConn RefObj name:clk start:100:7 end:100:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest04.clk.clk
@@ -6397,7 +6432,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest04
           vpiName: wr_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_addr start:98:23 end:98:30:
+          vpiLowConn RefObj name:wr_addr start:101:13 end:101:20:
             vpiParent: Port name:wr_addr
             vpiName: wr_addr
             vpiFullName: memtest04.wr_addr.wr_addr
@@ -6410,7 +6445,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest04
           vpiName: wr_data
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_data start:98:32 end:98:39:
+          vpiLowConn RefObj name:wr_data start:101:22 end:101:29:
             vpiParent: Port name:wr_data
             vpiName: wr_data
             vpiFullName: memtest04.wr_data.wr_data
@@ -6423,7 +6458,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest04
           vpiName: wr_enable
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wr_enable start:98:41 end:98:50:
+          vpiLowConn RefObj name:wr_enable start:100:12 end:100:21:
             vpiParent: Port name:wr_enable
             vpiName: wr_enable
             vpiFullName: memtest04.wr_enable.wr_enable
@@ -6436,7 +6471,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest04
           vpiName: rd_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rd_addr start:98:52 end:98:59:
+          vpiLowConn RefObj name:rd_addr start:101:31 end:101:38:
             vpiParent: Port name:rd_addr
             vpiName: rd_addr
             vpiFullName: memtest04.rd_addr.rd_addr
@@ -6449,7 +6484,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest04
           vpiName: rd_data
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rd_data start:98:61 end:98:68:
+          vpiLowConn RefObj name:rd_data start:102:14 end:102:21:
             vpiParent: Port name:rd_data
             vpiName: rd_data
             vpiFullName: memtest04.rd_data.rd_data
@@ -6493,7 +6528,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[wr_addr]
                         vpiName: memory
                         vpiFullName: memtest04.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex RefObj name:wr_addr start:109:10 end:109:17:
                         vpiParent: BitSelect name:memory[wr_addr]
                         vpiName: wr_addr
@@ -6510,7 +6545,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: rd_addr_buf
                     vpiFullName: memtest04.rd_addr_buf
-                    vpiActual: Net name:rd_addr_buf
+                    vpiActual: Variable name:rd_addr_buf
                   vpiRhs RefObj name:rd_addr start:110:17 end:110:24:
                     vpiParent: Assignment
                     vpiName: rd_addr
@@ -6533,18 +6568,44 @@ Design name:unnamed:
               vpiParent: BitSelect name:memory[rd_addr_buf]
               vpiName: memory
               vpiFullName: memtest04.memory
-              vpiActual: Net name:memory
+              vpiActual: Variable name:memory
             vpiIndex RefObj name:rd_addr_buf start:113:25 end:113:36:
               vpiParent: BitSelect name:memory[rd_addr_buf]
               vpiName: rd_addr_buf
               vpiFullName: memtest04.rd_addr_buf
-              vpiActual: Net name:rd_addr_buf
+              vpiActual: Variable name:rd_addr_buf
     Module name:memtest05 file:$Source01/simple/memory.v start:119:1 end:136:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memtest05 start:119:8 end:119:17:
         vpiParent: Module name:memtest05
         vpiName: memtest05
       vpiFullName: memtest05
+      vpiVariable (3 items):
+        Variable name:rdata start:124:18 end:124:23:
+          vpiParent: Module name:memtest05
+          vpiTypespec RefTypespec start:124:8 end:124:17:
+            vpiParent: Variable name:rdata
+            vpiFullName: memtest05.rdata
+            vpiActual: LogicTypespec
+          vpiName: rdata
+          vpiFullName: memtest05.rdata
+        Variable name:mem start:127:11 end:127:14:
+          vpiParent: Module name:memtest05
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memtest05.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memtest05.mem
+          vpiVector: true
+        Variable name:i start:129:9 end:129:10:
+          vpiParent: Module name:memtest05
+          vpiTypespec RefTypespec start:129:1 end:129:8:
+            vpiParent: Variable name:i
+            vpiFullName: memtest05.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: memtest05.i
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:memtest05
@@ -6711,13 +6772,13 @@ Design name:unnamed:
           vpiParent: Module name:memtest05
           vpiSigned: true
       vpiDefName: memtest05
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest05
         vpiName: work
         vpiFullName: memtest05.work
       vpiCell: memtest05
-      vpiNet (7 items):
+      vpiNet (4 items):
         Net name:clk start:121:7 end:121:10:
           vpiParent: Module name:memtest05
           vpiTypespec RefTypespec start:121:7 end:121:7:
@@ -6726,6 +6787,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest05.clk
+          vpiNetType: wire (1)
         Net name:addr start:122:13 end:122:17:
           vpiParent: Module name:memtest05
           vpiTypespec RefTypespec start:122:7 end:122:12:
@@ -6734,6 +6796,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr
           vpiFullName: memtest05.addr
+          vpiNetType: wire (1)
         Net name:wdata start:123:13 end:123:18:
           vpiParent: Module name:memtest05
           vpiTypespec RefTypespec start:123:7 end:123:12:
@@ -6742,15 +6805,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wdata
           vpiFullName: memtest05.wdata
-        Net name:rdata start:124:18 end:124:23:
-          vpiParent: Module name:memtest05
-          vpiTypespec RefTypespec start:124:8 end:124:17:
-            vpiParent: Net name:rdata
-            vpiFullName: memtest05.rdata
-            vpiActual: LogicTypespec
-          vpiName: rdata
-          vpiFullName: memtest05.rdata
-          vpiNetType: reg (48)
+          vpiNetType: wire (1)
         Net name:wen start:125:13 end:125:16:
           vpiParent: Module name:memtest05
           vpiTypespec RefTypespec start:125:7 end:125:12:
@@ -6759,28 +6814,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wen
           vpiFullName: memtest05.wen
-        Net name:mem start:127:11 end:127:14:
-          vpiParent: Module name:memtest05
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memtest05.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memtest05.mem
-        Net name:i start:129:9 end:129:10:
-          vpiParent: Module name:memtest05
-          vpiTypespec RefTypespec start:129:1 end:129:8:
-            vpiParent: Net name:i
-            vpiFullName: memtest05.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: memtest05.i
+          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:clk start:119:18 end:119:21:
           vpiParent: Module name:memtest05
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:119:18 end:119:21:
+          vpiLowConn RefObj name:clk start:121:7 end:121:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest05.clk.clk
@@ -6793,7 +6833,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest05
           vpiName: addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:addr start:119:23 end:119:27:
+          vpiLowConn RefObj name:addr start:122:13 end:122:17:
             vpiParent: Port name:addr
             vpiName: addr
             vpiFullName: memtest05.addr.addr
@@ -6806,7 +6846,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest05
           vpiName: wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wdata start:119:29 end:119:34:
+          vpiLowConn RefObj name:wdata start:123:13 end:123:18:
             vpiParent: Port name:wdata
             vpiName: wdata
             vpiFullName: memtest05.wdata.wdata
@@ -6819,11 +6859,11 @@ Design name:unnamed:
           vpiParent: Module name:memtest05
           vpiName: rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rdata start:119:36 end:119:41:
+          vpiLowConn RefObj name:rdata start:124:18 end:124:23:
             vpiParent: Port name:rdata
             vpiName: rdata
             vpiFullName: memtest05.rdata.rdata
-            vpiActual: Net name:rdata
+            vpiActual: Variable name:rdata
           vpiTypespec RefTypespec start:124:8 end:124:17:
             vpiParent: Port name:rdata
             vpiFullName: memtest05.rdata
@@ -6832,7 +6872,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest05
           vpiName: wen
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wen start:119:43 end:119:46:
+          vpiLowConn RefObj name:wen start:125:13 end:125:16:
             vpiParent: Port name:wen
             vpiName: wen
             vpiFullName: memtest05.wen.wen
@@ -6870,7 +6910,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: memtest05.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Constant start:131:11 end:131:12:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -6889,7 +6929,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: memtest05.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Operation start:131:25 end:131:28:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -6898,7 +6938,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: i
                             vpiFullName: memtest05.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                           Constant start:131:27 end:131:28:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -6917,7 +6957,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i
                         vpiFullName: memtest05.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       Constant start:131:18 end:131:19:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -6943,7 +6983,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:wen[i]
                         vpiName: i
                         vpiFullName: memtest05.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                     vpiStmt Assignment start:132:15 end:132:53:
                       vpiParent: IfStmt
                       vpiLhs IndexedPartSelect name:mem[addr][i*2+:2] start:132:15 end:132:34:
@@ -6958,7 +6998,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[addr]
                             vpiName: mem
                             vpiFullName: memtest05.mem[addr][i*2+:2].mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex RefObj name:addr start:132:19 end:132:23:
                             vpiParent: BitSelect name:mem[addr]
                             vpiName: addr
@@ -6973,7 +7013,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: i
                               vpiFullName: memtest05.mem[addr][i*2+:2].i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             Constant start:132:27 end:132:28:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -7012,7 +7052,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: i
                               vpiFullName: memtest05.wdata[i*2+:2].i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             Constant start:132:46 end:132:47:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -7039,7 +7079,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: rdata
                     vpiFullName: memtest05.rdata
-                    vpiActual: Net name:rdata
+                    vpiActual: Variable name:rdata
                   vpiRhs BitSelect name:mem[addr] start:133:11 end:133:20:
                     vpiParent: Assignment
                     vpiName: mem[addr]
@@ -7048,7 +7088,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:mem[addr]
                       vpiName: mem
                       vpiFullName: memtest05.mem
-                      vpiActual: Net name:mem
+                      vpiActual: Variable name:mem
                     vpiIndex RefObj name:addr start:133:15 end:133:19:
                       vpiParent: BitSelect name:mem[addr]
                       vpiName: addr
@@ -7061,6 +7101,24 @@ Design name:unnamed:
         vpiParent: Module name:memtest06_sync
         vpiName: memtest06_sync
       vpiFullName: memtest06_sync
+      vpiVariable (2 items):
+        Variable name:test start:142:15 end:142:19:
+          vpiParent: Module name:memtest06_sync
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:test
+            vpiFullName: memtest06_sync.test
+            vpiActual: ArrayTypespec
+          vpiName: test
+          vpiFullName: memtest06_sync.test
+          vpiVector: true
+        Variable name:i start:143:13 end:143:14:
+          vpiParent: Module name:memtest06_sync
+          vpiTypespec RefTypespec start:143:5 end:143:12:
+            vpiParent: Variable name:i
+            vpiFullName: memtest06_sync.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: memtest06_sync.i
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:memtest06_sync
@@ -7215,13 +7273,13 @@ Design name:unnamed:
             vpiDecompile: "0"
             vpiValue: 0
       vpiDefName: memtest06_sync
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest06_sync
         vpiName: work
         vpiFullName: memtest06_sync.work
       vpiCell: memtest06_sync
-      vpiNet (7 items):
+      vpiNet (5 items):
         Net name:clk start:140:29 end:140:32:
           vpiParent: Module name:memtest06_sync
           vpiTypespec RefTypespec start:140:23 end:140:28:
@@ -7267,30 +7325,15 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: memtest06_sync.dout
           vpiNetType: wire (1)
-        Net name:test start:142:15 end:142:19:
-          vpiParent: Module name:memtest06_sync
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:test
-            vpiFullName: memtest06_sync.test
-            vpiActual: ArrayTypespec
-          vpiName: test
-          vpiFullName: memtest06_sync.test
-        Net name:i start:143:13 end:143:14:
-          vpiParent: Module name:memtest06_sync
-          vpiTypespec RefTypespec start:143:5 end:143:12:
-            vpiParent: Net name:i
-            vpiFullName: memtest06_sync.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: memtest06_sync.i
       vpiPort (5 items):
         Port name:clk start:140:29 end:140:32:
           vpiParent: Module name:memtest06_sync
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:140:29 end:140:32:
+          vpiLowConn RefObj name:clk start:140:29 end:140:32:
             vpiParent: Port name:clk
-            vpiFullName: memtest06_sync.clk
+            vpiName: clk
+            vpiFullName: memtest06_sync.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:140:23 end:140:28:
             vpiParent: Port name:clk
@@ -7300,9 +7343,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_sync
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:140:40 end:140:43:
+          vpiLowConn RefObj name:rst start:140:40 end:140:43:
             vpiParent: Port name:rst
-            vpiFullName: memtest06_sync.rst
+            vpiName: rst
+            vpiFullName: memtest06_sync.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:140:34 end:140:39:
             vpiParent: Port name:rst
@@ -7312,9 +7356,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_sync
           vpiName: idx
           vpiDirection: input (1)
-          vpiLowConn RefObj start:140:57 end:140:60:
+          vpiLowConn RefObj name:idx start:140:57 end:140:60:
             vpiParent: Port name:idx
-            vpiFullName: memtest06_sync.idx
+            vpiName: idx
+            vpiFullName: memtest06_sync.idx.idx
             vpiActual: Net name:idx
           vpiTypespec RefTypespec start:140:45 end:140:56:
             vpiParent: Port name:idx
@@ -7324,9 +7369,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_sync
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj start:140:74 end:140:77:
+          vpiLowConn RefObj name:din start:140:74 end:140:77:
             vpiParent: Port name:din
-            vpiFullName: memtest06_sync.din
+            vpiName: din
+            vpiFullName: memtest06_sync.din.din
             vpiActual: Net name:din
           vpiTypespec RefTypespec start:140:62 end:140:73:
             vpiParent: Port name:din
@@ -7336,9 +7382,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_sync
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:140:92 end:140:96:
+          vpiLowConn RefObj name:dout start:140:92 end:140:96:
             vpiParent: Port name:dout
-            vpiFullName: memtest06_sync.dout
+            vpiName: dout
+            vpiFullName: memtest06_sync.dout.dout
             vpiActual: Net name:dout
           vpiTypespec RefTypespec start:140:79 end:140:91:
             vpiParent: Port name:dout
@@ -7384,7 +7431,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: i
                               vpiFullName: memtest06_sync.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             vpiRhs Constant start:146:20 end:146:21:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -7403,7 +7450,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: i
                               vpiFullName: memtest06_sync.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             vpiRhs Operation start:146:30 end:146:33:
                               vpiParent: Assignment
                               vpiOpType: add (24)
@@ -7412,7 +7459,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: i
                                   vpiFullName: memtest06_sync.i
-                                  vpiActual: Net name:i
+                                  vpiActual: Variable name:i
                                 Constant start:146:32 end:146:33:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -7431,7 +7478,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: i
                               vpiFullName: memtest06_sync.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             Constant start:146:25 end:146:26:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -7452,12 +7499,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[i]
                               vpiName: test
                               vpiFullName: memtest06_sync.test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:i start:147:22 end:147:23:
                               vpiParent: BitSelect name:test[i]
                               vpiName: i
                               vpiFullName: memtest06_sync.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                           vpiRhs Constant start:147:28 end:147:29:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -7486,7 +7533,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[0]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[0][2].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex Constant start:149:18 end:149:19:
                               vpiParent: BitSelect name:test[0]
                               vpiTypespec RefTypespec:
@@ -7540,7 +7587,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[0]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[0][5].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex Constant start:150:18 end:150:19:
                               vpiParent: BitSelect name:test[0]
                               vpiTypespec RefTypespec:
@@ -7573,7 +7620,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[0]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[0][2].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex Constant start:150:32 end:150:33:
                               vpiParent: BitSelect name:test[0]
                               vpiTypespec RefTypespec:
@@ -7608,7 +7655,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[idx][3].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:151:18 end:151:21:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -7652,7 +7699,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[idx][6].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:152:18 end:152:21:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -7680,7 +7727,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[idx][2].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:152:34 end:152:37:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -7710,7 +7757,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_sync.test[idx][idx].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:153:18 end:153:21:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -7737,7 +7784,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:test[idx]
                                   vpiName: test
                                   vpiFullName: memtest06_sync.test[idx][idx].test
-                                  vpiActual: Net name:test
+                                  vpiActual: Variable name:test
                                 vpiIndex RefObj name:idx start:153:37 end:153:40:
                                   vpiParent: BitSelect name:test[idx]
                                   vpiName: idx
@@ -7765,7 +7812,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:test[idx]
               vpiName: test
               vpiFullName: memtest06_sync.test
-              vpiActual: Net name:test
+              vpiActual: Variable name:test
             vpiIndex RefObj name:idx start:156:24 end:156:27:
               vpiParent: BitSelect name:test[idx]
               vpiName: idx
@@ -7777,6 +7824,24 @@ Design name:unnamed:
         vpiParent: Module name:memtest06_async
         vpiName: memtest06_async
       vpiFullName: memtest06_async
+      vpiVariable (2 items):
+        Variable name:test start:161:15 end:161:19:
+          vpiParent: Module name:memtest06_async
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:test
+            vpiFullName: memtest06_async.test
+            vpiActual: ArrayTypespec
+          vpiName: test
+          vpiFullName: memtest06_async.test
+          vpiVector: true
+        Variable name:i start:162:13 end:162:14:
+          vpiParent: Module name:memtest06_async
+          vpiTypespec RefTypespec start:162:5 end:162:12:
+            vpiParent: Variable name:i
+            vpiFullName: memtest06_async.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: memtest06_async.i
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:memtest06_async
@@ -7931,13 +7996,13 @@ Design name:unnamed:
             vpiDecompile: "0"
             vpiValue: 0
       vpiDefName: memtest06_async
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest06_async
         vpiName: work
         vpiFullName: memtest06_async.work
       vpiCell: memtest06_async
-      vpiNet (7 items):
+      vpiNet (5 items):
         Net name:clk start:159:30 end:159:33:
           vpiParent: Module name:memtest06_async
           vpiTypespec RefTypespec start:159:24 end:159:29:
@@ -7983,30 +8048,15 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: memtest06_async.dout
           vpiNetType: wire (1)
-        Net name:test start:161:15 end:161:19:
-          vpiParent: Module name:memtest06_async
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:test
-            vpiFullName: memtest06_async.test
-            vpiActual: ArrayTypespec
-          vpiName: test
-          vpiFullName: memtest06_async.test
-        Net name:i start:162:13 end:162:14:
-          vpiParent: Module name:memtest06_async
-          vpiTypespec RefTypespec start:162:5 end:162:12:
-            vpiParent: Net name:i
-            vpiFullName: memtest06_async.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: memtest06_async.i
       vpiPort (5 items):
         Port name:clk start:159:30 end:159:33:
           vpiParent: Module name:memtest06_async
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:159:30 end:159:33:
+          vpiLowConn RefObj name:clk start:159:30 end:159:33:
             vpiParent: Port name:clk
-            vpiFullName: memtest06_async.clk
+            vpiName: clk
+            vpiFullName: memtest06_async.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:159:24 end:159:29:
             vpiParent: Port name:clk
@@ -8016,9 +8066,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_async
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:159:41 end:159:44:
+          vpiLowConn RefObj name:rst start:159:41 end:159:44:
             vpiParent: Port name:rst
-            vpiFullName: memtest06_async.rst
+            vpiName: rst
+            vpiFullName: memtest06_async.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:159:35 end:159:40:
             vpiParent: Port name:rst
@@ -8028,9 +8079,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_async
           vpiName: idx
           vpiDirection: input (1)
-          vpiLowConn RefObj start:159:58 end:159:61:
+          vpiLowConn RefObj name:idx start:159:58 end:159:61:
             vpiParent: Port name:idx
-            vpiFullName: memtest06_async.idx
+            vpiName: idx
+            vpiFullName: memtest06_async.idx.idx
             vpiActual: Net name:idx
           vpiTypespec RefTypespec start:159:46 end:159:57:
             vpiParent: Port name:idx
@@ -8040,9 +8092,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_async
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj start:159:75 end:159:78:
+          vpiLowConn RefObj name:din start:159:75 end:159:78:
             vpiParent: Port name:din
-            vpiFullName: memtest06_async.din
+            vpiName: din
+            vpiFullName: memtest06_async.din.din
             vpiActual: Net name:din
           vpiTypespec RefTypespec start:159:63 end:159:74:
             vpiParent: Port name:din
@@ -8052,9 +8105,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest06_async
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:159:93 end:159:97:
+          vpiLowConn RefObj name:dout start:159:93 end:159:97:
             vpiParent: Port name:dout
-            vpiFullName: memtest06_async.dout
+            vpiName: dout
+            vpiFullName: memtest06_async.dout.dout
             vpiActual: Net name:dout
           vpiTypespec RefTypespec start:159:80 end:159:92:
             vpiParent: Port name:dout
@@ -8113,7 +8167,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: i
                               vpiFullName: memtest06_async.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             vpiRhs Constant start:165:20 end:165:21:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -8132,7 +8186,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: i
                               vpiFullName: memtest06_async.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             vpiRhs Operation start:165:30 end:165:33:
                               vpiParent: Assignment
                               vpiOpType: add (24)
@@ -8141,7 +8195,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: i
                                   vpiFullName: memtest06_async.i
-                                  vpiActual: Net name:i
+                                  vpiActual: Variable name:i
                                 Constant start:165:32 end:165:33:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -8160,7 +8214,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: i
                               vpiFullName: memtest06_async.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                             Constant start:165:25 end:165:26:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -8181,12 +8235,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[i]
                               vpiName: test
                               vpiFullName: memtest06_async.test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:i start:166:22 end:166:23:
                               vpiParent: BitSelect name:test[i]
                               vpiName: i
                               vpiFullName: memtest06_async.i
-                              vpiActual: Net name:i
+                              vpiActual: Variable name:i
                           vpiRhs Constant start:166:28 end:166:29:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -8215,7 +8269,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[0]
                               vpiName: test
                               vpiFullName: memtest06_async.test[0][2].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex Constant start:168:18 end:168:19:
                               vpiParent: BitSelect name:test[0]
                               vpiTypespec RefTypespec:
@@ -8269,7 +8323,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[0]
                               vpiName: test
                               vpiFullName: memtest06_async.test[0][5].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex Constant start:169:18 end:169:19:
                               vpiParent: BitSelect name:test[0]
                               vpiTypespec RefTypespec:
@@ -8302,7 +8356,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[0]
                               vpiName: test
                               vpiFullName: memtest06_async.test[0][2].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex Constant start:169:32 end:169:33:
                               vpiParent: BitSelect name:test[0]
                               vpiTypespec RefTypespec:
@@ -8337,7 +8391,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_async.test[idx][3].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:170:18 end:170:21:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -8381,7 +8435,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_async.test[idx][6].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:171:18 end:171:21:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -8409,7 +8463,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_async.test[idx][2].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:171:34 end:171:37:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -8439,7 +8493,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: test
                               vpiFullName: memtest06_async.test[idx][idx].test
-                              vpiActual: Net name:test
+                              vpiActual: Variable name:test
                             vpiIndex RefObj name:idx start:172:18 end:172:21:
                               vpiParent: BitSelect name:test[idx]
                               vpiName: idx
@@ -8466,7 +8520,7 @@ Design name:unnamed:
                                   vpiParent: BitSelect name:test[idx]
                                   vpiName: test
                                   vpiFullName: memtest06_async.test[idx][idx].test
-                                  vpiActual: Net name:test
+                                  vpiActual: Variable name:test
                                 vpiIndex RefObj name:idx start:172:37 end:172:40:
                                   vpiParent: BitSelect name:test[idx]
                                   vpiName: idx
@@ -8494,7 +8548,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:test[idx]
               vpiName: test
               vpiFullName: memtest06_async.test
-              vpiActual: Net name:test
+              vpiActual: Variable name:test
             vpiIndex RefObj name:idx start:175:24 end:175:27:
               vpiParent: BitSelect name:test[idx]
               vpiName: idx
@@ -8506,6 +8560,32 @@ Design name:unnamed:
         vpiParent: Module name:memtest07
         vpiName: memtest07
       vpiFullName: memtest07
+      vpiVariable (3 items):
+        Variable name:rdata start:186:18 end:186:23:
+          vpiParent: Module name:memtest07
+          vpiTypespec RefTypespec start:186:8 end:186:17:
+            vpiParent: Variable name:rdata
+            vpiFullName: memtest07.rdata
+            vpiActual: LogicTypespec
+          vpiName: rdata
+          vpiFullName: memtest07.rdata
+        Variable name:mem start:188:11 end:188:14:
+          vpiParent: Module name:memtest07
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memtest07.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memtest07.mem
+          vpiVector: true
+        Variable name:i start:190:9 end:190:10:
+          vpiParent: Module name:memtest07
+          vpiTypespec RefTypespec start:190:1 end:190:8:
+            vpiParent: Variable name:i
+            vpiFullName: memtest07.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: memtest07.i
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:memtest07
@@ -8672,13 +8752,13 @@ Design name:unnamed:
           vpiParent: Module name:memtest07
           vpiSigned: true
       vpiDefName: memtest07
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest07
         vpiName: work
         vpiFullName: memtest07.work
       vpiCell: memtest07
-      vpiNet (7 items):
+      vpiNet (4 items):
         Net name:clk start:182:7 end:182:10:
           vpiParent: Module name:memtest07
           vpiTypespec RefTypespec start:182:7 end:182:7:
@@ -8687,6 +8767,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest07.clk
+          vpiNetType: wire (1)
         Net name:addr start:183:13 end:183:17:
           vpiParent: Module name:memtest07
           vpiTypespec RefTypespec start:183:7 end:183:12:
@@ -8695,14 +8776,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr
           vpiFullName: memtest07.addr
-        Net name:woffset start:185:13 end:185:20:
-          vpiParent: Module name:memtest07
-          vpiTypespec RefTypespec start:185:7 end:185:12:
-            vpiParent: Net name:woffset
-            vpiFullName: memtest07.woffset
-            vpiActual: LogicTypespec
-          vpiName: woffset
-          vpiFullName: memtest07.woffset
+          vpiNetType: wire (1)
         Net name:wdata start:184:13 end:184:18:
           vpiParent: Module name:memtest07
           vpiTypespec RefTypespec start:184:7 end:184:12:
@@ -8711,37 +8785,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wdata
           vpiFullName: memtest07.wdata
-        Net name:rdata start:186:18 end:186:23:
+          vpiNetType: wire (1)
+        Net name:woffset start:185:13 end:185:20:
           vpiParent: Module name:memtest07
-          vpiTypespec RefTypespec start:186:8 end:186:17:
-            vpiParent: Net name:rdata
-            vpiFullName: memtest07.rdata
+          vpiTypespec RefTypespec start:185:7 end:185:12:
+            vpiParent: Net name:woffset
+            vpiFullName: memtest07.woffset
             vpiActual: LogicTypespec
-          vpiName: rdata
-          vpiFullName: memtest07.rdata
-          vpiNetType: reg (48)
-        Net name:mem start:188:11 end:188:14:
-          vpiParent: Module name:memtest07
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memtest07.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memtest07.mem
-        Net name:i start:190:9 end:190:10:
-          vpiParent: Module name:memtest07
-          vpiTypespec RefTypespec start:190:1 end:190:8:
-            vpiParent: Net name:i
-            vpiFullName: memtest07.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: memtest07.i
+          vpiName: woffset
+          vpiFullName: memtest07.woffset
+          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:clk start:180:18 end:180:21:
           vpiParent: Module name:memtest07
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:180:18 end:180:21:
+          vpiLowConn RefObj name:clk start:182:7 end:182:10:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest07.clk.clk
@@ -8754,7 +8813,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest07
           vpiName: addr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:addr start:180:23 end:180:27:
+          vpiLowConn RefObj name:addr start:183:13 end:183:17:
             vpiParent: Port name:addr
             vpiName: addr
             vpiFullName: memtest07.addr.addr
@@ -8767,7 +8826,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest07
           vpiName: woffset
           vpiDirection: input (1)
-          vpiLowConn RefObj name:woffset start:180:29 end:180:36:
+          vpiLowConn RefObj name:woffset start:185:13 end:185:20:
             vpiParent: Port name:woffset
             vpiName: woffset
             vpiFullName: memtest07.woffset.woffset
@@ -8780,7 +8839,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest07
           vpiName: wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wdata start:180:38 end:180:43:
+          vpiLowConn RefObj name:wdata start:184:13 end:184:18:
             vpiParent: Port name:wdata
             vpiName: wdata
             vpiFullName: memtest07.wdata.wdata
@@ -8793,11 +8852,11 @@ Design name:unnamed:
           vpiParent: Module name:memtest07
           vpiName: rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rdata start:180:45 end:180:50:
+          vpiLowConn RefObj name:rdata start:186:18 end:186:23:
             vpiParent: Port name:rdata
             vpiName: rdata
             vpiFullName: memtest07.rdata.rdata
-            vpiActual: Net name:rdata
+            vpiActual: Variable name:rdata
           vpiTypespec RefTypespec start:186:8 end:186:17:
             vpiParent: Port name:rdata
             vpiFullName: memtest07.rdata
@@ -8834,7 +8893,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[addr]
                         vpiName: mem
                         vpiFullName: memtest07.mem[addr][woffset+:4].mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:addr start:192:6 end:192:10:
                         vpiParent: BitSelect name:mem[addr]
                         vpiName: addr
@@ -8867,7 +8926,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: rdata
                     vpiFullName: memtest07.rdata
-                    vpiActual: Net name:rdata
+                    vpiActual: Variable name:rdata
                   vpiRhs BitSelect name:mem[addr] start:193:11 end:193:20:
                     vpiParent: Assignment
                     vpiName: mem[addr]
@@ -8876,7 +8935,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:mem[addr]
                       vpiName: mem
                       vpiFullName: memtest07.mem
-                      vpiActual: Net name:mem
+                      vpiActual: Variable name:mem
                     vpiIndex RefObj name:addr start:193:15 end:193:19:
                       vpiParent: BitSelect name:mem[addr]
                       vpiName: addr
@@ -8889,7 +8948,7 @@ Design name:unnamed:
         vpiParent: Module name:memtest08
         vpiName: memtest08
       vpiFullName: memtest08
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:y start:200:67 end:200:68:
           vpiParent: Module name:memtest08
           vpiTypespec RefTypespec start:200:50 end:200:66:
@@ -8898,7 +8957,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: memtest08.y
-          vpiNetType: none (12)
+        Variable name:mem start:201:12 end:201:15:
+          vpiParent: Module name:memtest08
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memtest08.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memtest08.mem
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:memtest08
@@ -9039,13 +9106,13 @@ Design name:unnamed:
             vpiFullName: memtest08
             vpiActual: LogicTypespec
       vpiDefName: memtest08
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest08
         vpiName: work
         vpiFullName: memtest08.work
       vpiCell: memtest08
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:clk start:200:24 end:200:27:
           vpiParent: Module name:memtest08
           vpiTypespec RefTypespec start:200:18 end:200:23:
@@ -9064,40 +9131,15 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: memtest08.a
           vpiNetType: wire (1)
-        Net name:b start:200:44 end:200:45:
-          vpiParent: Module name:memtest08
-          vpiTypespec RefTypespec start:200:44 end:200:44:
-            vpiParent: Net name:b
-            vpiFullName: memtest08.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: memtest08.b
-          vpiNetType: wire (1)
-        Net name:c start:200:47 end:200:48:
-          vpiParent: Module name:memtest08
-          vpiTypespec RefTypespec start:200:47 end:200:47:
-            vpiParent: Net name:c
-            vpiFullName: memtest08.c
-            vpiActual: LogicTypespec
-          vpiName: c
-          vpiFullName: memtest08.c
-          vpiNetType: wire (1)
-        Net name:mem start:201:12 end:201:15:
-          vpiParent: Module name:memtest08
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memtest08.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memtest08.mem
       vpiPort (5 items):
         Port name:clk start:200:24 end:200:27:
           vpiParent: Module name:memtest08
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:200:24 end:200:27:
+          vpiLowConn RefObj name:clk start:200:24 end:200:27:
             vpiParent: Port name:clk
-            vpiFullName: memtest08.clk
+            vpiName: clk
+            vpiFullName: memtest08.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:200:18 end:200:23:
             vpiParent: Port name:clk
@@ -9107,9 +9149,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest08
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:200:41 end:200:42:
+          vpiLowConn RefObj name:a start:200:41 end:200:42:
             vpiParent: Port name:a
-            vpiFullName: memtest08.a
+            vpiName: a
+            vpiFullName: memtest08.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:200:29 end:200:40:
             vpiParent: Port name:a
@@ -9119,33 +9162,18 @@ Design name:unnamed:
           vpiParent: Module name:memtest08
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:200:44 end:200:45:
-            vpiParent: Port name:b
-            vpiFullName: memtest08.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:200:44 end:200:44:
-            vpiParent: Port name:b
-            vpiFullName: memtest08.b
-            vpiActual: LogicTypespec
         Port name:c start:200:47 end:200:48:
           vpiParent: Module name:memtest08
           vpiName: c
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:200:47 end:200:48:
-            vpiParent: Port name:c
-            vpiFullName: memtest08.c
-            vpiActual: Net name:c
-          vpiTypespec RefTypespec start:200:47 end:200:47:
-            vpiParent: Port name:c
-            vpiFullName: memtest08.c
-            vpiActual: LogicTypespec
         Port name:y start:200:67 end:200:68:
           vpiParent: Module name:memtest08
           vpiName: y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:200:67 end:200:68:
+          vpiLowConn RefObj name:y start:200:67 end:200:68:
             vpiParent: Port name:y
-            vpiFullName: memtest08.y
+            vpiName: y
+            vpiFullName: memtest08.y.y
             vpiActual: Variable name:y
           vpiTypespec RefTypespec start:200:50 end:200:66:
             vpiParent: Port name:y
@@ -9188,7 +9216,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[a]
                         vpiName: mem
                         vpiFullName: memtest08.mem[a][b].mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:a start:203:12 end:203:13:
                         vpiParent: BitSelect name:mem[a]
                         vpiName: a
@@ -9198,7 +9226,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:mem[a][b]
                       vpiName: b
                       vpiFullName: memtest08.b
-                      vpiActual: Net name:b
+                      vpiActual: Port name:b
                 Assignment start:204:3 end:204:17:
                   vpiParent: Begin
                   vpiLhs BitSelect name:mem[a][b] start:204:3 end:204:12:
@@ -9213,7 +9241,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[a]
                         vpiName: mem
                         vpiFullName: memtest08.mem[a][b].mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:a start:204:7 end:204:8:
                         vpiParent: BitSelect name:mem[a]
                         vpiName: a
@@ -9223,12 +9251,12 @@ Design name:unnamed:
                       vpiParent: BitSelect name:mem[a][b]
                       vpiName: b
                       vpiFullName: memtest08.b
-                      vpiActual: Net name:b
+                      vpiActual: Port name:b
                   vpiRhs RefObj name:c start:204:16 end:204:17:
                     vpiParent: Assignment
                     vpiName: c
                     vpiFullName: memtest08.c
-                    vpiActual: Net name:c
+                    vpiActual: Port name:c
           vpiAlwaysType: always (1)
     Module name:memtest09 file:$Source01/simple/memory.v start:210:1 end:229:10:
       vpiParent: Design name:unnamed
@@ -9236,7 +9264,7 @@ Design name:unnamed:
         vpiParent: Module name:memtest09
         vpiName: memtest09
       vpiFullName: memtest09
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:a_dout start:214:22 end:214:28:
           vpiParent: Module name:memtest09
           vpiTypespec RefTypespec start:214:5 end:214:21:
@@ -9245,7 +9273,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a_dout
           vpiFullName: memtest09.a_dout
-          vpiNetType: none (12)
+        Variable name:memory start:216:15 end:216:21:
+          vpiParent: Module name:memtest09
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:memory
+            vpiFullName: memtest09.memory
+            vpiActual: ArrayTypespec
+          vpiName: memory
+          vpiFullName: memtest09.memory
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:memtest09
@@ -9357,13 +9393,13 @@ Design name:unnamed:
             vpiFullName: memtest09
             vpiActual: LogicTypespec
       vpiDefName: memtest09
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest09
         vpiName: work
         vpiFullName: memtest09.work
       vpiCell: memtest09
-      vpiNet (9 items):
+      vpiNet (3 items):
         Net name:clk start:211:11 end:211:14:
           vpiParent: Module name:memtest09
           vpiTypespec RefTypespec start:211:5 end:211:10:
@@ -9382,33 +9418,6 @@ Design name:unnamed:
           vpiName: a_addr
           vpiFullName: memtest09.a_addr
           vpiNetType: wire (1)
-        Net name:a_din start:212:25 end:212:30:
-          vpiParent: Module name:memtest09
-          vpiTypespec RefTypespec start:212:25 end:212:25:
-            vpiParent: Net name:a_din
-            vpiFullName: memtest09.a_din
-            vpiActual: LogicTypespec
-          vpiName: a_din
-          vpiFullName: memtest09.a_din
-          vpiNetType: wire (1)
-        Net name:b_addr start:212:32 end:212:38:
-          vpiParent: Module name:memtest09
-          vpiTypespec RefTypespec start:212:32 end:212:32:
-            vpiParent: Net name:b_addr
-            vpiFullName: memtest09.b_addr
-            vpiActual: LogicTypespec
-          vpiName: b_addr
-          vpiFullName: memtest09.b_addr
-          vpiNetType: wire (1)
-        Net name:b_din start:212:40 end:212:45:
-          vpiParent: Module name:memtest09
-          vpiTypespec RefTypespec start:212:40 end:212:40:
-            vpiParent: Net name:b_din
-            vpiFullName: memtest09.b_din
-            vpiActual: LogicTypespec
-          vpiName: b_din
-          vpiFullName: memtest09.b_din
-          vpiNetType: wire (1)
         Net name:a_wen start:213:11 end:213:16:
           vpiParent: Module name:memtest09
           vpiTypespec RefTypespec start:213:5 end:213:10:
@@ -9418,40 +9427,15 @@ Design name:unnamed:
           vpiName: a_wen
           vpiFullName: memtest09.a_wen
           vpiNetType: wire (1)
-        Net name:b_wen start:213:18 end:213:23:
-          vpiParent: Module name:memtest09
-          vpiTypespec RefTypespec start:213:18 end:213:18:
-            vpiParent: Net name:b_wen
-            vpiFullName: memtest09.b_wen
-            vpiActual: LogicTypespec
-          vpiName: b_wen
-          vpiFullName: memtest09.b_wen
-          vpiNetType: wire (1)
-        Net name:b_dout start:214:30 end:214:36:
-          vpiParent: Module name:memtest09
-          vpiTypespec RefTypespec start:214:30 end:214:30:
-            vpiParent: Net name:b_dout
-            vpiFullName: memtest09.b_dout
-            vpiActual: LogicTypespec
-          vpiName: b_dout
-          vpiFullName: memtest09.b_dout
-          vpiNetType: wire (1)
-        Net name:memory start:216:15 end:216:21:
-          vpiParent: Module name:memtest09
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:memory
-            vpiFullName: memtest09.memory
-            vpiActual: ArrayTypespec
-          vpiName: memory
-          vpiFullName: memtest09.memory
       vpiPort (9 items):
         Port name:clk start:211:11 end:211:14:
           vpiParent: Module name:memtest09
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:211:11 end:211:14:
+          vpiLowConn RefObj name:clk start:211:11 end:211:14:
             vpiParent: Port name:clk
-            vpiFullName: memtest09.clk
+            vpiName: clk
+            vpiFullName: memtest09.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:211:5 end:211:10:
             vpiParent: Port name:clk
@@ -9461,9 +9445,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest09
           vpiName: a_addr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:212:17 end:212:23:
+          vpiLowConn RefObj name:a_addr start:212:17 end:212:23:
             vpiParent: Port name:a_addr
-            vpiFullName: memtest09.a_addr
+            vpiName: a_addr
+            vpiFullName: memtest09.a_addr.a_addr
             vpiActual: Net name:a_addr
           vpiTypespec RefTypespec start:212:5 end:212:16:
             vpiParent: Port name:a_addr
@@ -9473,45 +9458,22 @@ Design name:unnamed:
           vpiParent: Module name:memtest09
           vpiName: a_din
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:212:25 end:212:30:
-            vpiParent: Port name:a_din
-            vpiFullName: memtest09.a_din
-            vpiActual: Net name:a_din
-          vpiTypespec RefTypespec start:212:25 end:212:25:
-            vpiParent: Port name:a_din
-            vpiFullName: memtest09.a_din
-            vpiActual: LogicTypespec
         Port name:b_addr start:212:32 end:212:38:
           vpiParent: Module name:memtest09
           vpiName: b_addr
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:212:32 end:212:38:
-            vpiParent: Port name:b_addr
-            vpiFullName: memtest09.b_addr
-            vpiActual: Net name:b_addr
-          vpiTypespec RefTypespec start:212:32 end:212:32:
-            vpiParent: Port name:b_addr
-            vpiFullName: memtest09.b_addr
-            vpiActual: LogicTypespec
         Port name:b_din start:212:40 end:212:45:
           vpiParent: Module name:memtest09
           vpiName: b_din
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:212:40 end:212:45:
-            vpiParent: Port name:b_din
-            vpiFullName: memtest09.b_din
-            vpiActual: Net name:b_din
-          vpiTypespec RefTypespec start:212:40 end:212:40:
-            vpiParent: Port name:b_din
-            vpiFullName: memtest09.b_din
-            vpiActual: LogicTypespec
         Port name:a_wen start:213:11 end:213:16:
           vpiParent: Module name:memtest09
           vpiName: a_wen
           vpiDirection: input (1)
-          vpiLowConn RefObj start:213:11 end:213:16:
+          vpiLowConn RefObj name:a_wen start:213:11 end:213:16:
             vpiParent: Port name:a_wen
-            vpiFullName: memtest09.a_wen
+            vpiName: a_wen
+            vpiFullName: memtest09.a_wen.a_wen
             vpiActual: Net name:a_wen
           vpiTypespec RefTypespec start:213:5 end:213:10:
             vpiParent: Port name:a_wen
@@ -9521,21 +9483,14 @@ Design name:unnamed:
           vpiParent: Module name:memtest09
           vpiName: b_wen
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:213:18 end:213:23:
-            vpiParent: Port name:b_wen
-            vpiFullName: memtest09.b_wen
-            vpiActual: Net name:b_wen
-          vpiTypespec RefTypespec start:213:18 end:213:18:
-            vpiParent: Port name:b_wen
-            vpiFullName: memtest09.b_wen
-            vpiActual: LogicTypespec
         Port name:a_dout start:214:22 end:214:28:
           vpiParent: Module name:memtest09
           vpiName: a_dout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:214:22 end:214:28:
+          vpiLowConn RefObj name:a_dout start:214:22 end:214:28:
             vpiParent: Port name:a_dout
-            vpiFullName: memtest09.a_dout
+            vpiName: a_dout
+            vpiFullName: memtest09.a_dout.a_dout
             vpiActual: Variable name:a_dout
           vpiTypespec RefTypespec start:214:5 end:214:21:
             vpiParent: Port name:a_dout
@@ -9545,14 +9500,6 @@ Design name:unnamed:
           vpiParent: Module name:memtest09
           vpiName: b_dout
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:214:30 end:214:36:
-            vpiParent: Port name:b_dout
-            vpiFullName: memtest09.b_dout
-            vpiActual: Net name:b_dout
-          vpiTypespec RefTypespec start:214:30 end:214:30:
-            vpiParent: Port name:b_dout
-            vpiFullName: memtest09.b_dout
-            vpiActual: LogicTypespec
       vpiProcess (2 items):
         Always start:218:5 end:222:8:
           vpiParent: Module name:memtest09
@@ -9588,7 +9535,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[10 + a_addr]
                         vpiName: memory
                         vpiFullName: memtest09.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex Operation start:220:20 end:220:31:
                         vpiParent: BitSelect name:memory[10 + a_addr]
                         vpiOpType: add (24)
@@ -9612,7 +9559,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: a_din
                       vpiFullName: memtest09.a_din
-                      vpiActual: Net name:a_din
+                      vpiActual: Port name:a_din
                 Assignment start:221:9 end:221:38:
                   vpiParent: Begin
                   vpiLhs RefObj name:a_dout start:221:9 end:221:15:
@@ -9628,7 +9575,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:memory[10 + a_addr]
                       vpiName: memory
                       vpiFullName: memtest09.memory
-                      vpiActual: Net name:memory
+                      vpiActual: Variable name:memory
                     vpiIndex Operation start:221:26 end:221:37:
                       vpiParent: BitSelect name:memory[10 + a_addr]
                       vpiOpType: add (24)
@@ -9676,7 +9623,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: b_wen
                         vpiFullName: memtest09.b_wen
-                        vpiActual: Net name:b_wen
+                        vpiActual: Port name:b_wen
                       Operation start:225:23 end:225:59:
                         vpiParent: Operation
                         vpiOpType: logical or (27)
@@ -9722,7 +9669,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: b_addr
                                     vpiFullName: memtest09.b_addr
-                                    vpiActual: Net name:b_addr
+                                    vpiActual: Port name:b_addr
                           Operation start:225:53 end:225:59:
                             vpiParent: Operation
                             vpiOpType: not (3)
@@ -9742,7 +9689,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[20 + b_addr]
                         vpiName: memory
                         vpiFullName: memtest09.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex Operation start:226:20 end:226:31:
                         vpiParent: BitSelect name:memory[20 + b_addr]
                         vpiOpType: add (24)
@@ -9761,19 +9708,19 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: b_addr
                             vpiFullName: memtest09.memory[20 + b_addr].b_addr
-                            vpiActual: Net name:b_addr
+                            vpiActual: Port name:b_addr
                     vpiRhs RefObj name:b_din start:226:36 end:226:41:
                       vpiParent: Assignment
                       vpiName: b_din
                       vpiFullName: memtest09.b_din
-                      vpiActual: Net name:b_din
+                      vpiActual: Port name:b_din
                 Assignment start:227:9 end:227:38:
                   vpiParent: Begin
                   vpiLhs RefObj name:b_dout start:227:9 end:227:15:
                     vpiParent: Assignment
                     vpiName: b_dout
                     vpiFullName: memtest09.b_dout
-                    vpiActual: Net name:b_dout
+                    vpiActual: Port name:b_dout
                   vpiRhs BitSelect name:memory[20 + b_addr] start:227:19 end:227:38:
                     vpiParent: Assignment
                     vpiName: memory[20 + b_addr]
@@ -9782,7 +9729,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:memory[20 + b_addr]
                       vpiName: memory
                       vpiFullName: memtest09.memory
-                      vpiActual: Net name:memory
+                      vpiActual: Variable name:memory
                     vpiIndex Operation start:227:26 end:227:37:
                       vpiParent: BitSelect name:memory[20 + b_addr]
                       vpiOpType: add (24)
@@ -9801,7 +9748,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: b_addr
                           vpiFullName: memtest09.memory[20 + b_addr].b_addr
-                          vpiActual: Net name:b_addr
+                          vpiActual: Port name:b_addr
           vpiAlwaysType: always (1)
     Module name:memtest10 file:$Source01/simple/memory.v start:233:1 end:245:10:
       vpiParent: Design name:unnamed
@@ -9809,6 +9756,24 @@ Design name:unnamed:
         vpiParent: Module name:memtest10
         vpiName: memtest10
       vpiFullName: memtest10
+      vpiVariable (2 items):
+        Variable name:queue start:234:19 end:234:24:
+          vpiParent: Module name:memtest10
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:queue
+            vpiFullName: memtest10.queue
+            vpiActual: ArrayTypespec
+          vpiName: queue
+          vpiFullName: memtest10.queue
+          vpiVector: true
+        Variable name:i start:235:17 end:235:18:
+          vpiParent: Module name:memtest10
+          vpiTypespec RefTypespec start:235:9 end:235:16:
+            vpiParent: Variable name:i
+            vpiFullName: memtest10.i
+            vpiActual: IntegerTypespec
+          vpiName: i
+          vpiFullName: memtest10.i
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:memtest10
@@ -9923,13 +9888,13 @@ Design name:unnamed:
           vpiParent: Module name:memtest10
           vpiSigned: true
       vpiDefName: memtest10
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest10
         vpiName: work
         vpiFullName: memtest10.work
       vpiCell: memtest10
-      vpiNet (5 items):
+      vpiNet (3 items):
         Net name:clk start:233:24 end:233:27:
           vpiParent: Module name:memtest10
           vpiTypespec RefTypespec start:233:18 end:233:23:
@@ -9957,30 +9922,15 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: memtest10.dout
           vpiNetType: wire (1)
-        Net name:queue start:234:19 end:234:24:
-          vpiParent: Module name:memtest10
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:queue
-            vpiFullName: memtest10.queue
-            vpiActual: ArrayTypespec
-          vpiName: queue
-          vpiFullName: memtest10.queue
-        Net name:i start:235:17 end:235:18:
-          vpiParent: Module name:memtest10
-          vpiTypespec RefTypespec start:235:9 end:235:16:
-            vpiParent: Net name:i
-            vpiFullName: memtest10.i
-            vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: memtest10.i
       vpiPort (3 items):
         Port name:clk start:233:24 end:233:27:
           vpiParent: Module name:memtest10
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:233:24 end:233:27:
+          vpiLowConn RefObj name:clk start:233:24 end:233:27:
             vpiParent: Port name:clk
-            vpiFullName: memtest10.clk
+            vpiName: clk
+            vpiFullName: memtest10.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:233:18 end:233:23:
             vpiParent: Port name:clk
@@ -9990,9 +9940,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest10
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj start:233:41 end:233:44:
+          vpiLowConn RefObj name:din start:233:41 end:233:44:
             vpiParent: Port name:din
-            vpiFullName: memtest10.din
+            vpiName: din
+            vpiFullName: memtest10.din.din
             vpiActual: Net name:din
           vpiTypespec RefTypespec start:233:29 end:233:40:
             vpiParent: Port name:din
@@ -10002,9 +9953,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest10
           vpiName: dout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:233:59 end:233:63:
+          vpiLowConn RefObj name:dout start:233:59 end:233:63:
             vpiParent: Port name:dout
-            vpiFullName: memtest10.dout
+            vpiName: dout
+            vpiFullName: memtest10.dout.dout
             vpiActual: Net name:dout
           vpiTypespec RefTypespec start:233:46 end:233:58:
             vpiParent: Port name:dout
@@ -10038,7 +9990,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:queue[0]
                       vpiName: queue
                       vpiFullName: memtest10.queue
-                      vpiActual: Net name:queue
+                      vpiActual: Variable name:queue
                     vpiIndex Constant start:238:23 end:238:24:
                       vpiParent: BitSelect name:queue[0]
                       vpiTypespec RefTypespec:
@@ -10065,7 +10017,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: memtest10.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Constant start:239:26 end:239:27:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -10084,7 +10036,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: i
                         vpiFullName: memtest10.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       vpiRhs Operation start:239:38 end:239:41:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -10093,7 +10045,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: i
                             vpiFullName: memtest10.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                           Constant start:239:40 end:239:41:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -10112,7 +10064,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: i
                         vpiFullName: memtest10.i
-                        vpiActual: Net name:i
+                        vpiActual: Variable name:i
                       Constant start:239:33 end:239:34:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -10137,12 +10089,12 @@ Design name:unnamed:
                             vpiParent: BitSelect name:queue[i]
                             vpiName: queue
                             vpiFullName: memtest10.queue
-                            vpiActual: Net name:queue
+                            vpiActual: Variable name:queue
                           vpiIndex RefObj name:i start:240:31 end:240:32:
                             vpiParent: BitSelect name:queue[i]
                             vpiName: i
                             vpiFullName: memtest10.i
-                            vpiActual: Net name:i
+                            vpiActual: Variable name:i
                         vpiRhs BitSelect name:queue[i - 1] start:240:37 end:240:47:
                           vpiParent: Assignment
                           vpiName: queue[i - 1]
@@ -10151,7 +10103,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:queue[i - 1]
                             vpiName: queue
                             vpiFullName: memtest10.queue
-                            vpiActual: Net name:queue
+                            vpiActual: Variable name:queue
                           vpiIndex Operation start:240:43 end:240:46:
                             vpiParent: BitSelect name:queue[i - 1]
                             vpiOpType: subtract (11)
@@ -10160,7 +10112,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: i
                                 vpiFullName: memtest10.queue[i - 1].i
-                                vpiActual: Net name:i
+                                vpiActual: Variable name:i
                               Constant start:240:45 end:240:46:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -10188,7 +10140,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:queue[3]
               vpiName: queue
               vpiFullName: memtest10.queue
-              vpiActual: Net name:queue
+              vpiActual: Variable name:queue
             vpiIndex Constant start:244:22 end:244:23:
               vpiParent: BitSelect name:queue[3]
               vpiTypespec RefTypespec:
@@ -10205,6 +10157,16 @@ Design name:unnamed:
         vpiParent: Module name:memtest11
         vpiName: memtest11
       vpiFullName: memtest11
+      vpiVariable (1 items):
+        Variable name:mem start:255:12 end:255:15:
+          vpiParent: Module name:memtest11
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memtest11.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memtest11.mem
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:memtest11
@@ -10342,13 +10304,13 @@ Design name:unnamed:
             vpiFullName: memtest11
             vpiActual: LogicTypespec
       vpiDefName: memtest11
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest11
         vpiName: work
         vpiFullName: memtest11.work
       vpiCell: memtest11
-      vpiNet (7 items):
+      vpiNet (6 items):
         Net name:clk start:250:8 end:250:11:
           vpiParent: Module name:memtest11
           vpiTypespec RefTypespec start:250:8 end:250:8:
@@ -10357,6 +10319,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest11.clk
+          vpiNetType: wire (1)
         Net name:wen start:250:13 end:250:16:
           vpiParent: Module name:memtest11
           vpiTypespec RefTypespec start:250:8 end:250:8:
@@ -10365,6 +10328,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wen
           vpiFullName: memtest11.wen
+          vpiNetType: wire (1)
         Net name:waddr start:251:14 end:251:19:
           vpiParent: Module name:memtest11
           vpiTypespec RefTypespec start:251:8 end:251:13:
@@ -10373,6 +10337,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: waddr
           vpiFullName: memtest11.waddr
+          vpiNetType: wire (1)
         Net name:raddr start:251:21 end:251:26:
           vpiParent: Module name:memtest11
           vpiTypespec RefTypespec start:251:8 end:251:13:
@@ -10381,6 +10346,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: raddr
           vpiFullName: memtest11.raddr
+          vpiNetType: wire (1)
         Net name:wdata start:252:14 end:252:19:
           vpiParent: Module name:memtest11
           vpiTypespec RefTypespec start:252:8 end:252:13:
@@ -10389,6 +10355,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wdata
           vpiFullName: memtest11.wdata
+          vpiNetType: wire (1)
         Net name:rdata start:253:15 end:253:20:
           vpiParent: Module name:memtest11
           vpiTypespec RefTypespec start:253:9 end:253:14:
@@ -10397,20 +10364,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rdata
           vpiFullName: memtest11.rdata
-        Net name:mem start:255:12 end:255:15:
-          vpiParent: Module name:memtest11
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memtest11.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memtest11.mem
+          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:clk start:249:18 end:249:21:
           vpiParent: Module name:memtest11
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:249:18 end:249:21:
+          vpiLowConn RefObj name:clk start:250:8 end:250:11:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: memtest11.clk.clk
@@ -10423,7 +10383,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest11
           vpiName: wen
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wen start:249:23 end:249:26:
+          vpiLowConn RefObj name:wen start:250:13 end:250:16:
             vpiParent: Port name:wen
             vpiName: wen
             vpiFullName: memtest11.wen.wen
@@ -10436,7 +10396,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest11
           vpiName: waddr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:waddr start:249:28 end:249:33:
+          vpiLowConn RefObj name:waddr start:251:14 end:251:19:
             vpiParent: Port name:waddr
             vpiName: waddr
             vpiFullName: memtest11.waddr.waddr
@@ -10449,7 +10409,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest11
           vpiName: raddr
           vpiDirection: input (1)
-          vpiLowConn RefObj name:raddr start:249:35 end:249:40:
+          vpiLowConn RefObj name:raddr start:251:21 end:251:26:
             vpiParent: Port name:raddr
             vpiName: raddr
             vpiFullName: memtest11.raddr.raddr
@@ -10462,7 +10422,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest11
           vpiName: wdata
           vpiDirection: input (1)
-          vpiLowConn RefObj name:wdata start:249:42 end:249:47:
+          vpiLowConn RefObj name:wdata start:252:14 end:252:19:
             vpiParent: Port name:wdata
             vpiName: wdata
             vpiFullName: memtest11.wdata.wdata
@@ -10475,7 +10435,7 @@ Design name:unnamed:
           vpiParent: Module name:memtest11
           vpiName: rdata
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rdata start:249:49 end:249:54:
+          vpiLowConn RefObj name:rdata start:253:15 end:253:20:
             vpiParent: Port name:rdata
             vpiName: rdata
             vpiFullName: memtest11.rdata.rdata
@@ -10519,7 +10479,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: mem
                         vpiFullName: memtest11.mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:waddr start:261:8 end:261:13:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: waddr
@@ -10540,7 +10500,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: mem
                         vpiFullName: memtest11.mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:waddr start:263:8 end:263:13:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: waddr
@@ -10554,7 +10514,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: mem
                         vpiFullName: memtest11.mem
-                        vpiActual: Net name:mem
+                        vpiActual: Variable name:mem
                       vpiIndex RefObj name:waddr start:263:22 end:263:27:
                         vpiParent: BitSelect name:mem[waddr]
                         vpiName: waddr
@@ -10577,7 +10537,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:mem[raddr]
               vpiName: mem
               vpiFullName: memtest11.mem
-              vpiActual: Net name:mem
+              vpiActual: Variable name:mem
             vpiIndex RefObj name:raddr start:257:21 end:257:26:
               vpiParent: BitSelect name:mem[raddr]
               vpiName: raddr
@@ -10589,7 +10549,7 @@ Design name:unnamed:
         vpiParent: Module name:memtest12
         vpiName: memtest12
       vpiFullName: memtest12
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:q start:273:21 end:273:22:
           vpiParent: Module name:memtest12
           vpiTypespec RefTypespec start:273:4 end:273:20:
@@ -10598,7 +10558,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: memtest12.q
-          vpiNetType: none (12)
+        Variable name:ram start:275:14 end:275:17:
+          vpiParent: Module name:memtest12
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ram
+            vpiFullName: memtest12.ram
+            vpiActual: ArrayTypespec
+          vpiName: ram
+          vpiFullName: memtest12.ram
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:memtest12
@@ -10736,13 +10704,13 @@ Design name:unnamed:
             vpiFullName: memtest12
             vpiActual: LogicTypespec
       vpiDefName: memtest12
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest12
         vpiName: work
         vpiFullName: memtest12.work
       vpiCell: memtest12
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:clk start:270:10 end:270:13:
           vpiParent: Module name:memtest12
           vpiTypespec RefTypespec start:270:4 end:270:9:
@@ -10770,22 +10738,15 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: memtest12.din
           vpiNetType: wire (1)
-        Net name:ram start:275:14 end:275:17:
-          vpiParent: Module name:memtest12
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ram
-            vpiFullName: memtest12.ram
-            vpiActual: ArrayTypespec
-          vpiName: ram
-          vpiFullName: memtest12.ram
       vpiPort (4 items):
         Port name:clk start:270:10 end:270:13:
           vpiParent: Module name:memtest12
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:270:10 end:270:13:
+          vpiLowConn RefObj name:clk start:270:10 end:270:13:
             vpiParent: Port name:clk
-            vpiFullName: memtest12.clk
+            vpiName: clk
+            vpiFullName: memtest12.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:270:4 end:270:9:
             vpiParent: Port name:clk
@@ -10795,9 +10756,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest12
           vpiName: adr
           vpiDirection: input (1)
-          vpiLowConn RefObj start:271:16 end:271:19:
+          vpiLowConn RefObj name:adr start:271:16 end:271:19:
             vpiParent: Port name:adr
-            vpiFullName: memtest12.adr
+            vpiName: adr
+            vpiFullName: memtest12.adr.adr
             vpiActual: Net name:adr
           vpiTypespec RefTypespec start:271:4 end:271:15:
             vpiParent: Port name:adr
@@ -10807,9 +10769,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest12
           vpiName: din
           vpiDirection: input (1)
-          vpiLowConn RefObj start:272:16 end:272:19:
+          vpiLowConn RefObj name:din start:272:16 end:272:19:
             vpiParent: Port name:din
-            vpiFullName: memtest12.din
+            vpiName: din
+            vpiFullName: memtest12.din.din
             vpiActual: Net name:din
           vpiTypespec RefTypespec start:272:4 end:272:15:
             vpiParent: Port name:din
@@ -10819,9 +10782,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest12
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:273:21 end:273:22:
+          vpiLowConn RefObj name:q start:273:21 end:273:22:
             vpiParent: Port name:q
-            vpiFullName: memtest12.q
+            vpiName: q
+            vpiFullName: memtest12.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:273:4 end:273:20:
             vpiParent: Port name:q
@@ -10855,7 +10819,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:ram[adr]
                       vpiName: ram
                       vpiFullName: memtest12.ram
-                      vpiActual: Net name:ram
+                      vpiActual: Variable name:ram
                     vpiIndex RefObj name:adr start:277:11 end:277:14:
                       vpiParent: BitSelect name:ram[adr]
                       vpiName: adr
@@ -10883,7 +10847,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:ram[adr]
                       vpiName: ram
                       vpiFullName: memtest12.ram
-                      vpiActual: Net name:ram
+                      vpiActual: Variable name:ram
                     vpiIndex RefObj name:adr start:277:33 end:277:36:
                       vpiParent: BitSelect name:ram[adr]
                       vpiName: adr
@@ -10896,7 +10860,7 @@ Design name:unnamed:
         vpiParent: Module name:memtest13
         vpiName: memtest13
       vpiFullName: memtest13
-      vpiVariable (2 items):
+      vpiVariable (3 items):
         Variable name:dout1 start:288:19 end:288:24:
           vpiParent: Module name:memtest13
           vpiTypespec RefTypespec start:288:2 end:288:18:
@@ -10905,7 +10869,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout1
           vpiFullName: memtest13.dout1
-          vpiNetType: none (12)
         Variable name:dout3 start:289:20 end:289:25:
           vpiParent: Module name:memtest13
           vpiTypespec RefTypespec start:289:2 end:289:19:
@@ -10914,7 +10877,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout3
           vpiFullName: memtest13.dout3
-          vpiNetType: none (12)
+        Variable name:mem start:291:13 end:291:16:
+          vpiParent: Module name:memtest13
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: memtest13.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: memtest13.mem
+          vpiVector: true
       vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:memtest13
@@ -11130,13 +11101,13 @@ Design name:unnamed:
             vpiFullName: memtest13
             vpiActual: LogicTypespec
       vpiDefName: memtest13
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:memtest13
         vpiName: work
         vpiFullName: memtest13.work
       vpiCell: memtest13
-      vpiNet (15 items):
+      vpiNet (5 items):
         Net name:clk start:283:8 end:283:11:
           vpiParent: Module name:memtest13
           vpiTypespec RefTypespec start:283:2 end:283:7:
@@ -11145,15 +11116,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: memtest13.clk
-          vpiNetType: wire (1)
-        Net name:rst start:283:13 end:283:16:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:283:13 end:283:13:
-            vpiParent: Net name:rst
-            vpiFullName: memtest13.rst
-            vpiActual: LogicTypespec
-          vpiName: rst
-          vpiFullName: memtest13.rst
           vpiNetType: wire (1)
         Net name:a1 start:284:14 end:284:16:
           vpiParent: Module name:memtest13
@@ -11164,51 +11126,6 @@ Design name:unnamed:
           vpiName: a1
           vpiFullName: memtest13.a1
           vpiNetType: wire (1)
-        Net name:a2 start:284:18 end:284:20:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:284:18 end:284:18:
-            vpiParent: Net name:a2
-            vpiFullName: memtest13.a2
-            vpiActual: LogicTypespec
-          vpiName: a2
-          vpiFullName: memtest13.a2
-          vpiNetType: wire (1)
-        Net name:a3 start:284:22 end:284:24:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:284:22 end:284:22:
-            vpiParent: Net name:a3
-            vpiFullName: memtest13.a3
-            vpiActual: LogicTypespec
-          vpiName: a3
-          vpiFullName: memtest13.a3
-          vpiNetType: wire (1)
-        Net name:a4 start:284:26 end:284:28:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:284:26 end:284:26:
-            vpiParent: Net name:a4
-            vpiFullName: memtest13.a4
-            vpiActual: LogicTypespec
-          vpiName: a4
-          vpiFullName: memtest13.a4
-          vpiNetType: wire (1)
-        Net name:a5 start:284:30 end:284:32:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:284:30 end:284:30:
-            vpiParent: Net name:a5
-            vpiFullName: memtest13.a5
-            vpiActual: LogicTypespec
-          vpiName: a5
-          vpiFullName: memtest13.a5
-          vpiNetType: wire (1)
-        Net name:a6 start:284:34 end:284:36:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:284:34 end:284:34:
-            vpiParent: Net name:a6
-            vpiFullName: memtest13.a6
-            vpiActual: LogicTypespec
-          vpiName: a6
-          vpiFullName: memtest13.a6
-          vpiNetType: wire (1)
         Net name:off1 start:285:14 end:285:18:
           vpiParent: Module name:memtest13
           vpiTypespec RefTypespec start:285:2 end:285:13:
@@ -11217,15 +11134,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: off1
           vpiFullName: memtest13.off1
-          vpiNetType: wire (1)
-        Net name:off2 start:285:20 end:285:24:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:285:20 end:285:20:
-            vpiParent: Net name:off2
-            vpiFullName: memtest13.off2
-            vpiActual: LogicTypespec
-          vpiName: off2
-          vpiFullName: memtest13.off2
           vpiNetType: wire (1)
         Net name:din1 start:286:15 end:286:19:
           vpiParent: Module name:memtest13
@@ -11245,40 +11153,15 @@ Design name:unnamed:
           vpiName: din2
           vpiFullName: memtest13.din2
           vpiNetType: wire (1)
-        Net name:din3 start:287:20 end:287:24:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:287:20 end:287:20:
-            vpiParent: Net name:din3
-            vpiFullName: memtest13.din3
-            vpiActual: LogicTypespec
-          vpiName: din3
-          vpiFullName: memtest13.din3
-          vpiNetType: wire (1)
-        Net name:dout2 start:288:26 end:288:31:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec start:288:26 end:288:26:
-            vpiParent: Net name:dout2
-            vpiFullName: memtest13.dout2
-            vpiActual: LogicTypespec
-          vpiName: dout2
-          vpiFullName: memtest13.dout2
-          vpiNetType: wire (1)
-        Net name:mem start:291:13 end:291:16:
-          vpiParent: Module name:memtest13
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: memtest13.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: memtest13.mem
       vpiPort (16 items):
         Port name:clk start:283:8 end:283:11:
           vpiParent: Module name:memtest13
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:283:8 end:283:11:
+          vpiLowConn RefObj name:clk start:283:8 end:283:11:
             vpiParent: Port name:clk
-            vpiFullName: memtest13.clk
+            vpiName: clk
+            vpiFullName: memtest13.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:283:2 end:283:7:
             vpiParent: Port name:clk
@@ -11288,21 +11171,14 @@ Design name:unnamed:
           vpiParent: Module name:memtest13
           vpiName: rst
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:283:13 end:283:16:
-            vpiParent: Port name:rst
-            vpiFullName: memtest13.rst
-            vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:283:13 end:283:13:
-            vpiParent: Port name:rst
-            vpiFullName: memtest13.rst
-            vpiActual: LogicTypespec
         Port name:a1 start:284:14 end:284:16:
           vpiParent: Module name:memtest13
           vpiName: a1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:284:14 end:284:16:
+          vpiLowConn RefObj name:a1 start:284:14 end:284:16:
             vpiParent: Port name:a1
-            vpiFullName: memtest13.a1
+            vpiName: a1
+            vpiFullName: memtest13.a1.a1
             vpiActual: Net name:a1
           vpiTypespec RefTypespec start:284:2 end:284:13:
             vpiParent: Port name:a1
@@ -11312,69 +11188,30 @@ Design name:unnamed:
           vpiParent: Module name:memtest13
           vpiName: a2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:284:18 end:284:20:
-            vpiParent: Port name:a2
-            vpiFullName: memtest13.a2
-            vpiActual: Net name:a2
-          vpiTypespec RefTypespec start:284:18 end:284:18:
-            vpiParent: Port name:a2
-            vpiFullName: memtest13.a2
-            vpiActual: LogicTypespec
         Port name:a3 start:284:22 end:284:24:
           vpiParent: Module name:memtest13
           vpiName: a3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:284:22 end:284:24:
-            vpiParent: Port name:a3
-            vpiFullName: memtest13.a3
-            vpiActual: Net name:a3
-          vpiTypespec RefTypespec start:284:22 end:284:22:
-            vpiParent: Port name:a3
-            vpiFullName: memtest13.a3
-            vpiActual: LogicTypespec
         Port name:a4 start:284:26 end:284:28:
           vpiParent: Module name:memtest13
           vpiName: a4
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:284:26 end:284:28:
-            vpiParent: Port name:a4
-            vpiFullName: memtest13.a4
-            vpiActual: Net name:a4
-          vpiTypespec RefTypespec start:284:26 end:284:26:
-            vpiParent: Port name:a4
-            vpiFullName: memtest13.a4
-            vpiActual: LogicTypespec
         Port name:a5 start:284:30 end:284:32:
           vpiParent: Module name:memtest13
           vpiName: a5
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:284:30 end:284:32:
-            vpiParent: Port name:a5
-            vpiFullName: memtest13.a5
-            vpiActual: Net name:a5
-          vpiTypespec RefTypespec start:284:30 end:284:30:
-            vpiParent: Port name:a5
-            vpiFullName: memtest13.a5
-            vpiActual: LogicTypespec
         Port name:a6 start:284:34 end:284:36:
           vpiParent: Module name:memtest13
           vpiName: a6
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:284:34 end:284:36:
-            vpiParent: Port name:a6
-            vpiFullName: memtest13.a6
-            vpiActual: Net name:a6
-          vpiTypespec RefTypespec start:284:34 end:284:34:
-            vpiParent: Port name:a6
-            vpiFullName: memtest13.a6
-            vpiActual: LogicTypespec
         Port name:off1 start:285:14 end:285:18:
           vpiParent: Module name:memtest13
           vpiName: off1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:285:14 end:285:18:
+          vpiLowConn RefObj name:off1 start:285:14 end:285:18:
             vpiParent: Port name:off1
-            vpiFullName: memtest13.off1
+            vpiName: off1
+            vpiFullName: memtest13.off1.off1
             vpiActual: Net name:off1
           vpiTypespec RefTypespec start:285:2 end:285:13:
             vpiParent: Port name:off1
@@ -11384,21 +11221,14 @@ Design name:unnamed:
           vpiParent: Module name:memtest13
           vpiName: off2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:285:20 end:285:24:
-            vpiParent: Port name:off2
-            vpiFullName: memtest13.off2
-            vpiActual: Net name:off2
-          vpiTypespec RefTypespec start:285:20 end:285:20:
-            vpiParent: Port name:off2
-            vpiFullName: memtest13.off2
-            vpiActual: LogicTypespec
         Port name:din1 start:286:15 end:286:19:
           vpiParent: Module name:memtest13
           vpiName: din1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:286:15 end:286:19:
+          vpiLowConn RefObj name:din1 start:286:15 end:286:19:
             vpiParent: Port name:din1
-            vpiFullName: memtest13.din1
+            vpiName: din1
+            vpiFullName: memtest13.din1.din1
             vpiActual: Net name:din1
           vpiTypespec RefTypespec start:286:2 end:286:14:
             vpiParent: Port name:din1
@@ -11408,9 +11238,10 @@ Design name:unnamed:
           vpiParent: Module name:memtest13
           vpiName: din2
           vpiDirection: input (1)
-          vpiLowConn RefObj start:287:14 end:287:18:
+          vpiLowConn RefObj name:din2 start:287:14 end:287:18:
             vpiParent: Port name:din2
-            vpiFullName: memtest13.din2
+            vpiName: din2
+            vpiFullName: memtest13.din2.din2
             vpiActual: Net name:din2
           vpiTypespec RefTypespec start:287:2 end:287:13:
             vpiParent: Port name:din2
@@ -11420,21 +11251,14 @@ Design name:unnamed:
           vpiParent: Module name:memtest13
           vpiName: din3
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:287:20 end:287:24:
-            vpiParent: Port name:din3
-            vpiFullName: memtest13.din3
-            vpiActual: Net name:din3
-          vpiTypespec RefTypespec start:287:20 end:287:20:
-            vpiParent: Port name:din3
-            vpiFullName: memtest13.din3
-            vpiActual: LogicTypespec
         Port name:dout1 start:288:19 end:288:24:
           vpiParent: Module name:memtest13
           vpiName: dout1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:288:19 end:288:24:
+          vpiLowConn RefObj name:dout1 start:288:19 end:288:24:
             vpiParent: Port name:dout1
-            vpiFullName: memtest13.dout1
+            vpiName: dout1
+            vpiFullName: memtest13.dout1.dout1
             vpiActual: Variable name:dout1
           vpiTypespec RefTypespec start:288:2 end:288:18:
             vpiParent: Port name:dout1
@@ -11444,21 +11268,14 @@ Design name:unnamed:
           vpiParent: Module name:memtest13
           vpiName: dout2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:288:26 end:288:31:
-            vpiParent: Port name:dout2
-            vpiFullName: memtest13.dout2
-            vpiActual: Net name:dout2
-          vpiTypespec RefTypespec start:288:26 end:288:26:
-            vpiParent: Port name:dout2
-            vpiFullName: memtest13.dout2
-            vpiActual: LogicTypespec
         Port name:dout3 start:289:20 end:289:25:
           vpiParent: Module name:memtest13
           vpiName: dout3
           vpiDirection: output (2)
-          vpiLowConn RefObj start:289:20 end:289:25:
+          vpiLowConn RefObj name:dout3 start:289:20 end:289:25:
             vpiParent: Port name:dout3
-            vpiFullName: memtest13.dout3
+            vpiName: dout3
+            vpiFullName: memtest13.dout3.dout3
             vpiActual: Variable name:dout3
           vpiTypespec RefTypespec start:289:2 end:289:19:
             vpiParent: Port name:dout3
@@ -11488,7 +11305,7 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: rst
                     vpiFullName: memtest13.rst
-                    vpiActual: Net name:rst
+                    vpiActual: Port name:rst
                   vpiStmt Begin start:294:12 end:299:6:
                     vpiParent: IfElse
                     vpiFullName: memtest13
@@ -11503,7 +11320,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[0]
                             vpiName: mem
                             vpiFullName: memtest13.mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex Constant start:295:8 end:295:9:
                             vpiParent: BitSelect name:mem[0]
                             vpiTypespec RefTypespec:
@@ -11534,7 +11351,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[1]
                             vpiName: mem
                             vpiFullName: memtest13.mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex Constant start:296:8 end:296:9:
                             vpiParent: BitSelect name:mem[1]
                             vpiTypespec RefTypespec:
@@ -11565,7 +11382,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[2]
                             vpiName: mem
                             vpiFullName: memtest13.mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex Constant start:297:8 end:297:9:
                             vpiParent: BitSelect name:mem[2]
                             vpiTypespec RefTypespec:
@@ -11596,7 +11413,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[3]
                             vpiName: mem
                             vpiFullName: memtest13.mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex Constant start:298:8 end:298:9:
                             vpiParent: BitSelect name:mem[3]
                             vpiTypespec RefTypespec:
@@ -11631,7 +11448,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[a1]
                             vpiName: mem
                             vpiFullName: memtest13.mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex RefObj name:a1 start:300:8 end:300:10:
                             vpiParent: BitSelect name:mem[a1]
                             vpiName: a1
@@ -11656,12 +11473,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:mem[a2]
                               vpiName: mem
                               vpiFullName: memtest13.mem[a2][14:11].mem
-                              vpiActual: Net name:mem
+                              vpiActual: Variable name:mem
                             vpiIndex RefObj name:a2 start:301:8 end:301:10:
                               vpiParent: BitSelect name:mem[a2]
                               vpiName: a2
                               vpiFullName: memtest13.mem[a2][14:11].a2
-                              vpiActual: Net name:a2
+                              vpiActual: Port name:a2
                           vpiRange Range start:301:12 end:301:17:
                             vpiParent: PartSelect name:mem[a2][14:11]
                             vpiLeftRange Constant start:301:12 end:301:14:
@@ -11703,12 +11520,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:mem[a3]
                               vpiName: mem
                               vpiFullName: memtest13.mem[a3][5+off1+:4].mem
-                              vpiActual: Net name:mem
+                              vpiActual: Variable name:mem
                             vpiIndex RefObj name:a3 start:302:8 end:302:10:
                               vpiParent: BitSelect name:mem[a3]
                               vpiName: a3
                               vpiFullName: memtest13.mem[a3][5+off1+:4].a3
-                              vpiActual: Net name:a3
+                              vpiActual: Port name:a3
                           vpiIndexedPartSelectType: pos indexed (1)
                           vpiBaseExpr Operation start:302:12 end:302:20:
                             vpiParent: IndexedPartSelect name:mem[a3][5+off1+:4]
@@ -11743,7 +11560,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: din3
                           vpiFullName: memtest13.din3
-                          vpiActual: Net name:din3
+                          vpiActual: Port name:din3
                       Assignment start:303:4 end:303:26:
                         vpiParent: Begin
                         vpiLhs RefObj name:dout1 start:303:4 end:303:9:
@@ -11763,12 +11580,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:mem[a4]
                               vpiName: mem
                               vpiFullName: memtest13.mem[a4][12:9].mem
-                              vpiActual: Net name:mem
+                              vpiActual: Variable name:mem
                             vpiIndex RefObj name:a4 start:303:17 end:303:19:
                               vpiParent: BitSelect name:mem[a4]
                               vpiName: a4
                               vpiFullName: memtest13.mem[a4][12:9].a4
-                              vpiActual: Net name:a4
+                              vpiActual: Port name:a4
                           vpiRange Range start:303:21 end:303:25:
                             vpiParent: PartSelect name:mem[a4][12:9]
                             vpiLeftRange Constant start:303:21 end:303:23:
@@ -11797,7 +11614,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: dout2
                           vpiFullName: memtest13.dout2
-                          vpiActual: Net name:dout2
+                          vpiActual: Port name:dout2
                         vpiRhs IndexedPartSelect name:mem[a5][5+off2+:4] start:304:13 end:304:35:
                           vpiParent: Assignment
                           vpiName: mem[a5][5+off2+:4]
@@ -11810,12 +11627,12 @@ Design name:unnamed:
                               vpiParent: BitSelect name:mem[a5]
                               vpiName: mem
                               vpiFullName: memtest13.mem[a5][5+off2+:4].mem
-                              vpiActual: Net name:mem
+                              vpiActual: Variable name:mem
                             vpiIndex RefObj name:a5 start:304:17 end:304:19:
                               vpiParent: BitSelect name:mem[a5]
                               vpiName: a5
                               vpiFullName: memtest13.mem[a5][5+off2+:4].a5
-                              vpiActual: Net name:a5
+                              vpiActual: Port name:a5
                           vpiIndexedPartSelectType: pos indexed (1)
                           vpiBaseExpr Operation start:304:21 end:304:29:
                             vpiParent: IndexedPartSelect name:mem[a5][5+off2+:4]
@@ -11835,7 +11652,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: off2
                                 vpiFullName: memtest13.mem[a5][5+off2+:4].off2
-                                vpiActual: Net name:off2
+                                vpiActual: Port name:off2
                           vpiWidthExpr Constant start:304:33 end:304:34:
                             vpiParent: IndexedPartSelect name:mem[a5][5+off2+:4]
                             vpiTypespec RefTypespec:
@@ -11861,12 +11678,12 @@ Design name:unnamed:
                             vpiParent: BitSelect name:mem[a6]
                             vpiName: mem
                             vpiFullName: memtest13.mem
-                            vpiActual: Net name:mem
+                            vpiActual: Variable name:mem
                           vpiIndex RefObj name:a6 start:305:17 end:305:19:
                             vpiParent: BitSelect name:mem[a6]
                             vpiName: a6
                             vpiFullName: memtest13.a6
-                            vpiActual: Net name:a6
+                            vpiActual: Port name:a6
           vpiAlwaysType: always (1)
   vpiTypespec (16 items):
     ModuleTypespec name:memtest00:
@@ -11965,7 +11782,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -12010,7 +11827,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/memory.v/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1800    1800       0         0
+Others                            1736    1736       0         0
 ----------------------------------------------------------------
-                                  1800    1800       0         0
+                                  1736    1736       0         0
 ===================== END REDUCTION RESULT =====================

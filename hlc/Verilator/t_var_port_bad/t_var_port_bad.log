@@ -119,10 +119,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_var_port_bad.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_var_port_bad.v:11:1: Compile module "subok".
 [INF:CP0303] $Source01/t_var_port_bad.v:14:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_var_port_bad.v:7:18: Illegal implicit net "id:18, name:a".
-[ERR:EL0535] $Source01/t_var_port_bad.v:7:28: Illegal implicit net "id:23, name:b".
-[ERR:EL0535] $Source01/t_var_port_bad.v:8:14: Illegal implicit net "id:32, name:a".
-[ERR:EL0535] $Source01/t_var_port_bad.v:8:24: Illegal implicit net "id:37, name:b".
+[ERR:LN0813] $Source01/t_var_port_bad.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -132,7 +129,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_port_bad.v
       vpiPreprocFile: "$Output/lib/work/t_var_port_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_var_port_bad.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -154,7 +150,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -253,13 +249,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:subok
       vpiDefName: subok
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:subok
         vpiName: work
         vpiFullName: subok.work
       vpiCell: subok
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:a start:11:21 end:11:22:
           vpiParent: Module name:subok
           vpiTypespec RefTypespec start:11:15 end:11:20:
@@ -269,23 +265,15 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: subok.a
           vpiNetType: wire (1)
-        Net name:b start:11:23 end:11:24:
-          vpiParent: Module name:subok
-          vpiTypespec RefTypespec start:11:23 end:11:23:
-            vpiParent: Net name:b
-            vpiFullName: subok.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: subok.b
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:11:21 end:11:22:
           vpiParent: Module name:subok
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:21 end:11:22:
+          vpiLowConn RefObj name:a start:11:21 end:11:22:
             vpiParent: Port name:a
-            vpiFullName: subok.a
+            vpiName: a
+            vpiFullName: subok.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:11:15 end:11:20:
             vpiParent: Port name:a
@@ -295,14 +283,6 @@ Design name:unnamed:
           vpiParent: Module name:subok
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:11:23 end:11:24:
-            vpiParent: Port name:b
-            vpiFullName: subok.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:11:23 end:11:23:
-            vpiParent: Port name:b
-            vpiFullName: subok.b
-            vpiActual: LogicTypespec
     Module name:sub file:$Source01/t_var_port_bad.v start:14:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:14:8 end:14:11:
@@ -313,7 +293,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:sub
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -328,12 +308,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: sub.a
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:a start:14:13 end:14:14:
           vpiParent: Module name:sub
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:14:13 end:14:14:
+          vpiLowConn RefObj name:a start:15:10 end:15:11:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: sub.a.a
@@ -364,7 +345,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -409,7 +390,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_port_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================

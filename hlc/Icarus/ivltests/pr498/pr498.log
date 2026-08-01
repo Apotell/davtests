@@ -194,8 +194,7 @@ n<$Source01/pr498.v> u<179> t<Top_level_rule> c<1> l<21:1> el<40:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/pr498.v:21:1: Compile module "main".
 [INF:CP0303] $Source01/pr498.v:27:1: Compile module "test".
-[ERR:EL0535] $Source01/pr498.v:23:13: Illegal implicit net "id:19, name:foo".
-[ERR:EL0535] $Source01/pr498.v:24:16: Illegal implicit net "id:22, name:foo".
+[WRN:CP0350] $Source01/pr498.v:24:16: Failed to bind "id:22, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -205,7 +204,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr498.v
       vpiPreprocFile: "$Output/lib/work/pr498.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:main file:$Source01/pr498.v start:21:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -220,7 +218,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:test
             vpiName: test
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
@@ -284,6 +282,16 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (1 items):
+        Variable name:bar start:29:18 end:29:21:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:29:4 end:29:17:
+            vpiParent: Variable name:bar
+            vpiFullName: test.bar
+            vpiActual: LogicTypespec
+          vpiName: bar
+          vpiFullName: test.bar
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:foo start:28:14 end:28:17:
           vpiParent: Module name:test
@@ -350,21 +358,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (1 items):
-        Net name:bar start:29:18 end:29:21:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:29:4 end:29:17:
-            vpiParent: Net name:bar
-            vpiFullName: test.bar
-            vpiActual: LogicTypespec
-          vpiName: bar
-          vpiFullName: test.bar
       vpiProcess (1 items):
         Initial start:31:4 end:37:7:
           vpiParent: Module name:test
@@ -388,7 +387,7 @@ Design name:unnamed:
                           vpiParent: SysFuncCall name:$bits
                           vpiName: bar
                           vpiFullName: test.bar
-                          vpiActual: Net name:bar
+                          vpiActual: Variable name:bar
                     Constant start:32:25 end:32:26:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -429,7 +428,7 @@ Design name:unnamed:
                               vpiParent: SysFuncCall name:$bits
                               vpiName: bar
                               vpiFullName: test.bar
-                              vpiActual: Net name:bar
+                              vpiActual: Variable name:bar
                     SysTaskCall name:$finish start:34:3 end:34:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:34:3 end:34:10:
@@ -472,8 +471,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

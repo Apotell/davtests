@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,7 @@
 //     "b" resolving the local Variable "b", Constant index N), rhs
 //     Constant N, for N in 0..2
 //   - Stmt[3]: $display with 4 args (format + BitSelect b[0], b[1], b[2])
-//   - Stmt[4]: fun(b) -- FuncCall "fun" with 1 argument, RefObj "b"
+//   - Stmt[4]: fun(b) -- TaskCall "fun" with 1 argument, RefObj "b"
 //     resolving the local Variable "b"
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
@@ -125,7 +125,7 @@ class UnpackedSubroutinesTest : public Test {
   }
 };
 
-// --- module ------------------------------------------------------------------
+// --- module ----
 
 TEST_F(UnpackedSubroutinesTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -135,7 +135,7 @@ TEST_F(UnpackedSubroutinesTest, ModuleHasNoNets) {
   EXPECT_EQ(top->getNets(), nullptr);
 }
 
-// --- task fun(int a [2:0]) ---------------------------------------------------
+// --- task fun(int a [2:0]) ----
 
 TEST_F(UnpackedSubroutinesTest, ModuleHasOneTaskFunc) {
   const hldb::Module *const top = getTop();
@@ -196,7 +196,7 @@ TEST_F(UnpackedSubroutinesTest, TaskBodyIsBareDisplayNotWrappedInBegin) {
   }
 }
 
-// --- initial process: local variable b + fun(b) -----------------------------
+// --- initial process: local variable b + fun(b) ----
 
 TEST_F(UnpackedSubroutinesTest, ModuleHasOneInitialProcess) {
   const hldb::Module *const top = getTop();
@@ -278,7 +278,7 @@ TEST_F(UnpackedSubroutinesTest, FifthStmtIsFunCallWithBArgument) {
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnpackedSubroutinesTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -312,7 +312,7 @@ TEST_F(UnpackedSubroutinesTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: call-site to declaration binding for task invocations -------
+// --- known gap: call-site to declaration binding for task invocations ----
 
 // 'fun(b)' is parsed as a FuncCall (see FifthStmtIsFunCallWithBArgument
 // above). A compiler that performs full compile-time name binding must also

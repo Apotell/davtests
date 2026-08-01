@@ -39,14 +39,6 @@ COMMAND: -wd ../../../tests/SplitFile top.v top1.v top2.v -writepp -d inst -file
 [WRN:CP0334] Colliding compilation unit name: "bottom1".
 [WRN:CP0334] Colliding compilation unit name: "bottom2".
 [WRN:CP0334] Colliding compilation unit name: "bottom3".
-[ERR:EL0535] $Source01/top.v:30:17: Illegal implicit net "id:904, name:capture".
-[ERR:EL0535] $Source01/top.v:30:8: Illegal implicit net "id:906, name:capture".
-[ERR:EL0535] $Source01/top.v:31:13: Illegal implicit net "id:907, name:clk".
-[ERR:EL0535] $Source01/top.v:31:8: Illegal implicit net "id:909, name:clk".
-[ERR:EL0535] $Source01/top.v:93:17: Illegal implicit net "id:916, name:capture".
-[ERR:EL0535] $Source01/top.v:93:8: Illegal implicit net "id:918, name:capture".
-[ERR:EL0535] $Source01/top.v:94:13: Illegal implicit net "id:919, name:clk".
-[ERR:EL0535] $Source01/top.v:94:8: Illegal implicit net "id:921, name:clk".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top2.v:1:1: No timescale set for "toto1".
 [WRN:PA0205] $Source01/top2.v:53:1: No timescale set for "toto2".
@@ -67,21 +59,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
     SourceFile name:top1.v file:$Source01/top1.v:
       vpiParent: Design name:unnamed
       vpiName: top1.v
       vpiPreprocFile: "$Output/lib/work/top1.v"
-      vpiDefNetType: none (12)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
     SourceFile name:top2.v file:$Source01/top2.v:
       vpiParent: Design name:unnamed
       vpiName: top2.v
       vpiPreprocFile: "$Output/lib/work/top2.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (5 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -1661,7 +1650,7 @@ Design name:unnamed:
             vpiName: blah3
           vpiClassDefn: ClassDefn name:blah3
       vpiDefName: toto1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:toto1
         vpiName: work
@@ -1727,7 +1716,7 @@ Design name:unnamed:
             vpiName: blah22
           vpiClassDefn: ClassDefn name:blah22
       vpiDefName: toto2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:toto2
         vpiName: work
@@ -1767,7 +1756,7 @@ Design name:unnamed:
         vpiName: toto3
       vpiFullName: toto3
       vpiDefName: toto3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:toto3
         vpiName: work
@@ -1805,7 +1794,7 @@ Design name:unnamed:
             vpiName: blah31_167
           vpiClassDefn: ClassDefn name:blah31_167
       vpiDefName: toto4
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:toto4
         vpiName: work
@@ -2299,34 +2288,6 @@ Design name:unnamed:
         vpiParent: Interface name:my_interface
         vpiName: my_interface
       vpiFullName: my_interface
-      vpiVariable (3 items):
-        Variable name:clock start:3:9 end:3:14:
-          vpiParent: Interface name:my_interface
-          vpiTypespec RefTypespec start:3:3 end:3:8:
-            vpiParent: Variable name:clock
-            vpiFullName: my_interface.clock
-            vpiActual: LogicTypespec
-          vpiName: clock
-          vpiFullName: my_interface.clock
-          vpiNetType: wire (1)
-        Variable name:select start:4:9 end:4:15:
-          vpiParent: Interface name:my_interface
-          vpiTypespec RefTypespec start:4:3 end:4:8:
-            vpiParent: Variable name:select
-            vpiFullName: my_interface.select
-            vpiActual: LogicTypespec
-          vpiName: select
-          vpiFullName: my_interface.select
-          vpiNetType: wire (1)
-        Variable name:data start:5:15 end:5:19:
-          vpiParent: Interface name:my_interface
-          vpiTypespec RefTypespec start:5:3 end:5:14:
-            vpiParent: Variable name:data
-            vpiFullName: my_interface.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: my_interface.data
-          vpiNetType: wire (1)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:my_interface
@@ -2356,12 +2317,40 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:my_interface
         vpiName: work
         vpiFullName: my_interface.work
       vpiCell: my_interface
+      vpiNet (3 items):
+        Net name:clock start:3:9 end:3:14:
+          vpiParent: Interface name:my_interface
+          vpiTypespec RefTypespec start:3:3 end:3:8:
+            vpiParent: Net name:clock
+            vpiFullName: my_interface.clock
+            vpiActual: LogicTypespec
+          vpiName: clock
+          vpiFullName: my_interface.clock
+          vpiNetType: wire (1)
+        Net name:select start:4:9 end:4:15:
+          vpiParent: Interface name:my_interface
+          vpiTypespec RefTypespec start:4:3 end:4:8:
+            vpiParent: Net name:select
+            vpiFullName: my_interface.select
+            vpiActual: LogicTypespec
+          vpiName: select
+          vpiFullName: my_interface.select
+          vpiNetType: wire (1)
+        Net name:data start:5:15 end:5:19:
+          vpiParent: Interface name:my_interface
+          vpiTypespec RefTypespec start:5:3 end:5:14:
+            vpiParent: Net name:data
+            vpiFullName: my_interface.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: my_interface.data
+          vpiNetType: wire (1)
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:7:3 end:9:14:
           vpiParent: Interface name:my_interface
@@ -2398,10 +2387,11 @@ Design name:unnamed:
           vpiParent: Interface name:my_interface
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:9 end:3:14:
+          vpiLowConn RefObj name:clock start:3:9 end:3:14:
             vpiParent: Port name:clock
-            vpiFullName: my_interface.clock
-            vpiActual: Variable name:clock
+            vpiName: clock
+            vpiFullName: my_interface.clock.clock
+            vpiActual: Net name:clock
           vpiTypespec RefTypespec start:3:3 end:3:8:
             vpiParent: Port name:clock
             vpiFullName: my_interface.clock
@@ -2410,10 +2400,11 @@ Design name:unnamed:
           vpiParent: Interface name:my_interface
           vpiName: select
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:9 end:4:15:
+          vpiLowConn RefObj name:select start:4:9 end:4:15:
             vpiParent: Port name:select
-            vpiFullName: my_interface.select
-            vpiActual: Variable name:select
+            vpiName: select
+            vpiFullName: my_interface.select.select
+            vpiActual: Net name:select
           vpiTypespec RefTypespec start:4:3 end:4:8:
             vpiParent: Port name:select
             vpiFullName: my_interface.select
@@ -2422,10 +2413,11 @@ Design name:unnamed:
           vpiParent: Interface name:my_interface
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:15 end:5:19:
+          vpiLowConn RefObj name:data start:5:15 end:5:19:
             vpiParent: Port name:data
-            vpiFullName: my_interface.data
-            vpiActual: Variable name:data
+            vpiName: data
+            vpiFullName: my_interface.data.data
+            vpiActual: Net name:data
           vpiTypespec RefTypespec start:5:3 end:5:14:
             vpiParent: Port name:data
             vpiFullName: my_interface.data
@@ -2451,7 +2443,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bottom3
             vpiName: bottom3
       vpiDefName: bottom1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -11
       vpiLibrary RefObj name:work:
@@ -2483,9 +2475,10 @@ Design name:unnamed:
           vpiParent: Module name:bottom1
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:23 end:8:24:
+          vpiLowConn RefObj name:a start:8:23 end:8:24:
             vpiParent: Port name:a
-            vpiFullName: bottom1.a
+            vpiName: a
+            vpiFullName: bottom1.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:8:17 end:8:22:
             vpiParent: Port name:a
@@ -2495,9 +2488,10 @@ Design name:unnamed:
           vpiParent: Module name:bottom1
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:32 end:8:33:
+          vpiLowConn RefObj name:b start:8:32 end:8:33:
             vpiParent: Port name:b
-            vpiFullName: bottom1.b
+            vpiName: b
+            vpiFullName: bottom1.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:8:26 end:8:31:
             vpiParent: Port name:b
@@ -2614,7 +2608,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:bottom2
       vpiDefName: bottom2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bottom2
         vpiName: work
@@ -2644,9 +2638,10 @@ Design name:unnamed:
           vpiParent: Module name:bottom2
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:18:23 end:18:24:
+          vpiLowConn RefObj name:a start:18:23 end:18:24:
             vpiParent: Port name:a
-            vpiFullName: bottom2.a
+            vpiName: a
+            vpiFullName: bottom2.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:18:17 end:18:22:
             vpiParent: Port name:a
@@ -2656,9 +2651,10 @@ Design name:unnamed:
           vpiParent: Module name:bottom2
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:18:32 end:18:33:
+          vpiLowConn RefObj name:b start:18:32 end:18:33:
             vpiParent: Port name:b
-            vpiFullName: bottom2.b
+            vpiName: b
+            vpiFullName: bottom2.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:18:26 end:18:31:
             vpiParent: Port name:b
@@ -2703,7 +2699,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:ddr
             vpiName: ddr
       vpiDefName: bottom3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
       vpiLibrary RefObj name:work:
@@ -2754,7 +2750,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:ddr
             vpiName: ddr
       vpiDefName: bottom4
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
       vpiLibrary RefObj name:work:
@@ -2799,7 +2795,7 @@ Design name:unnamed:
         vpiName: top
       vpiFullName: top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -10
       vpiLibrary RefObj name:work:
@@ -2814,7 +2810,7 @@ Design name:unnamed:
         vpiName: bottom1
       vpiFullName: bottom1
       vpiDefName: bottom1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -11
       vpiLibrary RefObj name:work:
@@ -2829,7 +2825,7 @@ Design name:unnamed:
         vpiName: bottom2
       vpiFullName: bottom2
       vpiDefName: bottom2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bottom2
         vpiName: work
@@ -2851,7 +2847,7 @@ Design name:unnamed:
             vpiName: nested
           vpiModule: Module name:nested
       vpiDefName: middle
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -11
       vpiLibrary RefObj name:work:
@@ -2895,7 +2891,7 @@ Design name:unnamed:
             vpiName: nested
           vpiFullName: nested
           vpiDefName: nested
-          vpiDefNetType: none (12)
+          vpiDefNetType: wire (1)
           vpiTimePrecision: -12
           vpiTimeUnit: -11
           vpiLibrary RefObj name:work:
@@ -2932,7 +2928,7 @@ Design name:unnamed:
         vpiName: bottom3
       vpiFullName: bottom3
       vpiDefName: bottom3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
       vpiLibrary RefObj name:work:
@@ -2947,7 +2943,7 @@ Design name:unnamed:
         vpiName: inb
       vpiFullName: inb
       vpiDefName: inb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:inb
         vpiName: work
@@ -2960,7 +2956,7 @@ Design name:unnamed:
         vpiName: gap2
       vpiFullName: gap2
       vpiDefName: gap2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gap2
         vpiName: work
@@ -2973,7 +2969,7 @@ Design name:unnamed:
         vpiName: gap3
       vpiFullName: gap3
       vpiDefName: gap3
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gap3
         vpiName: work
@@ -2986,7 +2982,7 @@ Design name:unnamed:
         vpiName: gap4_181
       vpiFullName: gap4_181
       vpiDefName: gap4_181
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gap4_181
         vpiName: work
@@ -3107,7 +3103,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 0
 [WARNING] : 17
 [   NOTE] : 0
 ********************************************************************************

@@ -299,9 +299,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_param1.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_param1.v:21:1: Compile module "sub_test".
 [INF:CP0304] $Source01/t_interface_param1.v:31:1: Compile interface "test_if".
-[ERR:EL0535] $Source01/t_interface_param1.v:15:16: Illegal implicit net "id:37, name:id".
-[ERR:EL0535] $Source01/t_interface_param1.v:16:26: Illegal implicit net "id:42, name:a".
-[ERR:EL0535] $Source01/t_interface_param1.v:16:28: Illegal implicit net "id:43, name:b".
+[WRN:CP0350] $Source01/t_interface_param1.v:16:26: Failed to bind "id:42, name:a".
+[WRN:CP0350] $Source01/t_interface_param1.v:16:28: Failed to bind "id:43, name:b".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -311,7 +310,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_param1.v
       vpiPreprocFile: "$Output/lib/work/t_interface_param1.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:test_if file:$Source01/t_interface_param1.v start:31:1 end:51:13:
       vpiParent: Design name:unnamed
@@ -508,7 +506,7 @@ Design name:unnamed:
             vpiParent: TypedefTypespec name:bType
             vpiFullName: test_if.bType
             vpiActual: StructTypespec
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:test_if
         vpiName: work
@@ -578,7 +576,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub_test
             vpiName: sub_test
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -608,7 +606,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:10:4 end:10:7:
+          vpiLowConn RefObj name:clk start:12:22 end:12:25:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -749,7 +747,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: sub_test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub_test
         vpiName: work
@@ -779,9 +777,10 @@ Design name:unnamed:
           vpiParent: Module name:sub_test
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:18 end:23:19:
+          vpiLowConn RefObj name:b start:23:18 end:23:19:
             vpiParent: Port name:b
-            vpiFullName: sub_test.b
+            vpiName: b
+            vpiFullName: sub_test.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:23:4 end:23:16:
             vpiParent: Port name:b
@@ -791,9 +790,10 @@ Design name:unnamed:
           vpiParent: Module name:sub_test
           vpiName: c
           vpiDirection: output (2)
-          vpiLowConn RefObj start:24:18 end:24:19:
+          vpiLowConn RefObj name:c start:24:18 end:24:19:
             vpiParent: Port name:c
-            vpiFullName: sub_test.c
+            vpiName: c
+            vpiFullName: sub_test.c.c
             vpiActual: Net name:c
           vpiTypespec RefTypespec start:24:4 end:24:17:
             vpiParent: Port name:c
@@ -837,8 +837,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

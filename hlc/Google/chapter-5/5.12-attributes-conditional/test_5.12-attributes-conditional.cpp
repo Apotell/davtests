@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +21,10 @@
 //   Assignment (blocking)
 //     LHS: RefObj "a"
 //     RHS: Operation (vpiConditionOp = 32)
-//            operand[0]: RefObj "b"        ← condition
-//            operand[1]: RefObj "c"        ← true branch
-//              vpiAttribute[0]: Attribute "no_glitch" (no value — flag)
-//            operand[2]: RefObj "d"        ← false branch
+//            operand[0]: RefObj "b"        <- condition
+//            operand[1]: RefObj "c"        <- true branch
+//              vpiAttribute[0]: Attribute "no_glitch" (no value -- flag)
+//            operand[2]: RefObj "d"        <- false branch
 //
 // Key fact: the (* ... *) attribute is attached to the branch Expr node,
 // not to the ternary Operation itself.  Access via Expr::getAttributes().
@@ -43,6 +43,7 @@
 #include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -68,35 +69,48 @@ static const hldb::Assignment *getAssignment(const hldb::Design *design) {
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
-// Module and nets
-// ---------------------------------------------------------------------------
+// ----
+// Module and variables
+// ----
 TEST_F(AttributesConditional, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-TEST_F(AttributesConditional, FourBitNetsExist) {
+TEST_F(AttributesConditional, FourBitVariablesExist) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 4u) << "expected 4 nets: a, b, c, d";
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 4u) << "expected 4 variables: a, b, c, d";
 
   bool hasA = false, hasB = false, hasC = false, hasD = false;
-  for (const hldb::Net *const n : *top->getNets()) {
+  for (const hldb::Variable *const n : *top->getVariables()) {
     if (n->getName() == "a") hasA = true;
     if (n->getName() == "b") hasB = true;
     if (n->getName() == "c") hasC = true;
     if (n->getName() == "d") hasD = true;
   }
-  EXPECT_TRUE(hasA) << "net 'a' missing";
-  EXPECT_TRUE(hasB) << "net 'b' missing";
-  EXPECT_TRUE(hasC) << "net 'c' missing";
-  EXPECT_TRUE(hasD) << "net 'd' missing";
+  EXPECT_TRUE(hasA) << "variable 'a' missing";
+  EXPECT_TRUE(hasB) << "variable 'b' missing";
+  EXPECT_TRUE(hasC) << "variable 'c' missing";
+  EXPECT_TRUE(hasD) << "variable 'd' missing";
 }
 
-// ---------------------------------------------------------------------------
+// `bit a, b, c, d;` has no net-type keyword, so per IEEE 1800-2023 Sec
+// 6.7/6.8 none of these must also appear as a Net.
+TEST_F(AttributesConditional, VariablesAreNotDuplicatedAsNets) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr);
+    EXPECT_EQ(hldb::findByName<hldb::Net>("d", top->getNets()), nullptr);
+  }
+}
+
+// ----
 // Assignment: a = b ? (* no_glitch *) c : d
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesConditional, AssignmentExists) {
   ASSERT_NE(getAssignment(m_design), nullptr) << "blocking assignment not found";
 }
@@ -115,9 +129,9 @@ TEST_F(AttributesConditional, AssignmentLhsIsA) {
   EXPECT_EQ(lhs->getName(), "a");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // RHS: ternary Operation (condition)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesConditional, RhsIsConditionalOperation) {
   const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);
@@ -171,9 +185,9 @@ TEST_F(AttributesConditional, OperandTwoIsFalseBranchD) {
   EXPECT_EQ(falseBranch->getName(), "d");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // (* no_glitch *) attribute on the true-branch operand
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(AttributesConditional, TrueBranchHasNoGlitchAttribute) {
   const hldb::Assignment *const a = getAssignment(m_design);
   ASSERT_NE(a, nullptr);

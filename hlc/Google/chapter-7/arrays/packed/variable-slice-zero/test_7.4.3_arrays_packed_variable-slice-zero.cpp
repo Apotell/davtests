@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +30,8 @@
 //   endmodule
 //
 // Checked:
-//   - design has module top with exactly 2 nets: "arr_a", "arr_b"
-//   - both nets: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
+//   - design has module top with exactly 2 variables: "arr_a", "arr_b"
+//   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - module has exactly 1 Parameter "c" (RefTypespec -> IntegerTypespec,
 //     signed) with 1 ParamAssign: lhs RefObj "c" resolving the Parameter,
 //     rhs Constant "0" (zero-width part-select size)
@@ -92,7 +92,7 @@
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/range.h>
@@ -110,21 +110,21 @@ class PackedVariableSliceZeroTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module / nets ------------------------------------------------------------
+// --- module / variables ----
 
 TEST_F(PackedVariableSliceZeroTest, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(PackedVariableSliceZeroTest, ModuleHasTwoNets) {
+TEST_F(PackedVariableSliceZeroTest, ModuleHasTwoVariables) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
-// --- parameter c = 0 (the zero part-width under test) ------------------------
+// --- parameter c = 0 (the zero part-width under test) ----
 
 TEST_F(PackedVariableSliceZeroTest, ModuleHasOneParameterNamedCEqualsZero) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -146,7 +146,7 @@ TEST_F(PackedVariableSliceZeroTest, ModuleHasOneParameterNamedCEqualsZero) {
   EXPECT_EQ(rhs->getDecompile(), "0");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedVariableSliceZeroTest, InitialBeginHasFiveStmts) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -231,7 +231,7 @@ TEST_F(PackedVariableSliceZeroTest, SecondDisplayAssertsAllZeroBitPattern) {
   EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_b");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedVariableSliceZeroTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -256,7 +256,7 @@ TEST_F(PackedVariableSliceZeroTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known compiler limitation: skipped canary for a future fix -------------
+// --- known compiler limitation: skipped canary for a future fix ----
 
 TEST_F(PackedVariableSliceZeroTest, CompilerShouldRejectZeroWidthIndexedPartSelect) {
   GTEST_SKIP() << "IEEE 1800-2017 7.4.3 requires indexed part-select widths to be constant and "

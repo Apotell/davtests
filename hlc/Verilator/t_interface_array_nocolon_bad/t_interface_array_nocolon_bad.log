@@ -266,12 +266,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_array_nocolon_bad.v:18:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_array_nocolon_bad.v:18:1: Multiply defined typedef "foo_subm".
 [WRN:CP0323] $Source01/t_interface_array_nocolon_bad.v:18:1: Multiply defined typedef "foo_subm".
-[ERR:EL0535] $Source01/t_interface_array_nocolon_bad.v:25:24: Illegal implicit net "id:60, name:x".
-[ERR:EL0535] $Source01/t_interface_array_nocolon_bad.v:26:26: Illegal implicit net "id:76, name:x".
-[ERR:EL0535] $Source01/t_interface_array_nocolon_bad.v:27:26: Illegal implicit net "id:92, name:x".
-[ERR:EL0535] $Source01/t_interface_array_nocolon_bad.v:29:24: Illegal implicit net "id:102, name:x".
-[ERR:EL0535] $Source01/t_interface_array_nocolon_bad.v:30:26: Illegal implicit net "id:118, name:x".
-[ERR:EL0535] $Source01/t_interface_array_nocolon_bad.v:31:26: Illegal implicit net "id:134, name:x".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -281,7 +275,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array_nocolon_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_array_nocolon_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_interface_array_nocolon_bad.v start:6:1 end:10:13:
       vpiParent: Design name:unnamed
@@ -289,34 +282,35 @@ Design name:unnamed:
         vpiParent: Interface name:foo_intf
         vpiName: foo_intf
       vpiFullName: foo_intf
-      vpiVariable (1 items):
-        Variable name:x start:8:10 end:8:11:
-          vpiParent: Interface name:foo_intf
-          vpiTypespec RefTypespec start:8:4 end:8:9:
-            vpiParent: Variable name:x
-            vpiFullName: foo_intf.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: foo_intf.x
-          vpiNetType: wire (1)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:foo_intf
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
         vpiFullName: foo_intf.work
       vpiCell: foo_intf
+      vpiNet (1 items):
+        Net name:x start:8:10 end:8:11:
+          vpiParent: Interface name:foo_intf
+          vpiTypespec RefTypespec start:8:4 end:8:9:
+            vpiParent: Net name:x
+            vpiFullName: foo_intf.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: foo_intf.x
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:x start:8:10 end:8:11:
           vpiParent: Interface name:foo_intf
           vpiName: x
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:10 end:8:11:
+          vpiLowConn RefObj name:x start:8:10 end:8:11:
             vpiParent: Port name:x
-            vpiFullName: foo_intf.x
-            vpiActual: Variable name:x
+            vpiName: x
+            vpiFullName: foo_intf.x.x
+            vpiActual: Net name:x
           vpiTypespec RefTypespec start:8:4 end:8:9:
             vpiParent: Port name:x
             vpiFullName: foo_intf.x
@@ -332,7 +326,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:foo_subm
       vpiDefName: foo_subm
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:foo_subm
         vpiName: work
@@ -353,9 +347,10 @@ Design name:unnamed:
           vpiParent: Module name:foo_subm
           vpiName: x
           vpiDirection: input (1)
-          vpiLowConn RefObj start:14:10 end:14:11:
+          vpiLowConn RefObj name:x start:14:10 end:14:11:
             vpiParent: Port name:x
-            vpiFullName: foo_subm.x
+            vpiName: x
+            vpiFullName: foo_subm.x.x
             vpiActual: Net name:x
           vpiTypespec RefTypespec start:14:4 end:14:9:
             vpiParent: Port name:x
@@ -598,7 +593,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:foo_subm
             vpiName: foo_subm
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -772,7 +767,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************

@@ -10,11 +10,7 @@ COMMAND: -wd ../../../tests/BitsStructMember -d db -sv dut.sv -nobuiltin -nocach
 [INF:PA0201] Parsing source file "$Source01/dut.sv".
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "keymgr_pkg".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:17:16: Illegal implicit net "id:68, name:MsgWidth".
-[ERR:EL0535] $Source01/dut.sv:20:18: Illegal implicit net "id:83, name:mux_sel".
-[ERR:EL0535] $Source01/dut.sv:21:7: Illegal implicit net "id:84, name:SelKeyMgr".
-[ERR:EL0535] $Source01/dut.sv:22:50: Illegal implicit net "id:97, name:strb".
-[ERR:EL0535] $Source01/dut.sv:23:50: Illegal implicit net "id:121, name:strb".
+[WRN:CP0350] $Source01/dut.sv:22:50: Failed to bind "id:97, name:strb".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "keymgr_pkg".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "top".
 ====== HLDB =======
@@ -25,7 +21,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:keymgr_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
@@ -189,7 +184,7 @@ Design name:unnamed:
             vpiFullName: keymgr_pkg::kmac_data_req_t
             vpiActual: StructTypespec
       vpiDefName: keymgr_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:keymgr_pkg
         vpiName: work
@@ -211,7 +206,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: kmac_mask_o
           vpiFullName: top.kmac_mask_o
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         UnsupportedTypespec name:keymgr_pkg::kmac_data_req_t start:16:20 end:16:47:
           vpiParent: Module name:top
@@ -264,7 +258,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -286,9 +280,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: keymgr_data_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:16:48 end:16:61:
+          vpiLowConn RefObj name:keymgr_data_i start:16:48 end:16:61:
             vpiParent: Port name:keymgr_data_i
-            vpiFullName: top.keymgr_data_i
+            vpiName: keymgr_data_i
+            vpiFullName: top.keymgr_data_i.keymgr_data_i
             vpiActual: Net name:keymgr_data_i
           vpiTypespec RefTypespec name:kmac_data_req_t start:16:32 end:16:47:
             vpiParent: Port name:keymgr_data_i
@@ -299,9 +294,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: kmac_mask_o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:17:30 end:17:41:
+          vpiLowConn RefObj name:kmac_mask_o start:17:30 end:17:41:
             vpiParent: Port name:kmac_mask_o
-            vpiFullName: top.kmac_mask_o
+            vpiName: kmac_mask_o
+            vpiFullName: top.kmac_mask_o.kmac_mask_o
             vpiActual: Variable name:kmac_mask_o
           vpiTypespec RefTypespec start:17:2 end:17:29:
             vpiParent: Port name:kmac_mask_o
@@ -500,8 +496,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

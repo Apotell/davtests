@@ -561,14 +561,8 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/rotate.v:15:17: Compile generate block "netgen".
 [INF:CP0335] $Source01/rotate.v:19:25: Compile generate block "net".
 [INF:CP0335] $Source01/rotate.v:29:17: Compile generate block "router".
-[ERR:EL0535] $Source01/rotate.v:27:16: Illegal implicit net "id:153, name:netgen".
-[ERR:EL0535] $Source01/rotate.v:27:26: Illegal implicit net "id:154, name:in".
-[ERR:EL0535] $Source01/rotate.v:30:24: Illegal implicit net "id:184, name:netgen".
-[ERR:EL0535] $Source01/rotate.v:30:36: Illegal implicit net "id:185, name:in".
-[ERR:EL0535] $Source01/rotate.v:30:41: Illegal implicit net "id:189, name:netgen".
-[ERR:EL0535] $Source01/rotate.v:30:51: Illegal implicit net "id:190, name:out".
-[ERR:EL0535] $Source01/rotate.v:35:19: Illegal implicit net "id:198, name:netgen".
-[ERR:EL0535] $Source01/rotate.v:35:29: Illegal implicit net "id:199, name:out".
+[WRN:CP0350] $Source01/rotate.v:30:51: Failed to bind "id:190, name:out".
+[WRN:CP0350] $Source01/rotate.v:35:29: Failed to bind "id:199, name:out".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -578,7 +572,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: rotate.v
       vpiPreprocFile: "$Output/lib/work/rotate.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:a23_barrel_shift_fpga_rotate file:$Source01/rotate.v start:3:1 end:47:10:
       vpiParent: Design name:unnamed
@@ -668,7 +661,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: a23_barrel_shift_fpga_rotate
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:a23_barrel_shift_fpga_rotate
         vpiName: work
@@ -840,7 +833,7 @@ Design name:unnamed:
             vpiParent: Function name:wrap
             vpiFullName: a23_barrel_shift_fpga_rotate.wrap
             vpiActual: LogicTypespec
-      vpiNet (4 items):
+      vpiNet (5 items):
         Net name:i_in start:5:15 end:5:19:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiTypespec RefTypespec start:5:8 end:5:14:
@@ -849,6 +842,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: i_in
           vpiFullName: a23_barrel_shift_fpga_rotate.i_in
+          vpiNetType: wire (1)
         Net name:direction start:6:15 end:6:24:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiTypespec RefTypespec start:6:15 end:6:15:
@@ -857,6 +851,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: direction
           vpiFullName: a23_barrel_shift_fpga_rotate.direction
+          vpiNetType: wire (1)
         Net name:shift_amount start:7:15 end:7:27:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiTypespec RefTypespec start:7:8 end:7:13:
@@ -865,6 +860,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: shift_amount
           vpiFullName: a23_barrel_shift_fpga_rotate.shift_amount
+          vpiNetType: wire (1)
         Net name:rot_prod start:8:15 end:8:23:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiTypespec RefTypespec start:8:8 end:8:14:
@@ -873,12 +869,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rot_prod
           vpiFullName: a23_barrel_shift_fpga_rotate.rot_prod
+          vpiNetType: wire (1)
+        Net name:in start:16:29 end:16:31:
+          vpiParent: Module name:a23_barrel_shift_fpga_rotate
+          vpiTypespec RefTypespec start:16:22 end:16:28:
+            vpiParent: Net name:in
+            vpiFullName: a23_barrel_shift_fpga_rotate.in
+            vpiActual: LogicTypespec
+          vpiName: in
+          vpiFullName: a23_barrel_shift_fpga_rotate.in
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:i_in start:3:37 end:3:41:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiName: i_in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:i_in start:3:37 end:3:41:
+          vpiLowConn RefObj name:i_in start:5:15 end:5:19:
             vpiParent: Port name:i_in
             vpiName: i_in
             vpiFullName: a23_barrel_shift_fpga_rotate.i_in.i_in
@@ -891,7 +897,7 @@ Design name:unnamed:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiName: direction
           vpiDirection: input (1)
-          vpiLowConn RefObj name:direction start:3:43 end:3:52:
+          vpiLowConn RefObj name:direction start:6:15 end:6:24:
             vpiParent: Port name:direction
             vpiName: direction
             vpiFullName: a23_barrel_shift_fpga_rotate.direction.direction
@@ -904,7 +910,7 @@ Design name:unnamed:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiName: shift_amount
           vpiDirection: input (1)
-          vpiLowConn RefObj name:shift_amount start:3:54 end:3:66:
+          vpiLowConn RefObj name:shift_amount start:7:15 end:7:27:
             vpiParent: Port name:shift_amount
             vpiName: shift_amount
             vpiFullName: a23_barrel_shift_fpga_rotate.shift_amount.shift_amount
@@ -917,7 +923,7 @@ Design name:unnamed:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiName: rot_prod
           vpiDirection: output (2)
-          vpiLowConn RefObj name:rot_prod start:3:68 end:3:76:
+          vpiLowConn RefObj name:rot_prod start:8:15 end:8:23:
             vpiParent: Port name:rot_prod
             vpiName: rot_prod
             vpiFullName: a23_barrel_shift_fpga_rotate.rot_prod.rot_prod
@@ -1059,16 +1065,7 @@ Design name:unnamed:
                     vpiParent: Begin name:netgen
                     vpiName: netgen
                   vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                  vpiVariable (2 items):
-                    Variable name:in start:16:29 end:16:31:
-                      vpiParent: Begin name:netgen
-                      vpiTypespec RefTypespec start:16:22 end:16:28:
-                        vpiParent: Variable name:in
-                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen.in
-                        vpiActual: LogicTypespec
-                      vpiName: in
-                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen.in
-                      vpiNetType: wire (1)
+                  vpiVariable (1 items):
                     Variable name:out start:17:28 end:17:31:
                       vpiParent: Begin name:netgen
                       vpiTypespec RefTypespec start:17:17 end:17:27:
@@ -1077,6 +1074,7 @@ Design name:unnamed:
                         vpiActual: LogicTypespec
                       vpiName: out
                       vpiFullName: a23_barrel_shift_fpga_rotate.netgen.out
+                      vpiVector: true
                   vpiTypespec (2 items):
                     LogicTypespec:
                       vpiParent: Begin name:netgen
@@ -1244,7 +1242,7 @@ Design name:unnamed:
                                             vpiParent: BitSelect name:in[j]
                                             vpiName: in
                                             vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in
-                                            vpiActual: Variable name:in
+                                            vpiActual: Net name:in
                                           vpiIndex RefObj name:j start:21:45 end:21:46:
                                             vpiParent: BitSelect name:in[j]
                                             vpiName: j
@@ -1289,7 +1287,7 @@ Design name:unnamed:
                                             vpiParent: BitSelect name:in[wrap(j, i)]
                                             vpiName: in
                                             vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in
-                                            vpiActual: Variable name:in
+                                            vpiActual: Net name:in
                                           vpiIndex FuncCall name:wrap start:22:45 end:22:55:
                                             vpiParent: BitSelect name:in[wrap(j, i)]
                                             vpiName Identifier name:wrap start:22:45 end:22:49:
@@ -1360,6 +1358,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:netgen[4].in
                       vpiName: in
                       vpiFullName: a23_barrel_shift_fpga_rotate.in
+                      vpiActual: Net name:in
                 vpiRhs RefObj name:i_in start:27:31 end:27:35:
                   vpiParent: ContAssign
                   vpiName: i_in
@@ -1479,6 +1478,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:netgen[i - 1].in
                             vpiName: in
                             vpiFullName: a23_barrel_shift_fpga_rotate.router.in
+                            vpiActual: Net name:in
                       vpiRhs HierPath name:netgen[i].out start:30:41 end:30:54:
                         vpiParent: ContAssign
                         vpiName: netgen[i].out
@@ -1514,8 +1514,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

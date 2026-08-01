@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,13 +30,13 @@
 //   end
 //
 // UHDM representation:
-//   Negated literals (-8'd6, -4'sd15) → RHS is Operation, vpiOpType: minus (1)
+//   Negated literals (-8'd6, -4'sd15) -> RHS is Operation, vpiOpType: minus (1)
 //     The Operation holds the positive Constant as its sole operand.
-//   Non-negated literals (4'shf, 16'sd?) → RHS is Constant directly.
+//   Non-negated literals (4'shf, 16'sd?) -> RHS is Constant directly.
 //
 // The signed qualifier ('s') affects the typespec but NOT the constType:
-//   4'shf   → constType: hexadecimal (5), size: 4, decompile: "4'shf"
-//   16'sd?  → constType: decimal (1),     size: 16, decompile: "16'sd?"
+//   4'shf   -> constType: hexadecimal (5), size: 4, decompile: "4'shf"
+//   16'sd?  -> constType: decimal (1),     size: 16, decompile: "16'sd?"
 //
 // All 4 assignments are blocking (=, not <=).
 
@@ -51,10 +51,10 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -83,21 +83,29 @@ static const hldb::Assignment *getAssignment(const hldb::Design *d, std::size_t 
   return any_cast<const hldb::Assignment *>((*begin->getStmts())[index]);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Module structure
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSigned, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
-TEST_F(IntegersSigned, FourNetsExist) {
+TEST_F(IntegersSigned, FourVariablesExist) {
   const hldb::Module *const m = getTop(m_design);
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getNets(), nullptr);
-  EXPECT_EQ(m->getNets()->size(), 4u) << "expected 4 nets: a [7:0], b [3:0], c [3:0], d [15:0]";
+  ASSERT_NE(m->getVariables(), nullptr);
+  EXPECT_EQ(m->getVariables()->size(), 4u) << "expected 4 variables: a [7:0], b [3:0], c [3:0], d [15:0]";
 }
 
-// ---------------------------------------------------------------------------
+// `logic` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 none of
+// a, b, c, d must appear in the module's net collection.
+TEST_F(IntegersSigned, ModuleHasNoNets) {
+  const hldb::Module *const m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "bare 'logic' declarations must not appear as Nets";
+}
+
+// ----
 // Initial block
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSigned, InitialBlockHasBegin) { ASSERT_NE(getBegin(m_design), nullptr); }
 
 TEST_F(IntegersSigned, BeginHasFourStatements) {
@@ -118,10 +126,10 @@ TEST_F(IntegersSigned, AllAssignmentsAreBlocking) {
   }
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // a = -8'd 6
 // Negated decimal: RHS is Operation (minus), operand is Constant 8'd6.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSigned, AssignmentA_RhsIsOperation) {
   const hldb::Assignment *const assign = getAssignment(m_design, 0);
   ASSERT_NE(assign, nullptr);
@@ -153,11 +161,11 @@ TEST_F(IntegersSigned, AssignmentA_OperandIsDecimalConstant) {
   EXPECT_EQ(c->getDecompile(), "8'd6");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // b = 4'shf
 // Non-negated signed hex: RHS is Constant directly.
 // The 's' qualifier is reflected in the typespec, not the constType.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSigned, AssignmentB_RhsIsConstant) {
   const hldb::Assignment *const assign = getAssignment(m_design, 1);
   ASSERT_NE(assign, nullptr);
@@ -191,10 +199,10 @@ TEST_F(IntegersSigned, AssignmentB_getValue) {
   EXPECT_EQ(c->getValue(), "f");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // c = -4'sd15
 // Negated signed decimal: RHS is Operation (minus), operand is 4'sd15.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSigned, AssignmentC_RhsIsOperation) {
   const hldb::Assignment *const assign = getAssignment(m_design, 2);
   ASSERT_NE(assign, nullptr);
@@ -217,11 +225,11 @@ TEST_F(IntegersSigned, AssignmentC_OperandIsSignedDecimalConstant) {
   EXPECT_EQ(c->getDecompile(), "4'sd15");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // d = 16'sd?
 // Non-negated signed decimal with Z value ('?' is shorthand for 'z').
 // RHS is Constant directly; getValue() returns "?".
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(IntegersSigned, AssignmentD_RhsIsConstant) {
   const hldb::Assignment *const assign = getAssignment(m_design, 3);
   ASSERT_NE(assign, nullptr);

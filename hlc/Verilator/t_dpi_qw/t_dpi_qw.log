@@ -337,7 +337,6 @@ n<$Source01/t_dpi_qw.v> u<313> t<Top_level_rule> c<1> l<8:1> el<42:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_dpi_qw.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_dpi_qw.v:29:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_dpi_qw.v:11:12: Illegal implicit net "id:23, name:value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -347,7 +346,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_dpi_qw.v
       vpiPreprocFile: "$Output/lib/work/t_dpi_qw.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_dpi_qw.v start:8:1 end:27:10:
       vpiParent: Design name:unnamed
@@ -388,7 +386,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -545,6 +543,16 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
+      vpiVariable (1 items):
+        Variable name:value start:32:24 end:32:29:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:34:5 end:34:20:
+            vpiParent: Variable name:value
+            vpiFullName: sub.value
+            vpiActual: LogicTypespec
+          vpiName: value
+          vpiFullName: sub.value
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:WIDTH start:30:15 end:30:20:
           vpiParent: Module name:sub
@@ -646,7 +654,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -722,7 +730,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: value
               vpiFullName: sub.set_value.value
-              vpiActual: Net name:value
+              vpiActual: Variable name:value
             vpiRhs RefObj name:v start:37:17 end:37:18:
               vpiParent: Assignment
               vpiName: v
@@ -736,29 +744,19 @@ Design name:unnamed:
             vpiName: set_value
           vpiFullName: sub.set_value
           vpiDPICStr: <<invalid>> (1)
-      vpiNet (1 items):
-        Net name:value start:32:24 end:32:29:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:32:12 end:32:23:
-            vpiParent: Net name:value
-            vpiFullName: sub.value
-            vpiActual: LogicTypespec
-          vpiName: value
-          vpiFullName: sub.value
       vpiPort (1 items):
         Port name:value start:29:12 end:29:17:
           vpiParent: Module name:sub
           vpiName: value
           vpiDirection: output (2)
-          vpiLowConn RefObj name:value start:29:12 end:29:17:
+          vpiLowConn RefObj name:value start:32:24 end:32:29:
             vpiParent: Port name:value
             vpiName: value
             vpiFullName: sub.value.value
-            vpiActual: Net name:value
+            vpiActual: Variable name:value
           vpiTypespec RefTypespec start:32:12 end:32:23:
             vpiParent: Port name:value
             vpiFullName: sub.value
-            vpiActual: LogicTypespec
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -784,7 +782,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

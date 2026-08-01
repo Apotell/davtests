@@ -18,7 +18,7 @@ n<$Source01/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<9:1>
     n<> u<5> t<Description> p<64> c<4> s<63> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<63> t<Description> p<64> c<62> l<3:1> el<8:10>
       n<> u<62> t<Module_declaration> p<63> c<22> l<3:1> el<8:10>
         n<> u<22> t<Module_nonansi_header> p<62> c<6> s<41> l<3:1> el<3:37>
@@ -79,7 +79,6 @@ n<$Source01/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<9:1>
         n<> u<61> t<ENDMODULE> p<62> l<8:1> el<8:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:3:1: Compile module "module_scope_Example".
-[ERR:EL0535] $Source01/dut.sv:7:37: Illegal implicit net "id:29, name:v2".
 [WRN:PA0205] $Source01/dut.sv:3:1: No timescale set for "module_scope_Example".
 ====== HLDB =======
 Design name:unnamed:
@@ -89,7 +88,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:dut.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: dut.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:module_scope_Example file:$Source01/dut.sv start:3:1 end:8:10:
       vpiParent: Design name:unnamed
@@ -155,7 +164,7 @@ Design name:unnamed:
           vpiParent: Module name:module_scope_Example
           vpiName: o1
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o1 start:3:29 end:3:31:
+          vpiLowConn RefObj name:o1 start:4:23 end:4:25:
             vpiParent: Port name:o1
             vpiName: o1
             vpiFullName: module_scope_Example.o1.o1
@@ -168,7 +177,7 @@ Design name:unnamed:
           vpiParent: Module name:module_scope_Example
           vpiName: o2
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o2 start:3:33 end:3:35:
+          vpiLowConn RefObj name:o2 start:4:27 end:4:29:
             vpiParent: Port name:o2
             vpiName: o2
             vpiFullName: module_scope_Example.o2.o2
@@ -199,7 +208,9 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: v2
             vpiFullName: module_scope_Example.v2
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:module_scope_Example:
       vpiParent: Design name:unnamed
       vpiName Identifier name:module_scope_Example start:3:8 end:3:28:
@@ -212,7 +223,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -228,25 +239,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign/mounts.json
 
 
-{'result': {'coverage': 83.59,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 21,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 128}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 128,
             'test_name': 'LocalScopeAssign/LocalScopeAssign'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      128 |        21 |
+| $Output/lib/work/dut.sv |      128 |         0 |
 +=========================+==========+===========+
-|                         |      128 |        21 |
+|                         |      128 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 83.59
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -257,7 +268,7 @@ COMMAND: ${HLC_DIR}/regression/LocalScopeAssign/LocalScopeAssign/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    29      29       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

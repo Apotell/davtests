@@ -81,7 +81,6 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_typo_bad.v:8:1: Compile interface "foo_intf".
 [INF:CP0303] $Source01/t_interface_typo_bad.v:11:1: Compile module "submod".
 [INF:CP0303] $Source01/t_interface_typo_bad.v:18:1: Compile module "t".
-[ERR:EL0535] $Source01/t_interface_typo_bad.v:26:10: Illegal implicit net "id:31, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -91,7 +90,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_typo_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_typo_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_interface_typo_bad.v start:8:1 end:9:13:
       vpiParent: Design name:unnamed
@@ -99,7 +97,7 @@ Design name:unnamed:
         vpiParent: Interface name:foo_intf
         vpiName: foo_intf
       vpiFullName: foo_intf
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -113,7 +111,7 @@ Design name:unnamed:
         vpiName: submod
       vpiFullName: submod
       vpiDefName: submod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:submod
         vpiName: work
@@ -135,9 +133,10 @@ Design name:unnamed:
           vpiParent: Module name:submod
           vpiName: foo
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:13 end:13:16:
+          vpiLowConn RefObj name:foo start:13:13 end:13:16:
             vpiParent: Port name:foo
-            vpiFullName: submod.foo
+            vpiName: foo
+            vpiFullName: submod.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:foo_intf start:13:4 end:13:12:
             vpiParent: Port name:foo
@@ -150,6 +149,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:the_foo start:21:12 end:21:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:fo_intf start:21:4 end:21:11:
+            vpiParent: Variable name:the_foo
+            vpiName: fo_intf
+            vpiFullName: t.the_foo.fo_intf
+            vpiActual: UnsupportedTypespec name:fo_intf
+          vpiName: the_foo
+          vpiFullName: t.the_foo
       vpiTypespec (2 items):
         UnsupportedTypespec name:fo_intf start:21:4 end:21:11:
           vpiParent: Module name:t
@@ -162,22 +171,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:submod
             vpiName: submod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:the_foo start:21:12 end:21:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:fo_intf start:21:4 end:21:11:
-            vpiParent: Net name:the_foo
-            vpiName: fo_intf
-            vpiFullName: t.the_foo.fo_intf
-            vpiActual: UnsupportedTypespec name:fo_intf
-          vpiName: the_foo
-          vpiFullName: t.the_foo
       vpiRefInstance (1 items):
         RefInstance name:submod_inst start:24:6 end:24:17:
           vpiParent: Module name:t
@@ -198,7 +197,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: the_foo
                 vpiFullName: t.submod_inst.the_foo
-                vpiActual: Net name:the_foo
+                vpiActual: Variable name:the_foo
   vpiTypespec (3 items):
     InterfaceTypespec name:foo_intf:
       vpiParent: Design name:unnamed
@@ -221,7 +220,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

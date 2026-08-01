@@ -334,6 +334,7 @@ n<$Source01/dut.sv> u<320> t<Top_level_rule> c<1> l<1:1> el<26:1>
         n<> u<316> t<ENDMODULE> p<317> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
 Design name:unnamed:
@@ -343,7 +344,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:dut file:$Source01/dut.sv start:1:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -407,7 +407,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:dut
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -798,7 +798,7 @@ Design name:unnamed:
             vpiParent: Function name:pow_b
             vpiFullName: dut.pow_b
             vpiActual: LogicTypespec
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:inp start:2:26 end:2:29:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:2:9 end:2:25:
@@ -817,23 +817,15 @@ Design name:unnamed:
           vpiName: out1
           vpiFullName: dut.out1
           vpiNetType: wire (1)
-        Net name:out2 start:3:33 end:3:37:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:3:33 end:3:33:
-            vpiParent: Net name:out2
-            vpiFullName: dut.out2
-            vpiActual: LogicTypespec
-          vpiName: out2
-          vpiFullName: dut.out2
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:inp start:2:26 end:2:29:
           vpiParent: Module name:dut
           vpiName: inp
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:26 end:2:29:
+          vpiLowConn RefObj name:inp start:2:26 end:2:29:
             vpiParent: Port name:inp
-            vpiFullName: dut.inp
+            vpiName: inp
+            vpiFullName: dut.inp.inp
             vpiActual: Net name:inp
           vpiTypespec RefTypespec start:2:9 end:2:25:
             vpiParent: Port name:inp
@@ -843,9 +835,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: out1
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:27 end:3:31:
+          vpiLowConn RefObj name:out1 start:3:27 end:3:31:
             vpiParent: Port name:out1
-            vpiFullName: dut.out1
+            vpiName: out1
+            vpiFullName: dut.out1.out1
             vpiActual: Net name:out1
           vpiTypespec RefTypespec start:3:9 end:3:26:
             vpiParent: Port name:out1
@@ -855,14 +848,6 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: out2
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:3:33 end:3:37:
-            vpiParent: Port name:out2
-            vpiFullName: dut.out2
-            vpiActual: Net name:out2
-          vpiTypespec RefTypespec start:3:33 end:3:33:
-            vpiParent: Port name:out2
-            vpiFullName: dut.out2
-            vpiActual: LogicTypespec
       vpiContAssign (2 items):
         ContAssign start:23:16 end:23:36:
           vpiParent: Module name:dut
@@ -899,7 +884,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: out2
             vpiFullName: dut.out2
-            vpiActual: Net name:out2
+            vpiActual: Port name:out2
           vpiRhs FuncCall name:pow_b start:24:23 end:24:34:
             vpiParent: ContAssign
             vpiName Identifier name:pow_b start:24:23 end:24:28:
@@ -940,7 +925,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -985,7 +970,7 @@ COMMAND: ${HLC_DIR}/regression/FuncArgs/FuncArgs/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             141     141       0         0
+Others                             137     137       0         0
 ----------------------------------------------------------------
-                                   141     141       0         0
+                                   137     137       0         0
 ===================== END REDUCTION RESULT =====================

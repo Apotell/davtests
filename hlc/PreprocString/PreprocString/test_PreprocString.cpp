@@ -18,6 +18,8 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
+#include <hlc/ErrorReporting/ErrorContainer.h>
+
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/identifier.h>
@@ -32,8 +34,10 @@ class PreprocStringTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// LRM 22.5.1: the module must compile despite errors from an undefined
-// macro reference inside MAKE_MEM_PATH.
+// LRM 22.5.1: MEM_ROOT (referenced inside MAKE_MEM_PATH's body) is supplied
+// on the command line (-DMEM_ROOT=test, see PreprocString.hlc), so the
+// module must compile cleanly with no preprocessor diagnostics at all --
+// see NoErrorsReported below for the direct check.
 TEST_F(PreprocStringTest, TestModuleCompiles) {
   const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
@@ -65,17 +69,17 @@ TEST_F(PreprocStringTest, MessageMacroBodyColumn) {
   EXPECT_EQ(macro->getTokens()->front()->getStartColumn(), 23u);
 }
 
-// LRM 22.5.1: MAKE_MEM_PATH is an object-like macro whose body references
-// MEM_ROOT (undefined) via backtick concatenation. nameStartColumn=9,
-// bodyStartColumn=33. Even though MEM_ROOT is undefined (hence the errors),
-// MAKE_MEM_PATH itself must be recorded.
+// LRM 22.5.1: MAKE_MEM_PATH is a function-like macro whose body references
+// MEM_ROOT (an object-like macro supplied via -DMEM_ROOT=test on the command
+// line, see PreprocString.hlc) via backtick concatenation. nameStartColumn=9,
+// bodyStartColumn=33.
 TEST_F(PreprocStringTest, MakeMemPathMacroDefined) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
   ASSERT_NE(sf, nullptr);
   const hldb::PreprocMacroDefinition *const macro =
       hldb::findByName<hldb::PreprocMacroDefinition>("MAKE_MEM_PATH", sf->getPreprocMacroDefinitions());
-  ASSERT_NE(macro, nullptr) << "MAKE_MEM_PATH must be defined despite its body referencing an undefined macro";
+  ASSERT_NE(macro, nullptr) << "MAKE_MEM_PATH must be defined";
 }
 
 TEST_F(PreprocStringTest, MakeMemPathMacroBodyColumn) {
@@ -137,6 +141,17 @@ TEST_F(PreprocStringTest, MakeMemPathMacroHasTokens) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getTokens(), nullptr);
   EXPECT_FALSE(macro->getTokens()->empty()) << "MAKE_MEM_PATH body must have tokens";
+}
+
+// MEM_ROOT is supplied via -DMEM_ROOT=test on the command line (see
+// PreprocString.hlc), so `MAKE_MEM_PATH(rom.mem) resolves cleanly; there is
+// no undefined-macro condition in this file.
+TEST_F(PreprocStringTest, NoErrorsReported) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "MEM_ROOT is defined via -D on the command line; no preprocessor error is expected";
 }
 
 }  // namespace hlc

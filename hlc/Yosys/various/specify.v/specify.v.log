@@ -390,6 +390,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/various/specify.v:1:1: Compile module "test".
 [INF:CP0303] $Source01/various/specify.v:18:1: Compile module "test2".
 [INF:CP0303] $Source01/various/specify.v:34:1: Compile module "issue01144".
+[ERR:LN0813] $Source01/various/specify.v:1:1: Found 3 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -439,7 +440,6 @@ Design name:unnamed:
           vpiPMIBody Identifier name:2 start:27:18 end:27:19:
             vpiParent: PreprocMacroInstance name:T_fall
             vpiName: "2"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:test file:$Source01/various/specify.v start:1:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -456,7 +456,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Q
           vpiFullName: test.Q
-          vpiNetType: none (12)
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -513,13 +512,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:EN start:2:8 end:2:10:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:2:2 end:2:7:
@@ -528,15 +527,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: EN
           vpiFullName: test.EN
-          vpiNetType: wire (1)
-        Net name:CLK start:2:12 end:2:15:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:2:12 end:2:12:
-            vpiParent: Net name:CLK
-            vpiFullName: test.CLK
-            vpiActual: LogicTypespec
-          vpiName: CLK
-          vpiFullName: test.CLK
           vpiNetType: wire (1)
         Net name:D start:3:14 end:3:15:
           vpiParent: Module name:test
@@ -552,9 +542,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: EN
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:8 end:2:10:
+          vpiLowConn RefObj name:EN start:2:8 end:2:10:
             vpiParent: Port name:EN
-            vpiFullName: test.EN
+            vpiName: EN
+            vpiFullName: test.EN.EN
             vpiActual: Net name:EN
           vpiTypespec RefTypespec start:2:2 end:2:7:
             vpiParent: Port name:EN
@@ -564,21 +555,14 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: CLK
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:2:12 end:2:15:
-            vpiParent: Port name:CLK
-            vpiFullName: test.CLK
-            vpiActual: Net name:CLK
-          vpiTypespec RefTypespec start:2:12 end:2:12:
-            vpiParent: Port name:CLK
-            vpiFullName: test.CLK
-            vpiActual: LogicTypespec
         Port name:D start:3:14 end:3:15:
           vpiParent: Module name:test
           vpiName: D
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:14 end:3:15:
+          vpiLowConn RefObj name:D start:3:14 end:3:15:
             vpiParent: Port name:D
-            vpiFullName: test.D
+            vpiName: D
+            vpiFullName: test.D.D
             vpiActual: Net name:D
           vpiTypespec RefTypespec start:3:2 end:3:13:
             vpiParent: Port name:D
@@ -588,9 +572,10 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: Q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:4:19 end:4:20:
+          vpiLowConn RefObj name:Q start:4:19 end:4:20:
             vpiParent: Port name:Q
-            vpiFullName: test.Q
+            vpiName: Q
+            vpiFullName: test.Q.Q
             vpiActual: Variable name:Q
           vpiTypespec RefTypespec start:4:2 end:4:18:
             vpiParent: Port name:Q
@@ -609,7 +594,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: CLK
                   vpiFullName: test.CLK
-                  vpiActual: Net name:CLK
+                  vpiActual: Port name:CLK
             vpiStmt IfStmt start:7:3 end:7:18:
               vpiParent: EventControl
               vpiCondition RefObj name:EN start:7:7 end:7:9:
@@ -643,7 +628,7 @@ Design name:unnamed:
                     vpiParent: PathTerm
                     vpiName: CLK
                     vpiFullName: test.CLK
-                    vpiActual: Net name:CLK
+                    vpiActual: Port name:CLK
               vpiModPathOut (1 items):
                 PathTerm start:11:28 end:11:29:
                   vpiParent: ModPath
@@ -731,7 +716,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: CLK
                         vpiFullName: test.CLK
-                        vpiActual: Net name:CLK
+                        vpiActual: Port name:CLK
                       RefObj name:EN start:12:29 end:12:31:
                         vpiParent: Operation
                         vpiName: EN
@@ -760,7 +745,7 @@ Design name:unnamed:
                     vpiParent: TchkTerm
                     vpiName: CLK
                     vpiFullName: test.CLK
-                    vpiActual: Net name:CLK
+                    vpiActual: Port name:CLK
                   vpiEdge: posedge (13)
                 TchkTerm start:13:22 end:13:30:
                   vpiParent: Tchk
@@ -801,13 +786,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:test2
       vpiDefName: test2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test2
         vpiName: work
         vpiFullName: test2.work
       vpiCell: test2
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:A start:19:8 end:19:9:
           vpiParent: Module name:test2
           vpiTypespec RefTypespec start:19:2 end:19:7:
@@ -816,15 +801,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: test2.A
-          vpiNetType: wire (1)
-        Net name:B start:19:11 end:19:12:
-          vpiParent: Module name:test2
-          vpiTypespec RefTypespec start:19:11 end:19:11:
-            vpiParent: Net name:B
-            vpiFullName: test2.B
-            vpiActual: LogicTypespec
-          vpiName: B
-          vpiFullName: test2.B
           vpiNetType: wire (1)
         Net name:Q start:20:9 end:20:10:
           vpiParent: Module name:test2
@@ -840,9 +816,10 @@ Design name:unnamed:
           vpiParent: Module name:test2
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:19:8 end:19:9:
+          vpiLowConn RefObj name:A start:19:8 end:19:9:
             vpiParent: Port name:A
-            vpiFullName: test2.A
+            vpiName: A
+            vpiFullName: test2.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:19:2 end:19:7:
             vpiParent: Port name:A
@@ -852,21 +829,14 @@ Design name:unnamed:
           vpiParent: Module name:test2
           vpiName: B
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:19:11 end:19:12:
-            vpiParent: Port name:B
-            vpiFullName: test2.B
-            vpiActual: Net name:B
-          vpiTypespec RefTypespec start:19:11 end:19:11:
-            vpiParent: Port name:B
-            vpiFullName: test2.B
-            vpiActual: LogicTypespec
         Port name:Q start:20:9 end:20:10:
           vpiParent: Module name:test2
           vpiName: Q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:20:9 end:20:10:
+          vpiLowConn RefObj name:Q start:20:9 end:20:10:
             vpiParent: Port name:Q
-            vpiFullName: test2.Q
+            vpiName: Q
+            vpiFullName: test2.Q.Q
             vpiActual: Net name:Q
           vpiTypespec RefTypespec start:20:2 end:20:8:
             vpiParent: Port name:Q
@@ -906,7 +876,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: B
                 vpiFullName: test2.work@xor.B
-                vpiActual: Net name:B
+                vpiActual: Port name:B
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:23:2 end:31:12:
           vpiParent: Module name:test2
@@ -960,7 +930,7 @@ Design name:unnamed:
                     vpiParent: PathTerm
                     vpiName: B
                     vpiFullName: test2.B
-                    vpiActual: Net name:B
+                    vpiActual: Port name:B
               vpiModPathOut (1 items):
                 PathTerm start:30:9 end:30:10:
                   vpiParent: ModPath
@@ -991,13 +961,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:issue01144
       vpiDefName: issue01144
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:issue01144
         vpiName: work
         vpiFullName: issue01144.work
       vpiCell: issue01144
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:34:25 end:34:28:
           vpiParent: Module name:issue01144
           vpiTypespec RefTypespec start:34:19 end:34:24:
@@ -1006,15 +976,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: issue01144.clk
-          vpiNetType: wire (1)
-        Net name:d start:34:30 end:34:31:
-          vpiParent: Module name:issue01144
-          vpiTypespec RefTypespec start:34:30 end:34:30:
-            vpiParent: Net name:d
-            vpiFullName: issue01144.d
-            vpiActual: LogicTypespec
-          vpiName: d
-          vpiFullName: issue01144.d
           vpiNetType: wire (1)
         Net name:q start:34:40 end:34:41:
           vpiParent: Module name:issue01144
@@ -1030,9 +991,10 @@ Design name:unnamed:
           vpiParent: Module name:issue01144
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:34:25 end:34:28:
+          vpiLowConn RefObj name:clk start:34:25 end:34:28:
             vpiParent: Port name:clk
-            vpiFullName: issue01144.clk
+            vpiName: clk
+            vpiFullName: issue01144.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:34:19 end:34:24:
             vpiParent: Port name:clk
@@ -1042,21 +1004,14 @@ Design name:unnamed:
           vpiParent: Module name:issue01144
           vpiName: d
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:34:30 end:34:31:
-            vpiParent: Port name:d
-            vpiFullName: issue01144.d
-            vpiActual: Net name:d
-          vpiTypespec RefTypespec start:34:30 end:34:30:
-            vpiParent: Port name:d
-            vpiFullName: issue01144.d
-            vpiActual: LogicTypespec
         Port name:q start:34:40 end:34:41:
           vpiParent: Module name:issue01144
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:34:40 end:34:41:
+          vpiLowConn RefObj name:q start:34:40 end:34:41:
             vpiParent: Port name:q
-            vpiFullName: issue01144.q
+            vpiName: q
+            vpiFullName: issue01144.q.q
             vpiActual: Net name:q
           vpiTypespec RefTypespec start:34:33 end:34:39:
             vpiParent: Port name:q
@@ -1088,7 +1043,7 @@ Design name:unnamed:
                 vpiParent: ModPath
                 vpiName: d
                 vpiFullName: issue01144.d
-                vpiActual: Net name:d
+                vpiActual: Port name:d
               vpiDelay (2 items):
                 Constant start:36:32 end:36:33:
                   vpiParent: ModPath
@@ -1136,7 +1091,7 @@ Design name:unnamed:
                 vpiParent: ModPath
                 vpiName: d
                 vpiFullName: issue01144.d
-                vpiActual: Net name:d
+                vpiActual: Port name:d
               vpiDelay (2 items):
                 Constant start:37:32 end:37:33:
                   vpiParent: ModPath
@@ -1189,7 +1144,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1234,7 +1189,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/various/specify.v/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             188     188       0         0
+Others                             176     176       0         0
 ----------------------------------------------------------------
-                                   188     188       0         0
+                                   176     176       0         0
 ===================== END REDUCTION RESULT =====================

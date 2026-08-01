@@ -149,9 +149,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/dut.sv:2:1: Compile interface "sim_sram_if".
 [INF:CP0303] $Source01/dut.sv:6:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:10:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:12:25: Illegal implicit net "id:51, name:start_addr".
-[ERR:EL0535] $Source01/dut.sv:13:15: Illegal implicit net "id:58, name:ss_if".
-[ERR:EL0535] $Source01/dut.sv:13:38: Illegal implicit net "id:61, name:a".
+[WRN:CP0350] $Source01/dut.sv:12:25: Failed to bind "id:51, name:start_addr".
 [WRN:PA0205] $Source01/dut.sv:6:1: No timescale set for "dut".
 [WRN:PA0205] $Source01/dut.sv:10:1: No timescale set for "top".
 [WRN:PA0205] $Source01/dut.sv:2:1: No timescale set for "sim_sram_if".
@@ -163,7 +161,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:sim_sram_if file:$Source01/dut.sv start:2:1 end:4:13:
       vpiParent: Design name:unnamed
@@ -180,7 +177,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: start_addr
           vpiFullName: sim_sram_if.start_addr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:sim_sram_if
         vpiName: work
@@ -202,9 +199,8 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: a
           vpiFullName: dut.a
-          vpiNetType: none (12)
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -226,9 +222,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: ss_if
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:6:24 end:6:29:
+          vpiLowConn RefObj name:ss_if start:6:24 end:6:29:
             vpiParent: Port name:ss_if
-            vpiFullName: dut.ss_if
+            vpiName: ss_if
+            vpiFullName: dut.ss_if.ss_if
             vpiActual: Net name:ss_if
           vpiTypespec RefTypespec name:sim_sram_if start:6:12 end:6:23:
             vpiParent: Port name:ss_if
@@ -239,9 +236,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: a
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:42 end:6:43:
+          vpiLowConn RefObj name:a start:6:42 end:6:43:
             vpiParent: Port name:a
-            vpiFullName: dut.a
+            vpiName: a
+            vpiFullName: dut.a.a
             vpiActual: Variable name:a
           vpiTypespec RefTypespec start:6:31 end:6:41:
             vpiParent: Port name:a
@@ -285,7 +283,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: o
           vpiFullName: top.o
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         ModuleTypespec name:dut start:13:4 end:13:7:
           vpiParent: Module name:top
@@ -293,7 +290,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:dut
             vpiName: dut
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -304,9 +301,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:10:23 end:10:24:
+          vpiLowConn RefObj name:o start:10:23 end:10:24:
             vpiParent: Port name:o
-            vpiFullName: top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:10:12 end:10:22:
             vpiParent: Port name:o
@@ -406,8 +404,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

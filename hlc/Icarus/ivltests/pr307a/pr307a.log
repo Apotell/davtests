@@ -753,9 +753,9 @@ n<$Source01/pr307a.v> u<739> t<Top_level_rule> c<1> l<3:1> el<80:1>
         n<> u<735> t<ENDMODULE> p<736> l<79:1> el<79:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/pr307a.v:3:1: Compile module "top".
-[ERR:EL0535] $Source01/pr307a.v:28:9: Illegal implicit net "id:105, name:errors".
-[ERR:EL0535] $Source01/pr307a.v:74:13: Illegal implicit net "id:233, name:errors".
-[ERR:EL0535] $Source01/pr307a.v:75:34: Illegal implicit net "id:239, name:errors".
+[WRN:CP0350] $Source01/pr307a.v:28:9: Failed to bind "id:105, name:errors".
+[WRN:CP0350] $Source01/pr307a.v:74:13: Failed to bind "id:233, name:errors".
+[WRN:CP0350] $Source01/pr307a.v:75:34: Failed to bind "id:239, name:errors".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -765,7 +765,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr307a.v
       vpiPreprocFile: "$Output/lib/work/pr307a.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/pr307a.v start:3:1 end:79:10:
       vpiParent: Design name:unnamed
@@ -773,6 +772,34 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (3 items):
+        Variable name:in1 start:4:19 end:4:22:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:4:7 end:4:18:
+            vpiParent: Variable name:in1
+            vpiFullName: top.in1
+            vpiActual: LogicTypespec
+          vpiName: in1
+          vpiFullName: top.in1
+          vpiVector: true
+        Variable name:in2 start:5:19 end:5:22:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:5:7 end:5:18:
+            vpiParent: Variable name:in2
+            vpiFullName: top.in2
+            vpiActual: LogicTypespec
+          vpiName: in2
+          vpiFullName: top.in2
+          vpiVector: true
+        Variable name:out2 start:7:19 end:7:23:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:7:7 end:7:18:
+            vpiParent: Variable name:out2
+            vpiFullName: top.out2
+            vpiActual: LogicTypespec
+          vpiName: out2
+          vpiFullName: top.out2
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -879,7 +906,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -920,7 +947,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: out2
                       vpiFullName: top.r.out2
-                      vpiActual: Net name:out2
+                      vpiActual: Variable name:out2
                     vpiRhs Operation start:15:14 end:15:23:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -929,12 +956,12 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: in1
                           vpiFullName: top.r.in1
-                          vpiActual: Net name:in1
+                          vpiActual: Variable name:in1
                         RefObj name:in2 start:15:20 end:15:23:
                           vpiParent: Operation
                           vpiName: in2
                           vpiFullName: top.r.in2
-                          vpiActual: Net name:in2
+                          vpiActual: Variable name:in2
                   SysTaskCall name:$display start:16:7 end:16:42:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:16:7 end:16:15:
@@ -955,12 +982,12 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiName: in1
                         vpiFullName: top.r.in1
-                        vpiActual: Net name:in1
+                        vpiActual: Variable name:in1
                       RefObj name:in2 start:16:38 end:16:41:
                         vpiParent: SysTaskCall name:$display
                         vpiName: in2
                         vpiFullName: top.r.in2
-                        vpiActual: Net name:in2
+                        vpiActual: Variable name:in2
                   SysTaskCall name:$display start:17:7 end:17:29:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:17:7 end:17:15:
@@ -1002,7 +1029,7 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiName: out2
                         vpiFullName: top.r.out2
-                        vpiActual: Net name:out2
+                        vpiActual: Variable name:out2
                   IfStmt start:19:7 end:23:5:
                     vpiParent: Begin
                     vpiCondition Operation start:19:11 end:19:23:
@@ -1018,7 +1045,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: out2
                           vpiFullName: top.r.out2
-                          vpiActual: Net name:out2
+                          vpiActual: Variable name:out2
                     vpiStmt Begin start:20:2 end:23:5:
                       vpiParent: IfStmt
                       vpiFullName: top.r
@@ -1066,23 +1093,7 @@ Design name:unnamed:
                                 vpiSize: 64
                                 vpiDecompile: "1"
                                 vpiValue: 1
-      vpiNet (4 items):
-        Net name:in1 start:4:19 end:4:22:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:4:7 end:4:18:
-            vpiParent: Net name:in1
-            vpiFullName: top.in1
-            vpiActual: LogicTypespec
-          vpiName: in1
-          vpiFullName: top.in1
-        Net name:in2 start:5:19 end:5:22:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:7 end:5:18:
-            vpiParent: Net name:in2
-            vpiFullName: top.in2
-            vpiActual: LogicTypespec
-          vpiName: in2
-          vpiFullName: top.in2
+      vpiNet (1 items):
         Net name:out1 start:6:20 end:6:24:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:12 end:6:19:
@@ -1092,14 +1103,6 @@ Design name:unnamed:
           vpiName: out1
           vpiFullName: top.out1
           vpiNetType: wire (1)
-        Net name:out2 start:7:19 end:7:23:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:7:7 end:7:18:
-            vpiParent: Net name:out2
-            vpiFullName: top.out2
-            vpiActual: LogicTypespec
-          vpiName: out2
-          vpiFullName: top.out2
       vpiProcess (1 items):
         Initial start:27:4 end:78:7:
           vpiParent: Module name:top
@@ -1141,7 +1144,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:30:13 end:30:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1159,7 +1162,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:31:13 end:31:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1182,7 +1185,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:34:13 end:34:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1200,7 +1203,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:35:13 end:35:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1223,7 +1226,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:38:13 end:38:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1241,7 +1244,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:39:13 end:39:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1264,7 +1267,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:42:13 end:42:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1282,7 +1285,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:43:13 end:43:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1305,7 +1308,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:46:13 end:46:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1323,7 +1326,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:47:13 end:47:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1346,7 +1349,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:50:13 end:50:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1364,7 +1367,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:51:13 end:51:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1387,7 +1390,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:54:13 end:54:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1405,7 +1408,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:55:13 end:55:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1428,7 +1431,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:58:13 end:58:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1446,7 +1449,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:59:13 end:59:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1469,7 +1472,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:62:13 end:62:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1487,7 +1490,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:63:13 end:63:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1510,7 +1513,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:66:13 end:66:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1528,7 +1531,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:67:13 end:67:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1551,7 +1554,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in1
                   vpiFullName: top.in1
-                  vpiActual: Net name:in1
+                  vpiActual: Variable name:in1
                 vpiRhs Constant start:70:13 end:70:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1569,7 +1572,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: in2
                   vpiFullName: top.in2
-                  vpiActual: Net name:in2
+                  vpiActual: Variable name:in2
                 vpiRhs Constant start:71:13 end:71:50:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1663,12 +1666,12 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: in1
                 vpiFullName: top.in1
-                vpiActual: Net name:in1
+                vpiActual: Variable name:in1
               RefObj name:in2 start:9:27 end:9:30:
                 vpiParent: Operation
                 vpiName: in2
                 vpiFullName: top.in2
-                vpiActual: Net name:in2
+                vpiActual: Variable name:in2
   vpiTypespec (5 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -1688,8 +1691,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -348,8 +348,6 @@ n<$Source01/dut.sv> u<334> t<Top_level_rule> c<1> l<1:1> el<33:1>
         n<> u<330> t<ENDMODULE> p<331> l<32:1> el<32:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "mod_m".
-[ERR:EL0535] $Source01/dut.sv:14:22: Illegal implicit net "id:57, name:cg_lim".
-[ERR:EL0535] $Source01/dut.sv:15:22: Illegal implicit net "id:62, name:cg_lim".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "mod_m".
 ====== HLDB =======
 Design name:unnamed:
@@ -359,7 +357,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:mod_m file:$Source01/dut.sv start:1:1 end:32:10:
       vpiParent: Design name:unnamed
@@ -391,7 +388,7 @@ Design name:unnamed:
                 vpiParent: CoverPoint
                 vpiName: a
                 vpiFullName: mod_m.cg.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
             CoverPoint start:5:2 end:5:15:
               vpiParent: CoverGroup name:cg
               vpiFullName: mod_m.cg
@@ -399,7 +396,7 @@ Design name:unnamed:
                 vpiParent: CoverPoint
                 vpiName: b
                 vpiFullName: mod_m.cg.b
-                vpiActual: Net name:b
+                vpiActual: Variable name:b
             CoverCross name:aXb start:6:2 end:22:3:
               vpiParent: CoverGroup name:cg
               vpiName Identifier name:aXb start:6:2 end:6:5:
@@ -411,12 +408,12 @@ Design name:unnamed:
                   vpiParent: CoverCross name:aXb
                   vpiName: a
                   vpiFullName: mod_m.cg.aXb.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 RefObj name:b start:6:17 end:6:18:
                   vpiParent: CoverCross name:aXb
                   vpiName: b
                   vpiFullName: mod_m.cg.aXb.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
               vpiStmt (4 items):
                 Function name:myFunc1 start:9:3 end:12:14:
                   vpiParent: CoverCross name:aXb
@@ -758,12 +755,12 @@ Design name:unnamed:
                   vpiParent: CoverCross
                   vpiName: a
                   vpiFullName: mod_m.yy.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 RefObj name:b start:27:11 end:27:12:
                   vpiParent: CoverCross
                   vpiName: b
                   vpiFullName: mod_m.yy.b
-                  vpiActual: Net name:b
+                  vpiActual: Variable name:b
               vpiStmt (1 items):
                 CoverBin name:ignore start:29:2 end:29:55:
                   vpiParent: CoverCross
@@ -779,7 +776,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a
                         vpiFullName: mod_m.yy.ignore.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       Operation start:29:45 end:29:53:
                         vpiParent: Operation
                         vpiOpType: list (37)
@@ -816,6 +813,50 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "3"
                               vpiValue: 3
+      vpiVariable (3 items):
+        Variable name:a start:2:15 end:2:16:
+          vpiParent: Module name:mod_m
+          vpiTypespec RefTypespec start:2:2 end:2:14:
+            vpiParent: Variable name:a
+            vpiFullName: mod_m.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: mod_m.a
+          vpiVector: true
+        Variable name:b start:2:18 end:2:19:
+          vpiParent: Module name:mod_m
+          vpiTypespec RefTypespec start:2:2 end:2:14:
+            vpiParent: Variable name:b
+            vpiFullName: mod_m.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: mod_m.b
+          vpiVector: true
+        Variable name:cg_inst start:24:5 end:24:12:
+          vpiParent: Module name:mod_m
+          vpiTypespec RefTypespec name:cg start:24:2 end:24:4:
+            vpiParent: Variable name:cg_inst
+            vpiName: cg
+            vpiFullName: mod_m.cg_inst.cg
+            vpiActual: UnsupportedTypespec name:cg
+          vpiName: cg_inst
+          vpiFullName: mod_m.cg_inst
+          vpiValue MethodFuncCall name:new start:24:15 end:24:21:
+            vpiParent: Variable name:cg_inst
+            vpiName Identifier name:new:
+              vpiParent: MethodFuncCall name:new
+              vpiName: new
+            vpiArgument (1 items):
+              Constant start:24:19 end:24:20:
+                vpiParent: MethodFuncCall name:new
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mod_m.cg_inst
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "3"
+                vpiValue: 3
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:mod_m
@@ -849,54 +890,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:cg
             vpiName: cg
       vpiDefName: mod_m
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mod_m
         vpiName: work
         vpiFullName: mod_m.work
       vpiCell: mod_m
-      vpiNet (3 items):
-        Net name:a start:2:15 end:2:16:
-          vpiParent: Module name:mod_m
-          vpiTypespec RefTypespec start:2:2 end:2:14:
-            vpiParent: Net name:a
-            vpiFullName: mod_m.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: mod_m.a
-        Net name:b start:2:18 end:2:19:
-          vpiParent: Module name:mod_m
-          vpiTypespec RefTypespec start:2:2 end:2:14:
-            vpiParent: Net name:b
-            vpiFullName: mod_m.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: mod_m.b
-        Net name:cg_inst start:24:5 end:24:12:
-          vpiParent: Module name:mod_m
-          vpiTypespec RefTypespec name:cg start:24:2 end:24:4:
-            vpiParent: Net name:cg_inst
-            vpiName: cg
-            vpiFullName: mod_m.cg_inst.cg
-            vpiActual: UnsupportedTypespec name:cg
-          vpiName: cg_inst
-          vpiFullName: mod_m.cg_inst
-          vpiValue MethodFuncCall name:new start:24:15 end:24:21:
-            vpiParent: Net name:cg_inst
-            vpiName Identifier name:new:
-              vpiParent: MethodFuncCall name:new
-              vpiName: new
-            vpiArgument (1 items):
-              Constant start:24:19 end:24:20:
-                vpiParent: MethodFuncCall name:new
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: mod_m.cg_inst
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
   vpiTypespec (2 items):
     ModuleTypespec name:mod_m:
       vpiParent: Design name:unnamed
@@ -910,7 +909,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

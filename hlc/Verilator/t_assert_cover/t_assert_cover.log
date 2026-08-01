@@ -964,7 +964,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_assert_cover.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_assert_cover.v:36:1: Compile module "Test".
 [INF:CP0335] $Source01/t_assert_cover.v:80:9: Compile generate block "cycval".
-[ERR:EL0535] $Source01/t_assert_cover.v:130:8: Illegal implicit net "id:382, name:cyc_value".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1072,7 +1071,6 @@ Design name:unnamed:
           vpiPMIBody Identifier name:cover property (@(posedge clk) disable iff (reset) (cyc[i] )) start:75:21 end:75:82:
             vpiParent: PreprocMacroInstance name:covclk
             vpiName: cover property (@(posedge clk) disable iff (reset) (cyc[i] ))
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_assert_cover.v start:6:1 end:34:10:
       vpiParent: Design name:unnamed
@@ -1080,6 +1078,24 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:toggle start:12:10 end:12:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:7:
+            vpiParent: Variable name:toggle
+            vpiFullName: t.toggle
+            vpiActual: LogicTypespec
+          vpiName: toggle
+          vpiFullName: t.toggle
+          vpiScalar: true
+        Variable name:cyc start:13:12 end:13:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:13:4 end:13:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1092,13 +1108,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:Test
             vpiName: Test
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -1107,28 +1123,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:toggle start:12:10 end:12:16:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:4 end:12:7:
-            vpiParent: Net name:toggle
-            vpiFullName: t.toggle
-            vpiActual: LogicTypespec
-          vpiName: toggle
-          vpiFullName: t.toggle
-        Net name:cyc start:13:12 end:13:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:4 end:13:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1147,7 +1148,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:13:29 end:13:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1185,7 +1186,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:22:16 end:22:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1206,7 +1207,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Operation start:23:10 end:23:17:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -1215,7 +1216,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:23:16 end:23:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1232,7 +1233,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: toggle
                           vpiFullName: t.toggle
-                          vpiActual: Net name:toggle
+                          vpiActual: Variable name:toggle
                         vpiRhs Operation start:24:13 end:24:20:
                           vpiParent: Assignment
                           vpiOpType: not (3)
@@ -1245,7 +1246,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:cyc[0]
                                 vpiName: cyc
                                 vpiFullName: t.cyc
-                                vpiActual: Net name:cyc
+                                vpiActual: Variable name:cyc
                               vpiIndex Constant start:24:18 end:24:19:
                                 vpiParent: BitSelect name:cyc[0]
                                 vpiTypespec RefTypespec:
@@ -1266,7 +1267,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:25:12 end:25:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1290,7 +1291,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:27:12 end:27:14:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1355,19 +1356,19 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.test.toggle
-                vpiActual: Net name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:18:19 end:18:25:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.test.toggle
-                vpiActual: Net name:toggle
+                vpiActual: Variable name:toggle
             Port start:19:8 end:19:26:
               vpiParent: RefInstance name:test
               vpiLowConn RefObj name:cyc start:19:9 end:19:12:
                 vpiParent: Port
                 vpiName: cyc
                 vpiFullName: t.test.cyc
-                vpiActual: Net name:cyc
+                vpiActual: Variable name:cyc
               vpiHighConn PartSelect name:cyc[31:0] start:19:16 end:19:25:
                 vpiParent: Port
                 vpiName: cyc[31:0]
@@ -1376,7 +1377,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:cyc[31:0]
                   vpiName: cyc
                   vpiFullName: t.test.cyc[31:0].cyc
-                  vpiActual: Net name:cyc
+                  vpiActual: Variable name:cyc
                 vpiRange Range start:19:20 end:19:24:
                   vpiParent: PartSelect name:cyc[31:0]
                   vpiLeftRange Constant start:19:20 end:19:22:
@@ -1963,7 +1964,14 @@ Design name:unnamed:
               vpiName: C1
               vpiFullName: Test.C1
               vpiActual: PropertyDecl name:C1
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:i start:77:11 end:77:12:
+          vpiParent: Module name:Test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: Test.i
+          vpiName: i
+          vpiFullName: Test.i
         Variable name:c1 start:132:13 end:132:15:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec name:counter1 start:132:4 end:132:12:
@@ -1972,7 +1980,6 @@ Design name:unnamed:
             vpiFullName: Test.c1.counter1
           vpiName: c1
           vpiFullName: Test.c1
-          vpiNetType: none (12)
           vpiValue SubroutineCall name:new start:132:18 end:132:23:
             vpiParent: Variable name:c1
             vpiName Identifier name:new start:132:18 end:132:21:
@@ -2008,13 +2015,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: Test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Test
         vpiName: work
         vpiFullName: Test.work
       vpiCell: Test
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:clk start:38:10 end:38:13:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:38:4 end:38:9:
@@ -2070,13 +2077,6 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-        Net name:i start:77:11 end:77:12:
-          vpiParent: Module name:Test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: Test.i
-          vpiName: i
-          vpiFullName: Test.i
       vpiAssertion (1 items):
         ImmediateAssert start:68:18 end:68:32:
           vpiParent: Module name:Test
@@ -2110,9 +2110,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:38:10 end:38:13:
+          vpiLowConn RefObj name:clk start:38:10 end:38:13:
             vpiParent: Port name:clk
-            vpiFullName: Test.clk
+            vpiName: clk
+            vpiFullName: Test.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:38:4 end:38:9:
             vpiParent: Port name:clk
@@ -2122,9 +2123,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: toggle
           vpiDirection: input (1)
-          vpiLowConn RefObj start:39:10 end:39:16:
+          vpiLowConn RefObj name:toggle start:39:10 end:39:16:
             vpiParent: Port name:toggle
-            vpiFullName: Test.toggle
+            vpiName: toggle
+            vpiFullName: Test.toggle.toggle
             vpiActual: Net name:toggle
           vpiTypespec RefTypespec start:39:4 end:39:9:
             vpiParent: Port name:toggle
@@ -2134,9 +2136,10 @@ Design name:unnamed:
           vpiParent: Module name:Test
           vpiName: cyc
           vpiDirection: input (1)
-          vpiLowConn RefObj start:40:17 end:40:20:
+          vpiLowConn RefObj name:cyc start:40:17 end:40:20:
             vpiParent: Port name:cyc
-            vpiFullName: Test.cyc
+            vpiName: cyc
+            vpiFullName: Test.cyc.cyc
             vpiActual: Net name:cyc
           vpiTypespec RefTypespec start:40:4 end:40:16:
             vpiParent: Port name:cyc
@@ -2355,7 +2358,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 1
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

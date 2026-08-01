@@ -190,11 +190,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "prim_esc_pkg".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "nmi_gen".
 [INF:CP0303] $Source01/dut.sv:21:1: Compile module "top".
-[ERR:EL0535] $Source01/dut.sv:7:41: Illegal implicit net "id:25, name:esc_p".
-[ERR:EL0535] $Source01/dut.sv:8:41: Illegal implicit net "id:29, name:esc_n".
-[ERR:EL0535] $Source01/dut.sv:23:27: Illegal implicit net "id:86, name:ESC_TX_DEFAULT".
-[ERR:EL0535] $Source01/dut.sv:23:8: Illegal implicit net "id:90, name:a".
-[ERR:EL0535] $Source01/dut.sv:24:8: Illegal implicit net "id:93, name:x".
+[WRN:CP0350] $Source01/dut.sv:23:27: Failed to bind "id:86, name:ESC_TX_DEFAULT".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "prim_esc_pkg".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "nmi_gen".
 [WRN:PA0205] $Source01/dut.sv:21:1: No timescale set for "top".
@@ -206,7 +202,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:prim_esc_pkg file:$Source01/dut.sv start:1:1 end:10:26:
       vpiParent: Design name:unnamed
@@ -301,7 +296,7 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Package name:prim_esc_pkg
       vpiDefName: prim_esc_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:prim_esc_pkg
         vpiName: work
@@ -326,7 +321,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: nmi_gen.x
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         ImportTypespec name:prim_esc_pkg start:13:11 end:13:26:
           vpiParent: Module name:nmi_gen
@@ -365,7 +359,7 @@ Design name:unnamed:
             vpiFullName: nmi_gen.esc_tx_t
             vpiActual: TypedefTypespec name:esc_tx_t
       vpiDefName: nmi_gen
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:nmi_gen
         vpiName: work
@@ -387,9 +381,10 @@ Design name:unnamed:
           vpiParent: Module name:nmi_gen
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:15:25 end:15:26:
+          vpiLowConn RefObj name:a start:15:25 end:15:26:
             vpiParent: Port name:a
-            vpiFullName: nmi_gen.a
+            vpiName: a
+            vpiFullName: nmi_gen.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec name:esc_tx_t start:15:10 end:15:18:
             vpiParent: Port name:a
@@ -400,9 +395,10 @@ Design name:unnamed:
           vpiParent: Module name:nmi_gen
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj start:16:15 end:16:16:
+          vpiLowConn RefObj name:x start:16:15 end:16:16:
             vpiParent: Port name:x
-            vpiFullName: nmi_gen.x
+            vpiName: x
+            vpiFullName: nmi_gen.x.x
             vpiActual: Variable name:x
           vpiTypespec RefTypespec start:16:4 end:16:14:
             vpiParent: Port name:x
@@ -444,7 +440,6 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: o
           vpiFullName: top.o
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         ModuleTypespec name:nmi_gen start:22:4 end:22:11:
           vpiParent: Module name:top
@@ -452,7 +447,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:nmi_gen
             vpiName: nmi_gen
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -463,9 +458,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:21:23 end:21:24:
+          vpiLowConn RefObj name:o start:21:23 end:21:24:
             vpiParent: Port name:o
-            vpiFullName: top.o
+            vpiName: o
+            vpiFullName: top.o.o
             vpiActual: Variable name:o
           vpiTypespec RefTypespec start:21:12 end:21:22:
             vpiParent: Port name:o
@@ -550,8 +546,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

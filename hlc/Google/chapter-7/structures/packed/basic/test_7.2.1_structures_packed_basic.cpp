@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,21 +27,26 @@
 //     end
 //   endmodule
 //
+// `struct packed {...} p1` has no net-type keyword, so per IEEE 1800-2023
+// Sec 6.7/6.8 it is a variable_declaration, not a net_declaration --
+// "packed" only controls the struct's own bit layout, it is unrelated to
+// net-vs-variable classification.
+//
 // Checked:
-//   - design has module top with exactly 1 net: "p1"
-//   - net "p1": RefTypespec -> StructTypespec, vpiPacked true, exactly 2
+//   - design has module top with exactly 1 variable: "p1"
+//   - variable "p1": RefTypespec -> StructTypespec, vpiPacked true, exactly 2
 //     TypespecMember "lo"/"hi", each member's typespec -> BitTypespec with
 //     1 Range [3:0], vpiVector true
 //   - design-level typespecs (4): ModuleTypespec, IntTypespec (signed),
 //     IntTypespec (unsigned), StringTypespec
 //   - Initial process: 1 Begin with 3 stmts (1 Assignment + 2 SysFuncCall)
-//   - Stmt[0]: blocking Assignment, lhs RefObj "p1" resolving Net "p1", rhs
-//     Constant hexadecimal "8'h5a" (value "5a")
+//   - Stmt[0]: blocking Assignment, lhs RefObj "p1" resolving Variable "p1",
+//     rhs Constant hexadecimal "8'h5a" (value "5a")
 //   - Stmt[1]: $display with 2 args (format ":assert: ('%h' == '5a')" +
-//     RefObj "p1" resolving Net "p1")
+//     RefObj "p1" resolving Variable "p1")
 //   - Stmt[2]: $display with 3 args (format + HierPath "p1.hi" [RefObj "p1"
-//     -> Net "p1", RefObj "hi" -> TypespecMember "hi"] + HierPath "p1.lo"
-//     [RefObj "p1" -> Net "p1", RefObj "lo" -> TypespecMember "lo"])
+//     -> Variable "p1", RefObj "hi" -> TypespecMember "hi"] + HierPath "p1.lo"
+//     [RefObj "p1" -> Variable "p1", RefObj "lo" -> TypespecMember "lo"])
 //   - compiler emits zero errors
 //   - no continuous assignments
 //
@@ -76,6 +81,7 @@
 #include <hldb/struct_typespec.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/typespec_member.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -98,22 +104,33 @@ class PackedStructBasicTest : public Test {
 
   static const hldb::StructTypespec *getP1StructTypespec() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getNets() == nullptr) return nullptr;
-    const hldb::Net *const p1 = hldb::findByName<hldb::Net>("p1", top->getNets());
+    if (top == nullptr || top->getVariables() == nullptr) return nullptr;
+    const hldb::Variable *const p1 = hldb::findByName<hldb::Variable>("p1", top->getVariables());
     if (p1 == nullptr) return nullptr;
     return p1->getTypespec<hldb::RefTypespec>()->getActual<hldb::StructTypespec>();
   }
 };
 
-// --- module / net / struct typespec ------------------------------------------
+// --- module / variable / struct typespec ----
 
 TEST_F(PackedStructBasicTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(PackedStructBasicTest, ModuleHasOneNet) {
+TEST_F(PackedStructBasicTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
+}
+
+// `p1` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must
+// not also appear in the module's net collection.
+TEST_F(PackedStructBasicTest, VariableP1IsNotDuplicatedAsNet) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("p1", top->getNets()), nullptr)
+        << "'struct packed {...} p1' has no net-type keyword and must not also appear as a Net";
+  }
 }
 
 TEST_F(PackedStructBasicTest, P1IsPackedStructWithTwoMembers) {
@@ -144,7 +161,7 @@ TEST_F(PackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
   }
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(PackedStructBasicTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -162,7 +179,7 @@ TEST_F(PackedStructBasicTest, FirstStmtAssignsHexFivEaToP1) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "p1");
-  EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "8'h5a");
@@ -183,7 +200,7 @@ TEST_F(PackedStructBasicTest, SecondStmtDisplaysP1AsHex) {
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "p1");
-  EXPECT_NE(arg->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
@@ -202,7 +219,7 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   EXPECT_EQ(hi->getName(), "p1.hi");
   ASSERT_NE(hi->getPathElems(), nullptr);
   ASSERT_EQ(hi->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
 
   const hldb::HierPath *const lo = any_cast<hldb::HierPath>(disp->getArguments()->at(2));
@@ -210,11 +227,11 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   EXPECT_EQ(lo->getName(), "p1.lo");
   ASSERT_NE(lo->getPathElems(), nullptr);
   ASSERT_EQ(lo->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(lo->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(lo->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(lo->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(PackedStructBasicTest, DesignHasFourTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -248,7 +265,7 @@ TEST_F(PackedStructBasicTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime packed-field values require simulation --------------
+// --- known gap: runtime packed-field values require simulation ----
 
 TEST_F(PackedStructBasicTest, RuntimePackedFieldValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates basic.sv; it does not run a simulator, so "

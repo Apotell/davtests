@@ -457,20 +457,12 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_gen5.v:15:1: Compile module "t1".
 [INF:CP0303] $Source01/t_interface_gen5.v:21:1: Compile module "t".
 [INF:CP0335] $Source01/t_interface_gen5.v:23:15: Compile generate block "TestIf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:24:18: Illegal implicit net "id:64, name:PARAM".
-[ERR:EL0535] $Source01/t_interface_gen5.v:25:17: Illegal implicit net "id:67, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:26:26: Illegal implicit net "id:74, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:26:17: Illegal implicit net "id:76, name:mod_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:33:18: Illegal implicit net "id:89, name:PARAM".
-[ERR:EL0535] $Source01/t_interface_gen5.v:34:17: Illegal implicit net "id:92, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:35:26: Illegal implicit net "id:99, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:35:17: Illegal implicit net "id:101, name:mod_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:45:18: Illegal implicit net "id:129, name:PARAM".
-[ERR:EL0535] $Source01/t_interface_gen5.v:46:17: Illegal implicit net "id:132, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:47:23: Illegal implicit net "id:141, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:49:18: Illegal implicit net "id:151, name:PARAM".
-[ERR:EL0535] $Source01/t_interface_gen5.v:50:17: Illegal implicit net "id:154, name:my_intf".
-[ERR:EL0535] $Source01/t_interface_gen5.v:51:23: Illegal implicit net "id:163, name:my_intf".
+[WRN:CP0350] $Source01/t_interface_gen5.v:25:17: Failed to bind "id:67, name:my_intf".
+[WRN:CP0350] $Source01/t_interface_gen5.v:34:17: Failed to bind "id:92, name:my_intf".
+[WRN:CP0350] $Source01/t_interface_gen5.v:46:17: Failed to bind "id:132, name:my_intf".
+[WRN:CP0350] $Source01/t_interface_gen5.v:47:23: Failed to bind "id:141, name:my_intf".
+[WRN:CP0350] $Source01/t_interface_gen5.v:50:17: Failed to bind "id:154, name:my_intf".
+[WRN:CP0350] $Source01/t_interface_gen5.v:51:23: Failed to bind "id:163, name:my_intf".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -480,7 +472,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_gen5.v
       vpiPreprocFile: "$Output/lib/work/t_interface_gen5.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:intf file:$Source01/t_interface_gen5.v start:8:1 end:13:13:
       vpiParent: Design name:unnamed
@@ -533,7 +524,7 @@ Design name:unnamed:
           vpiName Identifier name:logic start:11:4 end:11:9:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:intf
         vpiName: work
@@ -575,7 +566,7 @@ Design name:unnamed:
         vpiName: t1
       vpiFullName: t1
       vpiDefName: t1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t1
         vpiName: work
@@ -597,9 +588,10 @@ Design name:unnamed:
           vpiParent: Module name:t1
           vpiName: mod_intf
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:15:16 end:15:24:
+          vpiLowConn RefObj name:mod_intf start:15:16 end:15:24:
             vpiParent: Port name:mod_intf
-            vpiFullName: t1.mod_intf
+            vpiName: mod_intf
+            vpiFullName: t1.mod_intf.mod_intf
             vpiActual: Net name:mod_intf
           vpiTypespec RefTypespec name:intf start:15:11 end:15:15:
             vpiParent: Port name:mod_intf
@@ -650,6 +642,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:val start:41:10 end:41:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:41:4 end:41:9:
+            vpiParent: Variable name:val
+            vpiName: logic
+            vpiFullName: t.val.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: val
+          vpiFullName: t.val
       vpiParameter (1 items):
         Parameter name:LP start:40:15 end:40:17:
           vpiParent: Module name:t
@@ -687,22 +689,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:val start:41:10 end:41:13:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:41:4 end:41:9:
-            vpiParent: Net name:val
-            vpiName: logic
-            vpiFullName: t.val.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: val
-          vpiFullName: t.val
       vpiProcess (1 items):
         Initial start:55:4 end:59:7:
           vpiParent: Module name:t
@@ -730,7 +722,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: val
                     vpiFullName: t.val
-                    vpiActual: Net name:val
+                    vpiActual: Variable name:val
               SysTaskCall name:$write start:57:7 end:57:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:57:7 end:57:13:
@@ -812,7 +804,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:my_intf.val
                       vpiName: val
                       vpiFullName: t.TestIf.val
-                      vpiActual: Net name:val
+                      vpiActual: Variable name:val
                 vpiRhs Constant start:25:31 end:25:33:
                   vpiParent: ContAssign
                   vpiTypespec RefTypespec:
@@ -898,7 +890,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:my_intf.val
                       vpiName: val
                       vpiFullName: t.val
-                      vpiActual: Net name:val
+                      vpiActual: Variable name:val
                 vpiRhs Constant start:34:31 end:34:33:
                   vpiParent: ContAssign
                   vpiTypespec RefTypespec:
@@ -990,7 +982,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:my_intf.val
                             vpiName: val
                             vpiFullName: t.val
-                            vpiActual: Net name:val
+                            vpiActual: Variable name:val
                       vpiRhs Constant start:46:31 end:46:33:
                         vpiParent: ContAssign
                         vpiTypespec RefTypespec:
@@ -1007,7 +999,7 @@ Design name:unnamed:
                         vpiParent: ContAssign
                         vpiName: val
                         vpiFullName: t.val
-                        vpiActual: Net name:val
+                        vpiActual: Variable name:val
                       vpiRhs HierPath name:my_intf.val start:47:23 end:47:34:
                         vpiParent: ContAssign
                         vpiName: my_intf.val
@@ -1021,7 +1013,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:my_intf.val
                             vpiName: val
                             vpiFullName: t.val
-                            vpiActual: Net name:val
+                            vpiActual: Variable name:val
                 vpiElseStmt Begin start:48:16 end:52:10:
                   vpiParent: GenIfElse
                   vpiFullName: t
@@ -1070,7 +1062,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:my_intf.val
                             vpiName: val
                             vpiFullName: t.val
-                            vpiActual: Net name:val
+                            vpiActual: Variable name:val
                       vpiRhs Constant start:50:31 end:50:33:
                         vpiParent: ContAssign
                         vpiTypespec RefTypespec:
@@ -1087,7 +1079,7 @@ Design name:unnamed:
                         vpiParent: ContAssign
                         vpiName: val
                         vpiFullName: t.val
-                        vpiActual: Net name:val
+                        vpiActual: Variable name:val
                       vpiRhs HierPath name:my_intf.val start:51:23 end:51:34:
                         vpiParent: ContAssign
                         vpiName: my_intf.val
@@ -1101,7 +1093,7 @@ Design name:unnamed:
                             vpiParent: HierPath name:my_intf.val
                             vpiName: val
                             vpiFullName: t.val
-                            vpiActual: Net name:val
+                            vpiActual: Variable name:val
   vpiTypespec (5 items):
     InterfaceTypespec name:intf:
       vpiParent: Design name:unnamed
@@ -1129,8 +1121,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 14
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

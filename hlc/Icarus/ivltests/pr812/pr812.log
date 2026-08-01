@@ -401,7 +401,6 @@ Design name:unnamed:
           vpiPMIBody Identifier name:0.100 start:29:13 end:29:18:
             vpiParent: PreprocMacroInstance name:div
             vpiName: "0.100"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:top file:$Source01/pr812.v start:10:1 end:22:10:
       vpiParent: Design name:unnamed
@@ -409,6 +408,16 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:a start:13:6 end:13:7:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:13:2 end:13:5:
+            vpiParent: Variable name:a
+            vpiFullName: top.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: top.a
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:tp start:11:12 end:11:14:
           vpiParent: Module name:top
@@ -445,21 +454,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:bot
             vpiName: bot
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (2 items):
-        Net name:a start:13:6 end:13:7:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:13:2 end:13:5:
-            vpiParent: Net name:a
-            vpiFullName: top.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: top.a
+      vpiNet (1 items):
         Net name:b start:14:7 end:14:8:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:14:7 end:14:7:
@@ -483,7 +484,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: a
                   vpiFullName: top.a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRhs Constant start:19:7 end:19:8:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -544,32 +545,41 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a
                 vpiFullName: top.b1.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
     Module name:bot file:$Source01/pr812.v start:31:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bot start:31:8 end:31:11:
         vpiParent: Module name:bot
         vpiName: bot
       vpiFullName: bot
+      vpiVariable (2 items):
+        Variable name:tp start:35:7 end:35:9:
+          vpiParent: Module name:bot
+          vpiTypespec RefTypespec start:35:2 end:35:6:
+            vpiParent: Variable name:tp
+            vpiFullName: bot.tp
+            vpiActual: RealTypespec
+          vpiName: tp
+          vpiFullName: bot.tp
+        Variable name:tp2 start:36:7 end:36:10:
+          vpiParent: Module name:bot
+          vpiTypespec RefTypespec start:36:2 end:36:6:
+            vpiParent: Variable name:tp2
+            vpiFullName: bot.tp2
+            vpiActual: RealTypespec
+          vpiName: tp2
+          vpiFullName: bot.tp2
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bot
       vpiDefName: bot
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:bot
         vpiName: work
         vpiFullName: bot.work
       vpiCell: bot
-      vpiNet (4 items):
-        Net name:a start:33:9 end:33:10:
-          vpiParent: Module name:bot
-          vpiTypespec RefTypespec start:33:9 end:33:9:
-            vpiParent: Net name:a
-            vpiFullName: bot.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: bot.a
+      vpiNet (2 items):
         Net name:b start:32:8 end:32:9:
           vpiParent: Module name:bot
           vpiTypespec RefTypespec start:32:8 end:32:8:
@@ -578,28 +588,22 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: bot.b
-        Net name:tp start:35:7 end:35:9:
+          vpiNetType: wire (1)
+        Net name:a start:33:9 end:33:10:
           vpiParent: Module name:bot
-          vpiTypespec RefTypespec start:35:2 end:35:6:
-            vpiParent: Net name:tp
-            vpiFullName: bot.tp
-            vpiActual: RealTypespec
-          vpiName: tp
-          vpiFullName: bot.tp
-        Net name:tp2 start:36:7 end:36:10:
-          vpiParent: Module name:bot
-          vpiTypespec RefTypespec start:36:2 end:36:6:
-            vpiParent: Net name:tp2
-            vpiFullName: bot.tp2
-            vpiActual: RealTypespec
-          vpiName: tp2
-          vpiFullName: bot.tp2
+          vpiTypespec RefTypespec start:33:9 end:33:9:
+            vpiParent: Net name:a
+            vpiFullName: bot.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: bot.a
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:31:12 end:31:13:
           vpiParent: Module name:bot
           vpiName: a
           vpiDirection: output (2)
-          vpiLowConn RefObj name:a start:31:12 end:31:13:
+          vpiLowConn RefObj name:a start:33:9 end:33:10:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: bot.a.a
@@ -612,7 +616,7 @@ Design name:unnamed:
           vpiParent: Module name:bot
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj name:b start:31:15 end:31:16:
+          vpiLowConn RefObj name:b start:32:8 end:32:9:
             vpiParent: Port name:b
             vpiName: b
             vpiFullName: bot.b.b
@@ -635,7 +639,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: tp
                   vpiFullName: bot.tp
-                  vpiActual: Net name:tp
+                  vpiActual: Variable name:tp
                 vpiRhs Operation start:40:8 end:40:16:
                   vpiParent: Assignment
                   vpiOpType: divide (12)
@@ -667,7 +671,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: tp2
                   vpiFullName: bot.tp2
-                  vpiActual: Net name:tp2
+                  vpiActual: Variable name:tp2
                 vpiRhs Operation start:41:9 end:41:17:
                   vpiParent: Assignment
                   vpiOpType: divide (12)
@@ -712,12 +716,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: tp
                     vpiFullName: bot.tp
-                    vpiActual: Net name:tp
+                    vpiActual: Variable name:tp
                   RefObj name:tp2 start:42:37 end:42:40:
                     vpiParent: SysTaskCall name:$display
                     vpiName: tp2
                     vpiFullName: bot.tp2
-                    vpiActual: Net name:tp2
+                    vpiActual: Variable name:tp2
               IfElse start:43:3 end:46:37:
                 vpiParent: Begin
                 vpiCondition Operation start:43:7 end:43:17:
@@ -728,7 +732,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: tp
                       vpiFullName: bot.tp
-                      vpiActual: Net name:tp
+                      vpiActual: Variable name:tp
                     Constant start:43:13 end:43:17:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -759,7 +763,7 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiName: tp
                       vpiFullName: bot.tp
-                      vpiActual: Net name:tp
+                      vpiActual: Variable name:tp
                 vpiElseStmt SysTaskCall name:$display start:46:4 end:46:36:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:46:4 end:46:12:
@@ -798,12 +802,12 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiName: tp
                       vpiFullName: bot.tp
-                      vpiActual: Net name:tp
+                      vpiActual: Variable name:tp
                     RefObj name:tp2 start:47:40 end:47:43:
                       vpiParent: SysTaskCall name:$display
                       vpiName: tp2
                       vpiFullName: bot.tp2
-                      vpiActual: Net name:tp2
+                      vpiActual: Variable name:tp2
                 vpiDelay Constant start:47:4 end:47:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:

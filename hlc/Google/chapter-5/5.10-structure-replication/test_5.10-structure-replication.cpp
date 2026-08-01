@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +15,10 @@
 */
 
 // Validates structure replication assignment patterns in UHDM:
-//   struct{int X,Y,Z;} XYZ = '{3{1}};               → assign pattern [count=3, val=1]
+//   struct{int X,Y,Z;} XYZ = '{3{1}};               -> assign pattern [count=3, val=1]
 //   typedef struct{int a,b[4];} ab_t;
 //   ab_t v1[1:0][2:0]; v1 = '{2{'{3{'{a,'{2{b,c}}}}}}};
-// Grammar: assignment_pattern → constant_expression { expression } (multi-replication)
+// Grammar: assignment_pattern -> constant_expression { expression } (multi-replication)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -52,33 +52,41 @@ TEST_F(StructureReplication, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Net XYZ — anonymous struct with replication init '{3{1}}
-// ---------------------------------------------------------------------------
-TEST_F(StructureReplication, NetXYZExists) {
+// ----
+// Variable XYZ -- anonymous struct with replication init '{3{1}}
+// ----
+// XYZ has no net-type keyword (wire/tri/...), so per IEEE 1800-2023 Sec 6.7/6.8
+// it is a variable_declaration, not a net_declaration. `default_nettype` only
+// controls implicit nets (Sec 6.10) and does not apply to this explicit,
+// fully-typed declaration.
+TEST_F(StructureReplication, VariableXYZExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr) << "module has no nets";
+  ASSERT_NE(top->getVariables(), nullptr) << "module has no variables";
 
-  const hldb::Net *xyz = nullptr;
-  for (const hldb::Net *const n : *top->getNets()) {
-    if (n->getName() == "XYZ") {
-      xyz = n;
-      break;
-    }
+  const hldb::Variable *const xyz = hldb::findByName<hldb::Variable>("XYZ", top->getVariables());
+  ASSERT_NE(xyz, nullptr) << "variable 'XYZ' not found in module";
+}
+
+TEST_F(StructureReplication, VariableXYZIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("XYZ", top->getNets()), nullptr)
+        << "'XYZ' has no net-type keyword and must not also appear as a Net";
   }
-  ASSERT_NE(xyz, nullptr) << "net 'XYZ' not found in module";
 }
 
 TEST_F(StructureReplication, XYZTypespecHasThreeMembers) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Net *xyz = nullptr;
-  for (const hldb::Net *const n : *top->getNets()) {
-    if (n->getName() == "XYZ") {
-      xyz = n;
+  const hldb::Variable *xyz = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
+    if (v->getName() == "XYZ") {
+      xyz = v;
       break;
     }
   }
@@ -94,12 +102,12 @@ TEST_F(StructureReplication, XYZTypespecHasThreeMembers) {
 TEST_F(StructureReplication, XYZMemberNames) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Net *xyz = nullptr;
-  for (const hldb::Net *const n : *top->getNets()) {
-    if (n->getName() == "XYZ") {
-      xyz = n;
+  const hldb::Variable *xyz = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
+    if (v->getName() == "XYZ") {
+      xyz = v;
       break;
     }
   }
@@ -117,12 +125,12 @@ TEST_F(StructureReplication, XYZMemberNames) {
 TEST_F(StructureReplication, XYZInitializerIsAssignPattern) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Net *xyz = nullptr;
-  for (const hldb::Net *const n : *top->getNets()) {
-    if (n->getName() == "XYZ") {
-      xyz = n;
+  const hldb::Variable *xyz = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
+    if (v->getName() == "XYZ") {
+      xyz = v;
       break;
     }
   }
@@ -137,12 +145,12 @@ TEST_F(StructureReplication, XYZInitializerIsAssignPattern) {
 TEST_F(StructureReplication, XYZInitializerHasReplicationCountAndValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
+  ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Net *xyz = nullptr;
-  for (const hldb::Net *const n : *top->getNets()) {
-    if (n->getName() == "XYZ") {
-      xyz = n;
+  const hldb::Variable *xyz = nullptr;
+  for (const hldb::Variable *const v : *top->getVariables()) {
+    if (v->getName() == "XYZ") {
+      xyz = v;
       break;
     }
   }
@@ -151,13 +159,13 @@ TEST_F(StructureReplication, XYZInitializerHasReplicationCountAndValue) {
   const hldb::Operation *const init = xyz->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
   ASSERT_NE(init->getOperands(), nullptr);
-  // '{3{1}} → [Constant "3" (count), Constant "1" (value)]
+  // '{3{1}} -> [Constant "3" (count), Constant "1" (value)]
   EXPECT_EQ(init->getOperands()->size(), 2u) << "expected 2 operands for '{3{1}} replication pattern";
 }
 
-// ---------------------------------------------------------------------------
-// Typedef ab_t — struct with members a (int) and b (int array)
-// ---------------------------------------------------------------------------
+// ----
+// Typedef ab_t -- struct with members a (int) and b (int array)
+// ----
 TEST_F(StructureReplication, TypedefAbTExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -197,9 +205,9 @@ TEST_F(StructureReplication, AbTStructHasTwoMembers) {
   EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 members: a, b";
 }
 
-// ---------------------------------------------------------------------------
-// Initial block — v1 variable and nested replication assignment
-// ---------------------------------------------------------------------------
+// ----
+// Initial block -- v1 variable and nested replication assignment
+// ----
 TEST_F(StructureReplication, InitialBlockExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -330,7 +338,7 @@ TEST_F(StructureReplication, AssignmentRhsIsOuterReplicationPattern) {
   }
   ASSERT_NE(assign, nullptr);
 
-  // v1 = '{2{...}} — outer replication: AssignPatternOp with [Const "2", nested pattern]
+  // v1 = '{2{...}} -- outer replication: AssignPatternOp with [Const "2", nested pattern]
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "RHS is not an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp) << "RHS op is not vpiAssignmentPatternOp";
@@ -365,18 +373,18 @@ TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
   }
   ASSERT_NE(assign, nullptr);
 
-  // Level 0: '{2{...}}        → [Const "2",  level1]
+  // Level 0: '{2{...}}        -> [Const "2",  level1]
   const hldb::Operation *const l0 = assign->getRhs<hldb::Operation>();
   ASSERT_NE(l0, nullptr);
   ASSERT_EQ(l0->getOperands()->size(), 2u);
 
-  // Level 1: '{3{...}}        → [Const "3",  level2]
+  // Level 1: '{3{...}}        -> [Const "3",  level2]
   const hldb::Operation *const l1 = any_cast<hldb::Operation>((*l0->getOperands())[1]);
   ASSERT_NE(l1, nullptr) << "level-1 operand is not an Operation (expected '{3{...}})";
   EXPECT_EQ(l1->getOpType(), vpiAssignmentPatternOp);
   ASSERT_EQ(l1->getOperands()->size(), 2u);
 
-  // Level 2: '{a, '{2{b,c}}}  → [RefObj "a", level3]
+  // Level 2: '{a, '{2{b,c}}}  -> [RefObj "a", level3]
   const hldb::Operation *const l2 = any_cast<hldb::Operation>((*l1->getOperands())[1]);
   ASSERT_NE(l2, nullptr) << "level-2 operand is not an Operation (expected '{a,...})";
   EXPECT_EQ(l2->getOpType(), vpiAssignmentPatternOp);
@@ -387,7 +395,7 @@ TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
   ASSERT_NE(refA, nullptr) << "level-2 first operand is not a RefObj (expected 'a')";
   EXPECT_EQ(refA->getName(), "a");
 
-  // Level 3: '{2{b,c}}        → [Const "2", RefObj "b", RefObj "c"]
+  // Level 3: '{2{b,c}}        -> [Const "2", RefObj "b", RefObj "c"]
   const hldb::Operation *const l3 = any_cast<hldb::Operation>((*l2->getOperands())[1]);
   ASSERT_NE(l3, nullptr) << "level-3 operand is not an Operation (expected '{2{b,c}})";
   EXPECT_EQ(l3->getOpType(), vpiAssignmentPatternOp);

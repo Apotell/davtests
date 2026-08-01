@@ -285,7 +285,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_misarray_bad.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_misarray_bad.v:20:1: Compile module "dut".
 [INF:CP0303] $Source01/t_inst_misarray_bad.v:33:1: Compile module "suba".
-[ERR:EL0535] $Source01/t_inst_misarray_bad.v:15:11: Illegal implicit net "id:34, name:W".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -295,7 +294,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_inst_misarray_bad.v
       vpiPreprocFile: "$Output/lib/work/t_inst_misarray_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_inst_misarray_bad.v start:6:1 end:18:10:
       vpiParent: Design name:unnamed
@@ -303,6 +301,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:foo start:12:10 end:12:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:12:4 end:12:9:
+            vpiParent: Variable name:foo
+            vpiName: logic
+            vpiFullName: t.foo.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: foo
+          vpiFullName: t.foo
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -317,13 +325,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:dut
             vpiName: dut
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:10 end:10:10:
@@ -332,21 +340,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:foo start:12:10 end:12:13:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:12:4 end:12:9:
-            vpiParent: Net name:foo
-            vpiName: logic
-            vpiFullName: t.foo.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: foo
-          vpiFullName: t.foo
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:10:10 end:10:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -365,7 +365,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: foo
               vpiFullName: t.foo
-              vpiActual: Net name:foo
+              vpiActual: Variable name:foo
             vpiRhs Constant start:12:29 end:12:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -422,18 +422,26 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: foo
                 vpiFullName: t.udut.foo
-                vpiActual: Net name:foo
+                vpiActual: Variable name:foo
               vpiHighConn RefObj name:foo start:16:27 end:16:30:
                 vpiParent: Port
                 vpiName: foo
                 vpiFullName: t.udut.foo
-                vpiActual: Net name:foo
+                vpiActual: Variable name:foo
     Module name:dut file:$Source01/t_inst_misarray_bad.v start:20:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:20:8 end:20:11:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:i start:25:12 end:25:13:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: dut.i
+          vpiName: i
+          vpiFullName: dut.i
       vpiParameter (1 items):
         Parameter name:W start:21:17 end:21:18:
           vpiParent: Module name:dut
@@ -514,13 +522,13 @@ Design name:unnamed:
             vpiFullName: dut.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:22:18 end:22:21:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec name:logic start:22:12 end:22:17:
@@ -541,21 +549,15 @@ Design name:unnamed:
           vpiName: foo
           vpiFullName: dut.foo
           vpiNetType: wire (1)
-        Net name:i start:25:12 end:25:13:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: dut.i
-          vpiName: i
-          vpiFullName: dut.i
       vpiPort (2 items):
         Port name:clk start:22:18 end:22:21:
           vpiParent: Module name:dut
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:22:18 end:22:21:
+          vpiLowConn RefObj name:clk start:22:18 end:22:21:
             vpiParent: Port name:clk
-            vpiFullName: dut.clk
+            vpiName: clk
+            vpiFullName: dut.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:22:12 end:22:17:
             vpiParent: Port name:clk
@@ -566,9 +568,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: foo
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:18 end:23:21:
+          vpiLowConn RefObj name:foo start:23:18 end:23:21:
             vpiParent: Port name:foo
-            vpiFullName: dut.foo
+            vpiName: foo
+            vpiFullName: dut.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:logic start:23:12 end:23:17:
             vpiParent: Port name:foo
@@ -695,7 +698,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: suba
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:suba
         vpiName: work
@@ -727,9 +730,10 @@ Design name:unnamed:
           vpiParent: Module name:suba
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:34:16 end:34:19:
+          vpiLowConn RefObj name:clk start:34:16 end:34:19:
             vpiParent: Port name:clk
-            vpiFullName: suba.clk
+            vpiName: clk
+            vpiFullName: suba.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:34:10 end:34:15:
             vpiParent: Port name:clk
@@ -740,9 +744,10 @@ Design name:unnamed:
           vpiParent: Module name:suba
           vpiName: foo
           vpiDirection: input (1)
-          vpiLowConn RefObj start:35:16 end:35:19:
+          vpiLowConn RefObj name:foo start:35:16 end:35:19:
             vpiParent: Port name:foo
-            vpiFullName: suba.foo
+            vpiName: foo
+            vpiFullName: suba.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:logic start:35:10 end:35:15:
             vpiParent: Port name:foo
@@ -812,7 +817,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

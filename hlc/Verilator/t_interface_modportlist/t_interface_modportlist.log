@@ -189,11 +189,11 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_modportlist.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_modportlist.v:13:1: Compile module "my_module".
 [INF:CP0304] $Source01/t_interface_modportlist.v:20:1: Compile interface "my_interface".
-[ERR:EL0535] $Source01/t_interface_modportlist.v:13:42: Illegal implicit net "id:34, name:my_port".
-[ERR:EL0535] $Source01/t_interface_modportlist.v:15:13: Illegal implicit net "id:47, name:b".
-[ERR:EL0535] $Source01/t_interface_modportlist.v:15:24: Illegal implicit net "id:50, name:a".
-[ERR:EL0535] $Source01/t_interface_modportlist.v:16:13: Illegal implicit net "id:54, name:c".
-[ERR:EL0535] $Source01/t_interface_modportlist.v:16:24: Illegal implicit net "id:57, name:a".
+[ERR:LN0813] $Source01/t_interface_modportlist.v:1:1: Found 1 orphan node(s).
+[WRN:CP0350] $Source01/t_interface_modportlist.v:15:13: Failed to bind "id:43, name:b".
+[WRN:CP0350] $Source01/t_interface_modportlist.v:15:24: Failed to bind "id:46, name:a".
+[WRN:CP0350] $Source01/t_interface_modportlist.v:16:13: Failed to bind "id:50, name:c".
+[WRN:CP0350] $Source01/t_interface_modportlist.v:16:24: Failed to bind "id:53, name:a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -203,7 +203,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_modportlist.v
       vpiPreprocFile: "$Output/lib/work/t_interface_modportlist.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:my_interface file:$Source01/t_interface_modportlist.v start:20:1 end:23:13:
       vpiParent: Design name:unnamed
@@ -220,7 +219,6 @@ Design name:unnamed:
             vpiFullName: my_interface.a.logic
           vpiName: a
           vpiFullName: my_interface.a
-          vpiNetType: none (12)
         Variable name:b start:21:13 end:21:14:
           vpiParent: Interface name:my_interface
           vpiTypespec RefTypespec name:logic start:21:4 end:21:9:
@@ -229,7 +227,6 @@ Design name:unnamed:
             vpiFullName: my_interface.b.logic
           vpiName: b
           vpiFullName: my_interface.b
-          vpiNetType: none (12)
         Variable name:c start:21:16 end:21:17:
           vpiParent: Interface name:my_interface
           vpiTypespec RefTypespec name:logic start:21:4 end:21:9:
@@ -238,8 +235,7 @@ Design name:unnamed:
             vpiFullName: my_interface.c.logic
           vpiName: c
           vpiFullName: my_interface.c
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:my_interface
         vpiName: work
@@ -285,7 +281,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -306,9 +302,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:16 end:8:19:
+          vpiLowConn RefObj name:clk start:8:16 end:8:19:
             vpiParent: Port name:clk
-            vpiFullName: t.clk
+            vpiName: clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:8:10 end:8:15:
             vpiParent: Port name:clk
@@ -329,32 +326,17 @@ Design name:unnamed:
         vpiParent: Module name:my_module
         vpiName: my_module
       vpiFullName: my_module
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:my_module
-        UnsupportedTypespec name:my_interface::my_port start:13:29 end:13:49:
-          vpiParent: Module name:my_module
-          vpiPathElem (2 items):
-            RefObj name:my_interface start:13:29 end:13:41:
-              vpiParent: UnsupportedTypespec name:my_interface::my_port
-              vpiName: my_interface
-              vpiFullName: my_module.my_interface::my_port.my_interface
-              vpiActual: Interface name:my_interface
-            RefObj name:my_port start:13:42 end:13:49:
-              vpiParent: UnsupportedTypespec name:my_interface::my_port
-              vpiName: my_port
-              vpiFullName: my_module.my_interface::my_port.my_port
-          vpiName Identifier name:my_interface::my_port:
-            vpiParent: UnsupportedTypespec name:my_interface::my_port
-            vpiName: my_interface::my_port
       vpiDefName: my_module
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:my_module
         vpiName: work
         vpiFullName: my_module.work
       vpiCell: my_module
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:13:24 end:13:27:
           vpiParent: Module name:my_module
           vpiTypespec RefTypespec start:13:18 end:13:23:
@@ -364,23 +346,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: my_module.clk
           vpiNetType: wire (1)
-        Net name:iface start:13:50 end:13:55:
-          vpiParent: Module name:my_module
-          vpiTypespec RefTypespec start:13:29 end:13:49:
-            vpiParent: Net name:iface
-            vpiFullName: my_module.iface
-            vpiActual: UnsupportedTypespec name:my_interface::my_port
-          vpiName: iface
-          vpiFullName: my_module.iface
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:13:24 end:13:27:
           vpiParent: Module name:my_module
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:24 end:13:27:
+          vpiLowConn RefObj name:clk start:13:24 end:13:27:
             vpiParent: Port name:clk
-            vpiFullName: my_module.clk
+            vpiName: clk
+            vpiFullName: my_module.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:13:18 end:13:23:
             vpiParent: Port name:clk
@@ -390,14 +364,6 @@ Design name:unnamed:
           vpiParent: Module name:my_module
           vpiName: iface
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:13:50 end:13:55:
-            vpiParent: Port name:iface
-            vpiFullName: my_module.iface
-            vpiActual: Net name:iface
-          vpiTypespec RefTypespec start:13:29 end:13:49:
-            vpiParent: Port name:iface
-            vpiFullName: my_module.iface
-            vpiActual: UnsupportedTypespec name:my_interface::my_port
       vpiProcess (1 items):
         Always start:14:4 end:17:7:
           vpiParent: Module name:my_module
@@ -427,7 +393,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:iface.b
                         vpiName: iface
                         vpiFullName: my_module.iface
-                        vpiActual: Net name:iface
+                        vpiActual: Port name:iface
                       RefObj name:b start:15:13 end:15:14:
                         vpiParent: HierPath name:iface.b
                         vpiName: b
@@ -441,7 +407,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:iface.a
                         vpiName: iface
                         vpiFullName: my_module.iface
-                        vpiActual: Net name:iface
+                        vpiActual: Port name:iface
                       RefObj name:a start:15:24 end:15:25:
                         vpiParent: HierPath name:iface.a
                         vpiName: a
@@ -457,7 +423,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:iface.c
                         vpiName: iface
                         vpiFullName: my_module.iface
-                        vpiActual: Net name:iface
+                        vpiActual: Port name:iface
                       RefObj name:c start:16:13 end:16:14:
                         vpiParent: HierPath name:iface.c
                         vpiName: c
@@ -471,7 +437,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:iface.a
                         vpiName: iface
                         vpiFullName: my_module.iface
-                        vpiActual: Net name:iface
+                        vpiActual: Port name:iface
                       RefObj name:a start:16:24 end:16:25:
                         vpiParent: HierPath name:iface.a
                         vpiName: a
@@ -499,8 +465,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 1
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 1
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -515,25 +481,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/mounts.json
 
 
-{'result': {'coverage': 91.67,
+{'result': {'coverage': 85.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_modportlist.v': {'post_len': 25,
+            'files': {'$Output/lib/work/t_interface_modportlist.v': {'post_len': 45,
                                                                      'pre_len': 300}},
-            'post_len': 25,
+            'post_len': 45,
             'pre_len': 300,
             'test_name': 'Verilator/t_interface_modportlist'}}
 
 +--------------------------------------------+----------+-----------+
 | INPUT                                      |   PRELEN |   POSTLEN |
 +============================================+==========+===========+
-| $Output/lib/work/t_interface_modportlist.v |      300 |        25 |
+| $Output/lib/work/t_interface_modportlist.v |      300 |        45 |
 +============================================+==========+===========+
-|                                            |      300 |        25 |
+|                                            |      300 |        45 |
 +--------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.67
+[COVERAGE] : 85.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -544,7 +510,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================

@@ -316,8 +316,6 @@ n<$Source01/t_gen_cond_const.v> u<301> t<Top_level_rule> c<1> l<13:1> el<72:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_gen_cond_const.v:13:1: Compile module "t".
 [INF:CP0303] $Source01/t_gen_cond_const.v:46:1: Compile module "test_gen".
-[ERR:EL0535] $Source01/t_gen_cond_const.v:21:9: Illegal implicit net "id:30, name:SIZE".
-[ERR:EL0535] $Source01/t_gen_cond_const.v:22:9: Illegal implicit net "id:35, name:MASK".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -357,7 +355,6 @@ Design name:unnamed:
           vpiPMIBody Identifier name:4 start:10:19 end:10:20:
             vpiParent: PreprocMacroInstance name:MAX_SIZE
             vpiName: "4"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_gen_cond_const.v start:13:1 end:43:10:
       vpiParent: Design name:unnamed
@@ -365,6 +362,15 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:count start:27:12 end:27:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:27:4 end:27:11:
+            vpiParent: Variable name:count
+            vpiFullName: t.count
+            vpiActual: IntegerTypespec
+          vpiName: count
+          vpiFullName: t.count
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -377,13 +383,13 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:10 end:17:10:
@@ -392,20 +398,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:count start:27:12 end:27:17:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:27:4 end:27:11:
-            vpiParent: Net name:count
-            vpiFullName: t.count
-            vpiActual: IntegerTypespec
-          vpiName: count
-          vpiFullName: t.count
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:15:4 end:15:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:15:4 end:15:7:
+          vpiLowConn RefObj name:clk start:17:10 end:17:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -428,7 +427,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: count
                   vpiFullName: t.count
-                  vpiActual: Net name:count
+                  vpiActual: Variable name:count
                 vpiRhs Constant start:30:15 end:30:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -466,7 +465,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: count
                         vpiFullName: t.count
-                        vpiActual: Net name:count
+                        vpiActual: Variable name:count
                       Constant start:34:20 end:34:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -513,7 +512,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: count
                           vpiFullName: t.count
-                          vpiActual: Net name:count
+                          vpiActual: Variable name:count
                         vpiRhs Operation start:39:11 end:39:20:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -522,7 +521,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: count
                               vpiFullName: t.count
-                              vpiActual: Net name:count
+                              vpiActual: Variable name:count
                             Constant start:39:19 end:39:20:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -653,7 +652,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:test_gen
       vpiDefName: test_gen
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test_gen
         vpiName: work
@@ -668,12 +667,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: test_gen.clk
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:54:4 end:54:7:
           vpiParent: Module name:test_gen
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:54:4 end:54:7:
+          vpiLowConn RefObj name:clk start:57:10 end:57:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: test_gen.clk.clk
@@ -776,7 +776,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

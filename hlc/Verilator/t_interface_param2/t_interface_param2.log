@@ -472,15 +472,15 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_param2.v:17:1: Compile interface "simple_bus".
 [INF:CP0303] $Source01/t_interface_param2.v:37:1: Compile module "mem".
 [INF:CP0303] $Source01/t_interface_param2.v:48:1: Compile module "cpu".
-[ERR:EL0535] $Source01/t_interface_param2.v:10:18: Illegal implicit net "id:36, name:DWIDTH".
-[ERR:EL0535] $Source01/t_interface_param2.v:11:20: Illegal implicit net "id:44, name:slave".
-[ERR:EL0535] $Source01/t_interface_param2.v:12:20: Illegal implicit net "id:53, name:master".
-[ERR:EL0535] $Source01/t_interface_param2.v:13:23: Illegal implicit net "id:62, name:slave".
-[ERR:EL0535] $Source01/t_interface_param2.v:14:23: Illegal implicit net "id:71, name:master".
-[ERR:EL0535] $Source01/t_interface_param2.v:39:23: Illegal implicit net "id:180, name:clk".
-[ERR:EL0535] $Source01/t_interface_param2.v:40:8: Illegal implicit net "id:185, name:gnt".
-[ERR:EL0535] $Source01/t_interface_param2.v:40:17: Illegal implicit net "id:188, name:req".
-[ERR:EL0535] $Source01/t_interface_param2.v:42:19: Illegal implicit net "id:197, name:data".
+[ERR:LN0813] $Source01/t_interface_param2.v:1:1: Found 2 orphan node(s).
+[WRN:CP0350] $Source01/t_interface_param2.v:11:20: Failed to bind "id:44, name:slave".
+[WRN:CP0350] $Source01/t_interface_param2.v:12:20: Failed to bind "id:53, name:master".
+[WRN:CP0350] $Source01/t_interface_param2.v:13:23: Failed to bind "id:62, name:slave".
+[WRN:CP0350] $Source01/t_interface_param2.v:14:23: Failed to bind "id:71, name:master".
+[WRN:CP0350] $Source01/t_interface_param2.v:39:23: Failed to bind "id:176, name:clk".
+[WRN:CP0350] $Source01/t_interface_param2.v:40:8: Failed to bind "id:181, name:gnt".
+[WRN:CP0350] $Source01/t_interface_param2.v:40:17: Failed to bind "id:184, name:req".
+[WRN:CP0350] $Source01/t_interface_param2.v:42:19: Failed to bind "id:193, name:data".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -490,7 +490,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_param2.v
       vpiPreprocFile: "$Output/lib/work/t_interface_param2.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:simple_bus file:$Source01/t_interface_param2.v start:17:1 end:35:25:
       vpiParent: Design name:unnamed
@@ -498,17 +497,7 @@ Design name:unnamed:
         vpiParent: Interface name:simple_bus
         vpiName: simple_bus
       vpiFullName: simple_bus
-      vpiVariable (5 items):
-        Variable name:clk start:18:17 end:18:20:
-          vpiParent: Interface name:simple_bus
-          vpiTypespec RefTypespec name:logic start:18:11 end:18:16:
-            vpiParent: Variable name:clk
-            vpiName: logic
-            vpiFullName: simple_bus.clk.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: clk
-          vpiFullName: simple_bus.clk
-          vpiNetType: wire (1)
+      vpiVariable (4 items):
         Variable name:req start:20:10 end:20:13:
           vpiParent: Interface name:simple_bus
           vpiTypespec RefTypespec name:logic start:20:4 end:20:9:
@@ -517,7 +506,6 @@ Design name:unnamed:
             vpiFullName: simple_bus.req.logic
           vpiName: req
           vpiFullName: simple_bus.req
-          vpiNetType: none (12)
         Variable name:gnt start:20:15 end:20:18:
           vpiParent: Interface name:simple_bus
           vpiTypespec RefTypespec name:logic start:20:4 end:20:9:
@@ -526,7 +514,6 @@ Design name:unnamed:
             vpiFullName: simple_bus.gnt.logic
           vpiName: gnt
           vpiFullName: simple_bus.gnt
-          vpiNetType: none (12)
         Variable name:addr start:21:23 end:21:27:
           vpiParent: Interface name:simple_bus
           vpiTypespec RefTypespec name:logic start:21:4 end:21:22:
@@ -685,12 +672,23 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: simple_bus.logic
             vpiActual: UnsupportedTypespec name:logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:simple_bus
         vpiName: work
         vpiFullName: simple_bus.work
       vpiCell: simple_bus
+      vpiNet (1 items):
+        Net name:clk start:18:17 end:18:20:
+          vpiParent: Interface name:simple_bus
+          vpiTypespec RefTypespec name:logic start:18:11 end:18:16:
+            vpiParent: Net name:clk
+            vpiName: logic
+            vpiFullName: simple_bus.clk.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: clk
+          vpiFullName: simple_bus.clk
+          vpiNetType: wire (1)
       vpiModport (2 items):
         Modport name:slave start:24:12 end:24:17:
           vpiParent: Interface name:simple_bus
@@ -814,10 +812,11 @@ Design name:unnamed:
           vpiParent: Interface name:simple_bus
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:18:17 end:18:20:
+          vpiLowConn RefObj name:clk start:18:17 end:18:20:
             vpiParent: Port name:clk
-            vpiFullName: simple_bus.clk
-            vpiActual: Variable name:clk
+            vpiName: clk
+            vpiFullName: simple_bus.clk.clk
+            vpiActual: Net name:clk
           vpiTypespec RefTypespec name:logic start:18:11 end:18:16:
             vpiParent: Port name:clk
             vpiName: logic
@@ -857,7 +856,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:cpu
             vpiName: cpu
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -878,9 +877,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:17 end:8:20:
+          vpiLowConn RefObj name:clk start:8:17 end:8:20:
             vpiParent: Port name:clk
-            vpiFullName: t.clk
+            vpiName: clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:8:11 end:8:16:
             vpiParent: Port name:clk
@@ -1070,40 +1070,21 @@ Design name:unnamed:
             vpiFullName: mem.avail.logic
           vpiName: avail
           vpiFullName: mem.avail
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         InterfaceTypespec start:37:12 end:37:21:
           vpiParent: Module name:mem
       vpiDefName: mem
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:mem
         vpiName: work
         vpiFullName: mem.work
       vpiCell: mem
-      vpiNet (1 items):
-        Net name:a start:37:22 end:37:23:
-          vpiParent: Module name:mem
-          vpiTypespec RefTypespec start:37:12 end:37:21:
-            vpiParent: Net name:a
-            vpiFullName: mem.a
-            vpiActual: InterfaceTypespec
-          vpiName: a
-          vpiFullName: mem.a
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:a start:37:22 end:37:23:
           vpiParent: Module name:mem
           vpiName: a
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:37:22 end:37:23:
-            vpiParent: Port name:a
-            vpiFullName: mem.a
-            vpiActual: Net name:a
-          vpiTypespec RefTypespec start:37:12 end:37:21:
-            vpiParent: Port name:a
-            vpiFullName: mem.a
-            vpiActual: InterfaceTypespec
       vpiProcess (2 items):
         Always start:39:4 end:40:29:
           vpiParent: Module name:mem
@@ -1122,7 +1103,7 @@ Design name:unnamed:
                       vpiParent: HierPath name:a.clk
                       vpiName: a
                       vpiFullName: mem.a
-                      vpiActual: Net name:a
+                      vpiActual: Port name:a
                     RefObj name:clk start:39:23 end:39:26:
                       vpiParent: HierPath name:a.clk
                       vpiName: clk
@@ -1138,7 +1119,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:a.gnt
                     vpiName: a
                     vpiFullName: mem.a
-                    vpiActual: Net name:a
+                    vpiActual: Port name:a
                   RefObj name:gnt start:40:8 end:40:11:
                     vpiParent: HierPath name:a.gnt
                     vpiName: gnt
@@ -1156,7 +1137,7 @@ Design name:unnamed:
                         vpiParent: HierPath name:a.req
                         vpiName: a
                         vpiFullName: mem.a
-                        vpiActual: Net name:a
+                        vpiActual: Port name:a
                       RefObj name:req start:40:17 end:40:20:
                         vpiParent: HierPath name:a.req
                         vpiName: req
@@ -1194,7 +1175,7 @@ Design name:unnamed:
                               vpiParent: HierPath name:a.data
                               vpiName: a
                               vpiFullName: mem.a
-                              vpiActual: Net name:a
+                              vpiActual: Port name:a
                             RefObj name:data start:42:19 end:42:23:
                               vpiParent: HierPath name:a.data
                               vpiName: data
@@ -1245,35 +1226,17 @@ Design name:unnamed:
         InterfaceTypespec start:48:12 end:48:21:
           vpiParent: Module name:cpu
       vpiDefName: cpu
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:cpu
         vpiName: work
         vpiFullName: cpu.work
       vpiCell: cpu
-      vpiNet (1 items):
-        Net name:b start:48:22 end:48:23:
-          vpiParent: Module name:cpu
-          vpiTypespec RefTypespec start:48:12 end:48:21:
-            vpiParent: Net name:b
-            vpiFullName: cpu.b
-            vpiActual: InterfaceTypespec
-          vpiName: b
-          vpiFullName: cpu.b
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:b start:48:22 end:48:23:
           vpiParent: Module name:cpu
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:48:22 end:48:23:
-            vpiParent: Port name:b
-            vpiFullName: cpu.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:48:12 end:48:21:
-            vpiParent: Port name:b
-            vpiFullName: cpu.b
-            vpiActual: InterfaceTypespec
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1307,8 +1270,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 9
-[WARNING] : 2
+[  ERROR] : 1
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1353,10 +1316,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       3         3
 Operation                            6       3       0         3
-RefObj                              39      36       0         3
-RefTypespec                         41      41       3         3
+RefObj                              37      34       0         3
+RefTypespec                         37      37       3         3
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             111     111       0         0
 ----------------------------------------------------------------
-                                   209     203       6        12
+                                   201     195       6        12
 ===================== END REDUCTION RESULT =====================

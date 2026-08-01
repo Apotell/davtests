@@ -912,14 +912,14 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_array.v:6:1: Compile interface "foo_intf".
 [INF:CP0303] $Source01/t_interface_array.v:22:1: Compile module "t".
 [INF:CP0335] $Source01/t_interface_array.v:40:41: Compile generate block "someLoop".
-[ERR:EL0535] $Source01/t_interface_array.v:42:18: Illegal implicit net "id:138, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:43:29: Illegal implicit net "id:150, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:50:24: Illegal implicit net "id:173, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:51:40: Illegal implicit net "id:185, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:55:21: Illegal implicit net "id:210, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:56:34: Illegal implicit net "id:234, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:60:31: Illegal implicit net "id:265, name:a".
-[ERR:EL0535] $Source01/t_interface_array.v:61:54: Illegal implicit net "id:295, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:42:18: Failed to bind "id:138, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:43:29: Failed to bind "id:150, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:50:24: Failed to bind "id:173, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:51:40: Failed to bind "id:185, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:55:21: Failed to bind "id:210, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:56:34: Failed to bind "id:234, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:60:31: Failed to bind "id:265, name:a".
+[WRN:CP0350] $Source01/t_interface_array.v:61:54: Failed to bind "id:295, name:a".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -929,7 +929,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_array.v
       vpiPreprocFile: "$Output/lib/work/t_interface_array.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_interface_array.v start:6:1 end:16:13:
       vpiParent: Design name:unnamed
@@ -946,8 +945,7 @@ Design name:unnamed:
             vpiFullName: foo_intf.a.logic
           vpiName: a
           vpiFullName: foo_intf.a
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -989,6 +987,34 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:a_in start:31:18 end:31:22:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:31:4 end:31:17:
+            vpiParent: Variable name:a_in
+            vpiName: logic
+            vpiFullName: t.a_in.logic
+            vpiActual: ArrayTypespec
+          vpiName: a_in
+          vpiFullName: t.a_in
+        Variable name:a_out start:32:18 end:32:23:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:32:4 end:32:17:
+            vpiParent: Variable name:a_out
+            vpiName: logic
+            vpiFullName: t.a_out.logic
+            vpiActual: ArrayTypespec
+          vpiName: a_out
+          vpiFullName: t.a_out
+        Variable name:ack_out start:33:18 end:33:25:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:33:4 end:33:17:
+            vpiParent: Variable name:ack_out
+            vpiName: logic
+            vpiFullName: t.ack_out.logic
+            vpiActual: ArrayTypespec
+          vpiName: ack_out
+          vpiFullName: t.ack_out
       vpiParameter (2 items):
         Parameter name:N start:29:15 end:29:16:
           vpiParent: Module name:t
@@ -1232,13 +1258,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:27:10 end:27:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:27:10 end:27:10:
@@ -1247,39 +1273,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:a_in start:31:18 end:31:22:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:31:4 end:31:17:
-            vpiParent: Net name:a_in
-            vpiName: logic
-            vpiFullName: t.a_in.logic
-            vpiActual: ArrayTypespec
-          vpiName: a_in
-          vpiFullName: t.a_in
-        Net name:a_out start:32:18 end:32:23:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:32:4 end:32:17:
-            vpiParent: Net name:a_out
-            vpiName: logic
-            vpiFullName: t.a_out.logic
-            vpiActual: ArrayTypespec
-          vpiName: a_out
-          vpiFullName: t.a_out
-        Net name:ack_out start:33:18 end:33:25:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:33:4 end:33:17:
-            vpiParent: Net name:ack_out
-            vpiName: logic
-            vpiFullName: t.ack_out.logic
-            vpiActual: ArrayTypespec
-          vpiName: ack_out
-          vpiFullName: t.ack_out
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:24:4 end:24:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:24:4 end:24:7:
+          vpiLowConn RefObj name:clk start:27:10 end:27:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1298,7 +1298,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiRhs Constant start:63:19 end:63:21:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1335,7 +1335,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: a_in
                     vpiFullName: t.a_in
-                    vpiActual: Net name:a_in
+                    vpiActual: Variable name:a_in
                   vpiRhs Operation start:65:15 end:65:44:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1344,7 +1344,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a_in
                         vpiFullName: t.a_in
-                        vpiActual: Net name:a_in
+                        vpiActual: Variable name:a_in
                       Operation start:65:22 end:65:44:
                         vpiParent: Operation
                         vpiOpType: concatenation (33)
@@ -1406,12 +1406,12 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: ack_out
                         vpiFullName: t.ack_out
-                        vpiActual: Net name:ack_out
+                        vpiActual: Variable name:ack_out
                       RefObj name:a_out start:67:22 end:67:27:
                         vpiParent: Operation
                         vpiName: a_out
                         vpiFullName: t.a_out
-                        vpiActual: Net name:a_out
+                        vpiActual: Variable name:a_out
                   vpiStmt Begin start:67:29 end:71:10:
                     vpiParent: IfStmt
                     vpiFullName: t
@@ -1436,12 +1436,12 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$display
                             vpiName: ack_out
                             vpiFullName: t.ack_out
-                            vpiActual: Net name:ack_out
+                            vpiActual: Variable name:ack_out
                           RefObj name:a_out start:69:14 end:69:19:
                             vpiParent: SysTaskCall name:$display
                             vpiName: a_out
                             vpiFullName: t.a_out
-                            vpiActual: Net name:a_out
+                            vpiActual: Variable name:a_out
                       SysTaskCall name:$stop start:70:3 end:70:8:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:70:3 end:70:8:
@@ -1457,7 +1457,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: a_in
                         vpiFullName: t.a_in
-                        vpiActual: Net name:a_in
+                        vpiActual: Variable name:a_in
                   vpiStmt Begin start:73:19 end:76:10:
                     vpiParent: IfStmt
                     vpiFullName: t
@@ -1495,7 +1495,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:ack_out[THE_LP]
               vpiName: ack_out
               vpiFullName: t.ack_out
-              vpiActual: Net name:ack_out
+              vpiActual: Variable name:ack_out
             vpiIndex RefObj name:THE_LP start:49:19 end:49:25:
               vpiParent: BitSelect name:ack_out[THE_LP]
               vpiName: THE_LP
@@ -1509,7 +1509,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_in[THE_LP]
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiIndex RefObj name:THE_LP start:49:34 end:49:40:
               vpiParent: BitSelect name:a_in[THE_LP]
               vpiName: THE_LP
@@ -1548,7 +1548,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_in[THE_LP]
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiIndex RefObj name:THE_LP start:50:33 end:50:39:
               vpiParent: BitSelect name:a_in[THE_LP]
               vpiName: THE_LP
@@ -1564,7 +1564,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_out[THE_LP]
               vpiName: a_out
               vpiFullName: t.a_out
-              vpiActual: Net name:a_out
+              vpiActual: Variable name:a_out
             vpiIndex RefObj name:THE_LP start:51:17 end:51:23:
               vpiParent: BitSelect name:a_out[THE_LP]
               vpiName: THE_LP
@@ -1603,7 +1603,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:ack_out[N - 2]
               vpiName: ack_out
               vpiFullName: t.ack_out
-              vpiActual: Net name:ack_out
+              vpiActual: Variable name:ack_out
             vpiIndex Operation start:54:19 end:54:22:
               vpiParent: BitSelect name:ack_out[N - 2]
               vpiOpType: subtract (11)
@@ -1631,7 +1631,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_in[N - 2]
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiIndex Operation start:54:31 end:54:34:
               vpiParent: BitSelect name:a_in[N - 2]
               vpiOpType: subtract (11)
@@ -1698,7 +1698,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_in[N - 2]
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiIndex Operation start:55:30 end:55:33:
               vpiParent: BitSelect name:a_in[N - 2]
               vpiOpType: subtract (11)
@@ -1728,7 +1728,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_out[N - 2]
               vpiName: a_out
               vpiFullName: t.a_out
-              vpiActual: Net name:a_out
+              vpiActual: Variable name:a_out
             vpiIndex Operation start:56:17 end:56:20:
               vpiParent: BitSelect name:a_out[N - 2]
               vpiOpType: subtract (11)
@@ -1795,7 +1795,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:ack_out[identity(N - 1)]
               vpiName: ack_out
               vpiFullName: t.ack_out
-              vpiActual: Net name:ack_out
+              vpiActual: Variable name:ack_out
             vpiIndex FuncCall name:identity start:59:19 end:59:32:
               vpiParent: BitSelect name:ack_out[identity(N - 1)]
               vpiName Identifier name:identity start:59:19 end:59:27:
@@ -1830,7 +1830,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_in[identity(N - 1)]
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiIndex FuncCall name:identity start:59:41 end:59:54:
               vpiParent: BitSelect name:a_in[identity(N - 1)]
               vpiName Identifier name:identity start:59:41 end:59:49:
@@ -1911,7 +1911,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_in[identity(N - 1)]
               vpiName: a_in
               vpiFullName: t.a_in
-              vpiActual: Net name:a_in
+              vpiActual: Variable name:a_in
             vpiIndex FuncCall name:identity start:60:40 end:60:53:
               vpiParent: BitSelect name:a_in[identity(N - 1)]
               vpiName Identifier name:identity start:60:40 end:60:48:
@@ -1948,7 +1948,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:a_out[identity(N - 1)]
               vpiName: a_out
               vpiFullName: t.a_out
-              vpiActual: Net name:a_out
+              vpiActual: Variable name:a_out
             vpiIndex FuncCall name:identity start:61:17 end:61:30:
               vpiParent: BitSelect name:a_out[identity(N - 1)]
               vpiName Identifier name:identity start:61:17 end:61:25:
@@ -2121,7 +2121,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:ack_out[i]
                           vpiName: ack_out
                           vpiFullName: t.someLoop.ack_out
-                          vpiActual: Net name:ack_out
+                          vpiActual: Variable name:ack_out
                         vpiIndex RefObj name:i start:41:18 end:41:19:
                           vpiParent: BitSelect name:ack_out[i]
                           vpiName: i
@@ -2135,7 +2135,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_in[i]
                           vpiName: a_in
                           vpiFullName: t.someLoop.a_in
-                          vpiActual: Net name:a_in
+                          vpiActual: Variable name:a_in
                         vpiIndex RefObj name:i start:41:28 end:41:29:
                           vpiParent: BitSelect name:a_in[i]
                           vpiName: i
@@ -2174,7 +2174,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_in[i]
                           vpiName: a_in
                           vpiFullName: t.someLoop.a_in
-                          vpiActual: Net name:a_in
+                          vpiActual: Variable name:a_in
                         vpiIndex RefObj name:i start:42:27 end:42:28:
                           vpiParent: BitSelect name:a_in[i]
                           vpiName: i
@@ -2190,7 +2190,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_out[i]
                           vpiName: a_out
                           vpiFullName: t.someLoop.a_out
-                          vpiActual: Net name:a_out
+                          vpiActual: Variable name:a_out
                         vpiIndex RefObj name:i start:43:16 end:43:17:
                           vpiParent: BitSelect name:a_out[i]
                           vpiName: i
@@ -2272,8 +2272,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -333,6 +333,7 @@ n<$Source01/dut.sv> u<55> t<Top_level_rule> c<1> l<1:1> el<18:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "MOD".
 [INF:CP0303] $Source01/dut.sv:7:1: Compile module "top".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 2 orphan node(s).
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "MOD".
 [WRN:PA0205] $Source01/dut.sv:7:1: No timescale set for "top".
@@ -344,7 +345,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2337,13 +2337,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:MOD
       vpiDefName: MOD
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:MOD
         vpiName: work
         vpiFullName: MOD.work
       vpiCell: MOD
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:a start:2:3 end:2:4:
           vpiParent: Module name:MOD
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -2353,23 +2353,15 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: MOD.a
           vpiNetType: wire (1)
-        Net name:b start:3:3 end:3:4:
-          vpiParent: Module name:MOD
-          vpiTypespec RefTypespec start:3:3 end:3:3:
-            vpiParent: Net name:b
-            vpiFullName: MOD.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: MOD.b
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:2:3 end:2:4:
           vpiParent: Module name:MOD
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:3 end:2:4:
+          vpiLowConn RefObj name:a start:2:3 end:2:4:
             vpiParent: Port name:a
-            vpiFullName: MOD.a
+            vpiName: a
+            vpiFullName: MOD.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:1:13 end:1:24:
             vpiParent: Port name:a
@@ -2379,14 +2371,6 @@ Design name:unnamed:
           vpiParent: Module name:MOD
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:3:3 end:3:4:
-            vpiParent: Port name:b
-            vpiFullName: MOD.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:3:3 end:3:3:
-            vpiParent: Port name:b
-            vpiFullName: MOD.b
-            vpiActual: LogicTypespec
     Module name:top file:$Source01/dut.sv start:7:1 end:17:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:7:8 end:7:11:
@@ -2402,13 +2386,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:MOD
             vpiName: MOD
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:a start:8:3 end:8:4:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:7:12 end:7:23:
@@ -2418,23 +2402,15 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: top.a
           vpiNetType: wire (1)
-        Net name:b start:9:3 end:9:4:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:9:3 end:9:3:
-            vpiParent: Net name:b
-            vpiFullName: top.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: top.b
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:8:3 end:8:4:
           vpiParent: Module name:top
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:3 end:8:4:
+          vpiLowConn RefObj name:a start:8:3 end:8:4:
             vpiParent: Port name:a
-            vpiFullName: top.a
+            vpiName: a
+            vpiFullName: top.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:7:12 end:7:23:
             vpiParent: Port name:a
@@ -2444,14 +2420,6 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:9:3 end:9:4:
-            vpiParent: Port name:b
-            vpiFullName: top.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:9:3 end:9:3:
-            vpiParent: Port name:b
-            vpiFullName: top.b
-            vpiActual: LogicTypespec
       vpiRefInstance (1 items):
         RefInstance name:u1 start:12:7 end:12:9:
           vpiParent: Module name:top
@@ -2510,7 +2478,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -2555,7 +2523,7 @@ COMMAND: ${HLC_DIR}/regression/WildConn/WildConn/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             627     627       0         0
+Others                             619     619       0         0
 ----------------------------------------------------------------
-                                   627     627       0         0
+                                   619     619       0         0
 ===================== END REDUCTION RESULT =====================

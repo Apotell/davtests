@@ -562,13 +562,6 @@ n<$Source01/t_enum_func.v> u<547> t<Top_level_rule> c<1> l<6:1> el<66:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_enum_func.v:10:1: Compile module "t".
 [INF:CP0303] $Source01/t_enum_func.v:59:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_enum_func.v:41:11: Illegal implicit net "id:125, name:EN_ZERO".
-[ERR:EL0535] $Source01/t_enum_func.v:44:11: Illegal implicit net "id:135, name:EN_ONE".
-[ERR:EL0535] $Source01/t_enum_func.v:45:15: Illegal implicit net "id:138, name:EN_ONE".
-[ERR:EL0535] $Source01/t_enum_func.v:48:15: Illegal implicit net "id:151, name:EN_ZERO".
-[ERR:EL0535] $Source01/t_enum_func.v:60:22: Illegal implicit net "id:192, name:EN_ONE".
-[ERR:EL0535] $Source01/t_enum_func.v:60:32: Illegal implicit net "id:194, name:EN_ZERO".
-[ERR:EL0535] $Source01/t_enum_func.v:60:42: Illegal implicit net "id:195, name:EN_ONE".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -578,7 +571,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_enum_func.v
       vpiPreprocFile: "$Output/lib/work/t_enum_func.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_enum_func.v start:10:1 end:57:10:
       vpiParent: Design name:unnamed
@@ -586,6 +578,33 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:a start:28:9 end:28:10:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:En_t start:28:4 end:28:8:
+            vpiParent: Variable name:a
+            vpiName: En_t
+            vpiFullName: t.a.En_t
+            vpiActual: TypedefTypespec name:En_t
+          vpiName: a
+          vpiFullName: t.a
+        Variable name:z start:28:12 end:28:13:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:En_t start:28:4 end:28:8:
+            vpiParent: Variable name:z
+            vpiName: En_t
+            vpiFullName: t.z.En_t
+            vpiActual: TypedefTypespec name:En_t
+          vpiName: z
+          vpiFullName: t.z
+        Variable name:cyc start:36:15 end:36:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:36:4 end:36:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -598,7 +617,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -695,7 +714,7 @@ Design name:unnamed:
             vpiParent: Function name:f_enum_inv
             vpiFullName: t.f_enum_inv
             vpiActual: EnumTypespec
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:14:10 end:14:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:10 end:14:10:
@@ -704,38 +723,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:a start:28:9 end:28:10:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:En_t start:28:4 end:28:8:
-            vpiParent: Net name:a
-            vpiName: En_t
-            vpiFullName: t.a.En_t
-            vpiActual: TypedefTypespec name:En_t
-          vpiName: a
-          vpiFullName: t.a
-        Net name:z start:28:12 end:28:13:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:En_t start:28:4 end:28:8:
-            vpiParent: Net name:z
-            vpiName: En_t
-            vpiFullName: t.z.En_t
-            vpiActual: TypedefTypespec name:En_t
-          vpiName: z
-          vpiFullName: t.z
-        Net name:cyc start:36:15 end:36:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:36:4 end:36:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:12:4 end:12:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:12:4 end:12:7:
+          vpiLowConn RefObj name:clk start:14:10 end:14:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -836,7 +830,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:36:32 end:36:33:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -874,7 +868,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:38:16 end:38:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -895,7 +889,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Operation start:39:10 end:39:17:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -904,7 +898,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:39:16 end:39:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -925,7 +919,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:40:12 end:40:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -946,7 +940,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: a
                                 vpiFullName: t.a
-                                vpiActual: Net name:a
+                                vpiActual: Variable name:a
                               vpiRhs RefObj name:EN_ZERO start:41:11 end:41:18:
                                 vpiParent: Assignment
                                 vpiName: EN_ZERO
@@ -961,7 +955,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:43:12 end:43:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -982,7 +976,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: a
                                 vpiFullName: t.a
-                                vpiActual: Net name:a
+                                vpiActual: Variable name:a
                               vpiRhs RefObj name:EN_ONE start:44:11 end:44:17:
                                 vpiParent: Assignment
                                 vpiName: EN_ONE
@@ -997,7 +991,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: z
                                     vpiFullName: t.z
-                                    vpiActual: Net name:z
+                                    vpiActual: Variable name:z
                                   RefObj name:EN_ONE start:45:15 end:45:21:
                                     vpiParent: Operation
                                     vpiName: EN_ONE
@@ -1017,7 +1011,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:47:12 end:47:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1042,7 +1036,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: z
                                     vpiFullName: t.z
-                                    vpiActual: Net name:z
+                                    vpiActual: Variable name:z
                                   RefObj name:EN_ZERO start:48:15 end:48:22:
                                     vpiParent: Operation
                                     vpiName: EN_ZERO
@@ -1062,7 +1056,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:50:12 end:50:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1115,24 +1109,24 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: z
                 vpiFullName: t.sub.z
-                vpiActual: Net name:z
+                vpiActual: Variable name:z
               vpiHighConn RefObj name:z start:32:13 end:32:14:
                 vpiParent: Port
                 vpiName: z
                 vpiFullName: t.sub.z
-                vpiActual: Net name:z
+                vpiActual: Variable name:z
             Port start:34:6 end:34:15:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:a start:34:7 end:34:8:
                 vpiParent: Port
                 vpiName: a
                 vpiFullName: t.sub.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
               vpiHighConn RefObj name:a start:34:13 end:34:14:
                 vpiParent: Port
                 vpiName: a
                 vpiFullName: t.sub.a
-                vpiActual: Net name:a
+                vpiActual: Variable name:a
     Module name:sub file:$Source01/t_enum_func.v start:59:1 end:61:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:59:8 end:59:11:
@@ -1149,9 +1143,8 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:En_t
           vpiName: z
           vpiFullName: sub.z
-          vpiNetType: none (12)
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -1173,9 +1166,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:59:24 end:59:25:
+          vpiLowConn RefObj name:a start:59:24 end:59:25:
             vpiParent: Port name:a
-            vpiFullName: sub.a
+            vpiName: a
+            vpiFullName: sub.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec name:En_t start:59:19 end:59:23:
             vpiParent: Port name:a
@@ -1186,9 +1180,10 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: z
           vpiDirection: output (2)
-          vpiLowConn RefObj start:59:39 end:59:40:
+          vpiLowConn RefObj name:z start:59:39 end:59:40:
             vpiParent: Port name:z
-            vpiFullName: sub.z
+            vpiName: z
+            vpiFullName: sub.z.z
             vpiActual: Variable name:z
           vpiTypespec RefTypespec name:En_t start:59:34 end:59:38:
             vpiParent: Port name:z
@@ -1277,7 +1272,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

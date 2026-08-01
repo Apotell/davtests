@@ -153,12 +153,6 @@ n<$Source01/t_lint_implicit.v> u<139> t<Top_level_rule> c<1> l<6:1> el<19:1>
         n<> u<135> t<ENDMODULE> p<136> l<18:1> el<18:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_lint_implicit.v:6:1: Compile module "t".
-[ERR:EL0535] $Source01/t_lint_implicit.v:10:11: Illegal implicit net "id:20, name:b".
-[ERR:EL0535] $Source01/t_lint_implicit.v:12:14: Illegal implicit net "id:25, name:nt0".
-[ERR:EL0535] $Source01/t_lint_implicit.v:12:22: Illegal implicit net "id:27, name:b".
-[ERR:EL0535] $Source01/t_lint_implicit.v:15:12: Illegal implicit net "id:46, name:dummy1".
-[ERR:EL0535] $Source01/t_lint_implicit.v:15:20: Illegal implicit net "id:47, name:dummy2".
-[ERR:EL0535] $Source01/t_lint_implicit.v:17:15: Illegal implicit net "id:52, name:nt0".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -168,7 +162,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_lint_implicit.v
       vpiPreprocFile: "$Output/lib/work/t_lint_implicit.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_lint_implicit.v start:6:1 end:18:10:
       vpiParent: Design name:unnamed
@@ -176,6 +169,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:dummy_ip start:14:16 end:14:24:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:14:4 end:14:15:
+            vpiParent: Variable name:dummy_ip
+            vpiName: logic
+            vpiFullName: t.dummy_ip.logic
+            vpiActual: ArrayTypespec
+          vpiName: dummy_ip
+          vpiFullName: t.dummy_ip
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -218,13 +221,13 @@ Design name:unnamed:
             vpiFullName: t.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:a start:7:10 end:7:11:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:10 end:7:10:
@@ -233,6 +236,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: t.a
+          vpiNetType: wire (1)
         Net name:z start:8:11 end:8:12:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:8:11 end:8:11:
@@ -241,21 +245,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: z
           vpiFullName: t.z
-        Net name:dummy_ip start:14:16 end:14:24:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:14:4 end:14:15:
-            vpiParent: Net name:dummy_ip
-            vpiName: logic
-            vpiFullName: t.dummy_ip.logic
-            vpiActual: ArrayTypespec
-          vpiName: dummy_ip
-          vpiFullName: t.dummy_ip
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:6:11 end:6:12:
           vpiParent: Module name:t
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:6:11 end:6:12:
+          vpiLowConn RefObj name:a start:7:10 end:7:11:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: t.a.a
@@ -268,7 +264,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: z
           vpiDirection: output (2)
-          vpiLowConn RefObj name:z start:6:13 end:6:14:
+          vpiLowConn RefObj name:z start:8:11 end:8:12:
             vpiParent: Port name:z
             vpiName: z
             vpiFullName: t.z.z
@@ -312,7 +308,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: dummy_ip
             vpiFullName: t.dummy_ip
-            vpiActual: Net name:dummy_ip
+            vpiActual: Variable name:dummy_ip
         ContAssign start:17:11 end:17:18:
           vpiParent: Module name:t
           vpiLhs RefObj name:z start:17:11 end:17:12:
@@ -371,7 +367,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

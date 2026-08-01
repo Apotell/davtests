@@ -18,7 +18,7 @@ n<$Source01/relong/array.v> u<1084> t<Top_level_rule> c<1> l<1:1> el<72:1>
     n<> u<5> t<Description> p<1083> c<4> s<635> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<635> t<Description> p<1083> c<634> s<1082> l<3:1> el<39:10>
       n<> u<634> t<Module_declaration> p<635> c<87> l<3:1> el<39:10>
         n<> u<87> t<Module_ansi_header> p<634> c<6> s<88> l<3:1> el<8:7>
@@ -1105,6 +1105,7 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/relong/array.v:24:31: Compile generate block "error_case".
 [INF:CP0303] $Source01/relong/array.v:42:1: Compile module "Array".
 [INF:CP0335] $Source01/relong/array.v:54:81: Compile generate block "unflatten".
+[ERR:LN0813] $Source01/relong/array.v:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1114,7 +1115,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: array.v
       vpiPreprocFile: "$Output/lib/work/relong/array.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:array.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: array.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (2 items):
     Module name:ArrayOrReduction file:$Source01/relong/array.v start:3:1 end:39:10:
       vpiParent: Design name:unnamed
@@ -1122,6 +1133,22 @@ Design name:unnamed:
         vpiParent: Module name:ArrayOrReduction
         vpiName: ArrayOrReduction
       vpiFullName: ArrayOrReduction
+      vpiVariable (2 items):
+        Variable name:result start:7:29 end:7:35:
+          vpiParent: Module name:ArrayOrReduction
+          vpiTypespec RefTypespec start:7:5 end:7:28:
+            vpiParent: Variable name:result
+            vpiFullName: ArrayOrReduction.result
+            vpiActual: LogicTypespec
+          vpiName: result
+          vpiFullName: ArrayOrReduction.result
+        Variable name:index start:14:12 end:14:17:
+          vpiParent: Module name:ArrayOrReduction
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:index
+            vpiFullName: ArrayOrReduction.index
+          vpiName: index
+          vpiFullName: ArrayOrReduction.index
       vpiParameter (2 items):
         Parameter name:SIZE start:4:15 end:4:19:
           vpiParent: Module name:ArrayOrReduction
@@ -1336,7 +1363,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: ArrayOrReduction.work
       vpiCell: ArrayOrReduction
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:inputs start:6:35 end:6:41:
           vpiParent: Module name:ArrayOrReduction
           vpiTypespec RefTypespec start:6:5 end:6:34:
@@ -1345,15 +1372,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: inputs
           vpiFullName: ArrayOrReduction.inputs
-          vpiNetType: wire (1)
-        Net name:result start:7:29 end:7:35:
-          vpiParent: Module name:ArrayOrReduction
-          vpiTypespec RefTypespec start:7:5 end:7:28:
-            vpiParent: Net name:result
-            vpiFullName: ArrayOrReduction.result
-            vpiActual: LogicTypespec
-          vpiName: result
-          vpiFullName: ArrayOrReduction.result
           vpiNetType: wire (1)
         Net name:__inputs start:13:22 end:13:30:
           vpiParent: Module name:ArrayOrReduction
@@ -1364,21 +1382,24 @@ Design name:unnamed:
           vpiName: "__inputs"
           vpiFullName: ArrayOrReduction.__inputs
           vpiNetType: wire (1)
-        Net name:index start:14:12 end:14:17:
+        Net name:subResults start:31:30 end:31:40:
           vpiParent: Module name:ArrayOrReduction
           vpiTypespec RefTypespec:
-            vpiParent: Net name:index
-            vpiFullName: ArrayOrReduction.index
-          vpiName: index
-          vpiFullName: ArrayOrReduction.index
+            vpiParent: Net name:subResults
+            vpiFullName: ArrayOrReduction.subResults
+            vpiActual: ArrayTypespec
+          vpiName: subResults
+          vpiFullName: ArrayOrReduction.subResults
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:inputs start:6:35 end:6:41:
           vpiParent: Module name:ArrayOrReduction
           vpiName: inputs
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:35 end:6:41:
+          vpiLowConn RefObj name:inputs start:6:35 end:6:41:
             vpiParent: Port name:inputs
-            vpiFullName: ArrayOrReduction.inputs
+            vpiName: inputs
+            vpiFullName: ArrayOrReduction.inputs.inputs
             vpiActual: Net name:inputs
           vpiTypespec RefTypespec start:6:5 end:6:34:
             vpiParent: Port name:inputs
@@ -1388,10 +1409,11 @@ Design name:unnamed:
           vpiParent: Module name:ArrayOrReduction
           vpiName: result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:7:29 end:7:35:
+          vpiLowConn RefObj name:result start:7:29 end:7:35:
             vpiParent: Port name:result
-            vpiFullName: ArrayOrReduction.result
-            vpiActual: Net name:result
+            vpiName: result
+            vpiFullName: ArrayOrReduction.result.result
+            vpiActual: Variable name:result
           vpiTypespec RefTypespec start:7:5 end:7:28:
             vpiParent: Port name:result
             vpiFullName: ArrayOrReduction.result
@@ -1651,7 +1673,7 @@ Design name:unnamed:
                           vpiParent: ContAssign
                           vpiName: result
                           vpiFullName: ArrayOrReduction.base_case_1.result
-                          vpiActual: Net name:result
+                          vpiActual: Variable name:result
                         vpiRhs BitSelect name:__inputs[0] start:27:29 end:27:40:
                           vpiParent: ContAssign
                           vpiName: "__inputs[0]"
@@ -1709,7 +1731,7 @@ Design name:unnamed:
                                 vpiParent: ContAssign
                                 vpiName: result
                                 vpiFullName: ArrayOrReduction.base_case_2.result
-                                vpiActual: Net name:result
+                                vpiActual: Variable name:result
                               vpiRhs Operation start:29:29 end:29:54:
                                 vpiParent: ContAssign
                                 vpiOpType: bitwise or (29)
@@ -1758,16 +1780,6 @@ Design name:unnamed:
                             vpiParent: Begin name:recursive_case
                             vpiName: recursive_case
                           vpiFullName: ArrayOrReduction.recursive_case
-                          vpiVariable (1 items):
-                            Variable name:subResults start:31:30 end:31:40:
-                              vpiParent: Begin name:recursive_case
-                              vpiTypespec RefTypespec:
-                                vpiParent: Variable name:subResults
-                                vpiFullName: ArrayOrReduction.recursive_case.subResults
-                                vpiActual: ArrayTypespec
-                              vpiName: subResults
-                              vpiFullName: ArrayOrReduction.recursive_case.subResults
-                              vpiNetType: wire (1)
                           vpiTypespec (4 items):
                             LogicTypespec:
                               vpiParent: Begin name:recursive_case
@@ -1974,7 +1986,7 @@ Design name:unnamed:
                                     vpiParent: Port
                                     vpiName: result
                                     vpiFullName: ArrayOrReduction.recursive_case.top.result
-                                    vpiActual: Net name:result
+                                    vpiActual: Variable name:result
                                   vpiHighConn BitSelect name:subResults[1] start:33:122 end:33:135:
                                     vpiParent: Port
                                     vpiName: subResults[1]
@@ -1983,7 +1995,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:subResults[1]
                                       vpiName: subResults
                                       vpiFullName: ArrayOrReduction.recursive_case.top.subResults
-                                      vpiActual: Variable name:subResults
+                                      vpiActual: Net name:subResults
                                     vpiIndex Constant start:33:133 end:33:134:
                                       vpiParent: BitSelect name:subResults[1]
                                       vpiTypespec RefTypespec:
@@ -2120,7 +2132,7 @@ Design name:unnamed:
                                     vpiParent: Port
                                     vpiName: result
                                     vpiFullName: ArrayOrReduction.recursive_case.bot.result
-                                    vpiActual: Net name:result
+                                    vpiActual: Variable name:result
                                   vpiHighConn BitSelect name:subResults[0] start:34:113 end:34:126:
                                     vpiParent: Port
                                     vpiName: subResults[0]
@@ -2129,7 +2141,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:subResults[0]
                                       vpiName: subResults
                                       vpiFullName: ArrayOrReduction.recursive_case.bot.subResults
-                                      vpiActual: Variable name:subResults
+                                      vpiActual: Net name:subResults
                                     vpiIndex Constant start:34:124 end:34:125:
                                       vpiParent: BitSelect name:subResults[0]
                                       vpiTypespec RefTypespec:
@@ -2146,7 +2158,7 @@ Design name:unnamed:
                                 vpiParent: ContAssign
                                 vpiName: result
                                 vpiFullName: ArrayOrReduction.recursive_case.result
-                                vpiActual: Net name:result
+                                vpiActual: Variable name:result
                               vpiRhs Operation start:35:29 end:35:58:
                                 vpiParent: ContAssign
                                 vpiOpType: bitwise or (29)
@@ -2159,7 +2171,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:subResults[0]
                                       vpiName: subResults
                                       vpiFullName: ArrayOrReduction.recursive_case.subResults
-                                      vpiActual: Variable name:subResults
+                                      vpiActual: Net name:subResults
                                     vpiIndex Constant start:35:40 end:35:41:
                                       vpiParent: BitSelect name:subResults[0]
                                       vpiTypespec RefTypespec:
@@ -2178,7 +2190,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:subResults[1]
                                       vpiName: subResults
                                       vpiFullName: ArrayOrReduction.recursive_case.subResults
-                                      vpiActual: Variable name:subResults
+                                      vpiActual: Net name:subResults
                                     vpiIndex Constant start:35:56 end:35:57:
                                       vpiParent: BitSelect name:subResults[1]
                                       vpiTypespec RefTypespec:
@@ -2195,6 +2207,39 @@ Design name:unnamed:
         vpiParent: Module name:Array
         vpiName: Array
       vpiFullName: Array
+      vpiVariable (4 items):
+        Variable name:array start:47:38 end:47:43:
+          vpiParent: Module name:Array
+          vpiTypespec RefTypespec start:47:3 end:47:37:
+            vpiParent: Variable name:array
+            vpiFullName: Array.array
+            vpiActual: LogicTypespec
+          vpiName: array
+          vpiFullName: Array.array
+        Variable name:__array start:51:21 end:51:28:
+          vpiParent: Module name:Array
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:__array
+            vpiFullName: Array.__array
+            vpiActual: ArrayTypespec
+          vpiName: "__array"
+          vpiFullName: Array.__array
+          vpiVector: true
+        Variable name:g_index start:52:12 end:52:19:
+          vpiParent: Module name:Array
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:g_index
+            vpiFullName: Array.g_index
+          vpiName: g_index
+          vpiFullName: Array.g_index
+        Variable name:reset_index start:63:11 end:63:22:
+          vpiParent: Module name:Array
+          vpiTypespec RefTypespec start:63:3 end:63:10:
+            vpiParent: Variable name:reset_index
+            vpiFullName: Array.reset_index
+            vpiActual: IntegerTypespec
+          vpiName: reset_index
+          vpiFullName: Array.reset_index
       vpiParameter (3 items):
         Parameter name:ELEMENTS start:42:26 end:42:34:
           vpiParent: Module name:Array
@@ -2494,7 +2539,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Array.work
       vpiCell: Array
-      vpiNet (9 items):
+      vpiNet (3 items):
         Net name:index start:44:37 end:44:42:
           vpiParent: Module name:Array
           vpiTypespec RefTypespec start:44:3 end:44:36:
@@ -2513,15 +2558,6 @@ Design name:unnamed:
           vpiName: element
           vpiFullName: Array.element
           vpiNetType: wire (1)
-        Net name:array start:47:38 end:47:43:
-          vpiParent: Module name:Array
-          vpiTypespec RefTypespec start:47:3 end:47:37:
-            vpiParent: Net name:array
-            vpiFullName: Array.array
-            vpiActual: LogicTypespec
-          vpiName: array
-          vpiFullName: Array.array
-          vpiNetType: wire (1)
         Net name:clock start:48:14 end:48:19:
           vpiParent: Module name:Array
           vpiTypespec RefTypespec start:48:3 end:48:13:
@@ -2531,55 +2567,15 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: Array.clock
           vpiNetType: wire (1)
-        Net name:clear start:48:21 end:48:26:
-          vpiParent: Module name:Array
-          vpiTypespec RefTypespec start:48:21 end:48:21:
-            vpiParent: Net name:clear
-            vpiFullName: Array.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: Array.clear
-          vpiNetType: wire (1)
-        Net name:enable start:48:28 end:48:34:
-          vpiParent: Module name:Array
-          vpiTypespec RefTypespec start:48:28 end:48:28:
-            vpiParent: Net name:enable
-            vpiFullName: Array.enable
-            vpiActual: LogicTypespec
-          vpiName: enable
-          vpiFullName: Array.enable
-          vpiNetType: wire (1)
-        Net name:__array start:51:21 end:51:28:
-          vpiParent: Module name:Array
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:__array
-            vpiFullName: Array.__array
-            vpiActual: ArrayTypespec
-          vpiName: "__array"
-          vpiFullName: Array.__array
-        Net name:g_index start:52:12 end:52:19:
-          vpiParent: Module name:Array
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:g_index
-            vpiFullName: Array.g_index
-          vpiName: g_index
-          vpiFullName: Array.g_index
-        Net name:reset_index start:63:11 end:63:22:
-          vpiParent: Module name:Array
-          vpiTypespec RefTypespec start:63:3 end:63:10:
-            vpiParent: Net name:reset_index
-            vpiFullName: Array.reset_index
-            vpiActual: IntegerTypespec
-          vpiName: reset_index
-          vpiFullName: Array.reset_index
       vpiPort (6 items):
         Port name:index start:44:37 end:44:42:
           vpiParent: Module name:Array
           vpiName: index
           vpiDirection: input (1)
-          vpiLowConn RefObj start:44:37 end:44:42:
+          vpiLowConn RefObj name:index start:44:37 end:44:42:
             vpiParent: Port name:index
-            vpiFullName: Array.index
+            vpiName: index
+            vpiFullName: Array.index.index
             vpiActual: Net name:index
           vpiTypespec RefTypespec start:44:3 end:44:36:
             vpiParent: Port name:index
@@ -2589,9 +2585,10 @@ Design name:unnamed:
           vpiParent: Module name:Array
           vpiName: element
           vpiDirection: input (1)
-          vpiLowConn RefObj start:45:26 end:45:33:
+          vpiLowConn RefObj name:element start:45:26 end:45:33:
             vpiParent: Port name:element
-            vpiFullName: Array.element
+            vpiName: element
+            vpiFullName: Array.element.element
             vpiActual: Net name:element
           vpiTypespec RefTypespec start:45:3 end:45:25:
             vpiParent: Port name:element
@@ -2601,10 +2598,11 @@ Design name:unnamed:
           vpiParent: Module name:Array
           vpiName: array
           vpiDirection: output (2)
-          vpiLowConn RefObj start:47:38 end:47:43:
+          vpiLowConn RefObj name:array start:47:38 end:47:43:
             vpiParent: Port name:array
-            vpiFullName: Array.array
-            vpiActual: Net name:array
+            vpiName: array
+            vpiFullName: Array.array.array
+            vpiActual: Variable name:array
           vpiTypespec RefTypespec start:47:3 end:47:37:
             vpiParent: Port name:array
             vpiFullName: Array.array
@@ -2613,9 +2611,10 @@ Design name:unnamed:
           vpiParent: Module name:Array
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:48:14 end:48:19:
+          vpiLowConn RefObj name:clock start:48:14 end:48:19:
             vpiParent: Port name:clock
-            vpiFullName: Array.clock
+            vpiName: clock
+            vpiFullName: Array.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:48:3 end:48:13:
             vpiParent: Port name:clock
@@ -2625,26 +2624,10 @@ Design name:unnamed:
           vpiParent: Module name:Array
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:48:21 end:48:26:
-            vpiParent: Port name:clear
-            vpiFullName: Array.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:48:21 end:48:21:
-            vpiParent: Port name:clear
-            vpiFullName: Array.clear
-            vpiActual: LogicTypespec
         Port name:enable start:48:28 end:48:34:
           vpiParent: Module name:Array
           vpiName: enable
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:48:28 end:48:34:
-            vpiParent: Port name:enable
-            vpiFullName: Array.enable
-            vpiActual: Net name:enable
-          vpiTypespec RefTypespec start:48:28 end:48:28:
-            vpiParent: Port name:enable
-            vpiFullName: Array.enable
-            vpiActual: LogicTypespec
       vpiProcess (1 items):
         Always start:64:3 end:69:33:
           vpiParent: Module name:Array
@@ -2665,7 +2648,7 @@ Design name:unnamed:
                 vpiParent: IfElse
                 vpiName: clear
                 vpiFullName: Array.clear
-                vpiActual: Net name:clear
+                vpiActual: Port name:clear
               vpiStmt Begin start:65:15 end:68:8:
                 vpiParent: IfElse
                 vpiFullName: Array
@@ -2681,7 +2664,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: reset_index
                           vpiFullName: Array.reset_index
-                          vpiActual: Net name:reset_index
+                          vpiActual: Variable name:reset_index
                         vpiRhs Constant start:66:25 end:66:26:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2700,7 +2683,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: reset_index
                           vpiFullName: Array.reset_index
-                          vpiActual: Net name:reset_index
+                          vpiActual: Variable name:reset_index
                         vpiRhs Operation start:66:66 end:66:85:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -2709,7 +2692,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: reset_index
                               vpiFullName: Array.reset_index
-                              vpiActual: Net name:reset_index
+                              vpiActual: Variable name:reset_index
                             Constant start:66:80 end:66:85:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -2728,7 +2711,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: reset_index
                           vpiFullName: Array.reset_index
-                          vpiActual: Net name:reset_index
+                          vpiActual: Variable name:reset_index
                         RefObj name:ELEMENTS start:66:42 end:66:50:
                           vpiParent: Operation
                           vpiName: ELEMENTS
@@ -2744,12 +2727,12 @@ Design name:unnamed:
                           vpiParent: BitSelect name:__array[reset_index]
                           vpiName: "__array"
                           vpiFullName: Array.__array
-                          vpiActual: Net name:__array
+                          vpiActual: Variable name:__array
                         vpiIndex RefObj name:reset_index start:67:17 end:67:28:
                           vpiParent: BitSelect name:__array[reset_index]
                           vpiName: reset_index
                           vpiFullName: Array.reset_index
-                          vpiActual: Net name:reset_index
+                          vpiActual: Variable name:reset_index
                       vpiRhs Operation start:67:33 end:67:47:
                         vpiParent: Assignment
                         vpiOpType: concatenation (33)
@@ -2765,7 +2748,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName: enable
                   vpiFullName: Array.enable
-                  vpiActual: Net name:enable
+                  vpiActual: Port name:enable
                 vpiStmt Assignment start:69:7 end:69:32:
                   vpiParent: IfStmt
                   vpiLhs BitSelect name:__array[index] start:69:7 end:69:21:
@@ -2776,7 +2759,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:__array[index]
                       vpiName: "__array"
                       vpiFullName: Array.__array
-                      vpiActual: Net name:__array
+                      vpiActual: Variable name:__array
                     vpiIndex RefObj name:index start:69:15 end:69:20:
                       vpiParent: BitSelect name:__array[index]
                       vpiName: index
@@ -2910,7 +2893,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:array[START_BIT+WIDTH-1:START_BIT]
                       vpiName: array
                       vpiFullName: Array.unflatten.array[START_BIT+WIDTH-1:START_BIT].array
-                      vpiActual: Net name:array
+                      vpiActual: Variable name:array
                     vpiRange Range start:56:26 end:56:57:
                       vpiParent: PartSelect name:array[START_BIT+WIDTH-1:START_BIT]
                       vpiLeftRange Operation start:56:26 end:56:47:
@@ -2954,13 +2937,15 @@ Design name:unnamed:
                       vpiParent: BitSelect name:__array[g_index]
                       vpiName: "__array"
                       vpiFullName: Array.unflatten.__array
-                      vpiActual: Net name:__array
+                      vpiActual: Variable name:__array
                     vpiIndex RefObj name:g_index start:56:69 end:56:76:
                       vpiParent: BitSelect name:__array[g_index]
                       vpiName: g_index
                       vpiFullName: Array.unflatten.g_index
                       vpiActual: Variable name:g_index
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:ArrayOrReduction:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ArrayOrReduction start:3:8 end:3:24:
@@ -2979,7 +2964,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -2995,25 +2980,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/array_v/mounts.json
 
 
-{'result': {'coverage': 98.77,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/array.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/array.v': {'post_len': 0,
                                                           'pre_len': 1701}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 1701,
             'test_name': 'Zachjs/relong/array_v'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/relong/array.v |     1701 |        21 |
+| $Output/lib/work/relong/array.v |     1701 |         0 |
 +=================================+==========+===========+
-|                                 |     1701 |        21 |
+|                                 |     1701 |         0 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.77
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3023,14 +3008,14 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/array_v/design.hldb ${HLC_DIR}/regr
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            52      52      20        20
+Constant                            53      53      20        20
 Identifier                          14      13       0         1
 Operation                           42      15       0        27
-RefObj                             101      76       0        25
-RefTypespec                         87      85      18        20
+RefObj                              99      74       0        25
+RefTypespec                         84      82      18        20
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                             141     141       0         0
 ----------------------------------------------------------------
-                                   438     382      38        94
+                                   434     378      38        94
 ===================== END REDUCTION RESULT =====================

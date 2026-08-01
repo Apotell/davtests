@@ -1089,28 +1089,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:69:1: Compile module "dut".
 [INF:CP0303] $Source01/dut.sv:76:1: Compile module "test".
 [INF:CP0303] $Source01/dut.sv:93:1: Compile module "oh_rsync".
-[ERR:EL0535] $Source01/dut.sv:12:23: Illegal implicit net "id:51, name:clk".
-[ERR:EL0535] $Source01/dut.sv:13:7: Illegal implicit net "id:54, name:sync_pipe".
-[ERR:EL0535] $Source01/dut.sv:13:21: Illegal implicit net "id:69, name:in".
-[ERR:EL0535] $Source01/dut.sv:15:26: Illegal implicit net "id:90, name:clk".
-[ERR:EL0535] $Source01/dut.sv:16:10: Illegal implicit net "id:93, name:sync_pipe".
-[ERR:EL0535] $Source01/dut.sv:16:24: Illegal implicit net "id:102, name:sync_pipe".
-[ERR:EL0535] $Source01/dut.sv:61:36: Illegal implicit net "id:275, name:B".
-[ERR:EL0535] $Source01/dut.sv:61:38: Illegal implicit net "id:276, name:y".
-[ERR:EL0535] $Source01/dut.sv:61:50: Illegal implicit net "id:282, name:C".
-[ERR:EL0535] $Source01/dut.sv:61:52: Illegal implicit net "id:283, name:z".
-[ERR:EL0535] $Source01/dut.sv:71:18: Illegal implicit net "id:292, name:Width".
-[ERR:EL0535] $Source01/dut.sv:72:18: Illegal implicit net "id:297, name:DataBitsPerMask".
-[ERR:EL0535] $Source01/dut.sv:106:23: Illegal implicit net "id:391, name:clk".
-[ERR:EL0535] $Source01/dut.sv:106:38: Illegal implicit net "id:393, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:107:11: Illegal implicit net "id:397, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:111:12: Illegal implicit net "id:443, name:nrst_out".
-[ERR:EL0535] $Source01/dut.sv:118:22: Illegal implicit net "id:462, name:clk".
-[ERR:EL0535] $Source01/dut.sv:118:18: Illegal implicit net "id:464, name:clk".
-[ERR:EL0535] $Source01/dut.sv:119:19: Illegal implicit net "id:465, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:119:11: Illegal implicit net "id:467, name:nrst_in".
-[ERR:EL0535] $Source01/dut.sv:120:20: Illegal implicit net "id:468, name:nrst_out".
-[ERR:EL0535] $Source01/dut.sv:120:11: Illegal implicit net "id:470, name:nrst_out".
+[WRN:CP0350] $Source01/dut.sv:61:36: Failed to bind "id:275, name:B".
+[WRN:CP0350] $Source01/dut.sv:61:50: Failed to bind "id:282, name:C".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "oh_delay".
 [WRN:PA0205] $Source01/dut.sv:24:1: No timescale set for "shift".
 [WRN:PA0205] $Source01/dut.sv:46:1: No timescale set for "gen_test9".
@@ -1125,7 +1105,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (6 items):
     Module name:oh_delay file:$Source01/dut.sv start:1:1 end:20:10:
       vpiParent: Design name:unnamed
@@ -1133,6 +1112,14 @@ Design name:unnamed:
         vpiParent: Module name:oh_delay
         vpiName: oh_delay
       vpiFullName: oh_delay
+      vpiVariable (1 items):
+        Variable name:i start:10:14 end:10:15:
+          vpiParent: Module name:oh_delay
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: oh_delay.i
+          vpiName: i
+          vpiFullName: oh_delay.i
       vpiParameter (3 items):
         Parameter name:N start:2:13 end:2:14:
           vpiParent: Module name:oh_delay
@@ -1215,20 +1202,12 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:oh_delay
       vpiDefName: oh_delay
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:oh_delay
         vpiName: work
         vpiFullName: oh_delay.work
       vpiCell: oh_delay
-      vpiNet (1 items):
-        Net name:i start:10:14 end:10:15:
-          vpiParent: Module name:oh_delay
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: oh_delay.i
-          vpiName: i
-          vpiFullName: oh_delay.i
       vpiGenStmt (1 items):
         GenRegion start:11:2 end:18:13:
           vpiParent: Module name:oh_delay
@@ -1652,7 +1631,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: shift
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:shift
         vpiName: work
@@ -1667,6 +1646,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: shift.a
+          vpiNetType: wire (1)
         Net name:s start:31:21 end:31:22:
           vpiParent: Module name:shift
           vpiTypespec RefTypespec start:31:7 end:31:20:
@@ -1675,6 +1655,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: s
           vpiFullName: shift.s
+          vpiNetType: wire (1)
         Net name:z start:32:23 end:32:24:
           vpiParent: Module name:shift
           vpiTypespec RefTypespec start:32:8 end:32:22:
@@ -1683,12 +1664,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: z
           vpiFullName: shift.z
+          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:a start:24:14 end:24:15:
           vpiParent: Module name:shift
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:24:14 end:24:15:
+          vpiLowConn RefObj name:a start:30:21 end:30:22:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: shift.a.a
@@ -1701,7 +1683,7 @@ Design name:unnamed:
           vpiParent: Module name:shift
           vpiName: s
           vpiDirection: input (1)
-          vpiLowConn RefObj name:s start:24:16 end:24:17:
+          vpiLowConn RefObj name:s start:31:21 end:31:22:
             vpiParent: Port name:s
             vpiName: s
             vpiFullName: shift.s.s
@@ -1714,7 +1696,7 @@ Design name:unnamed:
           vpiParent: Module name:shift
           vpiName: z
           vpiDirection: output (2)
-          vpiLowConn RefObj name:z start:24:18 end:24:19:
+          vpiLowConn RefObj name:z start:32:23 end:32:24:
             vpiParent: Port name:z
             vpiName: z
             vpiFullName: shift.z.z
@@ -1869,13 +1851,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: gen_test9
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:gen_test9
         vpiName: work
         vpiFullName: gen_test9.work
       vpiCell: gen_test9
-      vpiNet (1 items):
+      vpiNet (4 items):
         Net name:w start:47:20 end:47:21:
           vpiParent: Module name:gen_test9
           vpiTypespec RefTypespec start:47:14 end:47:19:
@@ -1895,6 +1877,53 @@ Design name:unnamed:
             vpiSize: 2
             vpiDecompile: "2'b11"
             vpiValue: "11"
+        Net name:x start:50:36 end:50:37:
+          vpiParent: Module name:gen_test9
+          vpiTypespec RefTypespec start:50:30 end:50:35:
+            vpiParent: Net name:x
+            vpiFullName: gen_test9.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: gen_test9.x
+          vpiNetType: wire (1)
+        Net name:y start:53:44 end:53:45:
+          vpiParent: Module name:gen_test9
+          vpiTypespec RefTypespec start:53:38 end:53:43:
+            vpiParent: Net name:y
+            vpiFullName: gen_test9.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: gen_test9.y
+          vpiNetType: wire (1)
+          vpiValue Constant start:53:48 end:53:53:
+            vpiParent: Net name:y
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: gen_test9.y
+              vpiActual: LogicTypespec
+            vpiConstType: binary (3)
+            vpiSize: 2
+            vpiDecompile: "2'b00"
+            vpiValue: "00"
+        Net name:z start:58:44 end:58:45:
+          vpiParent: Module name:gen_test9
+          vpiTypespec RefTypespec start:58:38 end:58:43:
+            vpiParent: Net name:z
+            vpiFullName: gen_test9.z
+            vpiActual: LogicTypespec
+          vpiName: z
+          vpiFullName: gen_test9.z
+          vpiNetType: wire (1)
+          vpiValue Constant start:58:48 end:58:53:
+            vpiParent: Net name:z
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: gen_test9.z
+              vpiActual: LogicTypespec
+            vpiConstType: binary (3)
+            vpiSize: 2
+            vpiDecompile: "2'b01"
+            vpiValue: "01"
       vpiGenStmt (1 items):
         GenRegion start:48:9 end:63:20:
           vpiParent: Module name:gen_test9
@@ -1905,16 +1934,6 @@ Design name:unnamed:
               vpiParent: Begin name:A
               vpiName: A
             vpiFullName: gen_test9.A
-            vpiVariable (1 items):
-              Variable name:x start:50:36 end:50:37:
-                vpiParent: Begin name:A
-                vpiTypespec RefTypespec start:50:30 end:50:35:
-                  vpiParent: Variable name:x
-                  vpiFullName: gen_test9.A.x
-                  vpiActual: LogicTypespec
-                vpiName: x
-                vpiFullName: gen_test9.A.x
-                vpiNetType: wire (1)
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin name:A
@@ -1952,26 +1971,6 @@ Design name:unnamed:
                     vpiParent: Begin name:B
                     vpiName: B
                   vpiFullName: gen_test9.A.B
-                  vpiVariable (1 items):
-                    Variable name:y start:53:44 end:53:45:
-                      vpiParent: Begin name:B
-                      vpiTypespec RefTypespec start:53:38 end:53:43:
-                        vpiParent: Variable name:y
-                        vpiFullName: gen_test9.A.B.y
-                        vpiActual: LogicTypespec
-                      vpiName: y
-                      vpiFullName: gen_test9.A.B.y
-                      vpiNetType: wire (1)
-                      vpiValue Constant start:53:48 end:53:53:
-                        vpiParent: Variable name:y
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: gen_test9.A.B.y
-                          vpiActual: LogicTypespec
-                        vpiConstType: binary (3)
-                        vpiSize: 2
-                        vpiDecompile: "2'b00"
-                        vpiValue: "00"
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:B
@@ -2008,26 +2007,6 @@ Design name:unnamed:
                     vpiParent: Begin name:C
                     vpiName: C
                   vpiFullName: gen_test9.A.C
-                  vpiVariable (1 items):
-                    Variable name:z start:58:44 end:58:45:
-                      vpiParent: Begin name:C
-                      vpiTypespec RefTypespec start:58:38 end:58:43:
-                        vpiParent: Variable name:z
-                        vpiFullName: gen_test9.A.C.z
-                        vpiActual: LogicTypespec
-                      vpiName: z
-                      vpiFullName: gen_test9.A.C.z
-                      vpiNetType: wire (1)
-                      vpiValue Constant start:58:48 end:58:53:
-                        vpiParent: Variable name:z
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: gen_test9.A.C.z
-                          vpiActual: LogicTypespec
-                        vpiConstType: binary (3)
-                        vpiSize: 2
-                        vpiDecompile: "2'b01"
-                        vpiValue: "01"
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:C
@@ -2061,7 +2040,7 @@ Design name:unnamed:
                   vpiParent: ContAssign
                   vpiName: x
                   vpiFullName: gen_test9.A.x
-                  vpiActual: Variable name:x
+                  vpiActual: Net name:x
                 vpiRhs Operation start:61:36 end:61:53:
                   vpiParent: ContAssign
                   vpiOpType: bitwise xor (30)
@@ -2083,6 +2062,7 @@ Design name:unnamed:
                               vpiParent: HierPath name:B.y
                               vpiName: y
                               vpiFullName: gen_test9.A.y
+                              vpiActual: Net name:y
                         Constant start:61:42 end:61:47:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -2106,6 +2086,7 @@ Design name:unnamed:
                           vpiParent: HierPath name:C.z
                           vpiName: z
                           vpiFullName: gen_test9.A.z
+                          vpiActual: Net name:z
     Module name:dut file:$Source01/dut.sv start:69:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:69:8 end:69:11:
@@ -2119,7 +2100,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:test
             vpiName: test
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -2258,7 +2239,7 @@ Design name:unnamed:
                 vpiFullName: test.DataBitsPerMask
                 vpiActual: Parameter name:DataBitsPerMask
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
@@ -2419,7 +2400,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:oh_rsync
       vpiDefName: oh_rsync
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:oh_rsync
         vpiName: work
@@ -2462,6 +2443,7 @@ Design name:unnamed:
                     vpiActual: LogicTypespec
                   vpiName: sync_pipe
                   vpiFullName: oh_rsync.sync_pipe
+                  vpiVector: true
               vpiTypespec (2 items):
                 LogicTypespec:
                   vpiParent: Begin
@@ -2854,8 +2836,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 22
-[WARNING] : 6
+[  ERROR] : 0
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -1402,10 +1402,10 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/deposit.v:106:1: Compile module "dffe".
 [INF:CP0305] $Source01/deposit.v:114:11: Compile udp "UDP_dffe".
 [INF:CP0303] $Source01/deposit.v:131:1: Compile module "had".
-[ERR:EL0535] $Source01/deposit.v:85:14: Illegal implicit net "id:413, name:Q".
-[ERR:EL0535] $Source01/deposit.v:86:14: Illegal implicit net "id:421, name:Q".
-[ERR:EL0535] $Source01/deposit.v:87:14: Illegal implicit net "id:429, name:Q".
-[ERR:EL0535] $Source01/deposit.v:88:14: Illegal implicit net "id:437, name:Q".
+[WRN:CP0350] $Source01/deposit.v:85:14: Failed to bind "id:413, name:Q".
+[WRN:CP0350] $Source01/deposit.v:86:14: Failed to bind "id:421, name:Q".
+[WRN:CP0350] $Source01/deposit.v:87:14: Failed to bind "id:429, name:Q".
+[WRN:CP0350] $Source01/deposit.v:88:14: Failed to bind "id:437, name:Q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1415,7 +1415,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: deposit.v
       vpiPreprocFile: "$Output/lib/work/deposit.v"
-      vpiDefNetType: none (12)
   vpiAllUdps (1 items):
     UdpDefn name:UDP_dffe start:114:1 end:129:13:
       vpiParent: Design name:unnamed
@@ -1601,6 +1600,41 @@ Design name:unnamed:
         vpiParent: Module name:deposit_test
         vpiName: deposit_test
       vpiFullName: deposit_test
+      vpiVariable (4 items):
+        Variable name:ck start:26:8 end:26:10:
+          vpiParent: Module name:deposit_test
+          vpiTypespec RefTypespec start:26:4 end:26:7:
+            vpiParent: Variable name:ck
+            vpiFullName: deposit_test.ck
+            vpiActual: LogicTypespec
+          vpiName: ck
+          vpiFullName: deposit_test.ck
+          vpiScalar: true
+        Variable name:start start:28:8 end:28:13:
+          vpiParent: Module name:deposit_test
+          vpiTypespec RefTypespec start:28:4 end:28:7:
+            vpiParent: Variable name:start
+            vpiFullName: deposit_test.start
+            vpiActual: LogicTypespec
+          vpiName: start
+          vpiFullName: deposit_test.start
+          vpiScalar: true
+        Variable name:r0 start:64:15 end:64:17:
+          vpiParent: Module name:deposit_test
+          vpiTypespec RefTypespec start:64:4 end:64:11:
+            vpiParent: Variable name:r0
+            vpiFullName: deposit_test.r0
+            vpiActual: IntegerTypespec
+          vpiName: r0
+          vpiFullName: deposit_test.r0
+        Variable name:r1 start:65:15 end:65:17:
+          vpiParent: Module name:deposit_test
+          vpiTypespec RefTypespec start:65:4 end:65:11:
+            vpiParent: Variable name:r1
+            vpiFullName: deposit_test.r1
+            vpiActual: IntegerTypespec
+          vpiName: r1
+          vpiFullName: deposit_test.r1
       vpiTypespec (14 items):
         LogicTypespec:
           vpiParent: Module name:deposit_test
@@ -1728,29 +1762,13 @@ Design name:unnamed:
           vpiParent: Module name:deposit_test
           vpiSigned: true
       vpiDefName: deposit_test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:deposit_test
         vpiName: work
         vpiFullName: deposit_test.work
       vpiCell: deposit_test
-      vpiNet (10 items):
-        Net name:ck start:26:8 end:26:10:
-          vpiParent: Module name:deposit_test
-          vpiTypespec RefTypespec start:26:4 end:26:7:
-            vpiParent: Net name:ck
-            vpiFullName: deposit_test.ck
-            vpiActual: LogicTypespec
-          vpiName: ck
-          vpiFullName: deposit_test.ck
-        Net name:start start:28:8 end:28:13:
-          vpiParent: Module name:deposit_test
-          vpiTypespec RefTypespec start:28:4 end:28:7:
-            vpiParent: Net name:start
-            vpiFullName: deposit_test.start
-            vpiActual: LogicTypespec
-          vpiName: start
-          vpiFullName: deposit_test.start
+      vpiNet (6 items):
         Net name:cnt start:42:15 end:42:18:
           vpiParent: Module name:deposit_test
           vpiTypespec RefTypespec start:42:9 end:42:14:
@@ -1805,22 +1823,6 @@ Design name:unnamed:
           vpiName: e
           vpiFullName: deposit_test.e
           vpiNetType: wire (1)
-        Net name:r0 start:64:15 end:64:17:
-          vpiParent: Module name:deposit_test
-          vpiTypespec RefTypespec start:64:4 end:64:11:
-            vpiParent: Net name:r0
-            vpiFullName: deposit_test.r0
-            vpiActual: IntegerTypespec
-          vpiName: r0
-          vpiFullName: deposit_test.r0
-        Net name:r1 start:65:15 end:65:17:
-          vpiParent: Module name:deposit_test
-          vpiTypespec RefTypespec start:65:4 end:65:11:
-            vpiParent: Net name:r1
-            vpiFullName: deposit_test.r1
-            vpiActual: IntegerTypespec
-          vpiName: r1
-          vpiFullName: deposit_test.r1
       vpiProcess (5 items):
         Initial start:29:4 end:29:22:
           vpiParent: Module name:deposit_test
@@ -1831,7 +1833,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: start
               vpiFullName: deposit_test.start
-              vpiActual: Net name:start
+              vpiActual: Variable name:start
             vpiRhs Constant start:29:20 end:29:21:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1851,7 +1853,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: r0
               vpiFullName: deposit_test.r0
-              vpiActual: Net name:r0
+              vpiActual: Variable name:r0
             vpiRhs Constant start:64:32 end:64:33:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1871,7 +1873,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: r1
               vpiFullName: deposit_test.r1
-              vpiActual: Net name:r1
+              vpiActual: Variable name:r1
             vpiRhs Constant start:65:32 end:65:33:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1899,7 +1901,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: ck
                     vpiFullName: deposit_test.ck
-                    vpiActual: Net name:ck
+                    vpiActual: Variable name:ck
                   vpiRhs Constant start:69:11 end:69:12:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1962,12 +1964,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: r0
                     vpiFullName: deposit_test.r0
-                    vpiActual: Net name:r0
+                    vpiActual: Variable name:r0
                   RefObj name:r1 start:71:43 end:71:45:
                     vpiParent: SysTaskCall name:$display
                     vpiName: r1
                     vpiFullName: deposit_test.r1
-                    vpiActual: Net name:r1
+                    vpiActual: Variable name:r1
               IfStmt start:72:2 end:72:35:
                 vpiParent: Begin
                 vpiCondition Operation start:72:6 end:72:21:
@@ -1996,7 +1998,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: r0
                     vpiFullName: deposit_test.r0
-                    vpiActual: Net name:r0
+                    vpiActual: Variable name:r0
                   vpiRhs Operation start:72:28 end:72:34:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -2005,7 +2007,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: r0
                         vpiFullName: deposit_test.r0
-                        vpiActual: Net name:r0
+                        vpiActual: Variable name:r0
                       Constant start:72:33 end:72:34:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2044,7 +2046,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: r1
                     vpiFullName: deposit_test.r1
-                    vpiActual: Net name:r1
+                    vpiActual: Variable name:r1
                   vpiRhs Operation start:73:28 end:73:34:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -2053,7 +2055,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: r1
                         vpiFullName: deposit_test.r1
-                        vpiActual: Net name:r1
+                        vpiActual: Variable name:r1
                       Constant start:73:33 end:73:34:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2072,7 +2074,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: ck
                     vpiFullName: deposit_test.ck
-                    vpiActual: Net name:ck
+                    vpiActual: Variable name:ck
                   vpiRhs Constant start:74:11 end:74:12:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -2316,12 +2318,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: r0
                     vpiFullName: deposit_test.r0
-                    vpiActual: Net name:r0
+                    vpiActual: Variable name:r0
                   RefObj name:r1 start:93:24 end:93:26:
                     vpiParent: SysTaskCall name:$display
                     vpiName: r1
                     vpiFullName: deposit_test.r1
-                    vpiActual: Net name:r1
+                    vpiActual: Variable name:r1
               IfElse start:94:2 end:97:23:
                 vpiParent: Begin
                 vpiCondition Operation start:94:6 end:94:22:
@@ -2336,7 +2338,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: r0
                           vpiFullName: deposit_test.r0
-                          vpiActual: Net name:r0
+                          vpiActual: Variable name:r0
                         Constant start:94:11 end:94:12:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -2355,7 +2357,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: r1
                           vpiFullName: deposit_test.r1
-                          vpiActual: Net name:r1
+                          vpiActual: Variable name:r1
                         Constant start:94:21 end:94:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -2570,7 +2572,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: start
                 vpiFullName: deposit_test.work@or.start
-                vpiActual: Net name:start
+                vpiActual: Variable name:start
       vpiRefInstance (8 items):
         RefInstance name:A0 start:52:8 end:52:10:
           vpiParent: Module name:deposit_test
@@ -3001,7 +3003,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ck
                 vpiFullName: deposit_test.C0.ck
-                vpiActual: Net name:ck
+                vpiActual: Variable name:ck
             Port start:57:17 end:57:18:
               vpiParent: RefInstance name:C0
               vpiLowConn RefObj:
@@ -3078,7 +3080,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ck
                 vpiFullName: deposit_test.C1.ck
-                vpiActual: Net name:ck
+                vpiActual: Variable name:ck
             Port start:58:17 end:58:18:
               vpiParent: RefInstance name:C1
               vpiLowConn RefObj:
@@ -3155,7 +3157,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ck
                 vpiFullName: deposit_test.C2.ck
-                vpiActual: Net name:ck
+                vpiActual: Variable name:ck
             Port start:59:17 end:59:18:
               vpiParent: RefInstance name:C2
               vpiLowConn RefObj:
@@ -3232,7 +3234,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ck
                 vpiFullName: deposit_test.C3.ck
-                vpiActual: Net name:ck
+                vpiActual: Variable name:ck
             Port start:60:17 end:60:18:
               vpiParent: RefInstance name:C3
               vpiLowConn RefObj:
@@ -3304,7 +3306,7 @@ Design name:unnamed:
           vpiParent: Module name:dffe
           vpiName: UDP_dffe
       vpiDefName: dffe
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dffe
         vpiName: work
@@ -3319,6 +3321,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: CK
           vpiFullName: dffe.CK
+          vpiNetType: wire (1)
         Net name:E start:107:15 end:107:16:
           vpiParent: Module name:dffe
           vpiTypespec RefTypespec start:107:11 end:107:11:
@@ -3327,6 +3330,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: E
           vpiFullName: dffe.E
+          vpiNetType: wire (1)
         Net name:D start:107:18 end:107:19:
           vpiParent: Module name:dffe
           vpiTypespec RefTypespec start:107:11 end:107:11:
@@ -3335,6 +3339,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: D
           vpiFullName: dffe.D
+          vpiNetType: wire (1)
         Net name:Q start:108:11 end:108:12:
           vpiParent: Module name:dffe
           vpiTypespec RefTypespec start:108:11 end:108:11:
@@ -3343,6 +3348,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Q
           vpiFullName: dffe.Q
+          vpiNetType: wire (1)
         Net name:qq start:109:11 end:109:13:
           vpiParent: Module name:dffe
           vpiTypespec RefTypespec start:109:11 end:109:11:
@@ -3357,7 +3363,7 @@ Design name:unnamed:
           vpiParent: Module name:dffe
           vpiName: CK
           vpiDirection: input (1)
-          vpiLowConn RefObj name:CK start:106:14 end:106:16:
+          vpiLowConn RefObj name:CK start:107:11 end:107:13:
             vpiParent: Port name:CK
             vpiName: CK
             vpiFullName: dffe.CK.CK
@@ -3370,7 +3376,7 @@ Design name:unnamed:
           vpiParent: Module name:dffe
           vpiName: E
           vpiDirection: input (1)
-          vpiLowConn RefObj name:E start:106:18 end:106:19:
+          vpiLowConn RefObj name:E start:107:15 end:107:16:
             vpiParent: Port name:E
             vpiName: E
             vpiFullName: dffe.E.E
@@ -3383,7 +3389,7 @@ Design name:unnamed:
           vpiParent: Module name:dffe
           vpiName: D
           vpiDirection: input (1)
-          vpiLowConn RefObj name:D start:106:21 end:106:22:
+          vpiLowConn RefObj name:D start:107:18 end:107:19:
             vpiParent: Port name:D
             vpiName: D
             vpiFullName: dffe.D.D
@@ -3396,7 +3402,7 @@ Design name:unnamed:
           vpiParent: Module name:dffe
           vpiName: Q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:Q start:106:25 end:106:26:
+          vpiLowConn RefObj name:Q start:108:11 end:108:12:
             vpiParent: Port name:Q
             vpiName: Q
             vpiFullName: dffe.Q.Q
@@ -3495,7 +3501,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:had
       vpiDefName: had
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:had
         vpiName: work
@@ -3510,6 +3516,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: had.A
+          vpiNetType: wire (1)
         Net name:B start:132:13 end:132:14:
           vpiParent: Module name:had
           vpiTypespec RefTypespec start:132:10 end:132:10:
@@ -3518,6 +3525,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: B
           vpiFullName: had.B
+          vpiNetType: wire (1)
         Net name:C start:133:11 end:133:12:
           vpiParent: Module name:had
           vpiTypespec RefTypespec start:133:11 end:133:11:
@@ -3526,6 +3534,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: C
           vpiFullName: had.C
+          vpiNetType: wire (1)
         Net name:S start:133:14 end:133:15:
           vpiParent: Module name:had
           vpiTypespec RefTypespec start:133:11 end:133:11:
@@ -3534,12 +3543,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: S
           vpiFullName: had.S
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:A start:131:13 end:131:14:
           vpiParent: Module name:had
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj name:A start:131:13 end:131:14:
+          vpiLowConn RefObj name:A start:132:10 end:132:11:
             vpiParent: Port name:A
             vpiName: A
             vpiFullName: had.A.A
@@ -3552,7 +3562,7 @@ Design name:unnamed:
           vpiParent: Module name:had
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj name:B start:131:16 end:131:17:
+          vpiLowConn RefObj name:B start:132:13 end:132:14:
             vpiParent: Port name:B
             vpiName: B
             vpiFullName: had.B.B
@@ -3565,7 +3575,7 @@ Design name:unnamed:
           vpiParent: Module name:had
           vpiName: C
           vpiDirection: output (2)
-          vpiLowConn RefObj name:C start:131:20 end:131:21:
+          vpiLowConn RefObj name:C start:133:11 end:133:12:
             vpiParent: Port name:C
             vpiName: C
             vpiFullName: had.C.C
@@ -3578,7 +3588,7 @@ Design name:unnamed:
           vpiParent: Module name:had
           vpiName: S
           vpiDirection: output (2)
-          vpiLowConn RefObj name:S start:131:23 end:131:24:
+          vpiLowConn RefObj name:S start:133:14 end:133:15:
             vpiParent: Port name:S
             vpiName: S
             vpiFullName: had.S.S
@@ -3690,8 +3700,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 6
+[  ERROR] : 0
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

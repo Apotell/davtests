@@ -1303,11 +1303,9 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/common.v:25:1: Compile module "assert_Z".
 [INF:CP0303] $Source01/common.v:37:1: Compile module "assert_comb".
 [INF:CP0303] $Source01/synth_anlogic_mem/top.v:1:1: Compile module "top".
+[ERR:LN0813] $Source01/synth_anlogic_mem/top.v:1:1: Found 1 orphan node(s).
 [INF:CP0303] $Source01/synth_anlogic_mem/testbench.v:1:1: Compile module "testbench".
 [INF:CP0303] $Source01/synth_anlogic_mem/testbench.v:54:1: Compile module "uut_mem_checker".
-[ERR:EL0535] $Source01/synth_anlogic_mem/testbench.v:50:42: Illegal implicit net "id:467, name:init".
-[ERR:EL0535] $Source01/synth_anlogic_mem/testbench.v:50:59: Illegal implicit net "id:471, name:en".
-[ERR:EL0535] $Source01/synth_anlogic_mem/testbench.v:50:71: Illegal implicit net "id:474, name:A".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1317,17 +1315,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: common.v
       vpiPreprocFile: "$Output/lib/work/common.v"
-      vpiDefNetType: none (12)
     SourceFile name:top.v file:$Source01/synth_anlogic_mem/top.v:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/synth_anlogic_mem/top.v"
-      vpiDefNetType: none (12)
     SourceFile name:testbench.v file:$Source01/synth_anlogic_mem/testbench.v:
       vpiParent: Design name:unnamed
       vpiName: testbench.v
       vpiPreprocFile: "$Output/lib/work/synth_anlogic_mem/testbench.v"
-      vpiDefNetType: none (12)
   vpiAllModules (7 items):
     Module name:assert_dff file:$Source01/common.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
@@ -1339,7 +1334,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_dff
       vpiDefName: assert_dff
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_dff
         vpiName: work
@@ -1378,9 +1373,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:28:
+          vpiLowConn RefObj name:clk start:1:25 end:1:28:
             vpiParent: Port name:clk
-            vpiFullName: assert_dff.clk
+            vpiName: clk
+            vpiFullName: assert_dff.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:19 end:1:24:
             vpiParent: Port name:clk
@@ -1390,9 +1386,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: test
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:36 end:1:40:
+          vpiLowConn RefObj name:test start:1:36 end:1:40:
             vpiParent: Port name:test
-            vpiFullName: assert_dff.test
+            vpiName: test
+            vpiFullName: assert_dff.test.test
             vpiActual: Net name:test
           vpiTypespec RefTypespec start:1:30 end:1:35:
             vpiParent: Port name:test
@@ -1402,9 +1399,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: pat
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:48 end:1:51:
+          vpiLowConn RefObj name:pat start:1:48 end:1:51:
             vpiParent: Port name:pat
-            vpiFullName: assert_dff.pat
+            vpiName: pat
+            vpiFullName: assert_dff.pat.pat
             vpiActual: Net name:pat
           vpiTypespec RefTypespec start:1:42 end:1:47:
             vpiParent: Port name:pat
@@ -1497,7 +1495,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_tri
       vpiDefName: assert_tri
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_tri
         vpiName: work
@@ -1536,9 +1534,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:25 end:13:27:
+          vpiLowConn RefObj name:en start:13:25 end:13:27:
             vpiParent: Port name:en
-            vpiFullName: assert_tri.en
+            vpiName: en
+            vpiFullName: assert_tri.en.en
             vpiActual: Net name:en
           vpiTypespec RefTypespec start:13:19 end:13:24:
             vpiParent: Port name:en
@@ -1548,9 +1547,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:35 end:13:36:
+          vpiLowConn RefObj name:A start:13:35 end:13:36:
             vpiParent: Port name:A
-            vpiFullName: assert_tri.A
+            vpiName: A
+            vpiFullName: assert_tri.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:13:29 end:13:34:
             vpiParent: Port name:A
@@ -1560,9 +1560,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:13:44 end:13:45:
+          vpiLowConn RefObj name:B start:13:44 end:13:45:
             vpiParent: Port name:B
-            vpiFullName: assert_tri.B
+            vpiName: B
+            vpiFullName: assert_tri.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:13:38 end:13:43:
             vpiParent: Port name:B
@@ -1685,7 +1686,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_Z
       vpiDefName: assert_Z
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_Z
         vpiName: work
@@ -1715,9 +1716,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:23 end:25:26:
+          vpiLowConn RefObj name:clk start:25:23 end:25:26:
             vpiParent: Port name:clk
-            vpiFullName: assert_Z.clk
+            vpiName: clk
+            vpiFullName: assert_Z.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:25:17 end:25:22:
             vpiParent: Port name:clk
@@ -1727,9 +1729,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:34 end:25:35:
+          vpiLowConn RefObj name:A start:25:34 end:25:35:
             vpiParent: Port name:A
-            vpiFullName: assert_Z.A
+            vpiName: A
+            vpiFullName: assert_Z.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:25:28 end:25:33:
             vpiParent: Port name:A
@@ -1842,7 +1845,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:assert_comb
       vpiDefName: assert_comb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:assert_comb
         vpiName: work
@@ -1872,9 +1875,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:26 end:37:27:
+          vpiLowConn RefObj name:A start:37:26 end:37:27:
             vpiParent: Port name:A
-            vpiFullName: assert_comb.A
+            vpiName: A
+            vpiFullName: assert_comb.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:37:20 end:37:25:
             vpiParent: Port name:A
@@ -1884,9 +1888,10 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: B
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:35 end:37:36:
+          vpiLowConn RefObj name:B start:37:35 end:37:36:
             vpiParent: Port name:B
-            vpiFullName: assert_comb.B
+            vpiName: B
+            vpiFullName: assert_comb.B.B
             vpiActual: Net name:B
           vpiTypespec RefTypespec start:37:29 end:37:34:
             vpiParent: Port name:B
@@ -1996,7 +2001,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:q_a start:6:19 end:6:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:6:2 end:6:18:
@@ -2005,7 +2010,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q_a
           vpiFullName: top.q_a
-          vpiNetType: none (12)
+        Variable name:ram start:9:12 end:9:15:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:ram
+            vpiFullName: top.ram
+            vpiActual: ArrayTypespec
+          vpiName: ram
+          vpiFullName: top.ram
+          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -2143,13 +2156,13 @@ Design name:unnamed:
             vpiFullName: top
             vpiActual: LogicTypespec
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (5 items):
+      vpiNet (3 items):
         Net name:data_a start:3:14 end:3:20:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:3:2 end:3:13:
@@ -2177,31 +2190,15 @@ Design name:unnamed:
           vpiName: we_a
           vpiFullName: top.we_a
           vpiNetType: wire (1)
-        Net name:clk start:5:14 end:5:17:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:14 end:5:14:
-            vpiParent: Net name:clk
-            vpiFullName: top.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: top.clk
-          vpiNetType: wire (1)
-        Net name:ram start:9:12 end:9:15:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ram
-            vpiFullName: top.ram
-            vpiActual: ArrayTypespec
-          vpiName: ram
-          vpiFullName: top.ram
       vpiPort (5 items):
         Port name:data_a start:3:14 end:3:20:
           vpiParent: Module name:top
           vpiName: data_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:14 end:3:20:
+          vpiLowConn RefObj name:data_a start:3:14 end:3:20:
             vpiParent: Port name:data_a
-            vpiFullName: top.data_a
+            vpiName: data_a
+            vpiFullName: top.data_a.data_a
             vpiActual: Net name:data_a
           vpiTypespec RefTypespec start:3:2 end:3:13:
             vpiParent: Port name:data_a
@@ -2211,9 +2208,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: addr_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:14 end:4:20:
+          vpiLowConn RefObj name:addr_a start:4:14 end:4:20:
             vpiParent: Port name:addr_a
-            vpiFullName: top.addr_a
+            vpiName: addr_a
+            vpiFullName: top.addr_a.addr_a
             vpiActual: Net name:addr_a
           vpiTypespec RefTypespec start:4:2 end:4:13:
             vpiParent: Port name:addr_a
@@ -2223,9 +2221,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: we_a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:8 end:5:12:
+          vpiLowConn RefObj name:we_a start:5:8 end:5:12:
             vpiParent: Port name:we_a
-            vpiFullName: top.we_a
+            vpiName: we_a
+            vpiFullName: top.we_a.we_a
             vpiActual: Net name:we_a
           vpiTypespec RefTypespec start:5:2 end:5:7:
             vpiParent: Port name:we_a
@@ -2235,21 +2234,14 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:5:14 end:5:17:
-            vpiParent: Port name:clk
-            vpiFullName: top.clk
-            vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:5:14 end:5:14:
-            vpiParent: Port name:clk
-            vpiFullName: top.clk
-            vpiActual: LogicTypespec
         Port name:q_a start:6:19 end:6:22:
           vpiParent: Module name:top
           vpiName: q_a
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:19 end:6:22:
+          vpiLowConn RefObj name:q_a start:6:19 end:6:22:
             vpiParent: Port name:q_a
-            vpiFullName: top.q_a
+            vpiName: q_a
+            vpiFullName: top.q_a.q_a
             vpiActual: Variable name:q_a
           vpiTypespec RefTypespec start:6:2 end:6:18:
             vpiParent: Port name:q_a
@@ -2268,7 +2260,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: top.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Port name:clk
             vpiStmt Begin start:13:2 end:20:5:
               vpiParent: EventControl
               vpiFullName: top
@@ -2294,7 +2286,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:ram[addr_a]
                             vpiName: ram
                             vpiFullName: top.ram
-                            vpiActual: Net name:ram
+                            vpiActual: Variable name:ram
                           vpiIndex RefObj name:addr_a start:16:8 end:16:14:
                             vpiParent: BitSelect name:ram[addr_a]
                             vpiName: addr_a
@@ -2332,7 +2324,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:ram[addr_a]
                       vpiName: ram
                       vpiFullName: top.ram
-                      vpiActual: Net name:ram
+                      vpiActual: Variable name:ram
                     vpiIndex RefObj name:addr_a start:19:15 end:19:21:
                       vpiParent: BitSelect name:ram[addr_a]
                       vpiName: addr_a
@@ -2345,6 +2337,92 @@ Design name:unnamed:
         vpiParent: Module name:testbench
         vpiName: testbench
       vpiFullName: testbench
+      vpiVariable (5 items):
+        Variable name:clk start:2:9 end:2:12:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:2:5 end:2:8:
+            vpiParent: Variable name:clk
+            vpiFullName: testbench.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: testbench.clk
+          vpiScalar: true
+        Variable name:data_a start:18:15 end:18:21:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:18:5 end:18:14:
+            vpiParent: Variable name:data_a
+            vpiFullName: testbench.data_a
+            vpiActual: LogicTypespec
+          vpiName: data_a
+          vpiFullName: testbench.data_a
+          vpiVector: true
+          vpiValue Constant start:18:24 end:18:25:
+            vpiParent: Variable name:data_a
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.data_a
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:addr_a start:19:12 end:19:18:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:19:2 end:19:11:
+            vpiParent: Variable name:addr_a
+            vpiFullName: testbench.addr_a
+            vpiActual: LogicTypespec
+          vpiName: addr_a
+          vpiFullName: testbench.addr_a
+          vpiVector: true
+          vpiValue Constant start:19:21 end:19:22:
+            vpiParent: Variable name:addr_a
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.addr_a
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:we_a start:20:9 end:20:13:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:20:5 end:20:8:
+            vpiParent: Variable name:we_a
+            vpiFullName: testbench.we_a
+            vpiActual: LogicTypespec
+          vpiName: we_a
+          vpiFullName: testbench.we_a
+          vpiScalar: true
+          vpiValue Constant start:20:16 end:20:17:
+            vpiParent: Variable name:we_a
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.we_a
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
+        Variable name:mem_init start:22:6 end:22:14:
+          vpiParent: Module name:testbench
+          vpiTypespec RefTypespec start:22:2 end:22:5:
+            vpiParent: Variable name:mem_init
+            vpiFullName: testbench.mem_init
+            vpiActual: LogicTypespec
+          vpiName: mem_init
+          vpiFullName: testbench.mem_init
+          vpiScalar: true
+          vpiValue Constant start:22:17 end:22:18:
+            vpiParent: Variable name:mem_init
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: testbench.mem_init
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "0"
+            vpiValue: 0
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:testbench
@@ -2432,75 +2510,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:uut_mem_checker
             vpiName: uut_mem_checker
       vpiDefName: testbench
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:testbench
         vpiName: work
         vpiFullName: testbench.work
       vpiCell: testbench
-      vpiNet (6 items):
-        Net name:clk start:2:9 end:2:12:
-          vpiParent: Module name:testbench
-          vpiTypespec RefTypespec start:2:5 end:2:8:
-            vpiParent: Net name:clk
-            vpiFullName: testbench.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: testbench.clk
-        Net name:data_a start:18:15 end:18:21:
-          vpiParent: Module name:testbench
-          vpiTypespec RefTypespec start:18:5 end:18:14:
-            vpiParent: Net name:data_a
-            vpiFullName: testbench.data_a
-            vpiActual: LogicTypespec
-          vpiName: data_a
-          vpiFullName: testbench.data_a
-          vpiValue Constant start:18:24 end:18:25:
-            vpiParent: Net name:data_a
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: testbench.data_a
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:addr_a start:19:12 end:19:18:
-          vpiParent: Module name:testbench
-          vpiTypespec RefTypespec start:19:2 end:19:11:
-            vpiParent: Net name:addr_a
-            vpiFullName: testbench.addr_a
-            vpiActual: LogicTypespec
-          vpiName: addr_a
-          vpiFullName: testbench.addr_a
-          vpiValue Constant start:19:21 end:19:22:
-            vpiParent: Net name:addr_a
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: testbench.addr_a
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
-        Net name:we_a start:20:9 end:20:13:
-          vpiParent: Module name:testbench
-          vpiTypespec RefTypespec start:20:5 end:20:8:
-            vpiParent: Net name:we_a
-            vpiFullName: testbench.we_a
-            vpiActual: LogicTypespec
-          vpiName: we_a
-          vpiFullName: testbench.we_a
-          vpiValue Constant start:20:16 end:20:17:
-            vpiParent: Net name:we_a
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: testbench.we_a
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
+      vpiNet (1 items):
         Net name:q_a start:21:13 end:21:16:
           vpiParent: Module name:testbench
           vpiTypespec RefTypespec start:21:7 end:21:12:
@@ -2510,24 +2526,6 @@ Design name:unnamed:
           vpiName: q_a
           vpiFullName: testbench.q_a
           vpiNetType: wire (1)
-        Net name:mem_init start:22:6 end:22:14:
-          vpiParent: Module name:testbench
-          vpiTypespec RefTypespec start:22:2 end:22:5:
-            vpiParent: Net name:mem_init
-            vpiFullName: testbench.mem_init
-            vpiActual: LogicTypespec
-          vpiName: mem_init
-          vpiFullName: testbench.mem_init
-          vpiValue Constant start:22:17 end:22:18:
-            vpiParent: Net name:mem_init
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: testbench.mem_init
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "0"
-            vpiValue: 0
       vpiProcess (4 items):
         Initial start:4:5 end:15:8:
           vpiParent: Module name:testbench
@@ -2544,7 +2542,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: clk
                     vpiFullName: testbench.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
                   vpiRhs Constant start:8:18 end:8:19:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -2590,7 +2588,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: clk
                           vpiFullName: testbench.clk
-                          vpiActual: Net name:clk
+                          vpiActual: Variable name:clk
                         vpiRhs Constant start:10:22 end:10:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2620,7 +2618,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: clk
                           vpiFullName: testbench.clk
-                          vpiActual: Net name:clk
+                          vpiActual: Variable name:clk
                         vpiRhs Constant start:11:22 end:11:23:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -2669,7 +2667,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: testbench.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiStmt Begin start:32:27 end:37:8:
               vpiParent: EventControl
               vpiFullName: testbench
@@ -2692,7 +2690,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: data_a
                     vpiFullName: testbench.data_a
-                    vpiActual: Net name:data_a
+                    vpiActual: Variable name:data_a
                   vpiRhs Operation start:34:15 end:34:26:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -2701,7 +2699,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: data_a
                         vpiFullName: testbench.data_a
-                        vpiActual: Net name:data_a
+                        vpiActual: Variable name:data_a
                       Constant start:34:24 end:34:26:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2718,7 +2716,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: addr_a
                     vpiFullName: testbench.addr_a
-                    vpiActual: Net name:addr_a
+                    vpiActual: Variable name:addr_a
                   vpiRhs Operation start:36:15 end:36:25:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -2727,7 +2725,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: addr_a
                         vpiFullName: testbench.addr_a
-                        vpiActual: Net name:addr_a
+                        vpiActual: Variable name:addr_a
                       Constant start:36:24 end:36:25:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2751,7 +2749,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: addr_a
                   vpiFullName: testbench.addr_a
-                  vpiActual: Net name:addr_a
+                  vpiActual: Variable name:addr_a
             vpiStmt Begin start:39:30 end:43:8:
               vpiParent: EventControl
               vpiFullName: testbench
@@ -2778,7 +2776,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: addr_a
                         vpiFullName: testbench.addr_a
-                        vpiActual: Net name:addr_a
+                        vpiActual: Variable name:addr_a
                       Constant start:41:21 end:41:26:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2795,7 +2793,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: mem_init
                       vpiFullName: testbench.mem_init
-                      vpiActual: Net name:mem_init
+                      vpiActual: Variable name:mem_init
                     vpiRhs Constant start:42:25 end:42:26:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2819,7 +2817,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: clk
                   vpiFullName: testbench.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
             vpiStmt Begin start:45:24 end:48:8:
               vpiParent: EventControl
               vpiFullName: testbench
@@ -2830,7 +2828,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: we_a
                     vpiFullName: testbench.we_a
-                    vpiActual: Net name:we_a
+                    vpiActual: Variable name:we_a
                   vpiRhs Operation start:47:13 end:47:18:
                     vpiParent: Assignment
                     vpiOpType: not (3)
@@ -2839,7 +2837,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: we_a
                         vpiFullName: testbench.we_a
-                        vpiActual: Net name:we_a
+                        vpiActual: Variable name:we_a
           vpiAlwaysType: always (1)
       vpiRefInstance (2 items):
         RefInstance name:uut start:24:9 end:24:12:
@@ -2857,48 +2855,48 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data_a
                 vpiFullName: testbench.uut.data_a
-                vpiActual: Net name:data_a
+                vpiActual: Variable name:data_a
               vpiHighConn RefObj name:data_a start:25:13 end:25:19:
                 vpiParent: Port
                 vpiName: data_a
                 vpiFullName: testbench.uut.data_a
-                vpiActual: Net name:data_a
+                vpiActual: Variable name:data_a
             Port start:26:2 end:26:17:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:addr_a start:26:3 end:26:9:
                 vpiParent: Port
                 vpiName: addr_a
                 vpiFullName: testbench.uut.addr_a
-                vpiActual: Net name:addr_a
+                vpiActual: Variable name:addr_a
               vpiHighConn RefObj name:addr_a start:26:10 end:26:16:
                 vpiParent: Port
                 vpiName: addr_a
                 vpiFullName: testbench.uut.addr_a
-                vpiActual: Net name:addr_a
+                vpiActual: Variable name:addr_a
             Port start:27:2 end:27:13:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:we_a start:27:3 end:27:7:
                 vpiParent: Port
                 vpiName: we_a
                 vpiFullName: testbench.uut.we_a
-                vpiActual: Net name:we_a
+                vpiActual: Variable name:we_a
               vpiHighConn RefObj name:we_a start:27:8 end:27:12:
                 vpiParent: Port
                 vpiName: we_a
                 vpiFullName: testbench.uut.we_a
-                vpiActual: Net name:we_a
+                vpiActual: Variable name:we_a
             Port start:28:2 end:28:11:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:clk start:28:3 end:28:6:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: testbench.uut.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:28:7 end:28:10:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: testbench.uut.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
             Port start:29:2 end:29:11:
               vpiParent: RefInstance name:uut
               vpiLowConn RefObj name:q_a start:29:3 end:29:6:
@@ -2926,12 +2924,12 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: testbench.port_a_test.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:50:35 end:50:38:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: testbench.port_a_test.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
             Port start:50:41 end:50:56:
               vpiParent: RefInstance name:port_a_test
               vpiLowConn RefObj name:init start:50:42 end:50:46:
@@ -2942,7 +2940,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: mem_init
                 vpiFullName: testbench.port_a_test.mem_init
-                vpiActual: Net name:mem_init
+                vpiActual: Variable name:mem_init
             Port start:50:58 end:50:68:
               vpiParent: RefInstance name:port_a_test
               vpiLowConn RefObj name:en start:50:59 end:50:61:
@@ -2957,7 +2955,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: we_a
                     vpiFullName: testbench.port_a_test.we_a
-                    vpiActual: Net name:we_a
+                    vpiActual: Variable name:we_a
             Port start:50:70 end:50:77:
               vpiParent: RefInstance name:port_a_test
               vpiLowConn RefObj name:A start:50:71 end:50:72:
@@ -3005,7 +3003,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: uut_mem_checker
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:uut_mem_checker
         vpiName: work
@@ -3053,9 +3051,10 @@ Design name:unnamed:
           vpiParent: Module name:uut_mem_checker
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:54:30 end:54:33:
+          vpiLowConn RefObj name:clk start:54:30 end:54:33:
             vpiParent: Port name:clk
-            vpiFullName: uut_mem_checker.clk
+            vpiName: clk
+            vpiFullName: uut_mem_checker.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:54:24 end:54:29:
             vpiParent: Port name:clk
@@ -3065,9 +3064,10 @@ Design name:unnamed:
           vpiParent: Module name:uut_mem_checker
           vpiName: init
           vpiDirection: input (1)
-          vpiLowConn RefObj start:54:41 end:54:45:
+          vpiLowConn RefObj name:init start:54:41 end:54:45:
             vpiParent: Port name:init
-            vpiFullName: uut_mem_checker.init
+            vpiName: init
+            vpiFullName: uut_mem_checker.init.init
             vpiActual: Net name:init
           vpiTypespec RefTypespec start:54:35 end:54:40:
             vpiParent: Port name:init
@@ -3077,9 +3077,10 @@ Design name:unnamed:
           vpiParent: Module name:uut_mem_checker
           vpiName: en
           vpiDirection: input (1)
-          vpiLowConn RefObj start:54:53 end:54:55:
+          vpiLowConn RefObj name:en start:54:53 end:54:55:
             vpiParent: Port name:en
-            vpiFullName: uut_mem_checker.en
+            vpiName: en
+            vpiFullName: uut_mem_checker.en.en
             vpiActual: Net name:en
           vpiTypespec RefTypespec start:54:47 end:54:52:
             vpiParent: Port name:en
@@ -3089,9 +3090,10 @@ Design name:unnamed:
           vpiParent: Module name:uut_mem_checker
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:54:69 end:54:70:
+          vpiLowConn RefObj name:A start:54:69 end:54:70:
             vpiParent: Port name:A
-            vpiFullName: uut_mem_checker.A
+            vpiName: A
+            vpiFullName: uut_mem_checker.A.A
             vpiActual: Net name:A
           vpiTypespec RefTypespec start:54:57 end:54:68:
             vpiParent: Port name:A
@@ -3295,7 +3297,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -3347,10 +3349,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            56      58       5         3
 Operation                           22      17       0         5
-RefObj                              88      83       0         5
-RefTypespec                        104     106       5         3
+RefObj                              87      82       0         5
+RefTypespec                        102     104       5         3
 ----------------------------------------------------------------
-Others                             217     217       0         0
+Others                             216     216       0         0
 ----------------------------------------------------------------
-                                   487     481      10        16
+                                   483     477      10        16
 ===================== END REDUCTION RESULT =====================

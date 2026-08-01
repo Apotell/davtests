@@ -229,7 +229,7 @@ n<$Source01/simple/implicit_ports.v> u<214> t<Top_level_rule> c<1> l<2:1> el<17:
 AST_DEBUG_END
 [INF:CP0303] $Source01/simple/implicit_ports.v:2:1: Compile module "alu".
 [INF:CP0303] $Source01/simple/implicit_ports.v:7:1: Compile module "named_ports".
-[ERR:EL0535] $Source01/simple/implicit_ports.v:14:4: Illegal implicit net "id:128, name:result".
+[ERR:LN0813] $Source01/simple/implicit_ports.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -239,7 +239,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: implicit_ports.v
       vpiPreprocFile: "$Output/lib/work/simple/implicit_ports.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:alu file:$Source01/simple/implicit_ports.v start:2:1 end:5:10:
       vpiParent: Design name:unnamed
@@ -329,7 +328,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: alu
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:alu
         vpiName: work
@@ -386,9 +385,10 @@ Design name:unnamed:
           vpiParent: Module name:alu
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:25 end:2:26:
+          vpiLowConn RefObj name:a start:2:25 end:2:26:
             vpiParent: Port name:a
-            vpiFullName: alu.a
+            vpiName: a
+            vpiFullName: alu.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:2:13 end:2:24:
             vpiParent: Port name:a
@@ -398,9 +398,10 @@ Design name:unnamed:
           vpiParent: Module name:alu
           vpiName: b
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:40 end:2:41:
+          vpiLowConn RefObj name:b start:2:40 end:2:41:
             vpiParent: Port name:b
-            vpiFullName: alu.b
+            vpiName: b
+            vpiFullName: alu.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:2:28 end:2:39:
             vpiParent: Port name:b
@@ -410,9 +411,10 @@ Design name:unnamed:
           vpiParent: Module name:alu
           vpiName: cin
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:49 end:2:52:
+          vpiLowConn RefObj name:cin start:2:49 end:2:52:
             vpiParent: Port name:cin
-            vpiFullName: alu.cin
+            vpiName: cin
+            vpiFullName: alu.cin.cin
             vpiActual: Net name:cin
           vpiTypespec RefTypespec start:2:43 end:2:48:
             vpiParent: Port name:cin
@@ -422,9 +424,10 @@ Design name:unnamed:
           vpiParent: Module name:alu
           vpiName: cout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:61 end:2:65:
+          vpiLowConn RefObj name:cout start:2:61 end:2:65:
             vpiParent: Port name:cout
-            vpiFullName: alu.cout
+            vpiName: cout
+            vpiFullName: alu.cout.cout
             vpiActual: Net name:cout
           vpiTypespec RefTypespec start:2:54 end:2:60:
             vpiParent: Port name:cout
@@ -434,9 +437,10 @@ Design name:unnamed:
           vpiParent: Module name:alu
           vpiName: result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:2:80 end:2:86:
+          vpiLowConn RefObj name:result start:2:80 end:2:86:
             vpiParent: Port name:result
-            vpiFullName: alu.result
+            vpiName: result
+            vpiFullName: alu.result.result
             vpiActual: Net name:result
           vpiTypespec RefTypespec start:2:67 end:2:79:
             vpiParent: Port name:result
@@ -543,13 +547,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:alu
             vpiName: alu
       vpiDefName: named_ports
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:named_ports
         vpiName: work
         vpiFullName: named_ports.work
       vpiCell: named_ports
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:a start:7:32 end:7:33:
           vpiParent: Module name:named_ports
           vpiTypespec RefTypespec start:7:20 end:7:31:
@@ -558,15 +562,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: named_ports.a
-          vpiNetType: wire (1)
-        Net name:b start:7:35 end:7:36:
-          vpiParent: Module name:named_ports
-          vpiTypespec RefTypespec start:7:35 end:7:35:
-            vpiParent: Net name:b
-            vpiFullName: named_ports.b
-            vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: named_ports.b
           vpiNetType: wire (1)
         Net name:alu_result start:7:51 end:7:61:
           vpiParent: Module name:named_ports
@@ -610,9 +605,10 @@ Design name:unnamed:
           vpiParent: Module name:named_ports
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:32 end:7:33:
+          vpiLowConn RefObj name:a start:7:32 end:7:33:
             vpiParent: Port name:a
-            vpiFullName: named_ports.a
+            vpiName: a
+            vpiFullName: named_ports.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:7:20 end:7:31:
             vpiParent: Port name:a
@@ -622,21 +618,14 @@ Design name:unnamed:
           vpiParent: Module name:named_ports
           vpiName: b
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:7:35 end:7:36:
-            vpiParent: Port name:b
-            vpiFullName: named_ports.b
-            vpiActual: Net name:b
-          vpiTypespec RefTypespec start:7:35 end:7:35:
-            vpiParent: Port name:b
-            vpiFullName: named_ports.b
-            vpiActual: LogicTypespec
         Port name:alu_result start:7:51 end:7:61:
           vpiParent: Module name:named_ports
           vpiName: alu_result
           vpiDirection: output (2)
-          vpiLowConn RefObj start:7:51 end:7:61:
+          vpiLowConn RefObj name:alu_result start:7:51 end:7:61:
             vpiParent: Port name:alu_result
-            vpiFullName: named_ports.alu_result
+            vpiName: alu_result
+            vpiFullName: named_ports.alu_result.alu_result
             vpiActual: Net name:alu_result
           vpiTypespec RefTypespec start:7:38 end:7:50:
             vpiParent: Port name:alu_result
@@ -646,9 +635,10 @@ Design name:unnamed:
           vpiParent: Module name:named_ports
           vpiName: cout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:7:70 end:7:74:
+          vpiLowConn RefObj name:cout start:7:70 end:7:74:
             vpiParent: Port name:cout
-            vpiFullName: named_ports.cout
+            vpiName: cout
+            vpiFullName: named_ports.cout.cout
             vpiActual: Net name:cout
           vpiTypespec RefTypespec start:7:63 end:7:69:
             vpiParent: Port name:cout
@@ -682,7 +672,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: b
                 vpiFullName: named_ports.alu.b
-                vpiActual: Net name:b
+                vpiActual: Port name:b
             Port start:12:3 end:12:9:
               vpiParent: RefInstance name:alu
               vpiLowConn RefObj name:cin start:12:4 end:12:7:
@@ -777,7 +767,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/implicit_ports.v/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   119     119       0         0
+                                   115     115       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,41 +14,41 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 §6.20.2 module parameter.
+// Spec-based validation of IEEE 1800-2017 Sec 6.20.2 module parameter.
 // SV: tests/Google/chapter-6/6.20.2--parameter.sv
 //
 //   module top();
 //       parameter p = 123;
 //   endmodule
 //
-// ── §6.20.2 constructs under test ────────────────────────────────────────────
+// -- Sec 6.20.2 constructs under test ----
 //
 // A parameter declared without an explicit type and initialised with an
-// unsized decimal integer literal (IEEE 1800-2017 §6.20.2, §5.7.1):
-//   • Has an inferred LogicTypespec (Surelog default for untyped parameters).
-//   • Its default value "123" is an unsigned integer constant
+// unsized decimal integer literal (IEEE 1800-2017 Sec 6.20.2, Sec 5.7.1):
+//   - Has an inferred LogicTypespec (Surelog default for untyped parameters).
+//   - Its default value "123" is an unsigned integer constant
 //     (vpiConstType = vpiUIntConst = 9) with size 64.
-//   • The elaborator creates exactly one ParamAssign binding the parameter
-//     name (LHS RefObj → actual Parameter) to its value (RHS Constant).
+//   - The elaborator creates exactly one ParamAssign binding the parameter
+//     name (LHS RefObj -> actual Parameter) to its value (RHS Constant).
 //
-// ── UHDM tree (from log) ──────────────────────────────────────────────────
+// -- UHDM tree (from log) ----
 //
 //   Design name:unnamed
-//   └── vpiAllModules (1 item)
-//       └── Module name:top
-//           ├── vpiParameter (1 item)
-//           │   └── Parameter name:p
-//           │       └── vpiTypespec  RefTypespec → actual: LogicTypespec
-//           └── vpiParamAssign (1 item)
-//               └── ParamAssign
-//                   ├── vpiLhs  RefObj name:p → actual: Parameter name:p
-//                   └── vpiRhs  Constant
-//                       ├── vpiTypespec  RefTypespec → actual: IntTypespec
-//                       ├── vpiConstType: unsigned int (9)
-//                       ├── vpiSize: 64
-//                       └── vpiDecompile: "123"
+//   `-- vpiAllModules (1 item)
+//       `-- Module name:top
+//           |-- vpiParameter (1 item)
+//           |   `-- Parameter name:p
+//           |       `-- vpiTypespec  RefTypespec -> actual: LogicTypespec
+//           `-- vpiParamAssign (1 item)
+//               `-- ParamAssign
+//                   |-- vpiLhs  RefObj name:p -> actual: Parameter name:p
+//                   `-- vpiRhs  Constant
+//                       |-- vpiTypespec  RefTypespec -> actual: IntTypespec
+//                       |-- vpiConstType: unsigned int (9)
+//                       |-- vpiSize: 64
+//                       `-- vpiDecompile: "123"
 //
-// ── VPI constants ─────────────────────────────────────────────────────────
+// -- VPI constants ----
 //   vpiUIntConst = 9
 
 #include <hlc/Common/Session.h>
@@ -75,9 +75,9 @@ class ParameterTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
@@ -114,7 +114,7 @@ TEST_F(ParameterTest, Parameter_Collection_HasOneEntry) {
 
 TEST_F(ParameterTest, Parameter_p_Exists) { EXPECT_NE(getParam(m_design), nullptr); }
 
-// IEEE 1800-2017 §6.20.2: a parameter without an explicit type is inferred
+// IEEE 1800-2017 Sec 6.20.2: a parameter without an explicit type is inferred
 // as logic; Surelog represents this as LogicTypespec via RefTypespec.
 TEST_F(ParameterTest, Parameter_p_HasLogicTypespec) {
   const hldb::Parameter *p = getParam(m_design);
@@ -173,7 +173,7 @@ TEST_F(ParameterTest, ParamAssign_Rhs_IsConstant) {
   EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ParamAssign RHS must be a Constant";
 }
 
-// IEEE 1800-2017 §5.7.1: unsized decimal integer literals without a sign
+// IEEE 1800-2017 Sec 5.7.1: unsized decimal integer literals without a sign
 // qualifier are unsigned; Surelog encodes this as vpiUIntConst (9).
 TEST_F(ParameterTest, ParamAssign_Rhs_ConstType_IsUnsignedInt) {
   const hldb::ParamAssign *pa = getParamAssign(m_design);
@@ -192,7 +192,7 @@ TEST_F(ParameterTest, ParamAssign_Rhs_ValueIs_123) {
   EXPECT_EQ(std::string(rhs->getValue()), "123");
 }
 
-// IEEE 1800-2017 §6.20.2: an untyped parameter takes its size from the
+// IEEE 1800-2017 Sec 6.20.2: an untyped parameter takes its size from the
 // constant expression. An unsized decimal literal uses the host integer
 // width; Surelog represents this as 64 bits.
 TEST_F(ParameterTest, ParamAssign_Rhs_SizeIs64) {

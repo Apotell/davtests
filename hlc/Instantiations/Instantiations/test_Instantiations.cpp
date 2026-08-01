@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,9 +48,9 @@ class Instantiations : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // 1. Top-level definitions are present with correct types
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Instantiations, ModuleDefinitions) {
   ASSERT_NE(hldb::findByName<hldb::Module>("passthru", m_design->getAllModules()), nullptr);
   ASSERT_NE(hldb::findByName<hldb::Module>("adder", m_design->getAllModules()), nullptr);
@@ -71,28 +71,28 @@ TEST_F(Instantiations, UdpDefinition) {
   ASSERT_NE(hldb::findByName<hldb::UdpDefn>("my_udp", m_design->getAllUdps()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Helper: return the RefInstance named 'instName' inside 'parent', or null.
-// ---------------------------------------------------------------------------
+// ----
 static const hldb::RefInstance *findRefInst(std::string_view instName, const hldb::Module *parent) {
   return hldb::findByName<hldb::RefInstance>(instName, parent->getRefInstances());
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 2. RefInstances inside 'top' carry the right typespec type
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Instantiations, InterfaceInstantiation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
-  // Plain interface instantiation  — isInterfaceElem("simple_if")
+  // Plain interface instantiation  -- isInterfaceElem("simple_if")
   const hldb::RefInstance *const u_simple_if = findRefInst("u_simple_if", top);
   ASSERT_NE(u_simple_if, nullptr) << "u_simple_if RefInstance not found";
   ASSERT_NE(u_simple_if->getTypespec(), nullptr) << "u_simple_if has no typespec";
   EXPECT_NE(u_simple_if->getTypespec()->getActual<hldb::InterfaceTypespec>(), nullptr)
       << "u_simple_if typespec is not InterfaceTypespec";
 
-  // Parameterized interface instantiation — isInterfaceElem("bus_if")
+  // Parameterized interface instantiation -- isInterfaceElem("bus_if")
   const hldb::RefInstance *const u_bus = findRefInst("u_bus", top);
   ASSERT_NE(u_bus, nullptr) << "u_bus RefInstance not found";
   ASSERT_NE(u_bus->getTypespec(), nullptr) << "u_bus has no typespec";
@@ -104,13 +104,13 @@ TEST_F(Instantiations, ModuleInstantiation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
-  // Plain module instantiation — isModuleElem("passthru")
+  // Plain module instantiation -- isModuleElem("passthru")
   const hldb::RefInstance *const u_pt = findRefInst("u_pt", top);
   ASSERT_NE(u_pt, nullptr) << "u_pt RefInstance not found";
   ASSERT_NE(u_pt->getTypespec(), nullptr) << "u_pt has no typespec";
   EXPECT_NE(u_pt->getTypespec()->getActual<hldb::ModuleTypespec>(), nullptr) << "u_pt typespec is not ModuleTypespec";
 
-  // Parameterized module instantiation — isModuleElem("adder")
+  // Parameterized module instantiation -- isModuleElem("adder")
   const hldb::RefInstance *const u_add = findRefInst("u_add", top);
   ASSERT_NE(u_add, nullptr) << "u_add RefInstance not found";
   ASSERT_NE(u_add->getTypespec(), nullptr) << "u_add has no typespec";
@@ -121,7 +121,7 @@ TEST_F(Instantiations, ProgramInstantiation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
-  // Program instantiation — isProgramElem("my_prog")
+  // Program instantiation -- isProgramElem("my_prog")
   const hldb::RefInstance *const u_prog = findRefInst("u_prog", top);
   ASSERT_NE(u_prog, nullptr) << "u_prog RefInstance not found";
   ASSERT_NE(u_prog->getTypespec(), nullptr) << "u_prog has no typespec";
@@ -133,7 +133,7 @@ TEST_F(Instantiations, UnsupportedInstantiation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
-  // Unsupported / black-box — isUnsupportedElem("black_box")
+  // Unsupported / black-box -- isUnsupportedElem("black_box")
   const hldb::RefInstance *const u_bb = findRefInst("u_bb", top);
   ASSERT_NE(u_bb, nullptr) << "u_bb RefInstance not found";
   ASSERT_NE(u_bb->getTypespec(), nullptr) << "u_bb has no typespec";
@@ -141,12 +141,12 @@ TEST_F(Instantiations, UnsupportedInstantiation) {
       << "u_bb typespec is not UnsupportedTypespec";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Macro-defined module: 'module macro_mod(); endmodule' is entirely inside a
 // macro expansion so the preprocessor callbacks never fire.  The parser-side
 // retroactive insertDesignElement must register it, making isModuleElem()
 // return true so the instantiation gets ModuleTypespec (not UnsupportedTypespec).
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Instantiations, MacroDefinedModuleInstantiation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -155,13 +155,13 @@ TEST_F(Instantiations, MacroDefinedModuleInstantiation) {
   ASSERT_NE(u_macro_mod, nullptr) << "u_macro_mod RefInstance not found";
   ASSERT_NE(u_macro_mod->getTypespec(), nullptr) << "u_macro_mod has no typespec";
   EXPECT_NE(u_macro_mod->getTypespec()->getActual<hldb::ModuleTypespec>(), nullptr)
-      << "u_macro_mod typespec is not ModuleTypespec — "
+      << "u_macro_mod typespec is not ModuleTypespec -- "
          "retroactive insertDesignElement may have failed";
 }
 
-// ---------------------------------------------------------------------------
-// 3. UDP instantiation — Udp (extends Primitive) in top's primitives
-// ---------------------------------------------------------------------------
+// ----
+// 3. UDP instantiation -- Udp (extends Primitive) in top's primitives
+// ----
 TEST_F(Instantiations, UdpInstantiation) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -180,9 +180,9 @@ TEST_F(Instantiations, UdpInstantiation) {
   EXPECT_EQ(u_udp->getDefName(), "my_udp");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 4. Gate primitives are present (keyword-driven, no predicate)
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Instantiations, GatePrimitives) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -200,11 +200,11 @@ TEST_F(Instantiations, GatePrimitives) {
   EXPECT_TRUE(found_not) << "gate 'not' instance g_not not found";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // 5. generate-for block:
 //    gen_top->getGenStmts() -> GenRegion -> getStmt<GenFor>()
 //                           -> getStmt<Begin>() -> getStmts() -> RefInstances
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(Instantiations, GenerateBlockInstantiations) {
   const hldb::Module *const gen_top = hldb::findByName<hldb::Module>("gen_top", m_design->getAllModules());
   ASSERT_NE(gen_top, nullptr);

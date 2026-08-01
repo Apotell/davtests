@@ -18,7 +18,7 @@ n<$Source01/simple/hierdefparam.v> u<411> t<Top_level_rule> c<1> l<1:1> el<26:1>
     n<> u<5> t<Description> p<410> c<4> s<124> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<> u<124> t<Description> p<410> c<123> s<322> l<3:1> el<9:10>
       n<> u<123> t<Module_declaration> p<124> c<42> l<3:1> el<9:10>
         n<> u<42> t<Module_ansi_header> p<123> c<6> s<73> l<3:1> el<3:56>
@@ -429,24 +429,14 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/simple/hierdefparam.v:11:1: Compile module "hierdefparam_a".
 [INF:CP0335] $Source01/simple/hierdefparam.v:14:37: Compile generate block "bar".
 [INF:CP0303] $Source01/simple/hierdefparam.v:22:1: Compile module "hierdefparam_b".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:7:12: Illegal implicit net "id:58, name:foo".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:7:16: Illegal implicit net "id:59, name:mod_a".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:7:22: Illegal implicit net "id:60, name:bar".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:7:29: Illegal implicit net "id:61, name:mod_b".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:7:35: Illegal implicit net "id:62, name:addvalue".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:8:12: Illegal implicit net "id:72, name:foo".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:8:16: Illegal implicit net "id:73, name:mod_a".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:8:22: Illegal implicit net "id:74, name:bar".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:8:29: Illegal implicit net "id:75, name:mod_b".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:8:35: Illegal implicit net "id:76, name:addvalue".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:10: Illegal implicit net "id:159, name:bar".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:17: Illegal implicit net "id:160, name:a".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:24: Illegal implicit net "id:168, name:bar".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:31: Illegal implicit net "id:169, name:a".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:35: Illegal implicit net "id:175, name:bar".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:42: Illegal implicit net "id:176, name:y".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:49: Illegal implicit net "id:184, name:bar".
-[ERR:EL0535] $Source01/simple/hierdefparam.v:19:56: Illegal implicit net "id:185, name:y".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:7:12: Failed to bind "id:62, name:foo".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:7:16: Failed to bind "id:63, name:mod_a".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:7:29: Failed to bind "id:65, name:mod_b".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:7:35: Failed to bind "id:66, name:addvalue".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:8:12: Failed to bind "id:76, name:foo".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:8:16: Failed to bind "id:77, name:mod_a".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:8:29: Failed to bind "id:79, name:mod_b".
+[WRN:CP0350] $Source01/simple/hierdefparam.v:8:35: Failed to bind "id:80, name:addvalue".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -456,7 +446,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: hierdefparam.v
       vpiPreprocFile: "$Output/lib/work/simple/hierdefparam.v"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:hierdefparam.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: hierdefparam.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (3 items):
     Module name:hierdefparam_top file:$Source01/simple/hierdefparam.v start:3:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -464,6 +464,23 @@ Design name:unnamed:
         vpiParent: Module name:hierdefparam_top
         vpiName: hierdefparam_top
       vpiFullName: hierdefparam_top
+      vpiVariable (2 items):
+        Variable name:A start:3:37 end:3:38:
+          vpiParent: Module name:hierdefparam_top
+          vpiTypespec RefTypespec start:3:25 end:3:36:
+            vpiParent: Variable name:A
+            vpiFullName: hierdefparam_top.A
+            vpiActual: LogicTypespec
+          vpiName: A
+          vpiFullName: hierdefparam_top.A
+        Variable name:Y start:3:53 end:3:54:
+          vpiParent: Module name:hierdefparam_top
+          vpiTypespec RefTypespec start:3:40 end:3:52:
+            vpiParent: Variable name:Y
+            vpiFullName: hierdefparam_top.Y
+            vpiActual: LogicTypespec
+          vpiName: Y
+          vpiFullName: hierdefparam_top.Y
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:hierdefparam_top
@@ -524,34 +541,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: hierdefparam_top.work
       vpiCell: hierdefparam_top
-      vpiNet (2 items):
-        Net name:A start:3:37 end:3:38:
-          vpiParent: Module name:hierdefparam_top
-          vpiTypespec RefTypespec start:3:25 end:3:36:
-            vpiParent: Net name:A
-            vpiFullName: hierdefparam_top.A
-            vpiActual: LogicTypespec
-          vpiName: A
-          vpiFullName: hierdefparam_top.A
-          vpiNetType: wire (1)
-        Net name:Y start:3:53 end:3:54:
-          vpiParent: Module name:hierdefparam_top
-          vpiTypespec RefTypespec start:3:40 end:3:52:
-            vpiParent: Net name:Y
-            vpiFullName: hierdefparam_top.Y
-            vpiActual: LogicTypespec
-          vpiName: Y
-          vpiFullName: hierdefparam_top.Y
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:A start:3:37 end:3:38:
           vpiParent: Module name:hierdefparam_top
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:37 end:3:38:
+          vpiLowConn RefObj name:A start:3:37 end:3:38:
             vpiParent: Port name:A
-            vpiFullName: hierdefparam_top.A
-            vpiActual: Net name:A
+            vpiName: A
+            vpiFullName: hierdefparam_top.A.A
+            vpiActual: Variable name:A
           vpiTypespec RefTypespec start:3:25 end:3:36:
             vpiParent: Port name:A
             vpiFullName: hierdefparam_top.A
@@ -560,10 +559,11 @@ Design name:unnamed:
           vpiParent: Module name:hierdefparam_top
           vpiName: Y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:3:53 end:3:54:
+          vpiLowConn RefObj name:Y start:3:53 end:3:54:
             vpiParent: Port name:Y
-            vpiFullName: hierdefparam_top.Y
-            vpiActual: Net name:Y
+            vpiName: Y
+            vpiFullName: hierdefparam_top.Y.Y
+            vpiActual: Variable name:Y
           vpiTypespec RefTypespec start:3:40 end:3:52:
             vpiParent: Port name:Y
             vpiFullName: hierdefparam_top.Y
@@ -703,30 +703,54 @@ Design name:unnamed:
                       vpiParent: Port
                       vpiName: A
                       vpiFullName: hierdefparam_top.foo.mod_a.A
-                      vpiActual: Net name:A
+                      vpiActual: Variable name:A
                     vpiHighConn RefObj name:A start:5:29 end:5:30:
                       vpiParent: Port
                       vpiName: A
                       vpiFullName: hierdefparam_top.foo.mod_a.A
-                      vpiActual: Net name:A
+                      vpiActual: Variable name:A
                   Port start:5:33 end:5:38:
                     vpiParent: RefInstance name:mod_a
                     vpiLowConn RefObj name:Y start:5:34 end:5:35:
                       vpiParent: Port
                       vpiName: Y
                       vpiFullName: hierdefparam_top.foo.mod_a.Y
-                      vpiActual: Net name:Y
+                      vpiActual: Variable name:Y
                     vpiHighConn RefObj name:Y start:5:36 end:5:37:
                       vpiParent: Port
                       vpiName: Y
                       vpiFullName: hierdefparam_top.foo.mod_a.Y
-                      vpiActual: Net name:Y
+                      vpiActual: Variable name:Y
     Module name:hierdefparam_a file:$Source01/simple/hierdefparam.v start:11:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hierdefparam_a start:11:8 end:11:22:
         vpiParent: Module name:hierdefparam_a
         vpiName: hierdefparam_a
       vpiFullName: hierdefparam_a
+      vpiVariable (3 items):
+        Variable name:A start:11:35 end:11:36:
+          vpiParent: Module name:hierdefparam_a
+          vpiTypespec RefTypespec start:11:23 end:11:34:
+            vpiParent: Variable name:A
+            vpiFullName: hierdefparam_a.A
+            vpiActual: LogicTypespec
+          vpiName: A
+          vpiFullName: hierdefparam_a.A
+        Variable name:Y start:11:51 end:11:52:
+          vpiParent: Module name:hierdefparam_a
+          vpiTypespec RefTypespec start:11:38 end:11:50:
+            vpiParent: Variable name:Y
+            vpiFullName: hierdefparam_a.Y
+            vpiActual: LogicTypespec
+          vpiName: Y
+          vpiFullName: hierdefparam_a.Y
+        Variable name:i start:12:10 end:12:11:
+          vpiParent: Module name:hierdefparam_a
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: hierdefparam_a.i
+          vpiName: i
+          vpiFullName: hierdefparam_a.i
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:hierdefparam_a
@@ -787,41 +811,35 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: hierdefparam_a.work
       vpiCell: hierdefparam_a
-      vpiNet (3 items):
-        Net name:A start:11:35 end:11:36:
+      vpiNet (2 items):
+        Net name:a start:15:18 end:15:19:
           vpiParent: Module name:hierdefparam_a
-          vpiTypespec RefTypespec start:11:23 end:11:34:
-            vpiParent: Net name:A
-            vpiFullName: hierdefparam_a.A
+          vpiTypespec RefTypespec start:15:12 end:15:17:
+            vpiParent: Net name:a
+            vpiFullName: hierdefparam_a.a
             vpiActual: LogicTypespec
-          vpiName: A
-          vpiFullName: hierdefparam_a.A
+          vpiName: a
+          vpiFullName: hierdefparam_a.a
           vpiNetType: wire (1)
-        Net name:Y start:11:51 end:11:52:
+        Net name:y start:15:21 end:15:22:
           vpiParent: Module name:hierdefparam_a
-          vpiTypespec RefTypespec start:11:38 end:11:50:
-            vpiParent: Net name:Y
-            vpiFullName: hierdefparam_a.Y
+          vpiTypespec RefTypespec start:15:12 end:15:17:
+            vpiParent: Net name:y
+            vpiFullName: hierdefparam_a.y
             vpiActual: LogicTypespec
-          vpiName: Y
-          vpiFullName: hierdefparam_a.Y
+          vpiName: y
+          vpiFullName: hierdefparam_a.y
           vpiNetType: wire (1)
-        Net name:i start:12:10 end:12:11:
-          vpiParent: Module name:hierdefparam_a
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: hierdefparam_a.i
-          vpiName: i
-          vpiFullName: hierdefparam_a.i
       vpiPort (2 items):
         Port name:A start:11:35 end:11:36:
           vpiParent: Module name:hierdefparam_a
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:11:35 end:11:36:
+          vpiLowConn RefObj name:A start:11:35 end:11:36:
             vpiParent: Port name:A
-            vpiFullName: hierdefparam_a.A
-            vpiActual: Net name:A
+            vpiName: A
+            vpiFullName: hierdefparam_a.A.A
+            vpiActual: Variable name:A
           vpiTypespec RefTypespec start:11:23 end:11:34:
             vpiParent: Port name:A
             vpiFullName: hierdefparam_a.A
@@ -830,10 +848,11 @@ Design name:unnamed:
           vpiParent: Module name:hierdefparam_a
           vpiName: Y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:11:51 end:11:52:
+          vpiLowConn RefObj name:Y start:11:51 end:11:52:
             vpiParent: Port name:Y
-            vpiFullName: hierdefparam_a.Y
-            vpiActual: Net name:Y
+            vpiName: Y
+            vpiFullName: hierdefparam_a.Y.Y
+            vpiActual: Variable name:Y
           vpiTypespec RefTypespec start:11:38 end:11:50:
             vpiParent: Port name:Y
             vpiFullName: hierdefparam_a.Y
@@ -868,11 +887,12 @@ Design name:unnamed:
                 vpiParent: HierPath name:bar[0].a
                 vpiName: a
                 vpiFullName: hierdefparam_a.a
+                vpiActual: Net name:a
           vpiRhs RefObj name:A start:19:21 end:19:22:
             vpiParent: ContAssign
             vpiName: A
             vpiFullName: hierdefparam_a.A
-            vpiActual: Net name:A
+            vpiActual: Variable name:A
         ContAssign start:19:24 end:19:43:
           vpiParent: Module name:hierdefparam_a
           vpiLhs HierPath name:bar[1].a start:19:24 end:19:32:
@@ -902,6 +922,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:bar[1].a
                 vpiName: a
                 vpiFullName: hierdefparam_a.a
+                vpiActual: Net name:a
           vpiRhs HierPath name:bar[0].y start:19:35 end:19:43:
             vpiParent: ContAssign
             vpiName: bar[0].y
@@ -929,13 +950,14 @@ Design name:unnamed:
                 vpiParent: HierPath name:bar[0].y
                 vpiName: y
                 vpiFullName: hierdefparam_a.y
+                vpiActual: Net name:y
         ContAssign start:19:45 end:19:57:
           vpiParent: Module name:hierdefparam_a
           vpiLhs RefObj name:Y start:19:45 end:19:46:
             vpiParent: ContAssign
             vpiName: Y
             vpiFullName: hierdefparam_a.Y
-            vpiActual: Net name:Y
+            vpiActual: Variable name:Y
           vpiRhs HierPath name:bar[1].y start:19:49 end:19:57:
             vpiParent: ContAssign
             vpiName: bar[1].y
@@ -963,6 +985,7 @@ Design name:unnamed:
                 vpiParent: HierPath name:bar[1].y
                 vpiName: y
                 vpiFullName: hierdefparam_a.y
+                vpiActual: Net name:y
       vpiGenStmt (1 items):
         GenRegion start:13:3 end:18:14:
           vpiParent: Module name:hierdefparam_a
@@ -1042,25 +1065,6 @@ Design name:unnamed:
                 vpiParent: Begin name:bar
                 vpiName: bar
               vpiFullName: hierdefparam_a.bar
-              vpiVariable (2 items):
-                Variable name:a start:15:18 end:15:19:
-                  vpiParent: Begin name:bar
-                  vpiTypespec RefTypespec start:15:12 end:15:17:
-                    vpiParent: Variable name:a
-                    vpiFullName: hierdefparam_a.bar.a
-                    vpiActual: LogicTypespec
-                  vpiName: a
-                  vpiFullName: hierdefparam_a.bar.a
-                  vpiNetType: wire (1)
-                Variable name:y start:15:21 end:15:22:
-                  vpiParent: Begin name:bar
-                  vpiTypespec RefTypespec start:15:12 end:15:17:
-                    vpiParent: Variable name:y
-                    vpiFullName: hierdefparam_a.bar.y
-                    vpiActual: LogicTypespec
-                  vpiName: y
-                  vpiFullName: hierdefparam_a.bar.y
-                  vpiNetType: wire (1)
               vpiTypespec (2 items):
                 LogicTypespec:
                   vpiParent: Begin name:bar
@@ -1109,30 +1113,47 @@ Design name:unnamed:
                         vpiParent: Port
                         vpiName: A
                         vpiFullName: hierdefparam_a.bar.mod_b.A
-                        vpiActual: Net name:A
+                        vpiActual: Variable name:A
                       vpiHighConn RefObj name:a start:16:31 end:16:32:
                         vpiParent: Port
                         vpiName: a
                         vpiFullName: hierdefparam_a.bar.mod_b.a
-                        vpiActual: Variable name:a
+                        vpiActual: Net name:a
                     Port start:16:35 end:16:40:
                       vpiParent: RefInstance name:mod_b
                       vpiLowConn RefObj name:Y start:16:36 end:16:37:
                         vpiParent: Port
                         vpiName: Y
                         vpiFullName: hierdefparam_a.bar.mod_b.Y
-                        vpiActual: Net name:Y
+                        vpiActual: Variable name:Y
                       vpiHighConn RefObj name:y start:16:38 end:16:39:
                         vpiParent: Port
                         vpiName: y
                         vpiFullName: hierdefparam_a.bar.mod_b.y
-                        vpiActual: Variable name:y
+                        vpiActual: Net name:y
     Module name:hierdefparam_b file:$Source01/simple/hierdefparam.v start:22:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hierdefparam_b start:22:8 end:22:22:
         vpiParent: Module name:hierdefparam_b
         vpiName: hierdefparam_b
       vpiFullName: hierdefparam_b
+      vpiVariable (2 items):
+        Variable name:A start:22:35 end:22:36:
+          vpiParent: Module name:hierdefparam_b
+          vpiTypespec RefTypespec start:22:23 end:22:34:
+            vpiParent: Variable name:A
+            vpiFullName: hierdefparam_b.A
+            vpiActual: LogicTypespec
+          vpiName: A
+          vpiFullName: hierdefparam_b.A
+        Variable name:Y start:22:51 end:22:52:
+          vpiParent: Module name:hierdefparam_b
+          vpiTypespec RefTypespec start:22:38 end:22:50:
+            vpiParent: Variable name:Y
+            vpiFullName: hierdefparam_b.Y
+            vpiActual: LogicTypespec
+          vpiName: Y
+          vpiFullName: hierdefparam_b.Y
       vpiParameter (1 items):
         Parameter name:addvalue start:23:19 end:23:27:
           vpiParent: Module name:hierdefparam_b
@@ -1246,34 +1267,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: hierdefparam_b.work
       vpiCell: hierdefparam_b
-      vpiNet (2 items):
-        Net name:A start:22:35 end:22:36:
-          vpiParent: Module name:hierdefparam_b
-          vpiTypespec RefTypespec start:22:23 end:22:34:
-            vpiParent: Net name:A
-            vpiFullName: hierdefparam_b.A
-            vpiActual: LogicTypespec
-          vpiName: A
-          vpiFullName: hierdefparam_b.A
-          vpiNetType: wire (1)
-        Net name:Y start:22:51 end:22:52:
-          vpiParent: Module name:hierdefparam_b
-          vpiTypespec RefTypespec start:22:38 end:22:50:
-            vpiParent: Net name:Y
-            vpiFullName: hierdefparam_b.Y
-            vpiActual: LogicTypespec
-          vpiName: Y
-          vpiFullName: hierdefparam_b.Y
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:A start:22:35 end:22:36:
           vpiParent: Module name:hierdefparam_b
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj start:22:35 end:22:36:
+          vpiLowConn RefObj name:A start:22:35 end:22:36:
             vpiParent: Port name:A
-            vpiFullName: hierdefparam_b.A
-            vpiActual: Net name:A
+            vpiName: A
+            vpiFullName: hierdefparam_b.A.A
+            vpiActual: Variable name:A
           vpiTypespec RefTypespec start:22:23 end:22:34:
             vpiParent: Port name:A
             vpiFullName: hierdefparam_b.A
@@ -1282,10 +1285,11 @@ Design name:unnamed:
           vpiParent: Module name:hierdefparam_b
           vpiName: Y
           vpiDirection: output (2)
-          vpiLowConn RefObj start:22:51 end:22:52:
+          vpiLowConn RefObj name:Y start:22:51 end:22:52:
             vpiParent: Port name:Y
-            vpiFullName: hierdefparam_b.Y
-            vpiActual: Net name:Y
+            vpiName: Y
+            vpiFullName: hierdefparam_b.Y.Y
+            vpiActual: Variable name:Y
           vpiTypespec RefTypespec start:22:38 end:22:50:
             vpiParent: Port name:Y
             vpiFullName: hierdefparam_b.Y
@@ -1297,7 +1301,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: Y
             vpiFullName: hierdefparam_b.Y
-            vpiActual: Net name:Y
+            vpiActual: Variable name:Y
           vpiRhs Operation start:24:14 end:24:26:
             vpiParent: ContAssign
             vpiOpType: add (24)
@@ -1306,13 +1310,15 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: A
                 vpiFullName: hierdefparam_b.A
-                vpiActual: Net name:A
+                vpiActual: Variable name:A
               RefObj name:addvalue start:24:18 end:24:26:
                 vpiParent: Operation
                 vpiName: addvalue
                 vpiFullName: hierdefparam_b.addvalue
                 vpiActual: Parameter name:addvalue
-  vpiTypespec (4 items):
+  vpiTypespec (5 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:hierdefparam_top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hierdefparam_top start:3:8 end:3:24:
@@ -1337,8 +1343,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 18
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1353,25 +1359,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/simple/hierdefparam.v/mounts.json
 
 
-{'result': {'coverage': 96.47,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/simple/hierdefparam.v': {'post_len': 21,
+            'files': {'$Output/lib/work/simple/hierdefparam.v': {'post_len': 0,
                                                                  'pre_len': 595}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 595,
             'test_name': 'Yosys/simple/hierdefparam.v'}}
 
 +----------------------------------------+----------+-----------+
 | INPUT                                  |   PRELEN |   POSTLEN |
 +========================================+==========+===========+
-| $Output/lib/work/simple/hierdefparam.v |      595 |        21 |
+| $Output/lib/work/simple/hierdefparam.v |      595 |         0 |
 +========================================+==========+===========+
-|                                        |      595 |        21 |
+|                                        |      595 |         0 |
 +----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.47
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1382,7 +1388,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/hierdefparam.v/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             207     207       0         0
+Others                             211     211       0         0
 ----------------------------------------------------------------
-                                   207     207       0         0
+                                   211     211       0         0
 ===================== END REDUCTION RESULT =====================

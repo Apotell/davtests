@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,7 @@
 //     end
 //   endmodule
 //
-// -- ss.16.10 rules under test -------------------------------------------------
+// -- ss.16.10 rules under test ----
 //
 // Match item form (ss.16.10):
 //   * '(1, x=0, f())' is a sequence expression with match items.
@@ -60,18 +60,14 @@
 //     'f()' -- LEGAL: subroutine calls have no such restriction at call site
 //
 //   A conforming compiler (e.g., Questa) must reject 'x=0'.
-//   Surelog silently accepts it -- that is a Surelog bug.
+//   HLC silently accepts it -- see the GTEST_SKIP'd test below (known gap).
 //
 // Concurrent assert property (ss.16.14):
 //   * 'assert property(@(posedge clk) seq5)' uses seq5 as the property body.
 //   * The property expression 'seq5' must resolve (vpiActual) to the
 //     SequenceDecl node for seq5 -- not be treated as an implicit net.
-//   * Surelog emits EL0535 ("Illegal implicit net") for 'seq5' here, meaning
-//     it misidentifies the sequence name as an undeclared net.  This is the
-//     same class of bug confirmed in sequence4 -- Surelog does not resolve
-//     sequence names to SequenceDecl in any reference context.
 //
-// -- Expected HLDB tree (if compiler is correct) --------------------------------
+// -- Expected HLDB tree (if compiler is correct) ----
 //
 //   Module name:tb
 //   +-- getSequenceDecls() (1 item)
@@ -79,7 +75,7 @@
 //   |         vpiExpr: Operation opType:list (vpiListOp = 37)
 //   |           operand[0]: Constant { decompile:"1" }
 //   |           operand[1]: Assignment (blocking)
-//   |             vpiLhs: RefObj name:"x" -> Net name:"x"
+//   |             vpiLhs: RefObj name:"x" -> Variable name:"x"
 //   |             vpiRhs: Constant { decompile:"0" }
 //   |           operand[2]: FuncCall name:"f"
 //   +-- getConcurrentAssertions() (1 item)
@@ -102,7 +98,7 @@
 #include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
@@ -117,9 +113,9 @@ class Sequence5Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("tb", d->getAllModules());
@@ -153,15 +149,17 @@ static const hldb::Assert *getFirstAssert(const hldb::Module *m) {
 //   - If there are NO local variables, no assignment or inc/dec in the match
 //     item list is legal at all -- a conforming compiler must reject them.
 //   - If there ARE local variables, any assignment or inc/dec must target only
-//     those locals (LHS must not resolve to a Net, which would indicate a
-//     module-level variable slipping through).
+//     those locals (LHS must not resolve to the module-level Variable, which
+//     would indicate it slipped through).
 //
 // seq5 declares no 'var' variables, so getVariables() is null/empty.
-// Surelog still places 'x=0' (Assignment) into the HLDB -- this test FAILS,
-// exposing that Surelog does not enforce the ss.16.10 LRM restriction.
+// HLC still places 'x=0' (Assignment) into the HLDB -- this test FAILS,
+// exposing that HLC does not enforce the ss.16.10 LRM restriction.
 TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
-  GTEST_SKIP() << "known issue: need to decide when to create Nets from "
-                  "variable and when not";
+  GTEST_SKIP() << "HLC does not enforce the IEEE 1800-2023 Sec 16.10 restriction that only a "
+                  "local sequence variable ('var'-declared inside the sequence) may appear on "
+                  "the LHS of an assignment or inc/dec expression in a sequence match item; "
+                  "'x=0' against the module-level 'x' is silently accepted. Fix pending.";
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
@@ -180,12 +178,12 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
         ADD_FAILURE() << "ss.16.10: operand[" << i
                       << "]: Assignment found in the "
                          "match item list but seq5 has no local sequence variables -- "
-                         "Surelog accepted 'x=0' silently; only 'var'-declared local "
+                         "HLC accepted 'x=0' silently; only 'var'-declared local "
                          "variables may be assigned in a sequence match item";
       } else {
         const hldb::RefObj *lhs = asgn->getLhs<hldb::RefObj>();
         if (lhs) {
-          EXPECT_EQ(lhs->getActual<hldb::Net>(), nullptr)
+          EXPECT_EQ(lhs->getActual<hldb::Variable>(), nullptr)
               << "ss.16.10: operand[" << i << "]: assignment to '" << lhs->getName()
               << "' targets a module-level variable -- "
                  "only local sequence variables may be assigned";
@@ -239,7 +237,7 @@ TEST_F(Sequence5Test, Seq5_HasExpression) {
 }
 
 // ss.16.9.4: '(1, x=0, f())' is a parenthesized sequence_expr with match
-// items.  Surelog represents this as a list Operation (vpiListOp = 37).
+// items.  HLC represents this as a list Operation (vpiListOp = 37).
 TEST_F(Sequence5Test, Seq5_Expr_IsMatchItemList) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -317,8 +315,7 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_NameIsF) {
 // ss.16.9.4: the FuncCall for 'f()' must resolve (getTaskFunc) to the
 // Function declaration node for 'f'.  This is compile-time name binding --
 // 'f' is declared in the same module scope, so no elaboration is needed to
-// find it.  If this test fails, Surelog does not link subroutine calls in
-// sequence match items to their declarations at compile time.
+// find it.
 TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_ResolvesToFunction) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -386,10 +383,8 @@ TEST_F(Sequence5Test, Assert_PropertyExpr_ReferencesSeq5) {
 }
 
 // ss.16.14: the RefObj for 'seq5' in the concurrent assertion must resolve
-// (vpiActual) to the SequenceDecl node.  Surelog emits EL0535 for this
-// reference, treating 'seq5' as an implicit net instead of a sequence name.
-// NOTE: same class of bug as confirmed in sequence4 -- Surelog does not
-// resolve sequence names to SequenceDecl in any reference context.
+// (vpiActual) to the SequenceDecl node, not be treated as an implicit net --
+// the same compile-time resolution confirmed in sequence4.
 TEST_F(Sequence5Test, Assert_PropertyExpr_ResolvedToSeq5Decl) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -400,8 +395,8 @@ TEST_F(Sequence5Test, Assert_PropertyExpr_ResolvedToSeq5Decl) {
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "ss.16.14: 'seq5' in assert property must resolve to SequenceDecl -- "
-         "Surelog emits EL0535 treating it as an implicit net instead";
+      << "ss.16.14: 'seq5' in assert property must resolve to SequenceDecl, not be "
+         "treated as an implicit net";
 }
 
 }  // namespace hlc

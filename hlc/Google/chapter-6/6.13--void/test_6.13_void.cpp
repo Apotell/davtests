@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,7 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/sv_vpi_user.h>
 #include <hldb/tf_call.h>
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
@@ -58,9 +59,9 @@ TEST_F(Void, NoNets) {
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty()) << "module should have no nets";
 }
 
-// ---------------------------------------------------------------------------
-// Function "fun" — void return, $display body
-// ---------------------------------------------------------------------------
+// ----
+// Function "fun" -- void return, $display body
+// ----
 TEST_F(Void, OneFunctionExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -98,12 +99,12 @@ TEST_F(Void, FunctionIsPublic) {
 
   const hldb::Function *const fun = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
   ASSERT_NE(fun, nullptr);
-  EXPECT_EQ(fun->getVisibility(), 1);  // vpiPublic = 1
+  EXPECT_EQ(fun->getVisibility(), vpiPublicVis);
 }
 
-// ---------------------------------------------------------------------------
-// Initial process — initial fun()
-// ---------------------------------------------------------------------------
+// ----
+// Initial process -- initial fun()
+// ----
 TEST_F(Void, InitialProcessExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

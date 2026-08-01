@@ -419,7 +419,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: pr690.v
       vpiPreprocFile: "$Output/lib/work/pr690.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:test file:$Source01/pr690.v start:1:1 end:31:10:
       vpiParent: Design name:unnamed
@@ -427,6 +426,25 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (2 items):
+        Variable name:memory start:11:18 end:11:24:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:memory
+            vpiFullName: test.memory
+            vpiActual: ArrayTypespec
+          vpiName: memory
+          vpiFullName: test.memory
+          vpiVector: true
+        Variable name:addr start:12:19 end:12:23:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:12:1 end:12:18:
+            vpiParent: Variable name:addr
+            vpiFullName: test.addr
+            vpiActual: LogicTypespec
+          vpiName: addr
+          vpiFullName: test.addr
+          vpiVector: true
       vpiParameter (4 items):
         Parameter name:numAddr start:2:11 end:2:18:
           vpiParent: Module name:test
@@ -711,13 +729,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (6 items):
+      vpiNet (4 items):
         Net name:CLK start:7:7 end:7:10:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:7:7 end:7:7:
@@ -726,6 +744,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: CLK
           vpiFullName: test.CLK
+          vpiNetType: wire (1)
         Net name:OE start:7:12 end:7:14:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:7:7 end:7:7:
@@ -734,6 +753,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: OE
           vpiFullName: test.OE
+          vpiNetType: wire (1)
         Net name:A start:8:21 end:8:22:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:8:7 end:8:20:
@@ -742,6 +762,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: test.A
+          vpiNetType: wire (1)
         Net name:OUT start:9:21 end:9:24:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:9:8 end:9:20:
@@ -750,28 +771,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: OUT
           vpiFullName: test.OUT
-        Net name:memory start:11:18 end:11:24:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:memory
-            vpiFullName: test.memory
-            vpiActual: ArrayTypespec
-          vpiName: memory
-          vpiFullName: test.memory
-        Net name:addr start:12:19 end:12:23:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:12:1 end:12:18:
-            vpiParent: Net name:addr
-            vpiFullName: test.addr
-            vpiActual: LogicTypespec
-          vpiName: addr
-          vpiFullName: test.addr
+          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:CLK start:1:13 end:1:16:
           vpiParent: Module name:test
           vpiName: CLK
           vpiDirection: input (1)
-          vpiLowConn RefObj name:CLK start:1:13 end:1:16:
+          vpiLowConn RefObj name:CLK start:7:7 end:7:10:
             vpiParent: Port name:CLK
             vpiName: CLK
             vpiFullName: test.CLK.CLK
@@ -784,7 +790,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: OE
           vpiDirection: input (1)
-          vpiLowConn RefObj name:OE start:1:18 end:1:20:
+          vpiLowConn RefObj name:OE start:7:12 end:7:14:
             vpiParent: Port name:OE
             vpiName: OE
             vpiFullName: test.OE.OE
@@ -797,7 +803,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj name:A start:1:22 end:1:23:
+          vpiLowConn RefObj name:A start:8:21 end:8:22:
             vpiParent: Port name:A
             vpiName: A
             vpiFullName: test.A.A
@@ -810,7 +816,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName: OUT
           vpiDirection: output (2)
-          vpiLowConn RefObj name:OUT start:1:25 end:1:28:
+          vpiLowConn RefObj name:OUT start:9:21 end:9:24:
             vpiParent: Port name:OUT
             vpiName: OUT
             vpiFullName: test.OUT.OUT
@@ -841,7 +847,7 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$readmemb
                     vpiName: memory
                     vpiFullName: test.memory
-                    vpiActual: Net name:memory
+                    vpiActual: Variable name:memory
                   Constant start:17:30 end:17:31:
                     vpiParent: SysTaskCall name:$readmemb
                     vpiTypespec RefTypespec:
@@ -866,7 +872,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[0]
                         vpiName: memory
                         vpiFullName: test.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex Constant start:18:15 end:18:16:
                         vpiParent: BitSelect name:memory[0]
                         vpiTypespec RefTypespec:
@@ -915,7 +921,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:memory[0]
                             vpiName: memory
                             vpiFullName: test.memory
-                            vpiActual: Net name:memory
+                            vpiActual: Variable name:memory
                           vpiIndex Constant start:19:52 end:19:53:
                             vpiParent: BitSelect name:memory[0]
                             vpiTypespec RefTypespec:
@@ -945,7 +951,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:memory[1]
                         vpiName: memory
                         vpiFullName: test.memory
-                        vpiActual: Net name:memory
+                        vpiActual: Variable name:memory
                       vpiIndex Constant start:22:15 end:22:16:
                         vpiParent: BitSelect name:memory[1]
                         vpiTypespec RefTypespec:
@@ -994,7 +1000,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:memory[1]
                             vpiName: memory
                             vpiFullName: test.memory
-                            vpiActual: Net name:memory
+                            vpiActual: Variable name:memory
                           vpiIndex Constant start:23:52 end:23:53:
                             vpiParent: BitSelect name:memory[1]
                             vpiTypespec RefTypespec:

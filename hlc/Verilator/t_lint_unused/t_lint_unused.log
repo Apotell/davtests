@@ -475,7 +475,6 @@ Design name:unnamed:
           "vpiPMIBody Identifier name:\"`TEST_OBJ_DIR\" start:6:22 end:6:37":
             vpiParent: PreprocMacroInstance name:STRINGIFY
             vpiName: "\"`TEST_OBJ_DIR\""
-      vpiDefNetType: none (12)
   vpiAllUdps (1 items):
     UdpDefn name:udp_mux2 start:50:1 end:62:13:
       vpiParent: Design name:unnamed
@@ -620,6 +619,32 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:sysused start:24:11 end:24:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:24:4 end:24:7:
+            vpiParent: Variable name:sysused
+            vpiFullName: t.sysused
+            vpiActual: LogicTypespec
+          vpiName: sysused
+          vpiFullName: t.sysused
+          vpiScalar: true
+        Variable name:infile start:28:12 end:28:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:28:4 end:28:11:
+            vpiParent: Variable name:infile
+            vpiFullName: t.infile
+            vpiActual: IntegerTypespec
+          vpiName: infile
+          vpiFullName: t.infile
+        Variable name:outfile start:29:12 end:29:19:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:29:4 end:29:11:
+            vpiParent: Variable name:outfile
+            vpiFullName: t.outfile
+            vpiActual: IntegerTypespec
+          vpiName: outfile
+          vpiFullName: t.outfile
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -635,21 +660,13 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (6 items):
-        Net name:out start:16:11 end:16:14:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:11 end:16:11:
-            vpiParent: Net name:out
-            vpiFullName: t.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: t.out
+      vpiNet (3 items):
         Net name:in start:15:10 end:15:12:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:10 end:15:10:
@@ -658,30 +675,16 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
-        Net name:sysused start:24:11 end:24:18:
+          vpiNetType: wire (1)
+        Net name:out start:16:11 end:16:14:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:24:4 end:24:7:
-            vpiParent: Net name:sysused
-            vpiFullName: t.sysused
+          vpiTypespec RefTypespec start:16:11 end:16:11:
+            vpiParent: Net name:out
+            vpiFullName: t.out
             vpiActual: LogicTypespec
-          vpiName: sysused
-          vpiFullName: t.sysused
-        Net name:infile start:28:12 end:28:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:28:4 end:28:11:
-            vpiParent: Net name:infile
-            vpiFullName: t.infile
-            vpiActual: IntegerTypespec
-          vpiName: infile
-          vpiFullName: t.infile
-        Net name:outfile start:29:12 end:29:19:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:29:4 end:29:11:
-            vpiParent: Net name:outfile
-            vpiFullName: t.outfile
-            vpiActual: IntegerTypespec
-          vpiName: outfile
-          vpiFullName: t.outfile
+          vpiName: out
+          vpiFullName: t.out
+          vpiNetType: wire (1)
         Net name:_unused_ok start:38:11 end:38:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:38:11 end:38:11:
@@ -696,7 +699,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:10:4 end:10:7:
+          vpiLowConn RefObj name:out start:16:11 end:16:14:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: t.out.out
@@ -709,7 +712,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: in
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in start:12:4 end:12:6:
+          vpiLowConn RefObj name:in start:15:10 end:15:12:
             vpiParent: Port name:in
             vpiName: in
             vpiFullName: t.in.in
@@ -731,7 +734,7 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$bboxed
                 vpiName: sysused
                 vpiFullName: t.sysused
-                vpiActual: Net name:sysused
+                vpiActual: Variable name:sysused
         Initial start:30:4 end:36:7:
           vpiParent: Module name:t
           vpiStmt Begin start:30:12 end:36:7:
@@ -745,7 +748,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: outfile
                   vpiFullName: t.outfile
-                  vpiActual: Net name:outfile
+                  vpiActual: Variable name:outfile
                 vpiRhs SysFuncCall name:$fopen start:31:17 end:31:69:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:31:17 end:31:23:
@@ -796,7 +799,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$fwrite
                     vpiName: outfile
                     vpiFullName: t.outfile
-                    vpiActual: Net name:outfile
+                    vpiActual: Variable name:outfile
                   Constant start:32:24 end:32:29:
                     vpiParent: SysFuncCall name:$fwrite
                     vpiTypespec RefTypespec:
@@ -817,7 +820,7 @@ Design name:unnamed:
                     vpiParent: SysFuncCall name:$fclose
                     vpiName: outfile
                     vpiFullName: t.outfile
-                    vpiActual: Net name:outfile
+                    vpiActual: Variable name:outfile
               Assignment start:34:7 end:34:68:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -825,7 +828,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: infile
                   vpiFullName: t.infile
-                  vpiActual: Net name:infile
+                  vpiActual: Variable name:infile
                 vpiRhs SysFuncCall name:$fopen start:34:16 end:34:68:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:34:16 end:34:22:
@@ -882,7 +885,7 @@ Design name:unnamed:
                           vpiParent: SysFuncCall name:$fgetc
                           vpiName: infile
                           vpiFullName: t.infile
-                          vpiActual: Net name:infile
+                          vpiActual: Variable name:infile
                     Constant start:35:29 end:35:32:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -987,7 +990,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:sub
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work

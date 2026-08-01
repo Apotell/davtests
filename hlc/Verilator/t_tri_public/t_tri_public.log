@@ -515,7 +515,6 @@ n<$Source01/t_tri_public.v> u<500> t<Top_level_rule> c<1> l<8:1> el<79:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_tri_public.v:8:1: Compile module "t".
 [INF:CP0303] $Source01/t_tri_public.v:47:1: Compile module "sub_mod".
-[ERR:EL0535] $Source01/t_tri_public.v:41:8: Illegal implicit net "id:111, name:q".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -525,7 +524,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_tri_public.v
       vpiPreprocFile: "$Output/lib/work/t_tri_public.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_tri_public.v start:8:1 end:45:10:
       vpiParent: Design name:unnamed
@@ -533,6 +531,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:out start:16:17 end:16:20:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:22:4 end:22:13:
+            vpiParent: Variable name:out
+            vpiFullName: t.out
+            vpiActual: LogicTypespec
+          vpiName: out
+          vpiFullName: t.out
+          vpiVector: true
+        Variable name:q_out start:23:17 end:23:22:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:23:4 end:23:15:
+            vpiParent: Variable name:q_out
+            vpiName: logic
+            vpiFullName: t.q_out.logic
+            vpiActual: ArrayTypespec
+          vpiName: q_out
+          vpiFullName: t.q_out
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -656,21 +673,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub_mod
             vpiName: sub_mod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (6 items):
-        Net name:out start:16:17 end:16:20:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:11 end:16:16:
-            vpiParent: Net name:out
-            vpiFullName: t.out
-            vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: t.out
+      vpiNet (4 items):
         Net name:data start:19:17 end:19:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:10 end:19:15:
@@ -679,6 +688,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: t.data
+          vpiNetType: wire (1)
         Net name:up_down start:20:11 end:20:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:11 end:20:11:
@@ -687,6 +697,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: up_down
           vpiFullName: t.up_down
+          vpiNetType: wire (1)
         Net name:clk start:20:20 end:20:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:11 end:20:11:
@@ -695,6 +706,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:reset start:20:25 end:20:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:11 end:20:11:
@@ -703,34 +715,25 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset
           vpiFullName: t.reset
-        Net name:q_out start:23:17 end:23:22:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:23:4 end:23:15:
-            vpiParent: Net name:q_out
-            vpiName: logic
-            vpiFullName: t.q_out.logic
-            vpiActual: ArrayTypespec
-          vpiName: q_out
-          vpiFullName: t.q_out
+          vpiNetType: wire (1)
       vpiPort (5 items):
         Port name:out start:10:4 end:10:7:
           vpiParent: Module name:t
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:10:4 end:10:7:
+          vpiLowConn RefObj name:out start:16:17 end:16:20:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: t.out.out
-            vpiActual: Net name:out
+            vpiActual: Variable name:out
           vpiTypespec RefTypespec start:16:11 end:16:16:
             vpiParent: Port name:out
             vpiFullName: t.out
-            vpiActual: LogicTypespec
         Port name:data start:12:4 end:12:8:
           vpiParent: Module name:t
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj name:data start:12:4 end:12:8:
+          vpiLowConn RefObj name:data start:19:17 end:19:21:
             vpiParent: Port name:data
             vpiName: data
             vpiFullName: t.data.data
@@ -743,7 +746,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: up_down
           vpiDirection: input (1)
-          vpiLowConn RefObj name:up_down start:12:10 end:12:17:
+          vpiLowConn RefObj name:up_down start:20:11 end:20:18:
             vpiParent: Port name:up_down
             vpiName: up_down
             vpiFullName: t.up_down.up_down
@@ -756,7 +759,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:12:19 end:12:22:
+          vpiLowConn RefObj name:clk start:20:20 end:20:23:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -769,7 +772,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset start:12:24 end:12:29:
+          vpiLowConn RefObj name:reset start:20:25 end:20:30:
             vpiParent: Port name:reset
             vpiName: reset
             vpiFullName: t.reset.reset
@@ -809,7 +812,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: out
                       vpiFullName: t.out
-                      vpiActual: Net name:out
+                      vpiActual: Variable name:out
                     vpiRhs Constant start:28:16 end:28:20:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -837,7 +840,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: out
                         vpiFullName: t.out
-                        vpiActual: Net name:out
+                        vpiActual: Variable name:out
                       vpiRhs Operation start:30:16 end:30:23:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -846,7 +849,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: out
                             vpiFullName: t.out
-                            vpiActual: Net name:out
+                            vpiActual: Variable name:out
                           Constant start:30:22 end:30:23:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -867,12 +870,12 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: out
                         vpiFullName: t.out
-                        vpiActual: Net name:out
+                        vpiActual: Variable name:out
                       vpiRhs RefObj name:q_out start:32:16 end:32:21:
                         vpiParent: Assignment
                         vpiName: q_out
                         vpiFullName: t.q_out
-                        vpiActual: Net name:q_out
+                        vpiActual: Variable name:q_out
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:sub_mod start:36:12 end:36:19:
@@ -930,13 +933,23 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: q_out
                 vpiFullName: t.sub_mod.q_out
-                vpiActual: Net name:q_out
+                vpiActual: Variable name:q_out
     Module name:sub_mod file:$Source01/t_tri_public.v start:47:1 end:78:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub_mod start:47:8 end:47:15:
         vpiParent: Module name:sub_mod
         vpiName: sub_mod
       vpiFullName: sub_mod
+      vpiVariable (1 items):
+        Variable name:que start:66:17 end:66:20:
+          vpiParent: Module name:sub_mod
+          vpiTypespec RefTypespec name:logic start:66:4 end:66:15:
+            vpiParent: Variable name:que
+            vpiName: logic
+            vpiFullName: sub_mod.que.logic
+            vpiActual: ArrayTypespec
+          vpiName: que
+          vpiFullName: sub_mod.que
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:sub_mod
@@ -1029,37 +1042,13 @@ Design name:unnamed:
             vpiFullName: sub_mod.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: sub_mod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub_mod
         vpiName: work
         vpiFullName: sub_mod.work
       vpiCell: sub_mod
-      vpiNet (7 items):
-        Net name:q start:63:17 end:63:18:
-          vpiParent: Module name:sub_mod
-          vpiTypespec RefTypespec start:63:11 end:63:16:
-            vpiParent: Net name:q
-            vpiFullName: sub_mod.q
-            vpiActual: LogicTypespec
-          vpiName: q
-          vpiFullName: sub_mod.q
-        Net name:test_out start:64:12 end:64:20:
-          vpiParent: Module name:sub_mod
-          vpiTypespec RefTypespec start:64:12 end:64:12:
-            vpiParent: Net name:test_out
-            vpiFullName: sub_mod.test_out
-            vpiActual: LogicTypespec
-          vpiName: test_out
-          vpiFullName: sub_mod.test_out
-        Net name:test_inout start:60:16 end:60:26:
-          vpiParent: Module name:sub_mod
-          vpiTypespec RefTypespec start:60:16 end:60:16:
-            vpiParent: Net name:test_inout
-            vpiFullName: sub_mod.test_inout
-            vpiActual: LogicTypespec
-          vpiName: test_inout
-          vpiFullName: sub_mod.test_inout
+      vpiNet (6 items):
         Net name:data start:58:16 end:58:20:
           vpiParent: Module name:sub_mod
           vpiTypespec RefTypespec start:58:10 end:58:15:
@@ -1068,6 +1057,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: sub_mod.data
+          vpiNetType: wire (1)
         Net name:clk start:59:16 end:59:19:
           vpiParent: Module name:sub_mod
           vpiTypespec RefTypespec start:59:16 end:59:16:
@@ -1076,6 +1066,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: sub_mod.clk
+          vpiNetType: wire (1)
         Net name:reset start:59:21 end:59:26:
           vpiParent: Module name:sub_mod
           vpiTypespec RefTypespec start:59:16 end:59:16:
@@ -1084,21 +1075,40 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: reset
           vpiFullName: sub_mod.reset
-        Net name:que start:66:17 end:66:20:
+          vpiNetType: wire (1)
+        Net name:test_inout start:60:16 end:60:26:
           vpiParent: Module name:sub_mod
-          vpiTypespec RefTypespec name:logic start:66:4 end:66:15:
-            vpiParent: Net name:que
-            vpiName: logic
-            vpiFullName: sub_mod.que.logic
-            vpiActual: ArrayTypespec
-          vpiName: que
-          vpiFullName: sub_mod.que
+          vpiTypespec RefTypespec start:60:16 end:60:16:
+            vpiParent: Net name:test_inout
+            vpiFullName: sub_mod.test_inout
+            vpiActual: LogicTypespec
+          vpiName: test_inout
+          vpiFullName: sub_mod.test_inout
+          vpiNetType: wire (1)
+        Net name:q start:63:17 end:63:18:
+          vpiParent: Module name:sub_mod
+          vpiTypespec RefTypespec start:63:11 end:63:16:
+            vpiParent: Net name:q
+            vpiFullName: sub_mod.q
+            vpiActual: LogicTypespec
+          vpiName: q
+          vpiFullName: sub_mod.q
+          vpiNetType: wire (1)
+        Net name:test_out start:64:12 end:64:20:
+          vpiParent: Module name:sub_mod
+          vpiTypespec RefTypespec start:64:12 end:64:12:
+            vpiParent: Net name:test_out
+            vpiFullName: sub_mod.test_out
+            vpiActual: LogicTypespec
+          vpiName: test_out
+          vpiFullName: sub_mod.test_out
+          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:q start:49:4 end:49:5:
           vpiParent: Module name:sub_mod
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj name:q start:49:4 end:49:5:
+          vpiLowConn RefObj name:q start:63:17 end:63:18:
             vpiParent: Port name:q
             vpiName: q
             vpiFullName: sub_mod.q.q
@@ -1111,7 +1121,7 @@ Design name:unnamed:
           vpiParent: Module name:sub_mod
           vpiName: test_out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:test_out start:49:7 end:49:15:
+          vpiLowConn RefObj name:test_out start:64:12 end:64:20:
             vpiParent: Port name:test_out
             vpiName: test_out
             vpiFullName: sub_mod.test_out.test_out
@@ -1124,7 +1134,7 @@ Design name:unnamed:
           vpiParent: Module name:sub_mod
           vpiName: test_inout
           vpiDirection: inout (3)
-          vpiLowConn RefObj name:test_inout start:51:4 end:51:14:
+          vpiLowConn RefObj name:test_inout start:60:16 end:60:26:
             vpiParent: Port name:test_inout
             vpiName: test_inout
             vpiFullName: sub_mod.test_inout.test_inout
@@ -1137,7 +1147,7 @@ Design name:unnamed:
           vpiParent: Module name:sub_mod
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj name:data start:53:4 end:53:8:
+          vpiLowConn RefObj name:data start:58:16 end:58:20:
             vpiParent: Port name:data
             vpiName: data
             vpiFullName: sub_mod.data.data
@@ -1150,7 +1160,7 @@ Design name:unnamed:
           vpiParent: Module name:sub_mod
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:53:10 end:53:13:
+          vpiLowConn RefObj name:clk start:59:16 end:59:19:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: sub_mod.clk.clk
@@ -1163,7 +1173,7 @@ Design name:unnamed:
           vpiParent: Module name:sub_mod
           vpiName: reset
           vpiDirection: input (1)
-          vpiLowConn RefObj name:reset start:53:15 end:53:20:
+          vpiLowConn RefObj name:reset start:59:21 end:59:26:
             vpiParent: Port name:reset
             vpiName: reset
             vpiFullName: sub_mod.reset.reset
@@ -1207,7 +1217,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: que
                       vpiFullName: sub_mod.que
-                      vpiActual: Net name:que
+                      vpiActual: Variable name:que
                     vpiRhs Constant start:74:16 end:74:20:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1228,7 +1238,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: que
                       vpiFullName: sub_mod.que
-                      vpiActual: Net name:que
+                      vpiActual: Variable name:que
                     vpiRhs RefObj name:data start:76:16 end:76:20:
                       vpiParent: Assignment
                       vpiName: data
@@ -1247,7 +1257,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: que
             vpiFullName: sub_mod.que
-            vpiActual: Net name:que
+            vpiActual: Variable name:que
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1269,7 +1279,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

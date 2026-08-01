@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +17,10 @@
 // Validates that the C-like flat struct-array initializer (ms_t ms[1:0] = '{0,0,1,1})
 // is accepted by the parser without errors but produces a flat assign-pattern with
 // 4 raw Constants rather than 2 nested patterns.
+// `ms_t ms[1:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it
+// is a variable_declaration, not a net_declaration.
 // :should_fail_because: C-like assignment is illegal (simulation-time failure only).
-// Grammar: assignment_pattern with expression_list (4 items) — no inner '{} per element.
+// Grammar: assignment_pattern with expression_list (4 items) -- no inner '{} per element.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -29,6 +31,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/struct_typespec.h>
@@ -48,9 +51,9 @@ TEST_F(StructuredArraysIllegal, ModuleExists) {
   ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
-// ---------------------------------------------------------------------------
-// Typedef and struct — same structure as the legal variant
-// ---------------------------------------------------------------------------
+// ----
+// Typedef and struct -- same structure as the legal variant
+// ----
 TEST_F(StructuredArraysIllegal, TypedefMsTExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -90,36 +93,36 @@ TEST_F(StructuredArraysIllegal, StructHasTwoMembers) {
   EXPECT_EQ(st->getMembers()->size(), 2u) << "expected 2 struct members (a, b)";
 }
 
-// ---------------------------------------------------------------------------
-// Variable ms — still present and array-typed despite the illegal initializer
-// ---------------------------------------------------------------------------
-TEST_F(StructuredArraysIllegal, ArrayVarExists) {
+// ----
+// Variable ms -- still present and array-typed despite the illegal initializer.
+// `ms_t ms[1:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it
+// is a variable_declaration, not a net_declaration.
+// ----
+TEST_F(StructuredArraysIllegal, VariableExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr) << "module has no variables";
 
-  const hldb::Variable *ms = nullptr;
-  for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") {
-      ms = v;
-      break;
-    }
-  }
+  const hldb::Variable *const ms = hldb::findByName<hldb::Variable>("ms", top->getVariables());
   ASSERT_NE(ms, nullptr) << "variable 'ms' not found in module";
 }
 
-TEST_F(StructuredArraysIllegal, ArrayVarTypespecIsArray) {
+TEST_F(StructuredArraysIllegal, VariableIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("ms", top->getNets()), nullptr)
+        << "'ms' has no net-type keyword and must not also appear as a Net";
+  }
+}
+
+TEST_F(StructuredArraysIllegal, ArrayVariableTypespecIsArray) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Variable *ms = nullptr;
-  for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") {
-      ms = v;
-      break;
-    }
-  }
+  const hldb::Variable *const ms = hldb::findByName<hldb::Variable>("ms", top->getVariables());
   ASSERT_NE(ms, nullptr);
   ASSERT_NE(ms->getTypespec(), nullptr) << "variable 'ms' has no typespec";
 
@@ -127,23 +130,17 @@ TEST_F(StructuredArraysIllegal, ArrayVarTypespecIsArray) {
   ASSERT_NE(at, nullptr) << "variable 'ms' typespec is not an ArrayTypespec";
 }
 
-// ---------------------------------------------------------------------------
-// Initializer shape — the key distinction from the legal variant:
+// ----
+// Initializer shape -- the key distinction from the legal variant:
 // '{0, 0, 1, 1} produces a flat assign-pattern with 4 raw Constants,
 // not 2 nested patterns. No inner '{} per struct element.
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(StructuredArraysIllegal, InitializerIsFlatAssignPattern) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Variable *ms = nullptr;
-  for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") {
-      ms = v;
-      break;
-    }
-  }
+  const hldb::Variable *const ms = hldb::findByName<hldb::Variable>("ms", top->getVariables());
   ASSERT_NE(ms, nullptr);
   ASSERT_NE(ms->getValue(), nullptr) << "variable 'ms' has no initializer";
 
@@ -157,19 +154,13 @@ TEST_F(StructuredArraysIllegal, InitializerHasFourOperands) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Variable *ms = nullptr;
-  for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") {
-      ms = v;
-      break;
-    }
-  }
+  const hldb::Variable *const ms = hldb::findByName<hldb::Variable>("ms", top->getVariables());
   ASSERT_NE(ms, nullptr);
 
   const hldb::Operation *const init = ms->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr);
   ASSERT_NE(init->getOperands(), nullptr) << "initializer has no operands";
-  // '{0, 0, 1, 1} — flat C-like list: 4 Constants, not 2 nested patterns
+  // '{0, 0, 1, 1} -- flat C-like list: 4 Constants, not 2 nested patterns
   EXPECT_EQ(init->getOperands()->size(), 4u) << "expected 4 flat operands for illegal C-like '{0, 0, 1, 1}";
 }
 
@@ -178,13 +169,7 @@ TEST_F(StructuredArraysIllegal, OperandsAreAllConstants) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Variable *ms = nullptr;
-  for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") {
-      ms = v;
-      break;
-    }
-  }
+  const hldb::Variable *const ms = hldb::findByName<hldb::Variable>("ms", top->getVariables());
   ASSERT_NE(ms, nullptr);
 
   const hldb::Operation *const init = ms->getValue<hldb::Operation>();
@@ -194,7 +179,7 @@ TEST_F(StructuredArraysIllegal, OperandsAreAllConstants) {
 
   for (size_t i = 0; i < 4u; ++i) {
     const hldb::Constant *const c = any_cast<hldb::Constant>((*init->getOperands())[i]);
-    EXPECT_NE(c, nullptr) << "operand [" << i << "] is not a Constant — illegal flat pattern was not preserved";
+    EXPECT_NE(c, nullptr) << "operand [" << i << "] is not a Constant -- illegal flat pattern was not preserved";
   }
 }
 
@@ -203,13 +188,7 @@ TEST_F(StructuredArraysIllegal, NoNestedAssignPatterns) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
-  const hldb::Variable *ms = nullptr;
-  for (const hldb::Variable *const v : *top->getVariables()) {
-    if (v->getName() == "ms") {
-      ms = v;
-      break;
-    }
-  }
+  const hldb::Variable *const ms = hldb::findByName<hldb::Variable>("ms", top->getVariables());
   ASSERT_NE(ms, nullptr);
 
   const hldb::Operation *const init = ms->getValue<hldb::Operation>();
@@ -218,7 +197,7 @@ TEST_F(StructuredArraysIllegal, NoNestedAssignPatterns) {
 
   for (size_t i = 0; i < init->getOperands()->size(); ++i) {
     const hldb::Operation *const nested = any_cast<hldb::Operation>((*init->getOperands())[i]);
-    EXPECT_EQ(nested, nullptr) << "operand [" << i << "] is a nested Operation — expected a flat list of Constants";
+    EXPECT_EQ(nested, nullptr) << "operand [" << i << "] is a nested Operation -- expected a flat list of Constants";
   }
 }
 

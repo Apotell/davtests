@@ -130,9 +130,7 @@ AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_modport_bad.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_modport_bad.v:11:1: Compile module "t".
 [INF:CP0303] $Source01/t_interface_modport_bad.v:20:1: Compile module "counter_ansi".
-[ERR:EL0535] $Source01/t_interface_modport_bad.v:15:22: Illegal implicit net "id:29, name:isub".
-[ERR:EL0535] $Source01/t_interface_modport_bad.v:16:22: Illegal implicit net "id:34, name:i_value".
-[ERR:EL0535] $Source01/t_interface_modport_bad.v:22:8: Illegal implicit net "id:43, name:oop_modport".
+[ERR:LN0813] $Source01/t_interface_modport_bad.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -142,7 +140,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_modport_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_modport_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_interface_modport_bad.v start:6:1 end:9:13:
       vpiParent: Design name:unnamed
@@ -163,7 +160,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -198,7 +195,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:counter_ansi
             vpiName: counter_ansi
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -255,22 +252,7 @@ Design name:unnamed:
         vpiParent: Module name:counter_ansi
         vpiName: counter_ansi
       vpiFullName: counter_ansi
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:ifc::oop_modport start:22:4 end:22:19:
-          vpiParent: Module name:counter_ansi
-          vpiPathElem (2 items):
-            RefObj name:ifc start:22:4 end:22:7:
-              vpiParent: UnsupportedTypespec name:ifc::oop_modport
-              vpiName: ifc
-              vpiFullName: counter_ansi.ifc::oop_modport.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:oop_modport start:22:8 end:22:19:
-              vpiParent: UnsupportedTypespec name:ifc::oop_modport
-              vpiName: oop_modport
-              vpiFullName: counter_ansi.ifc::oop_modport.oop_modport
-          vpiName Identifier name:ifc::oop_modport:
-            vpiParent: UnsupportedTypespec name:ifc::oop_modport
-            vpiName: ifc::oop_modport
+      vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:23:10 end:23:21:
           vpiParent: Module name:counter_ansi
           vpiName Identifier name:logic start:23:10 end:23:15:
@@ -308,22 +290,13 @@ Design name:unnamed:
             vpiFullName: counter_ansi.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: counter_ansi
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:counter_ansi
         vpiName: work
         vpiFullName: counter_ansi.work
       vpiCell: counter_ansi
-      vpiNet (2 items):
-        Net name:isub start:22:20 end:22:24:
-          vpiParent: Module name:counter_ansi
-          vpiTypespec RefTypespec start:22:4 end:22:19:
-            vpiParent: Net name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: UnsupportedTypespec name:ifc::oop_modport
-          vpiName: isub
-          vpiFullName: counter_ansi.isub
-          vpiNetType: wire (1)
+      vpiNet (1 items):
         Net name:i_value start:23:22 end:23:29:
           vpiParent: Module name:counter_ansi
           vpiTypespec RefTypespec name:logic start:23:10 end:23:15:
@@ -339,21 +312,14 @@ Design name:unnamed:
           vpiParent: Module name:counter_ansi
           vpiName: isub
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:22:20 end:22:24:
-            vpiParent: Port name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: Net name:isub
-          vpiTypespec RefTypespec start:22:4 end:22:19:
-            vpiParent: Port name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: UnsupportedTypespec name:ifc::oop_modport
         Port name:i_value start:23:22 end:23:29:
           vpiParent: Module name:counter_ansi
           vpiName: i_value
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:22 end:23:29:
+          vpiLowConn RefObj name:i_value start:23:22 end:23:29:
             vpiParent: Port name:i_value
-            vpiFullName: counter_ansi.i_value
+            vpiName: i_value
+            vpiFullName: counter_ansi.i_value.i_value
             vpiActual: Net name:i_value
           vpiTypespec RefTypespec name:logic start:23:10 end:23:15:
             vpiParent: Port name:i_value
@@ -387,7 +353,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -403,25 +369,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_modport_bad/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 93.59,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_modport_bad.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_modport_bad.v': {'post_len': 15,
                                                                      'pre_len': 234}},
-            'post_len': 0,
+            'post_len': 15,
             'pre_len': 234,
             'test_name': 'Verilator/t_interface_modport_bad'}}
 
 +--------------------------------------------+----------+-----------+
 | INPUT                                      |   PRELEN |   POSTLEN |
 +============================================+==========+===========+
-| $Output/lib/work/t_interface_modport_bad.v |      234 |         0 |
+| $Output/lib/work/t_interface_modport_bad.v |      234 |        15 |
 +============================================+==========+===========+
-|                                            |      234 |         0 |
+|                                            |      234 |        15 |
 +--------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 93.59
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -432,7 +398,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_bad/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

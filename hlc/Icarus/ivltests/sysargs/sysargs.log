@@ -152,7 +152,7 @@ n<$Source01/sysargs.v> u<137> t<Top_level_rule> c<1> l<2:1> el<23:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sysargs.v:2:1: Compile module "main".
 [INF:CP0303] $Source01/sysargs.v:19:1: Compile module "device".
-[ERR:EL0535] $Source01/sysargs.v:9:14: Illegal implicit net "id:25, name:r".
+[WRN:CP0350] $Source01/sysargs.v:9:14: Failed to bind "id:25, name:r".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -162,7 +162,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: sysargs.v
       vpiPreprocFile: "$Output/lib/work/sysargs.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:main file:$Source01/sysargs.v start:2:1 end:17:10:
       vpiParent: Design name:unnamed
@@ -179,7 +178,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:device
             vpiName: device
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
@@ -291,39 +290,39 @@ Design name:unnamed:
         vpiParent: Module name:device
         vpiName: device
       vpiFullName: device
+      vpiVariable (1 items):
+        Variable name:r start:20:11 end:20:12:
+          vpiParent: Module name:device
+          vpiTypespec RefTypespec start:21:4 end:21:7:
+            vpiParent: Variable name:r
+            vpiFullName: device.r
+            vpiActual: LogicTypespec
+          vpiName: r
+          vpiFullName: device.r
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:device
       vpiDefName: device
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:device
         vpiName: work
         vpiFullName: device.work
       vpiCell: device
-      vpiNet (1 items):
-        Net name:r start:20:11 end:20:12:
-          vpiParent: Module name:device
-          vpiTypespec RefTypespec start:20:11 end:20:11:
-            vpiParent: Net name:r
-            vpiFullName: device.r
-            vpiActual: LogicTypespec
-          vpiName: r
-          vpiFullName: device.r
       vpiPort (1 items):
         Port name:r start:19:15 end:19:16:
           vpiParent: Module name:device
           vpiName: r
           vpiDirection: output (2)
-          vpiLowConn RefObj name:r start:19:15 end:19:16:
+          vpiLowConn RefObj name:r start:20:11 end:20:12:
             vpiParent: Port name:r
             vpiName: r
             vpiFullName: device.r.r
-            vpiActual: Net name:r
+            vpiActual: Variable name:r
           vpiTypespec RefTypespec start:20:11 end:20:11:
             vpiParent: Port name:r
             vpiFullName: device.r
-            vpiActual: LogicTypespec
   vpiTypespec (4 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -345,8 +344,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

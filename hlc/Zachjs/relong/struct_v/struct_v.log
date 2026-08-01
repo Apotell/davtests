@@ -18,7 +18,7 @@ n<$Source01/relong/struct.v> u<984> t<Top_level_rule> c<1> l<1:1> el<117:10>
     n<> u<5> t<Description> p<983> c<4> s<6> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<// Technically the tool could do something much smarter than having a bunch of> u<6> t<LINE_COMMENT> p<983> s<7> l<3:1> el<3:79>
     n<// macros everywhere, but this is the easiest way I know to make it clear what> u<7> t<LINE_COMMENT> p<983> s<8> l<4:1> el<4:79>
     n<// is happening.> u<8> t<LINE_COMMENT> p<983> s<9> l<5:1> el<5:17>
@@ -1000,12 +1000,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/relong/struct.v:22:1: Compile module "Example".
 [INF:CP0303] $Source01/relong/struct.v:82:1: Compile module "StructCompose".
 [INF:CP0303] $Source01/relong/struct.v:101:1: Compile module "StructDecompose".
-[ERR:EL0535] $Source01/relong/struct.v:59:10: Illegal implicit net "id:237, name:data".
-[ERR:EL0535] $Source01/relong/struct.v:60:10: Illegal implicit net "id:240, name:valid".
-[ERR:EL0535] $Source01/relong/struct.v:61:10: Illegal implicit net "id:243, name:mode".
-[ERR:EL0535] $Source01/relong/struct.v:66:10: Illegal implicit net "id:253, name:data".
-[ERR:EL0535] $Source01/relong/struct.v:67:10: Illegal implicit net "id:256, name:valid".
-[ERR:EL0535] $Source01/relong/struct.v:68:10: Illegal implicit net "id:259, name:mode".
+[ERR:LN0813] $Source01/relong/struct.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1244,7 +1239,17 @@ Design name:unnamed:
           vpiPMIBody Identifier name:[31:0] start:20:28 end:20:34:
             vpiParent: PreprocMacroInstance name:OuterStruct_t_mode
             vpiName: "[31:0]"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:struct.v
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: struct.v
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (3 items):
     Module name:Example file:$Source01/relong/struct.v start:22:1 end:80:10:
       vpiParent: Design name:unnamed
@@ -1252,7 +1257,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (1 items):
+      vpiVariable (4 items):
         Variable name:success start:24:16 end:24:23:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:24:5 end:24:15:
@@ -1261,7 +1266,33 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: success
           vpiFullName: Example.success
-          vpiNetType: none (12)
+        Variable name:data_in start:30:16 end:30:23:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:30:5 end:30:15:
+            vpiParent: Variable name:data_in
+            vpiFullName: Example.data_in
+            vpiActual: LogicTypespec
+          vpiName: data_in
+          vpiFullName: Example.data_in
+          vpiVector: true
+        Variable name:valid_in start:32:9 end:32:17:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:32:5 end:32:8:
+            vpiParent: Variable name:valid_in
+            vpiFullName: Example.valid_in
+            vpiActual: LogicTypespec
+          vpiName: valid_in
+          vpiFullName: Example.valid_in
+          vpiScalar: true
+        Variable name:mode_in start:34:16 end:34:23:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:34:5 end:34:15:
+            vpiParent: Variable name:mode_in
+            vpiFullName: Example.mode_in
+            vpiActual: LogicTypespec
+          vpiName: mode_in
+          vpiFullName: Example.mode_in
+          vpiVector: true
       vpiParameter (2 items):
         Parameter name:MODE_A start:15:11 end:15:17:
           vpiParent: Module name:Example
@@ -1464,7 +1495,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (9 items):
+      vpiNet (5 items):
         Net name:clock start:23:16 end:23:21:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:23:5 end:23:15:
@@ -1474,23 +1505,6 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: Example.clock
           vpiNetType: wire (1)
-        Net name:clear start:23:23 end:23:28:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:23:23 end:23:23:
-            vpiParent: Net name:clear
-            vpiFullName: Example.clear
-            vpiActual: LogicTypespec
-          vpiName: clear
-          vpiFullName: Example.clear
-          vpiNetType: wire (1)
-        Net name:data_in start:30:16 end:30:23:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:30:5 end:30:15:
-            vpiParent: Net name:data_in
-            vpiFullName: Example.data_in
-            vpiActual: LogicTypespec
-          vpiName: data_in
-          vpiFullName: Example.data_in
         Net name:data_out start:31:17 end:31:25:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:31:10 end:31:16:
@@ -1500,14 +1514,6 @@ Design name:unnamed:
           vpiName: data_out
           vpiFullName: Example.data_out
           vpiNetType: wire (1)
-        Net name:valid_in start:32:9 end:32:17:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:32:5 end:32:8:
-            vpiParent: Net name:valid_in
-            vpiFullName: Example.valid_in
-            vpiActual: LogicTypespec
-          vpiName: valid_in
-          vpiFullName: Example.valid_in
         Net name:valid_out start:33:10 end:33:19:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:33:10 end:33:10:
@@ -1517,14 +1523,6 @@ Design name:unnamed:
           vpiName: valid_out
           vpiFullName: Example.valid_out
           vpiNetType: wire (1)
-        Net name:mode_in start:34:16 end:34:23:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:34:5 end:34:15:
-            vpiParent: Net name:mode_in
-            vpiFullName: Example.mode_in
-            vpiActual: LogicTypespec
-          vpiName: mode_in
-          vpiFullName: Example.mode_in
         Net name:mode_out start:35:17 end:35:25:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:35:10 end:35:16:
@@ -1548,9 +1546,10 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: clock
           vpiDirection: input (1)
-          vpiLowConn RefObj start:23:16 end:23:21:
+          vpiLowConn RefObj name:clock start:23:16 end:23:21:
             vpiParent: Port name:clock
-            vpiFullName: Example.clock
+            vpiName: clock
+            vpiFullName: Example.clock.clock
             vpiActual: Net name:clock
           vpiTypespec RefTypespec start:23:5 end:23:15:
             vpiParent: Port name:clock
@@ -1560,21 +1559,14 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: clear
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:23:23 end:23:28:
-            vpiParent: Port name:clear
-            vpiFullName: Example.clear
-            vpiActual: Net name:clear
-          vpiTypespec RefTypespec start:23:23 end:23:23:
-            vpiParent: Port name:clear
-            vpiFullName: Example.clear
-            vpiActual: LogicTypespec
         Port name:success start:24:16 end:24:23:
           vpiParent: Module name:Example
           vpiName: success
           vpiDirection: output (2)
-          vpiLowConn RefObj start:24:16 end:24:23:
+          vpiLowConn RefObj name:success start:24:16 end:24:23:
             vpiParent: Port name:success
-            vpiFullName: Example.success
+            vpiName: success
+            vpiFullName: Example.success.success
             vpiActual: Variable name:success
           vpiTypespec RefTypespec start:24:5 end:24:15:
             vpiParent: Port name:success
@@ -1604,7 +1596,7 @@ Design name:unnamed:
                     vpiParent: IfElse
                     vpiName: clear
                     vpiFullName: Example.clear
-                    vpiActual: Net name:clear
+                    vpiActual: Port name:clear
                   vpiStmt Begin start:43:19 end:47:12:
                     vpiParent: IfElse
                     vpiFullName: Example
@@ -1618,7 +1610,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: data_in
                           vpiFullName: Example.data_in
-                          vpiActual: Net name:data_in
+                          vpiActual: Variable name:data_in
                         vpiRhs Constant start:44:24 end:44:29:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1635,7 +1627,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: valid_in
                           vpiFullName: Example.valid_in
-                          vpiActual: Net name:valid_in
+                          vpiActual: Variable name:valid_in
                         vpiRhs Constant start:45:25 end:45:29:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -1652,7 +1644,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: mode_in
                           vpiFullName: Example.mode_in
-                          vpiActual: Net name:mode_in
+                          vpiActual: Variable name:mode_in
                         vpiRhs RefObj name:MODE_A start:46:24 end:46:30:
                           vpiParent: Assignment
                           vpiName: MODE_A
@@ -1668,7 +1660,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: mode_in
                           vpiFullName: Example.mode_in
-                          vpiActual: Net name:mode_in
+                          vpiActual: Variable name:mode_in
                         RefObj name:MODE_A start:47:32 end:47:38:
                           vpiParent: Operation
                           vpiName: MODE_A
@@ -1687,7 +1679,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: valid_in
                             vpiFullName: Example.valid_in
-                            vpiActual: Net name:valid_in
+                            vpiActual: Variable name:valid_in
                           vpiRhs Constant start:48:25 end:48:29:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -1704,7 +1696,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: mode_in
                             vpiFullName: Example.mode_in
-                            vpiActual: Net name:mode_in
+                            vpiActual: Variable name:mode_in
                           vpiRhs RefObj name:MODE_B start:49:24 end:49:30:
                             vpiParent: Assignment
                             vpiName: MODE_B
@@ -1716,7 +1708,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: data_in
                             vpiFullName: Example.data_in
-                            vpiActual: Net name:data_in
+                            vpiActual: Variable name:data_in
                           vpiRhs Operation start:50:24 end:50:40:
                             vpiParent: Assignment
                             vpiOpType: add (24)
@@ -1725,7 +1717,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: data_in
                                 vpiFullName: Example.data_in
-                                vpiActual: Net name:data_in
+                                vpiActual: Variable name:data_in
                               Constant start:50:34 end:50:40:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -1749,7 +1741,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: mode_in
                             vpiFullName: Example.mode_in
-                            vpiActual: Net name:mode_in
+                            vpiActual: Variable name:mode_in
                           vpiRhs RefObj name:MODE_A start:52:24 end:52:30:
                             vpiParent: Assignment
                             vpiName: MODE_A
@@ -1761,7 +1753,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: data_in
                             vpiFullName: Example.data_in
-                            vpiActual: Net name:data_in
+                            vpiActual: Variable name:data_in
                           vpiRhs Operation start:53:24 end:53:39:
                             vpiParent: Assignment
                             vpiOpType: add (24)
@@ -1770,7 +1762,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: data_in
                                 vpiFullName: Example.data_in
-                                vpiActual: Net name:data_in
+                                vpiActual: Variable name:data_in
                               Constant start:53:34 end:53:39:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -1787,7 +1779,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: valid_in
                             vpiFullName: Example.valid_in
-                            vpiActual: Net name:valid_in
+                            vpiActual: Variable name:valid_in
                           vpiRhs Constant start:54:25 end:54:29:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -1838,7 +1830,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: data_in
                         vpiFullName: Example.data_in
-                        vpiActual: Net name:data_in
+                        vpiActual: Variable name:data_in
                       RefObj name:data_out start:74:23 end:74:31:
                         vpiParent: Operation
                         vpiName: data_out
@@ -1854,7 +1846,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: valid_in
                           vpiFullName: Example.valid_in
-                          vpiActual: Net name:valid_in
+                          vpiActual: Variable name:valid_in
                         RefObj name:valid_out start:75:28 end:75:37:
                           vpiParent: Operation
                           vpiName: valid_out
@@ -1870,7 +1862,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: mode_in
                             vpiFullName: Example.mode_in
-                            vpiActual: Net name:mode_in
+                            vpiActual: Variable name:mode_in
                           RefObj name:mode_out start:76:31 end:76:39:
                             vpiParent: Operation
                             vpiName: mode_out
@@ -1915,7 +1907,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data_in
                 vpiFullName: Example.compose.data_in
-                vpiActual: Net name:data_in
+                vpiActual: Variable name:data_in
             Port start:60:9 end:60:25:
               vpiParent: RefInstance name:compose
               vpiLowConn RefObj name:valid start:60:10 end:60:15:
@@ -1926,7 +1918,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: valid_in
                 vpiFullName: Example.compose.valid_in
-                vpiActual: Net name:valid_in
+                vpiActual: Variable name:valid_in
             Port start:61:9 end:61:23:
               vpiParent: RefInstance name:compose
               vpiLowConn RefObj name:mode start:61:10 end:61:14:
@@ -1937,7 +1929,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: mode_in
                 vpiFullName: Example.compose.mode_in
-                vpiActual: Net name:mode_in
+                vpiActual: Variable name:mode_in
             Port start:62:9 end:62:24:
               vpiParent: RefInstance name:compose
               vpiLowConn RefObj name:object start:62:10 end:62:16:
@@ -2010,7 +2002,7 @@ Design name:unnamed:
         vpiParent: Module name:StructCompose
         vpiName: StructCompose
       vpiFullName: StructCompose
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:object start:86:23 end:86:29:
           vpiParent: Module name:StructCompose
           vpiTypespec RefTypespec start:86:5 end:86:22:
@@ -2019,7 +2011,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: object
           vpiFullName: StructCompose.object
-          vpiNetType: none (12)
+        Variable name:__inner start:91:16 end:91:23:
+          vpiParent: Module name:StructCompose
+          vpiTypespec RefTypespec start:91:5 end:91:15:
+            vpiParent: Variable name:__inner
+            vpiFullName: StructCompose.__inner
+            vpiActual: LogicTypespec
+          vpiName: "__inner"
+          vpiFullName: StructCompose.__inner
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:StructCompose
@@ -2134,7 +2134,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: StructCompose.work
       vpiCell: StructCompose
-      vpiNet (4 items):
+      vpiNet (3 items):
         Net name:data start:83:23 end:83:27:
           vpiParent: Module name:StructCompose
           vpiTypespec RefTypespec start:83:5 end:83:22:
@@ -2162,22 +2162,15 @@ Design name:unnamed:
           vpiName: mode
           vpiFullName: StructCompose.mode
           vpiNetType: wire (1)
-        Net name:__inner start:91:16 end:91:23:
-          vpiParent: Module name:StructCompose
-          vpiTypespec RefTypespec start:91:5 end:91:15:
-            vpiParent: Net name:__inner
-            vpiFullName: StructCompose.__inner
-            vpiActual: LogicTypespec
-          vpiName: "__inner"
-          vpiFullName: StructCompose.__inner
       vpiPort (4 items):
         Port name:data start:83:23 end:83:27:
           vpiParent: Module name:StructCompose
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:83:23 end:83:27:
+          vpiLowConn RefObj name:data start:83:23 end:83:27:
             vpiParent: Port name:data
-            vpiFullName: StructCompose.data
+            vpiName: data
+            vpiFullName: StructCompose.data.data
             vpiActual: Net name:data
           vpiTypespec RefTypespec start:83:5 end:83:22:
             vpiParent: Port name:data
@@ -2187,9 +2180,10 @@ Design name:unnamed:
           vpiParent: Module name:StructCompose
           vpiName: valid
           vpiDirection: input (1)
-          vpiLowConn RefObj start:84:16 end:84:21:
+          vpiLowConn RefObj name:valid start:84:16 end:84:21:
             vpiParent: Port name:valid
-            vpiFullName: StructCompose.valid
+            vpiName: valid
+            vpiFullName: StructCompose.valid.valid
             vpiActual: Net name:valid
           vpiTypespec RefTypespec start:84:5 end:84:15:
             vpiParent: Port name:valid
@@ -2199,9 +2193,10 @@ Design name:unnamed:
           vpiParent: Module name:StructCompose
           vpiName: mode
           vpiDirection: input (1)
-          vpiLowConn RefObj start:85:23 end:85:27:
+          vpiLowConn RefObj name:mode start:85:23 end:85:27:
             vpiParent: Port name:mode
-            vpiFullName: StructCompose.mode
+            vpiName: mode
+            vpiFullName: StructCompose.mode.mode
             vpiActual: Net name:mode
           vpiTypespec RefTypespec start:85:5 end:85:22:
             vpiParent: Port name:mode
@@ -2211,9 +2206,10 @@ Design name:unnamed:
           vpiParent: Module name:StructCompose
           vpiName: object
           vpiDirection: output (2)
-          vpiLowConn RefObj start:86:23 end:86:29:
+          vpiLowConn RefObj name:object start:86:23 end:86:29:
             vpiParent: Port name:object
-            vpiFullName: StructCompose.object
+            vpiName: object
+            vpiFullName: StructCompose.object.object
             vpiActual: Variable name:object
           vpiTypespec RefTypespec start:86:5 end:86:22:
             vpiParent: Port name:object
@@ -2239,7 +2235,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:__inner[32:1]
                       vpiName: "__inner"
                       vpiFullName: StructCompose.__inner[32:1].__inner
-                      vpiActual: Net name:__inner
+                      vpiActual: Variable name:__inner
                     vpiRange Range start:11:29 end:11:33:
                       vpiParent: PartSelect name:__inner[32:1]
                       vpiLeftRange Constant start:11:29 end:11:31:
@@ -2278,7 +2274,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:__inner[0:0]
                       vpiName: "__inner"
                       vpiFullName: StructCompose.__inner[0:0].__inner
-                      vpiActual: Net name:__inner
+                      vpiActual: Variable name:__inner
                     vpiRange Range start:12:30 end:12:33:
                       vpiParent: PartSelect name:__inner[0:0]
                       vpiLeftRange Constant start:12:30 end:12:31:
@@ -2383,7 +2379,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: "__inner"
                     vpiFullName: StructCompose.__inner
-                    vpiActual: Net name:__inner
+                    vpiActual: Variable name:__inner
           vpiAlwaysType: always (1)
     Module name:StructDecompose file:$Source01/relong/struct.v start:101:1 end:117:10:
       vpiParent: Design name:unnamed
@@ -2391,7 +2387,7 @@ Design name:unnamed:
         vpiParent: Module name:StructDecompose
         vpiName: StructDecompose
       vpiFullName: StructDecompose
-      vpiVariable (3 items):
+      vpiVariable (4 items):
         Variable name:data start:103:23 end:103:27:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:103:5 end:103:22:
@@ -2400,7 +2396,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: StructDecompose.data
-          vpiNetType: none (12)
         Variable name:valid start:104:16 end:104:21:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:104:5 end:104:15:
@@ -2409,7 +2404,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: valid
           vpiFullName: StructDecompose.valid
-          vpiNetType: none (12)
         Variable name:mode start:105:23 end:105:27:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:105:5 end:105:22:
@@ -2418,7 +2412,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: mode
           vpiFullName: StructDecompose.mode
-          vpiNetType: none (12)
+        Variable name:__inner start:109:16 end:109:23:
+          vpiParent: Module name:StructDecompose
+          vpiTypespec RefTypespec start:109:5 end:109:15:
+            vpiParent: Variable name:__inner
+            vpiFullName: StructDecompose.__inner
+            vpiActual: LogicTypespec
+          vpiName: "__inner"
+          vpiFullName: StructDecompose.__inner
+          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:StructDecompose
@@ -2533,7 +2535,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: StructDecompose.work
       vpiCell: StructDecompose
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:object start:102:23 end:102:29:
           vpiParent: Module name:StructDecompose
           vpiTypespec RefTypespec start:102:5 end:102:22:
@@ -2543,22 +2545,15 @@ Design name:unnamed:
           vpiName: object
           vpiFullName: StructDecompose.object
           vpiNetType: wire (1)
-        Net name:__inner start:109:16 end:109:23:
-          vpiParent: Module name:StructDecompose
-          vpiTypespec RefTypespec start:109:5 end:109:15:
-            vpiParent: Net name:__inner
-            vpiFullName: StructDecompose.__inner
-            vpiActual: LogicTypespec
-          vpiName: "__inner"
-          vpiFullName: StructDecompose.__inner
       vpiPort (4 items):
         Port name:object start:102:23 end:102:29:
           vpiParent: Module name:StructDecompose
           vpiName: object
           vpiDirection: input (1)
-          vpiLowConn RefObj start:102:23 end:102:29:
+          vpiLowConn RefObj name:object start:102:23 end:102:29:
             vpiParent: Port name:object
-            vpiFullName: StructDecompose.object
+            vpiName: object
+            vpiFullName: StructDecompose.object.object
             vpiActual: Net name:object
           vpiTypespec RefTypespec start:102:5 end:102:22:
             vpiParent: Port name:object
@@ -2568,9 +2563,10 @@ Design name:unnamed:
           vpiParent: Module name:StructDecompose
           vpiName: data
           vpiDirection: output (2)
-          vpiLowConn RefObj start:103:23 end:103:27:
+          vpiLowConn RefObj name:data start:103:23 end:103:27:
             vpiParent: Port name:data
-            vpiFullName: StructDecompose.data
+            vpiName: data
+            vpiFullName: StructDecompose.data.data
             vpiActual: Variable name:data
           vpiTypespec RefTypespec start:103:5 end:103:22:
             vpiParent: Port name:data
@@ -2580,9 +2576,10 @@ Design name:unnamed:
           vpiParent: Module name:StructDecompose
           vpiName: valid
           vpiDirection: output (2)
-          vpiLowConn RefObj start:104:16 end:104:21:
+          vpiLowConn RefObj name:valid start:104:16 end:104:21:
             vpiParent: Port name:valid
-            vpiFullName: StructDecompose.valid
+            vpiName: valid
+            vpiFullName: StructDecompose.valid.valid
             vpiActual: Variable name:valid
           vpiTypespec RefTypespec start:104:5 end:104:15:
             vpiParent: Port name:valid
@@ -2592,9 +2589,10 @@ Design name:unnamed:
           vpiParent: Module name:StructDecompose
           vpiName: mode
           vpiDirection: output (2)
-          vpiLowConn RefObj start:105:23 end:105:27:
+          vpiLowConn RefObj name:mode start:105:23 end:105:27:
             vpiParent: Port name:mode
-            vpiFullName: StructDecompose.mode
+            vpiName: mode
+            vpiFullName: StructDecompose.mode.mode
             vpiActual: Variable name:mode
           vpiTypespec RefTypespec start:105:5 end:105:22:
             vpiParent: Port name:mode
@@ -2616,7 +2614,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: "__inner"
                     vpiFullName: StructDecompose.__inner
-                    vpiActual: Net name:__inner
+                    vpiActual: Variable name:__inner
                   vpiRhs PartSelect name:object[64:32] start:111:19 end:19:36:
                     vpiParent: Assignment
                     vpiName: object[64:32]
@@ -2664,7 +2662,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:__inner[32:1]
                       vpiName: "__inner"
                       vpiFullName: StructDecompose.__inner[32:1].__inner
-                      vpiActual: Net name:__inner
+                      vpiActual: Variable name:__inner
                     vpiRange Range start:11:29 end:11:33:
                       vpiParent: PartSelect name:__inner[32:1]
                       vpiLeftRange Constant start:11:29 end:11:31:
@@ -2703,7 +2701,7 @@ Design name:unnamed:
                       vpiParent: PartSelect name:__inner[0:0]
                       vpiName: "__inner"
                       vpiFullName: StructDecompose.__inner[0:0].__inner
-                      vpiActual: Net name:__inner
+                      vpiActual: Variable name:__inner
                     vpiRange Range start:12:30 end:12:33:
                       vpiParent: PartSelect name:__inner[0:0]
                       vpiLeftRange Constant start:12:30 end:12:31:
@@ -2767,6 +2765,8 @@ Design name:unnamed:
                         vpiValue: 0
           vpiAlwaysType: always (1)
   vpiTypespec (6 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:Example:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Example start:22:8 end:22:15:
@@ -2778,8 +2778,6 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    IntTypespec:
-      vpiParent: Design name:unnamed
     ModuleTypespec name:StructCompose:
       vpiParent: Design name:unnamed
       vpiName Identifier name:StructCompose start:82:8 end:82:21:
@@ -2795,7 +2793,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -2811,25 +2809,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/struct_v/mounts.json
 
 
-{'result': {'coverage': 98.43,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/struct.v': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/struct.v': {'post_len': 0,
                                                            'pre_len': 1335}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 1335,
             'test_name': 'Zachjs/relong/struct_v'}}
 
 +----------------------------------+----------+-----------+
 | INPUT                            |   PRELEN |   POSTLEN |
 +==================================+==========+===========+
-| $Output/lib/work/relong/struct.v |     1335 |        21 |
+| $Output/lib/work/relong/struct.v |     1335 |         0 |
 +==================================+==========+===========+
-|                                  |     1335 |        21 |
+|                                  |     1335 |         0 |
 +----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.43
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2840,7 +2838,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/struct_v/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             448     448       0         0
+Others                             447     447       0         0
 ----------------------------------------------------------------
-                                   448     448       0         0
+                                   447     447       0         0
 ===================== END REDUCTION RESULT =====================

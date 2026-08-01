@@ -680,9 +680,7 @@ n<$Source01/t_inst_v2k.v> u<665> t<Top_level_rule> c<1> l<6:1> el<70:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_inst_v2k.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_inst_v2k.v:65:1: Compile module "hello".
-[ERR:EL0535] $Source01/t_inst_v2k.v:36:21: Illegal implicit net "id:106, name:oonewire".
-[ERR:EL0535] $Source01/t_inst_v2k.v:36:8: Illegal implicit net "id:108, name:oonewire".
-[ERR:EL0535] $Source01/t_inst_v2k.v:53:10: Illegal implicit net "id:194, name:oonewire".
+[ERR:LN0813] $Source01/t_inst_v2k.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -692,7 +690,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_inst_v2k.v
       vpiPreprocFile: "$Output/lib/work/t_inst_v2k.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_inst_v2k.v start:6:1 end:63:10:
       vpiParent: Design name:unnamed
@@ -700,6 +697,33 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:cyc start:12:12 end:12:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+        Variable name:isizedwire start:17:14 end:17:24:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:17:4 end:17:13:
+            vpiParent: Variable name:isizedwire
+            vpiFullName: t.isizedwire
+            vpiActual: LogicTypespec
+          vpiName: isizedwire
+          vpiFullName: t.isizedwire
+          vpiVector: true
+        Variable name:ionewire start:18:8 end:18:16:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:18:4 end:18:7:
+            vpiParent: Variable name:ionewire
+            vpiFullName: t.ionewire
+            vpiActual: LogicTypespec
+          vpiName: ionewire
+          vpiFullName: t.ionewire
+          vpiScalar: true
       vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -873,13 +897,13 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:t_inst_v2k__sub
             vpiName: t_inst_v2k__sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (9 items):
+      vpiNet (6 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:10 end:11:10:
@@ -888,14 +912,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:12:12 end:12:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:4 end:12:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
         Net name:low start:14:18 end:14:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:12 end:14:17:
@@ -914,22 +931,6 @@ Design name:unnamed:
           vpiName: high
           vpiFullName: t.high
           vpiNetType: supply1 (10)
-        Net name:isizedwire start:17:14 end:17:24:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:17:4 end:17:13:
-            vpiParent: Net name:isizedwire
-            vpiFullName: t.isizedwire
-            vpiActual: LogicTypespec
-          vpiName: isizedwire
-          vpiFullName: t.isizedwire
-        Net name:ionewire start:18:8 end:18:16:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:18:4 end:18:7:
-            vpiParent: Net name:ionewire
-            vpiFullName: t.ionewire
-            vpiActual: LogicTypespec
-          vpiName: ionewire
-          vpiFullName: t.ionewire
         Net name:osizedreg start:24:16 end:24:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:24:9 end:24:14:
@@ -962,7 +963,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:11:10 end:11:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -981,7 +982,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:12:29 end:12:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1019,7 +1020,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:44:16 end:44:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1040,7 +1041,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Operation start:45:10 end:45:17:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -1049,7 +1050,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:45:16 end:45:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1070,7 +1071,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:46:12 end:46:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1094,7 +1095,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: ionewire
                                 vpiFullName: t.ionewire
-                                vpiActual: Net name:ionewire
+                                vpiActual: Variable name:ionewire
                               vpiRhs Constant start:47:18 end:47:22:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1111,7 +1112,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: isizedwire
                                 vpiFullName: t.isizedwire
-                                vpiActual: Net name:isizedwire
+                                vpiActual: Variable name:isizedwire
                               vpiRhs Constant start:48:20 end:48:24:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -1132,7 +1133,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:50:12 end:50:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1237,7 +1238,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: isizedwire
                                     vpiFullName: t.isizedwire
-                                    vpiActual: Net name:isizedwire
+                                    vpiActual: Variable name:isizedwire
                                   Constant start:54:25 end:54:29:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
@@ -1445,7 +1446,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: isizedwire
                 vpiFullName: t.sub.isizedwire
-                vpiActual: Net name:isizedwire
+                vpiActual: Variable name:isizedwire
               vpiHighConn PartSelect name:isizedwire[7:0] start:40:22 end:40:37:
                 vpiParent: Port
                 vpiName: isizedwire[7:0]
@@ -1454,7 +1455,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:isizedwire[7:0]
                   vpiName: isizedwire
                   vpiFullName: t.sub.isizedwire[7:0].isizedwire
-                  vpiActual: Net name:isizedwire
+                  vpiActual: Variable name:isizedwire
                 vpiRange Range start:40:33 end:40:36:
                   vpiParent: PartSelect name:isizedwire[7:0]
                   vpiLeftRange Constant start:40:33 end:40:34:
@@ -1483,18 +1484,27 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: ionewire
                 vpiFullName: t.sub.ionewire
-                vpiActual: Net name:ionewire
+                vpiActual: Variable name:ionewire
               vpiHighConn RefObj name:ionewire start:41:21 end:41:29:
                 vpiParent: Port
                 vpiName: ionewire
                 vpiFullName: t.sub.ionewire
-                vpiActual: Net name:ionewire
+                vpiActual: Variable name:ionewire
     Module name:hello file:$Source01/t_inst_v2k.v start:65:1 end:69:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hello start:65:8 end:65:13:
         vpiParent: Module name:hello
         vpiName: hello
       vpiFullName: hello
+      vpiVariable (1 items):
+        Variable name:tied_also start:67:21 end:67:30:
+          vpiParent: Module name:hello
+          vpiTypespec RefTypespec start:67:11 end:67:20:
+            vpiParent: Variable name:tied_also
+            vpiFullName: hello.tied_also
+            vpiActual: LogicTypespec
+          vpiName: tied_also
+          vpiFullName: hello.tied_also
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:hello
@@ -1523,32 +1533,22 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: hello
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:hello
         vpiName: work
         vpiFullName: hello.work
       vpiCell: hello
-      vpiNet (1 items):
-        Net name:tied_also start:67:21 end:67:30:
-          vpiParent: Module name:hello
-          vpiTypespec RefTypespec start:67:11 end:67:20:
-            vpiParent: Net name:tied_also
-            vpiFullName: hello.tied_also
-            vpiActual: LogicTypespec
-          vpiName: tied_also
-          vpiFullName: hello.tied_also
-          vpiNetType: reg (48)
       vpiPort (1 items):
         Port name:tied_also start:65:14 end:65:23:
           vpiParent: Module name:hello
           vpiName: tied_also
           vpiDirection: output (2)
-          vpiLowConn RefObj name:tied_also start:65:14 end:65:23:
+          vpiLowConn RefObj name:tied_also start:67:21 end:67:30:
             vpiParent: Port name:tied_also
             vpiName: tied_also
             vpiFullName: hello.tied_also.tied_also
-            vpiActual: Net name:tied_also
+            vpiActual: Variable name:tied_also
           vpiTypespec RefTypespec start:67:11 end:67:20:
             vpiParent: Port name:tied_also
             vpiFullName: hello.tied_also
@@ -1572,20 +1572,6 @@ Design name:unnamed:
                 vpiSize: 48
                 vpiDecompile: "\"Hello\\n\""
                 vpiValue: Hello\n
-      vpiContAssign (1 items):
-        ContAssign start:67:21 end:67:40:
-          vpiParent: Module name:hello
-          vpiLhs: Net name:tied_also
-          vpiRhs Constant start:67:33 end:67:40:
-            vpiParent: ContAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: hello
-              vpiActual: LogicTypespec
-            vpiConstType: binary (3)
-            vpiSize: 4
-            vpiDecompile: "4'b1010"
-            vpiValue: "1010"
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1609,7 +1595,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1625,25 +1611,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_inst_v2k/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.14,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_inst_v2k.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_inst_v2k.v': {'post_len': 7,
                                                         'pre_len': 815}},
-            'post_len': 0,
+            'post_len': 7,
             'pre_len': 815,
             'test_name': 'Verilator/t_inst_v2k'}}
 
 +-------------------------------+----------+-----------+
 | INPUT                         |   PRELEN |   POSTLEN |
 +===============================+==========+===========+
-| $Output/lib/work/t_inst_v2k.v |      815 |         0 |
+| $Output/lib/work/t_inst_v2k.v |      815 |         7 |
 +===============================+==========+===========+
-|                               |      815 |         0 |
+|                               |      815 |         7 |
 +-------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.14
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1654,7 +1640,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_v2k/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             225     225       0         0
 ----------------------------------------------------------------
-                                   228     228       0         0
+                                   225     225       0         0
 ===================== END REDUCTION RESULT =====================

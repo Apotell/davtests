@@ -111,7 +111,7 @@ n<$Source01/basic/package_enum.sv> u<96> t<Top_level_rule> c<1> l<1:1> el<13:1>
 AST_DEBUG_END
 [INF:CP0301] $Source01/basic/package_enum.sv:1:1: Compile package "foo_pkg".
 [INF:CP0303] $Source01/basic/package_enum.sv:8:1: Compile module "top".
-[ERR:EL0535] $Source01/basic/package_enum.sv:10:28: Illegal implicit net "id:45, name:AccessAck".
+[WRN:CP0350] $Source01/basic/package_enum.sv:10:28: Failed to bind "id:45, name:AccessAck".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -121,7 +121,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: package_enum.sv
       vpiPreprocFile: "$Output/lib/work/basic/package_enum.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:foo_pkg file:$Source01/basic/package_enum.sv start:1:1 end:6:11:
       vpiParent: Design name:unnamed
@@ -203,7 +202,7 @@ Design name:unnamed:
             vpiFullName: foo_pkg::inp_t
             vpiActual: EnumTypespec
       vpiDefName: foo_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:foo_pkg
         vpiName: work
@@ -216,23 +215,23 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: top
       vpiFullName: top
-      vpiDefName: top
-      vpiDefNetType: none (12)
-      vpiLibrary RefObj name:work:
-        vpiParent: Module name:top
-        vpiName: work
-        vpiFullName: top.work
-      vpiCell: top
-      vpiNet (1 items):
-        Net name:test start:9:20 end:9:24:
+      vpiVariable (1 items):
+        Variable name:test start:9:20 end:9:24:
           vpiParent: Module name:top
           vpiTypespec RefTypespec name:foo_pkg::inp_t start:9:5 end:9:19:
-            vpiParent: Net name:test
+            vpiParent: Variable name:test
             vpiName: foo_pkg::inp_t
             vpiFullName: top.test.foo_pkg::inp_t
             vpiActual: TypedefTypespec name:inp_t
           vpiName: test
           vpiFullName: top.test
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+      vpiCell: top
       vpiProcess (1 items):
         Initial start:11:5 end:11:28:
           vpiParent: Module name:top
@@ -246,7 +245,7 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiName: test
                 vpiFullName: top.test
-                vpiActual: Net name:test
+                vpiActual: Variable name:test
       vpiContAssign (1 items):
         ContAssign start:10:12 end:10:37:
           vpiParent: Module name:top
@@ -254,7 +253,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: test
             vpiFullName: top.test
-            vpiActual: Net name:test
+            vpiActual: Variable name:test
           vpiRhs HierPath name:foo_pkg::AccessAck start:10:19 end:10:37:
             vpiParent: ContAssign
             vpiName: foo_pkg::AccessAck
@@ -283,8 +282,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

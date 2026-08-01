@@ -714,8 +714,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_package.v:27:1: Compile module "t".
 [INF:CP0303] $Source01/t_package.v:54:1: Compile module "t2".
 [WRN:CP0323] $Source01/t_package.v:54:1: Multiply defined typedef "p2".
-[ERR:EL0535] $Source01/t_package.v:43:14: Illegal implicit net "id:201, name:pi".
-[ERR:EL0535] $Source01/t_package.v:50:14: Illegal implicit net "id:234, name:pi".
+[WRN:CP0350] $Source01/t_package.v:43:14: Failed to bind "id:201, name:pi".
+[WRN:CP0350] $Source01/t_package.v:50:14: Failed to bind "id:234, name:pi".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -725,7 +725,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_package.v
       vpiPreprocFile: "$Output/lib/work/t_package.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:p file:$Source01/t_package.v start:12:1 end:18:11:
       vpiParent: Design name:unnamed
@@ -766,7 +765,7 @@ Design name:unnamed:
           vpiParent: Package name:p
           vpiSigned: true
       vpiDefName: p
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:p
         vpiName: work
@@ -890,7 +889,7 @@ Design name:unnamed:
             vpiFullName: p2::package2_type_t
             vpiActual: IntTypespec
       vpiDefName: p2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:p2
         vpiName: work
@@ -1004,6 +1003,34 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (3 items):
+        Variable name:vu start:32:16 end:32:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:unit_type_t start:32:4 end:32:15:
+            vpiParent: Variable name:vu
+            vpiName: unit_type_t
+            vpiFullName: t.vu.unit_type_t
+            vpiActual: TypedefTypespec name:unit_type_t
+          vpiName: vu
+          vpiFullName: t.vu
+        Variable name:vdu start:33:23 end:33:26:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:$unit::unit_type_t start:33:4 end:33:22:
+            vpiParent: Variable name:vdu
+            vpiName: "$unit::unit_type_t"
+            vpiFullName: t.vdu.$unit::unit_type_t
+            vpiActual: UnsupportedTypespec name:$unit::unit_type_t
+          vpiName: vdu
+          vpiFullName: t.vdu
+        Variable name:vp start:34:22 end:34:24:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:p::package_type_t start:34:4 end:34:21:
+            vpiParent: Variable name:vp
+            vpiName: p::package_type_t
+            vpiFullName: t.vp.p::package_type_t
+            vpiActual: TypedefTypespec name:package_type_t
+          vpiName: vp
+          vpiFullName: t.vp
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1030,13 +1057,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:t2
             vpiName: t2
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (4 items):
+      vpiNet (1 items):
         Net name:clk start:31:10 end:31:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:10 end:31:10:
@@ -1045,39 +1072,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:vu start:32:16 end:32:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:unit_type_t start:32:4 end:32:15:
-            vpiParent: Net name:vu
-            vpiName: unit_type_t
-            vpiFullName: t.vu.unit_type_t
-            vpiActual: TypedefTypespec name:unit_type_t
-          vpiName: vu
-          vpiFullName: t.vu
-        Net name:vdu start:33:23 end:33:26:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:$unit::unit_type_t start:33:4 end:33:22:
-            vpiParent: Net name:vdu
-            vpiName: "$unit::unit_type_t"
-            vpiFullName: t.vdu.$unit::unit_type_t
-            vpiActual: UnsupportedTypespec name:$unit::unit_type_t
-          vpiName: vdu
-          vpiFullName: t.vdu
-        Net name:vp start:34:22 end:34:24:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:p::package_type_t start:34:4 end:34:21:
-            vpiParent: Net name:vp
-            vpiName: p::package_type_t
-            vpiFullName: t.vp.p::package_type_t
-            vpiActual: TypedefTypespec name:package_type_t
-          vpiName: vp
-          vpiFullName: t.vp
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:29:4 end:29:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:29:4 end:29:7:
+          vpiLowConn RefObj name:clk start:31:10 end:31:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1439,7 +1440,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:package_type_t
           vpiName: vp
           vpiFullName: t2.vp
-          vpiNetType: none (12)
         Variable name:vp2 start:59:20 end:59:23:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec name:package2_type_t start:59:4 end:59:19:
@@ -1449,7 +1449,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:package2_type_t
           vpiName: vp2
           vpiFullName: t2.vp2
-          vpiNetType: none (12)
       vpiTypespec (3 items):
         ImportTypespec name:p start:55:11 end:55:15:
           vpiParent: Module name:t2
@@ -1487,7 +1486,7 @@ Design name:unnamed:
             vpiDecompile: package2_type_t
             vpiValue: package2_type_t
       vpiDefName: t2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t2
         vpiName: work
@@ -1778,8 +1777,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

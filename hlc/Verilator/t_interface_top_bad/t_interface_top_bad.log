@@ -127,7 +127,7 @@ n<$Source01/t_interface_top_bad.v> u<112> t<Top_level_rule> c<1> l<6:1> el<22:1>
 AST_DEBUG_END
 [INF:CP0304] $Source01/t_interface_top_bad.v:6:1: Compile interface "ifc".
 [INF:CP0303] $Source01/t_interface_top_bad.v:13:1: Compile module "t".
-[ERR:EL0535] $Source01/t_interface_top_bad.v:16:8: Illegal implicit net "id:48, name:counter_mp".
+[ERR:LN0813] $Source01/t_interface_top_bad.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -137,7 +137,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_top_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_top_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:ifc file:$Source01/t_interface_top_bad.v start:6:1 end:11:13:
       vpiParent: Design name:unnamed
@@ -163,7 +162,6 @@ Design name:unnamed:
             vpiFullName: ifc.reset.logic
           vpiName: reset
           vpiFullName: ifc.reset
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         UnsupportedTypespec name:logic start:7:4 end:7:15:
           vpiParent: Interface name:ifc
@@ -201,7 +199,7 @@ Design name:unnamed:
             vpiName: logic
             vpiFullName: ifc.logic
             vpiActual: UnsupportedTypespec name:logic
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -257,35 +255,39 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
-      vpiTypespec (3 items):
+      vpiVariable (1 items):
+        Variable name:cyc start:19:12 end:19:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:19:4 end:19:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiValue Constant start:19:16 end:19:17:
+            vpiParent: Variable name:cyc
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "1"
+            vpiValue: 1
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:ifc::counter_mp start:16:4 end:16:18:
-          vpiParent: Module name:t
-          vpiPathElem (2 items):
-            RefObj name:ifc start:16:4 end:16:7:
-              vpiParent: UnsupportedTypespec name:ifc::counter_mp
-              vpiName: ifc
-              vpiFullName: t.ifc::counter_mp.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:counter_mp start:16:8 end:16:18:
-              vpiParent: UnsupportedTypespec name:ifc::counter_mp
-              vpiName: counter_mp
-              vpiFullName: t.ifc::counter_mp.counter_mp
-          vpiName Identifier name:ifc::counter_mp:
-            vpiParent: UnsupportedTypespec name:ifc::counter_mp
-            vpiName: ifc::counter_mp
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:15:10 end:15:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:4 end:15:9:
@@ -295,41 +297,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-        Net name:c_data start:16:19 end:16:25:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:4 end:16:18:
-            vpiParent: Net name:c_data
-            vpiFullName: t.c_data
-            vpiActual: UnsupportedTypespec name:ifc::counter_mp
-          vpiName: c_data
-          vpiFullName: t.c_data
-          vpiNetType: wire (1)
-        Net name:cyc start:19:12 end:19:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:19:4 end:19:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
-          vpiValue Constant start:19:16 end:19:17:
-            vpiParent: Net name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
-            vpiConstType: unsigned int (9)
-            vpiSize: 64
-            vpiDecompile: "1"
-            vpiValue: 1
       vpiPort (2 items):
         Port name:clk start:15:10 end:15:13:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:15:10 end:15:13:
+          vpiLowConn RefObj name:clk start:15:10 end:15:13:
             vpiParent: Port name:clk
-            vpiFullName: t.clk
+            vpiName: clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:15:4 end:15:9:
             vpiParent: Port name:clk
@@ -339,14 +315,6 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: c_data
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:16:19 end:16:25:
-            vpiParent: Port name:c_data
-            vpiFullName: t.c_data
-            vpiActual: Net name:c_data
-          vpiTypespec RefTypespec start:16:4 end:16:18:
-            vpiParent: Port name:c_data
-            vpiFullName: t.c_data
-            vpiActual: UnsupportedTypespec name:ifc::counter_mp
   vpiTypespec (3 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -382,25 +350,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 93.58,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_top_bad.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_top_bad.v': {'post_len': 14,
                                                                  'pre_len': 218}},
-            'post_len': 0,
+            'post_len': 14,
             'pre_len': 218,
             'test_name': 'Verilator/t_interface_top_bad'}}
 
 +----------------------------------------+----------+-----------+
 | INPUT                                  |   PRELEN |   POSTLEN |
 +========================================+==========+===========+
-| $Output/lib/work/t_interface_top_bad.v |      218 |         0 |
+| $Output/lib/work/t_interface_top_bad.v |      218 |        14 |
 +========================================+==========+===========+
-|                                        |      218 |         0 |
+|                                        |      218 |        14 |
 +----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 93.58
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -411,7 +379,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    50      50       0         0
 ===================== END REDUCTION RESULT =====================

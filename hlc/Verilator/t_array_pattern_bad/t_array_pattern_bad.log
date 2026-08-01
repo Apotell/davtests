@@ -127,7 +127,6 @@ n<$Source01/t_array_pattern_bad.v> u<113> t<Top_level_rule> c<1> l<8:1> el<26:1>
         n<> u<109> t<ENDMODULE> p<110> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_array_pattern_bad.v:8:1: Compile module "t".
-[ERR:EL0535] $Source01/t_array_pattern_bad.v:23:18: Illegal implicit net "id:46, name:valids".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -137,7 +136,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_array_pattern_bad.v
       vpiPreprocFile: "$Output/lib/work/t_array_pattern_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_array_pattern_bad.v start:8:1 end:25:10:
       vpiParent: Design name:unnamed
@@ -145,6 +143,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:myinfo start:19:12 end:19:18:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:info_t start:19:5 end:19:11:
+            vpiParent: Variable name:myinfo
+            vpiName: info_t
+            vpiFullName: t.myinfo.info_t
+            vpiActual: TypedefTypespec name:info_t
+          vpiName: myinfo
+          vpiFullName: t.myinfo
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -208,13 +216,13 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:12:10 end:12:10:
@@ -223,6 +231,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
+          vpiNetType: wire (1)
         Net name:res start:13:10 end:13:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:10 end:13:10:
@@ -231,21 +240,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: res
           vpiFullName: t.res
-        Net name:myinfo start:19:12 end:19:18:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:info_t start:19:5 end:19:11:
-            vpiParent: Net name:myinfo
-            vpiName: info_t
-            vpiFullName: t.myinfo.info_t
-            vpiActual: TypedefTypespec name:info_t
-          vpiName: myinfo
-          vpiFullName: t.myinfo
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:10:4 end:10:7:
+          vpiLowConn RefObj name:clk start:12:10 end:12:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -258,7 +259,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: res
           vpiDirection: input (1)
-          vpiLowConn RefObj name:res start:10:9 end:10:12:
+          vpiLowConn RefObj name:res start:13:10 end:13:13:
             vpiParent: Port name:res
             vpiName: res
             vpiFullName: t.res.res
@@ -277,7 +278,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: myinfo
               vpiFullName: t.myinfo
-              vpiActual: Net name:myinfo
+              vpiActual: Variable name:myinfo
             vpiRhs Operation start:22:16 end:23:29:
               vpiParent: Assignment
               vpiOpType: assign pattern (87)
@@ -328,7 +329,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

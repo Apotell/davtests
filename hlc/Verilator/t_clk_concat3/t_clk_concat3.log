@@ -637,12 +637,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_clk_concat3.v:32:1: Compile module "t1".
 [INF:CP0303] $Source01/t_clk_concat3.v:49:1: Compile module "t2".
 [INF:CP0303] $Source01/t_clk_concat3.v:76:1: Compile module "t".
-[ERR:EL0535] $Source01/t_clk_concat3.v:42:3: Illegal implicit net "id:122, name:wrclk".
-[ERR:EL0535] $Source01/t_clk_concat3.v:90:3: Illegal implicit net "id:285, name:i_clks".
-[ERR:EL0535] $Source01/t_clk_concat3.v:91:3: Illegal implicit net "id:288, name:i_clk0".
-[ERR:EL0535] $Source01/t_clk_concat3.v:92:3: Illegal implicit net "id:291, name:i_clk1".
-[ERR:EL0535] $Source01/t_clk_concat3.v:93:3: Illegal implicit net "id:294, name:i_clk2".
-[ERR:EL0535] $Source01/t_clk_concat3.v:94:3: Illegal implicit net "id:297, name:i_data".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -659,7 +653,6 @@ Design name:unnamed:
             vpiParent: PreprocMacroDefinition name:BROKEN
             vpiName: BROKEN
           vpiPMDType: define (1)
-      vpiDefNetType: none (12)
   vpiAllModules (4 items):
     Module name:some_module file:$Source01/t_clk_concat3.v start:8:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -667,6 +660,25 @@ Design name:unnamed:
         vpiParent: Module name:some_module
         vpiName: some_module
       vpiFullName: some_module
+      vpiVariable (2 items):
+        Variable name:some_state start:12:23 end:12:33:
+          vpiParent: Module name:some_module
+          vpiTypespec RefTypespec name:logic start:12:4 end:12:19:
+            vpiParent: Variable name:some_state
+            vpiName: logic
+            vpiFullName: some_module.some_state.logic
+            vpiActual: ArrayTypespec
+          vpiName: some_state
+          vpiFullName: some_module.some_state
+        Variable name:some_other_state start:13:20 end:13:36:
+          vpiParent: Module name:some_module
+          vpiTypespec RefTypespec name:logic start:13:4 end:13:15:
+            vpiParent: Variable name:some_other_state
+            vpiName: logic
+            vpiFullName: some_module.some_other_state.logic
+            vpiActual: ArrayTypespec
+          vpiName: some_other_state
+          vpiFullName: some_module.some_other_state
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:some_module
@@ -743,13 +755,13 @@ Design name:unnamed:
             vpiFullName: some_module.logic
             vpiActual: UnsupportedTypespec name:logic
       vpiDefName: some_module
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:some_module
         vpiName: work
         vpiFullName: some_module.work
       vpiCell: some_module
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:wrclk start:9:13 end:9:18:
           vpiParent: Module name:some_module
           vpiTypespec RefTypespec start:9:7 end:9:12:
@@ -759,32 +771,15 @@ Design name:unnamed:
           vpiName: wrclk
           vpiFullName: some_module.wrclk
           vpiNetType: wire (1)
-        Net name:some_state start:12:23 end:12:33:
-          vpiParent: Module name:some_module
-          vpiTypespec RefTypespec name:logic start:12:4 end:12:19:
-            vpiParent: Net name:some_state
-            vpiName: logic
-            vpiFullName: some_module.some_state.logic
-            vpiActual: ArrayTypespec
-          vpiName: some_state
-          vpiFullName: some_module.some_state
-        Net name:some_other_state start:13:20 end:13:36:
-          vpiParent: Module name:some_module
-          vpiTypespec RefTypespec name:logic start:13:4 end:13:15:
-            vpiParent: Net name:some_other_state
-            vpiName: logic
-            vpiFullName: some_module.some_other_state.logic
-            vpiActual: ArrayTypespec
-          vpiName: some_other_state
-          vpiFullName: some_module.some_other_state
       vpiPort (1 items):
         Port name:wrclk start:9:13 end:9:18:
           vpiParent: Module name:some_module
           vpiName: wrclk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:13 end:9:18:
+          vpiLowConn RefObj name:wrclk start:9:13 end:9:18:
             vpiParent: Port name:wrclk
-            vpiFullName: some_module.wrclk
+            vpiName: wrclk
+            vpiFullName: some_module.wrclk.wrclk
             vpiActual: Net name:wrclk
           vpiTypespec RefTypespec start:9:7 end:9:12:
             vpiParent: Port name:wrclk
@@ -815,7 +810,7 @@ Design name:unnamed:
                     vpiParent: CaseStmt
                     vpiName: some_state
                     vpiFullName: some_module.some_state
-                    vpiActual: Net name:some_state
+                    vpiActual: Variable name:some_state
                   vpiCaseItem (2 items):
                     CaseItem start:17:9 end:19:33:
                       vpiParent: CaseStmt
@@ -840,7 +835,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: some_other_state
                               vpiFullName: some_module.some_other_state
-                              vpiActual: Net name:some_other_state
+                              vpiActual: Variable name:some_other_state
                             Constant start:18:35 end:18:36:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -857,7 +852,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: some_state
                             vpiFullName: some_module.some_state
-                            vpiActual: Net name:some_state
+                            vpiActual: Variable name:some_state
                           vpiRhs Constant start:19:27 end:19:32:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -899,7 +894,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: some_other_state
                       vpiFullName: some_module.some_other_state
-                      vpiActual: Net name:some_other_state
+                      vpiActual: Variable name:some_other_state
                     vpiRhs Constant start:25:29 end:25:30:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -960,7 +955,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:some_module
             vpiName: some_module
       vpiDefName: t1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t1
         vpiName: work
@@ -999,9 +994,10 @@ Design name:unnamed:
           vpiParent: Module name:t1
           vpiName: i_clks
           vpiDirection: input (1)
-          vpiLowConn RefObj start:33:19 end:33:25:
+          vpiLowConn RefObj name:i_clks start:33:19 end:33:25:
             vpiParent: Port name:i_clks
-            vpiFullName: t1.i_clks
+            vpiName: i_clks
+            vpiFullName: t1.i_clks.i_clks
             vpiActual: Net name:i_clks
           vpiTypespec RefTypespec start:33:4 end:33:18:
             vpiParent: Port name:i_clks
@@ -1011,9 +1007,10 @@ Design name:unnamed:
           vpiParent: Module name:t1
           vpiName: i_clk0
           vpiDirection: input (1)
-          vpiLowConn RefObj start:34:12 end:34:18:
+          vpiLowConn RefObj name:i_clk0 start:34:12 end:34:18:
             vpiParent: Port name:i_clk0
-            vpiFullName: t1.i_clk0
+            vpiName: i_clk0
+            vpiFullName: t1.i_clk0.i_clk0
             vpiActual: Net name:i_clk0
           vpiTypespec RefTypespec start:34:4 end:34:9:
             vpiParent: Port name:i_clk0
@@ -1023,9 +1020,10 @@ Design name:unnamed:
           vpiParent: Module name:t1
           vpiName: i_clk1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:35:12 end:35:18:
+          vpiLowConn RefObj name:i_clk1 start:35:12 end:35:18:
             vpiParent: Port name:i_clk1
-            vpiFullName: t1.i_clk1
+            vpiName: i_clk1
+            vpiFullName: t1.i_clk1.i_clk1
             vpiActual: Net name:i_clk1
           vpiTypespec RefTypespec start:35:4 end:35:9:
             vpiParent: Port name:i_clk1
@@ -1076,7 +1074,16 @@ Design name:unnamed:
         vpiParent: Module name:t2
         vpiName: t2
       vpiFullName: t2
-      vpiVariable (1 items):
+      vpiVariable (2 items):
+        Variable name:the_clks start:56:23 end:56:31:
+          vpiParent: Module name:t2
+          vpiTypespec RefTypespec name:logic start:56:4 end:56:18:
+            vpiParent: Variable name:the_clks
+            vpiName: logic
+            vpiFullName: t2.the_clks.logic
+            vpiActual: ArrayTypespec
+          vpiName: the_clks
+          vpiFullName: t2.the_clks
         Variable name:data_q start:57:17 end:57:23:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec name:logic start:57:4 end:57:9:
@@ -1085,7 +1092,6 @@ Design name:unnamed:
             vpiFullName: t2.data_q.logic
           vpiName: data_q
           vpiFullName: t2.data_q
-          vpiNetType: none (12)
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t2
@@ -1165,13 +1171,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:t1
             vpiName: t1
       vpiDefName: t2
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t2
         vpiName: work
         vpiFullName: t2.work
       vpiCell: t2
-      vpiNet (6 items):
+      vpiNet (5 items):
         Net name:i_clks start:50:16 end:50:22:
           vpiParent: Module name:t2
           vpiTypespec RefTypespec start:50:4 end:50:15:
@@ -1217,23 +1223,15 @@ Design name:unnamed:
           vpiName: i_data
           vpiFullName: t2.i_data
           vpiNetType: wire (1)
-        Net name:the_clks start:56:23 end:56:31:
-          vpiParent: Module name:t2
-          vpiTypespec RefTypespec name:logic start:56:4 end:56:18:
-            vpiParent: Net name:the_clks
-            vpiName: logic
-            vpiFullName: t2.the_clks.logic
-            vpiActual: ArrayTypespec
-          vpiName: the_clks
-          vpiFullName: t2.the_clks
       vpiPort (5 items):
         Port name:i_clks start:50:16 end:50:22:
           vpiParent: Module name:t2
           vpiName: i_clks
           vpiDirection: input (1)
-          vpiLowConn RefObj start:50:16 end:50:22:
+          vpiLowConn RefObj name:i_clks start:50:16 end:50:22:
             vpiParent: Port name:i_clks
-            vpiFullName: t2.i_clks
+            vpiName: i_clks
+            vpiFullName: t2.i_clks.i_clks
             vpiActual: Net name:i_clks
           vpiTypespec RefTypespec start:50:4 end:50:15:
             vpiParent: Port name:i_clks
@@ -1243,9 +1241,10 @@ Design name:unnamed:
           vpiParent: Module name:t2
           vpiName: i_clk0
           vpiDirection: input (1)
-          vpiLowConn RefObj start:51:16 end:51:22:
+          vpiLowConn RefObj name:i_clk0 start:51:16 end:51:22:
             vpiParent: Port name:i_clk0
-            vpiFullName: t2.i_clk0
+            vpiName: i_clk0
+            vpiFullName: t2.i_clk0.i_clk0
             vpiActual: Net name:i_clk0
           vpiTypespec RefTypespec start:51:4 end:51:9:
             vpiParent: Port name:i_clk0
@@ -1255,9 +1254,10 @@ Design name:unnamed:
           vpiParent: Module name:t2
           vpiName: i_clk1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:52:16 end:52:22:
+          vpiLowConn RefObj name:i_clk1 start:52:16 end:52:22:
             vpiParent: Port name:i_clk1
-            vpiFullName: t2.i_clk1
+            vpiName: i_clk1
+            vpiFullName: t2.i_clk1.i_clk1
             vpiActual: Net name:i_clk1
           vpiTypespec RefTypespec start:52:4 end:52:9:
             vpiParent: Port name:i_clk1
@@ -1267,9 +1267,10 @@ Design name:unnamed:
           vpiParent: Module name:t2
           vpiName: i_clk2
           vpiDirection: input (1)
-          vpiLowConn RefObj start:53:16 end:53:22:
+          vpiLowConn RefObj name:i_clk2 start:53:16 end:53:22:
             vpiParent: Port name:i_clk2
-            vpiFullName: t2.i_clk2
+            vpiName: i_clk2
+            vpiFullName: t2.i_clk2.i_clk2
             vpiActual: Net name:i_clk2
           vpiTypespec RefTypespec start:53:4 end:53:9:
             vpiParent: Port name:i_clk2
@@ -1279,9 +1280,10 @@ Design name:unnamed:
           vpiParent: Module name:t2
           vpiName: i_data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:54:16 end:54:22:
+          vpiLowConn RefObj name:i_data start:54:16 end:54:22:
             vpiParent: Port name:i_data
-            vpiFullName: t2.i_data
+            vpiName: i_data
+            vpiFullName: t2.i_data.i_data
             vpiActual: Net name:i_data
           vpiTypespec RefTypespec start:54:4 end:54:9:
             vpiParent: Port name:i_data
@@ -1329,7 +1331,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:the_clks[-12]
               vpiName: the_clks
               vpiFullName: t2.the_clks
-              vpiActual: Net name:the_clks
+              vpiActual: Variable name:the_clks
             vpiIndex Operation start:59:20 end:59:23:
               vpiParent: BitSelect name:the_clks[-12]
               vpiOpType: minus (1)
@@ -1359,7 +1361,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:the_clks[-11]
               vpiName: the_clks
               vpiFullName: t2.the_clks
-              vpiActual: Net name:the_clks
+              vpiActual: Variable name:the_clks
             vpiIndex Operation start:60:20 end:60:23:
               vpiParent: BitSelect name:the_clks[-11]
               vpiOpType: minus (1)
@@ -1389,7 +1391,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:the_clks[-10]
               vpiName: the_clks
               vpiFullName: t2.the_clks
-              vpiActual: Net name:the_clks
+              vpiActual: Variable name:the_clks
             vpiIndex Operation start:61:20 end:61:23:
               vpiParent: BitSelect name:the_clks[-10]
               vpiOpType: minus (1)
@@ -1419,7 +1421,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:the_clks[-9]
               vpiName: the_clks
               vpiFullName: t2.the_clks
-              vpiActual: Net name:the_clks
+              vpiActual: Variable name:the_clks
             vpiIndex Operation start:62:20 end:62:22:
               vpiParent: BitSelect name:the_clks[-9]
               vpiOpType: minus (1)
@@ -1460,7 +1462,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: the_clks
                 vpiFullName: t2.t1.the_clks
-                vpiActual: Net name:the_clks
+                vpiActual: Variable name:the_clks
             Port start:71:7 end:71:23:
               vpiParent: RefInstance name:t1
               vpiLowConn RefObj name:i_clk0 start:71:8 end:71:14:
@@ -1491,6 +1493,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:clks start:83:16 end:83:20:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:logic start:83:4 end:83:15:
+            vpiParent: Variable name:clks
+            vpiName: logic
+            vpiFullName: t.clks.logic
+            vpiActual: ArrayTypespec
+          vpiName: clks
+          vpiFullName: t.clks
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1538,13 +1550,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:t2
             vpiName: t2
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:clk0 start:77:9 end:77:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:77:3 end:77:8:
@@ -1581,23 +1593,15 @@ Design name:unnamed:
           vpiName: data_in
           vpiFullName: t.data_in
           vpiNetType: wire (1)
-        Net name:clks start:83:16 end:83:20:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:83:4 end:83:15:
-            vpiParent: Net name:clks
-            vpiName: logic
-            vpiFullName: t.clks.logic
-            vpiActual: ArrayTypespec
-          vpiName: clks
-          vpiFullName: t.clks
       vpiPort (4 items):
         Port name:clk0 start:77:9 end:77:13:
           vpiParent: Module name:t
           vpiName: clk0
           vpiDirection: input (1)
-          vpiLowConn RefObj start:77:9 end:77:13:
+          vpiLowConn RefObj name:clk0 start:77:9 end:77:13:
             vpiParent: Port name:clk0
-            vpiFullName: t.clk0
+            vpiName: clk0
+            vpiFullName: t.clk0.clk0
             vpiActual: Net name:clk0
           vpiTypespec RefTypespec start:77:3 end:77:8:
             vpiParent: Port name:clk0
@@ -1607,9 +1611,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk1
           vpiDirection: input (1)
-          vpiLowConn RefObj start:78:9 end:78:13:
+          vpiLowConn RefObj name:clk1 start:78:9 end:78:13:
             vpiParent: Port name:clk1
-            vpiFullName: t.clk1
+            vpiName: clk1
+            vpiFullName: t.clk1.clk1
             vpiActual: Net name:clk1
           vpiTypespec RefTypespec start:78:3 end:78:8:
             vpiParent: Port name:clk1
@@ -1619,9 +1624,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk2
           vpiDirection: input (1)
-          vpiLowConn RefObj start:79:9 end:79:13:
+          vpiLowConn RefObj name:clk2 start:79:9 end:79:13:
             vpiParent: Port name:clk2
-            vpiFullName: t.clk2
+            vpiName: clk2
+            vpiFullName: t.clk2.clk2
             vpiActual: Net name:clk2
           vpiTypespec RefTypespec start:79:3 end:79:8:
             vpiParent: Port name:clk2
@@ -1631,9 +1637,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: data_in
           vpiDirection: input (1)
-          vpiLowConn RefObj start:80:9 end:80:16:
+          vpiLowConn RefObj name:data_in start:80:9 end:80:16:
             vpiParent: Port name:data_in
-            vpiFullName: t.data_in
+            vpiName: data_in
+            vpiFullName: t.data_in.data_in
             vpiActual: Net name:data_in
           vpiTypespec RefTypespec start:80:3 end:80:8:
             vpiParent: Port name:data_in
@@ -1674,7 +1681,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: clks
             vpiFullName: t.clks
-            vpiActual: Net name:clks
+            vpiActual: Variable name:clks
           vpiRhs Operation start:85:18 end:85:36:
             vpiParent: ContAssign
             vpiOpType: concatenation (33)
@@ -1719,7 +1726,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clks
                 vpiFullName: t.t2.clks
-                vpiActual: Net name:clks
+                vpiActual: Variable name:clks
             Port start:91:2 end:91:16:
               vpiParent: RefInstance name:t2
               vpiLowConn RefObj name:i_clk0 start:91:3 end:91:9:
@@ -1799,7 +1806,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

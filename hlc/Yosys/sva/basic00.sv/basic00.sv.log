@@ -149,6 +149,7 @@ n<$Source01/sva/basic00.sv> u<135> t<Top_level_rule> c<1> l<1:1> el<13:1>
         n<> u<131> t<ENDMODULE> p<132> l<12:1> el<12:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/basic00.sv:1:1: Compile module "top".
+[ERR:LN0813] $Source01/sva/basic00.sv:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -158,7 +159,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basic00.sv
       vpiPreprocFile: "$Output/lib/work/sva/basic00.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/sva/basic00.sv start:1:1 end:12:10:
       vpiParent: Design name:unnamed
@@ -182,7 +182,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: reset
                   vpiFullName: top.reset
-                  vpiActual: Net name:reset
+                  vpiActual: Port name:reset
             vpiClockingEvent Operation start:9:35 end:9:46:
               vpiParent: PropertySpec
               vpiOpType: posedge (39)
@@ -200,7 +200,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: antecedent
                   vpiFullName: top.antecedent
-                  vpiActual: Net name:antecedent
+                  vpiActual: Port name:antecedent
                 RefObj name:consequent start:9:83 end:9:93:
                   vpiParent: Operation
                   vpiName: consequent
@@ -242,18 +242,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: consequent
           vpiFullName: top.consequent
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:clk start:1:19 end:1:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:18:
@@ -263,32 +262,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: top.clk
           vpiNetType: wire (1)
-        Net name:reset start:1:24 end:1:29:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:24 end:1:24:
-            vpiParent: Net name:reset
-            vpiFullName: top.reset
-            vpiActual: LogicTypespec
-          vpiName: reset
-          vpiFullName: top.reset
-          vpiNetType: wire (1)
-        Net name:antecedent start:1:31 end:1:41:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:31 end:1:31:
-            vpiParent: Net name:antecedent
-            vpiFullName: top.antecedent
-            vpiActual: LogicTypespec
-          vpiName: antecedent
-          vpiFullName: top.antecedent
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clk start:1:19 end:1:22:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:19 end:1:22:
+          vpiLowConn RefObj name:clk start:1:19 end:1:22:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:13 end:1:18:
             vpiParent: Port name:clk
@@ -298,33 +280,18 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: reset
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:24 end:1:29:
-            vpiParent: Port name:reset
-            vpiFullName: top.reset
-            vpiActual: Net name:reset
-          vpiTypespec RefTypespec start:1:24 end:1:24:
-            vpiParent: Port name:reset
-            vpiFullName: top.reset
-            vpiActual: LogicTypespec
         Port name:antecedent start:1:31 end:1:41:
           vpiParent: Module name:top
           vpiName: antecedent
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:31 end:1:41:
-            vpiParent: Port name:antecedent
-            vpiFullName: top.antecedent
-            vpiActual: Net name:antecedent
-          vpiTypespec RefTypespec start:1:31 end:1:31:
-            vpiParent: Port name:antecedent
-            vpiFullName: top.antecedent
-            vpiActual: LogicTypespec
         Port name:consequent start:1:54 end:1:64:
           vpiParent: Module name:top
           vpiName: consequent
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:54 end:1:64:
+          vpiLowConn RefObj name:consequent start:1:54 end:1:64:
             vpiParent: Port name:consequent
-            vpiFullName: top.consequent
+            vpiName: consequent
+            vpiFullName: top.consequent.consequent
             vpiActual: Variable name:consequent
           vpiTypespec RefTypespec start:1:43 end:1:53:
             vpiParent: Port name:consequent
@@ -359,7 +326,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: reset
                     vpiFullName: top.reset
-                    vpiActual: Net name:reset
+                    vpiActual: Port name:reset
                   Constant start:3:25 end:3:26:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -374,7 +341,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: antecedent
                     vpiFullName: top.antecedent
-                    vpiActual: Net name:antecedent
+                    vpiActual: Port name:antecedent
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:top:
@@ -391,7 +358,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -436,7 +403,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sva/basic00.sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    50      50       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@
 //   // single line comment
 //
 // UHDM structure:
-//   Module name:empty — no nets, no processes, no attributes
+//   Module name:empty -- no nets, no processes, no attributes
 //
 // Comments leave no trace in the UHDM tree; this test verifies compilation
 // succeeds and the resulting module is empty.

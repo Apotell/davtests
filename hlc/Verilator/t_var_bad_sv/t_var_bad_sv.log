@@ -56,7 +56,6 @@ n<$Source01/t_var_bad_sv.v> u<42> t<Top_level_rule> c<1> l<6:1> el<10:1>
         n<> u<38> t<ENDMODULE> p<39> l<9:1> el<9:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_var_bad_sv.v:6:1: Compile module "t".
-[ERR:EL0535] $Source01/t_var_bad_sv.v:8:17: Illegal implicit net "id:11, name:bar".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -66,7 +65,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_bad_sv.v
       vpiPreprocFile: "$Output/lib/work/t_var_bad_sv.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_var_bad_sv.v start:6:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -74,6 +72,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:do start:7:8 end:7:10:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:7:4 end:7:7:
+            vpiParent: Variable name:do
+            vpiFullName: t.do
+            vpiActual: LogicTypespec
+          vpiName: do
+          vpiFullName: t.do
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -83,21 +91,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:mod
             vpiName: mod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (1 items):
-        Net name:do start:7:8 end:7:10:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:7:4 end:7:7:
-            vpiParent: Net name:do
-            vpiFullName: t.do
-            vpiActual: LogicTypespec
-          vpiName: do
-          vpiFullName: t.do
       vpiRefInstance (1 items):
         RefInstance name:mod start:8:8 end:8:11:
           vpiParent: Module name:t
@@ -114,7 +113,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: do
                 vpiFullName: t.mod.do
-                vpiActual: Net name:do
+                vpiActual: Variable name:do
               vpiHighConn RefObj name:bar start:8:17 end:8:20:
                 vpiParent: Port
                 vpiName: bar
@@ -129,7 +128,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

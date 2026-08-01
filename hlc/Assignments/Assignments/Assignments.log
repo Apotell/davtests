@@ -591,23 +591,7 @@ n<$Source01/dut.sv> u<314> t<Top_level_rule> c<1> l<1:1> el<24:1>
         n<> u<310> t<ENDMODULE> p<311> l<22:1> el<22:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:1:1: Compile module "dut".
-[ERR:EL0535] $Source01/dut.sv:6:22: Illegal implicit net "id:779, name:cover_info".
-[ERR:EL0535] $Source01/dut.sv:6:46: Illegal implicit net "id:786, name:cover_info".
-[ERR:EL0535] $Source01/dut.sv:7:25: Illegal implicit net "id:789, name:m_pack_iter".
-[ERR:EL0535] $Source01/dut.sv:8:5: Illegal implicit net "id:792, name:m_bits".
-[ERR:EL0535] $Source01/dut.sv:8:21: Illegal implicit net "id:801, name:m_pack_iter".
-[ERR:EL0535] $Source01/dut.sv:9:5: Illegal implicit net "id:803, name:m_bits".
-[ERR:EL0535] $Source01/dut.sv:9:21: Illegal implicit net "id:812, name:m_unpack_iter".
-[ERR:EL0535] $Source01/dut.sv:10:20: Illegal implicit net "id:823, name:m_pack_iter".
-[ERR:EL0535] $Source01/dut.sv:11:19: Illegal implicit net "id:832, name:m_bits".
-[ERR:EL0535] $Source01/dut.sv:15:5: Illegal implicit net "id:838, name:m_bits".
-[ERR:EL0535] $Source01/dut.sv:15:21: Illegal implicit net "id:847, name:m_pack_iter".
-[ERR:EL0535] $Source01/dut.sv:17:5: Illegal implicit net "id:856, name:a".
-[ERR:EL0535] $Source01/dut.sv:17:13: Illegal implicit net "id:861, name:idle".
-[ERR:EL0535] $Source01/dut.sv:18:5: Illegal implicit net "id:863, name:nba".
-[ERR:EL0535] $Source01/dut.sv:18:12: Illegal implicit net "id:864, name:next_nba".
-[ERR:EL0535] $Source01/dut.sv:19:5: Illegal implicit net "id:866, name:bb".
-[ERR:EL0535] $Source01/dut.sv:19:13: Illegal implicit net "id:871, name:toto".
+[WRN:CP0350] $Source01/dut.sv:6:22: Failed to bind "id:779, name:cover_info".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
@@ -618,7 +602,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2611,7 +2594,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:dut
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -2868,6 +2851,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: dut.clk
+          vpiNetType: wire (1)
         Net name:o start:3:10 end:3:11:
           vpiParent: Module name:dut
           vpiTypespec RefTypespec start:3:10 end:3:10:
@@ -2876,12 +2860,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:1:12 end:1:15:
           vpiParent: Module name:dut
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:1:12 end:1:15:
+          vpiLowConn RefObj name:clk start:2:9 end:2:12:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: dut.clk.clk
@@ -2894,7 +2879,7 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o start:1:17 end:1:18:
+          vpiLowConn RefObj name:o start:3:10 end:3:11:
             vpiParent: Port name:o
             vpiName: o
             vpiFullName: dut.o.o
@@ -3078,8 +3063,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 17
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

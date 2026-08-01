@@ -462,7 +462,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "keymgr_pkg".
 [INF:CP0303] $Source01/dut.sv:13:1: Compile module "OK".
 [INF:CP0303] $Source01/dut.sv:16:1: Compile module "kmac_keymgr".
-[ERR:EL0535] $Source01/dut.sv:18:53: Illegal implicit net "id:804, name:digest_share0".
+[WRN:CP0350] $Source01/dut.sv:18:53: Failed to bind "id:804, name:digest_share0".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "keymgr_pkg".
 [WRN:PA0205] $Source01/dut.sv:13:1: No timescale set for "OK".
@@ -475,7 +475,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (2 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2135,7 +2134,7 @@ Design name:unnamed:
             vpiFullName: keymgr_pkg::kmac_data_rsp_t
             vpiActual: StructTypespec
       vpiDefName: keymgr_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:keymgr_pkg
         vpiName: work
@@ -2577,7 +2576,7 @@ Design name:unnamed:
         vpiName: OK
       vpiFullName: OK
       vpiDefName: OK
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:OK
         vpiName: work
@@ -2589,7 +2588,7 @@ Design name:unnamed:
         vpiParent: Module name:kmac_keymgr
         vpiName: kmac_keymgr
       vpiFullName: kmac_keymgr
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:keymgr_data_o start:16:55 end:16:68:
           vpiParent: Module name:kmac_keymgr
           vpiTypespec RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
@@ -2599,7 +2598,15 @@ Design name:unnamed:
             vpiActual: UnsupportedTypespec name:keymgr_pkg::kmac_data_rsp_t
           vpiName: keymgr_data_o
           vpiFullName: kmac_keymgr.keymgr_data_o
-          vpiNetType: none (12)
+        Variable name:keymgr_digest start:22:28 end:22:41:
+          vpiParent: Module name:kmac_keymgr
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:keymgr_digest
+            vpiFullName: kmac_keymgr.keymgr_digest
+            vpiActual: ArrayTypespec
+          vpiName: keymgr_digest
+          vpiFullName: kmac_keymgr.keymgr_digest
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:KeyMgrDigestW start:18:17 end:18:30:
           vpiParent: Module name:kmac_keymgr
@@ -2714,29 +2721,21 @@ Design name:unnamed:
             vpiFullName: kmac_keymgr
             vpiActual: LogicTypespec
       vpiDefName: kmac_keymgr
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:kmac_keymgr
         vpiName: work
         vpiFullName: kmac_keymgr.work
       vpiCell: kmac_keymgr
-      vpiNet (1 items):
-        Net name:keymgr_digest start:22:28 end:22:41:
-          vpiParent: Module name:kmac_keymgr
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:keymgr_digest
-            vpiFullName: kmac_keymgr.keymgr_digest
-            vpiActual: ArrayTypespec
-          vpiName: keymgr_digest
-          vpiFullName: kmac_keymgr.keymgr_digest
       vpiPort (1 items):
         Port name:keymgr_data_o start:16:55 end:16:68:
           vpiParent: Module name:kmac_keymgr
           vpiName: keymgr_data_o
           vpiDirection: output (2)
-          vpiLowConn RefObj start:16:55 end:16:68:
+          vpiLowConn RefObj name:keymgr_data_o start:16:55 end:16:68:
             vpiParent: Port name:keymgr_data_o
-            vpiFullName: kmac_keymgr.keymgr_data_o
+            vpiName: keymgr_data_o
+            vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_data_o
             vpiActual: Variable name:keymgr_data_o
           vpiTypespec RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
             vpiParent: Port name:keymgr_data_o
@@ -2826,8 +2825,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 4
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

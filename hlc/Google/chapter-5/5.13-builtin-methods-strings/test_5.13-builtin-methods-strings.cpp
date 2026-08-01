@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,17 @@
 //   $display("length check: %d\n", a.len());
 //
 // UHDM structure:
-//   Net "a" → StringTypespec
+//   Variable "a" -> StringTypespec
 //     vpiValue: Constant (vpiStringConst=6), getValue()="test"
-//   Initial → Begin
+//   Initial -> Begin
 //     SysTaskCall "$display"
-//       Arguments[0]: Constant (vpiStringConst=6) — format string
+//       Arguments[0]: Constant (vpiStringConst=6) -- format string
 //       Arguments[1]: HierPath "a.len()"
 //         PathElems[0]: RefObj "a"
 //         PathElems[1]: FuncCall "len"
 //
 // Contrast with builtin-methods-arrays: same HierPath/FuncCall pattern
-// but the receiver is a StringTypespec net instead of an ArrayTypespec.
+// but the receiver is a StringTypespec variable instead of an ArrayTypespec.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -48,6 +48,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -61,12 +62,10 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Net *getNetA(const hldb::Design *d) {
+static const hldb::Variable *getVariableA(const hldb::Design *d) {
   const hldb::Module *const top = getTop(d);
-  if (!top || !top->getNets()) return nullptr;
-  for (const hldb::Net *const n : *top->getNets())
-    if (n->getName() == "a") return n;
-  return nullptr;
+  if (!top || !top->getVariables()) return nullptr;
+  return hldb::findByName<hldb::Variable>("a", top->getVariables());
 }
 
 static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
@@ -83,36 +82,49 @@ static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
   return nullptr;
 }
 
-// ---------------------------------------------------------------------------
-// Module and net
-// ---------------------------------------------------------------------------
+// ----
+// Module and variable
+// ----
 TEST_F(BuiltinMethodsStrings, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr); }
 
-TEST_F(BuiltinMethodsStrings, StringNetAExists) { ASSERT_NE(getNetA(m_design), nullptr) << "net 'a' not found"; }
+TEST_F(BuiltinMethodsStrings, StringVariableAExists) {
+  ASSERT_NE(getVariableA(m_design), nullptr) << "variable 'a' not found";
+}
 
-// ---------------------------------------------------------------------------
-// string a = "test" — StringTypespec with initial Constant value
-// ---------------------------------------------------------------------------
-TEST_F(BuiltinMethodsStrings, NetAHasStringTypespec) {
-  const hldb::Net *const n = getNetA(m_design);
+// `string` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 'a'
+// must not appear as a Net.
+TEST_F(BuiltinMethodsStrings, VariableAIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = getTop(m_design);
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr)
+        << "'a' is a string (variable) and must not also appear as a Net";
+  }
+}
+
+// ----
+// string a = "test" -- StringTypespec with initial Constant value
+// ----
+TEST_F(BuiltinMethodsStrings, VariableAHasStringTypespec) {
+  const hldb::Variable *const n = getVariableA(m_design);
   ASSERT_NE(n, nullptr);
   ASSERT_NE(n->getTypespec(), nullptr);
   EXPECT_NE(any_cast<hldb::StringTypespec>(n->getTypespec()->getActual()), nullptr)
-      << "net 'a' typespec should resolve to a StringTypespec";
+      << "variable 'a' typespec should resolve to a StringTypespec";
 }
 
-TEST_F(BuiltinMethodsStrings, NetAInitialValueIsStringConst) {
-  const hldb::Net *const n = getNetA(m_design);
+TEST_F(BuiltinMethodsStrings, VariableAInitialValueIsStringConst) {
+  const hldb::Variable *const n = getVariableA(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Constant *const val = n->getValue<hldb::Constant>();
-  ASSERT_NE(val, nullptr) << "net 'a' should have a Constant initial value";
+  ASSERT_NE(val, nullptr) << "variable 'a' should have a Constant initial value";
   // vpiStringConst = 6
   EXPECT_EQ(val->getConstType(), 6) << "initial value should have string const type";
 }
 
-TEST_F(BuiltinMethodsStrings, NetAInitialValueIsTest) {
-  const hldb::Net *const n = getNetA(m_design);
+TEST_F(BuiltinMethodsStrings, VariableAInitialValueIsTest) {
+  const hldb::Variable *const n = getVariableA(m_design);
   ASSERT_NE(n, nullptr);
 
   const hldb::Constant *const val = n->getValue<hldb::Constant>();
@@ -121,9 +133,9 @@ TEST_F(BuiltinMethodsStrings, NetAInitialValueIsTest) {
   EXPECT_EQ(val->getValue(), "test");
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // $display system call
-// ---------------------------------------------------------------------------
+// ----
 TEST_F(BuiltinMethodsStrings, DisplayCallExists) {
   ASSERT_NE(getDisplay(m_design), nullptr) << "$display call not found";
 }
@@ -152,9 +164,9 @@ TEST_F(BuiltinMethodsStrings, FirstArgumentIsStringConstant) {
   EXPECT_EQ(fmt->getConstType(), 6) << "format string should have string const type";
 }
 
-// ---------------------------------------------------------------------------
-// a.len() — HierPath with RefObj + FuncCall
-// ---------------------------------------------------------------------------
+// ----
+// a.len() -- HierPath with RefObj + FuncCall
+// ----
 TEST_F(BuiltinMethodsStrings, SecondArgumentIsHierPath) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);

@@ -170,9 +170,8 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_genfor_hier.v:7:1: Compile module "m1".
 [INF:CP0303] $Source01/t_genfor_hier.v:11:1: Compile module "t".
 [INF:CP0335] $Source01/t_genfor_hier.v:12:70: Compile generate block "m1_b".
-[ERR:EL0535] $Source01/t_genfor_hier.v:16:19: Illegal implicit net "id:53, name:m1_b".
-[ERR:EL0535] $Source01/t_genfor_hier.v:16:42: Illegal implicit net "id:54, name:m1_inst".
-[ERR:EL0535] $Source01/t_genfor_hier.v:16:50: Illegal implicit net "id:55, name:v1".
+[WRN:CP0350] $Source01/t_genfor_hier.v:16:42: Failed to bind "id:54, name:m1_inst".
+[WRN:CP0350] $Source01/t_genfor_hier.v:16:50: Failed to bind "id:55, name:v1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -182,7 +181,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_genfor_hier.v
       vpiPreprocFile: "$Output/lib/work/t_genfor_hier.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:m1 file:$Source01/t_genfor_hier.v start:7:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -190,6 +188,16 @@ Design name:unnamed:
         vpiParent: Module name:m1
         vpiName: m1
       vpiFullName: m1
+      vpiVariable (1 items):
+        Variable name:v1 start:8:10 end:8:12:
+          vpiParent: Module name:m1
+          vpiTypespec RefTypespec name:logic start:8:4 end:8:9:
+            vpiParent: Variable name:v1
+            vpiName: logic
+            vpiFullName: m1.v1.logic
+            vpiActual: UnsupportedTypespec name:logic
+          vpiName: v1
+          vpiFullName: m1.v1
       vpiTypespec (1 items):
         UnsupportedTypespec name:logic start:8:4 end:8:9:
           vpiParent: Module name:m1
@@ -197,22 +205,12 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:logic
             vpiName: logic
       vpiDefName: m1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:m1
         vpiName: work
         vpiFullName: m1.work
       vpiCell: m1
-      vpiNet (1 items):
-        Net name:v1 start:8:10 end:8:12:
-          vpiParent: Module name:m1
-          vpiTypespec RefTypespec name:logic start:8:4 end:8:9:
-            vpiParent: Net name:v1
-            vpiName: logic
-            vpiFullName: m1.v1.logic
-            vpiActual: UnsupportedTypespec name:logic
-          vpiName: v1
-          vpiFullName: m1.v1
     Module name:t file:$Source01/t_genfor_hier.v start:11:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:11:8 end:11:9:
@@ -220,7 +218,7 @@ Design name:unnamed:
         vpiName: t
       vpiFullName: t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -448,8 +446,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

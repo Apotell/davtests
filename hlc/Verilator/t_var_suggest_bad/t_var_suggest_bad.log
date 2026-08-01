@@ -86,8 +86,6 @@ n<$Source01/t_var_suggest_bad.v> u<72> t<Top_level_rule> c<1> l<6:1> el<16:1>
         n<> u<68> t<ENDMODULE> p<69> l<15:1> el<15:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_var_suggest_bad.v:6:1: Compile module "t".
-[ERR:EL0535] $Source01/t_var_suggest_bad.v:12:11: Illegal implicit net "id:15, name:foobat".
-[ERR:EL0535] $Source01/t_var_suggest_bad.v:13:7: Illegal implicit net "id:19, name:boobat".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -97,7 +95,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_var_suggest_bad.v
       vpiPreprocFile: "$Output/lib/work/t_var_suggest_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_var_suggest_bad.v start:6:1 end:15:10:
       vpiParent: Design name:unnamed
@@ -105,11 +102,21 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:foobar start:7:8 end:7:14:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:7:4 end:7:7:
+            vpiParent: Variable name:foobar
+            vpiFullName: t.foobar
+            vpiActual: LogicTypespec
+          vpiName: foobar
+          vpiFullName: t.foobar
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:t
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -122,15 +129,6 @@ Design name:unnamed:
             vpiParent: Task name:boobar
             vpiName: boobar
           vpiFullName: t.boobar
-      vpiNet (1 items):
-        Net name:foobar start:7:8 end:7:14:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:7:4 end:7:7:
-            vpiParent: Net name:foobar
-            vpiFullName: t.foobar
-            vpiActual: LogicTypespec
-          vpiName: foobar
-          vpiFullName: t.foobar
       vpiProcess (1 items):
         Initial start:11:4 end:14:7:
           vpiParent: Module name:t
@@ -163,7 +161,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

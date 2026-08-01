@@ -174,8 +174,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_interface_size_bad.v:10:1: Compile module "t".
 [WRN:CP0323] $Source01/t_interface_size_bad.v:10:1: Multiply defined typedef "baz".
 [INF:CP0303] $Source01/t_interface_size_bad.v:20:1: Compile module "baz".
-[ERR:EL0535] $Source01/t_interface_size_bad.v:15:20: Illegal implicit net "id:56, name:foo".
-[ERR:EL0535] $Source01/t_interface_size_bad.v:16:20: Illegal implicit net "id:63, name:foo".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -185,7 +183,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_size_bad.v
       vpiPreprocFile: "$Output/lib/work/t_interface_size_bad.v"
-      vpiDefNetType: none (12)
   vpiAllInterfaces (1 items):
     Interface name:foo_intf file:$Source01/t_interface_size_bad.v start:6:1 end:8:13:
       vpiParent: Design name:unnamed
@@ -202,8 +199,7 @@ Design name:unnamed:
             vpiFullName: foo_intf.a.logic
           vpiName: a
           vpiFullName: foo_intf.a
-          vpiNetType: none (12)
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -327,7 +323,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:baz
             vpiName: baz
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -428,7 +424,7 @@ Design name:unnamed:
             vpiFullName: baz.foo_intf
             vpiActual: InterfaceTypespec name:foo_intf
       vpiDefName: baz
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:baz
         vpiName: work
@@ -450,9 +446,10 @@ Design name:unnamed:
           vpiParent: Module name:baz
           vpiName: foo
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:20:21 end:20:24:
+          vpiLowConn RefObj name:foo start:20:21 end:20:24:
             vpiParent: Port name:foo
-            vpiFullName: baz.foo
+            vpiName: foo
+            vpiFullName: baz.foo.foo
             vpiActual: Net name:foo
           vpiTypespec RefTypespec name:foo_intf start:20:12 end:20:20:
             vpiParent: Port name:foo
@@ -484,7 +481,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

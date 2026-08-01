@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,10 +30,13 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/function.h>
 #include <hldb/interface.h>
 #include <hldb/modport.h>
 #include <hldb/module.h>
 #include <hldb/port.h>
+#include <hldb/ref_obj.h>
+#include <hldb/task.h>
 
 namespace hlc {
 
@@ -43,9 +46,9 @@ class InterfaceIdentifiers : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
-// Interface declarations — BusIf and SubIf
-// ---------------------------------------------------------------------------
+// ----
+// Interface declarations -- BusIf and SubIf
+// ----
 
 TEST_F(InterfaceIdentifiers, BusIfExists) {
   ASSERT_NE(m_design->getAllInterfaces(), nullptr) << "Design has no interfaces";
@@ -59,9 +62,9 @@ TEST_F(InterfaceIdentifiers, SubIfExists) {
       << "Interface 'SubIf' not found";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // BusIf modports (grammar site 1 prerequisite: modport master / slave)
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(InterfaceIdentifiers, BusIfHasModports) {
   const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
@@ -84,9 +87,9 @@ TEST_F(InterfaceIdentifiers, BusIfModportNames) {
   EXPECT_TRUE(hasSlave) << "BusIf missing modport 'slave'";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // BusIf extern task/function declarations (grammar sites 4 & 5 prerequisite)
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(InterfaceIdentifiers, BusIfHasTaskFuncDecls) {
   const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
@@ -94,9 +97,9 @@ TEST_F(InterfaceIdentifiers, BusIfHasTaskFuncDecls) {
   EXPECT_NE(busif->getTaskFuncDecls(), nullptr) << "BusIf has no extern task/function declarations";
 }
 
-// ---------------------------------------------------------------------------
-// Grammar site 1: interface_port_header — ANSI port declarations
-// ---------------------------------------------------------------------------
+// ----
+// Grammar site 1: interface_port_header -- ANSI port declarations
+// ----
 
 TEST_F(InterfaceIdentifiers, AnsiPlainPortModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("mod_ansi_plain_port", m_design->getAllModules()), nullptr)
@@ -137,9 +140,9 @@ TEST_F(InterfaceIdentifiers, AnsiArrayPortModuleExists) {
       << "Module 'mod_ansi_array_port' not found";
 }
 
-// ---------------------------------------------------------------------------
-// Grammar site 2: interface_port_declaration — non-ANSI port declarations
-// ---------------------------------------------------------------------------
+// ----
+// Grammar site 2: interface_port_declaration -- non-ANSI port declarations
+// ----
 
 TEST_F(InterfaceIdentifiers, NonAnsiSingleModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("mod_nonansi_single", m_design->getAllModules()), nullptr)
@@ -160,18 +163,85 @@ TEST_F(InterfaceIdentifiers, NonAnsiModportModuleHasMstAndSlv) {
   EXPECT_TRUE(hasSlv) << "mod_nonansi_modport missing port 'slv'";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Grammar site 3: virtual-interface data_type
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(InterfaceIdentifiers, VirtualIfModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("mod_virtual_ifs", m_design->getAllModules()), nullptr)
       << "Module 'mod_virtual_ifs' not found";
 }
 
-// ---------------------------------------------------------------------------
+// ----
+// Grammar site 4: function_body_declaration -- out-of-block function impl
+// (e.g. "function ... BusIf.capture; ... endfunction"), and
+// Grammar site 5: task_body_declaration -- out-of-block task impl
+// (e.g. "task BusIf.drive; ... endtask").
+//
+// IEEE 1800-2023 Sec 25.7 ("Tasks and functions in interfaces") allows a
+// task/function declared "extern" inside an interface to be defined
+// out-of-block using the interface name as a scope prefix, exactly as
+// Sec 8.24 allows an out-of-block class method using "ClassName::method".
+// Phase2ModelBuilder::leavePA_Function_body_declaration /
+// leavePA_Task_body_declaration record that prefix (paInterface_scope) as
+// the TaskFunc's vpiPrefix, but -- unlike the paClass_scope branch, which
+// reparents the method into its ClassDefn -- there is no matching branch
+// that reparents the out-of-block body into the Interface. The body is
+// therefore still discoverable, but at $unit/Design scope rather than as a
+// member of BusIf.
+// ----
+
+TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionExists) {
+  ASSERT_NE(m_design->getTaskFuncs(), nullptr) << "Design has no top-level task/function declarations";
+  EXPECT_NE(hldb::findByName<hldb::Function>("capture", m_design->getTaskFuncs()), nullptr)
+      << "Out-of-block function 'BusIf.capture' not found";
+}
+
+TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
+  const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", m_design->getTaskFuncs());
+  ASSERT_NE(fn, nullptr);
+  const hldb::RefObj *const prefix = fn->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "'BusIf.capture' interface_scope prefix should be a RefObj naming 'BusIf'";
+  EXPECT_EQ(prefix->getName(), "BusIf");
+}
+
+TEST_F(InterfaceIdentifiers, OutOfBodyDummyFunctionExists) {
+  EXPECT_NE(hldb::findByName<hldb::Function>("dummy", m_design->getTaskFuncs()), nullptr)
+      << "Out-of-block function 'BusIf.dummy' not found";
+}
+
+TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskExists) {
+  EXPECT_NE(hldb::findByName<hldb::Task>("drive", m_design->getTaskFuncs()), nullptr)
+      << "Out-of-block task 'BusIf.drive' not found";
+}
+
+TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
+  const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", m_design->getTaskFuncs());
+  ASSERT_NE(t, nullptr);
+  const hldb::RefObj *const prefix = t->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "'BusIf.drive' interface_scope prefix should be a RefObj naming 'BusIf'";
+  EXPECT_EQ(prefix->getName(), "BusIf");
+}
+
+TEST_F(InterfaceIdentifiers, OutOfBodyNoopTaskExists) {
+  EXPECT_NE(hldb::findByName<hldb::Task>("noop", m_design->getTaskFuncs()), nullptr)
+      << "Out-of-block task 'BusIf.noop' not found";
+}
+
+TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionBelongsToInterface) {
+  GTEST_SKIP() << "Out-of-block function/task bodies with an interface_scope prefix are not reparented into "
+                  "the Interface (unlike class_scope out-of-block methods, which are reparented into their "
+                  "ClassDefn) -- see IEEE 1800-2023 Sec 25.7 (Tasks and functions in interfaces) and Sec 8.24 "
+                  "(Out-of-block declarations).";
+  const hldb::Interface *const busif = hldb::findByName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
+  ASSERT_NE(busif, nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs()), nullptr)
+      << "Out-of-block function 'capture' should be a member of interface BusIf";
+}
+
+// ----
 // Grammar site 6: interface_instantiation
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(InterfaceIdentifiers, TopInstantiationExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("top_instantiation", m_design->getAllModules()), nullptr)
@@ -204,9 +274,9 @@ TEST_F(InterfaceIdentifiers, TopInstantiationHasInterfaceInstances) {
       << "RefInstance 'u_sub' not found";
 }
 
-// ---------------------------------------------------------------------------
+// ----
 // Grammar site 7: specify_terminal_descriptor
-// ---------------------------------------------------------------------------
+// ----
 
 TEST_F(InterfaceIdentifiers, SpecifyPathsModuleExists) {
   EXPECT_NE(hldb::findByName<hldb::Module>("mod_specify_paths", m_design->getAllModules()), nullptr)

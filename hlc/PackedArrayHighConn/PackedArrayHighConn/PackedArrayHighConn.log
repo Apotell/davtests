@@ -188,7 +188,6 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/dut.sv:1:1: Compile package "prim_pad_wrapper_pkg".
 [INF:CP0303] $Source01/dut.sv:8:1: Compile module "prim_pad_wrapper".
 [INF:CP0303] $Source01/dut.sv:12:1: Compile module "dut".
-[ERR:EL0535] $Source01/dut.sv:16:6: Illegal implicit net "id:102, name:pok_i".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "prim_pad_wrapper_pkg".
 [WRN:PA0205] $Source01/dut.sv:8:1: No timescale set for "prim_pad_wrapper".
 [WRN:PA0205] $Source01/dut.sv:12:1: No timescale set for "dut".
@@ -200,7 +199,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:prim_pad_wrapper_pkg file:$Source01/dut.sv start:1:1 end:6:34:
       vpiParent: Design name:unnamed
@@ -302,7 +300,7 @@ Design name:unnamed:
             vpiFullName: prim_pad_wrapper_pkg::pad_pok_t
             vpiActual: LogicTypespec
       vpiDefName: prim_pad_wrapper_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:prim_pad_wrapper_pkg
         vpiName: work
@@ -325,7 +323,7 @@ Design name:unnamed:
             vpiParent: ImportTypespec name:prim_pad_wrapper_pkg
             vpiName: prim_pad_wrapper_pkg
       vpiDefName: prim_pad_wrapper
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:prim_pad_wrapper
         vpiName: work
@@ -347,9 +345,10 @@ Design name:unnamed:
           vpiParent: Module name:prim_pad_wrapper
           vpiName: pok_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:52 end:9:57:
+          vpiLowConn RefObj name:pok_i start:9:52 end:9:57:
             vpiParent: Port name:pok_i
-            vpiFullName: prim_pad_wrapper.pok_i
+            vpiName: pok_i
+            vpiFullName: prim_pad_wrapper.pok_i.pok_i
             vpiActual: Net name:pok_i
           vpiTypespec RefTypespec name:pad_pok_t start:9:42 end:9:51:
             vpiParent: Port name:pok_i
@@ -365,6 +364,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:pad_pok start:14:19 end:14:26:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec name:pad_pok_t start:14:3 end:14:18:
+            vpiParent: Variable name:pad_pok
+            vpiName: pad_pok_t
+            vpiFullName: dut.pad_pok.pad_pok_t
+            vpiActual: ArrayTypespec
+          vpiName: pad_pok
+          vpiFullName: dut.pad_pok
       vpiParameter (1 items):
         Parameter name:DioPadBank start:13:64 end:13:74:
           vpiParent: Module name:dut
@@ -485,22 +494,12 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:prim_pad_wrapper
             vpiName: prim_pad_wrapper
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (1 items):
-        Net name:pad_pok start:14:19 end:14:26:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec name:pad_pok_t start:14:3 end:14:18:
-            vpiParent: Net name:pad_pok
-            vpiName: pad_pok_t
-            vpiFullName: dut.pad_pok.pad_pok_t
-            vpiActual: ArrayTypespec
-          vpiName: pad_pok
-          vpiFullName: dut.pad_pok
       vpiRefInstance (1 items):
         RefInstance name:u_dio_pad start:15:20 end:15:29:
           vpiParent: Module name:dut
@@ -525,7 +524,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:pad_pok[DioPadBank[0]]
                   vpiName: pad_pok
                   vpiFullName: dut.u_dio_pad.pad_pok
-                  vpiActual: Net name:pad_pok
+                  vpiActual: Variable name:pad_pok
                 vpiIndex BitSelect name:DioPadBank[0] start:16:27 end:16:40:
                   vpiParent: BitSelect name:pad_pok[DioPadBank[0]]
                   vpiName: DioPadBank[0]
@@ -569,7 +568,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************

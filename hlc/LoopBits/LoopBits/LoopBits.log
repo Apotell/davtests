@@ -420,9 +420,8 @@ AST_DEBUG_END
 [INF:CP0335] $Source01/dut.sv:19:20: Compile generate block "blk".
 [WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "Module".
 [WRN:CP0323] $Source01/dut.sv:16:1: Multiply defined typedef "Module".
-[ERR:EL0535] $Source01/dut.sv:13:74: Illegal implicit net "id:77, name:a".
-[ERR:EL0535] $Source01/dut.sv:13:76: Illegal implicit net "id:78, name:b".
-[ERR:EL0535] $Source01/dut.sv:13:78: Illegal implicit net "id:79, name:y".
+[WRN:CP0350] $Source01/dut.sv:13:74: Failed to bind "id:77, name:a".
+[WRN:CP0350] $Source01/dut.sv:13:76: Failed to bind "id:78, name:b".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "Module".
 [WRN:PA0205] $Source01/dut.sv:16:1: No timescale set for "top".
 ====== HLDB =======
@@ -433,7 +432,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:Module file:$Source01/dut.sv start:1:1 end:14:10:
       vpiParent: Design name:unnamed
@@ -532,13 +530,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: Module
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:Module
         vpiName: work
         vpiFullName: Module.work
       vpiCell: Module
-      vpiNet (1 items):
+      vpiNet (2 items):
         Net name:x start:4:18 end:4:19:
           vpiParent: Module name:Module
           vpiTypespec RefTypespec start:4:10 end:4:17:
@@ -548,6 +546,25 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: Module.x
           vpiNetType: wire (1)
+        Net name:y start:9:28 end:9:29:
+          vpiParent: Module name:Module
+          vpiTypespec RefTypespec start:9:22 end:9:27:
+            vpiParent: Net name:y
+            vpiFullName: Module.y
+            vpiActual: LogicTypespec
+          vpiName: y
+          vpiFullName: Module.y
+          vpiNetType: wire (1)
+          vpiValue Constant start:9:32 end:9:37:
+            vpiParent: Net name:y
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Module.y
+              vpiActual: LogicTypespec
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'sbz"
+            vpiValue: z
       vpiProcess (1 items):
         Initial start:13:5 end:13:88:
           vpiParent: Module name:Module
@@ -614,6 +631,7 @@ Design name:unnamed:
                     vpiParent: HierPath name:Module.a.b.y
                     vpiName: y
                     vpiFullName: Module.y
+                    vpiActual: Net name:y
               Operation start:13:81 end:13:86:
                 vpiParent: SysTaskCall name:$display
                 vpiOpType: add (24)
@@ -664,26 +682,6 @@ Design name:unnamed:
                       vpiParent: Begin name:b
                       vpiName: b
                     vpiFullName: Module.a.b
-                    vpiVariable (1 items):
-                      Variable name:y start:9:28 end:9:29:
-                        vpiParent: Begin name:b
-                        vpiTypespec RefTypespec start:9:22 end:9:27:
-                          vpiParent: Variable name:y
-                          vpiFullName: Module.a.b.y
-                          vpiActual: LogicTypespec
-                        vpiName: y
-                        vpiFullName: Module.a.b.y
-                        vpiNetType: wire (1)
-                        vpiValue Constant start:9:32 end:9:37:
-                          vpiParent: Variable name:y
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: Module.a.b.y
-                            vpiActual: LogicTypespec
-                          vpiConstType: binary (3)
-                          vpiSize: 1
-                          vpiDecompile: "1'sbz"
-                          vpiValue: z
                     vpiTypespec (1 items):
                       LogicTypespec:
                         vpiParent: Begin name:b
@@ -830,7 +828,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:Module
             vpiName: Module
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
@@ -965,16 +963,6 @@ Design name:unnamed:
               vpiParent: Begin name:blk
               vpiName: blk
             vpiFullName: top.blk
-            vpiVariable (1 items):
-              Variable name:x start:21:29 end:21:30:
-                vpiParent: Begin name:blk
-                vpiTypespec RefTypespec start:21:14 end:21:28:
-                  vpiParent: Variable name:x
-                  vpiFullName: top.blk.x
-                  vpiActual: LogicTypespec
-                vpiName: x
-                vpiFullName: top.blk.x
-                vpiNetType: wire (1)
             vpiParameter (1 items):
               Parameter name:W start:20:20 end:20:21:
                 vpiParent: Begin name:blk
@@ -1049,7 +1037,7 @@ Design name:unnamed:
                           vpiParent: SysFuncCall name:$bits
                           vpiName: x
                           vpiFullName: top.blk.x
-                          vpiActual: Variable name:x
+                          vpiActual: Net name:x
                 vpiVector: true
             vpiStmt (2 items):
               Parameter name:W:
@@ -1077,8 +1065,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 4
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1093,25 +1081,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/LoopBits/LoopBits/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.77,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
                                                   'pre_len': 440}},
-            'post_len': 0,
+            'post_len': 1,
             'pre_len': 440,
             'test_name': 'LoopBits/LoopBits'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      440 |         0 |
+| $Output/lib/work/dut.sv |      440 |         1 |
 +=========================+==========+===========+
-|                         |      440 |         0 |
+|                         |      440 |         1 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.77
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1124,9 +1112,9 @@ Name                            Before   After   Added   Removed
 Constant                            21      21       6         6
 Operation                            6       0       0         6
 RefObj                              26      20       0         6
-RefTypespec                         32      32       6         6
+RefTypespec                         31      31       6         6
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              69      69       0         0
 ----------------------------------------------------------------
-                                   155     143      12        24
+                                   153     141      12        24
 ===================== END REDUCTION RESULT =====================

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@
 //     assert property(@(posedge clk) seq4);
 //   endmodule
 //
-// -- ss.16.8 / ss.16.9.2 rules under test -------------------------------------
+// -- ss.16.8 / ss.16.9.2 rules under test ----
 //
 // Sequence instance as repetition operand (ss.16.9.2):
 //   * 'base_seq[*3]' applies consecutive repetition to a sequence instance.
@@ -47,19 +47,19 @@
 // base_seq body (ss.16.8):
 //   * 'sequence base_seq; a; endsequence' declares a named sequence.
 //   * The body expression is a RefObj referencing the bit signal 'a'.
-//   * The RefObj must resolve (vpiActual) to the Net node for 'a'.
+//   * The RefObj must resolve (vpiActual) to the Variable node for 'a'.
 //
 // Concurrent assert property (ss.16.14):
 //   * 'assert property(@(posedge clk) seq4)' is a concurrent assertion.
 //   * The property expression 'seq4' must resolve to the SequenceDecl,
 //     not be treated as an implicit net.
 //
-// -- Expected HLDB tree (if compiler is correct) --------------------------------
+// -- Expected HLDB tree (if compiler is correct) ----
 //
 //   Module name:tb
 //   +-- getSequenceDecls() (2 items)
 //   |   +-- SequenceDecl name:"base_seq"
-//   |   |     vpiExpr: RefObj name:"a" -> Net name:"a"
+//   |   |     vpiExpr: RefObj name:"a" -> Variable name:"a"
 //   |   +-- SequenceDecl name:"seq4"
 //   |         vpiExpr: Operation opType:consecutive_repeat (77)
 //   |           operand[0]: RefObj name:"base_seq" -> SequenceDecl name:"base_seq"
@@ -81,7 +81,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
@@ -96,9 +96,9 @@ class Sequence4Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTb(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("tb", d->getAllModules());
@@ -126,14 +126,14 @@ static const hldb::Assert *getFirstAssert(const hldb::Module *m) {
 
 // ss.16.8 + ss.16.9.2: both sequence declarations and the assert property
 // reference are syntactically and semantically valid -- no errors expected.
-// NOTE: if this test fails, Surelog is emitting EL0535 ("Illegal implicit net")
-// for sequence instance names, which means it misidentifies sequence names as
-// undeclared nets instead of resolving them to SequenceDecl nodes.
+// A compiler that fails to resolve sequence instance names to their
+// SequenceDecl might misidentify them as undeclared implicit nets instead,
+// which would surface as a spurious error here.
 TEST_F(Sequence4Test, Compiler_NoErrors) {
   ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbError, 0) << "ss.16.8: sequence instance references must not produce errors -- "
-                                 "EL0535 'Illegal implicit net' indicates Surelog does not resolve "
-                                 "sequence names to SequenceDecl nodes";
+                                 "sequence names must resolve to SequenceDecl nodes, not be treated "
+                                 "as implicit nets";
 }
 
 TEST_F(Sequence4Test, Compiler_NoSyntaxErrors) {
@@ -199,7 +199,7 @@ TEST_F(Sequence4Test, BaseSeq_ExprIsRefToA) {
   EXPECT_EQ(ref->getName(), "a") << "ss.16.8: base_seq body must reference signal 'a'";
 }
 
-// ss.16.8: the RefObj for 'a' in base_seq must resolve to the Net node.
+// ss.16.8: the RefObj for 'a' in base_seq must resolve to the Variable node.
 // This is name binding done at compile time (not elaboration).
 TEST_F(Sequence4Test, BaseSeq_Expr_A_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
@@ -208,7 +208,7 @@ TEST_F(Sequence4Test, BaseSeq_Expr_A_ResolvesToNet) {
   ASSERT_NE(bs, nullptr);
   const hldb::RefObj *ref = bs->getExpr<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Net>(), nullptr) << "ss.16.8: RefObj for 'a' in base_seq must resolve to Net name:'a'";
+  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr) << "ss.16.8: RefObj for 'a' in base_seq must resolve to Variable name:'a'";
 }
 
 // ===========================================================================
@@ -268,12 +268,9 @@ TEST_F(Sequence4Test, Seq4_RepeatOperand_IsRefNamedBaseSeq) {
 }
 
 // ss.16.9.2: the RefObj for 'base_seq' in seq4 must resolve to the
-// SequenceDecl node, not to a Net. Surelog reports EL0535 ("Illegal implicit
-// net") for this reference, meaning it fails to identify it as a sequence
-// instance and treats it as an undeclared net instead.
-// NOTE: if this test fails, it is a Surelog bug -- not an elaboration issue.
-// Name resolution of sequence instances happens at compile time (same as
-// resolving a signal reference to its Net node).
+// SequenceDecl node, not to a Net or Variable. Name resolution of sequence
+// instances happens at compile time (same as resolving a signal reference
+// to its Net/Variable node) -- no elaboration is required.
 TEST_F(Sequence4Test, Seq4_RepeatOperand_ResolvedToSequenceDecl) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -287,8 +284,8 @@ TEST_F(Sequence4Test, Seq4_RepeatOperand_ResolvedToSequenceDecl) {
   const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
   EXPECT_NE(op0->getActual<hldb::SequenceDecl>(), nullptr)
-      << "ss.16.9.2: 'base_seq' in seq4 must resolve to SequenceDecl -- "
-         "Surelog emits EL0535 treating it as an implicit net instead";
+      << "ss.16.9.2: 'base_seq' in seq4 must resolve to SequenceDecl, not be "
+         "treated as an implicit net";
 }
 
 // ss.16.9.2: operand[1] is the repetition count. It must be a Constant
@@ -357,10 +354,8 @@ TEST_F(Sequence4Test, Assert_PropertyExpr_ReferencesSeq4) {
 }
 
 // ss.16.14: the RefObj for 'seq4' in the concurrent assertion must resolve
-// to the SequenceDecl node. Surelog reports EL0535 for this reference,
-// treating 'seq4' as an implicit net instead of a sequence name.
-// NOTE: same class of bug as Seq4_RepeatOperand_ResolvedToSequenceDecl --
-// Surelog does not resolve sequence names to SequenceDecl in any context.
+// to the SequenceDecl node, not be treated as an implicit net -- the same
+// compile-time resolution as Seq4_RepeatOperand_ResolvedToSequenceDecl above.
 TEST_F(Sequence4Test, Assert_PropertyExpr_ResolvedToSeq4Decl) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
@@ -371,8 +366,8 @@ TEST_F(Sequence4Test, Assert_PropertyExpr_ResolvedToSeq4Decl) {
   const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "ss.16.14: 'seq4' in assert property must resolve to SequenceDecl -- "
-         "Surelog emits EL0535 treating it as an implicit net instead";
+      << "ss.16.14: 'seq4' in assert property must resolve to SequenceDecl, not be "
+         "treated as an implicit net";
 }
 
 }  // namespace hlc

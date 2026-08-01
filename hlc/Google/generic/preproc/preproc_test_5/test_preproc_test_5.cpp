@@ -20,6 +20,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/identifier.h>
 #include <hldb/module.h>
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/source_file.h>
@@ -62,7 +63,7 @@ TEST_F(PreprocFuncMacroEmptyBodyTest, InceptionMacroIsFunctionLike) {
   EXPECT_NE(macro->getArguments(), nullptr) << "INCEPTION is function-like; getArguments() must not be null";
 }
 
-// LRM 22.5.1: INCEPTION(a, b, c) has three formal arguments.
+// LRM 22.5.1: INCEPTION(a, b, c) has exactly three formal arguments: a, b, c.
 TEST_F(PreprocFuncMacroEmptyBodyTest, InceptionHasThreeFormalArgs) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf =
@@ -72,7 +73,23 @@ TEST_F(PreprocFuncMacroEmptyBodyTest, InceptionHasThreeFormalArgs) {
       hldb::findByName<hldb::PreprocMacroDefinition>("INCEPTION", sf->getPreprocMacroDefinitions());
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getArguments(), nullptr);
-  EXPECT_GT(macro->getArguments()->size(), 0u);
+  EXPECT_EQ(macro->getArguments()->size(), 3u) << "'INCEPTION(a, b, c)' must have exactly 3 formal arguments";
+}
+
+// LRM 22.5.1: the formal argument names must be 'a', 'b', 'c' in that order.
+TEST_F(PreprocFuncMacroEmptyBodyTest, InceptionFormalArgNames) {
+  ASSERT_NE(m_design->getSourceFiles(), nullptr);
+  const hldb::SourceFile *const sf =
+      hldb::findByName<hldb::SourceFile>("preproc_test_5.sv", m_design->getSourceFiles());
+  ASSERT_NE(sf, nullptr);
+  const hldb::PreprocMacroDefinition *const macro =
+      hldb::findByName<hldb::PreprocMacroDefinition>("INCEPTION", sf->getPreprocMacroDefinitions());
+  ASSERT_NE(macro, nullptr);
+  ASSERT_NE(macro->getArguments(), nullptr);
+  ASSERT_EQ(macro->getArguments()->size(), 3u);
+  EXPECT_EQ((*macro->getArguments())[0]->getName(), "a") << "first formal argument must be 'a'";
+  EXPECT_EQ((*macro->getArguments())[1]->getName(), "b") << "second formal argument must be 'b'";
+  EXPECT_EQ((*macro->getArguments())[2]->getName(), "c") << "third formal argument must be 'c'";
 }
 
 // LRM 22.5.1: INCEPTION(a, b, c) has no replacement text; the token list is empty.

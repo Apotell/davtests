@@ -23,12 +23,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.v
       vpiPreprocFile: "$Output/lib/work/dut.v"
-      vpiDefNetType: none (12)
     SourceFile name:tb.v file:$Source01/tb.v:
       vpiParent: Design name:unnamed
       vpiName: tb.v
       vpiPreprocFile: "$Output/lib/work/tb.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:dut file:$Source01/dut.v start:2:1 end:14:10:
       vpiParent: Design name:unnamed
@@ -45,12 +43,11 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: dut.q
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
@@ -89,9 +86,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: d
           vpiDirection: input (1)
-          vpiLowConn RefObj start:2:20 end:2:21:
+          vpiLowConn RefObj name:d start:2:20 end:2:21:
             vpiParent: Port name:d
-            vpiFullName: dut.d
+            vpiName: d
+            vpiFullName: dut.d.d
             vpiActual: Net name:d
           vpiTypespec RefTypespec start:2:14 end:2:19:
             vpiParent: Port name:d
@@ -101,9 +99,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: rstn
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:21 end:3:25:
+          vpiLowConn RefObj name:rstn start:3:21 end:3:25:
             vpiParent: Port name:rstn
-            vpiFullName: dut.rstn
+            vpiName: rstn
+            vpiFullName: dut.rstn.rstn
             vpiActual: Net name:rstn
           vpiTypespec RefTypespec start:3:15 end:3:20:
             vpiParent: Port name:rstn
@@ -113,9 +112,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:21 end:4:24:
+          vpiLowConn RefObj name:clk start:4:21 end:4:24:
             vpiParent: Port name:clk
-            vpiFullName: dut.clk
+            vpiName: clk
+            vpiFullName: dut.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:4:15 end:4:20:
             vpiParent: Port name:clk
@@ -125,9 +125,10 @@ Design name:unnamed:
           vpiParent: Module name:dut
           vpiName: q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:5:26 end:5:27:
+          vpiLowConn RefObj name:q start:5:26 end:5:27:
             vpiParent: Port name:q
-            vpiFullName: dut.q
+            vpiName: q
+            vpiFullName: dut.q.q
             vpiActual: Variable name:q
           vpiTypespec RefTypespec start:5:15 end:5:25:
             vpiParent: Port name:q
@@ -211,7 +212,16 @@ Design name:unnamed:
         vpiParent: Module name:tb
         vpiName: tb
       vpiFullName: tb
-      vpiVariable (2 items):
+      vpiVariable (4 items):
+        Variable name:clk start:3:7 end:3:10:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:3:3 end:3:6:
+            vpiParent: Variable name:clk
+            vpiFullName: tb.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: tb.clk
+          vpiScalar: true
         Variable name:rstn start:4:9 end:4:13:
           vpiParent: Module name:tb
           vpiTypespec RefTypespec name:logic start:4:3 end:4:8:
@@ -220,7 +230,6 @@ Design name:unnamed:
             vpiFullName: tb.rstn.logic
           vpiName: rstn
           vpiFullName: tb.rstn
-          vpiNetType: none (12)
         Variable name:d start:5:9 end:5:10:
           vpiParent: Module name:tb
           vpiTypespec RefTypespec name:logic start:5:3 end:5:8:
@@ -229,34 +238,25 @@ Design name:unnamed:
             vpiFullName: tb.d.logic
           vpiName: d
           vpiFullName: tb.d
-          vpiNetType: none (12)
+        Variable name:o start:6:7 end:6:8:
+          vpiParent: Module name:tb
+          vpiTypespec RefTypespec start:6:3 end:6:6:
+            vpiParent: Variable name:o
+            vpiFullName: tb.o
+            vpiActual: LogicTypespec
+          vpiName: o
+          vpiFullName: tb.o
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:tb
       vpiDefName: tb
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tb
         vpiName: work
         vpiFullName: tb.work
       vpiCell: tb
-      vpiNet (2 items):
-        Net name:clk start:3:7 end:3:10:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:3:3 end:3:6:
-            vpiParent: Net name:clk
-            vpiFullName: tb.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: tb.clk
-        Net name:o start:6:7 end:6:8:
-          vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:6:3 end:6:6:
-            vpiParent: Net name:o
-            vpiFullName: tb.o
-            vpiActual: LogicTypespec
-          vpiName: o
-          vpiFullName: tb.o
       vpiProcess (3 items):
         Initial start:8:3 end:13:6:
           vpiParent: Module name:tb
@@ -310,12 +310,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: clk
                     vpiFullName: tb.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
                   RefObj name:o start:11:49 end:11:50:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName: o
                     vpiFullName: tb.o
-                    vpiActual: Net name:o
+                    vpiActual: Variable name:o
               DelayControl start:12:5 end:12:20:
                 vpiParent: Begin
                 vpiStmt SysTaskCall name:$finish start:12:10 end:12:19:
@@ -364,7 +364,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk
                   vpiFullName: tb.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:18:11 end:18:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -433,7 +433,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: o
                       vpiFullName: tb.o
-                      vpiActual: Net name:o
+                      vpiActual: Variable name:o
                     Constant start:21:17 end:21:18:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -528,7 +528,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: o
                         vpiFullName: tb.o
-                        vpiActual: Net name:o
+                        vpiActual: Variable name:o
                       Constant start:23:20 end:23:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -633,7 +633,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: o
                         vpiFullName: tb.o
-                        vpiActual: Net name:o
+                        vpiActual: Variable name:o
                       Constant start:25:21 end:25:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -707,7 +707,7 @@ Design name:unnamed:
                 vpiParent: Assignment
                 vpiName: clk
                 vpiFullName: tb.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
               vpiRhs Operation start:29:14 end:29:18:
                 vpiParent: Assignment
                 vpiOpType: not (3)
@@ -716,7 +716,7 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: clk
                     vpiFullName: tb.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
             vpiDelay Constant start:29:6 end:29:7:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -767,7 +767,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: tb.dut1.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
             Port start:31:26 end:31:27:
               vpiParent: RefInstance name:dut1
               vpiLowConn RefObj:
@@ -777,7 +777,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: o
                 vpiFullName: tb.dut1.o
-                vpiActual: Net name:o
+                vpiActual: Variable name:o
   vpiTypespec (4 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed

@@ -232,10 +232,10 @@ n<$Source01/hierspace.v> u<217> t<Top_level_rule> c<1> l<27:1> el<47:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/hierspace.v:27:1: Compile module "a".
 [INF:CP0303] $Source01/hierspace.v:43:1: Compile module "m".
-[ERR:EL0535] $Source01/hierspace.v:32:10: Illegal implicit net "id:29, name:x".
-[ERR:EL0535] $Source01/hierspace.v:33:11: Illegal implicit net "id:40, name:x".
-[ERR:EL0535] $Source01/hierspace.v:34:11: Illegal implicit net "id:51, name:x".
-[ERR:EL0535] $Source01/hierspace.v:35:12: Illegal implicit net "id:62, name:x".
+[WRN:CP0350] $Source01/hierspace.v:32:10: Failed to bind "id:29, name:x".
+[WRN:CP0350] $Source01/hierspace.v:33:11: Failed to bind "id:40, name:x".
+[WRN:CP0350] $Source01/hierspace.v:34:11: Failed to bind "id:51, name:x".
+[WRN:CP0350] $Source01/hierspace.v:35:12: Failed to bind "id:62, name:x".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -245,7 +245,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: hierspace.v
       vpiPreprocFile: "$Output/lib/work/hierspace.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:a file:$Source01/hierspace.v start:27:1 end:42:10:
       vpiParent: Design name:unnamed
@@ -262,7 +261,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:m
             vpiName: m
       vpiDefName: a
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:a
         vpiName: work
@@ -531,39 +530,39 @@ Design name:unnamed:
         vpiParent: Module name:m
         vpiName: m
       vpiFullName: m
+      vpiVariable (1 items):
+        Variable name:x start:44:11 end:44:12:
+          vpiParent: Module name:m
+          vpiTypespec RefTypespec start:45:4 end:45:7:
+            vpiParent: Variable name:x
+            vpiFullName: m.x
+            vpiActual: LogicTypespec
+          vpiName: x
+          vpiFullName: m.x
+          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:m
       vpiDefName: m
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:m
         vpiName: work
         vpiFullName: m.work
       vpiCell: m
-      vpiNet (1 items):
-        Net name:x start:44:11 end:44:12:
-          vpiParent: Module name:m
-          vpiTypespec RefTypespec start:44:11 end:44:11:
-            vpiParent: Net name:x
-            vpiFullName: m.x
-            vpiActual: LogicTypespec
-          vpiName: x
-          vpiFullName: m.x
       vpiPort (1 items):
         Port name:x start:43:11 end:43:12:
           vpiParent: Module name:m
           vpiName: x
           vpiDirection: output (2)
-          vpiLowConn RefObj name:x start:43:11 end:43:12:
+          vpiLowConn RefObj name:x start:44:11 end:44:12:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: m.x.x
-            vpiActual: Net name:x
+            vpiActual: Variable name:x
           vpiTypespec RefTypespec start:44:11 end:44:11:
             vpiParent: Port name:x
             vpiFullName: m.x
-            vpiActual: LogicTypespec
   vpiTypespec (5 items):
     ModuleTypespec name:a:
       vpiParent: Design name:unnamed
@@ -587,8 +586,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

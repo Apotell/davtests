@@ -173,7 +173,7 @@ n<$Source01/t_lint_setout_bad.v> u<158> t<Top_level_rule> c<1> l<6:1> el<35:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_lint_setout_bad.v:6:1: Compile module "t".
 [INF:CP0303] $Source01/t_lint_setout_bad.v:20:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_lint_setout_bad.v:16:8: Illegal implicit net "id:33, name:cpu_if_timeout".
+[ERR:LN0813] $Source01/t_lint_setout_bad.v:1:1: Found 1 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -183,7 +183,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_lint_setout_bad.v
       vpiPreprocFile: "$Output/lib/work/t_lint_setout_bad.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_lint_setout_bad.v start:6:1 end:18:10:
       vpiParent: Design name:unnamed
@@ -202,7 +201,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -232,9 +231,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: reset_l
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:15 end:8:22:
+          vpiLowConn RefObj name:reset_l start:8:15 end:8:22:
             vpiParent: Port name:reset_l
-            vpiFullName: t.reset_l
+            vpiName: reset_l
+            vpiFullName: t.reset_l.reset_l
             vpiActual: Net name:reset_l
           vpiTypespec RefTypespec start:8:4 end:8:14:
             vpiParent: Port name:reset_l
@@ -244,9 +244,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:15 end:9:18:
+          vpiLowConn RefObj name:clk start:9:15 end:9:18:
             vpiParent: Port name:clk
-            vpiFullName: t.clk
+            vpiName: clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:9:4 end:9:14:
             vpiParent: Port name:clk
@@ -317,18 +318,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: cpu_if_timeout
           vpiFullName: sub.cpu_if_timeout
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:sub
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
       vpiCell: sub
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:22:17 end:22:20:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:22:4 end:22:14:
@@ -338,23 +338,15 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: sub.clk
           vpiNetType: wire (1)
-        Net name:reset_l start:22:22 end:22:29:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:22:22 end:22:22:
-            vpiParent: Net name:reset_l
-            vpiFullName: sub.reset_l
-            vpiActual: LogicTypespec
-          vpiName: reset_l
-          vpiFullName: sub.reset_l
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:clk start:22:17 end:22:20:
           vpiParent: Module name:sub
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:22:17 end:22:20:
+          vpiLowConn RefObj name:clk start:22:17 end:22:20:
             vpiParent: Port name:clk
-            vpiFullName: sub.clk
+            vpiName: clk
+            vpiFullName: sub.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:22:4 end:22:14:
             vpiParent: Port name:clk
@@ -364,21 +356,14 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: reset_l
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:22:22 end:22:29:
-            vpiParent: Port name:reset_l
-            vpiFullName: sub.reset_l
-            vpiActual: Net name:reset_l
-          vpiTypespec RefTypespec start:22:22 end:22:22:
-            vpiParent: Port name:reset_l
-            vpiFullName: sub.reset_l
-            vpiActual: LogicTypespec
         Port name:cpu_if_timeout start:23:17 end:23:31:
           vpiParent: Module name:sub
           vpiName: cpu_if_timeout
           vpiDirection: output (2)
-          vpiLowConn RefObj start:23:17 end:23:31:
+          vpiLowConn RefObj name:cpu_if_timeout start:23:17 end:23:31:
             vpiParent: Port name:cpu_if_timeout
-            vpiFullName: sub.cpu_if_timeout
+            vpiName: cpu_if_timeout
+            vpiFullName: sub.cpu_if_timeout.cpu_if_timeout
             vpiActual: Variable name:cpu_if_timeout
           vpiTypespec RefTypespec start:23:4 end:23:14:
             vpiParent: Port name:cpu_if_timeout
@@ -412,7 +397,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: reset_l
                         vpiFullName: sub.reset_l
-                        vpiActual: Net name:reset_l
+                        vpiActual: Port name:reset_l
                   vpiStmt Begin start:27:21 end:29:10:
                     vpiParent: IfElse
                     vpiFullName: sub
@@ -523,7 +508,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_setout_bad/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              74      74       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    74      74       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1479,14 +1479,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/design.sv:2:1: Compile module "UART".
 [INF:CP0303] $Source01/design.sv:70:1: Compile module "UART_assertions".
 [INF:CP0303] $Source01/testbench.sv:3:1: Compile module "tb_UART".
-[ERR:EL0535] $Source01/design.sv:100:36: Illegal implicit net "id:390, name:clk".
-[ERR:EL0535] $Source01/design.sv:100:32: Illegal implicit net "id:392, name:clk".
-[ERR:EL0535] $Source01/design.sv:100:48: Illegal implicit net "id:393, name:rst_n".
-[ERR:EL0535] $Source01/design.sv:100:42: Illegal implicit net "id:395, name:rst_n".
-[ERR:EL0535] $Source01/design.sv:100:61: Illegal implicit net "id:396, name:send".
-[ERR:EL0535] $Source01/design.sv:100:56: Illegal implicit net "id:398, name:send".
-[ERR:EL0535] $Source01/design.sv:100:73: Illegal implicit net "id:399, name:done".
-[ERR:EL0535] $Source01/design.sv:100:68: Illegal implicit net "id:401, name:done".
 [WRN:PA0205] $Source01/design.sv:2:1: No timescale set for "UART".
 [WRN:PA0205] $Source01/design.sv:70:1: No timescale set for "UART_assertions".
 [WRN:PA0205] $Source01/testbench.sv:3:1: No timescale set for "tb_UART".
@@ -1498,12 +1490,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: design.sv
       vpiPreprocFile: "$Output/lib/work/design.sv"
-      vpiDefNetType: none (12)
     SourceFile name:testbench.sv file:$Source01/testbench.sv:
       vpiParent: Design name:unnamed
       vpiName: testbench.sv
       vpiPreprocFile: "$Output/lib/work/testbench.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:UART file:$Source01/design.sv start:2:1 end:67:10:
       vpiParent: Design name:unnamed
@@ -1511,7 +1501,7 @@ Design name:unnamed:
         vpiParent: Module name:UART
         vpiName: UART
       vpiFullName: UART
-      vpiVariable (2 items):
+      vpiVariable (7 items):
         Variable name:tx start:6:16 end:6:18:
           vpiParent: Module name:UART
           vpiTypespec RefTypespec start:6:5 end:6:15:
@@ -1520,7 +1510,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: tx
           vpiFullName: UART.tx
-          vpiNetType: none (12)
         Variable name:done start:9:16 end:9:20:
           vpiParent: Module name:UART
           vpiTypespec RefTypespec start:9:5 end:9:15:
@@ -1529,7 +1518,51 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: done
           vpiFullName: UART.done
-          vpiNetType: none (12)
+        Variable name:shift_reg start:13:15 end:13:24:
+          vpiParent: Module name:UART
+          vpiTypespec RefTypespec start:13:5 end:13:14:
+            vpiParent: Variable name:shift_reg
+            vpiFullName: UART.shift_reg
+            vpiActual: LogicTypespec
+          vpiName: shift_reg
+          vpiFullName: UART.shift_reg
+          vpiVector: true
+        Variable name:state start:14:15 end:14:20:
+          vpiParent: Module name:UART
+          vpiTypespec RefTypespec start:14:5 end:14:14:
+            vpiParent: Variable name:state
+            vpiFullName: UART.state
+            vpiActual: LogicTypespec
+          vpiName: state
+          vpiFullName: UART.state
+          vpiVector: true
+        Variable name:next_state start:14:22 end:14:32:
+          vpiParent: Module name:UART
+          vpiTypespec RefTypespec start:14:5 end:14:14:
+            vpiParent: Variable name:next_state
+            vpiFullName: UART.next_state
+            vpiActual: LogicTypespec
+          vpiName: next_state
+          vpiFullName: UART.next_state
+          vpiVector: true
+        Variable name:bit_counter start:15:15 end:15:26:
+          vpiParent: Module name:UART
+          vpiTypespec RefTypespec start:15:5 end:15:14:
+            vpiParent: Variable name:bit_counter
+            vpiFullName: UART.bit_counter
+            vpiActual: LogicTypespec
+          vpiName: bit_counter
+          vpiFullName: UART.bit_counter
+          vpiVector: true
+        Variable name:tx_next start:16:9 end:16:16:
+          vpiParent: Module name:UART
+          vpiTypespec RefTypespec start:16:5 end:16:8:
+            vpiParent: Variable name:tx_next
+            vpiFullName: UART.tx_next
+            vpiActual: LogicTypespec
+          vpiName: tx_next
+          vpiFullName: UART.tx_next
+          vpiScalar: true
       vpiParameter (4 items):
         Parameter name:IDLE start:12:15 end:12:19:
           vpiParent: Module name:UART
@@ -1740,13 +1773,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: UART
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:UART
         vpiName: work
         vpiFullName: UART.work
       vpiCell: UART
-      vpiNet (10 items):
+      vpiNet (5 items):
         Net name:clk start:3:11 end:3:14:
           vpiParent: Module name:UART
           vpiTypespec RefTypespec start:3:5 end:3:10:
@@ -1792,54 +1825,15 @@ Design name:unnamed:
           vpiName: send
           vpiFullName: UART.send
           vpiNetType: wire (1)
-        Net name:shift_reg start:13:15 end:13:24:
-          vpiParent: Module name:UART
-          vpiTypespec RefTypespec start:13:5 end:13:14:
-            vpiParent: Net name:shift_reg
-            vpiFullName: UART.shift_reg
-            vpiActual: LogicTypespec
-          vpiName: shift_reg
-          vpiFullName: UART.shift_reg
-        Net name:state start:14:15 end:14:20:
-          vpiParent: Module name:UART
-          vpiTypespec RefTypespec start:14:5 end:14:14:
-            vpiParent: Net name:state
-            vpiFullName: UART.state
-            vpiActual: LogicTypespec
-          vpiName: state
-          vpiFullName: UART.state
-        Net name:next_state start:14:22 end:14:32:
-          vpiParent: Module name:UART
-          vpiTypespec RefTypespec start:14:5 end:14:14:
-            vpiParent: Net name:next_state
-            vpiFullName: UART.next_state
-            vpiActual: LogicTypespec
-          vpiName: next_state
-          vpiFullName: UART.next_state
-        Net name:bit_counter start:15:15 end:15:26:
-          vpiParent: Module name:UART
-          vpiTypespec RefTypespec start:15:5 end:15:14:
-            vpiParent: Net name:bit_counter
-            vpiFullName: UART.bit_counter
-            vpiActual: LogicTypespec
-          vpiName: bit_counter
-          vpiFullName: UART.bit_counter
-        Net name:tx_next start:16:9 end:16:16:
-          vpiParent: Module name:UART
-          vpiTypespec RefTypespec start:16:5 end:16:8:
-            vpiParent: Net name:tx_next
-            vpiFullName: UART.tx_next
-            vpiActual: LogicTypespec
-          vpiName: tx_next
-          vpiFullName: UART.tx_next
       vpiPort (7 items):
         Port name:clk start:3:11 end:3:14:
           vpiParent: Module name:UART
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:3:11 end:3:14:
+          vpiLowConn RefObj name:clk start:3:11 end:3:14:
             vpiParent: Port name:clk
-            vpiFullName: UART.clk
+            vpiName: clk
+            vpiFullName: UART.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:3:5 end:3:10:
             vpiParent: Port name:clk
@@ -1849,9 +1843,10 @@ Design name:unnamed:
           vpiParent: Module name:UART
           vpiName: rst_n
           vpiDirection: input (1)
-          vpiLowConn RefObj start:4:11 end:4:16:
+          vpiLowConn RefObj name:rst_n start:4:11 end:4:16:
             vpiParent: Port name:rst_n
-            vpiFullName: UART.rst_n
+            vpiName: rst_n
+            vpiFullName: UART.rst_n.rst_n
             vpiActual: Net name:rst_n
           vpiTypespec RefTypespec start:4:5 end:4:10:
             vpiParent: Port name:rst_n
@@ -1861,9 +1856,10 @@ Design name:unnamed:
           vpiParent: Module name:UART
           vpiName: rx
           vpiDirection: input (1)
-          vpiLowConn RefObj start:5:11 end:5:13:
+          vpiLowConn RefObj name:rx start:5:11 end:5:13:
             vpiParent: Port name:rx
-            vpiFullName: UART.rx
+            vpiName: rx
+            vpiFullName: UART.rx.rx
             vpiActual: Net name:rx
           vpiTypespec RefTypespec start:5:5 end:5:10:
             vpiParent: Port name:rx
@@ -1873,9 +1869,10 @@ Design name:unnamed:
           vpiParent: Module name:UART
           vpiName: tx
           vpiDirection: output (2)
-          vpiLowConn RefObj start:6:16 end:6:18:
+          vpiLowConn RefObj name:tx start:6:16 end:6:18:
             vpiParent: Port name:tx
-            vpiFullName: UART.tx
+            vpiName: tx
+            vpiFullName: UART.tx.tx
             vpiActual: Variable name:tx
           vpiTypespec RefTypespec start:6:5 end:6:15:
             vpiParent: Port name:tx
@@ -1885,9 +1882,10 @@ Design name:unnamed:
           vpiParent: Module name:UART
           vpiName: data
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:17 end:7:21:
+          vpiLowConn RefObj name:data start:7:17 end:7:21:
             vpiParent: Port name:data
-            vpiFullName: UART.data
+            vpiName: data
+            vpiFullName: UART.data.data
             vpiActual: Net name:data
           vpiTypespec RefTypespec start:7:5 end:7:16:
             vpiParent: Port name:data
@@ -1897,9 +1895,10 @@ Design name:unnamed:
           vpiParent: Module name:UART
           vpiName: send
           vpiDirection: input (1)
-          vpiLowConn RefObj start:8:11 end:8:15:
+          vpiLowConn RefObj name:send start:8:11 end:8:15:
             vpiParent: Port name:send
-            vpiFullName: UART.send
+            vpiName: send
+            vpiFullName: UART.send.send
             vpiActual: Net name:send
           vpiTypespec RefTypespec start:8:5 end:8:10:
             vpiParent: Port name:send
@@ -1909,9 +1908,10 @@ Design name:unnamed:
           vpiParent: Module name:UART
           vpiName: done
           vpiDirection: output (2)
-          vpiLowConn RefObj start:9:16 end:9:20:
+          vpiLowConn RefObj name:done start:9:16 end:9:20:
             vpiParent: Port name:done
-            vpiFullName: UART.done
+            vpiName: done
+            vpiFullName: UART.done.done
             vpiActual: Variable name:done
           vpiTypespec RefTypespec start:9:5 end:9:15:
             vpiParent: Port name:done
@@ -1972,7 +1972,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: state
                           vpiFullName: UART.state
-                          vpiActual: Net name:state
+                          vpiActual: Variable name:state
                         vpiRhs RefObj name:IDLE start:20:22 end:20:26:
                           vpiParent: Assignment
                           vpiName: IDLE
@@ -2005,12 +2005,12 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: state
                           vpiFullName: UART.state
-                          vpiActual: Net name:state
+                          vpiActual: Variable name:state
                         vpiRhs RefObj name:next_state start:23:22 end:23:32:
                           vpiParent: Assignment
                           vpiName: next_state
                           vpiFullName: UART.next_state
-                          vpiActual: Net name:next_state
+                          vpiActual: Variable name:next_state
                       Assignment start:24:13 end:24:26:
                         vpiParent: Begin
                         vpiLhs RefObj name:tx start:24:13 end:24:15:
@@ -2022,7 +2022,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: tx_next
                           vpiFullName: UART.tx_next
-                          vpiActual: Net name:tx_next
+                          vpiActual: Variable name:tx_next
           vpiAlwaysType: always (1)
         Always start:28:5 end:65:8:
           vpiParent: Module name:UART
@@ -2052,7 +2052,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: state
                                   vpiFullName: UART.state
-                                  vpiActual: Net name:state
+                                  vpiActual: Variable name:state
                                 RefObj name:rx start:28:21 end:28:23:
                                   vpiParent: Operation
                                   vpiName: rx
@@ -2062,12 +2062,12 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: shift_reg
                               vpiFullName: UART.shift_reg
-                              vpiActual: Net name:shift_reg
+                              vpiActual: Variable name:shift_reg
                         RefObj name:bit_counter start:28:36 end:28:47:
                           vpiParent: Operation
                           vpiName: bit_counter
                           vpiFullName: UART.bit_counter
-                          vpiActual: Net name:bit_counter
+                          vpiActual: Variable name:bit_counter
                     RefObj name:send start:28:49 end:28:53:
                       vpiParent: Operation
                       vpiName: send
@@ -2092,12 +2092,12 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: next_state
                     vpiFullName: UART.next_state
-                    vpiActual: Net name:next_state
+                    vpiActual: Variable name:next_state
                   vpiRhs RefObj name:state start:29:22 end:29:27:
                     vpiParent: Assignment
                     vpiName: state
                     vpiFullName: UART.state
-                    vpiActual: Net name:state
+                    vpiActual: Variable name:state
                 Assignment start:30:9 end:30:21:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -2105,7 +2105,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: tx_next
                     vpiFullName: UART.tx_next
-                    vpiActual: Net name:tx_next
+                    vpiActual: Variable name:tx_next
                   vpiRhs RefObj name:tx start:30:19 end:30:21:
                     vpiParent: Assignment
                     vpiName: tx
@@ -2136,7 +2136,7 @@ Design name:unnamed:
                     vpiParent: CaseStmt
                     vpiName: state
                     vpiFullName: UART.state
-                    vpiActual: Net name:state
+                    vpiActual: Variable name:state
                   vpiCaseItem (4 items):
                     CaseItem start:34:13 end:41:16:
                       vpiParent: CaseStmt
@@ -2171,7 +2171,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: tx_next
                                     vpiFullName: UART.tx_next
-                                    vpiActual: Net name:tx_next
+                                    vpiActual: Variable name:tx_next
                                   vpiRhs Constant start:36:31 end:36:35:
                                     vpiParent: Assignment
                                     vpiTypespec RefTypespec:
@@ -2189,7 +2189,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: shift_reg
                                     vpiFullName: UART.shift_reg
-                                    vpiActual: Net name:shift_reg
+                                    vpiActual: Variable name:shift_reg
                                   vpiRhs RefObj name:data start:37:33 end:37:37:
                                     vpiParent: Assignment
                                     vpiName: data
@@ -2202,7 +2202,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: bit_counter
                                     vpiFullName: UART.bit_counter
-                                    vpiActual: Net name:bit_counter
+                                    vpiActual: Variable name:bit_counter
                                   vpiRhs Constant start:38:35 end:38:36:
                                     vpiParent: Assignment
                                     vpiTypespec RefTypespec:
@@ -2220,7 +2220,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: next_state
                                     vpiFullName: UART.next_state
-                                    vpiActual: Net name:next_state
+                                    vpiActual: Variable name:next_state
                                   vpiRhs RefObj name:START start:39:34 end:39:39:
                                     vpiParent: Assignment
                                     vpiName: START
@@ -2245,7 +2245,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: bit_counter
                               vpiFullName: UART.bit_counter
-                              vpiActual: Net name:bit_counter
+                              vpiActual: Variable name:bit_counter
                             vpiRhs Operation start:43:31 end:43:46:
                               vpiParent: Assignment
                               vpiOpType: add (24)
@@ -2254,7 +2254,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: bit_counter
                                   vpiFullName: UART.bit_counter
-                                  vpiActual: Net name:bit_counter
+                                  vpiActual: Variable name:bit_counter
                                 Constant start:43:45 end:43:46:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -2275,7 +2275,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: bit_counter
                                   vpiFullName: UART.bit_counter
-                                  vpiActual: Net name:bit_counter
+                                  vpiActual: Variable name:bit_counter
                                 Constant start:44:36 end:44:37:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -2297,7 +2297,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: tx_next
                                     vpiFullName: UART.tx_next
-                                    vpiActual: Net name:tx_next
+                                    vpiActual: Variable name:tx_next
                                   vpiRhs BitSelect name:shift_reg[0] start:45:31 end:45:43:
                                     vpiParent: Assignment
                                     vpiName: shift_reg[0]
@@ -2306,7 +2306,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:shift_reg[0]
                                       vpiName: shift_reg
                                       vpiFullName: UART.shift_reg
-                                      vpiActual: Net name:shift_reg
+                                      vpiActual: Variable name:shift_reg
                                     vpiIndex Constant start:45:41 end:45:42:
                                       vpiParent: BitSelect name:shift_reg[0]
                                       vpiTypespec RefTypespec:
@@ -2324,7 +2324,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: shift_reg
                                     vpiFullName: UART.shift_reg
-                                    vpiActual: Net name:shift_reg
+                                    vpiActual: Variable name:shift_reg
                                   vpiRhs Operation start:46:33 end:46:47:
                                     vpiParent: Assignment
                                     vpiOpType: logical shift right (23)
@@ -2333,7 +2333,7 @@ Design name:unnamed:
                                         vpiParent: Operation
                                         vpiName: shift_reg
                                         vpiFullName: UART.shift_reg
-                                        vpiActual: Net name:shift_reg
+                                        vpiActual: Variable name:shift_reg
                                       Constant start:46:46 end:46:47:
                                         vpiParent: Operation
                                         vpiTypespec RefTypespec:
@@ -2351,7 +2351,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: next_state
                                     vpiFullName: UART.next_state
-                                    vpiActual: Net name:next_state
+                                    vpiActual: Variable name:next_state
                                   vpiRhs RefObj name:DATA start:47:34 end:47:38:
                                     vpiParent: Assignment
                                     vpiName: DATA
@@ -2376,7 +2376,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: bit_counter
                               vpiFullName: UART.bit_counter
-                              vpiActual: Net name:bit_counter
+                              vpiActual: Variable name:bit_counter
                             vpiRhs Operation start:51:31 end:51:46:
                               vpiParent: Assignment
                               vpiOpType: add (24)
@@ -2385,7 +2385,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: bit_counter
                                   vpiFullName: UART.bit_counter
-                                  vpiActual: Net name:bit_counter
+                                  vpiActual: Variable name:bit_counter
                                 Constant start:51:45 end:51:46:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -2406,7 +2406,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: bit_counter
                                   vpiFullName: UART.bit_counter
-                                  vpiActual: Net name:bit_counter
+                                  vpiActual: Variable name:bit_counter
                                 Constant start:52:36 end:52:38:
                                   vpiParent: Operation
                                   vpiTypespec RefTypespec:
@@ -2431,7 +2431,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: tx_next
                                     vpiFullName: UART.tx_next
-                                    vpiActual: Net name:tx_next
+                                    vpiActual: Variable name:tx_next
                                   vpiRhs Constant start:53:31 end:53:35:
                                     vpiParent: Assignment
                                     vpiTypespec RefTypespec:
@@ -2449,7 +2449,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: next_state
                                     vpiFullName: UART.next_state
-                                    vpiActual: Net name:next_state
+                                    vpiActual: Variable name:next_state
                                   vpiRhs RefObj name:STOP start:54:34 end:54:38:
                                     vpiParent: Assignment
                                     vpiName: STOP
@@ -2466,7 +2466,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: tx_next
                                     vpiFullName: UART.tx_next
-                                    vpiActual: Net name:tx_next
+                                    vpiActual: Variable name:tx_next
                                   vpiRhs BitSelect name:shift_reg[0] start:56:31 end:56:43:
                                     vpiParent: Assignment
                                     vpiName: shift_reg[0]
@@ -2475,7 +2475,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:shift_reg[0]
                                       vpiName: shift_reg
                                       vpiFullName: UART.shift_reg
-                                      vpiActual: Net name:shift_reg
+                                      vpiActual: Variable name:shift_reg
                                     vpiIndex Constant start:56:41 end:56:42:
                                       vpiParent: BitSelect name:shift_reg[0]
                                       vpiTypespec RefTypespec:
@@ -2493,7 +2493,7 @@ Design name:unnamed:
                                     vpiParent: Assignment
                                     vpiName: shift_reg
                                     vpiFullName: UART.shift_reg
-                                    vpiActual: Net name:shift_reg
+                                    vpiActual: Variable name:shift_reg
                                   vpiRhs Operation start:57:33 end:57:47:
                                     vpiParent: Assignment
                                     vpiOpType: logical shift right (23)
@@ -2502,7 +2502,7 @@ Design name:unnamed:
                                         vpiParent: Operation
                                         vpiName: shift_reg
                                         vpiFullName: UART.shift_reg
-                                        vpiActual: Net name:shift_reg
+                                        vpiActual: Variable name:shift_reg
                                       Constant start:57:46 end:57:47:
                                         vpiParent: Operation
                                         vpiTypespec RefTypespec:
@@ -2553,7 +2553,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: next_state
                               vpiFullName: UART.next_state
-                              vpiActual: Net name:next_state
+                              vpiActual: Variable name:next_state
                             vpiRhs RefObj name:IDLE start:62:30 end:62:34:
                               vpiParent: Assignment
                               vpiName: IDLE
@@ -2601,7 +2601,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: state
                       vpiFullName: UART_assertions.p_send.state
-                      vpiActual: Net name:state
+                      vpiActual: Variable name:state
                     RefObj name:DATA start:84:28 end:84:32:
                       vpiParent: Operation
                       vpiName: DATA
@@ -2641,7 +2641,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: state
                       vpiFullName: UART_assertions.p_done.state
-                      vpiActual: Net name:state
+                      vpiActual: Variable name:state
                     RefObj name:STOP start:92:28 end:92:32:
                       vpiParent: Operation
                       vpiName: STOP
@@ -2698,6 +2698,16 @@ Design name:unnamed:
                 vpiSize: 176
                 vpiDecompile: "\"Done property violated\""
                 vpiValue: Done property violated
+      vpiVariable (1 items):
+        Variable name:state start:78:13 end:78:18:
+          vpiParent: Module name:UART_assertions
+          vpiTypespec RefTypespec start:78:3 end:78:12:
+            vpiParent: Variable name:state
+            vpiFullName: UART_assertions.state
+            vpiActual: LogicTypespec
+          vpiName: state
+          vpiFullName: UART_assertions.state
+          vpiVector: true
       vpiParameter (4 items):
         Parameter name:IDLE start:79:15 end:79:19:
           vpiParent: Module name:UART_assertions
@@ -2830,13 +2840,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: UART_assertions
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:UART_assertions
         vpiName: work
         vpiFullName: UART_assertions.work
       vpiCell: UART_assertions
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:clk start:71:11 end:71:14:
           vpiParent: Module name:UART_assertions
           vpiTypespec RefTypespec start:71:5 end:71:10:
@@ -2873,22 +2883,15 @@ Design name:unnamed:
           vpiName: done
           vpiFullName: UART_assertions.done
           vpiNetType: wire (1)
-        Net name:state start:78:13 end:78:18:
-          vpiParent: Module name:UART_assertions
-          vpiTypespec RefTypespec start:78:3 end:78:12:
-            vpiParent: Net name:state
-            vpiFullName: UART_assertions.state
-            vpiActual: LogicTypespec
-          vpiName: state
-          vpiFullName: UART_assertions.state
       vpiPort (4 items):
         Port name:clk start:71:11 end:71:14:
           vpiParent: Module name:UART_assertions
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:71:11 end:71:14:
+          vpiLowConn RefObj name:clk start:71:11 end:71:14:
             vpiParent: Port name:clk
-            vpiFullName: UART_assertions.clk
+            vpiName: clk
+            vpiFullName: UART_assertions.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:71:5 end:71:10:
             vpiParent: Port name:clk
@@ -2898,9 +2901,10 @@ Design name:unnamed:
           vpiParent: Module name:UART_assertions
           vpiName: rst_n
           vpiDirection: input (1)
-          vpiLowConn RefObj start:72:11 end:72:16:
+          vpiLowConn RefObj name:rst_n start:72:11 end:72:16:
             vpiParent: Port name:rst_n
-            vpiFullName: UART_assertions.rst_n
+            vpiName: rst_n
+            vpiFullName: UART_assertions.rst_n.rst_n
             vpiActual: Net name:rst_n
           vpiTypespec RefTypespec start:72:5 end:72:10:
             vpiParent: Port name:rst_n
@@ -2910,9 +2914,10 @@ Design name:unnamed:
           vpiParent: Module name:UART_assertions
           vpiName: send
           vpiDirection: input (1)
-          vpiLowConn RefObj start:73:11 end:73:15:
+          vpiLowConn RefObj name:send start:73:11 end:73:15:
             vpiParent: Port name:send
-            vpiFullName: UART_assertions.send
+            vpiName: send
+            vpiFullName: UART_assertions.send.send
             vpiActual: Net name:send
           vpiTypespec RefTypespec start:73:5 end:73:10:
             vpiParent: Port name:send
@@ -2922,9 +2927,10 @@ Design name:unnamed:
           vpiParent: Module name:UART_assertions
           vpiName: done
           vpiDirection: input (1)
-          vpiLowConn RefObj start:74:11 end:74:15:
+          vpiLowConn RefObj name:done start:74:11 end:74:15:
             vpiParent: Port name:done
-            vpiFullName: UART_assertions.done
+            vpiName: done
+            vpiFullName: UART_assertions.done.done
             vpiActual: Net name:done
           vpiTypespec RefTypespec start:74:5 end:74:10:
             vpiParent: Port name:done
@@ -2936,6 +2942,52 @@ Design name:unnamed:
         vpiParent: Module name:tb_UART
         vpiName: tb_UART
       vpiFullName: tb_UART
+      vpiVariable (5 items):
+        Variable name:clk start:4:9 end:4:12:
+          vpiParent: Module name:tb_UART
+          vpiTypespec RefTypespec start:4:5 end:4:8:
+            vpiParent: Variable name:clk
+            vpiFullName: tb_UART.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: tb_UART.clk
+          vpiScalar: true
+        Variable name:rst_n start:4:14 end:4:19:
+          vpiParent: Module name:tb_UART
+          vpiTypespec RefTypespec start:4:5 end:4:8:
+            vpiParent: Variable name:rst_n
+            vpiFullName: tb_UART.rst_n
+            vpiActual: LogicTypespec
+          vpiName: rst_n
+          vpiFullName: tb_UART.rst_n
+          vpiScalar: true
+        Variable name:send start:4:21 end:4:25:
+          vpiParent: Module name:tb_UART
+          vpiTypespec RefTypespec start:4:5 end:4:8:
+            vpiParent: Variable name:send
+            vpiFullName: tb_UART.send
+            vpiActual: LogicTypespec
+          vpiName: send
+          vpiFullName: tb_UART.send
+          vpiScalar: true
+        Variable name:rx start:5:9 end:5:11:
+          vpiParent: Module name:tb_UART
+          vpiTypespec RefTypespec start:5:5 end:5:8:
+            vpiParent: Variable name:rx
+            vpiFullName: tb_UART.rx
+            vpiActual: LogicTypespec
+          vpiName: rx
+          vpiFullName: tb_UART.rx
+          vpiScalar: true
+        Variable name:data start:6:15 end:6:19:
+          vpiParent: Module name:tb_UART
+          vpiTypespec RefTypespec start:6:5 end:6:14:
+            vpiParent: Variable name:data
+            vpiFullName: tb_UART.data
+            vpiActual: LogicTypespec
+          vpiName: data
+          vpiFullName: tb_UART.data
+          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:tb_UART
@@ -2966,53 +3018,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: tb_UART
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tb_UART
         vpiName: work
         vpiFullName: tb_UART.work
       vpiCell: tb_UART
-      vpiNet (7 items):
-        Net name:clk start:4:9 end:4:12:
-          vpiParent: Module name:tb_UART
-          vpiTypespec RefTypespec start:4:5 end:4:8:
-            vpiParent: Net name:clk
-            vpiFullName: tb_UART.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: tb_UART.clk
-        Net name:rst_n start:4:14 end:4:19:
-          vpiParent: Module name:tb_UART
-          vpiTypespec RefTypespec start:4:5 end:4:8:
-            vpiParent: Net name:rst_n
-            vpiFullName: tb_UART.rst_n
-            vpiActual: LogicTypespec
-          vpiName: rst_n
-          vpiFullName: tb_UART.rst_n
-        Net name:send start:4:21 end:4:25:
-          vpiParent: Module name:tb_UART
-          vpiTypespec RefTypespec start:4:5 end:4:8:
-            vpiParent: Net name:send
-            vpiFullName: tb_UART.send
-            vpiActual: LogicTypespec
-          vpiName: send
-          vpiFullName: tb_UART.send
-        Net name:rx start:5:9 end:5:11:
-          vpiParent: Module name:tb_UART
-          vpiTypespec RefTypespec start:5:5 end:5:8:
-            vpiParent: Net name:rx
-            vpiFullName: tb_UART.rx
-            vpiActual: LogicTypespec
-          vpiName: rx
-          vpiFullName: tb_UART.rx
-        Net name:data start:6:15 end:6:19:
-          vpiParent: Module name:tb_UART
-          vpiTypespec RefTypespec start:6:5 end:6:14:
-            vpiParent: Net name:data
-            vpiFullName: tb_UART.data
-            vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: tb_UART.data
+      vpiNet (2 items):
         Net name:tx start:7:10 end:7:12:
           vpiParent: Module name:tb_UART
           vpiTypespec RefTypespec start:7:10 end:7:10:
@@ -3047,7 +3059,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: clk
                     vpiFullName: tb_UART.clk
-                    vpiActual: Net name:clk
+                    vpiActual: Variable name:clk
                   vpiRhs Operation start:23:18 end:23:22:
                     vpiParent: Assignment
                     vpiOpType: bitwise negation (4)
@@ -3056,7 +3068,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: clk
                         vpiFullName: tb_UART.clk
-                        vpiActual: Net name:clk
+                        vpiActual: Variable name:clk
                 vpiDelay Constant start:23:10 end:23:11:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -3118,7 +3130,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: clk
                   vpiFullName: tb_UART.clk
-                  vpiActual: Net name:clk
+                  vpiActual: Variable name:clk
                 vpiRhs Constant start:32:15 end:32:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3136,7 +3148,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rst_n
                   vpiFullName: tb_UART.rst_n
-                  vpiActual: Net name:rst_n
+                  vpiActual: Variable name:rst_n
                 vpiRhs Constant start:33:17 end:33:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3154,7 +3166,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: send
                   vpiFullName: tb_UART.send
-                  vpiActual: Net name:send
+                  vpiActual: Variable name:send
                 vpiRhs Constant start:34:16 end:34:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3172,7 +3184,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: data
                   vpiFullName: tb_UART.data
-                  vpiActual: Net name:data
+                  vpiActual: Variable name:data
                 vpiRhs Constant start:35:16 end:35:27:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3190,7 +3202,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: rx
                   vpiFullName: tb_UART.rx
-                  vpiActual: Net name:rx
+                  vpiActual: Variable name:rx
                 vpiRhs Constant start:36:14 end:36:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -3210,7 +3222,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: rst_n
                     vpiFullName: tb_UART.rst_n
-                    vpiActual: Net name:rst_n
+                    vpiActual: Variable name:rst_n
                   vpiRhs Constant start:37:21 end:37:22:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -3266,7 +3278,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: data
                         vpiFullName: tb_UART.data
-                        vpiActual: Net name:data
+                        vpiActual: Variable name:data
                       vpiRhs Operation start:44:20 end:44:41:
                         vpiParent: Assignment
                         vpiOpType: bitwise and (28)
@@ -3293,7 +3305,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: send
                         vpiFullName: tb_UART.send
-                        vpiActual: Net name:send
+                        vpiActual: Variable name:send
                       vpiRhs Constant start:45:20 end:45:21:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -3346,7 +3358,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: send
                         vpiFullName: tb_UART.send
-                        vpiActual: Net name:send
+                        vpiActual: Variable name:send
                       vpiRhs Constant start:47:20 end:47:21:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -3390,36 +3402,36 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: tb_UART.uart_inst.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:11:14 end:11:17:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: tb_UART.uart_inst.clk
-                vpiActual: Net name:clk
+                vpiActual: Variable name:clk
             Port start:12:9 end:12:22:
               vpiParent: RefInstance name:uart_inst
               vpiLowConn RefObj name:rst_n start:12:10 end:12:15:
                 vpiParent: Port
                 vpiName: rst_n
                 vpiFullName: tb_UART.uart_inst.rst_n
-                vpiActual: Net name:rst_n
+                vpiActual: Variable name:rst_n
               vpiHighConn RefObj name:rst_n start:12:16 end:12:21:
                 vpiParent: Port
                 vpiName: rst_n
                 vpiFullName: tb_UART.uart_inst.rst_n
-                vpiActual: Net name:rst_n
+                vpiActual: Variable name:rst_n
             Port start:13:9 end:13:16:
               vpiParent: RefInstance name:uart_inst
               vpiLowConn RefObj name:rx start:13:10 end:13:12:
                 vpiParent: Port
                 vpiName: rx
                 vpiFullName: tb_UART.uart_inst.rx
-                vpiActual: Net name:rx
+                vpiActual: Variable name:rx
               vpiHighConn RefObj name:rx start:13:13 end:13:15:
                 vpiParent: Port
                 vpiName: rx
                 vpiFullName: tb_UART.uart_inst.rx
-                vpiActual: Net name:rx
+                vpiActual: Variable name:rx
             Port start:14:9 end:14:16:
               vpiParent: RefInstance name:uart_inst
               vpiLowConn RefObj name:tx start:14:10 end:14:12:
@@ -3438,24 +3450,24 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: tb_UART.uart_inst.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
               vpiHighConn RefObj name:data start:15:15 end:15:19:
                 vpiParent: Port
                 vpiName: data
                 vpiFullName: tb_UART.uart_inst.data
-                vpiActual: Net name:data
+                vpiActual: Variable name:data
             Port start:16:9 end:16:20:
               vpiParent: RefInstance name:uart_inst
               vpiLowConn RefObj name:send start:16:10 end:16:14:
                 vpiParent: Port
                 vpiName: send
                 vpiFullName: tb_UART.uart_inst.send
-                vpiActual: Net name:send
+                vpiActual: Variable name:send
               vpiHighConn RefObj name:send start:16:15 end:16:19:
                 vpiParent: Port
                 vpiName: send
                 vpiFullName: tb_UART.uart_inst.send
-                vpiActual: Net name:send
+                vpiActual: Variable name:send
             Port start:17:9 end:17:20:
               vpiParent: RefInstance name:uart_inst
               vpiLowConn RefObj name:done start:17:10 end:17:14:
@@ -3559,7 +3571,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 0
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************

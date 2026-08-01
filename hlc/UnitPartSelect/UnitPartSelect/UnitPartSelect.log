@@ -807,10 +807,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/top.sv:21:1: Compile module "dut".
 [INF:CP0303] $Source01/top.sv:30:1: Compile module "dut_part_select".
 [INF:CP0303] $Source01/top.sv:38:1: Compile module "dut_no_decl".
-[ERR:EL0535] $Source01/top.sv:7:20: Illegal implicit net "id:782, name:clk".
-[ERR:EL0535] $Source01/top.sv:11:9: Illegal implicit net "id:797, name:InterruptStatus".
-[ERR:EL0535] $Source01/top.sv:14:9: Illegal implicit net "id:812, name:ConnectionState".
-[ERR:EL0535] $Source01/top.sv:14:31: Illegal implicit net "id:813, name:ESTABLISHED".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.sv:1:1: No timescale set for "toto".
 [WRN:PA0205] $Source01/top.sv:21:1: No timescale set for "dut".
@@ -824,7 +820,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/work/top.sv"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -2813,6 +2808,25 @@ Design name:unnamed:
         vpiParent: Module name:toto
         vpiName: toto
       vpiFullName: toto
+      vpiVariable (2 items):
+        Variable name:state start:5:13 end:5:18:
+          vpiParent: Module name:toto
+          vpiTypespec RefTypespec start:5:3 end:5:12:
+            vpiParent: Variable name:state
+            vpiFullName: toto.state
+            vpiActual: LogicTypespec
+          vpiName: state
+          vpiFullName: toto.state
+          vpiVector: true
+        Variable name:next start:5:20 end:5:24:
+          vpiParent: Module name:toto
+          vpiTypespec RefTypespec start:5:3 end:5:12:
+            vpiParent: Variable name:next
+            vpiFullName: toto.next
+            vpiActual: LogicTypespec
+          vpiName: next
+          vpiFullName: toto.next
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:IDLE start:3:13 end:3:17:
           vpiParent: Module name:toto
@@ -2870,29 +2884,12 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: toto
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:toto
         vpiName: work
         vpiFullName: toto.work
       vpiCell: toto
-      vpiNet (2 items):
-        Net name:state start:5:13 end:5:18:
-          vpiParent: Module name:toto
-          vpiTypespec RefTypespec start:5:3 end:5:12:
-            vpiParent: Net name:state
-            vpiFullName: toto.state
-            vpiActual: LogicTypespec
-          vpiName: state
-          vpiFullName: toto.state
-        Net name:next start:5:20 end:5:24:
-          vpiParent: Module name:toto
-          vpiTypespec RefTypespec start:5:3 end:5:12:
-            vpiParent: Net name:next
-            vpiFullName: toto.next
-            vpiActual: LogicTypespec
-          vpiName: next
-          vpiFullName: toto.next
       vpiProcess (1 items):
         Always start:7:3 end:17:6:
           vpiParent: Module name:toto
@@ -2923,7 +2920,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:state[IDLE]
                       vpiName: state
                       vpiFullName: toto.state
-                      vpiActual: Net name:state
+                      vpiActual: Variable name:state
                     vpiIndex RefObj name:IDLE start:9:11 end:9:15:
                       vpiParent: BitSelect name:state[IDLE]
                       vpiName: IDLE
@@ -3026,6 +3023,16 @@ Design name:unnamed:
         vpiParent: Module name:dut
         vpiName: dut
       vpiFullName: dut
+      vpiVariable (1 items):
+        Variable name:o start:23:18 end:23:19:
+          vpiParent: Module name:dut
+          vpiTypespec RefTypespec start:25:5 end:25:14:
+            vpiParent: Variable name:o
+            vpiFullName: dut.o
+            vpiActual: LogicTypespec
+          vpiName: o
+          vpiFullName: dut.o
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -3132,36 +3139,28 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dut
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
       vpiCell: dut
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:a start:22:17 end:22:18:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:22:11 end:22:16:
+          vpiTypespec RefTypespec start:24:10 end:24:15:
             vpiParent: Net name:a
             vpiFullName: dut.a
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: dut.a
           vpiNetType: wire (1)
-        Net name:o start:23:18 end:23:19:
-          vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:23:12 end:23:17:
-            vpiParent: Net name:o
-            vpiFullName: dut.o
-            vpiActual: LogicTypespec
-          vpiName: o
-          vpiFullName: dut.o
       vpiPort (2 items):
         Port name:a start:21:13 end:21:14:
           vpiParent: Module name:dut
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj name:a start:21:13 end:21:14:
+          vpiLowConn RefObj name:a start:22:17 end:22:18:
             vpiParent: Port name:a
             vpiName: a
             vpiFullName: dut.a.a
@@ -3169,20 +3168,18 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:22:11 end:22:16:
             vpiParent: Port name:a
             vpiFullName: dut.a
-            vpiActual: LogicTypespec
         Port name:o start:21:16 end:21:17:
           vpiParent: Module name:dut
           vpiName: o
           vpiDirection: output (2)
-          vpiLowConn RefObj name:o start:21:16 end:21:17:
+          vpiLowConn RefObj name:o start:23:18 end:23:19:
             vpiParent: Port name:o
             vpiName: o
             vpiFullName: dut.o.o
-            vpiActual: Net name:o
+            vpiActual: Variable name:o
           vpiTypespec RefTypespec start:23:12 end:23:17:
             vpiParent: Port name:o
             vpiFullName: dut.o
-            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:26:10 end:26:20:
           vpiParent: Module name:dut
@@ -3190,7 +3187,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: o
             vpiFullName: dut.o
-            vpiActual: Net name:o
+            vpiActual: Variable name:o
           vpiRhs PartSelect name:a[3:1] start:26:14 end:26:20:
             vpiParent: ContAssign
             vpiName: a[3:1]
@@ -3228,6 +3225,16 @@ Design name:unnamed:
         vpiParent: Module name:dut_part_select
         vpiName: dut_part_select
       vpiFullName: dut_part_select
+      vpiVariable (1 items):
+        Variable name:b start:32:13 end:32:14:
+          vpiParent: Module name:dut_part_select
+          vpiTypespec RefTypespec start:32:3 end:32:12:
+            vpiParent: Variable name:b
+            vpiFullName: dut_part_select.b
+            vpiActual: LogicTypespec
+          vpiName: b
+          vpiFullName: dut_part_select.b
+          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dut_part_select
@@ -3334,7 +3341,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dut_part_select
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut_part_select
         vpiName: work
@@ -3364,9 +3371,10 @@ Design name:unnamed:
           vpiParent: Module name:dut_part_select
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:30:36 end:30:37:
+          vpiLowConn RefObj name:a start:30:36 end:30:37:
             vpiParent: Port name:a
-            vpiFullName: dut_part_select.a
+            vpiName: a
+            vpiFullName: dut_part_select.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:30:24 end:30:35:
             vpiParent: Port name:a
@@ -3376,9 +3384,10 @@ Design name:unnamed:
           vpiParent: Module name:dut_part_select
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj start:30:52 end:30:53:
+          vpiLowConn RefObj name:b start:30:52 end:30:53:
             vpiParent: Port name:b
-            vpiFullName: dut_part_select.b
+            vpiName: b
+            vpiFullName: dut_part_select.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:30:39 end:30:51:
             vpiParent: Port name:b
@@ -3549,7 +3558,7 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: dut_no_decl
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:dut_no_decl
         vpiName: work
@@ -3579,9 +3588,10 @@ Design name:unnamed:
           vpiParent: Module name:dut_no_decl
           vpiName: a
           vpiDirection: input (1)
-          vpiLowConn RefObj start:38:32 end:38:33:
+          vpiLowConn RefObj name:a start:38:32 end:38:33:
             vpiParent: Port name:a
-            vpiFullName: dut_no_decl.a
+            vpiName: a
+            vpiFullName: dut_no_decl.a.a
             vpiActual: Net name:a
           vpiTypespec RefTypespec start:38:20 end:38:31:
             vpiParent: Port name:a
@@ -3591,9 +3601,10 @@ Design name:unnamed:
           vpiParent: Module name:dut_no_decl
           vpiName: b
           vpiDirection: output (2)
-          vpiLowConn RefObj start:38:48 end:38:49:
+          vpiLowConn RefObj name:b start:38:48 end:38:49:
             vpiParent: Port name:b
-            vpiFullName: dut_no_decl.b
+            vpiName: b
+            vpiFullName: dut_no_decl.b.b
             vpiActual: Net name:b
           vpiTypespec RefTypespec start:38:35 end:38:47:
             vpiParent: Port name:b
@@ -3759,7 +3770,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
@@ -3775,25 +3786,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UnitPartSelect/UnitPartSelect/mounts.json
 
 
-{'result': {'coverage': 99.24,
+{'result': {'coverage': 99.43,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 4,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 3,
                                                   'pre_len': 527}},
-            'post_len': 4,
+            'post_len': 3,
             'pre_len': 527,
             'test_name': 'UnitPartSelect/UnitPartSelect'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      527 |         4 |
+| $Output/lib/work/top.sv |      527 |         3 |
 +=========================+==========+===========+
-|                         |      527 |         4 |
+|                         |      527 |         3 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.24
+[COVERAGE] : 99.43
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3804,7 +3815,7 @@ COMMAND: ${HLC_DIR}/regression/UnitPartSelect/UnitPartSelect/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             805     805       0         0
+Others                             807     807       0         0
 ----------------------------------------------------------------
-                                   805     805       0         0
+                                   807     807       0         0
 ===================== END REDUCTION RESULT =====================

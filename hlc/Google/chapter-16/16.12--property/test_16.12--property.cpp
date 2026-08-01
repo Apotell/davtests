@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Spec-based validation of IEEE 1800-2017 §16.12 property declarations.
+// Spec-based validation of IEEE 1800-2023 sec. 16.12 property declarations.
 // SV: tests/Google/chapter-16/16.12--property.sv
 //
 //   logic clk;
@@ -22,54 +22,54 @@
 //   assert property ( @(posedge clk) (a == 1));
 //   assert property ( not @(posedge clk) (a == 1));
 //
-// ── §16.12 constructs under test ───────────────────────────────────────────
+// -- sec. 16.12 constructs under test ----
 //
-// Assert[0]: anonymous inline concurrent assertion — clocking event and
+// Assert[0]: anonymous inline concurrent assertion -- clocking event and
 //   boolean expression written directly inside 'assert property'.
 //
-// Assert[1]: §16.12 'not' property negation applied to the same inline
-//   clocked property. 'not' is a unary property operator that negates the
-//   property it wraps.
+// Assert[1]: sec. 16.12 'not' property negation applied to the same inline
+//   clocked property. Per Annex A property_expr grammar:
+//     property_expr ::= ... | NOT property_expr | clocking_event property_expr | ...
+//   so 'not @(posedge clk) (a == 1)' parses as NOT applied to the inner
+//   'clocking_event property_expr' -- i.e. NOT wraps a clocked sequence.
 //
-// ── UHDM tree for Assert[0] (from log) ────────────────────────────────────
+// -- Declarations 'logic clk;' / 'logic a;' ----
+// Neither declaration uses a net-type keyword (wire/tri/etc.), is
+// 'interconnect', or is a user-defined nettype -- per sec. 6.7/6.8 both are
+// plain variables, not nets, regardless of the module's default nettype.
+//
+// -- UHDM tree for Assert[0] ----
 //
 //   Assert[0]
-//   └── PropertySpec
-//       ├── clockingEvent  Operation { posedgeOp(39) }
-//       │   └── operands[0]  RefObj("clk")
-//       └── propertyExpr   Operation { vpiEqOp(14) }
-//           ├── operands[0]  RefObj("a")
-//           └── operands[1]  Constant("1", uIntConst=9)
+//   +-- PropertySpec
+//       +-- clockingEvent  Operation { posedgeOp(39) }
+//       |   +-- operands[0]  RefObj("clk")
+//       +-- propertyExpr   Operation { vpiEqOp(14) }
+//           +-- operands[0]  RefObj("a")
+//           +-- operands[1]  Constant("1", uIntConst=9)
 //
-// ── UHDM tree for Assert[1] (from log) ────────────────────────────────────
+// -- UHDM tree for Assert[1] ----
 //
 //   Assert[1]
-//   └── PropertySpec  (no clockingEvent at this level)
-//       └── propertyExpr  ClockedSeq
-//           ├── clockingEvent  Operation { posedgeOp(39) }
-//           │   └── operands[0]  RefObj("clk")
-//           └── sequenceExpr   Operation { vpiEqOp(14) }
-//               ├── operands[0]  RefObj("a")
-//               └── operands[1]  Constant("1", uIntConst=9)
+//   +-- PropertySpec  (no clockingEvent at this level -- see below)
+//       +-- propertyExpr  Operation { vpiNotOp(3) }
+//           +-- operands[0]  ClockedSeq
+//               +-- clockingEvent  Operation { posedgeOp(39) }
+//               |   +-- operands[0]  RefObj("clk")
+//               +-- sequenceExpr   Operation { vpiEqOp(14) }
+//                   +-- operands[0]  RefObj("a")
+//                   +-- operands[1]  Constant("1", uIntConst=9)
 //
-// ── Surelog bug — 'not' silently dropped ──────────────────────────────────
+// For Assert[1] the clocking event is NOT a direct child of PropertySpec
+// (unlike Assert[0]); it lives inside the ClockedSeq that is the single
+// operand of the outer 'not' Operation. This is the correct per-grammar
+// shape: 'not' takes a property_expr operand, and the operand here is
+// itself 'clocking_event property_expr', which is modeled as ClockedSeq.
 //
-// Surelog silently drops the §16.12 'not' property operator from
-// 'assert property (not @(posedge clk) (a == 1))'. The inner clocked
-// property is preserved as a ClockedSeq node, but the 'not' negation wrapper
-// is completely absent from the UHDM output. No EL0535 error is reported —
-// the drop is silent.
-//
-// This differs from Assert[0] where the clocking event lives directly on
-// PropertySpec; for Assert[1] Surelog places it inside a ClockedSeq.
-//
-// Test ConcAssert1_PropertyExpr_ShouldBeOperation FAILS intentionally —
-// it documents the dropped 'not'.
-//
-// ── VPI constants ──────────────────────────────────────────────────────────
+// -- VPI constants ----
 //   vpiPosedgeOp   = 39
 //   vpiEqOp        = 14
-//   vpiNotOp       =  4
+//   vpiNotOp       =  3
 //   vpiUIntConst   =  9
 
 #include <hlc/Common/Session.h>
@@ -88,6 +88,7 @@
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 #include <string>
 
@@ -99,18 +100,18 @@ class PropertyTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// ---------------------------------------------------------------------------
+// ----
 // Helpers
-// ---------------------------------------------------------------------------
+// ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
+static const hldb::Variable *getVariable(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getNets()) return nullptr;
-  return hldb::findByName<hldb::Net>(name, m->getNets());
+  if (!m || !m->getVariables()) return nullptr;
+  return hldb::findByName<hldb::Variable>(name, m->getVariables());
 }
 
 static const hldb::ConcurrentAssertions *getAssertAt(const hldb::Design *d, size_t idx) {
@@ -132,11 +133,16 @@ static const hldb::Operation *getEqOp(const hldb::Design *d) {
   return ps->getPropertyExpr<hldb::Operation>();
 }
 
-// The ClockedSeq from Assert[1] (Surelog drops 'not', wraps inner property)
-static const hldb::ClockedSeq *getNotClockedSeq(const hldb::Design *d) {
+// The outer 'not' Operation from Assert[1].
+static const hldb::Operation *getNotOp(const hldb::Design *d) {
   const auto *ps = getPropSpec(d, 1);
   if (!ps) return nullptr;
-  const auto *op = ps->getPropertyExpr<hldb::Operation>();
+  return ps->getPropertyExpr<hldb::Operation>();
+}
+
+// The ClockedSeq operand of the 'not' Operation from Assert[1].
+static const hldb::ClockedSeq *getNotClockedSeq(const hldb::Design *d) {
+  const auto *op = getNotOp(d);
   if (!op) return nullptr;
   const auto *operands = op->getOperands();
   if (!operands) return nullptr;
@@ -151,26 +157,47 @@ static const hldb::ClockedSeq *getNotClockedSeq(const hldb::Design *d) {
 TEST_F(PropertyTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 // ===========================================================================
-// Nets — logic clk, a
+// Variables -- logic clk, a (sec. 6.7/6.8: no net-type keyword -> Variable)
 // ===========================================================================
 
-TEST_F(PropertyTest, Net_clk_HasLogicTypespec) {
-  const auto *net = getNet(m_design, "clk");
-  ASSERT_NE(net, nullptr) << "net 'clk' not found";
-  ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
+TEST_F(PropertyTest, Variable_clk_HasLogicTypespec) {
+  const auto *var = getVariable(m_design, "clk");
+  ASSERT_NE(var, nullptr) << "variable 'clk' not found";
+  ASSERT_NE(var->getTypespec(), nullptr);
+  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'logic clk' must produce a LogicTypespec";
 }
 
-TEST_F(PropertyTest, Net_a_HasLogicTypespec) {
-  const auto *net = getNet(m_design, "a");
-  ASSERT_NE(net, nullptr) << "net 'a' not found";
-  ASSERT_NE(net->getTypespec(), nullptr);
-  EXPECT_NE(net->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr) << "'logic a' must produce a LogicTypespec";
+TEST_F(PropertyTest, Variable_a_HasLogicTypespec) {
+  const auto *var = getVariable(m_design, "a");
+  ASSERT_NE(var, nullptr) << "variable 'a' not found";
+  ASSERT_NE(var->getTypespec(), nullptr);
+  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
+      << "'logic a' must produce a LogicTypespec";
+}
+
+TEST_F(PropertyTest, Variable_clk_NotAlsoInNets) {
+  // sec. 6.7/6.8: 'logic clk' with no net-type keyword is a variable, never
+  // a net -- it must not also appear in the module's net collection.
+  const auto *m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  if (m->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("clk", m->getNets()), nullptr)
+        << "'clk' is a variable (no net-type keyword) and must not also appear in getNets()";
+  }
+}
+
+TEST_F(PropertyTest, Variable_a_NotAlsoInNets) {
+  const auto *m = getTop(m_design);
+  ASSERT_NE(m, nullptr);
+  if (m->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("a", m->getNets()), nullptr)
+        << "'a' is a variable (no net-type keyword) and must not also appear in getNets()";
+  }
 }
 
 // ===========================================================================
-// Module structure — no named sequence or property declarations
+// Module structure -- no named sequence or property declarations
 // ===========================================================================
 
 TEST_F(PropertyTest, Module_HasNoSequenceDecls) {
@@ -186,7 +213,7 @@ TEST_F(PropertyTest, Module_HasNoPropertyDecls) {
 }
 
 // ===========================================================================
-// ConcurrentAssertions — two asserts
+// ConcurrentAssertions -- two asserts
 // ===========================================================================
 
 TEST_F(PropertyTest, ConcAssert_Collection_HasTwoEntries) {
@@ -197,13 +224,13 @@ TEST_F(PropertyTest, ConcAssert_Collection_HasTwoEntries) {
 }
 
 // ===========================================================================
-// assert property (@(posedge clk) (a == 1)) — Assert[0]
+// assert property (@(posedge clk) (a == 1)) -- Assert[0]
 // ===========================================================================
 
 TEST_F(PropertyTest, ConcAssert0_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 0);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "assert has no action block — getStmt() must be null";
+  EXPECT_EQ(ca->getStmt(), nullptr) << "assert has no action block -- getStmt() must be null";
 }
 
 TEST_F(PropertyTest, ConcAssert0_Property_IsPropertySpec) {
@@ -242,10 +269,9 @@ TEST_F(PropertyTest, ConcAssert0_ClockingEvent_OperandIsClk) {
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_IsOperation) {
-  // Inline boolean 'a == 1' must produce an Operation node. No EL0535 here,
-  // so getPropertyExpr<Operation>() must succeed.
+  // Inline boolean 'a == 1' must produce an Operation node.
   const auto *op = getEqOp(m_design);
-  EXPECT_NE(op, nullptr) << "§16.12: inline boolean property expr must be an Operation";
+  EXPECT_NE(op, nullptr) << "sec. 16.12: inline boolean property expr must be an Operation";
 }
 
 TEST_F(PropertyTest, ConcAssert0_PropertyExpr_IsEqualOp) {
@@ -292,23 +318,24 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsUnsignedInt) {
 }
 
 // ===========================================================================
-// assert property (not @(posedge clk) (a == 1)) — Assert[1]
+// assert property (not @(posedge clk) (a == 1)) -- Assert[1]
 // ===========================================================================
 //
-// §16.12: 'not' is a unary property operator that negates the property.
-// Surelog silently drops the 'not' operator. The inner clocked property
-// '@(posedge clk) (a == 1)' is preserved as a ClockedSeq node and becomes
-// the propertyExpr of the outer PropertySpec directly.
+// sec. 16.12 / Annex A property_expr grammar: 'not' is a unary property
+// operator that negates the property_expr operand. Here the operand is
+// itself 'clocking_event property_expr' ('@(posedge clk) (a == 1)'), which
+// is modeled as a ClockedSeq. So the outer propertyExpr is
+// Operation{vpiNotOp} with a single operand: the ClockedSeq.
 //
 // Key structural difference from Assert[0]:
 //   Assert[0]: PropertySpec.clockingEvent exists (at PropertySpec level)
 //   Assert[1]: PropertySpec has NO clockingEvent; the clocking event is
-//              inside the ClockedSeq that IS the propertyExpr.
+//              inside the ClockedSeq that is the operand of the 'not' op.
 
 TEST_F(PropertyTest, ConcAssert1_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 1);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "'assert property (not …);' has no action block";
+  EXPECT_EQ(ca->getStmt(), nullptr) << "'assert property (not ...);' has no action block";
 }
 
 TEST_F(PropertyTest, ConcAssert1_Property_IsPropertySpec) {
@@ -317,33 +344,44 @@ TEST_F(PropertyTest, ConcAssert1_Property_IsPropertySpec) {
   EXPECT_NE(ca->getProperty<hldb::PropertySpec>(), nullptr) << "assert property must produce a PropertySpec node";
 }
 
-TEST_F(PropertyTest, ConcAssert1_PropertyExpr_ShouldBeOperation) {
-  // §16.12: 'not @(posedge clk) (a == 1)' must produce Operation{vpiNotOp}
-  // as the outer property expr.
-  // Surelog bug: 'not' is silently dropped — propertyExpr is ClockedSeq.
-  // This test FAILS intentionally — documents the dropped 'not'.
+TEST_F(PropertyTest, ConcAssert1_PropertyExpr_IsOperation) {
+  // sec. 16.12: 'not property_expr' must produce Operation{vpiNotOp} as the
+  // outer property expr.
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<hldb::Operation>(), nullptr)
-      << "§16.12: 'not property_expr' must produce Operation{vpiNotOp}; "
-         "Surelog silently drops 'not' — ClockedSeq returned instead";
+  EXPECT_NE(ps->getPropertyExpr<hldb::Operation>(), nullptr) << "sec. 16.12: 'not property_expr' must produce "
+                                                                 "an Operation node";
+}
+
+TEST_F(PropertyTest, ConcAssert1_PropertyExpr_IsNotOp) {
+  const auto *op = getNotOp(m_design);
+  ASSERT_NE(op, nullptr);
+  EXPECT_EQ(op->getOpType(), vpiNotOp) << "'not property_expr' must use vpiNotOp (3)";
+}
+
+TEST_F(PropertyTest, ConcAssert1_PropertyExpr_HasOneOperand) {
+  // 'not' is a unary property operator -- exactly 1 operand.
+  const auto *op = getNotOp(m_design);
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "unary 'not' must have exactly 1 operand";
 }
 
 TEST_F(PropertyTest, ConcAssert1_PropertySpec_HasNoClockingEvent) {
-  // Surelog places the clocking event inside the ClockedSeq (propertyExpr),
-  // not on the outer PropertySpec. Unlike Assert[0], PropertySpec.clockingEvent
-  // is null for Assert[1].
+  // The clocking event is inside the ClockedSeq (the 'not' operand), not on
+  // the outer PropertySpec. Unlike Assert[0], PropertySpec.clockingEvent is
+  // null for Assert[1].
   const auto *ps = getPropSpec(m_design, 1);
   ASSERT_NE(ps, nullptr);
-  EXPECT_EQ(ps->getClockingEvent(), nullptr) << "Assert[1] PropertySpec has no clockingEvent at its own level — "
-                                                "it is inside the ClockedSeq propertyExpr";
+  EXPECT_EQ(ps->getClockingEvent(), nullptr) << "Assert[1] PropertySpec has no clockingEvent at its own level -- "
+                                                 "it is inside the ClockedSeq operand of the 'not' Operation";
 }
 
-TEST_F(PropertyTest, ConcAssert1_PropertyExpr_IsClockedSeq) {
-  // Documents actual Surelog output: propertyExpr is ClockedSeq because
-  // Surelog drops 'not' and preserves only the inner clocked property.
+TEST_F(PropertyTest, ConcAssert1_PropertyExpr_OperandIsClockedSeq) {
+  // The single operand of the outer 'not' Operation must be a ClockedSeq,
+  // since the negated property_expr is itself 'clocking_event property_expr'.
   const auto *cs = getNotClockedSeq(m_design);
-  EXPECT_NE(cs, nullptr) << "Surelog drops 'not' — propertyExpr is ClockedSeq";
+  EXPECT_NE(cs, nullptr) << "operand of 'not' must be a ClockedSeq for '@(posedge clk) (a == 1)'";
 }
 
 TEST_F(PropertyTest, ConcAssert1_ClockedSeq_ClockingEvent_IsPosedge) {

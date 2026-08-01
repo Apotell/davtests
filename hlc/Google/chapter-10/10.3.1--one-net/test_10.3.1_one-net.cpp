@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,7 +58,7 @@ class OneNetTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets / ports -----------------------------------------------
+// --- module / nets / ports ----
 
 TEST_F(OneNetTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -76,6 +76,15 @@ TEST_F(OneNetTest, ModuleHasTwoNetsAllWire) {
   }
 }
 
+TEST_F(OneNetTest, ModuleHasNoVariables) {
+  // Per IEEE 1800-2023 Sec 6.7/6.8: input/inout ports always default to net;
+  // "b" is an output port with no explicit data type, so it also defaults
+  // to net (not variable) -- see IEEE port-kind net-vs-variable rule.
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr);
+}
+
 TEST_F(OneNetTest, ModuleHasInputAAndOutputB) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
@@ -91,7 +100,7 @@ TEST_F(OneNetTest, ModuleHasInputAAndOutputB) {
   EXPECT_EQ(b->getDirection(), vpiOutput);
 }
 
-// --- continuous assignment -------------------------------------------------
+// --- continuous assignment ----
 
 TEST_F(OneNetTest, HasOneContAssignBEqualsA) {
   const hldb::Module *const top = getTop();
@@ -111,7 +120,7 @@ TEST_F(OneNetTest, HasOneContAssignBEqualsA) {
   EXPECT_EQ(ca->getDelay(), nullptr);
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(OneNetTest, DesignHasOneTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,9 +32,12 @@
 // under an explicit "unpacked" directory, and chapter-7/unions/packed/basic
 // / chapter-7/unions/tagged for the "packed" / "tagged" variants.
 //
+// `union {...} un` has no net-type keyword, so per IEEE 1800-2023
+// Sec 6.7/6.8 it is a variable_declaration, not a net_declaration.
+//
 // Checked:
-//   - design has module top with exactly 1 net: "un"
-//   - net "un": RefTypespec -> UnionTypespec, vpiPacked false, vpiTagged
+//   - design has module top with exactly 1 variable: "un"
+//   - variable "un": RefTypespec -> UnionTypespec, vpiPacked false, vpiTagged
 //     false, exactly 2 TypespecMember "v1"/"v2"
 //   - member "v1": typespec -> BitTypespec [7:0] vector
 //   - member "v2": typespec -> BitTypespec [3:0] vector (a DIFFERENT, smaller
@@ -43,9 +46,9 @@
 //     StringTypespec
 //   - Initial process: 1 Begin with 3 stmts (1 HierPath Assignment + 2
 //     SysFuncCall)
-//   - Stmt[0]: blocking Assignment, lhs HierPath "un.v1" (RefObj "un" -> Net
-//     "un", RefObj "v1" -> TypespecMember "v1"), rhs Constant decimal
-//     "8'd140" (value "140")
+//   - Stmt[0]: blocking Assignment, lhs HierPath "un.v1" (RefObj "un" ->
+//     Variable "un", RefObj "v1" -> TypespecMember "v1"), rhs Constant
+//     decimal "8'd140" (value "140")
 //   - Stmt[1]: $display with 2 args (format ":assert: (%d == 140)" +
 //     HierPath "un.v1")
 //   - Stmt[2]: $display with 2 args (format ":assert: (%d == 12)" +
@@ -85,6 +88,7 @@
 #include <hldb/sys_func_call.h>
 #include <hldb/typespec_member.h>
 #include <hldb/union_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -107,22 +111,33 @@ class UnionsBasicTest : public Test {
 
   static const hldb::UnionTypespec *getUnUnionTypespec() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getNets() == nullptr) return nullptr;
-    const hldb::Net *const un = hldb::findByName<hldb::Net>("un", top->getNets());
+    if (top == nullptr || top->getVariables() == nullptr) return nullptr;
+    const hldb::Variable *const un = hldb::findByName<hldb::Variable>("un", top->getVariables());
     if (un == nullptr) return nullptr;
     return un->getTypespec<hldb::RefTypespec>()->getActual<hldb::UnionTypespec>();
   }
 };
 
-// --- module / net / union typespec -------------------------------------------
+// --- module / variable / union typespec ----
 
 TEST_F(UnionsBasicTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnionsBasicTest, ModuleHasOneNet) {
+TEST_F(UnionsBasicTest, ModuleHasOneVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
+}
+
+// `un` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must
+// not also appear in the module's net collection.
+TEST_F(UnionsBasicTest, VariableUnIsNotDuplicatedAsNet) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  if (top->getNets() != nullptr) {
+    EXPECT_EQ(hldb::findByName<hldb::Net>("un", top->getNets()), nullptr)
+        << "'union {...} un' has no net-type keyword and must not also appear as a Net";
+  }
 }
 
 TEST_F(UnionsBasicTest, UnIsUnpackedUntaggedUnionWithTwoMembers) {
@@ -164,7 +179,7 @@ TEST_F(UnionsBasicTest, MemberV2IsFourBitBitTypespec) {
   EXPECT_EQ(bt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-// --- initial process ---------------------------------------------------------
+// --- initial process ----
 
 TEST_F(UnionsBasicTest, InitialBeginHasThreeStmts) {
   const hldb::Begin *const begin = getInitialBegin();
@@ -184,7 +199,7 @@ TEST_F(UnionsBasicTest, FirstStmtAssignsDecimalOneFourZeroToUnV1) {
   EXPECT_EQ(lhs->getName(), "un.v1");
   ASSERT_NE(lhs->getPathElems(), nullptr);
   ASSERT_EQ(lhs->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(lhs->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
@@ -214,7 +229,7 @@ TEST_F(UnionsBasicTest, ThirdStmtDisplaysUnV2) {
   EXPECT_EQ(any_cast<hldb::HierPath>(disp->getArguments()->at(1))->getName(), "un.v2");
 }
 
-// --- design-level typespecs / compiler diagnostics ---------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(UnionsBasicTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -248,7 +263,7 @@ TEST_F(UnionsBasicTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known gap: runtime union-overlap values require simulation ------------
+// --- known gap: runtime union-overlap values require simulation ----
 
 TEST_F(UnionsBasicTest, RuntimeUnionOverlapValuesRequireSimulation) {
   GTEST_SKIP() << "This harness only compiles/elaborates basic.sv; it does not run a simulator, so "

@@ -228,10 +228,7 @@ n<$Source01/ac.sv> u<214> t<Top_level_rule> c<1> l<8:1> el<71:1>
   n<// ac> u<213> t<LINE_COMMENT> p<214> l<70:11> el<70:16>
 AST_DEBUG_END
 [INF:CP0303] $Source01/ac.sv:8:1: Compile module "ac".
-[ERR:EL0535] $Source01/ac.sv:17:3: Illegal implicit net "id:17, name:genbus_if".
-[ERR:EL0535] $Source01/ac.sv:17:13: Illegal implicit net "id:18, name:slave".
-[ERR:EL0535] $Source01/ac.sv:18:3: Illegal implicit net "id:26, name:pads_if".
-[ERR:EL0535] $Source01/ac.sv:18:11: Illegal implicit net "id:27, name:mp_ana".
+[ERR:LN0813] $Source01/ac.sv:1:1: Found 2 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -241,7 +238,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: ac.sv
       vpiPreprocFile: "$Output/lib/work/ac.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:ac file:$Source01/ac.sv start:8:1 end:70:10:
       vpiParent: Design name:unnamed
@@ -249,6 +245,25 @@ Design name:unnamed:
         vpiParent: Module name:ac
         vpiName: ac
       vpiFullName: ac
+      vpiVariable (2 items):
+        Variable name:acenable start:31:11 end:31:19:
+          vpiParent: Module name:ac
+          vpiTypespec RefTypespec start:31:3 end:31:8:
+            vpiParent: Variable name:acenable
+            vpiFullName: ac.acenable
+            vpiActual: LogicTypespec
+          vpiName: acenable
+          vpiFullName: ac.acenable
+          vpiScalar: true
+        Variable name:acout start:32:11 end:32:16:
+          vpiParent: Module name:ac
+          vpiTypespec RefTypespec start:32:3 end:32:8:
+            vpiParent: Variable name:acout
+            vpiFullName: ac.acout
+            vpiActual: LogicTypespec
+          vpiName: acout
+          vpiFullName: ac.acout
+          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:ID start:10:7 end:10:9:
           vpiParent: Module name:ac
@@ -276,37 +291,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (5 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:ac
-        UnsupportedTypespec name:genbus_if::slave start:17:3 end:17:18:
-          vpiParent: Module name:ac
-          vpiPathElem (2 items):
-            RefObj name:genbus_if start:17:3 end:17:12:
-              vpiParent: UnsupportedTypespec name:genbus_if::slave
-              vpiName: genbus_if
-              vpiFullName: ac.genbus_if::slave.genbus_if
-            RefObj name:slave start:17:13 end:17:18:
-              vpiParent: UnsupportedTypespec name:genbus_if::slave
-              vpiName: slave
-              vpiFullName: ac.genbus_if::slave.slave
-          vpiName Identifier name:genbus_if::slave:
-            vpiParent: UnsupportedTypespec name:genbus_if::slave
-            vpiName: genbus_if::slave
-        UnsupportedTypespec name:pads_if::mp_ana start:18:3 end:18:17:
-          vpiParent: Module name:ac
-          vpiPathElem (2 items):
-            RefObj name:pads_if start:18:3 end:18:10:
-              vpiParent: UnsupportedTypespec name:pads_if::mp_ana
-              vpiName: pads_if
-              vpiFullName: ac.pads_if::mp_ana.pads_if
-            RefObj name:mp_ana start:18:11 end:18:17:
-              vpiParent: UnsupportedTypespec name:pads_if::mp_ana
-              vpiName: mp_ana
-              vpiFullName: ac.pads_if::mp_ana.mp_ana
-          vpiName Identifier name:pads_if::mp_ana:
-            vpiParent: UnsupportedTypespec name:pads_if::mp_ana
-            vpiName: pads_if::mp_ana
         UnsupportedTypespec name:ac_dig start:40:3 end:40:9:
           vpiParent: Module name:ac
           vpiName Identifier name:ac_dig start:40:3 end:40:9:
@@ -318,31 +305,13 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:ac_ana
             vpiName: ac_ana
       vpiDefName: ac
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:ac
         vpiName: work
         vpiFullName: ac.work
       vpiCell: ac
-      vpiNet (6 items):
-        Net name:dbus start:17:19 end:17:23:
-          vpiParent: Module name:ac
-          vpiTypespec RefTypespec start:17:3 end:17:18:
-            vpiParent: Net name:dbus
-            vpiFullName: ac.dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::slave
-          vpiName: dbus
-          vpiFullName: ac.dbus
-          vpiNetType: wire (1)
-        Net name:padsif start:18:19 end:18:25:
-          vpiParent: Module name:ac
-          vpiTypespec RefTypespec start:18:3 end:18:17:
-            vpiParent: Net name:padsif
-            vpiFullName: ac.padsif
-            vpiActual: UnsupportedTypespec name:pads_if::mp_ana
-          vpiName: padsif
-          vpiFullName: ac.padsif
-          vpiNetType: wire (1)
+      vpiNet (2 items):
         Net name:clk start:21:22 end:21:25:
           vpiParent: Module name:ac
           vpiTypespec RefTypespec start:21:3 end:21:15:
@@ -361,54 +330,23 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: ac.rst
           vpiNetType: wire (1)
-        Net name:acenable start:31:11 end:31:19:
-          vpiParent: Module name:ac
-          vpiTypespec RefTypespec start:31:3 end:31:8:
-            vpiParent: Net name:acenable
-            vpiFullName: ac.acenable
-            vpiActual: LogicTypespec
-          vpiName: acenable
-          vpiFullName: ac.acenable
-        Net name:acout start:32:11 end:32:16:
-          vpiParent: Module name:ac
-          vpiTypespec RefTypespec start:32:3 end:32:8:
-            vpiParent: Net name:acout
-            vpiFullName: ac.acout
-            vpiActual: LogicTypespec
-          vpiName: acout
-          vpiFullName: ac.acout
       vpiPort (4 items):
         Port name:dbus start:17:19 end:17:23:
           vpiParent: Module name:ac
           vpiName: dbus
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:17:19 end:17:23:
-            vpiParent: Port name:dbus
-            vpiFullName: ac.dbus
-            vpiActual: Net name:dbus
-          vpiTypespec RefTypespec start:17:3 end:17:18:
-            vpiParent: Port name:dbus
-            vpiFullName: ac.dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::slave
         Port name:padsif start:18:19 end:18:25:
           vpiParent: Module name:ac
           vpiName: padsif
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:18:19 end:18:25:
-            vpiParent: Port name:padsif
-            vpiFullName: ac.padsif
-            vpiActual: Net name:padsif
-          vpiTypespec RefTypespec start:18:3 end:18:17:
-            vpiParent: Port name:padsif
-            vpiFullName: ac.padsif
-            vpiActual: UnsupportedTypespec name:pads_if::mp_ana
         Port name:clk start:21:22 end:21:25:
           vpiParent: Module name:ac
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:21:22 end:21:25:
+          vpiLowConn RefObj name:clk start:21:22 end:21:25:
             vpiParent: Port name:clk
-            vpiFullName: ac.clk
+            vpiName: clk
+            vpiFullName: ac.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:21:3 end:21:15:
             vpiParent: Port name:clk
@@ -418,9 +356,10 @@ Design name:unnamed:
           vpiParent: Module name:ac
           vpiName: rst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:22:22 end:22:25:
+          vpiLowConn RefObj name:rst start:22:22 end:22:25:
             vpiParent: Port name:rst
-            vpiFullName: ac.rst
+            vpiName: rst
+            vpiFullName: ac.rst.rst
             vpiActual: Net name:rst
           vpiTypespec RefTypespec start:22:3 end:22:15:
             vpiParent: Port name:rst
@@ -456,36 +395,36 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dbus
                 vpiFullName: ac.i_ac_dig.dbus
-                vpiActual: Net name:dbus
+                vpiActual: Port name:dbus
               vpiHighConn RefObj name:dbus start:44:42 end:44:46:
                 vpiParent: Port
                 vpiName: dbus
                 vpiFullName: ac.i_ac_dig.dbus
-                vpiActual: Net name:dbus
+                vpiActual: Port name:dbus
             Port start:47:4 end:47:26:
               vpiParent: RefInstance name:i_ac_dig
               vpiLowConn RefObj name:acenable start:47:5 end:47:13:
                 vpiParent: Port
                 vpiName: acenable
                 vpiFullName: ac.i_ac_dig.acenable
-                vpiActual: Net name:acenable
+                vpiActual: Variable name:acenable
               vpiHighConn RefObj name:acenable start:47:17 end:47:25:
                 vpiParent: Port
                 vpiName: acenable
                 vpiFullName: ac.i_ac_dig.acenable
-                vpiActual: Net name:acenable
+                vpiActual: Variable name:acenable
             Port start:49:4 end:49:20:
               vpiParent: RefInstance name:i_ac_dig
               vpiLowConn RefObj name:acout start:49:5 end:49:10:
                 vpiParent: Port
                 vpiName: acout
                 vpiFullName: ac.i_ac_dig.acout
-                vpiActual: Net name:acout
+                vpiActual: Variable name:acout
               vpiHighConn RefObj name:acout start:49:14 end:49:19:
                 vpiParent: Port
                 vpiName: acout
                 vpiFullName: ac.i_ac_dig.acout
-                vpiActual: Net name:acout
+                vpiActual: Variable name:acout
             Port start:50:4 end:50:17:
               vpiParent: RefInstance name:i_ac_dig
               vpiLowConn RefObj name:clk start:50:5 end:50:8:
@@ -525,36 +464,36 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: padsif
                 vpiFullName: ac.i_ac_ana.padsif
-                vpiActual: Net name:padsif
+                vpiActual: Port name:padsif
               vpiHighConn RefObj name:padsif start:61:42 end:61:48:
                 vpiParent: Port
                 vpiName: padsif
                 vpiFullName: ac.i_ac_ana.padsif
-                vpiActual: Net name:padsif
+                vpiActual: Port name:padsif
             Port start:64:4 end:64:20:
               vpiParent: RefInstance name:i_ac_ana
               vpiLowConn RefObj name:acout start:64:5 end:64:10:
                 vpiParent: Port
                 vpiName: acout
                 vpiFullName: ac.i_ac_ana.acout
-                vpiActual: Net name:acout
+                vpiActual: Variable name:acout
               vpiHighConn RefObj name:acout start:64:14 end:64:19:
                 vpiParent: Port
                 vpiName: acout
                 vpiFullName: ac.i_ac_ana.acout
-                vpiActual: Net name:acout
+                vpiActual: Variable name:acout
             Port start:66:4 end:66:26:
               vpiParent: RefInstance name:i_ac_ana
               vpiLowConn RefObj name:acenable start:66:5 end:66:13:
                 vpiParent: Port
                 vpiName: acenable
                 vpiFullName: ac.i_ac_ana.acenable
-                vpiActual: Net name:acenable
+                vpiActual: Variable name:acenable
               vpiHighConn RefObj name:acenable start:66:17 end:66:25:
                 vpiParent: Port
                 vpiName: acenable
                 vpiFullName: ac.i_ac_ana.acenable
-                vpiActual: Net name:acenable
+                vpiActual: Variable name:acenable
             Port start:67:4 end:67:17:
               vpiParent: RefInstance name:i_ac_ana
               vpiLowConn RefObj name:clk start:67:5 end:67:8:
@@ -592,7 +531,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -608,25 +547,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 93.05,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/ac.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/ac.sv': {'post_len': 29,
                                                  'pre_len': 417}},
-            'post_len': 0,
+            'post_len': 29,
             'pre_len': 417,
             'test_name': 'Verilator/t_sv_cpu_code/ac'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/ac.sv |      417 |         0 |
+| $Output/lib/work/ac.sv |      417 |        29 |
 +========================+==========+===========+
-|                        |      417 |         0 |
+|                        |      417 |        29 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 93.05
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -637,7 +576,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

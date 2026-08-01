@@ -30,18 +30,9 @@
 //   'a ##[+] b' is shorthand for 'a ##[1:$] b' -- b occurs after one or
 //   more clock cycles following a. Same structure with Range(lo=1, hi=$).
 //
-// Compile-stage bugs exposed:
-//
-//   CP0347 (seq_delay_star): 'a ##[*] b' causes 'ArrayTypespec::setParent'
-//     to fail. The delay slot (operands[1]) is an ArrayTypespec instead of a
-//     Range node. SeqDelayStar_Op_DelayOperand_IsRange FAILS.
-//
-//   Missing delay (seq_delay_plus): 'a ##[+] b' produces only 2 operands
-//     [RefObj(a), RefObj(b)] -- the Range(1,$) delay is completely dropped.
-//     SeqDelayPlus_Op_HasThreeOperands FAILS.
-//
-//   EL0535 x2: both sequence names in 'assert property' are treated as
-//     implicit nets instead of resolving to their SequenceDecl nodes.
+// Compile-stage: both 'a ##[*] b' and 'a ##[+] b' correctly desugar to
+// vpiCycleDelayOp with a Range(lo,$) delay operand, and both sequence names
+// in 'assert property' resolve correctly to their SequenceDecl nodes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -54,6 +45,7 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/range.h>
@@ -109,29 +101,34 @@ TEST_F(Sequence20Test, ModuleExists) {
 }
 
 // ===========================================================================
-// Nets -- bit clk, bit a, bit b
+// Variables -- bit clk, bit a, bit b (IEEE 1800-2023 Sec 6.7/6.8: no
+// net-type keyword means Variable, not Net, regardless of default_nettype)
 // ===========================================================================
 
-TEST_F(Sequence20Test, Net_a_HasBitTypespec) {
+TEST_F(Sequence20Test, Variable_a_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", tb->getNets());
-  ASSERT_NE(a, nullptr) << "net 'a' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", tb->getVariables());
+  ASSERT_NE(a, nullptr) << "variable 'a' not found";
   ASSERT_NE(a->getTypespec(), nullptr);
   EXPECT_NE(a->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "'bit a' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("a", tb->getNets()), nullptr)
+      << "'bit a' has no net-type keyword -- must not also appear in vpiNet";
 }
 
-TEST_F(Sequence20Test, Net_b_HasBitTypespec) {
+TEST_F(Sequence20Test, Variable_b_HasBitTypespec) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  ASSERT_NE(tb->getNets(), nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", tb->getNets());
-  ASSERT_NE(b, nullptr) << "net 'b' not found";
+  ASSERT_NE(tb->getVariables(), nullptr);
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", tb->getVariables());
+  ASSERT_NE(b, nullptr) << "variable 'b' not found";
   ASSERT_NE(b->getTypespec(), nullptr);
   EXPECT_NE(b->getTypespec()->getActual<hldb::BitTypespec>(), nullptr)
       << "'bit b' must produce a BitTypespec";
+  EXPECT_EQ(hldb::findByName<hldb::Net>("b", tb->getNets()), nullptr)
+      << "'bit b' has no net-type keyword -- must not also appear in vpiNet";
 }
 
 // ===========================================================================
@@ -209,8 +206,7 @@ TEST_F(Sequence20Test, SeqDelayStar_Op_DelayOperand_IsRange) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
   EXPECT_NE(any_cast<const hldb::Range *>((*op->getOperands())[1]), nullptr)
-      << "CP0347: 'a ##[*] b' delay slot must be a Range(0,$); "
-         "compiler stores an ArrayTypespec instead";
+      << "ss.16.7: 'a ##[*] b' delay slot must be a Range(0,$)";
 }
 
 TEST_F(Sequence20Test, SeqDelayStar_Op_DelayRange_LowerBound_IsZero) {
@@ -223,7 +219,7 @@ TEST_F(Sequence20Test, SeqDelayStar_Op_DelayRange_LowerBound_IsZero) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const hldb::Range *const range =
       any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr) << "delay operand must be a Range (see CP0347)";
+  ASSERT_NE(range, nullptr) << "delay operand must be a Range";
   const hldb::Constant *const lo = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(std::string(lo->getDecompile()), "0")
@@ -240,7 +236,7 @@ TEST_F(Sequence20Test, SeqDelayStar_Op_DelayRange_UpperBound_IsUnbounded) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const hldb::Range *const range =
       any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr) << "delay operand must be a Range (see CP0347)";
+  ASSERT_NE(range, nullptr) << "delay operand must be a Range";
   const hldb::Constant *const hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(hi->getConstType(), vpiUnboundedConst)
@@ -282,8 +278,8 @@ TEST_F(Sequence20Test, SeqDelayPlus_Op_HasThreeOperands) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "ss.16.7: 'a ##[+] b' must have 3 operands [a, Range(1,$), b]; "
-         "compiler drops the delay Range entirely, leaving only 2 operands";
+      << "ss.16.7: 'a ##[+] b' must have 3 operands: "
+         "[RefObj(a), Range(1,$), RefObj(b)]";
 }
 
 TEST_F(Sequence20Test, SeqDelayPlus_Op_Operand0_IsRefObjA) {
@@ -311,8 +307,7 @@ TEST_F(Sequence20Test, SeqDelayPlus_Op_DelayOperand_IsRange) {
       << "delay operand missing: only "
       << op->getOperands()->size() << " operands present";
   EXPECT_NE(any_cast<const hldb::Range *>((*op->getOperands())[1]), nullptr)
-      << "ss.16.7: 'a ##[+] b' delay slot (operands[1]) must be a Range(1,$); "
-         "compiler drops the delay operand entirely";
+      << "ss.16.7: 'a ##[+] b' delay slot (operands[1]) must be a Range(1,$)";
 }
 
 TEST_F(Sequence20Test, SeqDelayPlus_Op_DelayRange_LowerBound_IsOne) {
@@ -388,9 +383,8 @@ TEST_F(Sequence20Test, Assert1_PropertyExpr_NameIsSeqDelayPlus) {
 }
 
 TEST_F(Sequence20Test, Assert0_PropertyExpr_ResolvedToSeqDelayStarDecl) {
-  // EL0535: 'seq_delay_star' in assert property must resolve to the
-  // SequenceDecl; compiler treats it as an implicit net instead.
-  // This test FAILS intentionally to document the bug.
+  // ss.16.7: 'seq_delay_star' in assert property must resolve to the
+  // SequenceDecl.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::ConcurrentAssertions *const ca = getAssert(tb, 0);
@@ -400,14 +394,13 @@ TEST_F(Sequence20Test, Assert0_PropertyExpr_ResolvedToSeqDelayStarDecl) {
   const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(expr, nullptr);
   EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "EL0535: 'seq_delay_star' in assert property must resolve to "
-         "SequenceDecl; Surelog treats it as an implicit net instead";
+      << "ss.16.7: 'seq_delay_star' in assert property must resolve to "
+         "SequenceDecl";
 }
 
 TEST_F(Sequence20Test, Assert1_PropertyExpr_ResolvedToSeqDelayPlusDecl) {
-  // EL0535: 'seq_delay_plus' in assert property must resolve to the
-  // SequenceDecl; compiler treats it as an implicit net instead.
-  // This test FAILS intentionally to document the bug.
+  // ss.16.7: 'seq_delay_plus' in assert property must resolve to the
+  // SequenceDecl.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::ConcurrentAssertions *const ca = getAssert(tb, 1);
@@ -417,13 +410,14 @@ TEST_F(Sequence20Test, Assert1_PropertyExpr_ResolvedToSeqDelayPlusDecl) {
   const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
   ASSERT_NE(expr, nullptr);
   EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
-      << "EL0535: 'seq_delay_plus' in assert property must resolve to "
-         "SequenceDecl; Surelog treats it as an implicit net instead";
+      << "ss.16.7: 'seq_delay_plus' in assert property must resolve to "
+         "SequenceDecl";
 }
 
-TEST_F(Sequence20Test, Compiler_ReportsCP0347Error) {
-  EXPECT_GE(m_compiler->getErrorStats().nbError, 0u)
-      << "CP0347 from 'a ##[*] b' must be counted in nbError";
+TEST_F(Sequence20Test, Compiler_NoErrors) {
+  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
+      << "Compiler must not emit any error for legal use of 'a ##[*] b' / "
+         "'a ##[+] b'";
 }
 
 }  // namespace hlc

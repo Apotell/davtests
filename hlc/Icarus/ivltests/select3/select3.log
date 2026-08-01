@@ -430,7 +430,7 @@ n<$Source01/select3.v> u<415> t<Top_level_rule> c<1> l<25:1> el<62:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/select3.v:25:1: Compile module "test".
 [INF:CP0303] $Source01/select3.v:41:1: Compile module "RAM".
-[ERR:EL0535] $Source01/select3.v:31:22: Illegal implicit net "id:45, name:INIT".
+[WRN:CP0350] $Source01/select3.v:31:22: Failed to bind "id:45, name:INIT".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -440,7 +440,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: select3.v
       vpiPreprocFile: "$Output/lib/work/select3.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:test file:$Source01/select3.v start:25:1 end:39:10:
       vpiParent: Design name:unnamed
@@ -448,6 +447,16 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: test
       vpiFullName: test
+      vpiVariable (1 items):
+        Variable name:a start:27:14 end:27:15:
+          vpiParent: Module name:test
+          vpiTypespec RefTypespec start:27:4 end:27:13:
+            vpiParent: Variable name:a
+            vpiFullName: test.a
+            vpiActual: LogicTypespec
+          vpiName: a
+          vpiFullName: test.a
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -483,21 +492,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:RAM
             vpiName: RAM
       vpiDefName: test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-      vpiNet (2 items):
-        Net name:a start:27:14 end:27:15:
-          vpiParent: Module name:test
-          vpiTypespec RefTypespec start:27:4 end:27:13:
-            vpiParent: Net name:a
-            vpiFullName: test.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: test.a
+      vpiNet (1 items):
         Net name:o start:28:14 end:28:15:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:28:14 end:28:14:
@@ -525,7 +526,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: a
                       vpiFullName: test.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     vpiRhs Constant start:34:16 end:34:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -544,7 +545,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: a
                       vpiFullName: test.a
-                      vpiActual: Net name:a
+                      vpiActual: Variable name:a
                     vpiRhs Operation start:34:38 end:34:43:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -553,7 +554,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: test.a
-                          vpiActual: Net name:a
+                          vpiActual: Variable name:a
                         Constant start:34:42 end:34:43:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -576,7 +577,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:a[4]
                         vpiName: a
                         vpiFullName: test.a
-                        vpiActual: Net name:a
+                        vpiActual: Variable name:a
                       vpiIndex Constant start:34:23 end:34:24:
                         vpiParent: BitSelect name:a[4]
                         vpiTypespec RefTypespec:
@@ -623,7 +624,7 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$display
                             vpiName: a
                             vpiFullName: test.a
-                            vpiActual: Net name:a
+                            vpiActual: Variable name:a
                           RefObj name:o start:35:34 end:35:35:
                             vpiParent: SysTaskCall name:$display
                             vpiName: o
@@ -704,7 +705,7 @@ Design name:unnamed:
                   vpiParent: PartSelect name:a[3:0]
                   vpiName: a
                   vpiFullName: test.dut.a[3:0].a
-                  vpiActual: Net name:a
+                  vpiActual: Variable name:a
                 vpiRange Range start:30:17 end:30:20:
                   vpiParent: PartSelect name:a[3:0]
                   vpiLeftRange Constant start:30:17 end:30:18:
@@ -733,6 +734,25 @@ Design name:unnamed:
         vpiParent: Module name:RAM
         vpiName: RAM
       vpiFullName: RAM
+      vpiVariable (2 items):
+        Variable name:mem start:49:10 end:49:13:
+          vpiParent: Module name:RAM
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:mem
+            vpiFullName: RAM.mem
+            vpiActual: ArrayTypespec
+          vpiName: mem
+          vpiFullName: RAM.mem
+          vpiScalar: true
+        Variable name:count start:50:16 end:50:21:
+          vpiParent: Module name:RAM
+          vpiTypespec RefTypespec start:50:5 end:50:15:
+            vpiParent: Variable name:count
+            vpiFullName: RAM.count
+            vpiActual: LogicTypespec
+          vpiName: count
+          vpiFullName: RAM.count
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:INIT start:43:15 end:43:19:
           vpiParent: Module name:RAM
@@ -871,13 +891,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: RAM
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:RAM
         vpiName: work
         vpiFullName: RAM.work
       vpiCell: RAM
-      vpiNet (5 items):
+      vpiNet (3 items):
         Net name:O start:45:12 end:45:13:
           vpiParent: Module name:RAM
           vpiTypespec RefTypespec start:45:12 end:45:12:
@@ -886,6 +906,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: O
           vpiFullName: RAM.O
+          vpiNetType: wire (1)
         Net name:A start:47:17 end:47:18:
           vpiParent: Module name:RAM
           vpiTypespec RefTypespec start:47:11 end:47:16:
@@ -894,22 +915,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: A
           vpiFullName: RAM.A
-        Net name:mem start:49:10 end:49:13:
-          vpiParent: Module name:RAM
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:mem
-            vpiFullName: RAM.mem
-            vpiActual: ArrayTypespec
-          vpiName: mem
-          vpiFullName: RAM.mem
-        Net name:count start:50:16 end:50:21:
-          vpiParent: Module name:RAM
-          vpiTypespec RefTypespec start:50:5 end:50:15:
-            vpiParent: Net name:count
-            vpiFullName: RAM.count
-            vpiActual: LogicTypespec
-          vpiName: count
-          vpiFullName: RAM.count
+          vpiNetType: wire (1)
         Net name:adr start:51:16 end:51:19:
           vpiParent: Module name:RAM
           vpiTypespec RefTypespec start:51:10 end:51:15:
@@ -924,7 +930,7 @@ Design name:unnamed:
           vpiParent: Module name:RAM
           vpiName: O
           vpiDirection: output (2)
-          vpiLowConn RefObj name:O start:41:13 end:41:14:
+          vpiLowConn RefObj name:O start:45:12 end:45:13:
             vpiParent: Port name:O
             vpiName: O
             vpiFullName: RAM.O.O
@@ -937,7 +943,7 @@ Design name:unnamed:
           vpiParent: Module name:RAM
           vpiName: A
           vpiDirection: input (1)
-          vpiLowConn RefObj name:A start:41:16 end:41:17:
+          vpiLowConn RefObj name:A start:47:17 end:47:18:
             vpiParent: Port name:A
             vpiName: A
             vpiFullName: RAM.A.A
@@ -964,7 +970,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: count
                       vpiFullName: RAM.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
                     vpiRhs Constant start:57:15 end:57:16:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -983,7 +989,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: count
                       vpiFullName: RAM.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
                     vpiRhs Operation start:57:38 end:57:47:
                       vpiParent: Assignment
                       vpiOpType: add (24)
@@ -992,7 +998,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: count
                           vpiFullName: RAM.count
-                          vpiActual: Net name:count
+                          vpiActual: Variable name:count
                         Constant start:57:46 end:57:47:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -1011,7 +1017,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: count
                       vpiFullName: RAM.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
                     Constant start:57:26 end:57:28:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1032,12 +1038,12 @@ Design name:unnamed:
                       vpiParent: BitSelect name:mem[count]
                       vpiName: mem
                       vpiFullName: RAM.mem
-                      vpiActual: Net name:mem
+                      vpiActual: Variable name:mem
                     vpiIndex RefObj name:count start:58:10 end:58:15:
                       vpiParent: BitSelect name:mem[count]
                       vpiName: count
                       vpiFullName: RAM.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
                   vpiRhs BitSelect name:INIT[count] start:58:20 end:58:31:
                     vpiParent: Assignment
                     vpiName: INIT[count]
@@ -1051,7 +1057,7 @@ Design name:unnamed:
                       vpiParent: BitSelect name:INIT[count]
                       vpiName: count
                       vpiFullName: RAM.count
-                      vpiActual: Net name:count
+                      vpiActual: Variable name:count
       vpiPrimitive (1 items):
         Gate:
           vpiParent: Module name:RAM
@@ -1081,7 +1087,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:mem[A]
                   vpiName: mem
                   vpiFullName: RAM.work@buf.mem
-                  vpiActual: Net name:mem
+                  vpiActual: Variable name:mem
                 vpiIndex RefObj name:A start:53:17 end:53:18:
                   vpiParent: BitSelect name:mem[A]
                   vpiName: A
@@ -1110,8 +1116,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -402,7 +402,7 @@ AST_DEBUG_END
 [INF:CP0301] $Source01/t_struct_array.v:6:1: Compile package "TEST_TYPES".
 [INF:CP0303] $Source01/t_struct_array.v:12:1: Compile module "t".
 [INF:CP0303] $Source01/t_struct_array.v:26:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_struct_array.v:31:11: Illegal implicit net "id:163, name:stuff".
+[WRN:CP0350] $Source01/t_struct_array.v:31:11: Failed to bind "id:163, name:stuff".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -412,7 +412,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_struct_array.v
       vpiPreprocFile: "$Output/lib/work/t_struct_array.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:TEST_TYPES file:$Source01/t_struct_array.v start:6:1 end:10:11:
       vpiParent: Design name:unnamed
@@ -448,7 +447,7 @@ Design name:unnamed:
             vpiFullName: TEST_TYPES::a_struct_t
             vpiActual: StructTypespec
       vpiDefName: TEST_TYPES
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:TEST_TYPES
         vpiName: work
@@ -461,6 +460,16 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:a_out start:14:33 end:14:38:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:14:4 end:14:32:
+            vpiParent: Variable name:a_out
+            vpiName: TEST_TYPES::a_struct_t
+            vpiFullName: t.a_out.TEST_TYPES::a_struct_t
+            vpiActual: TypedefTypespec name:a_struct_t
+          vpiName: a_out
+          vpiFullName: t.a_out
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -505,13 +514,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:13:10 end:13:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:10 end:13:10:
@@ -520,21 +529,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:a_out start:14:33 end:14:38:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:14:4 end:14:32:
-            vpiParent: Net name:a_out
-            vpiName: TEST_TYPES::a_struct_t
-            vpiFullName: t.a_out.TEST_TYPES::a_struct_t
-            vpiActual: TypedefTypespec name:a_struct_t
-          vpiName: a_out
-          vpiFullName: t.a_out
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:12:10 end:12:13:
+          vpiLowConn RefObj name:clk start:13:10 end:13:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -578,7 +579,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_out[0]
                           vpiName: a_out
                           vpiFullName: t.a_out
-                          vpiActual: Net name:a_out
+                          vpiActual: Variable name:a_out
                         vpiIndex Constant start:17:17 end:17:18:
                           vpiParent: BitSelect name:a_out[0]
                           vpiTypespec RefTypespec:
@@ -618,7 +619,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_out[1]
                           vpiName: a_out
                           vpiFullName: t.a_out
-                          vpiActual: Net name:a_out
+                          vpiActual: Variable name:a_out
                         vpiIndex Constant start:18:17 end:18:18:
                           vpiParent: BitSelect name:a_out[1]
                           vpiTypespec RefTypespec:
@@ -658,7 +659,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_out[2]
                           vpiName: a_out
                           vpiFullName: t.a_out
-                          vpiActual: Net name:a_out
+                          vpiActual: Variable name:a_out
                         vpiIndex Constant start:19:17 end:19:18:
                           vpiParent: BitSelect name:a_out[2]
                           vpiTypespec RefTypespec:
@@ -698,7 +699,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_out[3]
                           vpiName: a_out
                           vpiFullName: t.a_out
-                          vpiActual: Net name:a_out
+                          vpiActual: Variable name:a_out
                         vpiIndex Constant start:20:17 end:20:18:
                           vpiParent: BitSelect name:a_out[3]
                           vpiTypespec RefTypespec:
@@ -762,13 +763,22 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: a_out
                 vpiFullName: t.sub.a_out
-                vpiActual: Net name:a_out
+                vpiActual: Variable name:a_out
     Module name:sub file:$Source01/t_struct_array.v start:26:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:26:8 end:26:11:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
+      vpiVariable (1 items):
+        Variable name:a_out start:28:42 end:28:47:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:28:11 end:28:41:
+            vpiParent: Variable name:a_out
+            vpiFullName: sub.a_out
+            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
+          vpiName: a_out
+          vpiFullName: sub.a_out
       vpiParameter (1 items):
         Parameter name:n start:27:14 end:27:15:
           vpiParent: Module name:sub
@@ -861,31 +871,22 @@ Design name:unnamed:
             vpiFullName: sub
             vpiActual: UnsupportedTypespec name:a_struct_t
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
       vpiCell: sub
-      vpiNet (1 items):
-        Net name:a_out start:28:42 end:28:47:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:28:11 end:28:41:
-            vpiParent: Net name:a_out
-            vpiFullName: sub.a_out
-            vpiActual: UnsupportedTypespec name:TEST_TYPES::a_struct_t [n-1:0]
-          vpiName: a_out
-          vpiFullName: sub.a_out
       vpiPort (1 items):
         Port name:a_out start:26:12 end:26:17:
           vpiParent: Module name:sub
           vpiName: a_out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:a_out start:26:12 end:26:17:
+          vpiLowConn RefObj name:a_out start:28:42 end:28:47:
             vpiParent: Port name:a_out
             vpiName: a_out
             vpiFullName: sub.a_out.a_out
-            vpiActual: Net name:a_out
+            vpiActual: Variable name:a_out
           vpiTypespec RefTypespec start:28:11 end:28:41:
             vpiParent: Port name:a_out
             vpiFullName: sub.a_out
@@ -963,7 +964,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:a_out[i]
                           vpiName: a_out
                           vpiFullName: sub.a_out[i].stuff.a_out
-                          vpiActual: Net name:a_out
+                          vpiActual: Variable name:a_out
                         vpiIndex RefObj name:i start:31:8 end:31:9:
                           vpiParent: BitSelect name:a_out[i]
                           vpiName: i
@@ -1014,8 +1015,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

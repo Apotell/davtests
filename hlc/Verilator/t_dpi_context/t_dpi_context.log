@@ -517,16 +517,10 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_dpi_context.v:8:1: Compile module "t".
 [WRN:CP0323] $Source01/t_dpi_context.v:8:1: Multiply defined typedef "sub".
 [INF:CP0303] $Source01/t_dpi_context.v:25:1: Compile module "sub".
-[ERR:EL0535] $Source01/t_dpi_context.v:10:12: Illegal implicit net "id:15, name:inst".
-[ERR:EL0535] $Source01/t_dpi_context.v:11:12: Illegal implicit net "id:24, name:inst".
-[ERR:EL0535] $Source01/t_dpi_context.v:14:9: Illegal implicit net "id:33, name:test1".
-[ERR:EL0535] $Source01/t_dpi_context.v:15:9: Illegal implicit net "id:36, name:test1".
-[ERR:EL0535] $Source01/t_dpi_context.v:16:9: Illegal implicit net "id:39, name:test2".
-[ERR:EL0535] $Source01/t_dpi_context.v:17:9: Illegal implicit net "id:42, name:test2".
-[ERR:EL0535] $Source01/t_dpi_context.v:37:7: Illegal implicit net "id:86, name:result".
-[ERR:EL0535] $Source01/t_dpi_context.v:37:34: Illegal implicit net "id:90, name:result".
-[ERR:EL0535] $Source01/t_dpi_context.v:45:7: Illegal implicit net "id:95, name:result".
-[ERR:EL0535] $Source01/t_dpi_context.v:46:11: Illegal implicit net "id:104, name:result".
+[WRN:CP0350] $Source01/t_dpi_context.v:14:9: Failed to bind "id:33, name:test1".
+[WRN:CP0350] $Source01/t_dpi_context.v:15:9: Failed to bind "id:36, name:test1".
+[WRN:CP0350] $Source01/t_dpi_context.v:16:9: Failed to bind "id:39, name:test2".
+[WRN:CP0350] $Source01/t_dpi_context.v:17:9: Failed to bind "id:42, name:test2".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -536,7 +530,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_dpi_context.v
       vpiPreprocFile: "$Output/lib/work/t_dpi_context.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_dpi_context.v start:8:1 end:23:10:
       vpiParent: Design name:unnamed
@@ -556,7 +549,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:sub
             vpiName: sub
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -703,12 +696,29 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: sub
       vpiFullName: sub
+      vpiVariable (2 items):
+        Variable name:cntxt1 start:53:17 end:53:23:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:53:4 end:53:16:
+            vpiParent: Variable name:cntxt1
+            vpiFullName: sub.cntxt1
+            vpiActual: IntTypespec
+          vpiName: cntxt1
+          vpiFullName: sub.cntxt1
+        Variable name:cntxt2 start:54:17 end:54:23:
+          vpiParent: Module name:sub
+          vpiTypespec RefTypespec start:54:4 end:54:16:
+            vpiParent: Variable name:cntxt2
+            vpiFullName: sub.cntxt2
+            vpiActual: IntTypespec
+          vpiName: cntxt2
+          vpiFullName: sub.cntxt2
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Module name:sub
           vpiSigned: true
       vpiDefName: sub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:sub
         vpiName: work
@@ -927,7 +937,7 @@ Design name:unnamed:
               vpiName Identifier name:$stop start:50:38 end:50:43:
                 vpiParent: SysTaskCall name:$stop
                 vpiName: "$stop"
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:inst start:25:27 end:25:31:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:25:13 end:25:26:
@@ -937,30 +947,15 @@ Design name:unnamed:
           vpiName: inst
           vpiFullName: sub.inst
           vpiNetType: wire (1)
-        Net name:cntxt1 start:53:17 end:53:23:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:53:4 end:53:16:
-            vpiParent: Net name:cntxt1
-            vpiFullName: sub.cntxt1
-            vpiActual: IntTypespec
-          vpiName: cntxt1
-          vpiFullName: sub.cntxt1
-        Net name:cntxt2 start:54:17 end:54:23:
-          vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:54:4 end:54:16:
-            vpiParent: Net name:cntxt2
-            vpiFullName: sub.cntxt2
-            vpiActual: IntTypespec
-          vpiName: cntxt2
-          vpiFullName: sub.cntxt2
       vpiPort (1 items):
         Port name:inst start:25:27 end:25:31:
           vpiParent: Module name:sub
           vpiName: inst
           vpiDirection: input (1)
-          vpiLowConn RefObj start:25:27 end:25:31:
+          vpiLowConn RefObj name:inst start:25:27 end:25:31:
             vpiParent: Port name:inst
-            vpiFullName: sub.inst
+            vpiName: inst
+            vpiFullName: sub.inst.inst
             vpiActual: Net name:inst
           vpiTypespec RefTypespec start:25:13 end:25:26:
             vpiParent: Port name:inst
@@ -980,7 +975,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: cntxt1
                   vpiFullName: sub.cntxt1
-                  vpiActual: Net name:cntxt1
+                  vpiActual: Variable name:cntxt1
                 vpiRhs FuncCall name:dpic_getcontext start:57:15 end:57:32:
                   vpiParent: Assignment
                   vpiName Identifier name:dpic_getcontext start:57:15 end:57:30:
@@ -1001,7 +996,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: cntxt2
                       vpiFullName: sub.caller_context.cntxt2
-                      vpiActual: Net name:cntxt2
+                      vpiActual: Variable name:cntxt2
                     vpiRhs FuncCall name:dpic_getcontext start:60:17 end:60:34:
                       vpiParent: Assignment
                       vpiName Identifier name:dpic_getcontext start:60:17 end:60:32:
@@ -1018,12 +1013,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: cntxt1
                       vpiFullName: sub.cntxt1
-                      vpiActual: Net name:cntxt1
+                      vpiActual: Variable name:cntxt1
                     RefObj name:cntxt2 start:63:20 end:63:26:
                       vpiParent: Operation
                       vpiName: cntxt2
                       vpiFullName: sub.cntxt2
-                      vpiActual: Net name:cntxt2
+                      vpiActual: Variable name:cntxt2
                 vpiStmt SysTaskCall name:$stop start:63:28 end:63:33:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:63:28 end:63:33:
@@ -1052,8 +1047,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 8
-[  ERROR] : 10
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

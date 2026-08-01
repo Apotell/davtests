@@ -368,7 +368,6 @@ n<$Source01/t_param_sel_range.v> u<353> t<Top_level_rule> c<1> l<5:1> el<49:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/t_param_sel_range.v:5:1: Compile module "t".
 [INF:CP0303] $Source01/t_param_sel_range.v:15:1: Compile module "submod".
-[ERR:EL0535] $Source01/t_param_sel_range.v:11:14: Illegal implicit net "id:33, name:STAGES".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -378,7 +377,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_sel_range.v
       vpiPreprocFile: "$Output/lib/work/t_param_sel_range.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_param_sel_range.v start:5:1 end:13:10:
       vpiParent: Design name:unnamed
@@ -395,7 +393,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:submod
             vpiName: submod
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -434,9 +432,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: rst_n
           vpiDirection: input (1)
-          vpiLowConn RefObj start:6:18 end:6:23:
+          vpiLowConn RefObj name:rst_n start:6:18 end:6:23:
             vpiParent: Port name:rst_n
-            vpiFullName: t.rst_n
+            vpiName: rst_n
+            vpiFullName: t.rst_n.rst_n
             vpiActual: Net name:rst_n
           vpiTypespec RefTypespec start:6:11 end:6:16:
             vpiParent: Port name:rst_n
@@ -446,9 +445,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:7:18 end:7:21:
+          vpiLowConn RefObj name:clk start:7:18 end:7:21:
             vpiParent: Port name:clk
-            vpiFullName: t.clk
+            vpiName: clk
+            vpiFullName: t.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:7:11 end:7:16:
             vpiParent: Port name:clk
@@ -458,9 +458,10 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj start:8:18 end:8:21:
+          vpiLowConn RefObj name:out start:8:18 end:8:21:
             vpiParent: Port name:out
-            vpiFullName: t.out
+            vpiName: out
+            vpiFullName: t.out.out
             vpiActual: Net name:out
           vpiTypespec RefTypespec start:8:11 end:8:17:
             vpiParent: Port name:out
@@ -505,6 +506,16 @@ Design name:unnamed:
         vpiParent: Module name:submod
         vpiName: submod
       vpiFullName: submod
+      vpiVariable (1 items):
+        Variable name:r_rst start:28:21 end:28:26:
+          vpiParent: Module name:submod
+          vpiTypespec RefTypespec start:28:4 end:28:20:
+            vpiParent: Variable name:r_rst
+            vpiFullName: submod.r_rst
+            vpiActual: LogicTypespec
+          vpiName: r_rst
+          vpiFullName: submod.r_rst
+          vpiVector: true
       vpiParameter (1 items):
         Parameter name:STAGES start:22:14 end:22:20:
           vpiParent: Module name:submod
@@ -571,16 +582,34 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: submod
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:submod
         vpiName: work
         vpiFullName: submod.work
       vpiCell: submod
-      vpiNet (4 items):
+      vpiNet (3 items):
+        Net name:rst_n start:24:12 end:24:17:
+          vpiParent: Module name:submod
+          vpiTypespec RefTypespec start:24:12 end:24:12:
+            vpiParent: Net name:rst_n
+            vpiFullName: submod.rst_n
+            vpiActual: LogicTypespec
+          vpiName: rst_n
+          vpiFullName: submod.rst_n
+          vpiNetType: wire (1)
+        Net name:clk start:25:12 end:25:15:
+          vpiParent: Module name:submod
+          vpiTypespec RefTypespec start:25:12 end:25:12:
+            vpiParent: Net name:clk
+            vpiFullName: submod.clk
+            vpiActual: LogicTypespec
+          vpiName: clk
+          vpiFullName: submod.clk
+          vpiNetType: wire (1)
         Net name:out start:26:12 end:26:15:
           vpiParent: Module name:submod
-          vpiTypespec RefTypespec start:26:12 end:26:12:
+          vpiTypespec RefTypespec start:46:9 end:46:9:
             vpiParent: Net name:out
             vpiFullName: submod.out
             vpiActual: LogicTypespec
@@ -595,7 +624,7 @@ Design name:unnamed:
               vpiParent: BitSelect name:r_rst[STAGES - 1]
               vpiName: r_rst
               vpiFullName: submod.out.r_rst
-              vpiActual: Net name:r_rst
+              vpiActual: Variable name:r_rst
             vpiIndex Operation start:46:21 end:46:29:
               vpiParent: BitSelect name:r_rst[STAGES - 1]
               vpiOpType: subtract (11)
@@ -615,36 +644,12 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-        Net name:rst_n start:24:12 end:24:17:
-          vpiParent: Module name:submod
-          vpiTypespec RefTypespec start:24:12 end:24:12:
-            vpiParent: Net name:rst_n
-            vpiFullName: submod.rst_n
-            vpiActual: LogicTypespec
-          vpiName: rst_n
-          vpiFullName: submod.rst_n
-        Net name:clk start:25:12 end:25:15:
-          vpiParent: Module name:submod
-          vpiTypespec RefTypespec start:25:12 end:25:12:
-            vpiParent: Net name:clk
-            vpiFullName: submod.clk
-            vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: submod.clk
-        Net name:r_rst start:28:21 end:28:26:
-          vpiParent: Module name:submod
-          vpiTypespec RefTypespec start:28:4 end:28:20:
-            vpiParent: Net name:r_rst
-            vpiFullName: submod.r_rst
-            vpiActual: LogicTypespec
-          vpiName: r_rst
-          vpiFullName: submod.r_rst
       vpiPort (3 items):
         Port name:out start:17:4 end:17:7:
           vpiParent: Module name:submod
           vpiName: out
           vpiDirection: output (2)
-          vpiLowConn RefObj name:out start:17:4 end:17:7:
+          vpiLowConn RefObj name:out start:26:12 end:26:15:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: submod.out.out
@@ -652,12 +657,11 @@ Design name:unnamed:
           vpiTypespec RefTypespec start:26:12 end:26:12:
             vpiParent: Port name:out
             vpiFullName: submod.out
-            vpiActual: LogicTypespec
         Port name:rst_n start:19:4 end:19:9:
           vpiParent: Module name:submod
           vpiName: rst_n
           vpiDirection: input (1)
-          vpiLowConn RefObj name:rst_n start:19:4 end:19:9:
+          vpiLowConn RefObj name:rst_n start:24:12 end:24:17:
             vpiParent: Port name:rst_n
             vpiName: rst_n
             vpiFullName: submod.rst_n.rst_n
@@ -670,7 +674,7 @@ Design name:unnamed:
           vpiParent: Module name:submod
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:19:11 end:19:14:
+          vpiLowConn RefObj name:clk start:25:12 end:25:15:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: submod.clk.clk
@@ -833,7 +837,7 @@ Design name:unnamed:
                                 vpiParent: BitSelect name:r_rst[i]
                                 vpiName: r_rst
                                 vpiFullName: submod.r_rst
-                                vpiActual: Net name:r_rst
+                                vpiActual: Variable name:r_rst
                               vpiIndex RefObj name:i start:35:21 end:35:22:
                                 vpiParent: BitSelect name:r_rst[i]
                                 vpiName: i
@@ -887,7 +891,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:r_rst[i]
                                       vpiName: r_rst
                                       vpiFullName: submod.r_rst
-                                      vpiActual: Net name:r_rst
+                                      vpiActual: Variable name:r_rst
                                     vpiIndex RefObj name:i start:38:24 end:38:25:
                                       vpiParent: BitSelect name:r_rst[i]
                                       vpiName: i
@@ -913,7 +917,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:r_rst[i]
                                       vpiName: r_rst
                                       vpiFullName: submod.r_rst
-                                      vpiActual: Net name:r_rst
+                                      vpiActual: Variable name:r_rst
                                     vpiIndex RefObj name:i start:40:24 end:40:25:
                                       vpiParent: BitSelect name:r_rst[i]
                                       vpiName: i
@@ -927,7 +931,7 @@ Design name:unnamed:
                                       vpiParent: BitSelect name:r_rst[i - 1]
                                       vpiName: r_rst
                                       vpiFullName: submod.r_rst
-                                      vpiActual: Net name:r_rst
+                                      vpiActual: Variable name:r_rst
                                     vpiIndex Operation start:40:36 end:40:39:
                                       vpiParent: BitSelect name:r_rst[i - 1]
                                       vpiOpType: subtract (11)
@@ -967,7 +971,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

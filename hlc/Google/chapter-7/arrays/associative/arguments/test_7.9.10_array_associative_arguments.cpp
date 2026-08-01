@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@
 //
 // Checked:
 //   - design has module top
-//   - module has exactly 1 net: 'arraya' (assoc ArrayTypespec, idx=IntTypespec, elem=StringTypespec)
+//   - module has exactly 1 variable: 'arraya' (assoc ArrayTypespec, idx=IntTypespec, elem=StringTypespec)
 //   - module has 1 task 'fun' with 1 IODecl 'arrayb' (input, assoc ArrayTypespec)
 //   - task body: Begin with 2 stmts (arrayb[1]="d", $display 4 args)
 //   - 1 Initial process; Begin with 6 stmts
@@ -42,8 +42,8 @@
 //   - top has no continuous assignments
 //
 // Also checked:
-//   - 'arraya' net has no initial value
-//   - FuncCall arg RefObj "arraya" resolves to the net node via getActual()
+//   - 'arraya' variable has no initial value
+//   - FuncCall arg RefObj "arraya" resolves to the variable node via getActual()
 //   - IODecl 'arrayb' idx/elem typespec details (idx=IntTypespec, elem=StringTypespec)
 
 #include <hlc/Common/Session.h>
@@ -63,7 +63,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
 #include <hldb/module.h>
-#include <hldb/net.h>
+#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -79,33 +79,33 @@ class Arguments : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module and net (string arraya[int]) ----------------------------------
+// --- module and variable (string arraya[int]) ----
 
 TEST_F(Arguments, ModuleExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
-TEST_F(Arguments, ModuleHasOneNet) {
+TEST_F(Arguments, ModuleHasOneVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->size(), 1u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(Arguments, NetNameIsArraya) {
+TEST_F(Arguments, VariableNameIsArraya) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getName(), "arraya");
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getName(), "arraya");
 }
 
-TEST_F(Arguments, NetHasAssociativeArrayTypespec) {
+TEST_F(Arguments, VariableHasAssociativeArrayTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::RefTypespec *const rt = net->getTypespec<hldb::RefTypespec>();
+  const hldb::Variable *const variable = top->getVariables()->at(0);
+  ASSERT_NE(variable, nullptr);
+  const hldb::RefTypespec *const rt = variable->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr);
   const hldb::ArrayTypespec *const at = rt->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
@@ -116,7 +116,7 @@ TEST_F(Arguments, AssocArrayKeyTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getIndexTypespec(), nullptr);
   EXPECT_NE(at->getIndexTypespec()->getActual<hldb::IntTypespec>(), nullptr);
@@ -126,13 +126,13 @@ TEST_F(Arguments, AssocArrayValueTypeIsString) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
-      top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+      top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
   EXPECT_NE(at->getElemTypespec()->getActual<hldb::StringTypespec>(), nullptr);
 }
 
-// --- task fun (string arrayb[int]) ----------------------------------------
+// --- task fun (string arrayb[int]) ----
 
 TEST_F(Arguments, ModuleHasOneTaskFunc) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -265,7 +265,7 @@ TEST_F(Arguments, TaskSecondStmtIsDisplayWithAssertADC) {
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'a') and ('%s' == 'd') and ('%s' == 'c'))\"");
 }
 
-// --- initial begin (6 statements) ----------------------------------------
+// --- initial begin (6 statements) ----
 
 TEST_F(Arguments, ModuleHasOneInitialProcess) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -371,12 +371,12 @@ TEST_F(Arguments, InitialFifthStmtIsTFCallWithArraya) {
   EXPECT_EQ(arg->getName(), "arraya");
 }
 
-TEST_F(Arguments, TFCallArgResolvesToArrayaNet) {
+TEST_F(Arguments, TFCallArgResolvesToArrayaVariable) {
   // fun(arraya) -- the RefObj argument's getActual() must resolve to the
-  // same Net node as the top-level 'arraya' declaration.
+  // same Variable node as the top-level 'arraya' declaration.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const arraya = top->getNets()->at(0);
+  const hldb::Variable *const arraya = top->getVariables()->at(0);
   ASSERT_NE(arraya, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -386,7 +386,7 @@ TEST_F(Arguments, TFCallArgResolvesToArrayaNet) {
   ASSERT_NE(fc, nullptr);
   const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getActual<hldb::Net>(), arraya);
+  EXPECT_EQ(arg->getActual<hldb::Variable>(), arraya);
 }
 
 TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {
@@ -406,13 +406,13 @@ TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'a') and ('%s' == 'b') and ('%s' == 'c'))\"");
 }
 
-// --- structural completeness -----------------------------------------------
+// --- structural completeness ----
 
-TEST_F(Arguments, ArrayaNetHasNoInitialValue) {
+TEST_F(Arguments, ArrayaVariableHasNoInitialValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  EXPECT_EQ(top->getNets()->at(0)->getValue<hldb::Any>(), nullptr)
+  ASSERT_NE(top->getVariables(), nullptr);
+  EXPECT_EQ(top->getVariables()->at(0)->getValue<hldb::Any>(), nullptr)
       << "string arraya[int] is declared without an initializer";
 }
 

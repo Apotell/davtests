@@ -559,16 +559,6 @@ n<$Source01/vcd1.v> u<544> t<Top_level_rule> c<1> l<25:1> el<70:1>
 AST_DEBUG_END
 [INF:CP0303] $Source01/vcd1.v:25:1: Compile module "xorckt".
 [INF:CP0303] $Source01/vcd1.v:40:1: Compile module "main".
-[ERR:EL0535] $Source01/vcd1.v:31:15: Illegal implicit net "id:31, name:na1_out".
-[ERR:EL0535] $Source01/vcd1.v:32:15: Illegal implicit net "id:42, name:na2_out".
-[ERR:EL0535] $Source01/vcd1.v:32:27: Illegal implicit net "id:44, name:na1_out".
-[ERR:EL0535] $Source01/vcd1.v:33:15: Illegal implicit net "id:53, name:na3_out".
-[ERR:EL0535] $Source01/vcd1.v:33:27: Illegal implicit net "id:55, name:na1_out".
-[ERR:EL0535] $Source01/vcd1.v:34:19: Illegal implicit net "id:65, name:na2_out".
-[ERR:EL0535] $Source01/vcd1.v:34:27: Illegal implicit net "id:66, name:na3_out".
-[ERR:EL0535] $Source01/vcd1.v:45:16: Illegal implicit net "id:90, name:out".
-[ERR:EL0535] $Source01/vcd1.v:45:27: Illegal implicit net "id:93, name:in0".
-[ERR:EL0535] $Source01/vcd1.v:45:36: Illegal implicit net "id:96, name:in1".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -578,7 +568,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: vcd1.v
       vpiPreprocFile: "$Output/lib/work/vcd1.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:xorckt file:$Source01/vcd1.v start:25:1 end:38:10:
       vpiParent: Design name:unnamed
@@ -590,20 +579,13 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:xorckt
       vpiDefName: xorckt
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:xorckt
         vpiName: work
         vpiFullName: xorckt.work
       vpiCell: xorckt
-      vpiNet (4 items):
-        Net name:out start:25:16 end:25:19:
-          vpiParent: Module name:xorckt
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:out
-            vpiFullName: xorckt.out
-          vpiName: out
-          vpiFullName: xorckt.out
+      vpiNet (3 items):
         Net name:in0 start:26:7 end:26:10:
           vpiParent: Module name:xorckt
           vpiTypespec RefTypespec start:26:7 end:26:7:
@@ -612,6 +594,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in0
           vpiFullName: xorckt.in0
+          vpiNetType: wire (1)
         Net name:in1 start:27:7 end:27:10:
           vpiParent: Module name:xorckt
           vpiTypespec RefTypespec start:27:7 end:27:7:
@@ -620,6 +603,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in1
           vpiFullName: xorckt.in1
+          vpiNetType: wire (1)
         Net name:junk start:29:6 end:29:10:
           vpiParent: Module name:xorckt
           vpiTypespec RefTypespec start:29:6 end:29:6:
@@ -633,11 +617,6 @@ Design name:unnamed:
         Port name:out start:25:16 end:25:19:
           vpiParent: Module name:xorckt
           vpiName: out
-          vpiLowConn RefObj name:out start:25:16 end:25:19:
-            vpiParent: Port name:out
-            vpiName: out
-            vpiFullName: xorckt.out.out
-            vpiActual: Net name:out
           vpiTypespec RefTypespec:
             vpiParent: Port name:out
             vpiFullName: xorckt.out
@@ -645,7 +624,7 @@ Design name:unnamed:
           vpiParent: Module name:xorckt
           vpiName: in0
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in0 start:25:20 end:25:23:
+          vpiLowConn RefObj name:in0 start:26:7 end:26:10:
             vpiParent: Port name:in0
             vpiName: in0
             vpiFullName: xorckt.in0.in0
@@ -658,7 +637,7 @@ Design name:unnamed:
           vpiParent: Module name:xorckt
           vpiName: in1
           vpiDirection: input (1)
-          vpiLowConn RefObj name:in1 start:25:24 end:25:27:
+          vpiLowConn RefObj name:in1 start:27:7 end:27:10:
             vpiParent: Port name:in1
             vpiName: in1
             vpiFullName: xorckt.in1.in1
@@ -841,7 +820,7 @@ Design name:unnamed:
                 vpiParent: PrimTerm
                 vpiName: out
                 vpiFullName: xorckt.na4.out
-                vpiActual: Net name:out
+                vpiActual: Port name:out
             PrimTerm start:34:19 end:34:26:
               vpiParent: Gate name:na4
               vpiDirection: input (1)
@@ -864,6 +843,25 @@ Design name:unnamed:
         vpiParent: Module name:main
         vpiName: main
       vpiFullName: main
+      vpiVariable (2 items):
+        Variable name:i1 start:43:5 end:43:7:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:43:1 end:43:4:
+            vpiParent: Variable name:i1
+            vpiFullName: main.i1
+            vpiActual: LogicTypespec
+          vpiName: i1
+          vpiFullName: main.i1
+          vpiScalar: true
+        Variable name:i2 start:43:8 end:43:10:
+          vpiParent: Module name:main
+          vpiTypespec RefTypespec start:43:1 end:43:4:
+            vpiParent: Variable name:i2
+            vpiFullName: main.i2
+            vpiActual: LogicTypespec
+          vpiName: i2
+          vpiFullName: main.i2
+          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -873,13 +871,13 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:xorckt
             vpiName: xorckt
       vpiDefName: main
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:main
         vpiName: work
         vpiFullName: main.work
       vpiCell: main
-      vpiNet (3 items):
+      vpiNet (1 items):
         Net name:xout start:42:6 end:42:10:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:42:6 end:42:6:
@@ -889,22 +887,6 @@ Design name:unnamed:
           vpiName: xout
           vpiFullName: main.xout
           vpiNetType: wire (1)
-        Net name:i1 start:43:5 end:43:7:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:43:1 end:43:4:
-            vpiParent: Net name:i1
-            vpiFullName: main.i1
-            vpiActual: LogicTypespec
-          vpiName: i1
-          vpiFullName: main.i1
-        Net name:i2 start:43:8 end:43:10:
-          vpiParent: Module name:main
-          vpiTypespec RefTypespec start:43:1 end:43:4:
-            vpiParent: Net name:i2
-            vpiFullName: main.i2
-            vpiActual: LogicTypespec
-          vpiName: i2
-          vpiFullName: main.i2
       vpiProcess (1 items):
         Initial start:47:1 end:67:6:
           vpiParent: Module name:main
@@ -969,7 +951,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i1
                   vpiFullName: main.i1
-                  vpiActual: Net name:i1
+                  vpiActual: Variable name:i1
                 vpiRhs Constant start:51:10 end:51:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -987,7 +969,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i2
                   vpiFullName: main.i2
-                  vpiActual: Net name:i2
+                  vpiActual: Variable name:i2
                 vpiRhs Constant start:52:10 end:52:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1030,12 +1012,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i1
                     vpiFullName: main.i1
-                    vpiActual: Net name:i1
+                    vpiActual: Variable name:i1
                   RefObj name:i2 start:54:34 end:54:36:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i2
                     vpiFullName: main.i2
-                    vpiActual: Net name:i2
+                    vpiActual: Variable name:i2
                   RefObj name:xout start:54:37 end:54:41:
                     vpiParent: SysTaskCall name:$display
                     vpiName: xout
@@ -1048,7 +1030,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i1
                   vpiFullName: main.i1
-                  vpiActual: Net name:i1
+                  vpiActual: Variable name:i1
                 vpiRhs Constant start:55:10 end:55:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1066,7 +1048,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i2
                   vpiFullName: main.i2
-                  vpiActual: Net name:i2
+                  vpiActual: Variable name:i2
                 vpiRhs Constant start:56:10 end:56:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1109,12 +1091,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i1
                     vpiFullName: main.i1
-                    vpiActual: Net name:i1
+                    vpiActual: Variable name:i1
                   RefObj name:i2 start:58:34 end:58:36:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i2
                     vpiFullName: main.i2
-                    vpiActual: Net name:i2
+                    vpiActual: Variable name:i2
                   RefObj name:xout start:58:37 end:58:41:
                     vpiParent: SysTaskCall name:$display
                     vpiName: xout
@@ -1127,7 +1109,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i1
                   vpiFullName: main.i1
-                  vpiActual: Net name:i1
+                  vpiActual: Variable name:i1
                 vpiRhs Constant start:59:10 end:59:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1145,7 +1127,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i2
                   vpiFullName: main.i2
-                  vpiActual: Net name:i2
+                  vpiActual: Variable name:i2
                 vpiRhs Constant start:60:10 end:60:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1188,12 +1170,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i1
                     vpiFullName: main.i1
-                    vpiActual: Net name:i1
+                    vpiActual: Variable name:i1
                   RefObj name:i2 start:62:34 end:62:36:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i2
                     vpiFullName: main.i2
-                    vpiActual: Net name:i2
+                    vpiActual: Variable name:i2
                   RefObj name:xout start:62:37 end:62:41:
                     vpiParent: SysTaskCall name:$display
                     vpiName: xout
@@ -1206,7 +1188,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i1
                   vpiFullName: main.i1
-                  vpiActual: Net name:i1
+                  vpiActual: Variable name:i1
                 vpiRhs Constant start:63:10 end:63:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1224,7 +1206,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: i2
                   vpiFullName: main.i2
-                  vpiActual: Net name:i2
+                  vpiActual: Variable name:i2
                 vpiRhs Constant start:64:10 end:64:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1267,12 +1249,12 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i1
                     vpiFullName: main.i1
-                    vpiActual: Net name:i1
+                    vpiActual: Variable name:i1
                   RefObj name:i2 start:66:34 end:66:36:
                     vpiParent: SysTaskCall name:$display
                     vpiName: i2
                     vpiFullName: main.i2
-                    vpiActual: Net name:i2
+                    vpiActual: Variable name:i2
                   RefObj name:xout start:66:37 end:66:41:
                     vpiParent: SysTaskCall name:$display
                     vpiName: xout
@@ -1309,7 +1291,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i1
                 vpiFullName: main.myckt.i1
-                vpiActual: Net name:i1
+                vpiActual: Variable name:i1
             Port start:45:35 end:45:43:
               vpiParent: RefInstance name:myckt
               vpiLowConn RefObj name:in1 start:45:36 end:45:39:
@@ -1320,7 +1302,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: i2
                 vpiFullName: main.myckt.i2
-                vpiActual: Net name:i2
+                vpiActual: Variable name:i2
   vpiTypespec (4 items):
     ModuleTypespec name:xorckt:
       vpiParent: Design name:unnamed
@@ -1342,7 +1324,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 10
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1387,7 +1369,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/vcd1/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             181     181       0         0
+Others                             178     178       0         0
 ----------------------------------------------------------------
-                                   181     181       0         0
+                                   178     178       0         0
 ===================== END REDUCTION RESULT =====================

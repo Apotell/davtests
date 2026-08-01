@@ -255,6 +255,7 @@ n<$Source01/sva/basic03.sv> u<241> t<Top_level_rule> c<1> l<1:1> el<13:1>
         n<> u<237> t<ENDMODULE> p<238> l<12:1> el<12:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/sva/basic03.sv:1:1: Compile module "top".
+[ERR:LN0813] $Source01/sva/basic03.sv:1:1: Found 3 orphan node(s).
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -264,7 +265,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: basic03.sv
       vpiPreprocFile: "$Output/lib/work/sva/basic03.sv"
-      vpiDefNetType: none (12)
   vpiAllModules (1 items):
     Module name:top file:$Source01/sva/basic03.sv start:1:1 end:12:10:
       vpiParent: Design name:unnamed
@@ -317,7 +317,7 @@ Design name:unnamed:
                           vpiParent: SysFuncCall name:$past
                           vpiName: QA
                           vpiFullName: top.QA
-                          vpiActual: Net name:QA
+                          vpiActual: Port name:QA
         Assert start:8:14 end:8:73:
           vpiParent: Module name:top
           vpiLabel Identifier name:check_selB start:8:2 end:8:12:
@@ -342,7 +342,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: selB
                   vpiFullName: top.selB
-                  vpiActual: Net name:selB
+                  vpiActual: Port name:selB
                 Operation start:8:56 end:8:70:
                   vpiParent: Operation
                   vpiOpType: equal (14)
@@ -362,7 +362,7 @@ Design name:unnamed:
                           vpiParent: SysFuncCall name:$past
                           vpiName: QB
                           vpiFullName: top.QB
-                          vpiActual: Net name:QB
+                          vpiActual: Port name:QB
         Assume start:10:17 end:10:67:
           vpiParent: Module name:top
           vpiLabel Identifier name:assume_not_11 start:10:2 end:10:15:
@@ -396,7 +396,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: selB
                       vpiFullName: top.selB
-                      vpiActual: Net name:selB
+                      vpiActual: Port name:selB
       vpiVariable (1 items):
         Variable name:Q start:1:75 end:1:76:
           vpiParent: Module name:top
@@ -406,18 +406,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: Q
           vpiFullName: top.Q
-          vpiNetType: none (12)
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
       vpiCell: top
-      vpiNet (5 items):
+      vpiNet (2 items):
         Net name:clk start:1:25 end:1:28:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:1:13 end:1:24:
@@ -436,41 +435,15 @@ Design name:unnamed:
           vpiName: selA
           vpiFullName: top.selA
           vpiNetType: wire (1)
-        Net name:selB start:1:48 end:1:52:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:48 end:1:48:
-            vpiParent: Net name:selB
-            vpiFullName: top.selB
-            vpiActual: LogicTypespec
-          vpiName: selB
-          vpiFullName: top.selB
-          vpiNetType: wire (1)
-        Net name:QA start:1:54 end:1:56:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:54 end:1:54:
-            vpiParent: Net name:QA
-            vpiFullName: top.QA
-            vpiActual: LogicTypespec
-          vpiName: QA
-          vpiFullName: top.QA
-          vpiNetType: wire (1)
-        Net name:QB start:1:58 end:1:60:
-          vpiParent: Module name:top
-          vpiTypespec RefTypespec start:1:58 end:1:58:
-            vpiParent: Net name:QB
-            vpiFullName: top.QB
-            vpiActual: LogicTypespec
-          vpiName: QB
-          vpiFullName: top.QB
-          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:clk start:1:25 end:1:28:
           vpiParent: Module name:top
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:25 end:1:28:
+          vpiLowConn RefObj name:clk start:1:25 end:1:28:
             vpiParent: Port name:clk
-            vpiFullName: top.clk
+            vpiName: clk
+            vpiFullName: top.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:1:13 end:1:24:
             vpiParent: Port name:clk
@@ -480,9 +453,10 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: selA
           vpiDirection: input (1)
-          vpiLowConn RefObj start:1:42 end:1:46:
+          vpiLowConn RefObj name:selA start:1:42 end:1:46:
             vpiParent: Port name:selA
-            vpiFullName: top.selA
+            vpiName: selA
+            vpiFullName: top.selA.selA
             vpiActual: Net name:selA
           vpiTypespec RefTypespec start:1:30 end:1:41:
             vpiParent: Port name:selA
@@ -492,45 +466,22 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: selB
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:48 end:1:52:
-            vpiParent: Port name:selB
-            vpiFullName: top.selB
-            vpiActual: Net name:selB
-          vpiTypespec RefTypespec start:1:48 end:1:48:
-            vpiParent: Port name:selB
-            vpiFullName: top.selB
-            vpiActual: LogicTypespec
         Port name:QA start:1:54 end:1:56:
           vpiParent: Module name:top
           vpiName: QA
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:54 end:1:56:
-            vpiParent: Port name:QA
-            vpiFullName: top.QA
-            vpiActual: Net name:QA
-          vpiTypespec RefTypespec start:1:54 end:1:54:
-            vpiParent: Port name:QA
-            vpiFullName: top.QA
-            vpiActual: LogicTypespec
         Port name:QB start:1:58 end:1:60:
           vpiParent: Module name:top
           vpiName: QB
           vpiDirection: inout (3)
-          vpiLowConn RefObj start:1:58 end:1:60:
-            vpiParent: Port name:QB
-            vpiFullName: top.QB
-            vpiActual: Net name:QB
-          vpiTypespec RefTypespec start:1:58 end:1:58:
-            vpiParent: Port name:QB
-            vpiFullName: top.QB
-            vpiActual: LogicTypespec
         Port name:Q start:1:75 end:1:76:
           vpiParent: Module name:top
           vpiName: Q
           vpiDirection: output (2)
-          vpiLowConn RefObj start:1:75 end:1:76:
+          vpiLowConn RefObj name:Q start:1:75 end:1:76:
             vpiParent: Port name:Q
-            vpiFullName: top.Q
+            vpiName: Q
+            vpiFullName: top.Q.Q
             vpiActual: Variable name:Q
           vpiTypespec RefTypespec start:1:62 end:1:74:
             vpiParent: Port name:Q
@@ -572,14 +523,14 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: QA
                       vpiFullName: top.QA
-                      vpiActual: Net name:QA
+                      vpiActual: Port name:QA
                 IfStmt start:4:3 end:4:21:
                   vpiParent: Begin
                   vpiCondition RefObj name:selB start:4:7 end:4:11:
                     vpiParent: IfStmt
                     vpiName: selB
                     vpiFullName: top.selB
-                    vpiActual: Net name:selB
+                    vpiActual: Port name:selB
                   vpiStmt Assignment start:4:13 end:4:20:
                     vpiParent: IfStmt
                     vpiLhs RefObj name:Q start:4:13 end:4:14:
@@ -591,7 +542,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: QB
                       vpiFullName: top.QB
-                      vpiActual: Net name:QB
+                      vpiActual: Port name:QB
           vpiAlwaysType: always (1)
   vpiTypespec (1 items):
     ModuleTypespec name:top:
@@ -603,7 +554,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -648,7 +599,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sva/basic03.sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

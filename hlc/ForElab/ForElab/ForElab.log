@@ -17,16 +17,7 @@ COMMAND: -wd ../../../tests/ForElab -sverilog top.v -writepp -d inst -nobuiltin 
 [INF:CP0335] $Source01/top.v:54:60: Compile generate block "gen_tree_arb".
 [INF:CP0335] $Source01/top.v:62:20: Compile generate block "gen_unknown".
 [INF:CP0335] $Source01/top.v:52:47: Compile generate block "gen_arb_ppc".
-[ERR:EL0535] $Source01/top.v:30:12: Illegal implicit net "id:66, name:valid_o".
-[ERR:EL0535] $Source01/top.v:30:23: Illegal implicit net "id:71, name:req_i".
-[ERR:EL0535] $Source01/top.v:41:16: Illegal implicit net "id:145, name:a".
-[ERR:EL0535] $Source01/top.v:41:18: Illegal implicit net "id:146, name:b".
-[ERR:EL0535] $Source01/top.v:41:20: Illegal implicit net "id:147, name:o".
-[ERR:EL0535] $Source01/top.v:56:8: Illegal implicit net "id:171, name:N".
-[ERR:EL0535] $Source01/top.v:57:32: Illegal implicit net "id:175, name:tl_h2d_t".
-[ERR:EL0535] $Source01/top.v:57:8: Illegal implicit net "id:179, name:DW".
-[ERR:EL0535] $Source01/top.v:59:8: Illegal implicit net "id:181, name:clk_i".
-[ERR:EL0535] $Source01/top.v:60:8: Illegal implicit net "id:183, name:rst_ni".
+[WRN:CP0350] $Source01/top.v:57:32: Failed to bind "id:175, name:tl_h2d_t".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "tlul_pkg".
 [WRN:PA0205] $Source01/top.v:16:1: No timescale set for "prim_arbiter_tree".
 [WRN:PA0205] $Source01/top.v:49:1: No timescale set for "tlul_socket_m1".
@@ -38,7 +29,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:tlul_pkg file:$Source01/top.v start:1:1 end:13:11:
       vpiParent: Design name:unnamed
@@ -77,7 +67,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Package name:tlul_pkg
       vpiDefName: tlul_pkg
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Package name:tlul_pkg
         vpiName: work
@@ -173,7 +163,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:prim_arbiter_tree
       vpiDefName: prim_arbiter_tree
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:prim_arbiter_tree
         vpiName: work
@@ -203,9 +193,10 @@ Design name:unnamed:
           vpiParent: Module name:prim_arbiter_tree
           vpiName: clk_i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:21:9 end:21:14:
+          vpiLowConn RefObj name:clk_i start:21:9 end:21:14:
             vpiParent: Port name:clk_i
-            vpiFullName: prim_arbiter_tree.clk_i
+            vpiName: clk_i
+            vpiFullName: prim_arbiter_tree.clk_i.clk_i
             vpiActual: Net name:clk_i
           vpiTypespec RefTypespec start:21:3 end:21:8:
             vpiParent: Port name:clk_i
@@ -215,9 +206,10 @@ Design name:unnamed:
           vpiParent: Module name:prim_arbiter_tree
           vpiName: rst_ni
           vpiDirection: input (1)
-          vpiLowConn RefObj start:22:9 end:22:15:
+          vpiLowConn RefObj name:rst_ni start:22:9 end:22:15:
             vpiParent: Port name:rst_ni
-            vpiFullName: prim_arbiter_tree.rst_ni
+            vpiName: rst_ni
+            vpiFullName: prim_arbiter_tree.rst_ni.rst_ni
             vpiActual: Net name:rst_ni
           vpiTypespec RefTypespec start:22:3 end:22:8:
             vpiParent: Port name:rst_ni
@@ -291,6 +283,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: req
                 vpiFullName: prim_arbiter_tree.gen_normal_case.req
+                vpiVector: true
             vpiParameter (1 items):
               Parameter name:N_LEVELS start:34:29 end:34:37:
                 vpiParent: Begin name:gen_normal_case
@@ -586,7 +579,7 @@ Design name:unnamed:
         vpiName: tlul_socket_m1
       vpiFullName: tlul_socket_m1
       vpiDefName: tlul_socket_m1
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tlul_socket_m1
         vpiName: work
@@ -774,8 +767,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 10
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

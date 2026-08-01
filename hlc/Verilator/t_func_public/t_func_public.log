@@ -1670,8 +1670,6 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/t_func_public.v:6:1: Compile module "t".
 [WRN:CP0323] $Source01/t_func_public.v:6:1: Multiply defined typedef "tpub".
 [INF:CP0303] $Source01/t_func_public.v:36:1: Compile module "tpub".
-[ERR:EL0535] $Source01/t_func_public.v:9:25: Illegal implicit net "id:24, name:i".
-[ERR:EL0535] $Source01/t_func_public.v:10:25: Illegal implicit net "id:36, name:i".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1681,7 +1679,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_func_public.v
       vpiPreprocFile: "$Output/lib/work/t_func_public.v"
-      vpiDefNetType: none (12)
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_func_public.v start:6:1 end:34:10:
       vpiParent: Design name:unnamed
@@ -1689,6 +1686,15 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (1 items):
+        Variable name:cyc start:12:12 end:12:15:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:12:4 end:12:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1706,7 +1712,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
@@ -1735,7 +1741,7 @@ Design name:unnamed:
                 vpiSize: 152
                 vpiDecompile: "\"Hello in publicTop\\n\""
                 vpiValue: Hello in publicTop\n
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:7:10 end:7:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:7:10 end:7:10:
@@ -1744,20 +1750,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:cyc start:12:12 end:12:15:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:4 end:12:11:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
+          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:6:11 end:6:14:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:6:11 end:6:14:
+          vpiLowConn RefObj name:clk start:7:10 end:7:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1776,7 +1775,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:12:29 end:12:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1814,7 +1813,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:14:16 end:14:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1835,7 +1834,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cyc
                           vpiFullName: t.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Operation start:15:10 end:15:17:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -1844,7 +1843,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:15:16 end:15:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1865,7 +1864,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:16:12 end:16:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1889,7 +1888,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: t.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:21:12 end:21:14:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -2007,6 +2006,96 @@ Design name:unnamed:
         vpiParent: Module name:tpub
         vpiName: tpub
       vpiFullName: tpub
+      vpiVariable (10 items):
+        Variable name:var_long start:40:15 end:40:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:40:4 end:40:14:
+            vpiParent: Variable name:var_long
+            vpiFullName: tpub.var_long
+            vpiActual: LogicTypespec
+          vpiName: var_long
+          vpiFullName: tpub.var_long
+          vpiVector: true
+        Variable name:var_quad start:41:15 end:41:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:41:4 end:41:14:
+            vpiParent: Variable name:var_quad
+            vpiFullName: tpub.var_quad
+            vpiActual: LogicTypespec
+          vpiName: var_quad
+          vpiFullName: tpub.var_quad
+          vpiVector: true
+        Variable name:var_wide start:42:15 end:42:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:42:4 end:42:14:
+            vpiParent: Variable name:var_wide
+            vpiFullName: tpub.var_wide
+            vpiActual: LogicTypespec
+          vpiName: var_wide
+          vpiFullName: tpub.var_wide
+          vpiVector: true
+        Variable name:var_bool start:43:15 end:43:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:43:4 end:43:7:
+            vpiParent: Variable name:var_bool
+            vpiFullName: tpub.var_bool
+            vpiActual: LogicTypespec
+          vpiName: var_bool
+          vpiFullName: tpub.var_bool
+          vpiScalar: true
+        Variable name:var_flop start:46:15 end:46:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:46:4 end:46:14:
+            vpiParent: Variable name:var_flop
+            vpiFullName: tpub.var_flop
+            vpiActual: LogicTypespec
+          vpiName: var_flop
+          vpiFullName: tpub.var_flop
+          vpiVector: true
+        Variable name:got_long start:49:15 end:49:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:49:4 end:49:14:
+            vpiParent: Variable name:got_long
+            vpiFullName: tpub.got_long
+            vpiActual: LogicTypespec
+          vpiName: got_long
+          vpiFullName: tpub.got_long
+          vpiVector: true
+        Variable name:got_quad start:50:15 end:50:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:50:4 end:50:14:
+            vpiParent: Variable name:got_quad
+            vpiFullName: tpub.got_quad
+            vpiActual: LogicTypespec
+          vpiName: got_quad
+          vpiFullName: tpub.got_quad
+          vpiVector: true
+        Variable name:got_wide start:51:15 end:51:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:51:4 end:51:14:
+            vpiParent: Variable name:got_wide
+            vpiFullName: tpub.got_wide
+            vpiActual: LogicTypespec
+          vpiName: got_wide
+          vpiFullName: tpub.got_wide
+          vpiVector: true
+        Variable name:got_bool start:52:15 end:52:23:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:52:4 end:52:7:
+            vpiParent: Variable name:got_bool
+            vpiFullName: tpub.got_bool
+            vpiActual: LogicTypespec
+          vpiName: got_bool
+          vpiFullName: tpub.got_bool
+          vpiScalar: true
+        Variable name:cyc start:54:12 end:54:15:
+          vpiParent: Module name:tpub
+          vpiTypespec RefTypespec start:54:4 end:54:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: tpub.cyc
+            vpiActual: IntegerTypespec
+          vpiName: cyc
+          vpiFullName: tpub.cyc
       vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:tpub
@@ -2222,7 +2311,7 @@ Design name:unnamed:
           vpiParent: Module name:tpub
           vpiSigned: true
       vpiDefName: tpub
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:tpub
         vpiName: work
@@ -2297,7 +2386,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_bool
                   vpiFullName: tpub.publicSetBool.var_bool
-                  vpiActual: Net name:var_bool
+                  vpiActual: Variable name:var_bool
                 vpiRhs RefObj name:in_bool start:130:18 end:130:25:
                   vpiParent: Assignment
                   vpiName: in_bool
@@ -2338,6 +2427,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: not_long
                 vpiFullName: tpub.publicSetLong.not_long
+                vpiVector: true
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -2420,7 +2510,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_long
                       vpiFullName: tpub.publicSetLong.var_long
-                      vpiActual: Net name:var_long
+                      vpiActual: Variable name:var_long
                     vpiRhs Operation start:139:14 end:139:23:
                       vpiParent: Assignment
                       vpiOpType: bitwise negation (4)
@@ -2491,7 +2581,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_quad
                   vpiFullName: tpub.publicSetQuad.var_quad
-                  vpiActual: Net name:var_quad
+                  vpiActual: Variable name:var_quad
                 vpiRhs RefObj name:in_quad start:146:18 end:146:25:
                   vpiParent: Assignment
                   vpiName: in_quad
@@ -2558,7 +2648,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_flop
                   vpiFullName: tpub.publicSetFlop.var_flop
-                  vpiActual: Net name:var_flop
+                  vpiActual: Variable name:var_flop
                 vpiRhs RefObj name:in_flop start:152:18 end:152:25:
                   vpiParent: Assignment
                   vpiName: in_flop
@@ -2625,7 +2715,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_wide
                   vpiFullName: tpub.publicSetWide.var_wide
-                  vpiActual: Net name:var_wide
+                  vpiActual: Variable name:var_wide
                 vpiRhs RefObj name:in_wide start:158:18 end:158:25:
                   vpiParent: Assignment
                   vpiName: in_wide
@@ -2673,7 +2763,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_bool
                   vpiFullName: tpub.publicGetBool.var_bool
-                  vpiActual: Net name:var_bool
+                  vpiActual: Variable name:var_bool
         Task name:publicGetLong start:167:4 end:171:11:
           vpiParent: Module name:tpub
           vpiName Identifier name:publicGetLong start:167:9 end:167:22:
@@ -2740,7 +2830,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_long
                   vpiFullName: tpub.publicGetLong.var_long
-                  vpiActual: Net name:var_long
+                  vpiActual: Variable name:var_long
         Task name:publicGetQuad start:173:4 end:177:11:
           vpiParent: Module name:tpub
           vpiName Identifier name:publicGetQuad start:173:9 end:173:22:
@@ -2807,7 +2897,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_quad
                   vpiFullName: tpub.publicGetQuad.var_quad
-                  vpiActual: Net name:var_quad
+                  vpiActual: Variable name:var_quad
         Task name:publicGetWide start:179:4 end:183:11:
           vpiParent: Module name:tpub
           vpiName Identifier name:publicGetWide start:179:9 end:179:22:
@@ -2874,7 +2964,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: var_wide
                   vpiFullName: tpub.publicGetWide.var_wide
-                  vpiActual: Net name:var_wide
+                  vpiActual: Variable name:var_wide
         Function name:publicGetSetBool start:185:4 end:192:15:
           vpiParent: Module name:tpub
           vpiName Identifier name:publicGetSetBool start:185:13 end:185:29:
@@ -2924,7 +3014,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_bool
                       vpiFullName: tpub.publicGetSetBool.var_bool
-                      vpiActual: Net name:var_bool
+                      vpiActual: Variable name:var_bool
                   Assignment start:190:3 end:190:21:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -2932,7 +3022,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_bool
                       vpiFullName: tpub.publicGetSetBool.var_bool
-                      vpiActual: Net name:var_bool
+                      vpiActual: Variable name:var_bool
                     vpiRhs RefObj name:in_bool start:190:14 end:190:21:
                       vpiParent: Assignment
                       vpiName: in_bool
@@ -3039,7 +3129,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_long
                       vpiFullName: tpub.publicGetSetLong.var_long
-                      vpiActual: Net name:var_long
+                      vpiActual: Variable name:var_long
                   Assignment start:199:3 end:199:21:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -3047,7 +3137,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_long
                       vpiFullName: tpub.publicGetSetLong.var_long
-                      vpiActual: Net name:var_long
+                      vpiActual: Variable name:var_long
                     vpiRhs RefObj name:in_long start:199:14 end:199:21:
                       vpiParent: Assignment
                       vpiName: in_long
@@ -3154,7 +3244,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_quad
                       vpiFullName: tpub.publicGetSetQuad.var_quad
-                      vpiActual: Net name:var_quad
+                      vpiActual: Variable name:var_quad
                   Assignment start:208:3 end:208:21:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -3162,7 +3252,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_quad
                       vpiFullName: tpub.publicGetSetQuad.var_quad
-                      vpiActual: Net name:var_quad
+                      vpiActual: Variable name:var_quad
                     vpiRhs RefObj name:in_quad start:208:14 end:208:21:
                       vpiParent: Assignment
                       vpiName: in_quad
@@ -3269,7 +3359,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_wide
                       vpiFullName: tpub.publicGetSetWide.var_wide
-                      vpiActual: Net name:var_wide
+                      vpiActual: Variable name:var_wide
                   Assignment start:217:3 end:217:21:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -3277,7 +3367,7 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName: var_wide
                       vpiFullName: tpub.publicGetSetWide.var_wide
-                      vpiActual: Net name:var_wide
+                      vpiActual: Variable name:var_wide
                     vpiRhs RefObj name:in_wide start:217:14 end:217:21:
                       vpiParent: Assignment
                       vpiName: in_wide
@@ -3287,7 +3377,7 @@ Design name:unnamed:
             vpiParent: Function name:publicGetSetWide
             vpiFullName: tpub.publicGetSetWide
             vpiActual: LogicTypespec
-      vpiNet (12 items):
+      vpiNet (2 items):
         Net name:clk start:37:13 end:37:16:
           vpiParent: Module name:tpub
           vpiTypespec RefTypespec start:37:7 end:37:12:
@@ -3306,94 +3396,15 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: tpub.i
           vpiNetType: wire (1)
-        Net name:var_long start:40:15 end:40:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:40:4 end:40:14:
-            vpiParent: Net name:var_long
-            vpiFullName: tpub.var_long
-            vpiActual: LogicTypespec
-          vpiName: var_long
-          vpiFullName: tpub.var_long
-        Net name:var_quad start:41:15 end:41:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:41:4 end:41:14:
-            vpiParent: Net name:var_quad
-            vpiFullName: tpub.var_quad
-            vpiActual: LogicTypespec
-          vpiName: var_quad
-          vpiFullName: tpub.var_quad
-        Net name:var_wide start:42:15 end:42:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:42:4 end:42:14:
-            vpiParent: Net name:var_wide
-            vpiFullName: tpub.var_wide
-            vpiActual: LogicTypespec
-          vpiName: var_wide
-          vpiFullName: tpub.var_wide
-        Net name:var_bool start:43:15 end:43:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:43:4 end:43:7:
-            vpiParent: Net name:var_bool
-            vpiFullName: tpub.var_bool
-            vpiActual: LogicTypespec
-          vpiName: var_bool
-          vpiFullName: tpub.var_bool
-        Net name:var_flop start:46:15 end:46:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:46:4 end:46:14:
-            vpiParent: Net name:var_flop
-            vpiFullName: tpub.var_flop
-            vpiActual: LogicTypespec
-          vpiName: var_flop
-          vpiFullName: tpub.var_flop
-        Net name:got_long start:49:15 end:49:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:49:4 end:49:14:
-            vpiParent: Net name:got_long
-            vpiFullName: tpub.got_long
-            vpiActual: LogicTypespec
-          vpiName: got_long
-          vpiFullName: tpub.got_long
-        Net name:got_quad start:50:15 end:50:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:50:4 end:50:14:
-            vpiParent: Net name:got_quad
-            vpiFullName: tpub.got_quad
-            vpiActual: LogicTypespec
-          vpiName: got_quad
-          vpiFullName: tpub.got_quad
-        Net name:got_wide start:51:15 end:51:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:51:4 end:51:14:
-            vpiParent: Net name:got_wide
-            vpiFullName: tpub.got_wide
-            vpiActual: LogicTypespec
-          vpiName: got_wide
-          vpiFullName: tpub.got_wide
-        Net name:got_bool start:52:15 end:52:23:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:52:4 end:52:7:
-            vpiParent: Net name:got_bool
-            vpiFullName: tpub.got_bool
-            vpiActual: LogicTypespec
-          vpiName: got_bool
-          vpiFullName: tpub.got_bool
-        Net name:cyc start:54:12 end:54:15:
-          vpiParent: Module name:tpub
-          vpiTypespec RefTypespec start:54:4 end:54:11:
-            vpiParent: Net name:cyc
-            vpiFullName: tpub.cyc
-            vpiActual: IntegerTypespec
-          vpiName: cyc
-          vpiFullName: tpub.cyc
       vpiPort (2 items):
         Port name:clk start:37:13 end:37:16:
           vpiParent: Module name:tpub
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj start:37:13 end:37:16:
+          vpiLowConn RefObj name:clk start:37:13 end:37:16:
             vpiParent: Port name:clk
-            vpiFullName: tpub.clk
+            vpiName: clk
+            vpiFullName: tpub.clk.clk
             vpiActual: Net name:clk
           vpiTypespec RefTypespec start:37:7 end:37:12:
             vpiParent: Port name:clk
@@ -3403,9 +3414,10 @@ Design name:unnamed:
           vpiParent: Module name:tpub
           vpiName: i
           vpiDirection: input (1)
-          vpiLowConn RefObj start:38:20 end:38:21:
+          vpiLowConn RefObj name:i start:38:20 end:38:21:
             vpiParent: Port name:i
-            vpiFullName: tpub.i
+            vpiName: i
+            vpiFullName: tpub.i.i
             vpiActual: Net name:i
           vpiTypespec RefTypespec start:38:7 end:38:19:
             vpiParent: Port name:i
@@ -3421,7 +3433,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: tpub.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:54:29 end:54:30:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -3459,7 +3471,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: tpub.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:56:16 end:56:17:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -3480,7 +3492,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: cyc
                           vpiFullName: tpub.cyc
-                          vpiActual: Net name:cyc
+                          vpiActual: Variable name:cyc
                         vpiRhs Operation start:57:10 end:57:17:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -3489,7 +3501,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: tpub.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:57:16 end:57:17:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3510,7 +3522,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: tpub.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:59:12 end:59:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3607,7 +3619,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: var_flop
                                 vpiFullName: tpub.var_flop
-                                vpiActual: Net name:var_flop
+                                vpiActual: Variable name:var_flop
                               vpiRhs Constant start:65:18 end:65:25:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -3628,7 +3640,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: tpub.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:67:12 end:67:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3808,7 +3820,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: cyc
                               vpiFullName: tpub.cyc
-                              vpiActual: Net name:cyc
+                              vpiActual: Variable name:cyc
                             Constant start:73:12 end:73:13:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3837,7 +3849,7 @@ Design name:unnamed:
                                   vpiParent: TaskCall name:publicGetBool
                                   vpiName: got_bool
                                   vpiFullName: tpub.got_bool
-                                  vpiActual: Net name:got_bool
+                                  vpiActual: Variable name:got_bool
                             IfStmt start:75:6 end:75:34:
                               vpiParent: Begin
                               vpiCondition Operation start:75:10 end:75:26:
@@ -3858,7 +3870,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: got_bool
                                     vpiFullName: tpub.got_bool
-                                    vpiActual: Net name:got_bool
+                                    vpiActual: Variable name:got_bool
                               vpiStmt SysTaskCall name:$stop start:75:28 end:75:33:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:75:28 end:75:33:
@@ -3875,7 +3887,7 @@ Design name:unnamed:
                                   vpiParent: TaskCall name:publicGetLong
                                   vpiName: got_long
                                   vpiFullName: tpub.got_long
-                                  vpiActual: Net name:got_long
+                                  vpiActual: Variable name:got_long
                             IfStmt start:77:6 end:77:38:
                               vpiParent: Begin
                               vpiCondition Operation start:77:10 end:77:30:
@@ -3896,7 +3908,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: got_long
                                     vpiFullName: tpub.got_long
-                                    vpiActual: Net name:got_long
+                                    vpiActual: Variable name:got_long
                               vpiStmt SysTaskCall name:$stop start:77:32 end:77:37:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:77:32 end:77:37:
@@ -3913,7 +3925,7 @@ Design name:unnamed:
                                   vpiParent: TaskCall name:publicGetQuad
                                   vpiName: got_quad
                                   vpiFullName: tpub.got_quad
-                                  vpiActual: Net name:got_quad
+                                  vpiActual: Variable name:got_quad
                             IfStmt start:79:6 end:79:47:
                               vpiParent: Begin
                               vpiCondition Operation start:79:10 end:79:39:
@@ -3934,7 +3946,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: got_quad
                                     vpiFullName: tpub.got_quad
-                                    vpiActual: Net name:got_quad
+                                    vpiActual: Variable name:got_quad
                               vpiStmt SysTaskCall name:$stop start:79:41 end:79:46:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:79:41 end:79:46:
@@ -3951,7 +3963,7 @@ Design name:unnamed:
                                   vpiParent: TaskCall name:publicGetWide
                                   vpiName: got_wide
                                   vpiFullName: tpub.got_wide
-                                  vpiActual: Net name:got_wide
+                                  vpiActual: Variable name:got_wide
                             IfStmt start:81:6 end:81:56:
                               vpiParent: Begin
                               vpiCondition Operation start:81:10 end:81:48:
@@ -3972,7 +3984,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: got_wide
                                     vpiFullName: tpub.got_wide
-                                    vpiActual: Net name:got_wide
+                                    vpiActual: Variable name:got_wide
                               vpiStmt SysTaskCall name:$stop start:81:50 end:81:55:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:81:50 end:81:55:
@@ -4004,7 +4016,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

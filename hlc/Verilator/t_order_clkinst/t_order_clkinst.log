@@ -1115,12 +1115,6 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/t_order_clkinst.v:6:1: Multiply defined typedef "comb_loop".
 [INF:CP0303] $Source01/t_order_clkinst.v:61:1: Compile module "comb_loop".
 [INF:CP0303] $Source01/t_order_clkinst.v:90:1: Compile module "seq_loop".
-[ERR:EL0535] $Source01/t_order_clkinst.v:19:19: Illegal implicit net "id:41, name:count".
-[ERR:EL0535] $Source01/t_order_clkinst.v:19:37: Illegal implicit net "id:44, name:start".
-[ERR:EL0535] $Source01/t_order_clkinst.v:23:19: Illegal implicit net "id:65, name:count".
-[ERR:EL0535] $Source01/t_order_clkinst.v:23:37: Illegal implicit net "id:68, name:start".
-[ERR:EL0535] $Source01/t_order_clkinst.v:27:19: Illegal implicit net "id:93, name:count".
-[ERR:EL0535] $Source01/t_order_clkinst.v:27:37: Illegal implicit net "id:96, name:start".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1130,7 +1124,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_order_clkinst.v
       vpiPreprocFile: "$Output/lib/work/t_order_clkinst.v"
-      vpiDefNetType: none (12)
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_order_clkinst.v start:6:1 end:59:10:
       vpiParent: Design name:unnamed
@@ -1138,6 +1131,25 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: t
       vpiFullName: t
+      vpiVariable (2 items):
+        Variable name:c1_start start:17:16 end:17:24:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:17:4 end:17:7:
+            vpiParent: Variable name:c1_start
+            vpiFullName: t.c1_start
+            vpiActual: LogicTypespec
+          vpiName: c1_start
+          vpiFullName: t.c1_start
+          vpiScalar: true
+        Variable name:cyc start:29:14 end:29:17:
+          vpiParent: Module name:t
+          vpiTypespec RefTypespec start:29:4 end:29:13:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: LogicTypespec
+          vpiName: cyc
+          vpiFullName: t.cyc
+          vpiVector: true
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1261,13 +1273,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: t
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
       vpiCell: t
-      vpiNet (8 items):
+      vpiNet (6 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:10 end:10:10:
@@ -1276,14 +1288,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: t.clk
-        Net name:c1_start start:17:16 end:17:24:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:17:4 end:17:7:
-            vpiParent: Net name:c1_start
-            vpiFullName: t.c1_start
-            vpiActual: LogicTypespec
-          vpiName: c1_start
-          vpiFullName: t.c1_start
+          vpiNetType: wire (1)
         Net name:c1_count start:18:16 end:18:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:15:
@@ -1306,7 +1311,7 @@ Design name:unnamed:
             vpiParent: Net name:s2_start
             vpiName: c1_start
             vpiFullName: t.s2_start.c1_start
-            vpiActual: Net name:c1_start
+            vpiActual: Variable name:c1_start
         Net name:s2_count start:22:16 end:22:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:22:9 end:22:15:
@@ -1353,20 +1358,12 @@ Design name:unnamed:
           vpiName: c3_count
           vpiFullName: t.c3_count
           vpiNetType: wire (1)
-        Net name:cyc start:29:14 end:29:17:
-          vpiParent: Module name:t
-          vpiTypespec RefTypespec start:29:4 end:29:13:
-            vpiParent: Net name:cyc
-            vpiFullName: t.cyc
-            vpiActual: LogicTypespec
-          vpiName: cyc
-          vpiFullName: t.cyc
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
           vpiName: clk
           vpiDirection: input (1)
-          vpiLowConn RefObj name:clk start:8:4 end:8:7:
+          vpiLowConn RefObj name:clk start:10:10 end:10:13:
             vpiParent: Port name:clk
             vpiName: clk
             vpiFullName: t.clk.clk
@@ -1385,7 +1382,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: c1_start
               vpiFullName: t.c1_start
-              vpiActual: Net name:c1_start
+              vpiActual: Variable name:c1_start
             vpiRhs Constant start:17:45 end:17:46:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1405,7 +1402,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: cyc
               vpiFullName: t.cyc
-              vpiActual: Net name:cyc
+              vpiActual: Variable name:cyc
             vpiRhs Constant start:29:31 end:29:32:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1439,7 +1436,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiRhs Operation start:32:14 end:32:24:
                     vpiParent: Assignment
                     vpiOpType: add (24)
@@ -1448,7 +1445,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: cyc
                         vpiFullName: t.cyc
-                        vpiActual: Net name:cyc
+                        vpiActual: Variable name:cyc
                       Constant start:32:20 end:32:24:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1466,7 +1463,7 @@ Design name:unnamed:
                     vpiParent: CaseStmt
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiCaseItem (3 items):
                     CaseItem start:34:9 end:36:12:
                       vpiParent: CaseStmt
@@ -1494,7 +1491,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: c1_start
                               vpiFullName: t.c1_start
-                              vpiActual: Net name:c1_start
+                              vpiActual: Variable name:c1_start
                             vpiRhs Constant start:35:24 end:35:28:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -1531,7 +1528,7 @@ Design name:unnamed:
                               vpiParent: Assignment
                               vpiName: c1_start
                               vpiFullName: t.c1_start
-                              vpiActual: Net name:c1_start
+                              vpiActual: Variable name:c1_start
                             vpiRhs Constant start:38:24 end:38:28:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -1551,7 +1548,7 @@ Design name:unnamed:
                     vpiParent: CaseStmt
                     vpiName: cyc
                     vpiFullName: t.cyc
-                    vpiActual: Net name:cyc
+                    vpiActual: Variable name:cyc
                   vpiCaseItem (3 items):
                     CaseItem start:43:9 end:51:12:
                       vpiParent: CaseStmt
@@ -1720,7 +1717,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: c1_start
                 vpiFullName: t.c1.c1_start
-                vpiActual: Net name:c1_start
+                vpiActual: Variable name:c1_start
         RefInstance name:s2 start:23:14 end:23:16:
           vpiParent: Module name:t
           vpiName: s2
@@ -1789,6 +1786,33 @@ Design name:unnamed:
         vpiParent: Module name:comb_loop
         vpiName: comb_loop
       vpiFullName: comb_loop
+      vpiVariable (3 items):
+        Variable name:count start:68:22 end:68:27:
+          vpiParent: Module name:comb_loop
+          vpiTypespec RefTypespec start:68:11 end:68:21:
+            vpiParent: Variable name:count
+            vpiFullName: comb_loop.count
+            vpiActual: LogicTypespec
+          vpiName: count
+          vpiFullName: comb_loop.count
+        Variable name:runnerm1 start:70:18 end:70:26:
+          vpiParent: Module name:comb_loop
+          vpiTypespec RefTypespec start:70:4 end:70:14:
+            vpiParent: Variable name:runnerm1
+            vpiFullName: comb_loop.runnerm1
+            vpiActual: LogicTypespec
+          vpiName: runnerm1
+          vpiFullName: comb_loop.runnerm1
+          vpiVector: true
+        Variable name:runner start:70:28 end:70:34:
+          vpiParent: Module name:comb_loop
+          vpiTypespec RefTypespec start:70:4 end:70:14:
+            vpiParent: Variable name:runner
+            vpiFullName: comb_loop.runner
+            vpiActual: LogicTypespec
+          vpiName: runner
+          vpiFullName: comb_loop.runner
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:comb_loop
@@ -1845,22 +1869,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: comb_loop
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:comb_loop
         vpiName: work
         vpiFullName: comb_loop.work
       vpiCell: comb_loop
-      vpiNet (4 items):
-        Net name:count start:68:22 end:68:27:
-          vpiParent: Module name:comb_loop
-          vpiTypespec RefTypespec start:68:11 end:68:21:
-            vpiParent: Net name:count
-            vpiFullName: comb_loop.count
-            vpiActual: LogicTypespec
-          vpiName: count
-          vpiFullName: comb_loop.count
-          vpiNetType: reg (48)
+      vpiNet (1 items):
         Net name:start start:67:10 end:67:15:
           vpiParent: Module name:comb_loop
           vpiTypespec RefTypespec start:67:10 end:67:10:
@@ -1869,32 +1884,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: start
           vpiFullName: comb_loop.start
-        Net name:runnerm1 start:70:18 end:70:26:
-          vpiParent: Module name:comb_loop
-          vpiTypespec RefTypespec start:70:4 end:70:14:
-            vpiParent: Net name:runnerm1
-            vpiFullName: comb_loop.runnerm1
-            vpiActual: LogicTypespec
-          vpiName: runnerm1
-          vpiFullName: comb_loop.runnerm1
-        Net name:runner start:70:28 end:70:34:
-          vpiParent: Module name:comb_loop
-          vpiTypespec RefTypespec start:70:4 end:70:14:
-            vpiParent: Net name:runner
-            vpiFullName: comb_loop.runner
-            vpiActual: LogicTypespec
-          vpiName: runner
-          vpiFullName: comb_loop.runner
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:count start:63:4 end:63:9:
           vpiParent: Module name:comb_loop
           vpiName: count
           vpiDirection: output (2)
-          vpiLowConn RefObj name:count start:63:4 end:63:9:
+          vpiLowConn RefObj name:count start:68:22 end:68:27:
             vpiParent: Port name:count
             vpiName: count
             vpiFullName: comb_loop.count.count
-            vpiActual: Net name:count
+            vpiActual: Variable name:count
           vpiTypespec RefTypespec start:68:11 end:68:21:
             vpiParent: Port name:count
             vpiFullName: comb_loop.count
@@ -1903,7 +1903,7 @@ Design name:unnamed:
           vpiParent: Module name:comb_loop
           vpiName: start
           vpiDirection: input (1)
-          vpiLowConn RefObj name:start start:65:4 end:65:9:
+          vpiLowConn RefObj name:start start:67:10 end:67:15:
             vpiParent: Port name:start
             vpiName: start
             vpiFullName: comb_loop.start.start
@@ -1922,7 +1922,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: count
               vpiFullName: comb_loop.count
-              vpiActual: Net name:count
+              vpiActual: Variable name:count
             vpiRhs Constant start:68:45 end:68:46:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1942,7 +1942,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: runner
               vpiFullName: comb_loop.runner
-              vpiActual: Net name:runner
+              vpiActual: Variable name:runner
             vpiRhs Constant start:70:53 end:70:54:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -1977,7 +1977,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: runner
                     vpiFullName: comb_loop.runner
-                    vpiActual: Net name:runner
+                    vpiActual: Variable name:runner
                   vpiRhs Constant start:73:16 end:73:17:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -1997,7 +1997,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: runner
               vpiFullName: comb_loop.runner
-              vpiActual: Net name:runner
+              vpiActual: Variable name:runner
             vpiStmt Begin start:76:28 end:78:7:
               vpiParent: EventControl
               vpiFullName: comb_loop
@@ -2009,7 +2009,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: runnerm1
                     vpiFullName: comb_loop.runnerm1
-                    vpiActual: Net name:runnerm1
+                    vpiActual: Variable name:runnerm1
                   vpiRhs Operation start:77:18 end:77:32:
                     vpiParent: Assignment
                     vpiOpType: subtract (11)
@@ -2018,7 +2018,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: runner
                         vpiFullName: comb_loop.runner
-                        vpiActual: Net name:runner
+                        vpiActual: Variable name:runner
                       Constant start:77:27 end:77:32:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2038,7 +2038,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: runnerm1
               vpiFullName: comb_loop.runnerm1
-              vpiActual: Net name:runnerm1
+              vpiActual: Variable name:runnerm1
             vpiStmt Begin start:80:30 end:86:7:
               vpiParent: EventControl
               vpiFullName: comb_loop
@@ -2053,7 +2053,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: runner
                         vpiFullName: comb_loop.runner
-                        vpiActual: Net name:runner
+                        vpiActual: Variable name:runner
                       Constant start:81:20 end:81:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2075,7 +2075,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: count
                           vpiFullName: comb_loop.count
-                          vpiActual: Net name:count
+                          vpiActual: Variable name:count
                         vpiRhs Operation start:82:18 end:82:27:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -2084,7 +2084,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: count
                               vpiFullName: comb_loop.count
-                              vpiActual: Net name:count
+                              vpiActual: Variable name:count
                             Constant start:82:26 end:82:27:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -2102,12 +2102,12 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: runner
                           vpiFullName: comb_loop.runner
-                          vpiActual: Net name:runner
+                          vpiActual: Variable name:runner
                         vpiRhs RefObj name:runnerm1 start:83:19 end:83:27:
                           vpiParent: Assignment
                           vpiName: runnerm1
                           vpiFullName: comb_loop.runnerm1
-                          vpiActual: Net name:runnerm1
+                          vpiActual: Variable name:runnerm1
                       SysTaskCall name:$write start:84:10 end:84:62:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:84:10 end:84:16:
@@ -2128,12 +2128,12 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiName: count
                             vpiFullName: comb_loop.count
-                            vpiActual: Net name:count
+                            vpiActual: Variable name:count
                           RefObj name:runnerm1 start:84:53 end:84:61:
                             vpiParent: SysTaskCall name:$write
                             vpiName: runnerm1
                             vpiFullName: comb_loop.runnerm1
-                            vpiActual: Net name:runnerm1
+                            vpiActual: Variable name:runnerm1
           vpiAlwaysType: always (1)
     Module name:seq_loop file:$Source01/t_order_clkinst.v start:90:1 end:117:10:
       vpiParent: Design name:unnamed
@@ -2141,6 +2141,33 @@ Design name:unnamed:
         vpiParent: Module name:seq_loop
         vpiName: seq_loop
       vpiFullName: seq_loop
+      vpiVariable (3 items):
+        Variable name:count start:97:22 end:97:27:
+          vpiParent: Module name:seq_loop
+          vpiTypespec RefTypespec start:97:11 end:97:21:
+            vpiParent: Variable name:count
+            vpiFullName: seq_loop.count
+            vpiActual: LogicTypespec
+          vpiName: count
+          vpiFullName: seq_loop.count
+        Variable name:runnerm1 start:99:18 end:99:26:
+          vpiParent: Module name:seq_loop
+          vpiTypespec RefTypespec start:99:4 end:99:14:
+            vpiParent: Variable name:runnerm1
+            vpiFullName: seq_loop.runnerm1
+            vpiActual: LogicTypespec
+          vpiName: runnerm1
+          vpiFullName: seq_loop.runnerm1
+          vpiVector: true
+        Variable name:runner start:99:28 end:99:34:
+          vpiParent: Module name:seq_loop
+          vpiTypespec RefTypespec start:99:4 end:99:14:
+            vpiParent: Variable name:runner
+            vpiFullName: seq_loop.runner
+            vpiActual: LogicTypespec
+          vpiName: runner
+          vpiFullName: seq_loop.runner
+          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:seq_loop
@@ -2197,22 +2224,13 @@ Design name:unnamed:
                 vpiValue: 0
           vpiVector: true
       vpiDefName: seq_loop
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:seq_loop
         vpiName: work
         vpiFullName: seq_loop.work
       vpiCell: seq_loop
-      vpiNet (4 items):
-        Net name:count start:97:22 end:97:27:
-          vpiParent: Module name:seq_loop
-          vpiTypespec RefTypespec start:97:11 end:97:21:
-            vpiParent: Net name:count
-            vpiFullName: seq_loop.count
-            vpiActual: LogicTypespec
-          vpiName: count
-          vpiFullName: seq_loop.count
-          vpiNetType: reg (48)
+      vpiNet (1 items):
         Net name:start start:96:10 end:96:15:
           vpiParent: Module name:seq_loop
           vpiTypespec RefTypespec start:96:10 end:96:10:
@@ -2221,32 +2239,17 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: start
           vpiFullName: seq_loop.start
-        Net name:runnerm1 start:99:18 end:99:26:
-          vpiParent: Module name:seq_loop
-          vpiTypespec RefTypespec start:99:4 end:99:14:
-            vpiParent: Net name:runnerm1
-            vpiFullName: seq_loop.runnerm1
-            vpiActual: LogicTypespec
-          vpiName: runnerm1
-          vpiFullName: seq_loop.runnerm1
-        Net name:runner start:99:28 end:99:34:
-          vpiParent: Module name:seq_loop
-          vpiTypespec RefTypespec start:99:4 end:99:14:
-            vpiParent: Net name:runner
-            vpiFullName: seq_loop.runner
-            vpiActual: LogicTypespec
-          vpiName: runner
-          vpiFullName: seq_loop.runner
+          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:count start:92:4 end:92:9:
           vpiParent: Module name:seq_loop
           vpiName: count
           vpiDirection: output (2)
-          vpiLowConn RefObj name:count start:92:4 end:92:9:
+          vpiLowConn RefObj name:count start:97:22 end:97:27:
             vpiParent: Port name:count
             vpiName: count
             vpiFullName: seq_loop.count.count
-            vpiActual: Net name:count
+            vpiActual: Variable name:count
           vpiTypespec RefTypespec start:97:11 end:97:21:
             vpiParent: Port name:count
             vpiFullName: seq_loop.count
@@ -2255,7 +2258,7 @@ Design name:unnamed:
           vpiParent: Module name:seq_loop
           vpiName: start
           vpiDirection: input (1)
-          vpiLowConn RefObj name:start start:94:4 end:94:9:
+          vpiLowConn RefObj name:start start:96:10 end:96:15:
             vpiParent: Port name:start
             vpiName: start
             vpiFullName: seq_loop.start.start
@@ -2274,7 +2277,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: count
               vpiFullName: seq_loop.count
-              vpiActual: Net name:count
+              vpiActual: Variable name:count
             vpiRhs Constant start:97:45 end:97:46:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2294,7 +2297,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: runner
               vpiFullName: seq_loop.runner
-              vpiActual: Net name:runner
+              vpiActual: Variable name:runner
             vpiRhs Constant start:99:53 end:99:54:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -2328,7 +2331,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: runner
                     vpiFullName: seq_loop.runner
-                    vpiActual: Net name:runner
+                    vpiActual: Variable name:runner
                   vpiRhs Constant start:102:17 end:102:18:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -2348,7 +2351,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: runner
               vpiFullName: seq_loop.runner
-              vpiActual: Net name:runner
+              vpiActual: Variable name:runner
             vpiStmt Begin start:105:28 end:107:7:
               vpiParent: EventControl
               vpiFullName: seq_loop
@@ -2360,7 +2363,7 @@ Design name:unnamed:
                     vpiParent: Assignment
                     vpiName: runnerm1
                     vpiFullName: seq_loop.runnerm1
-                    vpiActual: Net name:runnerm1
+                    vpiActual: Variable name:runnerm1
                   vpiRhs Operation start:106:18 end:106:32:
                     vpiParent: Assignment
                     vpiOpType: subtract (11)
@@ -2369,7 +2372,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: runner
                         vpiFullName: seq_loop.runner
-                        vpiActual: Net name:runner
+                        vpiActual: Variable name:runner
                       Constant start:106:27 end:106:32:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2389,7 +2392,7 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName: runnerm1
               vpiFullName: seq_loop.runnerm1
-              vpiActual: Net name:runnerm1
+              vpiActual: Variable name:runnerm1
             vpiStmt Begin start:109:30 end:115:7:
               vpiParent: EventControl
               vpiFullName: seq_loop
@@ -2404,7 +2407,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: runner
                         vpiFullName: seq_loop.runner
-                        vpiActual: Net name:runner
+                        vpiActual: Variable name:runner
                       Constant start:110:20 end:110:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -2426,7 +2429,7 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: count
                           vpiFullName: seq_loop.count
-                          vpiActual: Net name:count
+                          vpiActual: Variable name:count
                         vpiRhs Operation start:111:18 end:111:27:
                           vpiParent: Assignment
                           vpiOpType: add (24)
@@ -2435,7 +2438,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: count
                               vpiFullName: seq_loop.count
-                              vpiActual: Net name:count
+                              vpiActual: Variable name:count
                             Constant start:111:26 end:111:27:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -2452,12 +2455,12 @@ Design name:unnamed:
                           vpiParent: Assignment
                           vpiName: runner
                           vpiFullName: seq_loop.runner
-                          vpiActual: Net name:runner
+                          vpiActual: Variable name:runner
                         vpiRhs RefObj name:runnerm1 start:112:20 end:112:28:
                           vpiParent: Assignment
                           vpiName: runnerm1
                           vpiFullName: seq_loop.runnerm1
-                          vpiActual: Net name:runnerm1
+                          vpiActual: Variable name:runnerm1
                       SysTaskCall name:$write start:113:10 end:113:62:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:113:10 end:113:16:
@@ -2478,12 +2481,12 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiName: count
                             vpiFullName: seq_loop.count
-                            vpiActual: Net name:count
+                            vpiActual: Variable name:count
                           RefObj name:runnerm1 start:113:53 end:113:61:
                             vpiParent: SysTaskCall name:$write
                             vpiName: runnerm1
                             vpiFullName: seq_loop.runnerm1
-                            vpiActual: Net name:runnerm1
+                            vpiActual: Variable name:runnerm1
           vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     ModuleTypespec name:t:
@@ -2514,7 +2517,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

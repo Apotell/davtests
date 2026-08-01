@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,11 @@
 //
 // Checked:
 //   - design has module top with exactly 2 nets: "a" [3:0] (input),
-//     "b" (output, scalar), both vpiNetType wire
+//     "b" (output, scalar), both vpiNetType wire. Per IEEE 1800-2023 Sec
+//     6.7/23.2.2.3: an input port always defaults to a net, and an
+//     output port with no explicit data type also defaults to a net, so
+//     both being nets here is correct; module has no variables
+//     (getVariables() is null)
 //   - module has exactly 1 continuous assignment: lhs RefObj "b", rhs
 //     BitSelect "a[2]": vpiPrefix RefObj "a" resolving Net "a", vpiIndex
 //     Constant "2"
@@ -64,7 +68,7 @@ class SimpleIdxSelectSimTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets ---------------------------------------------------------
+// --- module / nets ----
 
 TEST_F(SimpleIdxSelectSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -82,7 +86,15 @@ TEST_F(SimpleIdxSelectSimTest, ModuleHasTwoNetsAllWire) {
   }
 }
 
-// --- continuous assignment: single bit-select --------------------------------
+TEST_F(SimpleIdxSelectSimTest, ModuleHasNoVariables) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getVariables(), nullptr) << "both ports default to nets per IEEE 1800-2023 "
+                                              "Sec 6.7/23.2.2.3, so the module should have no "
+                                              "variables";
+}
+
+// --- continuous assignment: single bit-select ----
 
 TEST_F(SimpleIdxSelectSimTest, ContAssignIsBitSelectAOfTwo) {
   const hldb::Module *const top = getTop();
@@ -99,7 +111,7 @@ TEST_F(SimpleIdxSelectSimTest, ContAssignIsBitSelectAOfTwo) {
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "2");
 }
 
-// --- design-level typespecs / compiler diagnostics -----------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(SimpleIdxSelectSimTest, DesignHasTwoTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -18,7 +18,7 @@ n<$Source01/relong/enum.sv> u<221> t<Top_level_rule> c<1> l<1:1> el<28:10>
     n<> u<5> t<Description> p<220> c<4> s<6> l<1:1> el<1:22>
       n<> u<4> t<Top_directives> p<5> c<3> l<1:1> el<1:22>
         n<> u<3> t<Default_nettype_directive> p<4> c<2> l<1:1> el<1:22>
-          n<none> u<2> t<SIMPLE_IDENTIFIER> p<3> l<1:18> el<1:22>
+          n<> u<2> t<NONE> p<3> l<1:18> el<1:22>
     n<// Technically the value assignment could be anything, but most tools default to a 32-bit logic assigning MODE_A = 0 and MODE_B = 1> u<6> t<LINE_COMMENT> p<220> s<17> l<3:1> el<3:132>
     n<> u<17> t<Description> p<220> c<16> s<54> l<4:1> el<4:38>
       n<> u<16> t<Package_item> p<17> c<15> l<4:1> el<4:38>
@@ -235,11 +235,6 @@ n<$Source01/relong/enum.sv> u<221> t<Top_level_rule> c<1> l<1:1> el<28:10>
         n<> u<217> t<ENDMODULE> p<218> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP0303] $Source01/relong/enum.sv:8:1: Compile module "Example".
-[ERR:EL0535] $Source01/relong/enum.sv:22:13: Illegal implicit net "id:79, name:MODE_A".
-[ERR:EL0535] $Source01/relong/enum.sv:22:33: Illegal implicit net "id:81, name:READ".
-[ERR:EL0535] $Source01/relong/enum.sv:23:13: Illegal implicit net "id:84, name:MODE_B".
-[ERR:EL0535] $Source01/relong/enum.sv:23:33: Illegal implicit net "id:86, name:WRITE".
-[ERR:EL0535] $Source01/relong/enum.sv:24:34: Illegal implicit net "id:90, name:NONE".
 [INF:CM0029] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -249,7 +244,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: enum.sv
       vpiPreprocFile: "$Output/lib/work/relong/enum.sv"
-      vpiDefNetType: none (12)
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:22:
+          vpiParent: SourceFile name:enum.sv
+          vpiDirectiveType: default_nettype (6)
+          vpiValue Constant start:1:18 end:1:22:
+            vpiParent: GenericDirective
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: enum.sv
+              vpiActual: IntTypespec
+            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:Example file:$Source01/relong/enum.sv start:8:1 end:28:10:
       vpiParent: Design name:unnamed
@@ -257,7 +262,15 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: Example
       vpiFullName: Example
-      vpiVariable (3 items):
+      vpiVariable (4 items):
+        Variable name:rawMode start:9:17 end:9:24:
+          vpiParent: Module name:Example
+          vpiTypespec RefTypespec start:9:5 end:9:16:
+            vpiParent: Variable name:rawMode
+            vpiFullName: Example.rawMode
+            vpiActual: LogicTypespec
+          vpiName: rawMode
+          vpiFullName: Example.rawMode
         Variable name:rawOperation start:10:24 end:10:36:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:10:5 end:10:23:
@@ -266,7 +279,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rawOperation
           vpiFullName: Example.rawOperation
-          vpiNetType: none (12)
         Variable name:mode start:13:12 end:13:16:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:Mode_t start:13:5 end:13:11:
@@ -276,7 +288,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:Mode_t
           vpiName: mode
           vpiFullName: Example.mode
-          vpiNetType: none (12)
         Variable name:operation start:14:17 end:14:26:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:Operation_t start:14:5 end:14:16:
@@ -286,7 +297,6 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:Operation_t
           vpiName: operation
           vpiFullName: Example.operation
-          vpiNetType: none (12)
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:Example
@@ -323,25 +333,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: Example.work
       vpiCell: Example
-      vpiNet (1 items):
-        Net name:rawMode start:9:17 end:9:24:
-          vpiParent: Module name:Example
-          vpiTypespec RefTypespec start:9:5 end:9:16:
-            vpiParent: Net name:rawMode
-            vpiFullName: Example.rawMode
-            vpiActual: LogicTypespec
-          vpiName: rawMode
-          vpiFullName: Example.rawMode
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:rawMode start:9:17 end:9:24:
           vpiParent: Module name:Example
           vpiName: rawMode
           vpiDirection: input (1)
-          vpiLowConn RefObj start:9:17 end:9:24:
+          vpiLowConn RefObj name:rawMode start:9:17 end:9:24:
             vpiParent: Port name:rawMode
-            vpiFullName: Example.rawMode
-            vpiActual: Net name:rawMode
+            vpiName: rawMode
+            vpiFullName: Example.rawMode.rawMode
+            vpiActual: Variable name:rawMode
           vpiTypespec RefTypespec start:9:5 end:9:16:
             vpiParent: Port name:rawMode
             vpiFullName: Example.rawMode
@@ -350,9 +351,10 @@ Design name:unnamed:
           vpiParent: Module name:Example
           vpiName: rawOperation
           vpiDirection: output (2)
-          vpiLowConn RefObj start:10:24 end:10:36:
+          vpiLowConn RefObj name:rawOperation start:10:24 end:10:36:
             vpiParent: Port name:rawOperation
-            vpiFullName: Example.rawOperation
+            vpiName: rawOperation
+            vpiFullName: Example.rawOperation.rawOperation
             vpiActual: Variable name:rawOperation
           vpiTypespec RefTypespec start:10:5 end:10:23:
             vpiParent: Port name:rawOperation
@@ -448,7 +450,7 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName: rawMode
                 vpiFullName: Example.rawMode
-                vpiActual: Net name:rawMode
+                vpiActual: Variable name:rawMode
         ContAssign start:18:12 end:18:36:
           vpiParent: Module name:Example
           vpiLhs RefObj name:rawOperation start:18:12 end:18:24:
@@ -461,7 +463,9 @@ Design name:unnamed:
             vpiName: operation
             vpiFullName: Example.operation
             vpiActual: Variable name:operation
-  vpiTypespec (7 items):
+  vpiTypespec (8 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
     EnumTypespec start:4:9 end:4:30:
       vpiParent: Design name:unnamed
       vpiEnumConst (2 items):
@@ -580,7 +584,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -596,25 +600,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Zachjs/relong/enum_sv/mounts.json
 
 
-{'result': {'coverage': 94.98,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/relong/enum.sv': {'post_len': 21,
+            'files': {'$Output/lib/work/relong/enum.sv': {'post_len': 0,
                                                           'pre_len': 418}},
-            'post_len': 21,
+            'post_len': 0,
             'pre_len': 418,
             'test_name': 'Zachjs/relong/enum_sv'}}
 
 +---------------------------------+----------+-----------+
 | INPUT                           |   PRELEN |   POSTLEN |
 +=================================+==========+===========+
-| $Output/lib/work/relong/enum.sv |      418 |        21 |
+| $Output/lib/work/relong/enum.sv |      418 |         0 |
 +=================================+==========+===========+
-|                                 |      418 |        21 |
+|                                 |      418 |         0 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.98
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -625,7 +629,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/enum_sv/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

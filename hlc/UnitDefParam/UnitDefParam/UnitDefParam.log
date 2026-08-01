@@ -976,17 +976,17 @@ AST_DEBUG_END
 [WRN:CP0323] $Source01/small.v:14:1: Multiply defined typedef "secret_number".
 [WRN:CP0323] $Source01/small.v:14:1: Multiply defined typedef "secret_number".
 [WRN:CP0323] $Source01/small.v:14:1: Multiply defined typedef "secret_number".
-[ERR:EL0535] $Source01/def.v:5:23: Illegal implicit net "id:943, name:SIZE".
-[ERR:EL0535] $Source01/def.v:7:23: Illegal implicit net "id:949, name:dummy".
-[ERR:EL0535] $Source01/small.v:15:32: Illegal implicit net "id:994, name:SIZE".
-[ERR:EL0535] $Source01/small.v:16:15: Illegal implicit net "id:1001, name:SIZE".
-[ERR:EL0535] $Source01/small.v:17:15: Illegal implicit net "id:1008, name:SIZE".
-[ERR:EL0535] $Source01/small.v:18:15: Illegal implicit net "id:1015, name:SIZE".
-[ERR:EL0535] $Source01/small.v:24:15: Illegal implicit net "id:1042, name:SIZE".
-[ERR:EL0535] $Source01/small.v:25:12: Illegal implicit net "id:1048, name:NO_MATCH".
-[ERR:EL0535] $Source01/small.v:25:21: Illegal implicit net "id:1049, name:SIZE1".
-[ERR:EL0535] $Source01/small.v:26:29: Illegal implicit net "id:1056, name:NO_MATCH".
-[ERR:EL0535] $Source01/small.v:26:38: Illegal implicit net "id:1057, name:SIZE2".
+[WRN:CP0350] $Source01/def.v:5:23: Failed to bind "id:943, name:SIZE".
+[WRN:CP0350] $Source01/def.v:7:23: Failed to bind "id:949, name:dummy".
+[WRN:CP0350] $Source01/small.v:15:32: Failed to bind "id:994, name:SIZE".
+[WRN:CP0350] $Source01/small.v:16:15: Failed to bind "id:1001, name:SIZE".
+[WRN:CP0350] $Source01/small.v:17:15: Failed to bind "id:1008, name:SIZE".
+[WRN:CP0350] $Source01/small.v:18:15: Failed to bind "id:1015, name:SIZE".
+[WRN:CP0350] $Source01/small.v:24:15: Failed to bind "id:1042, name:SIZE".
+[WRN:CP0350] $Source01/small.v:25:12: Failed to bind "id:1048, name:NO_MATCH".
+[WRN:CP0350] $Source01/small.v:25:21: Failed to bind "id:1049, name:SIZE1".
+[WRN:CP0350] $Source01/small.v:26:29: Failed to bind "id:1056, name:NO_MATCH".
+[WRN:CP0350] $Source01/small.v:26:38: Failed to bind "id:1057, name:SIZE2".
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/top.v:1:1: No timescale set for "top_def".
 [WRN:PA0205] $Source01/top.v:7:1: No timescale set for "small_top".
@@ -1002,17 +1002,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiDefNetType: none (12)
     SourceFile name:def.v file:$Source01/def.v:
       vpiParent: Design name:unnamed
       vpiName: def.v
       vpiPreprocFile: "$Output/lib/work/def.v"
-      vpiDefNetType: none (12)
     SourceFile name:small.v file:$Source01/small.v:
       vpiParent: Design name:unnamed
       vpiName: small.v
       vpiPreprocFile: "$Output/lib/work/small.v"
-      vpiDefNetType: none (12)
   vpiAllPackages (1 items):
     Package name:builtin:
       vpiParent: Design name:unnamed
@@ -3002,7 +2999,7 @@ Design name:unnamed:
         vpiName: top_def
       vpiFullName: top_def
       vpiDefName: top_def
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:top_def
         vpiName: work
@@ -3043,7 +3040,7 @@ Design name:unnamed:
             vpiParent: ModuleTypespec name:small_test
             vpiName: small_test
       vpiDefName: small_top
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:small_top
         vpiName: work
@@ -3089,6 +3086,35 @@ Design name:unnamed:
         vpiParent: Module name:small_test
         vpiName: small_test
       vpiFullName: small_test
+      vpiVariable (4 items):
+        Variable name:i start:19:2 end:19:3:
+          vpiParent: Module name:small_test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: small_test.i
+          vpiName: i
+          vpiFullName: small_test.i
+        Variable name:j start:19:5 end:19:6:
+          vpiParent: Module name:small_test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:j
+            vpiFullName: small_test.j
+          vpiName: j
+          vpiFullName: small_test.j
+        Variable name:k start:19:8 end:19:9:
+          vpiParent: Module name:small_test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:k
+            vpiFullName: small_test.k
+          vpiName: k
+          vpiFullName: small_test.k
+        Variable name:m start:19:11 end:19:12:
+          vpiParent: Module name:small_test
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:m
+            vpiFullName: small_test.m
+          vpiName: m
+          vpiFullName: small_test.m
       vpiParameter (3 items):
         Parameter name:SIZE start:14:27 end:14:31:
           vpiParent: Module name:small_test
@@ -3196,41 +3222,12 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:small_test
       vpiDefName: small_test
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:small_test
         vpiName: work
         vpiFullName: small_test.work
       vpiCell: small_test
-      vpiNet (4 items):
-        Net name:i start:19:2 end:19:3:
-          vpiParent: Module name:small_test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: small_test.i
-          vpiName: i
-          vpiFullName: small_test.i
-        Net name:j start:19:5 end:19:6:
-          vpiParent: Module name:small_test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:j
-            vpiFullName: small_test.j
-          vpiName: j
-          vpiFullName: small_test.j
-        Net name:k start:19:8 end:19:9:
-          vpiParent: Module name:small_test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:k
-            vpiFullName: small_test.k
-          vpiName: k
-          vpiFullName: small_test.k
-        Net name:m start:19:11 end:19:12:
-          vpiParent: Module name:small_test
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:m
-            vpiFullName: small_test.m
-          vpiName: m
-          vpiFullName: small_test.m
       vpiGenStmt (1 items):
         GenRegion start:20:1 end:58:12:
           vpiParent: Module name:small_test
@@ -3640,7 +3637,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:def
       vpiDefName: def
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:def
         vpiName: work
@@ -3710,6 +3707,14 @@ Design name:unnamed:
         vpiParent: Module name:secret_number
         vpiName: secret_number
       vpiFullName: secret_number
+      vpiVariable (1 items):
+        Variable name:i start:5:11 end:5:12:
+          vpiParent: Module name:secret_number
+          vpiTypespec RefTypespec:
+            vpiParent: Variable name:i
+            vpiFullName: secret_number.i
+          vpiName: i
+          vpiFullName: secret_number.i
       vpiParameter (1 items):
         Parameter name:SIZE start:3:12 end:3:16:
           vpiParent: Module name:secret_number
@@ -3741,20 +3746,12 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:secret_number
       vpiDefName: secret_number
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:secret_number
         vpiName: work
         vpiFullName: secret_number.work
       vpiCell: secret_number
-      vpiNet (1 items):
-        Net name:i start:5:11 end:5:12:
-          vpiParent: Module name:secret_number
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:i
-            vpiFullName: secret_number.i
-          vpiName: i
-          vpiFullName: secret_number.i
       vpiGenStmt (1 items):
         GenRegion start:6:2 end:10:13:
           vpiParent: Module name:secret_number
@@ -3877,7 +3874,7 @@ Design name:unnamed:
             vpiParent: UnsupportedTypespec name:NO_DEF
             vpiName: NO_DEF
       vpiDefName: defparam_example
-      vpiDefNetType: none (12)
+      vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
         vpiParent: Module name:defparam_example
         vpiName: work
@@ -4184,8 +4181,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 11
-[WARNING] : 10
+[  ERROR] : 0
+[WARNING] : 21
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

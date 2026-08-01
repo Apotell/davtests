@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,8 +46,10 @@
 // between the two $display statements incorrectly.
 //
 // Checked:
-//   - module top has exactly 5 nets: a, b, c, d, e, all int
-//     (RefTypespec -> IntTypespec)
+//   - module top has exactly 5 variables: a, b, c, d, e, all int
+//     (RefTypespec -> IntTypespec). Per IEEE 1800-2023 Sec 6.7/6.8: "int"
+//     has no net-type keyword and there is no port list, so all five are
+//     Variables, not Nets; module has no nets (getNets() is null).
 //   - the initial block is a Begin with exactly 5 statements:
 //       [0] blocking Assignment: lhs RefObj "c", rhs RefObj "a" (baseline)
 //       [1] blocking Assignment: lhs RefObj "e", rhs RefObj "b" (baseline)
@@ -89,11 +91,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -130,24 +132,30 @@ class TwoAssignInExprSimTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / nets ----
 
 TEST_F(TwoAssignInExprSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(TwoAssignInExprSimTest, ModuleHasFiveIntNets) {
+TEST_F(TwoAssignInExprSimTest, ModuleHasFiveIntVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 5u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 5u);
   const char *const names[5] = {"a", "b", "c", "d", "e"};
   for (uint32_t i = 0; i < 5u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
 }
 
-// --- baseline copies + the doubly-nested assignment ------------------------
+TEST_F(TwoAssignInExprSimTest, ModuleHasNoNets) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  EXPECT_EQ(top->getNets(), nullptr);
+}
+
+// --- baseline copies + the doubly-nested assignment ----
 
 TEST_F(TwoAssignInExprSimTest, InitialBlockHasFiveStatements) {
   const hldb::Begin *const blk = getInitialBody();
@@ -208,7 +216,7 @@ TEST_F(TwoAssignInExprSimTest, ThirdStatementNestsAssignmentInsideOperationOpera
   EXPECT_EQ(any_cast<hldb::Constant>(innerAdd->getOperands()->at(1))->getDecompile(), "1");
 }
 
-// --- both $display assertions target "(e + c) + 2" identically -----------
+// --- both $display assertions target "(e + c) + 2" identically ----
 
 TEST_F(TwoAssignInExprSimTest, FourthStatementAssertsBEqualsEPlusCPlusTwo) {
   const hldb::Begin *const blk = getInitialBody();
@@ -236,7 +244,7 @@ TEST_F(TwoAssignInExprSimTest, FifthStatementAssertsDEqualsEPlusCPlusTwo) {
   expectIsEPlusCPlusTwo(disp->getArguments()->at(2));
 }
 
-// --- design-level typespecs / compiler diagnostics -------------------------
+// --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(TwoAssignInExprSimTest, DesignHasThreeTypespecs) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -252,7 +260,7 @@ TEST_F(TwoAssignInExprSimTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbWarning, 0);
 }
 
-// --- the actual point of the file: runtime arithmetic result -------------
+// --- the actual point of the file: runtime arithmetic result ----
 
 TEST_F(TwoAssignInExprSimTest, BAndDBothEndUpEqualToEPlusCPlusTwo) {
   GTEST_SKIP() << "The source asserts b == e + c + 2 and d == e + c + 2 after "
@@ -265,13 +273,14 @@ TEST_F(TwoAssignInExprSimTest, BAndDBothEndUpEqualToEPlusCPlusTwo) {
   ASSERT_NE(top, nullptr);
   const char *const names[2] = {"b", "d"};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    // Net::getValue<T>() only ever exposes a declaration-time initializer;
-    // neither b nor d has one (both are assigned inside the initial
-    // block), so this is null today -- there is no field anywhere that
-    // captures what the nested compound-assignment expression produced.
-    const hldb::Constant *const finalValue = net->getValue<hldb::Constant>();
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    // Variable::getValue<T>() only ever exposes a declaration-time
+    // initializer; neither b nor d has one (both are assigned inside the
+    // initial block), so this is null today -- there is no field anywhere
+    // that captures what the nested compound-assignment expression
+    // produced.
+    const hldb::Constant *const finalValue = var->getValue<hldb::Constant>();
     ASSERT_NE(finalValue, nullptr) << names[i] << "'s post-assignment runtime value is not captured anywhere";
   }
 }
