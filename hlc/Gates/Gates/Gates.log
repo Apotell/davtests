@@ -3082,6 +3082,7 @@ AST_DEBUG_END
 [INF:CP0303] $Source01/dut.sv:208:1: Compile module "n_out_primitive".
 [INF:CP0303] $Source01/dut.sv:222:1: Compile module "half_adder".
 [INF:CP0303] $Source01/dut.sv:230:1: Compile module "gate_array".
+[ERR:LN0813] $Source01/dut.sv:1:1: Found 1 orphan node(s).
 [WRN:PA0205] No timescale set for "builtin".
 [WRN:PA0205] $Source01/dut.sv:1:1: No timescale set for "gates".
 [WRN:PA0205] $Source01/dut.sv:29:1: No timescale set for "transmission_gates".
@@ -5642,10 +5643,10 @@ Design name:unnamed:
                     vpiSize: 448
                     vpiDecompile: "\"@%g in=%b data_enable_low=%b out1=%b out2= b data_bus=%b\""
                     vpiValue: "@%g in=%b data_enable_low=%b out1=%b out2= b data_bus=%b"
-                  SysTaskCall name:$time start:41:5 end:41:10:
+                  SysFuncCall name:$time start:41:5 end:41:10:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName Identifier name:$time start:41:5 end:41:10:
-                      vpiParent: SysTaskCall name:$time
+                      vpiParent: SysFuncCall name:$time
                       vpiName: "$time"
                   RefObj name:in start:41:12 end:41:14:
                     vpiParent: SysTaskCall name:$monitor
@@ -7557,10 +7558,10 @@ Design name:unnamed:
                     vpiSize: 528
                     vpiDecompile: "\"Time=%g b=%b c=%b  out1=%b out2=%b out3=%b out4=%b out5=%b out6=%b\""
                     vpiValue: Time=%g b=%b c=%b  out1=%b out2=%b out3=%b out4=%b out5=%b out6=%b
-                  SysTaskCall name:$time start:167:5 end:167:10:
+                  SysFuncCall name:$time start:167:5 end:167:10:
                     vpiParent: SysTaskCall name:$monitor
                     vpiName Identifier name:$time start:167:5 end:167:10:
-                      vpiParent: SysTaskCall name:$time
+                      vpiParent: SysFuncCall name:$time
                       vpiName: "$time"
                   RefObj name:b start:167:12 end:167:13:
                     vpiParent: SysTaskCall name:$monitor
@@ -9125,7 +9126,7 @@ Design name:unnamed:
         vpiParent: Module name:gate_array
         vpiName: gate_array
       vpiFullName: gate_array
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:gate_array
           vpiRange (1 items):
@@ -9152,6 +9153,34 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        ArrayTypespec:
+          vpiParent: Module name:gate_array
+          vpiArrayType: static (1)
+          vpiRange Range start:233:13 end:233:18:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:233:14 end:233:15:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: gate_array
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "7"
+              vpiValue: 7
+            vpiRightRange Constant start:233:16 end:233:17:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: gate_array
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: gate_array
       vpiDefName: gate_array
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work:
@@ -9227,29 +9256,6 @@ Design name:unnamed:
         GateArray:
           vpiParent: Module name:gate_array
           vpiFullName: gate_array
-          vpiRange (1 items):
-            Range start:233:13 end:233:18:
-              vpiParent: GateArray
-              vpiLeftRange Constant start:233:14 end:233:15:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: gate_array
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:233:16 end:233:17:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: gate_array
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
           vpiGate: Gate name:n_gate
   vpiTypespec (18 items):
     IntTypespec:
@@ -9348,7 +9354,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
@@ -9393,7 +9399,7 @@ COMMAND: ${HLC_DIR}/regression/Gates/Gates/design.hldb ${HLC_DIR}/regression/Gat
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1566    1566       0         0
+Others                            1568    1568       0         0
 ----------------------------------------------------------------
-                                  1566    1566       0         0
+                                  1568    1568       0         0
 ===================== END REDUCTION RESULT =====================
