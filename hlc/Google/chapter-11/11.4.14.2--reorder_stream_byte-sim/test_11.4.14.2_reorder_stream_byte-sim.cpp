@@ -31,8 +31,10 @@
 // though they take different AST shapes.
 //
 // Checked:
-//   - module work@top has exactly 2 nets: "a" (packed from four string
-//     Constants) and "b" (no declaration-time value)
+//   - module top has exactly 2 variables (per IEEE 1800-2023 Sec
+//     6.8, "int" carries no net-type keyword, so these are variables,
+//     not nets): "a" (packed from four string Constants) and "b" (no
+//     declaration-time value)
 //   - the initial block's Begin has exactly 1 entry in its own
 //     getTypespecs(): a ByteTypespec (getSigned() true)
 //   - the initial block is a Begin with exactly 2 statements:
@@ -48,7 +50,7 @@
 //
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether b actually equals 0x44434241 at runtime. HLC is a static
-//     compiler/elaborator with no post-execution value for a Net.
+//     compiler/elaborator with no post-execution value for a Variable.
 //     Genuine simulation-only gap, not a shortcut.
 
 #include <hlc/Common/Session.h>
@@ -66,12 +68,12 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -82,7 +84,7 @@ class ReorderStreamByteSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -91,16 +93,16 @@ class ReorderStreamByteSimTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables --------------------------------------------------
 
 TEST_F(ReorderStreamByteSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ReorderStreamByteSimTest, NetAPacksFourCharsABCD) {
+TEST_F(ReorderStreamByteSimTest, VariableAPacksFourCharsABCD) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const pack = a->getValue<hldb::Operation>();
   ASSERT_NE(pack, nullptr);
@@ -180,11 +182,11 @@ TEST_F(ReorderStreamByteSimTest, CompilerReportsZeroErrors) {
 
 TEST_F(ReorderStreamByteSimTest, BEqualsHexFourFourFourThreeFourTwoFourOne) {
   GTEST_SKIP() << "The source asserts b == 0x44434241 after '{<< byte {a}}' runs. HLC is a "
-                  "static compiler/elaborator with no post-execution value for a Net. Genuine "
-                  "simulation-only gap, not a shortcut.";
+                  "static compiler/elaborator with no post-execution value for a Variable. "
+                  "Genuine simulation-only gap, not a shortcut.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getValue<hldb::Constant>(), nullptr) << "b's runtime value is not captured anywhere in the object model";
 }

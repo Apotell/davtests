@@ -34,7 +34,9 @@
 // the streaming operator, not collapsed.
 //
 // Checked:
-//   - module work@top has exactly 2 nets:
+//   - module top has exactly 2 variables (per IEEE 1800-2023 Sec
+//     6.8, "int" carries no net-type keyword, so these are variables,
+//     not nets):
 //       "a": int, decl-value is an Operation (vpiConcatOp, 4 operands):
 //         Constant "A","B","C","D" (each StringTypespec) -- same packed-
 //         string shape as stream_concat.sv
@@ -54,8 +56,8 @@
 //   - Whether "b" actually ends up holding a's bytes in reverse order
 //     (0x44434241 given a's decl value 0x41424344, per the "-sim"
 //     sibling's assertion). HLC is a static compiler/elaborator with no
-//     post-execution value for a Net. Genuine simulation-only gap, not a
-//     shortcut.
+//     post-execution value for a Variable. Genuine simulation-only gap,
+//     not a shortcut.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -71,11 +73,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -86,19 +88,19 @@ class ReorderStreamTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables --------------------------------------------------
 
 TEST_F(ReorderStreamTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ReorderStreamTest, NetAPacksFourCharsABCD) {
+TEST_F(ReorderStreamTest, VariableAPacksFourCharsABCD) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const pack = a->getValue<hldb::Operation>();
   ASSERT_NE(pack, nullptr);
@@ -111,13 +113,13 @@ TEST_F(ReorderStreamTest, NetAPacksFourCharsABCD) {
   }
 }
 
-TEST_F(ReorderStreamTest, NetBIsIntWithNoInitializer) {
+TEST_F(ReorderStreamTest, VariableBIsIntWithNoInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_NE(b->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
-  EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(b->getValue(), nullptr);
 }
 
 // --- the point of the file: a single-element stream still gets wrapped ---
@@ -186,10 +188,11 @@ TEST_F(ReorderStreamTest, CompilerReportsZeroErrors) {
 TEST_F(ReorderStreamTest, BEndsUpByteReversedFromA) {
   GTEST_SKIP() << "The '-sim' sibling asserts b == 0x44434241 given a's decl value, i.e. that "
                   "'{<< 8 {a}}' reverses a's bytes. HLC is a static compiler/elaborator with no "
-                  "post-execution value for a Net. Genuine simulation-only gap, not a shortcut.";
+                  "post-execution value for a Variable. Genuine simulation-only gap, not a "
+                  "shortcut.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getValue<hldb::Constant>(), nullptr) << "b's runtime value is not captured anywhere in the object model";
 }

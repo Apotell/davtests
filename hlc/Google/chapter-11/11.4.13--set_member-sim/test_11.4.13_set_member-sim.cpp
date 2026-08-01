@@ -33,8 +33,10 @@
 // -- not just an arbitrarily chosen tag.
 //
 // Checked:
-//   - module work@top has exactly 1 net, "a", int, with a declaration-
-//     time getValue<Constant>() of "12"
+//   - module top has exactly 1 variable, "a", int, with a
+//     declaration-time getValue<Constant>() of "12" (per IEEE 1800-2023
+//     Sec 6.8, "int" carries no net-type keyword so it is a variable, not
+//     a net)
 //   - the initial block is a Begin with exactly 1 statement: a
 //     SysTaskCall "$display" with 2 arguments: Constant string
 //     ":assert: (1 == %d)" and an Operation (vpiInsideOp, 2 operands):
@@ -70,11 +72,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -85,7 +87,7 @@ class SetMemberSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -94,16 +96,16 @@ class SetMemberSimTest : public Test {
   }
 };
 
-// --- module / net --------------------------------------------------------
+// --- module / variable ----------------------------------------------------
 
 TEST_F(SetMemberSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(SetMemberSimTest, NetAIsIntInitializedToTwelve) {
+TEST_F(SetMemberSimTest, VariableAIsIntInitializedToTwelve) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 1u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 1u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   ASSERT_NE(a->getValue<hldb::Constant>(), nullptr);
@@ -175,7 +177,7 @@ TEST_F(SetMemberSimTest, MembershipTestEvaluatesTrue) {
                   "object model. Genuine simulation-only gap, not a shortcut.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   // getValue<T>() only ever exposes a's declaration-time initializer
   // ("12"); it is not a boolean membership-test result. Re-asserting it

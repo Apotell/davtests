@@ -38,12 +38,14 @@
 // Checked:
 //   - module getTypespecs() has exactly 1 entry: a LogicTypespec with
 //     range [63:0], vpiVector true (for "logic [63:0] c")
-//   - module work@top has exactly 3 nets:
+//   - module top has exactly 3 variables (per IEEE 1800-2023 Sec 6.8,
+//     "int" and "logic" carry no net-type keyword, so these are
+//     variables, not nets):
 //       "a": int, decl-value is an Operation (vpiConcatOp, 4 operands):
 //         Constant "A", "B", "C", "D" (each StringTypespec, size 8)
 //       "b": int, decl-value is an Operation (vpiConcatOp, 4 operands):
 //         Constant "E", "F", "G", "H" (same shape, different letters)
-//       "c": the [63:0] LogicTypespec net, no declaration-time value
+//       "c": the [63:0] LogicTypespec variable, no declaration-time value
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment, lhs RefObj "c", rhs an Operation (vpiStreamLROp, 2
 //     operands): operand 0 = Constant "8" (the explicit slice size);
@@ -59,7 +61,7 @@
 //   - Whether "c" actually ends up holding a's bytes above b's bytes in
 //     the 64-bit result (the runtime effect the "-sim" sibling file
 //     asserts). HLC is a static compiler/elaborator with no post-
-//     execution value for a Net. Genuine simulation-only gap, not a
+//     execution value for a Variable. Genuine simulation-only gap, not a
 //     shortcut.
 
 #include <hlc/Common/Session.h>
@@ -77,11 +79,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -92,12 +94,12 @@ class StreamConcatTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
-  static void expectFourCharConcat(const hldb::Net *net, const char *const chars[4]) {
-    ASSERT_NE(net, nullptr);
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
-    const hldb::Operation *const pack = net->getValue<hldb::Operation>();
-    ASSERT_NE(pack, nullptr) << net->getName() << "'s decl-value should be a concatenation Operation";
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static void expectFourCharConcat(const hldb::Variable *variable, const char *const chars[4]) {
+    ASSERT_NE(variable, nullptr);
+    EXPECT_NE(variable->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
+    const hldb::Operation *const pack = variable->getValue<hldb::Operation>();
+    ASSERT_NE(pack, nullptr) << variable->getName() << "'s decl-value should be a concatenation Operation";
     EXPECT_EQ(pack->getOpType(), vpiConcatOp);
     ASSERT_NE(pack->getOperands(), nullptr);
     ASSERT_EQ(pack->getOperands()->size(), 4u);
@@ -110,7 +112,7 @@ class StreamConcatTest : public Test {
   }
 };
 
-// --- module-level typespec / nets ------------------------------------------
+// --- module-level typespec / variables -------------------------------------
 
 TEST_F(StreamConcatTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
@@ -128,27 +130,27 @@ TEST_F(StreamConcatTest, ModuleHasOneSixtyFourBitLogicTypespec) {
   EXPECT_EQ(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
-TEST_F(StreamConcatTest, NetAPacksFourCharsABCD) {
+TEST_F(StreamConcatTest, VariableAPacksFourCharsABCD) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const char *const chars[4] = {"A", "B", "C", "D"};
-  expectFourCharConcat(hldb::findByName<hldb::Net>("a", top->getNets()), chars);
+  expectFourCharConcat(hldb::findByName<hldb::Variable>("a", top->getVariables()), chars);
 }
 
-TEST_F(StreamConcatTest, NetBPacksFourCharsEFGH) {
+TEST_F(StreamConcatTest, VariableBPacksFourCharsEFGH) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const char *const chars[4] = {"E", "F", "G", "H"};
-  expectFourCharConcat(hldb::findByName<hldb::Net>("b", top->getNets()), chars);
+  expectFourCharConcat(hldb::findByName<hldb::Variable>("b", top->getVariables()), chars);
 }
 
-TEST_F(StreamConcatTest, NetCIsSixtyFourBitLogicWithNoInitializer) {
+TEST_F(StreamConcatTest, VariableCIsSixtyFourBitLogicWithNoInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   EXPECT_NE(c->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
-  EXPECT_EQ(c->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(c->getValue(), nullptr);
 }
 
 // --- the point of the file: streaming concat wraps an ordinary concat -----
@@ -217,10 +219,10 @@ TEST_F(StreamConcatTest, CHoldsAInHighWordAndBInLowWord) {
   GTEST_SKIP() << "The '-sim' sibling asserts (a << 32) + b == c, i.e. that streaming a and b "
                   "with an 8-bit slice size packs a into c's high 32 bits and b into its low 32 "
                   "bits. HLC is a static compiler/elaborator with no post-execution value for a "
-                  "Net. Genuine simulation-only gap, not a shortcut.";
+                  "Variable. Genuine simulation-only gap, not a shortcut.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   // 'c' has no declaration-time initializer -- it is assigned only inside
   // the initial block -- so getValue<T>() is null today. This ASSERT_NE

@@ -34,8 +34,10 @@
 // identity survives into the "inside" set, it is not pre-folded away.
 //
 // Checked:
-//   - module work@top has exactly 2 nets: "a" (int, no initializer) and
-//     "b" (int, decl-time getValue<Constant>() == "12")
+//   - module top has exactly 2 variables (per IEEE 1800-2023 Sec 6.8,
+//     "int" carries no net-type keyword, so these are variables, not
+//     nets): "a" (int, no initializer) and "b" (int, decl-time
+//     getValue<Constant>() == "12")
 //   - module has exactly 2 Parameters, "c" and "d", both getLocalParam()
 //     == true; each Parameter's OWN typespec (getTypespec<RefTypespec>()
 //     ->getActual<LogicTypespec>()) is LogicTypespec, the implicit type a
@@ -61,7 +63,8 @@
 //     is {5,7} and b=12 is NOT a member, so the correct runtime result is
 //     0, not 1; this file carries no $display assertion of its own, so
 //     there is no author-declared expected value to check even in
-//     principle, and HLC has no post-execution value for a Net regardless).
+//     principle, and HLC has no post-execution value for a Variable
+//     regardless).
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -78,12 +81,12 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -94,23 +97,23 @@ class SetMemberTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables --------------------------------------------------
 
 TEST_F(SetMemberTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(SetMemberTest, NetAHasNoInitializerNetBIsTwelve) {
+TEST_F(SetMemberTest, VariableAHasNoInitializerVariableBIsTwelve) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   EXPECT_NE(a->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
-  EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  EXPECT_EQ(a->getValue(), nullptr);
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getValue<hldb::Constant>(), nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>()->getDecompile(), "12");

@@ -22,22 +22,27 @@
 //     bit [127:0] d = {<<{a, b, c}};
 //   end
 //
-// This is the "destination wider than source" corner of IEEE 1800-2017
-// 11.4.14.2, deliberately contrasted against its two siblings in this
-// batch: 11.4.14.3--unpack_stream.sv (destination exactly matches the
-// 96-bit source width) and 11.4.14.3--unpack_stream_inv.sv (destination
-// narrower than the source -- illegal, and a confirmed compiler gap).
-// Here "d" is 128 bits, 32 bits *more* than a+b+c's combined 96 bits;
-// per IEEE 11.4.14.2, this is legal and the extra bits are zero-padded
-// on the left (unlike a too-narrow destination, which must error). The
+// This is the "destination wider than source" corner of IEEE 1800-2023
+// 11.4.14 (general rule, restated in 11.4.14.3), deliberately contrasted
+// against its two siblings in this batch: 11.4.14.3--unpack_stream.sv
+// (destination exactly matches the 96-bit source width) and
+// 11.4.14.3--unpack_stream_inv.sv (destination narrower than the source
+// -- illegal, and a confirmed compiler gap). Here "d" is 128 bits, 32
+// bits *more* than a+b+c's combined 96 bits; per IEEE 1800-2023 11.4.14,
+// "If the target represents a fixed-size variable that is wider than
+// the stream, the stream shall be widened to match it by filling with
+// zero bits on the right" -- so this is legal and the extra bits are
+// zero-padded (unlike a too-narrow destination, which must error). The
 // AST shape is otherwise identical to unpack_stream.sv's -- only the
 // destination's declared width differs -- so this test is the direct
 // structural counterpoint proving the batch's "should_fail_because" file
 // really is the odd one out.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", each int with a
-//     declaration-time getValue<Constant>() of "1", "2", "3"
+//   - module top has exactly 3 variables (bare "int", no net-type
+//     keyword, so hldb::Variable per IEEE 1800-2023 6.8, not hldb::Net),
+//     "a", "b", "c", each int with a declaration-time getValue<Constant>()
+//     of "1", "2", "3"
 //   - the initial block's Begin has exactly 1 entry in its own
 //     getVariables(): a local Variable "d" whose typespec is a
 //     BitTypespec with range [127:0] -- 32 bits wider than the 96-bit
@@ -55,11 +60,12 @@
 //     legal (unlike the narrower-than-needed unpack_stream_inv.sv case)
 //
 // Not checked:
-//   - the actual runtime value packed into "d" (that its low 96 bits
-//     hold a,b,c and its top 32 bits are zero-padded). This file has no
-//     $display assertion of its own (unlike its "-sim" sibling,
-//     11.4.14.3--unpack_stream_pad-sim.sv, tested separately), so there
-//     is no author-declared expected value to check even in principle.
+//   - the actual runtime value packed into "d" (that a,b,c occupy 96 of
+//     its 128 bits and the remaining 32 bits are zero-padded per IEEE
+//     1800-2023 11.4.14). This file has no $display assertion of its
+//     own (unlike its "-sim" sibling, 11.4.14.3--unpack_stream_pad-sim.sv,
+//     tested separately), so there is no author-declared expected value
+//     to check even in principle.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -75,7 +81,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -91,7 +96,7 @@ class UnpackStreamPadTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -100,22 +105,22 @@ class UnpackStreamPadTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables -------------------------------------------------
 
 TEST_F(UnpackStreamPadTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnpackStreamPadTest, ModuleHasThreeIntNetsOneTwoThree) {
+TEST_F(UnpackStreamPadTest, ModuleHasThreeIntVariablesOneTwoThree) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   const char *const values[3] = {"1", "2", "3"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    ASSERT_NE(net->getValue<hldb::Constant>(), nullptr);
-    EXPECT_EQ(net->getValue<hldb::Constant>()->getDecompile(), values[i]);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    ASSERT_NE(var->getValue<hldb::Constant>(), nullptr);
+    EXPECT_EQ(var->getValue<hldb::Constant>()->getDecompile(), values[i]);
   }
 }
 
@@ -128,7 +133,8 @@ TEST_F(UnpackStreamPadTest, LocalVariableDIsOneHundredTwentyEightBitBit) {
   ASSERT_EQ(blk->getVariables()->size(), 1u);
   const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", blk->getVariables());
   ASSERT_NE(d, nullptr);
-  const hldb::BitTypespec *const bt = d->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
+  ASSERT_NE(d->getTypespec(), nullptr);
+  const hldb::BitTypespec *const bt = d->getTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);

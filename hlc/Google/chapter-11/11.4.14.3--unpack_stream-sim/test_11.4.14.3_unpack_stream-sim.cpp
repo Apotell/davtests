@@ -34,8 +34,10 @@
 // identical between the two files.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", each int with a
-//     declaration-time getValue<Constant>() of "1", "2", "3"
+//   - module top has exactly 3 variables (bare "int", no net-type
+//     keyword, so hldb::Variable per IEEE 1800-2023 6.8, not hldb::Net),
+//     "a", "b", "c", each int with a declaration-time getValue<Constant>()
+//     of "1", "2", "3"
 //   - the initial block's Begin has exactly 1 entry in its own
 //     getVariables(): a local Variable "d" with typespec BitTypespec
 //     range [95:0] -- an exact 96-bit fit for the 3x32-bit source,
@@ -71,7 +73,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -89,7 +90,7 @@ class UnpackStreamSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -98,22 +99,22 @@ class UnpackStreamSimTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables -------------------------------------------------
 
 TEST_F(UnpackStreamSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnpackStreamSimTest, ModuleHasThreeIntNetsOneTwoThree) {
+TEST_F(UnpackStreamSimTest, ModuleHasThreeIntVariablesOneTwoThree) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   const char *const values[3] = {"1", "2", "3"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    ASSERT_NE(net->getValue<hldb::Constant>(), nullptr);
-    EXPECT_EQ(net->getValue<hldb::Constant>()->getDecompile(), values[i]);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    ASSERT_NE(var->getValue<hldb::Constant>(), nullptr);
+    EXPECT_EQ(var->getValue<hldb::Constant>()->getDecompile(), values[i]);
   }
 }
 
@@ -126,7 +127,8 @@ TEST_F(UnpackStreamSimTest, LocalVariableDIsNinetySixBitBitExactFit) {
   ASSERT_EQ(blk->getVariables()->size(), 1u);
   const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", blk->getVariables());
   ASSERT_NE(d, nullptr);
-  const hldb::BitTypespec *const bt = d->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
+  ASSERT_NE(d->getTypespec(), nullptr);
+  const hldb::BitTypespec *const bt = d->getTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   EXPECT_EQ(bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "95")
@@ -213,7 +215,14 @@ TEST_F(UnpackStreamSimTest, DEqualsCShiftedSixtyFourPlusBShiftedThirtyTwoPlusA) 
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", blk->getVariables());
   ASSERT_NE(d, nullptr);
-  ASSERT_NE(d->getValue<hldb::Constant>(), nullptr) << "d's runtime value is not captured anywhere in the object model";
+  // Variable::getValue() holds the declaration's initializer *expression*
+  // (the Operation checked above), not a computed post-execution value --
+  // there is no separate field anywhere in the object model that holds
+  // what "d" actually evaluates to at runtime.
+  ASSERT_NE(d->getValue(), nullptr);
+  EXPECT_EQ(d->getValue()->getAnyType(), hldb::AnyType::Operation)
+      << "d's runtime value is not captured anywhere in the object model; only its initializer "
+         "expression is";
 }
 
 }  // namespace hlc

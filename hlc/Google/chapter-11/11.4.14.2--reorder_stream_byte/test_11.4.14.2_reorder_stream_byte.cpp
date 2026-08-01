@@ -21,7 +21,7 @@
 //     b = {<< byte {a}};
 //   end
 //
-// IEEE 1800-2017 11.4.14.2 allows a streaming operator's slice_size to be
+// IEEE 1800-2023 11.4.14.2 allows a streaming operator's slice_size to be
 // either a constant_expression (a plain number, as in
 // 11.4.14.2--reorder_stream.sv's "{<< 8 {a}}") or a simple_type keyword
 // like "byte" (8 bits, matching the numeric case here exactly). The
@@ -34,9 +34,10 @@
 // scope, not just an inline literal).
 //
 // Checked:
-//   - module work@top has exactly 2 nets: "a" (int, decl-value a 4-
-//     operand concatenation of Constants "A","B","C","D") and "b" (int,
-//     no declaration-time value)
+//   - module top has exactly 2 variables (bare "int", no net-type
+//     keyword, so both are hldb::Variable per IEEE 1800-2023 6.8, not
+//     hldb::Net): "a" (int, decl-value a 4-operand concatenation of
+//     Constants "A","B","C","D") and "b" (int, no declaration-time value)
 //   - the initial block's Begin has exactly 1 entry in its own
 //     getTypespecs(): a ByteTypespec with getSigned() true -- confirming
 //     the "byte" keyword used as a slice size registers as a scoped
@@ -55,7 +56,7 @@
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether "b" actually ends up byte-reversed from a (0x44434241 per
 //     the "-sim" sibling's assertion). HLC is a static compiler/
-//     elaborator with no post-execution value for a Net. Genuine
+//     elaborator with no post-execution value for a Variable. Genuine
 //     simulation-only gap, not a shortcut.
 
 #include <hlc/Common/Session.h>
@@ -73,11 +74,11 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,7 +89,7 @@ class ReorderStreamByteTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -97,16 +98,16 @@ class ReorderStreamByteTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables -------------------------------------------------
 
 TEST_F(ReorderStreamByteTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(ReorderStreamByteTest, NetAPacksFourCharsABCD) {
+TEST_F(ReorderStreamByteTest, VariableAPacksFourCharsABCD) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const pack = a->getValue<hldb::Operation>();
   ASSERT_NE(pack, nullptr);
@@ -115,13 +116,14 @@ TEST_F(ReorderStreamByteTest, NetAPacksFourCharsABCD) {
   ASSERT_EQ(pack->getOperands()->size(), 4u);
 }
 
-TEST_F(ReorderStreamByteTest, NetBIsIntWithNoInitializer) {
+TEST_F(ReorderStreamByteTest, VariableBIsIntWithNoInitializer) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  EXPECT_NE(b->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
-  EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr);
+  ASSERT_NE(b->getTypespec(), nullptr);
+  EXPECT_NE(b->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
+  EXPECT_EQ(b->getValue(), nullptr);
 }
 
 // --- the point of the file: "byte" slice size is a typespec, not a Constant
@@ -196,13 +198,13 @@ TEST_F(ReorderStreamByteTest, CompilerReportsZeroErrors) {
 TEST_F(ReorderStreamByteTest, BEndsUpByteReversedFromA) {
   GTEST_SKIP() << "The '-sim' sibling asserts b == 0x44434241, i.e. that '{<< byte {a}}' "
                   "reverses a's bytes the same way the numeric '{<< 8 {a}}' sibling does. HLC "
-                  "is a static compiler/elaborator with no post-execution value for a Net. "
+                  "is a static compiler/elaborator with no post-execution value for a Variable. "
                   "Genuine simulation-only gap, not a shortcut.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  ASSERT_NE(b->getValue<hldb::Constant>(), nullptr) << "b's runtime value is not captured anywhere in the object model";
+  ASSERT_NE(b->getValue(), nullptr) << "b's runtime value is not captured anywhere in the object model";
 }
 
 }  // namespace hlc

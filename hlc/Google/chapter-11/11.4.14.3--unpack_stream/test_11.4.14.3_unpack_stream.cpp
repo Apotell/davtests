@@ -22,14 +22,16 @@
 //     bit [95:0] d = {<<{a, b, c}};
 //   end
 //
-// IEEE 1800-2017 11.4.14.3 covers "unpacking": using a streaming
+// IEEE 1800-2023 11.4.14.3 covers "unpacking": using a streaming
 // concatenation on the RHS to pack several values into one destination
 // in a single declaration ("bit [95:0] d = {<<{...}}"), the mirror image
 // of "packing" three separate variables via "{>>...}" seen elsewhere in
 // this batch. Two corners are unique to this file: first, "d" is
 // declared *inside* the initial block, so it is a local hldb::Variable
-// scoped to the enclosing Begin, not a module-level Net -- a genuinely
-// different object kind with its own accessors. Second, "{<<{a, b, c}}"
+// scoped to the enclosing Begin, distinct from the module-level
+// hldb::Variable objects "a"/"b"/"c" (both kinds are Variable here since
+// none of a/b/c/d uses a net-type keyword; see IEEE 1800-2023 6.8) --
+// a genuinely different scope with its own accessors. Second, "{<<{a, b, c}}"
 // has NO explicit slice size (contrast with every other stream operator
 // file in this batch, which all specify one, numeric or "byte") -- the
 // question is whether that omission collapses the streaming Operation
@@ -39,14 +41,15 @@
 // size is given.
 //
 // Checked:
-//   - module work@top has exactly 3 nets, "a", "b", "c", each int with a
-//     declaration-time getValue<Constant>() of "1", "2", "3"
-//     respectively
+//   - module top has exactly 3 variables (bare "int", no net-type
+//     keyword, so hldb::Variable per IEEE 1800-2023 6.8, not hldb::Net),
+//     "a", "b", "c", each int with a declaration-time getValue<Constant>()
+//     of "1", "2", "3" respectively
 //   - the initial block's Begin has exactly 1 entry in its own
-//     getVariables(): a local Variable "d", whose getTypespec<RefTypespec>()
+//     getVariables(): a local Variable "d", whose getTypespec()
 //     ->getActual<BitTypespec>() has range [95:0] -- confirming "d" is a
-//     block-scoped Variable, not a Net, and that its declared width
-//     (96 bits) exactly matches the combined width of a+b+c (3x32)
+//     block-scoped Variable, and that its declared width (96 bits)
+//     exactly matches the combined width of a+b+c (3x32)
 //   - the Begin's own getTypespecs() also has exactly 1 entry: the same
 //     [95:0] BitTypespec, registered in scope alongside the Variable
 //     that uses it
@@ -54,7 +57,8 @@
 //     exactly 1 operand (no leading slice-size operand, unlike every
 //     other stream file in this batch): an Operation (vpiConcatOp, 3
 //     operands: RefObj "a", RefObj "b", RefObj "c", each resolving via
-//     getActual<Net>() back to the corresponding module-level net)
+//     getActual<Variable>() back to the corresponding module-level
+//     variable)
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //     -- no StringTypespec, since this file has no $display
 //   - compiler emits zero errors
@@ -80,7 +84,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -96,7 +99,7 @@ class UnpackStreamTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -105,27 +108,28 @@ class UnpackStreamTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables -------------------------------------------------
 
 TEST_F(UnpackStreamTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(UnpackStreamTest, ModuleHasThreeIntNetsOneTwoThree) {
+TEST_F(UnpackStreamTest, ModuleHasThreeIntVariablesOneTwoThree) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
   const char *const names[3] = {"a", "b", "c"};
   const char *const values[3] = {"1", "2", "3"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(names[i], top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << names[i];
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
-    ASSERT_NE(net->getValue<hldb::Constant>(), nullptr);
-    EXPECT_EQ(net->getValue<hldb::Constant>()->getDecompile(), values[i]);
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(names[i], top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << names[i];
+    ASSERT_NE(var->getTypespec(), nullptr);
+    EXPECT_NE(var->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
+    ASSERT_NE(var->getValue<hldb::Constant>(), nullptr);
+    EXPECT_EQ(var->getValue<hldb::Constant>()->getDecompile(), values[i]);
   }
 }
 
-// --- the point of the file: "d" is a block-scoped Variable, not a Net -----
+// --- the point of the file: "d" is a block-scoped local Variable ---------
 
 TEST_F(UnpackStreamTest, InitialBeginDeclaresOneLocalVariableD) {
   const hldb::Begin *const blk = getInitialBody();
@@ -134,7 +138,8 @@ TEST_F(UnpackStreamTest, InitialBeginDeclaresOneLocalVariableD) {
   ASSERT_EQ(blk->getVariables()->size(), 1u);
   const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", blk->getVariables());
   ASSERT_NE(d, nullptr);
-  const hldb::BitTypespec *const bt = d->getTypespec<hldb::RefTypespec>()->getActual<hldb::BitTypespec>();
+  ASSERT_NE(d->getTypespec(), nullptr);
+  const hldb::BitTypespec *const bt = d->getTypespec()->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -177,7 +182,7 @@ TEST_F(UnpackStreamTest, DValueIsStreamRLWithNoSliceSizeOperand) {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(concat->getOperands()->at(i));
     ASSERT_NE(ref, nullptr) << "operand index " << i;
     EXPECT_EQ(ref->getName(), names[i]);
-    EXPECT_NE(ref->getActual<hldb::Net>(), nullptr);
+    EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr);
   }
 }
 

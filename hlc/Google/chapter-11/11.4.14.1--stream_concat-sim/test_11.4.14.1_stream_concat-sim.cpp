@@ -29,15 +29,17 @@
 // relationship the stream operator is supposed to produce: c should
 // equal (a << 32) + b, i.e. a occupies the high 32 bits and b the low
 // 32 bits of the 64-bit result. The corner unique to this file is simply
-// confirming the assertion arguments reference the same three nets in
-// the same roles the streaming assignment just built, not some
+// confirming the assertion arguments reference the same three variables
+// in the same roles the streaming assignment just built, not some
 // unrelated recomputation.
 //
 // Checked:
 //   - module getTypespecs() has exactly 1 entry: a LogicTypespec [63:0]
-//   - module work@top has exactly 3 nets, "a" and "b" each packing four
-//     single-character string Constants via a concatenation Operation
-//     (same shape as the non-sim sibling), and "c" the [63:0] net with
+//   - module top has exactly 3 variables (per IEEE 1800-2023 Sec
+//     6.8, "int" and "logic" carry no net-type keyword, so these are
+//     variables, not nets), "a" and "b" each packing four single-
+//     character string Constants via a concatenation Operation (same
+//     shape as the non-sim sibling), and "c" the [63:0] variable with
 //     no declaration-time value
 //   - the initial block is a Begin with exactly 2 statements:
 //       [0] the same Assignment shape as the non-sim file: lhs RefObj
@@ -46,7 +48,7 @@
 //       [1] SysTaskCall "$display" with 4 arguments: Constant string
 //           ":assert: (((%d << 32) + %d) == %d) ", then RefObj "a",
 //           RefObj "b", RefObj "c" in that order -- confirming the
-//           assertion checks exactly the three nets the assignment
+//           assertion checks exactly the three variables the assignment
 //           above just related, in the roles the format string implies
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
@@ -55,7 +57,7 @@
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether c actually equals (a << 32) + b at runtime. HLC is a
 //     static compiler/elaborator with no post-execution value for a
-//     Net. Genuine simulation-only gap, not a shortcut.
+//     Variable. Genuine simulation-only gap, not a shortcut.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -72,12 +74,12 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,7 +90,7 @@ class StreamConcatSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("work@top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
@@ -97,16 +99,16 @@ class StreamConcatSimTest : public Test {
   }
 };
 
-// --- module-level typespec / nets ------------------------------------------
+// --- module-level typespec / variables --------------------------------------
 
 TEST_F(StreamConcatSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(StreamConcatSimTest, ModuleHasThreeNetsAAndBPackedFromStrings) {
+TEST_F(StreamConcatSimTest, ModuleHasThreeVariablesAAndBPackedFromStrings) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const aPack = a->getValue<hldb::Operation>();
   ASSERT_NE(aPack, nullptr);
@@ -114,10 +116,10 @@ TEST_F(StreamConcatSimTest, ModuleHasThreeNetsAAndBPackedFromStrings) {
   ASSERT_NE(aPack->getOperands(), nullptr);
   EXPECT_EQ(aPack->getOperands()->size(), 4u);
 
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   EXPECT_NE(c->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
-  EXPECT_EQ(c->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(c->getValue(), nullptr);
 }
 
 // --- the streaming assignment + its assertion ------------------------------
@@ -181,11 +183,11 @@ TEST_F(StreamConcatSimTest, CompilerReportsZeroErrors) {
 
 TEST_F(StreamConcatSimTest, CEqualsAShiftedLeftThirtyTwoPlusB) {
   GTEST_SKIP() << "The source asserts c == (a << 32) + b after the streaming assignment runs. "
-                  "HLC is a static compiler/elaborator with no post-execution value for a Net. "
-                  "Genuine simulation-only gap, not a shortcut.";
+                  "HLC is a static compiler/elaborator with no post-execution value for a "
+                  "Variable. Genuine simulation-only gap, not a shortcut.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   ASSERT_NE(c->getValue<hldb::Constant>(), nullptr) << "c's runtime value is not captured anywhere in the object model";
 }
