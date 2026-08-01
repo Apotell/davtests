@@ -1,4 +1,4 @@
-﻿# davtests -- Test Writing Guide
+# davtests -- Test Writing Guide
 
 ## Core principle: assert the standard, not the implementation
 
@@ -18,7 +18,7 @@ so the gap is visible as pending work rather than silently passing against wrong
 
 **Never call `getFullName()` / assert on `vpiFullName`.** It's a computed property that is currently wrong in HLC. Use `getName()` only.
 
-**Use `vpiXXX` named constants, never magic numbers.** Write `EXPECT_EQ(net->getNetType(), vpiWire)`, not `EXPECT_EQ(net->getNetType(), 1)` -- applies to op types, const types, net types, and every other VPI enumerant.
+**Use named `vpiXXX` constants from the `*vpi_user.h` headers, never magic numbers.** These enumerants are defined in `vpi_user.h` (IEEE-standard constants), `sv_vpi_user.h` (SV extensions), and `hldb_vpi_user.h` (HLDB-specific extensions) -- include whichever one declares the constant you need instead of hardcoding its integer value. Write `EXPECT_EQ(net->getNetType(), vpiWire)`, not `EXPECT_EQ(net->getNetType(), 1)`; write `EXPECT_EQ(op->getOpType(), vpiMinusOp)`, not a raw opcode number -- applies to op types, const types, net types, directions, array types, and every other VPI enumerant. See `hlc/Google/chapter-11/11.7--unsigned_func/test_11.7_unsigned_func.cpp` for a file that consistently does this throughout.
 
 ## Overview
 
