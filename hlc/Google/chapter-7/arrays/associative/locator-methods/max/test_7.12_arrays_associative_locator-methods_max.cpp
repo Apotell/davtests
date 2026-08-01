@@ -124,7 +124,7 @@ TEST_F(ArrayLocatorMaxTest, VariableSTypespecIsDynamicArray) {
   ASSERT_NE(s, nullptr);
   const hldb::ArrayTypespec *const at = s->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
-  EXPECT_EQ(at->getArrayType(), 2);  // dynamic = 2
+  EXPECT_EQ(at->getArrayType(), vpiDynamicArray);
 }
 
 TEST_F(ArrayLocatorMaxTest, VariableSElemTypespecIsInt) {
