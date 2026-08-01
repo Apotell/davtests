@@ -29,15 +29,18 @@
 // the "simple_non_idx_part_select" continuous-assignment sibling.
 //
 // Checked:
-//   - module top has exactly 2 nets: "a" (LogicTypespec, vector [15:0]) and
-//     "b" (LogicTypespec, vector [3:0]), neither decl-assigned
+//   - module top has exactly 2 variables: "a" (LogicTypespec, vector
+//     [15:0]) and "b" (LogicTypespec, vector [3:0]), neither decl-assigned.
+//     Per IEEE 1800-2023 Sec 6.7/6.8: "logic" with no net-type keyword is
+//     a variable, not a net.
 //   - module has zero continuous assignments (the select is procedural)
 //   - module has exactly 1 process: an Initial whose Begin has exactly 1
 //     statement: a blocking Assignment
-//   - the Assignment: lhs RefObj "b" resolving to Net "b"; rhs PartSelect
-//     "a[11:8]" whose vpiPrefix RefObj resolves to Net "a" and whose
-//     vpiRange has vpiLeftRange Constant "11", vpiRightRange Constant "8"
-//     -- a plain Range object, not an IndexedPartSelect's base/width pair
+//   - the Assignment: lhs RefObj "b" resolving to Variable "b"; rhs
+//     PartSelect "a[11:8]" whose vpiPrefix RefObj resolves to Variable "a"
+//     and whose vpiRange has vpiLeftRange Constant "11", vpiRightRange
+//     Constant "8" -- a plain Range object, not an IndexedPartSelect's
+//     base/width pair
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //   - compiler emits zero errors
 //
@@ -60,11 +63,11 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/part_select.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -82,14 +85,14 @@ class NonIdxPartSelectTest : public Test {
 
 TEST_F(NonIdxPartSelectTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(NonIdxPartSelectTest, ModuleHasTwoVectorNetsNeitherDeclAssigned) {
+TEST_F(NonIdxPartSelectTest, ModuleHasTwoVectorVariablesNeitherDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(a->getValue<hldb::Constant>(), nullptr);

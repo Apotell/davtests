@@ -27,13 +27,15 @@
 // a = 16'h1234, growing downward from base 15, i.e. bits [15:8] = 8'h12.
 //
 // Checked:
-//   - module top has exactly 2 nets: "a" (LogicTypespec, vector [15:0],
-//     decl-assigned Constant "16'h1234") and "b" (LogicTypespec, vector
-//     [7:0], not decl-assigned)
+//   - module top has exactly 2 variables: "a" (LogicTypespec, vector
+//     [15:0], decl-assigned Constant "16'h1234") and "b" (LogicTypespec,
+//     vector [7:0], not decl-assigned). Per IEEE 1800-2023 Sec 6.7/6.8:
+//     "logic" with no net-type keyword is a variable, not a net, even
+//     though it is only ever driven here by a procedural assignment.
 //   - module has exactly 1 process: an Initial whose Begin has exactly 2
 //     statements: a blocking Assignment followed by a SysTaskCall
 //   - the Assignment: lhs RefObj "b"; rhs IndexedPartSelect "a[15-:8]"
-//     whose vpiPrefix RefObj "a" resolves to Net "a",
+//     whose vpiPrefix RefObj "a" resolves to Variable "a",
 //     vpiIndexedPartSelectType == vpiNegIndexed, vpiBaseExpr Constant "15",
 //     vpiWidthExpr Constant "8"
 //   - the SysTaskCall "$display" has 2 arguments: Constant string
@@ -45,11 +47,11 @@
 //
 // Not checked (GTEST_SKIP, with a real reason, not just "no time"):
 //   - Whether b actually equals 8'h12 at runtime. HLC is a compiler/
-//     elaborator, not a simulator: Net::getValue<T>() only ever exposes a
-//     declaration-time initializer, and "b" is only ever assigned inside
-//     the initial block, never at declaration -- so there is no field
-//     capturing the post-assignment value the ":assert:" tag is asking a
-//     simulator to check.
+//     elaborator, not a simulator: Variable::getValue<T>() only ever
+//     exposes a declaration-time initializer, and "b" is only ever
+//     assigned inside the initial block, never at declaration -- so there
+//     is no field capturing the post-assignment value the ":assert:" tag
+//     is asking a simulator to check.
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -67,10 +69,10 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,14 +90,14 @@ class IdxNegPartSelectSimTest : public Test {
 
 TEST_F(IdxNegPartSelectSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(IdxNegPartSelectSimTest, ModuleHasTwoNetsOnlyADeclAssigned) {
+TEST_F(IdxNegPartSelectSimTest, ModuleHasTwoVariablesOnlyADeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(a->getValue<hldb::Constant>(), nullptr);
@@ -178,14 +180,14 @@ TEST_F(IdxNegPartSelectSimTest, CompilerReportsZeroErrors) {
 TEST_F(IdxNegPartSelectSimTest, BEqualsHex12AtRuntime) {
   GTEST_SKIP() << "IEEE 1800-2017 11.5.1: a = 16'h1234, so a[15-:8] == 8'h12, "
                   "per the ':assert:' tag authored into the source. HLC is a "
-                  "static compiler/elaborator: Net::getValue<T>() only ever "
-                  "exposes a declaration-time initializer, and 'b' is only "
-                  "assigned inside the initial block, never at declaration "
-                  "-- there is no field capturing its post-assignment "
-                  "runtime value.";
+                  "static compiler/elaborator: Variable::getValue<T>() only "
+                  "ever exposes a declaration-time initializer, and 'b' is "
+                  "only assigned inside the initial block, never at "
+                  "declaration -- there is no field capturing its "
+                  "post-assignment runtime value.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const bValue = b->getValue<hldb::Constant>();
   ASSERT_NE(bValue, nullptr) << "no field captures b's post-assignment runtime value";

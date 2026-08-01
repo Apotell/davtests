@@ -41,15 +41,19 @@
 // exercises (there, i_data is only ever allocated, never element-assigned).
 //
 // Checked:
-//   - module top has the same 8 nets (6 int + 2 dynamic byte array) as
-//     dynamic_array_stream.sv, none decl-assigned
+//   - module top has the same 8 variables (6 int + 2 dynamic byte array) as
+//     dynamic_array_stream.sv, none decl-assigned. All 8 are declared with
+//     a plain data type and no net-type keyword (int/byte), so per IEEE
+//     1800-2023 Sec 6.7/6.8 they are hldb::Variable, not hldb::Net -- this
+//     holds regardless of `default_nettype, and a dynamic array cannot be
+//     net-typed at all (nets are restricted to packed/integer types).
 //   - module has exactly 1 process: an Initial whose Begin scope has
 //       * exactly 1 local Variable "pkt" (queue of byte, same shape as the
 //         plain sibling)
 //       * exactly 14 statements, in source order:
 //         0-2) i_header=12, i_len=5, i_crc=42 (plain scalar Assignments)
-//         3) i_data = new[5] -- Assignment with no captured lhs (same gap
-//            as the plain sibling), rhs ArrayExpr[Constant "5"]
+//         3) i_data = new[5] -- ordinary Assignment: lhs RefObj "i_data"
+//            resolving to the Variable, rhs ArrayExpr[Constant "5"]
 //         4-8) i_data[0]=1 .. i_data[4]=5: 5 Assignments whose **lhs is a
 //            BitSelect** "i_data[N]" (prefix RefObj "i_data", index
 //            Constant "N") and whose rhs is Constant "N+1" -- this is how
@@ -75,7 +79,7 @@
 // Not checked (GTEST_SKIP, with a real reason, not just "no time"):
 //   - Whether o_header/o_len/o_crc actually equal 12/5/42 at runtime after
 //     round-tripping through the pack/unpack and the "pkt" queue. HLC is a
-//     compiler/elaborator, not a simulator: Net::getValue<T>() only ever
+//     compiler/elaborator, not a simulator: Variable::getValue<T>() only ever
 //     exposes a declaration-time initializer, and o_header/o_len/o_crc are
 //     declared bare (no initializer) and only ever assigned via the
 //     streaming unpack -- there is no field anywhere that captures the
@@ -101,7 +105,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -131,27 +134,27 @@ class DynamicArrayStreamSimTest : public Test {
 
 TEST_F(DynamicArrayStreamSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(DynamicArrayStreamSimTest, ModuleHasEightNetsNoneDeclAssigned) {
+TEST_F(DynamicArrayStreamSimTest, ModuleHasEightVariablesNoneDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 8u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 8u);
 
   const char *const scalarNames[6] = {"i_header", "i_len", "i_crc", "o_header", "o_len", "o_crc"};
   for (const char *const name : scalarNames) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << name;
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr) << "net " << name;
-    EXPECT_EQ(net->getValue<hldb::Constant>(), nullptr) << "net " << name;
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(name, top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << name;
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr) << "variable " << name;
+    EXPECT_EQ(var->getValue<hldb::Constant>(), nullptr) << "variable " << name;
   }
 
   const char *const arrayNames[2] = {"i_data", "o_data"};
   for (const char *const name : arrayNames) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << name;
-    const hldb::ArrayTypespec *const arr = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
-    ASSERT_NE(arr, nullptr) << "net " << name;
-    EXPECT_EQ(arr->getArrayType(), vpiDynamicArray) << "net " << name;
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(name, top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << name;
+    const hldb::ArrayTypespec *const arr = var->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+    ASSERT_NE(arr, nullptr) << "variable " << name;
+    EXPECT_EQ(arr->getArrayType(), vpiDynamicArray) << "variable " << name;
   }
 }
 
@@ -190,12 +193,20 @@ TEST_F(DynamicArrayStreamSimTest, FirstThreeStatementsAssignScalarConstants) {
   }
 }
 
-TEST_F(DynamicArrayStreamSimTest, FourthStatementIsDynamicArrayNewWithNoCapturedLhs) {
+TEST_F(DynamicArrayStreamSimTest, FourthStatementAssignsNewFiveToIDataLhs) {
   const hldb::Begin *const blk = getInitialBody();
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(3));
   ASSERT_NE(assign, nullptr);
-  EXPECT_EQ(assign->getLhs(), nullptr) << "HLC does not capture the lvalue of a dynamic-array 'new[N]' assignment";
+  // "i_data = new[5];" is an ordinary assignment: the lhs is simply a
+  // reference to the variable "i_data", exactly like any other assignment
+  // statement -- "new[N]" only affects what the rhs expression is, it has
+  // no special effect on how the lhs is captured.
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "i_data");
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
+
   const hldb::ArrayExpr *const rhs = assign->getRhs<hldb::ArrayExpr>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getExprs(), nullptr);
@@ -215,7 +226,7 @@ TEST_F(DynamicArrayStreamSimTest, NextFiveStatementsAssignEachElementViaBitSelec
     const hldb::BitSelect *const lhs = assign->getLhs<hldb::BitSelect>();
     ASSERT_NE(lhs, nullptr) << "statement " << stmtIndex << ": lhs should be a BitSelect 'i_data[" << elem << "]'";
     EXPECT_EQ(lhs->getPrefix<hldb::RefObj>()->getName(), "i_data");
-    EXPECT_NE(lhs->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+    EXPECT_NE(lhs->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
     ASSERT_NE(lhs->getIndex<hldb::Constant>(), nullptr);
     EXPECT_EQ(lhs->getIndex<hldb::Constant>()->getDecompile(), std::to_string(elem));
 
@@ -333,16 +344,16 @@ TEST_F(DynamicArrayStreamSimTest, HeaderLenAndCrcRoundTripAtRuntime) {
                   "i_crc/i_data into 'pkt' and unpacking 'pkt' back into "
                   "o_header/o_len/o_data/o_crc, o_header == 12, o_len == 5, "
                   "and o_crc == 42. HLC is a static compiler/elaborator: "
-                  "Net::getValue<T>() only ever exposes a declaration-time "
+                  "Variable::getValue<T>() only ever exposes a declaration-time "
                   "initializer, and o_header/o_len/o_crc are declared bare "
                   "and only ever assigned via the streaming unpack -- there "
                   "is no field capturing the value that round-trip actually "
                   "produced.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const oHeader = hldb::findByName<hldb::Net>("o_header", top->getNets());
-  const hldb::Net *const oLen = hldb::findByName<hldb::Net>("o_len", top->getNets());
-  const hldb::Net *const oCrc = hldb::findByName<hldb::Net>("o_crc", top->getNets());
+  const hldb::Variable *const oHeader = hldb::findByName<hldb::Variable>("o_header", top->getVariables());
+  const hldb::Variable *const oLen = hldb::findByName<hldb::Variable>("o_len", top->getVariables());
+  const hldb::Variable *const oCrc = hldb::findByName<hldb::Variable>("o_crc", top->getVariables());
   ASSERT_NE(oHeader, nullptr);
   ASSERT_NE(oLen, nullptr);
   ASSERT_NE(oCrc, nullptr);

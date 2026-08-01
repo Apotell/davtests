@@ -28,15 +28,17 @@
 // corners here are about the Initial/Begin process shape, not a ContAssign.
 //
 // Checked:
-//   - module top has exactly 2 nets: "a" (LogicTypespec, vector [15:0], no
-//     decl-assignment) and "b" (LogicTypespec, scalar -- no packed
-//     dimension in the source, so no Range at all)
+//   - module top has exactly 2 variables: "a" (LogicTypespec, vector
+//     [15:0], no decl-assignment) and "b" (LogicTypespec, scalar -- no
+//     packed dimension in the source, so no Range at all). Per IEEE
+//     1800-2023 Sec 6.7/6.8: "logic" with no net-type keyword is a
+//     variable, not a net.
 //   - module has zero continuous assignments (the select is procedural)
 //   - module has exactly 1 process: an Initial whose body is a Begin with
 //     exactly 1 statement: a blocking Assignment
-//   - the Assignment: lhs RefObj "b" resolving to Net "b"; rhs BitSelect
-//     "a[11]" whose vpiPrefix RefObj "a" resolves to Net "a" and whose
-//     vpiIndex is Constant "11" (decompile "11", value 11)
+//   - the Assignment: lhs RefObj "b" resolving to Variable "b"; rhs
+//     BitSelect "a[11]" whose vpiPrefix RefObj "a" resolves to Variable
+//     "a" and whose vpiIndex is Constant "11" (decompile "11", value 11)
 //   - both "a" and "b" have no getValue<Constant>() (neither is
 //     decl-assigned; "b"'s value only ever comes from the statement below)
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
@@ -62,9 +64,9 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -82,14 +84,14 @@ class IdxSelectTest : public Test {
 
 TEST_F(IdxSelectTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(IdxSelectTest, ModuleHasVectorNetAAndScalarNetBNeitherDeclAssigned) {
+TEST_F(IdxSelectTest, ModuleHasVectorVariableAAndScalarVariableBNeitherDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 2u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 2u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
 
@@ -131,10 +133,10 @@ TEST_F(IdxSelectTest, InitialBlockHasOneBlockingAssignment) {
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "b");
-  EXPECT_NE(assign->getLhs<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(assign->getLhs<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(IdxSelectTest, AssignmentRhsIsBitSelectAOfElevenIndexingNetA) {
+TEST_F(IdxSelectTest, AssignmentRhsIsBitSelectAOfElevenIndexingVariableA) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -148,7 +150,7 @@ TEST_F(IdxSelectTest, AssignmentRhsIsBitSelectAOfElevenIndexingNetA) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "a[11]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
-  EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(sel->getIndex<hldb::Constant>(), nullptr);
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "11");
 }

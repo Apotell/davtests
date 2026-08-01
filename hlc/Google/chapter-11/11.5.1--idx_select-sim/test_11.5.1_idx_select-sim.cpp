@@ -33,9 +33,11 @@
 // separate destination nets, each checked by its own $display.
 //
 // Checked:
-//   - module top has exactly 3 nets: "a" (LogicTypespec, vector [15:0],
-//     decl-assigned Constant "16'h1000"), "b" and "c" (both LogicTypespec,
-//     scalar -- no packed dimension -- neither decl-assigned)
+//   - module top has exactly 3 variables: "a" (LogicTypespec, vector
+//     [15:0], decl-assigned Constant "16'h1000"), "b" and "c" (both
+//     LogicTypespec, scalar -- no packed dimension -- neither
+//     decl-assigned). Per IEEE 1800-2023 Sec 6.7/6.8: "logic" with no
+//     net-type keyword is a variable, not a net.
 //   - module has exactly 1 process: an Initial whose Begin has exactly 4
 //     statements, in source order:
 //       1) blocking Assignment: lhs RefObj "b", rhs BitSelect "a[12]"
@@ -53,9 +55,9 @@
 //
 // Not checked (GTEST_SKIP, with a real reason, not just "no time"):
 //   - Whether b actually equals 1 and c actually equals 0 at runtime. HLC
-//     is a compiler/elaborator, not a simulator: Net::getValue<T>() only
-//     ever exposes a declaration-time initializer, and "b"/"c" are only
-//     ever assigned inside the initial block, never at declaration -- so
+//     is a compiler/elaborator, not a simulator: Variable::getValue<T>()
+//     only ever exposes a declaration-time initializer, and "b"/"c" are
+//     only ever assigned inside the initial block, never at declaration -- so
 //     there is no field anywhere that captures the post-assignment value
 //     the two ":assert:" tags in the source are asking a simulator to
 //     check.
@@ -76,10 +78,10 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -97,15 +99,15 @@ class IdxSelectSimTest : public Test {
 
 TEST_F(IdxSelectSimTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(IdxSelectSimTest, ModuleHasThreeNetsOnlyADeclAssigned) {
+TEST_F(IdxSelectSimTest, ModuleHasThreeVariablesOnlyADeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 3u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 3u);
 
-  const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(b, nullptr);
   ASSERT_NE(c, nullptr);
@@ -210,15 +212,15 @@ TEST_F(IdxSelectSimTest, BEqualsOneAndCEqualsZeroAtRuntime) {
   GTEST_SKIP() << "IEEE 1800-2017 11.5.1: a = 16'h1000 = 0001_0000_0000_0000b, "
                   "so a[12] == 1 and a[5] == 0, per the two ':assert:' tags "
                   "authored into the source. HLC is a static compiler/"
-                  "elaborator: Net::getValue<T>() only ever exposes a "
+                  "elaborator: Variable::getValue<T>() only ever exposes a "
                   "declaration-time initializer, and 'b'/'c' are only "
                   "assigned inside the initial block, never at declaration "
                   "-- there is no field capturing their post-assignment "
                   "runtime value.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
-  const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
+  const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
+  const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(b, nullptr);
   ASSERT_NE(c, nullptr);
   const hldb::Constant *const bValue = b->getValue<hldb::Constant>();

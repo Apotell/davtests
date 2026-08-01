@@ -38,7 +38,10 @@
 // from another unpacked field, not a fixed-size slice.
 //
 // Checked:
-//   - everything asserted in dynamic_array_stream.sv's test file for nets,
+//   - everything asserted in dynamic_array_stream.sv's test file for
+//     variables (all 8 top-level int/byte declarations are hldb::Variable,
+//     not hldb::Net, per IEEE 1800-2023 Sec 6.7/6.8: none carries a
+//     net-type keyword, and a dynamic array cannot be net-typed at all),
 //     module typespecs, the local queue Variable "pkt", and the first 5
 //     initial-block statements (12/5/new[5]/42/pack) holds identically
 //     here and is re-verified below for completeness of this file's own
@@ -51,7 +54,7 @@
 //          and an IndexedRange whose vpiIndexedPartSelectType ==
 //          vpiPosIndexed, vpiBaseExpr Constant "0", and -- the corner this
 //          file exists to exercise -- vpiWidthExpr is RefObj "o_len"
-//          (resolving to the o_len Net), not a Constant
+//          (resolving to the o_len Variable), not a Constant
 //       3: RefObj "o_crc"
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
@@ -79,7 +82,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -109,27 +111,27 @@ class DynamicArrayStreamWithTest : public Test {
 
 TEST_F(DynamicArrayStreamWithTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(DynamicArrayStreamWithTest, ModuleHasEightNetsNoneDeclAssigned) {
+TEST_F(DynamicArrayStreamWithTest, ModuleHasEightVariablesNoneDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 8u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 8u);
 
   const char *const scalarNames[6] = {"i_header", "i_len", "i_crc", "o_header", "o_len", "o_crc"};
   for (const char *const name : scalarNames) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << name;
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr) << "net " << name;
-    EXPECT_EQ(net->getValue<hldb::Constant>(), nullptr) << "net " << name;
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(name, top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << name;
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr) << "variable " << name;
+    EXPECT_EQ(var->getValue<hldb::Constant>(), nullptr) << "variable " << name;
   }
 
   const char *const arrayNames[2] = {"i_data", "o_data"};
   for (const char *const name : arrayNames) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << name;
-    const hldb::ArrayTypespec *const arr = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
-    ASSERT_NE(arr, nullptr) << "net " << name;
-    EXPECT_EQ(arr->getArrayType(), vpiDynamicArray) << "net " << name;
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(name, top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << name;
+    const hldb::ArrayTypespec *const arr = var->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+    ASSERT_NE(arr, nullptr) << "variable " << name;
+    EXPECT_EQ(arr->getArrayType(), vpiDynamicArray) << "variable " << name;
   }
 }
 
@@ -206,7 +208,7 @@ TEST_F(DynamicArrayStreamWithTest, UnpackThirdOperandIsWithOfODataAndZeroPlusOLe
   const hldb::RefObj *const arrayOperand = any_cast<hldb::RefObj>(withOp->getOperands()->at(0));
   ASSERT_NE(arrayOperand, nullptr);
   EXPECT_EQ(arrayOperand->getName(), "o_data");
-  EXPECT_NE(arrayOperand->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(arrayOperand->getActual<hldb::Variable>(), nullptr);
 
   const hldb::IndexedRange *const range = any_cast<hldb::IndexedRange>(withOp->getOperands()->at(1));
   ASSERT_NE(range, nullptr);
@@ -220,7 +222,7 @@ TEST_F(DynamicArrayStreamWithTest, UnpackThirdOperandIsWithOfODataAndZeroPlusOLe
   const hldb::RefObj *const width = range->getWidthExpr<hldb::RefObj>();
   ASSERT_NE(width, nullptr) << "the 'with' slice width should be the runtime expression 'o_len', not a literal";
   EXPECT_EQ(width->getName(), "o_len");
-  EXPECT_NE(width->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(width->getActual<hldb::Variable>(), nullptr);
 }
 
 // --- design-level typespecs / compiler diagnostics --------------------------

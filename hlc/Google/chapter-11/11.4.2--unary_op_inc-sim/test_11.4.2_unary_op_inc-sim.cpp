@@ -43,7 +43,7 @@
 //
 // Not checked (GTEST_SKIP, with a real reason):
 //   - Whether "a" actually reads back as 13 after the increment runs.
-//     HLC is a static compiler/elaborator: Net's getValue<T>() only
+//     HLC is a static compiler/elaborator: Variable's getValue<T>() only
 //     exposes the declaration-time initializer (12), not any value after
 //     the "a++;" statement executes. Genuine simulation-only gap, not a
 //     shortcut.

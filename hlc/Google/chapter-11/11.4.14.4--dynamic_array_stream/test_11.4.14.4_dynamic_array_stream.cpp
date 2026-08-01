@@ -42,36 +42,43 @@
 // operand on either side of a streaming concatenation, packed and unpacked
 // alongside plain scalar operands with no special wrapper node. The corners
 // here are: (1) "i_data"/"o_data" are dynamic (unsized "[]") byte arrays,
-// distinct from the module's plain int nets; (2) "pkt" is a *local queue
-// variable* declared with "byte pkt[$];" inside the initial block, so it
-// lives in the Begin scope's variable list, not in the module's net list;
-// (3) "i_data = new[5]" is SystemVerilog's dynamic-array-allocation
-// construct, not a plain assignment -- see the dedicated corner below for
-// how that shows up structurally; (4) the pack stream's operand order
+// distinct from the module's plain int variables; (2) "pkt" is a *local
+// queue variable* declared with "byte pkt[$];" inside the initial block, so
+// it lives in the Begin scope's variable list, not in the module's own
+// (top-level) variable list;
+// (3) "i_data = new[5]" is an ordinary blocking assignment whose rhs is the
+// dynamic_array_new expression (IEEE 1800-2023 Annex A:
+// "nonrange_variable_lvalue = dynamic_array_new"), with a normal lhs like
+// any other assignment; (4) the pack stream's operand order
 // (i_header, i_len, i_data, i_crc) must be preserved exactly as written,
 // with the dynamic array taking its place among the scalars.
 //
 // Checked:
-//   - module top has exactly 8 nets, all bare (no decl-assignment):
+//   - module top has exactly 8 variables, all bare (no decl-assignment):
 //     i_header/i_len/i_crc/o_header/o_len/o_crc (IntTypespec) and
 //     i_data/o_data (ArrayTypespec, vpiArrayType == dynamic, elem
-//     typespec ByteTypespec)
+//     typespec ByteTypespec). All 8 are declared with a plain data type
+//     and no net-type keyword (int/byte), so per IEEE 1800-2023 Sec 6.7/
+//     6.8 they are hldb::Variable, not hldb::Net -- a dynamic array
+//     cannot even be net-typed at all (nets are restricted to packed/
+//     integer types).
 //   - module-level typespecs (3): ByteTypespec (signed), and 2 distinct
 //     ArrayTypespec objects (one per dynamic array declaration)
 //   - module has exactly 1 process: an Initial whose Begin scope has
 //       * exactly 1 local Variable: "pkt", typespec ArrayTypespec
 //         (vpiArrayType == queue, vpiRange left Constant "$"
 //         (vpiConstType == unbounded), elem typespec ByteTypespec) -- this
-//         variable is NOT present in top->getNets()
+//         variable is NOT present in top->getVariables() (it lives in the
+//         Begin scope, not the module scope)
 //       * exactly 6 statements, in source order:
-//         1) i_header = 12   (Assignment, lhs RefObj -> Net, rhs Constant)
-//         2) i_len = 5       (Assignment, lhs RefObj -> Net, rhs Constant)
-//         3) i_data = new[5] (Assignment with **no lhs at all** -- see
-//            dedicated corner below -- rhs ArrayExpr containing exactly 1
-//            Expr: Constant "5", the requested size)
-//         4) i_crc = 42      (Assignment, lhs RefObj -> Net, rhs Constant)
+//         1) i_header = 12   (Assignment, lhs RefObj -> Variable, rhs Constant)
+//         2) i_len = 5       (Assignment, lhs RefObj -> Variable, rhs Constant)
+//         3) i_data = new[5] (ordinary Assignment, lhs RefObj "i_data" ->
+//            Variable, rhs ArrayExpr containing exactly 1 Expr: Constant
+//            "5", the requested size)
+//         4) i_crc = 42      (Assignment, lhs RefObj -> Variable, rhs Constant)
 //         5) the pack: Assignment lhs RefObj "pkt" (resolving to the local
-//            Variable, not a Net), rhs Operation (vpiStreamRLOp) with 2
+//            Variable "pkt"), rhs Operation (vpiStreamRLOp) with 2
 //            operands: Constant "8" (the slice size) and a nested
 //            Operation (vpiConcatOp) with 4 operands in exactly this
 //            order: RefObj i_header, RefObj i_len, RefObj i_data (the
@@ -108,7 +115,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
@@ -134,34 +140,34 @@ class DynamicArrayStreamTest : public Test {
   }
 };
 
-// --- module / nets -----------------------------------------------------
+// --- module / variables --------------------------------------------------
 
 TEST_F(DynamicArrayStreamTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(DynamicArrayStreamTest, ModuleHasEightNetsNoneDeclAssigned) {
+TEST_F(DynamicArrayStreamTest, ModuleHasEightVariablesNoneDeclAssigned) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  ASSERT_EQ(top->getNets()->size(), 8u);
+  ASSERT_NE(top->getVariables(), nullptr);
+  ASSERT_EQ(top->getVariables()->size(), 8u);
 
   const char *const scalarNames[6] = {"i_header", "i_len", "i_crc", "o_header", "o_len", "o_crc"};
   for (const char *const name : scalarNames) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << name;
-    EXPECT_NE(net->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr) << "net " << name;
-    EXPECT_EQ(net->getValue<hldb::Constant>(), nullptr) << "net " << name;
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(name, top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << name;
+    EXPECT_NE(var->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr) << "variable " << name;
+    EXPECT_EQ(var->getValue<hldb::Constant>(), nullptr) << "variable " << name;
   }
 
   const char *const arrayNames[2] = {"i_data", "o_data"};
   for (const char *const name : arrayNames) {
-    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
-    ASSERT_NE(net, nullptr) << "net " << name;
-    const hldb::ArrayTypespec *const arr = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
-    ASSERT_NE(arr, nullptr) << "net " << name;
-    EXPECT_EQ(arr->getArrayType(), vpiDynamicArray) << "net " << name;
-    ASSERT_NE(arr->getElemTypespec(), nullptr) << "net " << name;
-    EXPECT_NE(arr->getElemTypespec()->getActual<hldb::ByteTypespec>(), nullptr) << "net " << name;
-    EXPECT_EQ(net->getValue<hldb::Constant>(), nullptr) << "net " << name;
+    const hldb::Variable *const var = hldb::findByName<hldb::Variable>(name, top->getVariables());
+    ASSERT_NE(var, nullptr) << "variable " << name;
+    const hldb::ArrayTypespec *const arr = var->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
+    ASSERT_NE(arr, nullptr) << "variable " << name;
+    EXPECT_EQ(arr->getArrayType(), vpiDynamicArray) << "variable " << name;
+    ASSERT_NE(arr->getElemTypespec(), nullptr) << "variable " << name;
+    EXPECT_NE(arr->getElemTypespec()->getActual<hldb::ByteTypespec>(), nullptr) << "variable " << name;
+    EXPECT_EQ(var->getValue<hldb::Constant>(), nullptr) << "variable " << name;
   }
 }
 
@@ -174,11 +180,11 @@ TEST_F(DynamicArrayStreamTest, ModuleHasThreeTypespecs) {
 
 // --- initial block: local queue variable ------------------------------------
 
-TEST_F(DynamicArrayStreamTest, InitialBeginHasOneLocalQueueVariablePktNotAModuleNet) {
+TEST_F(DynamicArrayStreamTest, InitialBeginHasOneLocalQueueVariablePktNotAModuleVariable) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_EQ(hldb::findByName<hldb::Net>("pkt", top->getNets()), nullptr)
-      << "'pkt' is a local variable of the initial block's Begin scope, not a module net";
+  EXPECT_EQ(hldb::findByName<hldb::Variable>("pkt", top->getVariables()), nullptr)
+      << "'pkt' is a local variable of the initial block's Begin scope, distinct from the 8 module-scope variables";
 
   const hldb::Begin *const blk = getInitialBody();
   ASSERT_NE(blk, nullptr);
@@ -222,25 +228,28 @@ TEST_F(DynamicArrayStreamTest, FirstSecondFourthStatementsAssignScalarConstants)
     ASSERT_NE(assign, nullptr) << "statement " << exp.index;
     ASSERT_NE(assign->getLhs<hldb::RefObj>(), nullptr) << "statement " << exp.index;
     EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), exp.net);
-    EXPECT_NE(assign->getLhs<hldb::RefObj>()->getActual<hldb::Net>(), nullptr) << "statement " << exp.index;
+    EXPECT_NE(assign->getLhs<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr) << "statement " << exp.index;
     ASSERT_NE(assign->getRhs<hldb::Constant>(), nullptr) << "statement " << exp.index;
     EXPECT_EQ(assign->getRhs<hldb::Constant>()->getDecompile(), exp.value);
   }
 }
 
-TEST_F(DynamicArrayStreamTest, ThirdStatementIsDynamicArrayNewWithNoCapturedLhs) {
+TEST_F(DynamicArrayStreamTest, ThirdStatementAssignsNewFiveToIDataLhs) {
   const hldb::Begin *const blk = getInitialBody();
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(2));
   ASSERT_NE(assign, nullptr);
 
-  // "i_data = new[5]" is dynamic-array allocation, not a plain assignment:
-  // HLC never populates vpiLhs for this construct (confirmed against the
-  // AST dump), even though "i_data" is unambiguously the target being
-  // (re)sized. Any consumer wanting to know which array was allocated must
-  // look elsewhere (e.g. statement order / textual position), not at this
-  // Assignment's lhs.
-  EXPECT_EQ(assign->getLhs(), nullptr) << "HLC does not capture the lvalue of a dynamic-array 'new[N]' assignment";
+  // Per IEEE 1800-2023 Annex A blocking_assignment grammar:
+  // "nonrange_variable_lvalue = dynamic_array_new" -- "i_data = new[5]" is an
+  // ordinary blocking assignment whose lhs is a plain variable lvalue
+  // ("i_data") and whose rhs is the dynamic_array_new expression; the "new[N]"
+  // syntax only changes what the rhs is, it does not remove or special-case
+  // the lhs.
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "i_data");
+  EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 
   const hldb::ArrayExpr *const rhs = assign->getRhs<hldb::ArrayExpr>();
   ASSERT_NE(rhs, nullptr);
@@ -282,9 +291,9 @@ TEST_F(DynamicArrayStreamTest, FifthStatementPacksFourOperandsInSourceOrderIntoP
     EXPECT_EQ(operand->getName(), expectedOrder[i]) << "concat operand " << i;
   }
   // "i_data" (the dynamic array) is a plain RefObj operand alongside the
-  // scalar int nets -- IEEE 1800-2017 11.4.14.4 gives it no special
+  // scalar int variables -- IEEE 1800-2017 11.4.14.4 gives it no special
   // wrapper node when used as a stream_expression.
-  EXPECT_NE(any_cast<hldb::RefObj>(concat->getOperands()->at(2))->getActual<hldb::Net>(), nullptr);
+  EXPECT_NE(any_cast<hldb::RefObj>(concat->getOperands()->at(2))->getActual<hldb::Variable>(), nullptr);
 }
 
 // --- unpack: {<<8{o_header, o_len, o_data, o_crc}} = pkt --------------------
